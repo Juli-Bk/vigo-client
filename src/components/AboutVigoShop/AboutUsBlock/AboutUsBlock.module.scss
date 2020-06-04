@@ -1,0 +1,57 @@
+@import '../../../styles/colorScheme.module.scss';
+@import '../../../styles/fonts/init.scss';
+
+.aboutUsBlock {
+  margin-bottom: 80px;
+}
+
+.div {
+  width: 100%;
+  margin-bottom: 1.56rem;
+  border-bottom: .125rem solid $thin-line;
+}
+
+.innerDiv {
+  position: relative;
+  top: .125rem;
+  display: inline-block;
+  border-bottom: .13rem solid black;
+}
+
+.gridItem {
+  margin-bottom: 3.75rem;
+}
+
+.title {
+  display: inline;
+  color: $font-primary;
+  font-size: 1.38rem;
+  font-family: $f3;
+  line-height: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 992px) {
+  .aboutUsBlock {
+    margin-bottom: 5.63rem;
+  }
+
+  .title {
+    font-size: 1.63rem;
+  }
+
+  .gridItem {
+    margin-bottom: 0;
+  }
+}
+
+@media (min-width: 1200px) {
+  .title {
+    font-size: 1.88rem;
+  }
+}

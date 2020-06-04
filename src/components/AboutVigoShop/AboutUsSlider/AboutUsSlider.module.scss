@@ -1,0 +1,38 @@
+@import '../../../styles/colorScheme.module.scss';
+@import '../../../styles/fonts/init.scss';
+
+.btn {
+  font-size: 1.875rem;
+  background-color: transparent;
+  border: none;
+  outline: none;
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.sliderTitle {
+  color: $font-secondary;
+  font-size: 1.125rem;
+  font-family: $f4;
+  line-height: 1.875rem;
+  text-transform: uppercase;
+}
+
+.topWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: fit-content;
+}
+
+.btnWrapper {
+  width: fit-content;
+  height: 100%;
+}
+
+.slider {
+  min-height: 215px;
+}

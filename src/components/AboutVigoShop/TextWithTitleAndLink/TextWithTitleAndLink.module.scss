@@ -1,0 +1,34 @@
+@import '../../../styles/colorScheme.module.scss';
+@import '../../../styles/fonts/init.scss';
+
+.title {
+  margin-bottom: 18px;
+  color: $font-secondary;
+  font-size: 1.125rem;
+  font-family: $f4;
+  line-height: 1.4375rem;
+  text-transform: uppercase;
+}
+
+.text {
+  margin-bottom: 1rem;
+  color: $font-fourth;
+  font-size: .875rem;
+  font-family: $f2;
+  line-height: 1.25rem;
+}
+
+.link {
+  color: $font-secondary;
+  font-size: .8125rem;
+  font-family: $f3;
+  line-height: 1.25rem;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all .3s ease-in;
+
+  &:hover {
+    opacity: .8;
+  }
+}
