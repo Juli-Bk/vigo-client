@@ -7,6 +7,11 @@ import AboutUsSlide from '../AboutUsSlide/AboutUsSlide';
 
 const AboutUsSlider = () => {
   const styles = useStyles();
+  const aboutPersonText = {
+    avatar1: 'Gabrielle Bonheur "Coco" Chanel was a French fashion designer, and businesswoman. The founder and namesake of the Chanel brand, she was credited in the post-World War I era with liberating women from the constraints of the "corseted silhouette" and popularizing a sporty, casual chic as the feminine standard of style.',
+    avatar2: 'Yves Henri Donat Mathieu-Saint-Laurent, professionally known as Yves Saint-Laurent, was a French fashion designer who, in 1961, founded his eponymous fashion label. He is regarded as being among the foremost fashion designers in the twentieth century.',
+    avatar3: 'Jeanne-Marie Lanvin was a French haute couture fashion designer. She founded the Lanvin fashion house and the beauty and perfume company Lanvin Parfums.'
+  };
 
   return (
     <CarouselProvider className={styles.carousel} naturalSlideWidth={200} naturalSlideHeight={100} totalSlides={3} visibleSlides={1} step={1}>
@@ -18,9 +23,9 @@ const AboutUsSlider = () => {
         </Box>
       </Box>
       <Slider className={styles.slider}>
-        <AboutUsSlide index={0}/>
-        <AboutUsSlide index={1}/>
-        <AboutUsSlide index={2}/>
+        <AboutUsSlide name='Gabrielle Chanel' position='fashion designer' about={aboutPersonText.avatar1} photoUrl='https://vigo-shop-aws-bucket.s3.eu-central-1.amazonaws.com/img/aboutUsSlider/avatar1.jpeg' index={0}/>
+        <AboutUsSlide name='Yves Saint-Laurent' position='fashion designer' about={aboutPersonText.avatar2} photoUrl='https://vigo-shop-aws-bucket.s3.eu-central-1.amazonaws.com/img/aboutUsSlider/avatar2.jpeg' index={1}/>
+        <AboutUsSlide name='Jeanne Lanvin' position='fashion designer' about={aboutPersonText.avatar3} photoUrl='https://vigo-shop-aws-bucket.s3.eu-central-1.amazonaws.com/img/aboutUsSlider/avatar3.jpeg' index={2}/>
       </Slider>
     </CarouselProvider>
   );
