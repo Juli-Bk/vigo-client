@@ -40,7 +40,3 @@ export const setChosenSize = (size) => {
 export const setChosenQuantity = (quantity) => {
   return {type: Actions.SET_CHOSEN_QUANTITY, payload: quantity};
 };
-
-export const setRecentlyViewed = (item) => {
-  return {type: Actions.SET_RECENTLY_VIEWED, payload: item};
-};
