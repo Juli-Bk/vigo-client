@@ -16,9 +16,9 @@ const SearchBar = ({isSearchBarOpen, toggleSearchBarOpen}) => {
   const theme = useTheme();
   const classes = useStyles();
 
-  // const toggleDrawer = useCallback((open) => () => {
-  //   toggleSearchBarOpen(open);
-  // }, [toggleSearchBarOpen]);
+  const toggleDrawer = useCallback((open) => {
+    toggleSearchBarOpen(open);
+  }, [toggleSearchBarOpen]);
 
   const isMobile = useMediaQuery(theme.breakpoints.between(0, 724), {
     defaultMatches: true
@@ -31,15 +31,16 @@ const SearchBar = ({isSearchBarOpen, toggleSearchBarOpen}) => {
           ? <>
             <IconButton
               className={classes.searchIcon}
-              onClick={() => toggleSearchBarOpen(true)}>
+              onClick={() => toggleDrawer(!isSearchBarOpen)}
+            >
               <SearchIcon/>
             </IconButton>
             <SwipeableDrawer
               className={classes.drawer}
               anchor={anchor}
               open={isSearchBarOpen}
-              onClose={() => toggleSearchBarOpen(false)}
-              onOpen={() => toggleSearchBarOpen(true)}
+              onClose={() => toggleDrawer(false)}
+              onOpen={() => {}}
             >
               <Box className={classes.drawerSearchBlock}>
                 <SearchField/>

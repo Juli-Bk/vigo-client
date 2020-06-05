@@ -28,8 +28,6 @@ const SearchField = (props) => {
     return filtered;
   };
   const handleSearchStringChange = (event, newValue) => {
-    console.log('newValue', newValue);
-
     const searchString = (newValue && newValue.title) || newValue;
     if (!searchString) return;
 
@@ -37,7 +35,6 @@ const SearchField = (props) => {
     history.push(href);
     setValue(null);
     toggleSearchBarOpen(false);
-    // todo закрыть drawer
   };
 
   const list = new Map();
@@ -48,42 +45,43 @@ const SearchField = (props) => {
       id: c._id
     }));
 
-  const searchComponent = (<Autocomplete
-    value={value}
-    style={{
-      width: '100%',
-      outline: 'none'
-    }}
-    classes={classes}
-    onChange={handleSearchStringChange}
-    filterOptions={filterOpt}
-    id="free-solo-dialog-demo"
-    options={Array.from(list).map(c => c[1])}
-    getOptionLabel={(option) => {
-      if (typeof option === 'string') {
-        return option;
-      }
-      if (option.inputValue) {
-        return option.inputValue;
-      }
-      return option.title;
-    }}
-    selectOnFocus={true}
-    clearOnBlur={true}
-    blurOnSelect={true}
-    clearOnEscape={true}
-    disableCloseOnSelect={false}
-    handleHomeEndKeys
-    freeSolo
-    renderOption={(option) => option.title}
-    renderInput={(params) => (
-      <TextField
-        style={{outline: 'none'}}
-        {...params}
-        variant="outlined"
-        fullWidth placeholder="Search"/>
-    )}
-  />);
+  const searchComponent = (
+    <Autocomplete
+      value={value}
+      style={{
+        width: '100%',
+        outline: 'none'
+      }}
+      classes={classes}
+      onChange={handleSearchStringChange}
+      filterOptions={filterOpt}
+      id="free-solo-dialog-demo"
+      options={Array.from(list).map(c => c[1])}
+      getOptionLabel={(option) => {
+        if (typeof option === 'string') {
+          return option;
+        }
+        if (option.inputValue) {
+          return option.inputValue;
+        }
+        return option.title;
+      }}
+      selectOnFocus={true}
+      clearOnBlur={true}
+      blurOnSelect={true}
+      clearOnEscape={true}
+      disableCloseOnSelect={false}
+      handleHomeEndKeys
+      renderOption={(option) => option.title}
+      renderInput={(params) => (
+        <TextField
+          style={{outline: 'none'}}
+          {...params}
+          variant="outlined"
+          fullWidth placeholder="Search"/>
+      )}
+    />
+  );
 
   return (
     <ThemeProvider theme={theme}>
