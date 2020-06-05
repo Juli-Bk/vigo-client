@@ -8,7 +8,6 @@ const iconStyles = {
   width: 35,
   height: 35,
   padding: 0,
-  // marginRight: 10,
   color: colors.fontOncard,
   '&:hover': {
     color: fade(colors.fontHover, 0.7)
@@ -17,7 +16,6 @@ const iconStyles = {
 const iconsBpMd = {
   width: 45,
   height: 45,
-  // marginRight: 10,
   padding: 12,
   color: colors.fontOncard
 };
