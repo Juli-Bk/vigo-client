@@ -98,7 +98,7 @@ const useStyles = makeStyles(theme => ({
       fontSize: '1.2em'
     },
     '&:hover': {
-      fill: colors.fontOncard
+      fill: colors.paginationActive
     }
   },
   pricesBox: {
