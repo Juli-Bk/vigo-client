@@ -31,7 +31,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const GoogleMaps = (props) => {
+const AutocompleteComponent = (props) => {
+  const {error, touched, name, onBlur} = props;
   const classes = useStyles();
   const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState('');
@@ -104,7 +105,6 @@ const GoogleMaps = (props) => {
       autoComplete
       includeInputInList
       filterSelectedOptions
-      value={value}
       onChange={(event, newValue) => {
         setOptions(newValue ? [newValue, ...options] : options);
         setValue(newValue);
@@ -115,9 +115,13 @@ const GoogleMaps = (props) => {
       }}
       renderInput={(params) => (
         <TextField {...params}
+          name={name}
           label={<IconLabel label='city / street / building № ' Component={PublicIcon}/>}
           variant="outlined"
-          helperText="Please choose your delivery address here"
+          value={value}
+          onBlur={onBlur}
+          helperText={touched.buildingNumber ? error.buildingNumber : ''}
+          error={touched.autocomplete && Boolean(error.autocomplete)}
           fullWidth />
       )}
       renderOption={(option) => {
@@ -149,4 +153,4 @@ const GoogleMaps = (props) => {
     />
   );
 };
-export default React.memo(GoogleMaps);
+export default React.memo(AutocompleteComponent);

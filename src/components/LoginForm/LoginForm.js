@@ -1,7 +1,6 @@
 import React from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
-// import Checkbox from '../Checkbox/Checkbox.js';
 import {
   Typography,
   TextField,
@@ -94,7 +93,6 @@ const LoginForm = (props) => {
                 />
               </ThemeProvider>
               {/* todo save user data for quick login */}
-              {/* <Checkbox name='saveMyData' label='Remember password'/> */}
               <CardActions>
                 <Button
                   type='submit'

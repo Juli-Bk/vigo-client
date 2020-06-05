@@ -92,18 +92,16 @@ export const makeNumbersArray = (number) => {
   return array;
 };
 
-export const changeOrder = (arrayOfId, arrayOfObj) => {
-  const newObjArray = [];
+export const changeOrder = (arrayOfId, arrayOfObjects) => {
+  const newObjectsArray = [];
   arrayOfId.forEach(id => {
-    newObjArray.push(arrayOfObj.find(item => item._id === id));
+    newObjectsArray.push(arrayOfObjects.find(object => object._id === id));
   });
-  return newObjArray.reverse();
+  return newObjectsArray.reverse();
 };
 
 export const getStorageData = (key) => {
-  let arrayOfId = JSON.parse(localStorage.getItem(key));
-  arrayOfId = (arrayOfId && arrayOfId.length) ? arrayOfId : [];
-  return arrayOfId;
+  return JSON.parse(localStorage.getItem(key)) || [];
 };
 
 export const setStorageData = (key, data) => {

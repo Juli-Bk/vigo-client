@@ -1,5 +1,6 @@
 const globalConfig = {
-  priceIsInteger: true
+  priceIsInteger: true,
+  maxRecentlyViewed: 8
 };
 
 export default globalConfig;

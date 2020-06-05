@@ -4,6 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { BrowserRouter } from 'react-router-dom';
 import ProductListView from './ProductListView';
 import { calculateSale } from '../../../helpers/helpers';
+jest.mock('../ActionButtons/ActionButtons');
 
 const testData2 = {
   _id: 'aaa3342453786497',

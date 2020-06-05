@@ -48,3 +48,7 @@ export const setChosenQuantity = (quantity) => {
 export const setRecentlyViewed = (item) => {
   return {type: Actions.SET_RECENTLY_VIEWED, payload: item};
 };
+
+export const changeWishList = (data) => {
+  return {type: Actions.CHANGE_WISH_LIST, payload: data};
+};
