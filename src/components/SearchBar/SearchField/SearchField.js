@@ -1,56 +1,18 @@
 import React, {useState} from 'react';
 import {TextField, ThemeProvider} from '@material-ui/core';
 import Autocomplete, {createFilterOptions} from '@material-ui/lab/Autocomplete';
+import {connect} from 'react-redux';
 
 import useStyles from './SearchFieldStyle';
 import theme from './SearchFieldTheme';
-
-const top100Films = [
-  {
-    title: 'The Shawshank Redemption',
-    year: 1994
-  },
-  {
-    title: 'The Godfather',
-    year: 1972
-  },
-  {
-    title: 'The Godfather: Part II',
-    year: 1974
-  },
-  {
-    title: 'The Dark Knight',
-    year: 2008
-  },
-  {
-    title: '12 Angry Men',
-    year: 1957
-  },
-  {
-    title: 'Schindler\'s FooterList',
-    year: 1993
-  },
-  {
-    title: 'Pulp Fiction',
-    year: 1994
-  },
-  {
-    title: 'The Lord of the Rings: The Return of the King',
-    year: 2003
-  },
-  {
-    title: 'The Good, the Bad and the Ugly',
-    year: 1966
-  },
-  {
-    title: 'Fight Club',
-    year: 1999
-  }
-];
+import {withRouter} from 'react-router';
+import {toggleSearchBarOpen} from '../../../redux/actions/actions';
 
 const filter = createFilterOptions();
 
-const SearchField = () => {
+const SearchField = (props) => {
+  const {history, categories, toggleSearchBarOpen} = props;
+
   const classes = useStyles();
   const [value, setValue] = useState(null);
   const filterOpt = (options, params) => {
@@ -59,53 +21,87 @@ const SearchField = () => {
     if (params.inputValue !== '') {
       filtered.push({
         inputValue: params.inputValue,
-        title: `Add "${params.inputValue}"`
+        title: params.inputValue
       });
     }
 
     return filtered;
   };
-  const changeOn = (event, newValue) => {
-    setValue(newValue);
+  const handleSearchStringChange = (event, newValue) => {
+    console.log('newValue', newValue);
+
+    const searchString = (newValue && newValue.title) || newValue;
+    if (!searchString) return;
+
+    const href = `/products/search/${searchString}`;
+    history.push(href);
+    setValue(null);
+    toggleSearchBarOpen(false);
+    // todo закрыть drawer
   };
+
+  const list = new Map();
+  const searchList = categories
+    .filter(c => c.level === 3)
+    .map(c => list.set(c.name, {
+      title: c.name,
+      id: c._id
+    }));
+
+  const searchComponent = (<Autocomplete
+    value={value}
+    style={{
+      width: '100%',
+      outline: 'none'
+    }}
+    classes={classes}
+    onChange={handleSearchStringChange}
+    filterOptions={filterOpt}
+    id="free-solo-dialog-demo"
+    options={Array.from(list).map(c => c[1])}
+    getOptionLabel={(option) => {
+      if (typeof option === 'string') {
+        return option;
+      }
+      if (option.inputValue) {
+        return option.inputValue;
+      }
+      return option.title;
+    }}
+    selectOnFocus={true}
+    clearOnBlur={true}
+    blurOnSelect={true}
+    clearOnEscape={true}
+    disableCloseOnSelect={false}
+    handleHomeEndKeys
+    freeSolo
+    renderOption={(option) => option.title}
+    renderInput={(params) => (
+      <TextField
+        style={{outline: 'none'}}
+        {...params}
+        variant="outlined"
+        fullWidth placeholder="Search"/>
+    )}
+  />);
 
   return (
     <ThemeProvider theme={theme}>
-      <Autocomplete
-        value={value}
-        style={{
-          width: '100%',
-          outline: 'none'
-        }}
-        classes={classes}
-        onChange={changeOn}
-        filterOptions={filterOpt}
-        id="free-solo-dialog-demo"
-        options={top100Films}
-        getOptionLabel={(option) => {
-          if (typeof option === 'string') {
-            return option;
-          }
-          if (option.inputValue) {
-            return option.inputValue;
-          }
-          return option.title;
-        }}
-        selectOnFocus
-        clearOnBlur
-        handleHomeEndKeys
-        renderOption={(option) => option.title}
-        freeSolo
-        renderInput={(params) => (
-          <TextField
-            style={{outline: 'none'}}
-            {...params}
-            variant="outlined"
-            fullWidth placeholder="Search"/>
-        )}
-      />
+      {searchList.length && searchComponent}
     </ThemeProvider>
   );
 };
 
-export default React.memo(SearchField);
+const mapStoreToProps = store => {
+  return {
+    categories: Array.isArray(store.categories) ? store.categories : store.categories.plainList
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    toggleSearchBarOpen: isOpen => dispatch(toggleSearchBarOpen(isOpen))
+  };
+};
+
+export default connect(mapStoreToProps, mapDispatchToProps)(React.memo(withRouter(SearchField)));

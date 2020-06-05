@@ -1,4 +1,4 @@
-import React, {useState, useRef, useCallback, useMemo} from 'react';
+import React, {useCallback, useMemo, useRef, useState} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import Tabs from '@material-ui/core/Tabs';
@@ -95,7 +95,7 @@ NestedMenu.propTypes = {
 
 const mapStoreToProps = store => {
   return {
-    categories: store.categories,
+    categories: Array.isArray(store.categories) ? store.categories : store.categories.categories,
     isMenuOpen: store.isMenuOpen
   };
 };
