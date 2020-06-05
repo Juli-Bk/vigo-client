@@ -24,30 +24,28 @@ const ModalLogin = () => {
   const classes = useStyles();
   return (
     <ThemeProvider theme={theme}>
-      <div>
-        <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-          <PersonButton classIncome={classes.personIcon}/>
-        </Button>
+      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+        <PersonButton classIncome={classes.personIcon}/>
+      </Button>
 
-        <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogTitle id="alert-dialog-title">{'Do you want to log in?'}</DialogTitle>
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
-              <LoginForm/>
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="default" autoFocus>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">{'Do you want to log in?'}</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            <LoginForm/>
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="default" autoFocus>
             Next
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
+          </Button>
+        </DialogActions>
+      </Dialog>
     </ThemeProvider>
   );
 };
