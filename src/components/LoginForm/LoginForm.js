@@ -15,6 +15,7 @@ import theme from './LoginFormTheme';
 import EmailIcon from '@material-ui/icons/Email';
 import LockIcon from '@material-ui/icons/Lock';
 import IconLabel from '../IconLabel/IconLabel';
+import AjaxUtils from '../../ajax';
 
 const LoginForm = (props) => {
   const {submitLoginHandler} = props;
@@ -27,11 +28,11 @@ const LoginForm = (props) => {
       password: values.password
     });
 
-    submitLoginHandler(json)
+    AjaxUtils.Users.login(json)
       .then(result => {
-        // todo set in header 'Welcome, User' if token
         setSubmitting(false);
         resetForm();
+        submitLoginHandler(result);
       });
   };
   const initFormValues = {

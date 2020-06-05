@@ -23,7 +23,6 @@ export const rootReducer = combineReducers({
   isMenuOpen,
   size,
   quantity,
-  recentlyViewed,
-  isSearchBarOpen
+  isSearchBarOpen,
   wishList
 });

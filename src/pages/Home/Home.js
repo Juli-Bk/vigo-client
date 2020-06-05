@@ -62,16 +62,8 @@ const Home = () => {
         <Grid item xs={12} sm={6} lg={6}>
           <NewCustomerForm submitNewCustomerHandler={onSubmitCallback}/>
         </Grid>
-        <Grid item xs={12} sm={6} lg={6}>
-          <LoginForm submitLoginHandler={AjaxUtils.Users.login}/>
-        </Grid>
       </Grid>
 
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} lg={6}>
-          <RegisterForm submitRegisterHandler={AjaxUtils.Users.createUser}/>
-        </Grid>
-      </Grid>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6} lg={6}>
           <PersonalDetailsForm submitPersonalDetailsHandler={submit}/>

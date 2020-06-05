@@ -7,12 +7,9 @@ import AppBar from '@material-ui/core/AppBar';
 import useStyles from './headerStyle';
 import theme from './headerTheme';
 
-import ButtonLink from '../../components/ButtonLink/ButtonLink';
-import PersonButton from '../../components/PersonButton/PersonButton';
 import Logo from '../../components/Logo/Logo';
 import NestedMenu from '../../components/NestedMenu/NestedMenu';
 import SearchBar from '../../components/SearchBar/SearchBar';
-import Search from '../../components/Search/Search';
 import SideMenu from '../../components/SideMenu/SideMenu';
 import ModalLogin from '../../components/ModalLogin/ModalLogin';
 import ModalSignUp from '../../components/ModalSignUp/ModalSignUp';
@@ -42,6 +39,8 @@ const Header = () => {
                     {/* todo should open shopping card page */}
                     <LocalMallOutlinedIcon/>
                   </IconButton>
+
+                  {/* todo responsive if mobile - render only icon, else ModalSignUp */}
                   <ModalLogin />
                   <ModalSignUp/>
                 </Box>

@@ -1,15 +1,13 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import LoginForm from '../LoginForm/LoginForm';
-import PersonButton from '../PersonButton/PersonButton';
 import useStyles from '../../containers/Header/headerStyle';
 import theme from './ModalLoginTheme';
-import { ThemeProvider } from '@material-ui/styles';
+import {ThemeProvider} from '@material-ui/styles';
+import PersonIcon from '@material-ui/icons/Person';
+import {IconButton} from '@material-ui/core';
 
 const ModalLogin = () => {
   const [open, setOpen] = React.useState(false);
@@ -24,9 +22,17 @@ const ModalLogin = () => {
   const classes = useStyles();
   return (
     <ThemeProvider theme={theme}>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        <PersonButton classIncome={classes.personIcon}/>
-      </Button>
+      {/* <Button variant="outlined" color="primary" onClick={handleClickOpen}> */}
+      {/* handleClickOpen<PersonButton classIncome={classes.personIcon}/> */}
+
+      <IconButton
+        variant="outlined" color="primary"
+        aria-label="personIcon"
+        onClick={handleClickOpen}
+        className={classes.personIcon}>
+        <PersonIcon/>
+      </IconButton>
+      {/* </Button> */}
 
       <Dialog
         open={open}
@@ -34,16 +40,14 @@ const ModalLogin = () => {
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogTitle id="alert-dialog-title">{'Do you want to log in?'}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            <LoginForm/>
-          </DialogContentText>
+          <LoginForm submitLoginHandler={(result) => {
+            // todo set in header 'Welcome, User' if token
+            console.log('login result', result);
+            handleClose();
+          }}/>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="default" autoFocus>
-            Next
-          </Button>
         </DialogActions>
       </Dialog>
     </ThemeProvider>
