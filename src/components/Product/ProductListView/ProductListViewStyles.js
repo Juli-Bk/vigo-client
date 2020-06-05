@@ -2,6 +2,23 @@ import { makeStyles } from '@material-ui/core';
 import { colors } from '../../../styles/colorKit';
 import { fonts } from '../../../styles/fonts/fontsKit';
 
+const iconStyles = {
+  fontWeight: 'bold',
+  fontSize: '1.3rem',
+  border: `2px solid ${colors.paginationActive}`,
+  padding: '.2rem',
+  borderRadius: 5,
+  cursor: 'pointer',
+  marginRight: '.3rem'
+};
+
+const label = {
+  textTransform: 'uppercase',
+  textAlign: 'left',
+  fontSize: '.75rem',
+  fontWeight: 'bold'
+};
+
 const useStyles = makeStyles(theme => ({
   card: {
     margin: '0 auto 1.5rem auto',
@@ -85,14 +102,8 @@ const useStyles = makeStyles(theme => ({
     }
   },
   icon: {
+    ...iconStyles,
     color: colors.paginationActive,
-    fontWeight: 'bold',
-    fontSize: '1.3rem',
-    border: `2px solid ${colors.paginationActive}`,
-    padding: '.2rem',
-    borderRadius: 5,
-    cursor: 'pointer',
-    marginRight: '.3rem',
     [theme.breakpoints.between('sm', 940)]: {
       padding: '.2em',
       fontSize: '1.2em'
@@ -108,6 +119,26 @@ const useStyles = makeStyles(theme => ({
       fill: colors.fontOncard,
       background: colors.noticeColor,
       borderColor: colors.noticeColor
+    }
+  },
+  iconChosen: {
+    ...iconStyles,
+    color: colors.noticeColor,
+    [theme.breakpoints.between('sm', 940)]: {
+      padding: '.2em',
+      fontSize: '1.2em'
+    },
+    [theme.breakpoints.between(940, 1280)]: {
+      padding: '.2em',
+      fontSize: '1.3em'
+    },
+    [theme.breakpoints.up(1280)]: {
+      fontSize: '1em'
+    },
+    '&:hover': {
+      fill: colors.fontOncard,
+      background: colors.paginationActive,
+      borderColor: colors.paginationActive
     }
   },
   actionBox: {
@@ -160,10 +191,11 @@ const useStyles = makeStyles(theme => ({
     }
   },
   label: {
-    textTransform: 'uppercase',
-    textAlign: 'left',
-    fontSize: '.75rem',
-    fontWeight: 'bold'
+    ...label
+  },
+  labelChosen: {
+    ...label,
+    color: colors.noticeColor
   }
 }));
 

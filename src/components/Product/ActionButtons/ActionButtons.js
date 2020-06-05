@@ -7,13 +7,11 @@ import FavoriteIcon from './FavoriteIcon/FavoriteIcon';
 import ButtonCompare from './ButtonCompare/ButtonCompare';
 import { labels } from '../labels';
 import { getStorageData, setStorageData } from '../../../helpers/helpers';
-import { changeWishList } from '../../../redux/actions/actions';
 import AjaxUtils from '../../../ajax';
+import { changeWishList } from '../../../redux/actions/actions';
 
 const ActionButtons = (props) => {
   const { classes, product, width, disabledSpacing, isProductPage, token, changeWishList } = props;
-  changeWishList(getStorageData('wishList'));
-
   // todo logic
   const addToCart = (id) => {
     console.log(`product with id ${id} added to shopping cart`);
@@ -42,6 +40,7 @@ const ActionButtons = (props) => {
           });
       }
     }
+    changeWishList(getStorageData('wishList'));
   };
 
   const defineLabel = (width, isProductPage, label) => {
@@ -70,7 +69,9 @@ ActionButtons.propTypes = {
   labels: PropTypes.object,
   width: PropTypes.string,
   disabledSpacing: PropTypes.bool,
-  isProductPage: PropTypes.bool
+  isProductPage: PropTypes.bool,
+  token: PropTypes.string,
+  changeWishList: PropTypes.func.isRequired
 };
 
 const mapStateToProps = store => {

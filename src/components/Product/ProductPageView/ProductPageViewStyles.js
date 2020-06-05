@@ -2,6 +2,22 @@ import { makeStyles } from '@material-ui/core';
 import { colors } from '../../../styles/colorKit';
 import { fonts } from '../../../styles/fonts/fontsKit';
 
+const iconStyles = {
+  fontWeight: 'bold',
+  fontSize: '1.2rem',
+  padding: '.2rem',
+  borderRadius: 5,
+  cursor: 'pointer',
+  marginRight: '.3rem'
+};
+
+const labelStyles = {
+  textTransform: 'uppercase',
+  textAlign: 'left',
+  fontSize: '.7rem',
+  fontWeight: 'bold'
+};
+
 const useStyles = makeStyles(theme => ({
   card: {
     margin: '0 auto 1.5rem auto',
@@ -62,13 +78,15 @@ const useStyles = makeStyles(theme => ({
     }
   },
   icon: {
+    ...iconStyles,
     color: colors.paginationActive,
-    fontWeight: 'bold',
-    fontSize: '1.2rem',
-    padding: '.2rem',
-    borderRadius: 5,
-    cursor: 'pointer',
-    marginRight: '.3rem',
+    [theme.breakpoints.up('sm')]: {
+      fontSize: '1.5rem'
+    }
+  },
+  iconChosen: {
+    ...iconStyles,
+    color: colors.noticeColor,
     [theme.breakpoints.up('sm')]: {
       fontSize: '1.5rem'
     }
@@ -143,10 +161,14 @@ const useStyles = makeStyles(theme => ({
     }
   },
   label: {
-    textTransform: 'uppercase',
-    textAlign: 'left',
-    fontSize: '.7rem',
-    fontWeight: 'bold',
+    ...labelStyles,
+    [theme.breakpoints.up('sm')]: {
+      fontSize: '.75rem'
+    }
+  },
+  labelChosen: {
+    ...labelStyles,
+    color: colors.noticeColor,
     [theme.breakpoints.up('sm')]: {
       fontSize: '.75rem'
     }
