@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import {Redirect, Route, Switch} from 'react-router-dom';
 import Home from '../pages/Home/Home';
 import Product from '../pages/Product/Product';
@@ -10,18 +10,8 @@ import About from '../pages/About/About';
 import Contacts from '../pages/Contacts/Contacts';
 import Page404 from '../pages/Page404/Page404';
 import Header from '../containers/Header/Header';
-import { connect } from 'react-redux';
-import { changeWishList } from '../redux/actions/actions';
-import { getStorageData } from '../helpers/helpers';
 
-const AppRoutes = (props) => {
-  const {changeWishList} = props;
-
-  useEffect(() => {
-    // todo get data from DB wishlist of authorized user for correct rendering favorite icons on all pages
-    changeWishList(getStorageData('wishList'));
-  }, [changeWishList]);
-
+const AppRoutes = () => {
   return (
     <>
       <Route path='/:page?' component={Header} />
@@ -64,10 +54,4 @@ const ProtectedRoute = (props) => {
   );
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    changeWishList: data => dispatch(changeWishList(data))
-  };
-};
-
-export default connect(null, mapDispatchToProps)(AppRoutes);
+export default AppRoutes;
