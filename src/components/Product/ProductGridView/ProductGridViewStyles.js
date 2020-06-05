@@ -2,6 +2,15 @@ import { makeStyles } from '@material-ui/core';
 import { colors } from '../../../styles/colorKit';
 import { fonts } from '../../../styles/fonts/fontsKit';
 
+const iconStyles = {
+  fontWeight: 'bold',
+  fontSize: '1.5rem',
+  border: `2px solid ${colors.fontOncard}`,
+  padding: '.2rem',
+  borderRadius: 5,
+  cursor: 'pointer'
+};
+
 const useStyles = makeStyles(theme => ({
   card: {
     maxWidth: 270,
@@ -71,19 +80,25 @@ const useStyles = makeStyles(theme => ({
     }
   },
   icon: {
+    ...iconStyles,
     color: colors.fontOncard,
-    fontWeight: 'bold',
-    fontSize: '1.5rem',
-    border: `2px solid ${colors.fontOncard}`,
-    padding: '.2rem',
-    borderRadius: 5,
-    cursor: 'pointer',
     [theme.breakpoints.between('sm', 1025)]: {
       padding: '.2em',
       fontSize: '1.2em'
     },
     '&:hover': {
       fill: colors.noticeColor
+    }
+  },
+  iconChosen: {
+    color: colors.noticeColor,
+    ...iconStyles,
+    [theme.breakpoints.between('sm', 1025)]: {
+      padding: '.2em',
+      fontSize: '1.2em'
+    },
+    '&:hover': {
+      fill: colors.paginationActive
     }
   },
   pricesBox: {

@@ -4,6 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 import ProductPageView from './ProductPageView';
 import { Provider } from 'react-redux';
 import store from '../../../redux/store';
+jest.mock('../ActionButtons/ActionButtons');
 
 const testData2 = {
   _id: 'aaa3342453786497',
