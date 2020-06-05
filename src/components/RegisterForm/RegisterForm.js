@@ -11,8 +11,6 @@ import EnhancedEncryptionRoundedIcon from '@material-ui/icons/EnhancedEncryption
 import useStyles from './RegisterFormStyle';
 import EmailIcon from '@material-ui/icons/Email';
 
-// import Checkbox from '../Checkbox/Checkbox.js';
-
 const RegisterForm = (props) => {
   const {submitRegisterHandler} = props;
   const submitRegisterData = (values, {resetForm, setSubmitting}) => {
@@ -124,7 +122,6 @@ const RegisterForm = (props) => {
                 />
               </ThemeProvider>
               {/* todo save user password in browser */}
-              {/* <Checkbox label='Remember password' color='default' name='registered'/> */}
               <CardActions>
                 <Button
                   type='submit'
@@ -132,7 +129,7 @@ const RegisterForm = (props) => {
                   onClick={handleSubmit}
                   disabled={isSubmitting}
                   size='large'
-                  variant='outlined'>Register
+                  variant='outlined'>Sign up
                 </Button>
               </CardActions>
             </form>

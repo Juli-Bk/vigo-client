@@ -8,7 +8,6 @@ const iconStyles = {
   width: 35,
   height: 35,
   padding: 0,
-  marginRight: 10,
   color: colors.fontOncard,
   '&:hover': {
     color: fade(colors.fontHover, 0.7)
@@ -17,7 +16,6 @@ const iconStyles = {
 const iconsBpMd = {
   width: 45,
   height: 45,
-  marginRight: 10,
   padding: 12,
   color: colors.fontOncard
 };
@@ -117,10 +115,8 @@ const useStyles = makeStyles(theme => ({
     ...iconStyles,
     [theme.breakpoints.up('md')]: {
       ...iconsBpMd
-    },
-    [theme.breakpoints.up('lg')]: {
-      display: 'none'
     }
+
   },
   menuIcon: {
     display: 'block',
@@ -142,8 +138,21 @@ const useStyles = makeStyles(theme => ({
       marginRight: 0,
       paddingLeft: 0
     }
-
   },
+
+  signUpLogo: {
+    color: colors.fontOncard,
+    paddingTop: 5,
+    paddingRight: 10,
+    '&:hover': {
+      color: colors.borderLight
+    }
+  },
+  [theme.breakpoints.up('md')]: {
+    fontSize: 6,
+    paddingRight: 5
+  },
+
   loginControls: {
     display: 'none',
     [theme.breakpoints.up('lg')]: {

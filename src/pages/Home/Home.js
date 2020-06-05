@@ -1,6 +1,6 @@
 import React from 'react';
 import TopSlider from '../../components/TopSlider/TopSlider';
-import {Container, Grid} from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
 import CardNewsletter from '../../components/CardNewsletter/CardNewsletter';
 import LoginForm from '../../components/LoginForm/LoginForm';
 import RegisterForm from '../../components/RegisterForm/RegisterForm';
@@ -81,7 +81,6 @@ const Home = () => {
         </Grid>
       </Grid>
       <ScrollToTop/>
-
     </Container>
   );
 };

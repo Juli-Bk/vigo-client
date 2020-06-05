@@ -5,16 +5,14 @@ import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import SearchIcon from '@material-ui/icons/Search';
 import AppBar from '@material-ui/core/AppBar';
-
 import useStyles from './headerStyle';
 import theme from './headerTheme';
-
-import ButtonLink from '../../components/ButtonLink/ButtonLink';
 import Search from '../../components/Search/Search';
-import PersonButton from '../../components/PersonButton/PersonButton';
 import SideMenu from '../../components/SideMenu/SideMenu';
 import Logo from '../../components/Logo/Logo';
 import NestedMenu from '../../components/NestedMenu/NestedMenu';
+import ModalLogin from '../../components/ModalLogin/ModalLogin';
+import ModalSignUp from '../../components/ModalSignUp/ModalSignUp';
 
 const Header = () => {
   const classes = useStyles();
@@ -49,12 +47,8 @@ const Header = () => {
                     {/* todo should open shopping card page */}
                     <LocalMallOutlinedIcon/>
                   </IconButton>
-
-                  <PersonButton classIncome={classes.personIcon}/>
-                  <Box className={classes.loginControls}>
-                    {/* todo not link, it is button which should open modal window with login form */}
-                    <ButtonLink name="Sign In" path="/login"/>
-                  </Box>
+                  <ModalLogin />
+                  <ModalSignUp/>
                 </Box>
               </Toolbar>
             </Container>
