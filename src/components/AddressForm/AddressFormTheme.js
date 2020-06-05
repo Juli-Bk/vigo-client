@@ -9,9 +9,6 @@ const theme = createMuiTheme({
           color: colors.noticeColor,
           textTransform: 'capitalize'
         }
-      },
-      contained: {
-        color: colors.noticeColor
       }
     },
     MuiTypography: {
