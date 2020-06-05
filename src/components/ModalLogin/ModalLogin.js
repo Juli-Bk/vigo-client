@@ -22,8 +22,6 @@ const ModalLogin = () => {
   const classes = useStyles();
   return (
     <ThemeProvider theme={theme}>
-      {/* <Button variant="outlined" color="primary" onClick={handleClickOpen}> */}
-      {/* handleClickOpen<PersonButton classIncome={classes.personIcon}/> */}
 
       <IconButton
         variant="outlined" color="primary"
@@ -32,7 +30,6 @@ const ModalLogin = () => {
         className={classes.personIcon}>
         <PersonIcon/>
       </IconButton>
-      {/* </Button> */}
 
       <Dialog
         open={open}
