@@ -50,5 +50,5 @@ const ModalLogin = () => {
       </div>
     </ThemeProvider>
   );
-}
+};
 export default React.memo(ModalLogin);
