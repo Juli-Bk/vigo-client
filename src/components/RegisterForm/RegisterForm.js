@@ -132,7 +132,7 @@ const RegisterForm = (props) => {
                   onClick={handleSubmit}
                   disabled={isSubmitting}
                   size='large'
-                  variant='outlined'>Register
+                  variant='outlined'>Sign up
                 </Button>
               </CardActions>
             </form>
