@@ -11,7 +11,7 @@ const iconStyles = {
   marginRight: 10,
   color: colors.fontOncard,
   '&:hover': {
-    color: fade(colors.fontHover, 0.7)
+    color: fade(colors.fontHover, 0.9)
   }
 };
 const iconsBpMd = {
@@ -84,21 +84,9 @@ const useStyles = makeStyles(theme => ({
       }
     }
   },
-  headerSearchBlock: {
-    display: 'flex',
-    flexGrow: 1,
-    marginRight: 5
-  },
   headerIconsBlock: {
     ...blockStyle,
     paddingTop: 0
-  },
-  searchIcon: {
-    ...iconStyles,
-    [theme.breakpoints.up('md')]: {
-      ...iconsBpMd,
-      display: 'none'
-    }
   },
   starIcon: {
     ...iconStyles,
