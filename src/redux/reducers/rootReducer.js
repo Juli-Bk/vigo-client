@@ -9,7 +9,6 @@ import categories from './categoriesReducer';
 import isMenuOpen from './menuReducer';
 import size from './currentSizeReducer';
 import quantity from './quantityReducer';
-import recentlyViewed from './recentlyViewedReducer';
 import wishList from './wishListReducer';
 
 export const rootReducer = combineReducers({
@@ -23,6 +22,5 @@ export const rootReducer = combineReducers({
   isMenuOpen,
   size,
   quantity,
-  recentlyViewed,
   wishList
 });

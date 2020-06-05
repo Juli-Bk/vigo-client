@@ -19,7 +19,7 @@ function App (props) {
   useEffect(() => {
     AjaxUtils.Categories.getAllCategories();
     changeWishList(getStorageData('wishList'));
-  }, [changeWishList]);
+  }, []);
 
   return (
     <div className={styles.App}>
