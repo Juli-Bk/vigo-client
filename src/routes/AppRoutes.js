@@ -10,6 +10,7 @@ import About from '../pages/About/About';
 import Contacts from '../pages/Contacts/Contacts';
 import Page404 from '../pages/Page404/Page404';
 import Header from '../containers/Header/Header';
+import MyAccount from '../pages/MyAccount/MyAccount';
 
 const AppRoutes = () => {
   return (
@@ -27,6 +28,7 @@ const AppRoutes = () => {
         <Route exact path='/checkout' component={Checkout}/>
         <Route exact path='/about' component={About}/>
         <Route exact path='/contacts' component={Contacts}/>
+        <Route exact path='/myAccount' component={MyAccount}/>
         <Route path='*' component={Page404}/>
       </Switch>
     </>
