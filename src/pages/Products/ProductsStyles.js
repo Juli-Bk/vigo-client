@@ -36,6 +36,9 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end'
+  },
+  paginationBottom: {
+    marginBottom: '2rem'
   }
 })
 );

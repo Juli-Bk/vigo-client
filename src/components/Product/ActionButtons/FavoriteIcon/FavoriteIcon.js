@@ -9,7 +9,11 @@ const FavoriteIcon = (props) => {
 
   if (label) {
     return (
-      <IconButton aria-label={label} onClick={() => addToWishList(id)} className={classes.iconBtn}>
+      <IconButton aria-label={label}
+        onClick={() => addToWishList(id)}
+        className={classes.iconBtn}
+        disableFocusRipple
+        disableRipple>
         <Favorite className={wishList.includes(id) ? classes.iconChosen : classes.icon}/>
         <Typography variant='body2' className={wishList.includes(id) ? classes.labelChosen : classes.label}>{label}</Typography>
       </IconButton>

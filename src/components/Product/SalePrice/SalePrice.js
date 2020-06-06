@@ -9,8 +9,9 @@ const useStyles = makeStyles(theme => ({
   salePrice: {
     color: colors.fontPrice,
     fontWeight: 'bold',
+    fontSize: '1rem',
     [theme.breakpoints.up(1280)]: {
-      fontSize: '1rem',
+      fontSize: '1.2rem',
       letterSpacing: '.02em'
     }
   }
