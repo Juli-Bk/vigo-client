@@ -70,7 +70,7 @@ const CategoryTree = ({categories}) => {
 
 const mapStoreToProps = store => {
   return {
-    categories: store.categories
+    categories: Array.isArray(store.categories) ? store.categories : store.categories.categories
   };
 };
 

@@ -17,6 +17,8 @@ export const theme = createMuiTheme({
       root: {
         padding: 0,
         textAlign: 'left',
+        border: 0,
+        borderRadius: 0,
         '&:hover': {
           backgroundColor: 'transparent',
           '& > span': {

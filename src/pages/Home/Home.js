@@ -2,8 +2,6 @@ import React from 'react';
 import TopSlider from '../../components/TopSlider/TopSlider';
 import { Container, Grid } from '@material-ui/core';
 import CardNewsletter from '../../components/CardNewsletter/CardNewsletter';
-import LoginForm from '../../components/LoginForm/LoginForm';
-import RegisterForm from '../../components/RegisterForm/RegisterForm';
 import Bestsellers from '../../containers/Bestsellers/Bestsellers';
 import AboutUsBlock from '../../components/AboutVigoShop/AboutUsBlock/AboutUsBlock';
 import TabsSliders from '../../components/TabsSliders/TabsSliders';
@@ -62,16 +60,8 @@ const Home = () => {
         <Grid item xs={12} sm={6} lg={6}>
           <NewCustomerForm submitNewCustomerHandler={onSubmitCallback}/>
         </Grid>
-        <Grid item xs={12} sm={6} lg={6}>
-          <LoginForm submitLoginHandler={AjaxUtils.Users.login}/>
-        </Grid>
       </Grid>
 
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} lg={6}>
-          <RegisterForm submitRegisterHandler={AjaxUtils.Users.createUser}/>
-        </Grid>
-      </Grid>
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6} lg={6}>
           <PersonalDetailsForm submitPersonalDetailsHandler={submit}/>

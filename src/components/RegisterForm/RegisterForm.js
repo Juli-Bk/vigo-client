@@ -10,6 +10,7 @@ import LockIcon from '@material-ui/icons/Lock';
 import EnhancedEncryptionRoundedIcon from '@material-ui/icons/EnhancedEncryptionRounded';
 import useStyles from './RegisterFormStyle';
 import EmailIcon from '@material-ui/icons/Email';
+import AjaxUtils from '../../ajax';
 
 const RegisterForm = (props) => {
   const {submitRegisterHandler} = props;
@@ -22,11 +23,11 @@ const RegisterForm = (props) => {
       password: values.password
     });
 
-    submitRegisterHandler(json)
+    AjaxUtils.Users.createUser(json)
       .then(result => {
-        alert(JSON.stringify(result));
         setSubmitting(false);
         resetForm();
+        submitRegisterHandler(result);
       });
   };
 

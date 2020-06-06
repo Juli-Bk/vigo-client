@@ -33,6 +33,10 @@ export const toggleMenuOpen = (isOpen) => {
   return {type: Actions.TOGGLE_MENU_OPEN, payload: isOpen};
 };
 
+export const toggleSearchBarOpen = (isOpen) => {
+  return {type: Actions.TOGGLE_SEARCH_BAR_OPEN, payload: isOpen};
+};
+
 export const setChosenSize = (size) => {
   return {type: Actions.SET_CHOSEN_SIZE, payload: size};
 };

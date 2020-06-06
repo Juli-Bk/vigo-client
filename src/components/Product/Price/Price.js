@@ -8,9 +8,10 @@ const useStyles = makeStyles(theme => ({
   price: {
     textDecoration: 'line-through',
     color: colors.fontSixth,
+    fontSize: '1rem',
     [theme.breakpoints.up(1280)]: {
       marginRight: '1rem',
-      fontSize: '1rem',
+      fontSize: '1.2rem',
       letterSpacing: '.02em'
     }
   }
