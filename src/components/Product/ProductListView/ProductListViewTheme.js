@@ -14,7 +14,12 @@ export const theme = createMuiTheme({
     MuiIconButton: {
       root: {
         padding: 0,
-        textAlign: 'left'
+        textAlign: 'left',
+        border: 0,
+        borderRadius: 0,
+        '&:hover': {
+          backgroundColor: 'transparent'
+        }
       }
     }
   }
