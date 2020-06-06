@@ -35,9 +35,11 @@ const ModalSignUp = () => {
       >
         <DialogTitle id="alert-dialog-title">{'Do you want to SIGN UP?'}</DialogTitle>
         <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            <RegisterForm/>
-          </DialogContentText>
+          <RegisterForm submitRegisterHandler={(result) => {
+            // todo 'Welcome, User' if register is success and login user
+            console.log('register result', result);
+            handleClose();
+          }}/>
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose} color="default" autoFocus>

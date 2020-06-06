@@ -14,11 +14,11 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import Recaptcha from 'react-recaptcha';
 
 const ContactForm = (props) => {
-  const {submitHandler} = props;
+  const { submitHandler } = props;
 
   const styles = useStyles();
 
-  const submitData = (values, {resetForm, setSubmitting}) => {
+  const submitData = (values, { resetForm, setSubmitting }) => {
     setSubmitting(true);
 
     const json = JSON.stringify({
@@ -66,19 +66,25 @@ const ContactForm = (props) => {
         <Formik
           initialValues={initFormValues}
           validationSchema={validationSample}
-          onSubmit={submitData}>
-          {({values, handleChange, handleSubmit, handleBlur, isSubmitting, errors, touched, setFieldValue}) => (
+          onSubmit={submitData}
+        >
+          {({
+            values, handleChange,
+            handleSubmit, handleBlur,
+            isSubmitting, errors,
+            touched, setFieldValue
+          }) => (
             <ThemeProvider theme={theme}>
               <form autoComplete='off'>
                 <Grid container spacing={2}>
-                  <Grid item container justify="space-between" xs={12} lg={6}>
+                  <Grid item container justify='space-between' xs={12} lg={6}>
                     <Grid item xs={12} md={6} lg={12}>
                       <TextField
                         name='name'
                         className={styles.input}
                         type='text'
-                        label={<IconLabel label='ENTER YOUR NAME' Component={PersonIcon}/>}
-                        variant="outlined"
+                        label={<IconLabel label='ENTER YOUR NAME' Component={PersonIcon} />}
+                        variant='outlined'
                         error={errors.name && touched.name}
                         onBlur={handleBlur}
                         onChange={handleChange}
@@ -89,8 +95,8 @@ const ContactForm = (props) => {
                         name='email'
                         type='email'
                         className={styles.input}
-                        variant="outlined"
-                        label={<IconLabel label='ENTER YOUR E-MAIL' Component={MailIcon}/>}
+                        variant='outlined'
+                        label={<IconLabel label='ENTER YOUR E-MAIL' Component={MailIcon} />}
                         error={errors.email && touched.email}
                         onBlur={handleBlur}
                         onChange={handleChange}
@@ -102,9 +108,9 @@ const ContactForm = (props) => {
                         name='topic'
                         type='text'
                         className={styles.input}
-                        variant="outlined"
-                        autoComplete="off"
-                        label={<IconLabel label='ENTER YOUR SUBJECT' Component={InsertDriveFileIcon}/>}
+                        variant='outlined'
+                        autoComplete='off'
+                        label={<IconLabel label='ENTER YOUR SUBJECT' Component={InsertDriveFileIcon} />}
                       />
 
                       <Typography variant='subtitle2' className={styles.infoMsg}>
@@ -123,15 +129,13 @@ const ContactForm = (props) => {
                       className={styles.textArea}
                       variant='outlined'
                       autoComplete='off'
-                      label={<IconLabel label='ENTER YOUR MESSAGE' Component={CreateIcon}/>}
+                      label={<IconLabel label='ENTER YOUR MESSAGE' Component={CreateIcon} />}
                     />
                     {errors.recaptcha &&
-                  touched.recaptcha && (
-                      <Typography className={styles.captchaErr} variant='subtitle2'>{errors.recaptcha}</Typography>
-                    )}
+                  touched.recaptcha && (<Typography className={styles.captchaErr} variant='subtitle2'>{errors.recaptcha}</Typography>)}
                     <Recaptcha
                       className={styles.captcha}
-                      sitekey="6LdBUAAVAAAAAJU2FSLbOf7w9rDJiOOR1bLhhzWF"
+                      sitekey='6LdBUAAVAAAAAJU2FSLbOf7w9rDJiOOR1bLhhzWF'
                       verifyCallback={(response) => { setFieldValue('recaptcha', response); }}
                     />
                     <Button

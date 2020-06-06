@@ -3,14 +3,14 @@ import {Box, Container, Grid, IconButton, Toolbar} from '@material-ui/core';
 import {ThemeProvider} from '@material-ui/core/styles';
 import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import SearchIcon from '@material-ui/icons/Search';
 import AppBar from '@material-ui/core/AppBar';
 import useStyles from './headerStyle';
 import theme from './headerTheme';
-import Search from '../../components/Search/Search';
-import SideMenu from '../../components/SideMenu/SideMenu';
+
 import Logo from '../../components/Logo/Logo';
 import NestedMenu from '../../components/NestedMenu/NestedMenu';
+import SearchBar from '../../components/SearchBar/SearchBar';
+import SideMenu from '../../components/SideMenu/SideMenu';
 import ModalLogin from '../../components/ModalLogin/ModalLogin';
 import ModalSignUp from '../../components/ModalSignUp/ModalSignUp';
 
@@ -28,16 +28,8 @@ const Header = () => {
                   <SideMenu/>
                   <Logo description={'Vigo Shop'}/>
                 </Box>
-                <Box className={classes.headerSearchBlock}>
-                  {/* todo responsibility and server request  */}
-                  <Search/>
-                </Box>
                 <Box className={classes.headerIconsBlock}>
-                  <IconButton aria-label="searchIcon" className={classes.searchIcon}>
-                    {/* todo responsibility and server request  */}
-                    <SearchIcon/>
-                  </IconButton>
-
+                  <SearchBar/>
                   <IconButton aria-label="starIcon" className={classes.starIcon}>
                     {/* todo should open favorites card page */}
                     <FavoriteBorderIcon/>
@@ -47,6 +39,8 @@ const Header = () => {
                     {/* todo should open shopping card page */}
                     <LocalMallOutlinedIcon/>
                   </IconButton>
+
+                  {/* todo responsive if mobile - render only icon, else ModalSignUp */}
                   <ModalLogin />
                   <ModalSignUp/>
                 </Box>

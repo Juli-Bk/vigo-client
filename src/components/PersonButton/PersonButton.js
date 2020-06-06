@@ -1,7 +1,7 @@
 import React from 'react';
-import PopupState, { bindTrigger } from 'material-ui-popup-state';
+import PopupState, {bindTrigger} from 'material-ui-popup-state';
 import PersonIcon from '@material-ui/icons/Person';
-import { IconButton } from '@material-ui/core';
+import {Box, IconButton} from '@material-ui/core';
 
 const PersonButton = (props) => {
   const {classIncome} = props;
@@ -10,13 +10,13 @@ const PersonButton = (props) => {
     <>
       <PopupState variant="popover" popupId="open-person">
         {popupState => (
-          <div>
+          <Box>
             <IconButton aria-label="personIcon"
               className={classIncome}
               {...bindTrigger(popupState)}>
-              <PersonIcon />
+              <PersonIcon/>
             </IconButton>
-          </div>
+          </Box>
         )}
       </PopupState>
     </>
