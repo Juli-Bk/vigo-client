@@ -4,6 +4,7 @@ import 'react-image-gallery/styles/css/image-gallery.css';
 import useStyles from './TopSliderStyles';
 import { theme } from './TopSliderTheme';
 import { Box, Button, Typography, ThemeProvider } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 
 // todo working button Take Look (getProductsByFilters, filter take from new arrivals)
 
@@ -24,7 +25,9 @@ const TopSlider = (props) => {
           <Typography variant='h2' className={classes.title}>{renderData.title}</Typography>
           <Typography variant='subtitle1' className={classes.text}>{renderData.text}</Typography>
           <ThemeProvider theme={theme}>
-            <Button className={classes.button}>{renderData.buttonText}</Button>
+            <Link to='/products'>
+              <Button className={classes.button}>{renderData.buttonText}</Button>
+            </Link>
           </ThemeProvider>
         </Box>
         <img src={item.original} alt='clothing' className='image-gallery-image'/>
