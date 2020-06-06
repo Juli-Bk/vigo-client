@@ -2,7 +2,8 @@ import React from 'react';
 import ImageGallery from 'react-image-gallery';
 import 'react-image-gallery/styles/css/image-gallery.css';
 import useStyles from './TopSliderStyles';
-import {Box, Button, Typography} from '@material-ui/core';
+import { theme } from './TopSliderTheme';
+import { Box, Button, Typography, ThemeProvider } from '@material-ui/core';
 
 // todo working button Take Look (getProductsByFilters, filter take from new arrivals)
 
@@ -22,7 +23,9 @@ const TopSlider = (props) => {
         <Box className={classes.overlay}>
           <Typography variant='h2' className={classes.title}>{renderData.title}</Typography>
           <Typography variant='subtitle1' className={classes.text}>{renderData.text}</Typography>
-          <Button className={classes.button}>{renderData.buttonText}</Button>
+          <ThemeProvider theme={theme}>
+            <Button className={classes.button}>{renderData.buttonText}</Button>
+          </ThemeProvider>
         </Box>
         <img src={item.original} alt='clothing' className='image-gallery-image'/>
       </Box>

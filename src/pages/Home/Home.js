@@ -2,8 +2,6 @@ import React from 'react';
 import TopSlider from '../../components/TopSlider/TopSlider';
 import { Container, Grid } from '@material-ui/core';
 import CardNewsletter from '../../components/CardNewsletter/CardNewsletter';
-import LoginForm from '../../components/LoginForm/LoginForm';
-import RegisterForm from '../../components/RegisterForm/RegisterForm';
 import Bestsellers from '../../containers/Bestsellers/Bestsellers';
 import AboutUsBlock from '../../components/AboutVigoShop/AboutUsBlock/AboutUsBlock';
 import TabsSliders from '../../components/TabsSliders/TabsSliders';
