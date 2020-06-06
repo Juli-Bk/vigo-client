@@ -86,6 +86,9 @@ const Products = (props) => {
           </Grid>
         </Grid>
         <SideBar/>
+        <Grid item xl={12} lg={12} md={12} sm={12} xs={12} className={classes.paginationBottom}>
+          <PaginationRounded perPage={perPage} total={total}/>
+        </Grid>
       </Grid>
     </Container>
   );

@@ -7,7 +7,10 @@ const ButtonCompare = (props) => {
   const {classes, id, addToCompare, label} = props;
   return (
     label
-      ? <IconButton aria-label={label} onClick={() => addToCompare(id)}>
+      ? <IconButton aria-label={label}
+        onClick={() => addToCompare(id)}
+        disableFocusRipple
+        disableRipple>
         <Done className={classes.icon}/>
         <Typography variant='body2' className={classes.label}>{label}</Typography>
       </IconButton>
