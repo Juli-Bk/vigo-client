@@ -12,14 +12,25 @@ import Footer from './containers/Footer/Footer';
 import AjaxUtils from './ajax';
 import { changeWishList } from './redux/actions/actions';
 import { getStorageData } from './helpers/helpers';
+import { getJWTfromCookie } from './ajax/common/helper';
 
 function App (props) {
-  const {changeWishList} = props;
+  const {changeWishList, token} = props;
 
   useEffect(() => {
     AjaxUtils.Categories.getAllCategories();
+
+    if (token || getJWTfromCookie()) {
+      AjaxUtils.Users.getUser()
+        .then(result => {
+          AjaxUtils.WishLists.getUserWishList(result._id)
+            .then(result => {
+              console.log(result);
+            });
+        });
+    }
     changeWishList(getStorageData('wishList'));
-  }, [changeWishList]);
+  }, [changeWishList, token]);
 
   return (
     <div className={styles.App}>
@@ -35,10 +46,16 @@ function App (props) {
   );
 }
 
+const mapStateToProps = store => {
+  return {
+    token: store.token
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     changeWishList: data => dispatch(changeWishList(data))
   };
 };
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(mapStateToProps, mapDispatchToProps)(App);

@@ -9,6 +9,7 @@ import { labels } from '../labels';
 import { getStorageData, setStorageData } from '../../../helpers/helpers';
 import AjaxUtils from '../../../ajax';
 import { changeWishList } from '../../../redux/actions/actions';
+import { getJWTfromCookie } from '../../../ajax/common/helper';
 
 const ActionButtons = (props) => {
   const { classes, product, width, disabledSpacing, isProductPage, token, changeWishList } = props;
@@ -25,7 +26,8 @@ const ActionButtons = (props) => {
     const wishListLocal = getStorageData('wishList');
     if (wishListLocal.find(item => item === id)) {
       setStorageData('wishList', wishListLocal.filter(item => item !== id));
-      if (token) {
+
+      if (token || getJWTfromCookie()) {
         AjaxUtils.WishLists.deleteProductFromWishlist(id)
           .then(result => {
             console.log(result);
@@ -33,7 +35,8 @@ const ActionButtons = (props) => {
       }
     } else {
       setStorageData('wishList', [...wishListLocal, id]);
-      if (token) {
+
+      if (token || getJWTfromCookie()) {
         AjaxUtils.WishLists.addProductToWishList(id)
           .then(result => {
             console.log(result);
