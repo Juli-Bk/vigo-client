@@ -117,7 +117,15 @@ const useStyles = makeStyles(theme => ({
     cursor: 'pointer'
   },
   description: {
-    fontSize: '.75em'
+    fontSize: '.9rem',
+    fontFamily: fonts.f4,
+    lineHeight: '1rem',
+    color: colors.fontOncard,
+    textDecoration: 'none',
+    cursor: 'pointer',
+    '&:hover': {
+      textDecoration: 'underline'
+    }
   }
 }));
 
