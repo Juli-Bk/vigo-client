@@ -6,7 +6,12 @@ const useStyles = makeStyles(theme => (
   {
     slide: {
       width: '100%',
-      height: '100%'
+      height: '100%',
+      minHeight: 284,
+      paddingBottom: '0 !important',
+      '&>div': {
+        marginLeft: 2
+      }
     },
     image: {
       float: 'left',
