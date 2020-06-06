@@ -36,19 +36,7 @@ const useStyles = makeStyles(theme => ({
   container: {
     position: 'relative',
     marginBottom: '2rem',
-    fontSize: '1rem',
-    [theme.breakpoints.up(420)]: {
-      fontSize: '1.5rem'
-    },
-    [theme.breakpoints.up(568)]: {
-      fontSize: '1.7rem'
-    },
-    [theme.breakpoints.up(724)]: {
-      fontSize: '2rem'
-    },
-    [theme.breakpoints.up(1025)]: {
-      fontSize: '2.5rem'
-    }
+    fontSize: '1rem'
   },
   overlay: {
     position: 'absolute',
@@ -60,27 +48,53 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     width: '100%',
-    paddingTop: '2em'
+    paddingTop: '2rem',
+    [theme.breakpoints.up('md')]: {
+      paddingTop: '3rem'
+    }
   },
   title: {
     position: 'relative',
     width: 'fit-content',
-    marginBottom: '1.4em',
+    marginBottom: '1.4rem',
     color: colors.fontOncard,
-    fontSize: '1.5em',
+    fontSize: '1.5rem',
     fontFamily: fonts.f1,
     textTransform: 'uppercase',
+    [theme.breakpoints.up(420)]: {
+      marginBottom: '1.6rem',
+      fontSize: '2rem'
+    },
+    [theme.breakpoints.up(568)]: {
+      marginBottom: '2.5rem',
+      fontSize: '3rem'
+    },
+    [theme.breakpoints.up('md')]: {
+      marginBottom: '3rem',
+      fontSize: '4rem'
+    },
+    [theme.breakpoints.up('lg')]: {
+      marginBottom: '4rem',
+      fontSize: '4.5rem'
+    },
 
     '&::after, &::before': {
       position: 'absolute',
-      height: '.08em',
+      content: '""',
+      height: '.08rem',
       background: colors.fontOncard,
-      content: '""'
+      [theme.breakpoints.up(940)]: {
+        height: '.1rem'
+      }
     },
     ' &::before': {
       top: '-30%',
       left: '-5%',
-      width: '110%'
+      width: '110%',
+      [theme.breakpoints.up(940)]: {
+        top: '-25%',
+        height: '.1rem'
+      }
     },
 
     '&::after': {
@@ -91,32 +105,48 @@ const useStyles = makeStyles(theme => ({
   },
   text: {
     display: 'none',
-    [theme.breakpoints.up(724)]: {
-      fontSize: '.4em',
+    [theme.breakpoints.up('sm')]: {
+      fontSize: '.7rem',
       display: 'block',
       width: '50%',
-      marginBottom: '3em',
+      marginBottom: '3rem',
       color: colors.fontOncard,
       fontWeight: 500,
       fontFamily: fonts.f4,
       whiteSpace: 'normal',
       textAlign: 'center',
       textTransform: 'uppercase',
-      wordSpacing: '.2em'
+      wordSpacing: '.2rem'
+    },
+    [theme.breakpoints.up('md')]: {
+      fontSize: '1.2rem'
+    },
+    [theme.breakpoints.up('lg')]: {
+      fontSize: '1.5rem',
+      marginBottom: '4rem'
     }
   },
   button: {
-    padding: '.3em',
+    padding: '.3rem',
     color: colors.fontOncard,
     fontWeight: 'bold',
-    fontSize: '.7em',
+    fontSize: '.7rem',
     fontFamily: fonts.f3,
     textTransform: 'uppercase',
     background: 'transparent',
     border: `2px solid ${colors.fontOncard}`,
     borderRadius: 5,
-    [theme.breakpoints.up(724)]: {
-      fontSize: '.5em'
+    [theme.breakpoints.up(568)]: {
+      fontSize: '1rem'
+    },
+    [theme.breakpoints.up('sm')]: {
+      fontSize: '.85rem'
+    },
+    [theme.breakpoints.up('md')]: {
+      fontSize: '1.2rem'
+    },
+    [theme.breakpoints.up('lg')]: {
+      fontSize: '1.5rem'
     }
   }
 }));
