@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
     paddingTop: '2rem',
     [theme.breakpoints.up('md')]: {
       paddingTop: '3rem'
-    },
+    }
   },
   title: {
     position: 'relative',
@@ -123,7 +123,7 @@ const useStyles = makeStyles(theme => ({
     },
     [theme.breakpoints.up('lg')]: {
       fontSize: '1.5rem',
-      marginBottom: '4rem',
+      marginBottom: '4rem'
     }
   },
   button: {
