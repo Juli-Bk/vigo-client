@@ -6,6 +6,7 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import Grid from '@material-ui/core/Grid';
 import theme from './CheckoutSteppereTheme';
 import DeliveryForm from '../DeliveryForm/DeliveryForm';
 import { Container } from '@material-ui/core';
@@ -31,7 +32,18 @@ function getSteps () {
 function getStepContent (stepIndex) {
   switch (stepIndex) {
     case 0:
-      return 'Name, Surname, tel, email..';
+      return (
+        <Grid container>
+          <Grid item sm={4}>
+          John Smith
+          1 Downing street
+          Somewhere,
+          City,
+          Country, 00222,
+          +380976662233
+          </Grid>
+        </Grid>
+      );
     case 1:
       return (
         <DeliveryForm />
