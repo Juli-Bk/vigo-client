@@ -5,6 +5,7 @@ import { wait } from '@testing-library/react';
 import Adapter from 'enzyme-adapter-react-16';
 import { Typography } from '@material-ui/core';
 import TopSlider from './TopSlider';
+import { BrowserRouter } from 'react-router-dom';
 
 configure({adapter: new Adapter()});
 
@@ -29,7 +30,7 @@ describe('Top Slider testing', () => {
   let wrapper;
   beforeEach(async () => {
     await wait(() => {
-      wrapper = mount(<TopSlider renderData={testData} imgUrls={urls}/>);
+      wrapper = mount(<BrowserRouter><TopSlider renderData={testData} imgUrls={urls}/></BrowserRouter>);
     });
   });
 
