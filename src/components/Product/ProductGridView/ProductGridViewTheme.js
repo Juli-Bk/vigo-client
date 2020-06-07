@@ -6,6 +6,14 @@ export const theme = createMuiTheme({
       root: {
         padding: 0
       }
+    },
+    MuiCardContent: {
+      root: {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+        minHeight: 70
+      }
     }
   }
 });

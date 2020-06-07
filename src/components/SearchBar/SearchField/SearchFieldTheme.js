@@ -17,13 +17,29 @@ const theme = createMuiTheme({
     },
     Mui: {
       '&$focused': {
-        outline: 'none'
+        outline: 'none',
+        outlineColor: 'transparent'
       }
     },
     MuiAutocomplete: {
       inputFocused: {
         outline: 'none'
       }
+    },
+    MuiOutlinedInput: {
+      root: {
+        '& $notchedOutline': {
+          borderWidth: 0
+        },
+        '&:hover $notchedOutline': {
+          borderWidth: 0
+        },
+        '&$focused $notchedOutline': {
+          borderWidth: 0
+        }
+      },
+      focused: {},
+      notchedOutline: {}
     }
   }
 });
