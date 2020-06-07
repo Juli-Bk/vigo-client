@@ -1,0 +1,16 @@
+import { makeStyles } from '@material-ui/core/styles';
+import { colors } from '../../styles/colorKit';
+import { fonts } from '../../styles/fonts/fontsKit';
+
+const useStyles = makeStyles(theme => ({
+  sorryBlock: {
+    padding: 20
+  },
+  image: {
+    width: '100%',
+    height: '100%'
+  }
+}
+));
+
+export default useStyles;
