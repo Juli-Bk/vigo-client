@@ -1,5 +1,4 @@
 import { createMuiTheme } from '@material-ui/core';
-import { colors } from '../../../styles/colorKit';
 
 export const theme = createMuiTheme({
   overrides: {
@@ -20,13 +19,10 @@ export const theme = createMuiTheme({
         border: 0,
         borderRadius: 0,
         '&:hover': {
-          backgroundColor: 'transparent',
-          '& > span': {
-            color: colors.noticeColor,
-            '& > svg': {
-              fill: colors.noticeColor
-            }
-          }
+          backgroundColor: 'transparent'
+        },
+        '@media (max-width: 339px)': {
+          marginLeft: '4rem'
         }
       }
     }
