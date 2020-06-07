@@ -1,8 +1,9 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
-import useStyles from './Checkout';
+import useStyles from '../MyAccount/MyAccountStyle';
 import Paper from '@material-ui/core/Paper';
-import { Grid, Container } from '@material-ui/core';
+import { Container } from '@material-ui/core';
+import CheckoutStepper from '../../components/CheckoutStepper/CheckoutStepper';
 
 const Checkout = () => {
   const styles = useStyles();
@@ -11,15 +12,11 @@ const Checkout = () => {
       <Typography variant="h5" className={styles.header} gutterBottom>
         Checkout
       </Typography>
-
       <Paper elevation={3}>
-        <Grid container spacing={2}>
-
-        </Grid>
-        payment & delivery forms here
+        <CheckoutStepper />
       </Paper>
     </Container>
   );
 };
 
-export default Checkout;
+export default React.memo(Checkout);

@@ -6,9 +6,7 @@ import Bestsellers from '../../containers/Bestsellers/Bestsellers';
 import AboutUsBlock from '../../components/AboutVigoShop/AboutUsBlock/AboutUsBlock';
 import TabsSliders from '../../components/TabsSliders/TabsSliders';
 import BannerLineHomePage from '../../components/BannerLineHomePage/BannerLineHomePage';
-import PersonalDetailsForm from '../../components/PersonalDetailsForm/PersonalDetailsForm';
 import NewCustomerForm from '../../components/NewCustomerForm/NewCustomerForm';
-import AddressForm from '../../components/AddressForm/AddressForm';
 import AjaxUtils from '../../ajax';
 import ScrollToTop from '../../components/ScrollToTop/ScrollToTop';
 
@@ -36,10 +34,6 @@ const onSubmitCallback = () => {
   console.log('newCustomerForm');
 };
 
-const submit = () => {
-  console.log('submit');
-};
-
 const Home = () => {
   return (
     <Container>
@@ -59,15 +53,6 @@ const Home = () => {
       <Grid container spacing={2}>
         <Grid item xs={12} sm={6} lg={6}>
           <NewCustomerForm submitNewCustomerHandler={onSubmitCallback}/>
-        </Grid>
-      </Grid>
-
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} lg={6}>
-          <PersonalDetailsForm submitPersonalDetailsHandler={submit}/>
-        </Grid>
-        <Grid item xs={12} sm={6} lg={6}>
-          <AddressForm submitAddressHandler={submit}/>
         </Grid>
       </Grid>
       <ScrollToTop/>

@@ -7,7 +7,8 @@ const useStyles = makeStyles(theme => (
     header: {
       color: colors.phPrimary,
       fontFamily: fonts.f3,
-      textAlign: 'center'
+      textAlign: 'center',
+      marginBottom: 30
     }
   }
 ));

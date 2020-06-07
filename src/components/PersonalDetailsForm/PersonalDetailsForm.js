@@ -6,8 +6,8 @@ import {
   TextField,
   Button,
   CardActions,
-  CardContent,
-  Card, ThemeProvider
+  Container,
+  ThemeProvider
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import useStyles from './PersonalDetailsFormStyle';
@@ -89,123 +89,121 @@ const PersonalDetailsForm = (props) => {
   const styles = useStyles();
 
   return (
-    <Card>
-      <CardContent>
-        <Typography className={styles.header} variant='h4' gutterBottom>your personal details</Typography>
-        <Formik
-          initialValues={initFormValues}
-          validationSchema={validateObject}
-          onSubmit={submitPersonalDetailsData}>
-          {({
-            classes,
-            isSubmitting,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            handleReset,
-            values,
-            errors,
-            touched,
-            onChange,
-            confirmPassword
-          }) => (
-            <form autoComplete='off'>
-              <ThemeProvider theme={theme}>
-                <TextField
-                  name='firstName'
-                  label={<IconLabel label='Enter your Name' Component={PersonIcon}/>}
-                  className={styles.input}
-                  value={values.firstName}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  helperText={touched.firstName ? errors.firstName : ''}
-                  error={touched.firstName && Boolean(errors.firstName)}
-                  variant='outlined'
-                  fullWidth
-                />
-                <TextField
-                  name='lastName'
-                  label={<IconLabel label='Enter your Surname' Component={PersonIcon}/>}
-                  className={styles.input}
-                  value={values.lastName}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  helperText={touched.lastName ? errors.lastName : ''}
-                  error={touched.lastName && Boolean(errors.lastName)}
-                  variant='outlined'
-                  fullWidth
-                />
-                <TextField
-                  name='email'
-                  label={<IconLabel label='Enter your e-mail' Component={EmailIcon}/>}
-                  className={styles.input}
-                  value={values.email}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  helperText={touched.email ? errors.email : ''}
-                  error={touched.email && Boolean(errors.email)}
-                  variant='outlined'
-                  fullWidth
-                />
-                <TextField
-                  name='phone'
-                  label={<IconLabel label='Enter your phone number' Component={PhoneAndroidIcon}/>}
-                  className={styles.input}
-                  value={values.phone}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  helperText={touched.phone ? errors.phone : ''}
-                  error={touched.phone && Boolean(errors.phone)}
-                  variant='outlined'
-                  fullWidth
-                />
-                <TextField
-                  name='password'
-                  autoComplete='off'
-                  className={styles.input}
-                  label={<IconLabel label='Enter your password' Component={LockIcon}/>}
-                  type='password'
-                  value={values.password}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  fullWidth variant='outlined'
-                  helperText={touched.password ? errors.password : ''}
-                  error={touched.password && Boolean(errors.password)}
-                />
-                <TextField
-                  name='confirmPassword'
-                  className={styles.input}
-                  autoComplete='off'
-                  label={<IconLabel label='Confirm your password' Component={EnhancedEncryptionRoundedIcon}/>}
-                  type='password'
-                  value={values.confirmPassword}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  helperText={touched.confirmPassword ? errors.confirmPassword : ''}
-                  error={touched.confirmPassword && Boolean(errors.confirmPassword)}
-                  variant='outlined'
-                  fullWidth
-                />
-                <FormGroup name='saveMyData' column='true'>
-                  <Checkbox name='subscribe' label='I wish to subscribe to the Vigo Shop newsletter' />
-                  <Checkbox name='confirmation' label='I have read and agree to the Privacy Policy' />
-                </FormGroup>
-              </ThemeProvider>
-              <CardActions>
-                <Button
-                  type='submit'
-                  className={styles.button}
-                  onClick={handleSubmit}
-                  disabled={isSubmitting}
-                  size='large'
-                  variant='outlined'>Continue
-                </Button>
-              </CardActions>
-            </form>
-          )}
-        </Formik>
-      </CardContent>
-    </Card>
+    <Container>
+      <Typography className={styles.header} variant='h4' gutterBottom>your personal details</Typography>
+      <Formik
+        initialValues={initFormValues}
+        validationSchema={validateObject}
+        onSubmit={submitPersonalDetailsData}>
+        {({
+          classes,
+          isSubmitting,
+          handleChange,
+          handleBlur,
+          handleSubmit,
+          handleReset,
+          values,
+          errors,
+          touched,
+          onChange,
+          confirmPassword
+        }) => (
+          <form autoComplete='off'>
+            <ThemeProvider theme={theme}>
+              <TextField
+                name='firstName'
+                label={<IconLabel label='Enter your Name' Component={PersonIcon}/>}
+                className={styles.input}
+                value={values.firstName}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                helperText={touched.firstName ? errors.firstName : ''}
+                error={touched.firstName && Boolean(errors.firstName)}
+                variant='outlined'
+                fullWidth
+              />
+              <TextField
+                name='lastName'
+                label={<IconLabel label='Enter your Surname' Component={PersonIcon}/>}
+                className={styles.input}
+                value={values.lastName}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                helperText={touched.lastName ? errors.lastName : ''}
+                error={touched.lastName && Boolean(errors.lastName)}
+                variant='outlined'
+                fullWidth
+              />
+              <TextField
+                name='email'
+                label={<IconLabel label='Enter your e-mail' Component={EmailIcon}/>}
+                className={styles.input}
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                helperText={touched.email ? errors.email : ''}
+                error={touched.email && Boolean(errors.email)}
+                variant='outlined'
+                fullWidth
+              />
+              <TextField
+                name='phone'
+                label={<IconLabel label='Enter your phone number' Component={PhoneAndroidIcon}/>}
+                className={styles.input}
+                value={values.phone}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                helperText={touched.phone ? errors.phone : ''}
+                error={touched.phone && Boolean(errors.phone)}
+                variant='outlined'
+                fullWidth
+              />
+              <TextField
+                name='password'
+                autoComplete='off'
+                className={styles.input}
+                label={<IconLabel label='Enter your password' Component={LockIcon}/>}
+                type='password'
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                fullWidth variant='outlined'
+                helperText={touched.password ? errors.password : ''}
+                error={touched.password && Boolean(errors.password)}
+              />
+              <TextField
+                name='confirmPassword'
+                className={styles.input}
+                autoComplete='off'
+                label={<IconLabel label='Confirm your password' Component={EnhancedEncryptionRoundedIcon}/>}
+                type='password'
+                value={values.confirmPassword}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                helperText={touched.confirmPassword ? errors.confirmPassword : ''}
+                error={touched.confirmPassword && Boolean(errors.confirmPassword)}
+                variant='outlined'
+                fullWidth
+              />
+              <FormGroup name='saveMyData' column='true'>
+                <Checkbox name='subscribe' label='I wish to subscribe to the Vigo Shop newsletter' />
+                <Checkbox name='confirmation' label='I have read and agree to the Privacy Policy' />
+              </FormGroup>
+            </ThemeProvider>
+            <CardActions>
+              <Button
+                type='submit'
+                className={styles.button}
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+                size='large'
+                variant='outlined'>Continue
+              </Button>
+            </CardActions>
+          </form>
+        )}
+      </Formik>
+    </Container>
   );
 };
 

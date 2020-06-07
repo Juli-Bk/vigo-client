@@ -7,6 +7,8 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import themeMui from './MyAccTabsTheme';
+import PersonalDetailsForm from '../PersonalDetailsForm/PersonalDetailsForm';
+import AddressForm from '../AddressForm/AddressForm';
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -21,7 +23,7 @@ const TabPanel = (props) => {
     >
       {value === index && (
         <Box p={3}>
-          <Typography>{children}</Typography>
+          <Typography component='span'>{children}</Typography>
         </Box>
       )}
     </Box>
@@ -61,20 +63,26 @@ const MyAccTabs = () => {
             indicatorColor='primary'
             textColor='primary'
             variant='fullWidth'
-            aria-label='full width tabs example'
+            aria-label='full width tabs'
           >
-            <Tab label='Contact info' {...a11yProps(0)} />
-            <Tab label='Address' {...a11yProps(1)} />
-            <Tab label='Wishlist' {...a11yProps(2)} />
-            <Tab label='Purchase history' {...a11yProps(3)} />
+            <Tab component='span' label='Contact info' {...a11yProps(0)} />
+            <Tab component='span' label='Address' {...a11yProps(1)} />
+            <Tab component='span' label='Wishlist' {...a11yProps(2)} />
+            <Tab component='span' label='Purchase history' {...a11yProps(3)} />
           </Tabs>
         </AppBar>
 
         <TabPanel value={value} index={0} dir={theme.direction}>
-        Contact info: Name, Surname, Login/e-mail, tel
+          <PersonalDetailsForm submitPersonalDetailsHandler={(submit) => {
+            console.log('personal details values', submit);
+            handleChange();
+          }}/>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-        Address
+          <AddressForm submitAddressHandler={(submit) => {
+            console.log('address', submit);
+            handleChange();
+          }} />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
         Wishlist
