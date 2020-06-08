@@ -27,6 +27,7 @@ const Wishlist = (props) => {
     if (token || getJWTfromCookie()) {
       AjaxUtils.Users.getUser()
         .then(result => {
+          console.log(result);
           AjaxUtils.WishLists.getUserWishList(result._id)
             .then(result => {
               console.log(result);
@@ -50,7 +51,7 @@ const Wishlist = (props) => {
     <Container>
       <PageTitle title='Wishlist' />
       <Grid container>
-        {data.length ? data : <Typography variant='h6'>{globalConfig.emptyWishList}</Typography>}
+        {data.length > 0 ? data : <Typography variant='h6'>{globalConfig.emptyWishList}</Typography>}
       </Grid>
     </Container>
   );
