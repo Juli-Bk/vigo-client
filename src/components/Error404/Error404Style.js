@@ -4,6 +4,7 @@ import { fonts } from '../../styles/fonts/fontsKit';
 
 const useStyles = makeStyles(theme => ({
   box: {
+    marginBottom: '3.13rem',
     justifyContent: 'center',
     [theme.breakpoints.up('sm')]: {
       flexDirection: 'row-reverse',
@@ -24,6 +25,9 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('lg')]: {
       padding: '55px 45px'
     }
+  },
+  dialog: {
+    height: 'fit-content'
   },
   sorryTitle: {
     fontSize: '1.88rem',
@@ -70,8 +74,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   image: {
-    width: '100%',
-    height: '100%'
+    width: '100%'
   }
 }
 ));
