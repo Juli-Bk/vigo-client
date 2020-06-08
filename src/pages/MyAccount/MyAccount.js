@@ -6,6 +6,7 @@ import { Container } from '@material-ui/core';
 
 const MyAccount = () => {
   const styles = useStyles();
+
   return (
     <Container component='span'>
       <Typography variant="h5" className={styles.header} gutterBottom>

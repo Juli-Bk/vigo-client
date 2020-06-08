@@ -59,7 +59,7 @@ function getStepContent (stepIndex) {
   }
 }
 
-export default function HorizontalLabelPositionBelowStepper () {
+const CheckoutStepper = () => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = React.useState(0);
   const steps = getSteps();
@@ -118,4 +118,5 @@ export default function HorizontalLabelPositionBelowStepper () {
       </Box>
     </ThemeProvider>
   );
-}
+};
+export default React.memo(CheckoutStepper);

@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import useStyles from '../../components/RegisterForm/RegisterFormStyle';
 
-const options = ['Courier Service', 'Nova Poshta', 'Pickup', 'Ukrposhta', 'Meest (self-pickup)'];
+const options = ['Vigo Courier Service', 'DHL Express', 'FedEx', 'Pickup', 'Post Office'];
 
 const DeliveryForm = () => {
   const [value, setValue] = useState(options[0]);
