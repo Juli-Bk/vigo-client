@@ -1,4 +1,6 @@
 import React from 'react';
+// import { getJWTfromCookie } from '../ajax/common/helper';
+// import store from '../redux/store';
 
 export const formPriceString = (price, priceToCeil) => {
   if (priceToCeil) {
@@ -106,4 +108,33 @@ export const getStorageData = (key) => {
 
 export const setStorageData = (key, data) => {
   localStorage.setItem(key, JSON.stringify(data));
+};
+
+export const toggleWishItems = (id) => {
+  // const state = store.getState();
+  // const token = state.token || getJWTfromCookie();
+  const wishListLocal = getStorageData('wishList');
+
+  if (wishListLocal.find(item => item === id)) {
+    setStorageData('wishList', wishListLocal.filter(item => item !== id));
+
+    // if (token) {
+    //   AjaxUtils.WishLists.deleteProductFromWishlist(id)
+    //     .then(result => {
+    //       console.log(result);
+    //     });
+    // }
+  } else {
+    setStorageData('wishList', [...wishListLocal, id]);
+
+    // if (token) {
+    //   AjaxUtils.Users.getUser()
+    //     .then(result => {
+    //       AjaxUtils.WishLists.addProductToWishList(id, result._id)
+    //         .then(result => {
+    //           console.log(result);
+    //         });
+    //     });
+    // }
+  }
 };

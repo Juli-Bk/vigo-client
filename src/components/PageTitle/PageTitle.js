@@ -1,11 +1,15 @@
 import React from 'react';
 import { Typography, makeStyles } from '@material-ui/core';
 import { colors } from '../../styles/colorKit';
+import { fonts } from '../../styles/fonts/fontsKit';
 
 const useStyles = makeStyles({
   title: {
     color: colors.black,
-    background: colors.thinLine
+    background: colors.thinLine,
+    padding: '.5rem .8rem',
+    fontFamily: fonts.f3,
+    marginBottom: '3rem'
   }
 });
 

@@ -51,6 +51,9 @@ const useStyles = makeStyles(theme => ({
     paddingTop: '2rem',
     [theme.breakpoints.up('md')]: {
       paddingTop: '3rem'
+    },
+    '& > a': {
+      textDecoration: 'none'
     }
   },
   title: {

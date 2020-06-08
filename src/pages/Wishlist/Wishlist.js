@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Container, Grid, Typography } from '@material-ui/core';
+import { Container, Grid } from '@material-ui/core';
 import PageTitle from '../../components/PageTitle/PageTitle';
 import AjaxUtils from '../../ajax';
-import ProductListView from '../../components/Product/ProductListView/ProductListView';
-import { getJWTfromCookie } from '../../ajax/common/helper';
 import globalConfig from '../../globalConfig';
+import ProductsTable from '../../containers/ProductsTable/ProductsTable';
+// import { getJWTfromCookie } from '../../ajax/common/helper';
+
+import { changeWishList } from '../../redux/actions/actions';
+import EmptyState from '../../components/EmptyState/EmptyState';
 
 const Wishlist = (props) => {
   const {token, wishList} = props;
@@ -13,27 +16,20 @@ const Wishlist = (props) => {
 
   const filterArray = wishList.length ? [{_id: wishList}] : [];
 
-  const data = products.map(product => {
-    return (
-      <Grid item key={product._id}>
-        <ProductListView productData={product}/>
-      </Grid>
-    );
-  });
-
   useEffect(() => {
+    // eslint-disable-next-line
     let isCanceled = false;
 
-    if (token || getJWTfromCookie()) {
-      AjaxUtils.Users.getUser()
-        .then(result => {
-          console.log(result);
-          AjaxUtils.WishLists.getUserWishList(result._id)
-            .then(result => {
-              console.log(result);
-            });
-        });
-    }
+    // if (token || getJWTfromCookie()) {
+    //   AjaxUtils.Users.getUser()
+    //     .then(result => {
+    //       console.log(result);
+    //       AjaxUtils.WishLists.getUserWishList(result._id)
+    //         .then(result => {
+    //           console.log(result);
+    //         });
+    //     });
+    // }
 
     if (filterArray.length) {
       AjaxUtils.Products.getProductsByFilters(filterArray, 1, 8, '')
@@ -51,7 +47,7 @@ const Wishlist = (props) => {
     <Container>
       <PageTitle title='Wishlist' />
       <Grid container>
-        {data.length > 0 ? data : <Typography variant='h6'>{globalConfig.emptyWishList}</Typography>}
+        {wishList.length && products.length ? <ProductsTable products={products}/> : <EmptyState text={globalConfig.emptyWishList}/>}
       </Grid>
     </Container>
   );
@@ -64,4 +60,10 @@ const mapStateToProps = store => {
   };
 };
 
-export default connect(mapStateToProps)(React.memo(Wishlist));
+const mapDispatchToProps = dispatch => {
+  return {
+    changeWishList: data => dispatch(changeWishList(data))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(Wishlist));
