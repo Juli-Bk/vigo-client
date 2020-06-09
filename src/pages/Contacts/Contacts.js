@@ -5,7 +5,7 @@ import ContactForm from '../../components/ContactForm/ContactForm';
 import ContactDetails from '../../components/ContactDetails/ContactDetails';
 
 const Contacts = () => {
-  // todo сделать запросы для формы обратной связи, написать тесты для запросов. 
+  // todo сделать запросы для формы обратной связи, написать тесты для запросов.
   // Когда страница полностью будет готова - раскоментировать карту
   return (
     <Container>
