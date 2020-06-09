@@ -7,11 +7,7 @@ const ContactItem = props => {
   const {icon, type, contactsArray} = props;
   const styles = useStyles();
 
-  let contacts = contactsArray.map((item, index) => (
-    <Typography className={styles.contact} key={index} variant='h3'>
-      {item}
-    </Typography>
-  ));
+  let contacts = [];
 
   switch (type) {
     case 'tel':

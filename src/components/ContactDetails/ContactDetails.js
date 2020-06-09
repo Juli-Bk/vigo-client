@@ -2,16 +2,10 @@ import React from 'react';
 import {Box, Typography, SvgIcon, Grid} from '@material-ui/core';
 import useStyles from './ContactDetailsStyle';
 import ContactItem from './ContactItem/ContactItem';
+import globalConfig from '../../globalConfig';
 
 const ContactDetails = () => {
   const styles = useStyles();
-
-  const contacts = {
-    landline: ['0203 980 1479', '0203 478 1296'],
-    cellphone: ['445-115-747-38', '445-170-029-32'],
-    email: ['Vigo_shop@gmail.com', 'Vigo@hotmail.com'],
-    skype: ['Vigo_shop_contact', 'Vigo_support']
-  };
 
   const icons = {
     skype: (<SvgIcon className={styles.icon}>
@@ -38,10 +32,10 @@ const ContactDetails = () => {
           <Typography className={styles.title} variant='h2'>Contact Details</Typography>
         </Box>
       </Box>
-      <ContactItem icon={icons.landline} type='tel' contactsArray={contacts.landline}/>
-      <ContactItem icon={icons.cellphone} type='tel' contactsArray={contacts.cellphone}/>
-      <ContactItem icon={icons.email} type='email' contactsArray={contacts.email}/>
-      <ContactItem icon={icons.skype} contactsArray={contacts.skype}/>
+      <ContactItem icon={icons.landline} type='tel' contactsArray={globalConfig.contacts.landline}/>
+      <ContactItem icon={icons.cellphone} type='tel' contactsArray={globalConfig.contacts.cellphone}/>
+      <ContactItem icon={icons.email} type='email' contactsArray={globalConfig.contacts.email}/>
+      <ContactItem icon={icons.skype} contactsArray={globalConfig.contacts.skype}/>
     </Grid>
   );
 };
