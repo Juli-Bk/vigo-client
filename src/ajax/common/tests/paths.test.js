@@ -54,4 +54,10 @@ describe('ajax paths config', () => {
       expect(requestPaths.wishlist).toEqual(`${baseUrl}/wishlist`);
     });
   });
+
+  describe('returns right path for colors requests', () => {
+    it('plain', () => {
+      expect(requestPaths.colors).toEqual(`${baseUrl}/colors`);
+    });
+  });
 });
