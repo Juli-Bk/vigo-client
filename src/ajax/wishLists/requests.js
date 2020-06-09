@@ -33,16 +33,21 @@ export default {
   /**
    * Adds specified product to user wishlist
    * @param productId {GUID} Product for wish list. User should login. Need JWT token
+   * @param userId {GUID} User id
    * @returns {Promise<any | void>} returns Promise. Use then method on it to get response result
    */
-  addProductToWishList: (productId) => {
+  addProductToWishList: (productId, userId) => {
     checkId(productId);
+    checkId(userId);
+
+    const data = JSON.stringify({
+      productId,
+      userId
+    });
 
     const requestOptions = {
       headers: getAuthHeader(),
-      body: {
-        productId
-      },
+      body: data,
       ...methods.PUT
     };
 

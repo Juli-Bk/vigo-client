@@ -12,16 +12,16 @@ import { changeWishList } from '../../../redux/actions/actions';
 const ActionButtons = (props) => {
   const { classes, product, width, disabledSpacing, isProductPage, changeWishList } = props;
   // todo logic
-  const addToCart = (id) => {
-    console.log(`product with id ${id} added to shopping cart`);
+  const addToCart = (productId) => {
+    console.log(`product with id ${productId} added to shopping cart`);
   };
 
-  const addToCompare = (id) => {
-    console.log(`product with id ${id} added to compare`);
+  const addToCompare = (productId) => {
+    console.log(`product with id ${productId} added to compare`);
   };
 
-  const toggleWishList = (id) => {
-    toggleWishItems(id);
+  const toggleWishList = (productId) => {
+    toggleWishItems(productId);
     changeWishList(getStorageData('wishList'));
   };
 

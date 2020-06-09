@@ -11,7 +11,10 @@ const globalConfig = {
     Price_Low_To_High: 'Price Low To High',
     Price_High_To_Low: 'Price High To Low'
   },
-  step: 15
+  step: 15,
+  userMessages: {
+    NOT_AUTHORIZED: 'You are not authorized. Login, please'
+  }
 };
 
 export default globalConfig;

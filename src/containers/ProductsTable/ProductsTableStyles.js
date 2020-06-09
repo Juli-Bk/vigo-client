@@ -3,11 +3,13 @@ import { colors } from '../../styles/colorKit';
 import { fonts } from '../../styles/fonts/fontsKit';
 
 const useStyles = makeStyles(theme => ({
-  table: {
-    minWidth: 350
-  },
   firstCell: {
-    display: 'flex'
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    [theme.breakpoints.up(500)]: {
+      flexDirection: 'row'
+    }
   },
   tableRow: {
     borderBottom: `1px solid ${colors.thinLine}`
@@ -30,35 +32,48 @@ const useStyles = makeStyles(theme => ({
   },
   img: {
     position: 'relative',
-    height: 210,
-    width: '35%',
-    cursor: 'pointer',
+    height: 300,
+    width: 250,
+    marginBottom: '1rem',
     [theme.breakpoints.up(500)]: {
       width: 160,
-      height: 200
+      height: 200,
+      cursor: 'pointer',
+      marginBottom: 0
     },
     [theme.breakpoints.up(724)]: {
-      height: 220
+      height: 220,
+      cursor: 'pointer',
+      marginBottom: 0
     },
     [theme.breakpoints.up(940)]: {
       width: 200,
-      height: 240
+      height: 240,
+      cursor: 'pointer',
+      marginBottom: 0
     },
     [theme.breakpoints.up(1200)]: {
       width: 216,
-      height: 260
+      height: 260,
+      cursor: 'pointer',
+      marginBottom: 0
     }
   },
   linkBox: {
-    display: 'block',
     position: 'relative',
-    marginRight: '2rem'
+    display: 'block',
+    [theme.breakpoints.up(500)]: {
+      marginRight: '2rem'
+    }
   },
   textBox: {
     color: colors.fontThird,
     fontSize: '1rem',
     fontFamily: fonts.f3,
-    textAlign: 'left',
+    textAlign: 'center',
+    [theme.breakpoints.up(500)]: {
+      textAlign: 'left'
+    },
     [theme.breakpoints.up('sm')]: {
       fontSize: '1.2rem'
     }
@@ -77,6 +92,9 @@ const useStyles = makeStyles(theme => ({
   code: {
     fontSize: '1.3rem'
   },
+  codeSmall: {
+    fontSize: '1rem'
+  },
   closeBtn: {
     fill: `2px solid ${colors.borderDark}`,
     border: '2px solid transparent'
@@ -87,6 +105,21 @@ const useStyles = makeStyles(theme => ({
       borderRadius: 6,
       border: `2px solid ${colors.borderDark}`,
       cursor: 'pointer'
+    },
+    [theme.breakpoints.down(550)]: {
+      position: 'absolute',
+      top: '5px',
+      right: '1rem',
+      fontSize: '2rem'
+    }
+  },
+  salePrice: {
+    color: colors.fontPrice,
+    fontWeight: 'bold',
+    fontSize: '1rem',
+    [theme.breakpoints.up(1280)]: {
+      fontSize: '1.2rem',
+      letterSpacing: '.02em'
     }
   }
 }));

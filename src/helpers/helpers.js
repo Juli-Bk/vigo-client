@@ -1,6 +1,7 @@
 import React from 'react';
-// import { getJWTfromCookie } from '../ajax/common/helper';
-// import store from '../redux/store';
+import { getUserIdFromCookie } from '../ajax/common/helper';
+import AjaxUtils from '../ajax';
+import globalConfig from '../globalConfig';
 
 export const formPriceString = (price, priceToCeil) => {
   if (priceToCeil) {
@@ -110,31 +111,41 @@ export const setStorageData = (key, data) => {
   localStorage.setItem(key, JSON.stringify(data));
 };
 
-export const toggleWishItems = (id) => {
-  // const state = store.getState();
-  // const token = state.token || getJWTfromCookie();
+export const integrateWishLists = (remoteWishList, localWishList) => {
+  remoteWishList.forEach(product => {
+    if (!localWishList.includes(product._id)) localWishList.push(product._id);
+  });
+  setStorageData('wishList', localWishList);
+};
+
+export const toggleWishItems = (productId) => {
+  const userId = getUserIdFromCookie();
   const wishListLocal = getStorageData('wishList');
 
-  if (wishListLocal.find(item => item === id)) {
-    setStorageData('wishList', wishListLocal.filter(item => item !== id));
+  if (wishListLocal.includes(productId)) {
+    setStorageData('wishList', wishListLocal.filter(item => item !== productId));
 
-    // if (token) {
-    //   AjaxUtils.WishLists.deleteProductFromWishlist(id)
-    //     .then(result => {
-    //       console.log(result);
-    //     });
-    // }
+    if (userId) {
+      AjaxUtils.WishLists.deleteProductFromWishlist(productId)
+        .then(result => {
+          if (result.status) {
+            // todo nice popup
+            alert(globalConfig.userMessages.NOT_AUTHORIZED);
+          }
+          console.log(result);
+        });
+    }
   } else {
-    setStorageData('wishList', [...wishListLocal, id]);
+    setStorageData('wishList', [...wishListLocal, productId]);
 
-    // if (token) {
-    //   AjaxUtils.Users.getUser()
-    //     .then(result => {
-    //       AjaxUtils.WishLists.addProductToWishList(id, result._id)
-    //         .then(result => {
-    //           console.log(result);
-    //         });
-    //     });
-    // }
+    if (userId) {
+      AjaxUtils.WishLists.addProductToWishList(productId, userId)
+        .then(result => {
+          if (result.status) {
+            alert(globalConfig.userMessages.NOT_AUTHORIZED);
+          }
+          console.log(result);
+        });
+    }
   }
 };

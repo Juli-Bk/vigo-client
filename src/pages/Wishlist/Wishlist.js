@@ -5,13 +5,12 @@ import PageTitle from '../../components/PageTitle/PageTitle';
 import AjaxUtils from '../../ajax';
 import globalConfig from '../../globalConfig';
 import ProductsTable from '../../containers/ProductsTable/ProductsTable';
-// import { getJWTfromCookie } from '../../ajax/common/helper';
 
 import { changeWishList } from '../../redux/actions/actions';
 import EmptyState from '../../components/EmptyState/EmptyState';
 
 const Wishlist = (props) => {
-  const {token, wishList} = props;
+  const {wishList} = props;
   const [products, setProducts] = useState([]);
 
   const filterArray = wishList.length ? [{_id: wishList}] : [];
@@ -19,17 +18,6 @@ const Wishlist = (props) => {
   useEffect(() => {
     // eslint-disable-next-line
     let isCanceled = false;
-
-    // if (token || getJWTfromCookie()) {
-    //   AjaxUtils.Users.getUser()
-    //     .then(result => {
-    //       console.log(result);
-    //       AjaxUtils.WishLists.getUserWishList(result._id)
-    //         .then(result => {
-    //           console.log(result);
-    //         });
-    //     });
-    // }
 
     if (filterArray.length) {
       AjaxUtils.Products.getProductsByFilters(filterArray, 1, 8, '')
@@ -41,13 +29,14 @@ const Wishlist = (props) => {
       isCanceled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token, wishList]);
+  }, [wishList]);
 
   return (
     <Container>
       <PageTitle title='Wishlist' />
       <Grid container>
-        {wishList.length && products.length ? <ProductsTable products={products}/> : <EmptyState text={globalConfig.emptyWishList}/>}
+        {wishList.length && products.length ? <ProductsTable products={products}/>
+          : <EmptyState text={globalConfig.emptyWishList}/>}
       </Grid>
     </Container>
   );
@@ -56,7 +45,8 @@ const Wishlist = (props) => {
 const mapStateToProps = store => {
   return {
     token: store.token,
-    wishList: store.wishList
+    wishList: store.wishList,
+    user: store.user
   };
 };
 
