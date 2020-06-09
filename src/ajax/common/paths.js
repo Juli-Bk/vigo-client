@@ -16,7 +16,8 @@ const RequestsConfig = {
   wishlist: `${baseUrl}/wishlist`,
   colors: `${baseUrl}/colors`,
   sizes: `${baseUrl}/sizes`,
-  sizeTables: `${baseUrl}/sizeTables`
+  sizeTables: `${baseUrl}/sizeTables`,
+  quantity: `${baseUrl}/quantity`
 
 };
 
