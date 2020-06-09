@@ -138,4 +138,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductsTable);
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(ProductsTable));
