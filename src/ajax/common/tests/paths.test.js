@@ -64,5 +64,10 @@ describe('ajax paths config', () => {
     it('plain', () => {
       expect(requestPaths.sizes).toEqual(`${baseUrl}/sizes`);
     });
+    describe('returns right path for sizeTables requests', () => {
+      it('plain', () => {
+        expect(requestPaths.sizeTables).toEqual(`${baseUrl}/sizeTables`);
+      });
+    });
   });
 });
