@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {Box, Container, Grid, IconButton, Toolbar} from '@material-ui/core';
 import {ThemeProvider} from '@material-ui/core/styles';
 import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
@@ -30,10 +31,11 @@ const Header = () => {
                 </Box>
                 <Box className={classes.headerIconsBlock}>
                   <SearchBar/>
-                  <IconButton aria-label="starIcon" className={classes.starIcon}>
-                    {/* todo should open favorites card page */}
-                    <FavoriteBorderIcon/>
-                  </IconButton>
+                  <Link to='/wishlist'>
+                    <IconButton aria-label="starIcon" className={classes.starIcon}>
+                      <FavoriteBorderIcon/>
+                    </IconButton>
+                  </Link>
 
                   <IconButton aria-label="shoppingBag" className={classes.shoppingBag}>
                     {/* todo should open shopping card page */}

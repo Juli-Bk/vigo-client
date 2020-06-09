@@ -1,6 +1,7 @@
 import moment from 'moment';
 import store from '../../redux/store';
-import {setJWTtoken} from '../../redux/actions/actions';
+import {setJWTtoken, setUser} from '../../redux/actions/actions';
+import {setStorageData} from '../../helpers/helpers';
 
 export const getAuthHeader = () => {
   // todo testing from front
@@ -20,11 +21,33 @@ export const putJWTtoCookie = (loginResponse) => {
   document.cookie = `token=${loginResponse.token};expires=${exp}`;
 };
 
-export const getJWTfromCookie = () => {
+export const putUserIdToCookie = (loginResponse) => {
+  const exp = moment(Date.now()).add(loginResponse.expiresInMinutes, 'm').toDate();
+  document.cookie = `userId=${loginResponse.user.id};expires=${exp}`;
+};
+
+export const putUserToStorage = (userData) => {
+  setStorageData('user', userData);
+};
+
+const getCookie = () => {
   const cookie = document.cookie;
-  const rez = cookie && cookie.split('=');
-  if (rez[0] === 'token') {
-    return rez[1];
+  return cookie && cookie.split('; ');
+};
+
+export const getJWTfromCookie = () => {
+  const token = getCookie() && getCookie().filter(item => item.includes('token'));
+  const tokenData = token && token[0].split('=');
+  if (tokenData[0] === 'token') {
+    return tokenData[1];
+  }
+};
+
+export const getUserIdFromCookie = () => {
+  const user = getCookie() && getCookie().filter(item => item.includes('userId'));
+  const userData = user && user[0].split('=');
+  if (userData[0] === 'userId') {
+    return userData[1];
   }
 };
 
@@ -38,6 +61,10 @@ export const deleteJWTcookie = () => {
 
 export const putJWTtoRedux = (jwt) => {
   jwt && store.dispatch(setJWTtoken(jwt.token));
+};
+
+export const putUserToRedux = (user) => {
+  user && store.dispatch(setUser(user));
 };
 
 export const isGuid = (value) => {

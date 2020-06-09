@@ -11,6 +11,7 @@ import isSearchBarOpen from './searchBarreducer';
 import size from './currentSizeReducer';
 import quantity from './quantityReducer';
 import wishList from './wishListReducer';
+import user from './userReducer';
 
 export const rootReducer = combineReducers({
   currentPage,
@@ -24,5 +25,6 @@ export const rootReducer = combineReducers({
   size,
   quantity,
   isSearchBarOpen,
-  wishList
+  wishList,
+  user
 });

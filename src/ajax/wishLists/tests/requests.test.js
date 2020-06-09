@@ -39,7 +39,7 @@ describe('all wishListRequests methods return Promise', () => {
     expect(rez.constructor.name).toEqual('Promise');
   });
   it('addProductToWishList', () => {
-    const rez = wishListRequests.addProductToWishList('5eb302600b88a114a9daec58');
+    const rez = wishListRequests.addProductToWishList('5eb302600b88a114a9daec58', '5eb302600b88a114a9daec58');
     expect(rez.constructor.name).toEqual('Promise');
   });
   it('deleteProductFromWishlist', () => {

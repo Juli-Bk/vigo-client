@@ -31,7 +31,8 @@ const Product = (props) => {
       if (filterArray.length) {
         AjaxUtils.Products.getProductsByFilters(filterArray, 1, 8, '')
           .then(result => {
-            setSliderData(changeOrder(dataFromStorage.filter(item => item !== id), result.products));
+            const data = changeOrder(dataFromStorage.filter(item => item !== id), result.products);
+            if (data.length) setSliderData(data);
           });
       }
     }
