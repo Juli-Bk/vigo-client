@@ -8,9 +8,12 @@ import useStyles from '../../containers/Header/headerStyle';
 import theme from '../../components/ModalLogin/ModalLoginTheme';
 import { ThemeProvider } from '@material-ui/styles';
 import RegisterForm from '../RegisterForm/RegisterForm';
+import {Typography} from '@material-ui/core';
 
 const ModalSignUp = () => {
   const [open, setOpen] = React.useState(false);
+  const [message, setMessage] = React.useState('');
+  const [isMessageHidden, setIsMessageHidden] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -20,6 +23,14 @@ const ModalSignUp = () => {
     setOpen(false);
   };
   const classes = useStyles();
+
+  // todo make message red color if login is not success
+  const messageTag = <DialogContent>
+    <Typography variant='subtitle1' gutterBottom style={{
+      color: '#f0877c'
+    }}>{message}</Typography>
+  </DialogContent>;
+
   return (
     <ThemeProvider theme={theme}>
       <Button className={classes.signUpLogo} variant='outlined' color='primary' onClick={handleClickOpen}>
@@ -32,19 +43,19 @@ const ModalSignUp = () => {
         aria-labelledby='alert-dialog-title'
         aria-describedby='alert-dialog-description'
       >
-        <DialogTitle id='alert-dialog-title'>{'Do you want to SIGN UP?'}</DialogTitle>
         <DialogContent>
           <RegisterForm submitRegisterHandler={(result) => {
-            // todo 'Welcome, User' if register is success and login user
-            console.log('register result', result);
-            handleClose();
+            if (result.status === 400) {
+              setMessage(result.message);
+              setIsMessageHidden(true);
+            } else {
+              setIsMessageHidden(false);
+              handleClose();
+              // todo go to user cabinet?? on
+            }
           }}/>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color='default' autoFocus>
-            Next
-          </Button>
-        </DialogActions>
+        {isMessageHidden && messageTag}
       </Dialog>
     </ThemeProvider>
   );

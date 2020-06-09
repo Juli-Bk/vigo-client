@@ -1,14 +1,7 @@
 import React from 'react';
-import { Formik } from 'formik';
+import {Formik} from 'formik';
 import * as Yup from 'yup';
-import {
-  Typography,
-  TextField,
-  Button,
-  CardActions,
-  CardContent,
-  Card, ThemeProvider
-} from '@material-ui/core';
+import {Button, Card, CardActions, CardContent, TextField, ThemeProvider, Typography} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import useStyles from './LoginFormStyle';
 import theme from './LoginFormTheme';
@@ -31,7 +24,9 @@ const LoginForm = (props) => {
     AjaxUtils.Users.login(json)
       .then(result => {
         setSubmitting(false);
-        resetForm();
+        if (result.status !== 400) {
+          resetForm();
+        }
         submitLoginHandler(result);
       });
   };
@@ -58,13 +53,14 @@ const LoginForm = (props) => {
     <Card>
 
       <CardContent>
-        <Typography className={styles.header} variant='h4' gutterBottom>registered customer</Typography>
-        <Typography className={styles.text} variant='subtitle1' gutterBottom>If you have an account, please log in.</Typography>
+        {/* <Typography className={styles.header} variant='h4' gutterBottom>registered customer</Typography> */}
+        <Typography className={styles.text} variant='subtitle1' gutterBottom>If you have an account, please log
+          in.</Typography>
         <Formik
           initialValues={initFormValues}
           validationSchema={validateObject}
           onSubmit={submitLoginData}>
-          {({ values, handleChange, handleSubmit, handleBlur, isSubmitting, errors, touched, onChange }) => (
+          {({values, handleChange, handleSubmit, handleBlur, isSubmitting, errors, touched, onChange}) => (
             <form autoComplete='off'>
               <ThemeProvider theme={theme}>
                 <TextField

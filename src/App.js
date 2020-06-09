@@ -10,9 +10,9 @@ import styles from './App.scss';
 import theme from './mainTheme';
 import Footer from './containers/Footer/Footer';
 import AjaxUtils from './ajax';
-import { changeWishList, setUser } from './redux/actions/actions';
-import { getStorageData, integrateWishLists } from './helpers/helpers';
-import { getUserIdFromCookie } from './ajax/common/helper';
+import {changeWishList, setUser} from './redux/actions/actions';
+import {getStorageData, integrateWishLists} from './helpers/helpers';
+import {getUserIdFromCookie} from './ajax/common/helper';
 
 function App (props) {
   const {changeWishList, token, setUser} = props;
@@ -24,7 +24,8 @@ function App (props) {
     if (userId) {
       AjaxUtils.WishLists.getUserWishList(userId)
         .then(result => {
-          integrateWishLists(result.userWishList[0].products, getStorageData('wishList'));
+          const wishes = result.userWishList[0];
+          integrateWishLists(wishes ? wishes.products : [], getStorageData('wishList'));
           changeWishList(getStorageData('wishList'));
         });
     }

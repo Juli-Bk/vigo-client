@@ -45,7 +45,7 @@ export const getJWTfromCookie = () => {
 
 export const getUserIdFromCookie = () => {
   const user = getCookie() && getCookie().filter(item => item.includes('userId'));
-  const userData = user && user[0].split('=');
+  const userData = user && user[0] ? user[0].split('=') : [];
   if (userData[0] === 'userId') {
     return userData[1];
   }

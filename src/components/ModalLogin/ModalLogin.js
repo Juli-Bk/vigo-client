@@ -7,10 +7,12 @@ import useStyles from '../../containers/Header/headerStyle';
 import theme from './ModalLoginTheme';
 import {ThemeProvider} from '@material-ui/styles';
 import PersonIcon from '@material-ui/icons/Person';
-import {IconButton} from '@material-ui/core';
+import {IconButton, Typography} from '@material-ui/core';
 
 const ModalLogin = () => {
   const [open, setOpen] = React.useState(false);
+  const [message, setMessage] = React.useState('');
+  const [isMessageHidden, setIsMessageHidden] = React.useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -20,6 +22,14 @@ const ModalLogin = () => {
     setOpen(false);
   };
   const classes = useStyles();
+
+  // todo make message red color if login is not success
+  const messageTag = <DialogContent>
+    <Typography variant='subtitle1' gutterBottom style={{
+      color: '#f0877c'
+    }}>{message}</Typography>
+  </DialogContent>;
+
   return (
     <ThemeProvider theme={theme}>
 
@@ -39,13 +49,17 @@ const ModalLogin = () => {
       >
         <DialogContent>
           <LoginForm submitLoginHandler={(result) => {
-            // todo set in header 'Welcome, User' if token
-            console.log('login result', result);
-            handleClose();
+            if (result.status === 400) {
+              setMessage(result.message);
+              setIsMessageHidden(true);
+            } else {
+              setIsMessageHidden(false);
+              handleClose();
+              // todo change avatar
+            }
           }}/>
+          {isMessageHidden && messageTag}
         </DialogContent>
-        <DialogActions>
-        </DialogActions>
       </Dialog>
     </ThemeProvider>
   );

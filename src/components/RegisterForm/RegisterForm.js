@@ -26,7 +26,9 @@ const RegisterForm = (props) => {
     AjaxUtils.Users.createUser(json)
       .then(result => {
         setSubmitting(false);
-        resetForm();
+        if (result.status !== 400) {
+          resetForm();
+        }
         submitRegisterHandler(result);
       });
   };
@@ -60,7 +62,7 @@ const RegisterForm = (props) => {
   return (
     <Card>
       <CardContent>
-        <Typography className={styles.header} variant='h4' gutterBottom>new customer</Typography>
+        {/* <Typography className={styles.header} variant='h4' gutterBottom>new customer</Typography> */}
         <Typography className={styles.text} variant='subtitle1' gutterBottom>Register with us for future
           convenience:</Typography>
         <Formik
