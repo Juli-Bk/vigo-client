@@ -5,6 +5,7 @@ const RequestsConfig = {
   products: `${baseUrl}/products`,
   productsFilter: `${baseUrl}/products/filter?`,
   productsSearch: `${baseUrl}/products/search`,
+  maxPrice: `${baseUrl}/products/max`,
   users: `${baseUrl}/users`,
   login: `${baseUrl}/users/login`,
   customer: `${baseUrl}/users/customer`,
