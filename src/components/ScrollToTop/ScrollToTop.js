@@ -4,6 +4,7 @@ import useStyles from './ScrollToTopStyle';
 
 const ScrollToTop = () => {
   const styles = useStyles();
+
   return (
     <ScrollUpButton className={styles.ScrollUpButton__Container} />
   );
