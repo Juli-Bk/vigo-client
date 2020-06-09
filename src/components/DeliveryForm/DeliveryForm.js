@@ -6,17 +6,16 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import PaymentForm from '../PaymentForm/PaymentForm';
 import globalConfig from '../../globalConfig';
+import { Box } from '@material-ui/core';
 
 const {deliveryOptions} = globalConfig;
+
 // todo get address from BD render static in case VIGO_COURIER_SERVICE
 function defineDelivery (inputValue) {
   switch (inputValue) {
     case deliveryOptions.VIGO_COURIER_SERVICE:
       return (
-        <Grid container>
-          <Grid item sm={6}>
-          </Grid>
-        </Grid>
+        <Box>current user's delivery address</Box>
       );
     case deliveryOptions.NOVA_POSHTA:
       return (
@@ -34,16 +33,12 @@ function defineDelivery (inputValue) {
       );
     case deliveryOptions.FEDEX:
       return (
-        <Grid container>
-          <Grid item sm={6}>
-          </Grid>
-        </Grid>
+        <PaymentForm inputValue={inputValue}/>
       );
     case deliveryOptions.PICKUP:
       return (
         <Grid container>
           <Grid item sm={6}>
-            <PaymentForm />
             <Typography variant='h6' gutterBottom>VIGO warehous address:
               If you've been notified that your VIGO order is ready for pickup, you are welcomed at our warehouse.
               Please bring your order number and a valid ID.
@@ -52,12 +47,9 @@ function defineDelivery (inputValue) {
         </Grid>
       );
     case deliveryOptions.POST_OFFICE:
+
       return (
-        <Grid container>
-          <Grid item sm={6}>
-            <PaymentForm />
-          </Grid>
-        </Grid>
+        <PaymentForm />
       );
     default:
       return 'Unknown inputValue';
