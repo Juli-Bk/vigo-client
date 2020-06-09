@@ -54,8 +54,9 @@ const LoginForm = (props) => {
 
       <CardContent>
         {/* <Typography className={styles.header} variant='h4' gutterBottom>registered customer</Typography> */}
-        <Typography className={styles.text} variant='subtitle1' gutterBottom>If you have an account, please log
-          in.</Typography>
+        <Typography className={styles.text} variant='subtitle1' gutterBottom>
+          If you have an account, please log in
+        </Typography>
         <Formik
           initialValues={initFormValues}
           validationSchema={validateObject}

@@ -44,7 +44,7 @@ describe('LoginForm with all expected props', () => {
   });
 
   it('Should display registered customer header', () => {
-    expect(wrapper.find(Typography).at(0).text()).toContain('registered customer');
+    expect(wrapper.find(Typography).at(0).text()).toContain('If you have an account, please log in');
   });
 
   it('Should display three form field', () => {
