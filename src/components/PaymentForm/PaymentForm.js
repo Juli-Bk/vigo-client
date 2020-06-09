@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import Box from '@material-ui/core/Box';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
@@ -19,7 +18,7 @@ const PaymentForm = () => {
         Payment options
       </Typography>
       <Grid container spacing={6}>
-        <Grid item xs={12} md={6} >
+        <Grid item xs={6} >
           <Autocomplete
             value={value}
             onChange={(event, newValue) => {
@@ -41,8 +40,6 @@ const PaymentForm = () => {
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          <Box>{`value: ${value !== null ? `'${value}'` : 'null'}`}</Box>
-          <Box>{`inputValue: '${inputValue}'`}</Box>
         </Grid>
       </Grid>
     </Container>

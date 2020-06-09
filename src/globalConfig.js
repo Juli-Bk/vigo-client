@@ -1,12 +1,13 @@
 const globalConfig = {
   priceIsInteger: true,
   maxRecentlyViewed: 8,
-  deliveryDetails: {
-    VIGO_COURIER_SERVICE: 'VIGO_COURIER_SERVICE',
-    DHL_EXPRESS: 'DHL_EXPRESS',
-    FEDEX: 'FEDEX',
-    PICKUP: 'PICKUP',
-    POST_OFFICE: 'POST_OFFICE'
+  deliveryOptions: {
+    VIGO_COURIER_SERVICE: 'Vigo Courier Service',
+    NOVA_POSHTA: 'Nova Poshta',
+    DHL_EXPRESS: 'DHL Express',
+    FEDEX: 'FedEx',
+    PICKUP: 'Pickup',
+    POST_OFFICE: 'Post Office'
   }
 };
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState } from 'react';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
 function getSteps () {
   return ['Personal data', 'Delivery Info', 'Payment Info', 'Complete your order'];
 }
-
+// todo get User data from BD and render as static info in 'case 0'
 function getStepContent (stepIndex) {
   switch (stepIndex) {
     case 0:
@@ -61,7 +61,7 @@ function getStepContent (stepIndex) {
 
 const CheckoutStepper = () => {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
 
   const handleNext = () => {
@@ -75,6 +75,7 @@ const CheckoutStepper = () => {
   const handleReset = () => {
     setActiveStep(0);
   };
+  // todo - add order numbers instead of #2001539 in Typography
 
   return (
     <ThemeProvider theme={theme}>
@@ -95,6 +96,7 @@ const CheckoutStepper = () => {
               Thank you for your order.</Typography>
               <Button onClick={handleReset}>Reset</Button>
             </Box>
+
           ) : (
             <Container >
               <Box>

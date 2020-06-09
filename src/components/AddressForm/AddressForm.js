@@ -6,7 +6,7 @@ import {
   TextField,
   Button,
   CardActions,
-  Container,
+  Grid,
   ThemeProvider
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
@@ -58,86 +58,89 @@ const AddressForm = (props) => {
   const styles = useStyles();
 
   return (
-    <Container>
-      <Typography className={styles.header} variant='h4' gutterBottom>your delivery address</Typography>
-      <Formik
-        initialValues={initFormValues}
-        validationSchema={validateObject}
-        onSubmit={submitAddressData}>
-        {({
-          classes,
-          isSubmitting,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          handleReset,
-          values,
-          errors,
-          touched,
-          onChange,
-          confirmPassword
-        }) => (
-          <form autoComplete='on'>
-            <ThemeProvider theme={theme}>
-              <AutocompleteComponent name='autocomplete' onBlur={handleBlur} touched={touched} error={errors}/>
-
-              <TextField
-                name='buildingNumber'
-                autoComplete='on'
-                label={<IconLabel label='Enter building number' Component={ApartmentIcon}/>}
-                className={styles.input}
-                value={values.buildingNumber}
-                onBlur={handleBlur}
-                onChange={handleChange('buildingNumber')}
-                helperText={touched.buildingNumber ? errors.buildingNumber : ''}
-                error={touched.buildingNumber && Boolean(errors.buildingNumber)}
-                variant='outlined'
-                fullWidth
-              />
-              <TextField
-                name='appartNumber'
-                autoComplete='on'
-                label={<IconLabel label='Enter appartment number' Component={MyLocationIcon}/>}
-                className={styles.input}
-                onBlur={handleBlur}
-                value={values.appartNumber}
-                onChange={handleChange('appartNumber')}
-                helperText={touched.appartNumber ? errors.appartNumber : ''}
-                error={touched.appartNumber && Boolean(errors.appartNumber)}
-                variant='outlined'
-                fullWidth
-              />
-              <TextField
-                name='postCode'
-                autoComplete='on'
-                label={<IconLabel label='Enter postal code' Component={PinDropIcon}/>}
-                className={styles.input}
-                value={values.postCode}
-                onBlur={handleBlur}
-                onChange={handleChange('postCode')}
-                helperText={touched.postCode ? errors.postCode : ''}
-                error={touched.postCode && Boolean(errors.postCode)}
-                variant='outlined'
-                fullWidth
-              />
-              <FormGroup name='saveMyData' column='true'>
-                <Checkbox className='checkbox' name='confirmation' label='I have read and agree to the Privacy Policy' />
-              </FormGroup>
-            </ThemeProvider>
-            <CardActions>
-              <Button
-                type='submit'
-                className={styles.button}
-                onClick={handleSubmit}
-                size='large'
-                disabled={isSubmitting}
-                variant='outlined'>Continue
-              </Button>
-            </CardActions>
-          </form>
-        )}
-      </Formik>
-    </Container>
+    <Grid container>
+      <Grid item xs={12} sm={6}>
+        <Typography className={styles.header} variant='h4' gutterBottom>your delivery address</Typography>
+        <Formik
+          initialValues={initFormValues}
+          validationSchema={validateObject}
+          onSubmit={submitAddressData}>
+          {({
+            classes,
+            isSubmitting,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            handleReset,
+            values,
+            errors,
+            touched,
+            onChange,
+            confirmPassword
+          }) => (
+            <form autoComplete='on'>
+              <ThemeProvider theme={theme}>
+                <AutocompleteComponent name='autocomplete' onBlur={handleBlur} touched={touched} error={errors}/>
+                <TextField
+                  name='buildingNumber'
+                  autoComplete='on'
+                  label={<IconLabel label='Enter building number' Component={ApartmentIcon}/>}
+                  className={styles.input}
+                  value={values.buildingNumber}
+                  onBlur={handleBlur}
+                  onChange={handleChange('buildingNumber')}
+                  helperText={touched.buildingNumber ? errors.buildingNumber : ''}
+                  error={touched.buildingNumber && Boolean(errors.buildingNumber)}
+                  variant='outlined'
+                  fullWidth
+                />
+                <TextField
+                  name='appartNumber'
+                  autoComplete='on'
+                  label={<IconLabel label='Enter appartment number' Component={MyLocationIcon}/>}
+                  className={styles.input}
+                  onBlur={handleBlur}
+                  value={values.appartNumber}
+                  onChange={handleChange('appartNumber')}
+                  helperText={touched.appartNumber ? errors.appartNumber : ''}
+                  error={touched.appartNumber && Boolean(errors.appartNumber)}
+                  variant='outlined'
+                  fullWidth
+                />
+                <TextField
+                  name='postCode'
+                  autoComplete='on'
+                  label={<IconLabel label='Enter postal code' Component={PinDropIcon}/>}
+                  className={styles.input}
+                  value={values.postCode}
+                  onBlur={handleBlur}
+                  onChange={handleChange('postCode')}
+                  helperText={touched.postCode ? errors.postCode : ''}
+                  error={touched.postCode && Boolean(errors.postCode)}
+                  variant='outlined'
+                  fullWidth
+                />
+                <FormGroup name='saveMyData' column='true'>
+                  <Checkbox className='checkbox' name='confirmation' label='I have read and agree to the Privacy Policy' />
+                </FormGroup>
+              </ThemeProvider>
+              <CardActions>
+                <Button
+                  type='submit'
+                  className={styles.button}
+                  onClick={handleSubmit}
+                  size='large'
+                  disabled={isSubmitting}
+                  variant='outlined'>Continue
+                </Button>
+              </CardActions>
+            </form>
+          )}
+        </Formik>
+      </Grid>
+      <Grid item xs={12} sm={6}>
+      </Grid>
+    </Grid>
   );
 };
 
