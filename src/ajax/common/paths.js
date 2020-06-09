@@ -14,8 +14,9 @@ const RequestsConfig = {
   subscribers: `${baseUrl}/subscribers`,
   subscribe: `${baseUrl}/subscribers/subscribe`,
   wishlist: `${baseUrl}/wishlist`,
-  colors: `${baseUrl}/colors`
-  
+  colors: `${baseUrl}/colors`,
+  sizes: `${baseUrl}/sizes`
+
 };
 
 export default RequestsConfig;
