@@ -6,8 +6,8 @@ import {
   TextField,
   Button,
   CardActions,
-  CardContent,
-  Card, ThemeProvider
+  Grid,
+  ThemeProvider
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import useStyles from './AddressFormStyle';
@@ -58,8 +58,8 @@ const AddressForm = (props) => {
   const styles = useStyles();
 
   return (
-    <Card>
-      <CardContent>
+    <Grid container>
+      <Grid item xs={12} sm={6}>
         <Typography className={styles.header} variant='h4' gutterBottom>your delivery address</Typography>
         <Formik
           initialValues={initFormValues}
@@ -81,7 +81,6 @@ const AddressForm = (props) => {
             <form autoComplete='on'>
               <ThemeProvider theme={theme}>
                 <AutocompleteComponent name='autocomplete' onBlur={handleBlur} touched={touched} error={errors}/>
-
                 <TextField
                   name='buildingNumber'
                   autoComplete='on'
@@ -138,8 +137,10 @@ const AddressForm = (props) => {
             </form>
           )}
         </Formik>
-      </CardContent>
-    </Card>
+      </Grid>
+      <Grid item xs={12} sm={6}>
+      </Grid>
+    </Grid>
   );
 };
 

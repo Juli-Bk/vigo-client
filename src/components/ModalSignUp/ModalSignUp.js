@@ -22,17 +22,17 @@ const ModalSignUp = () => {
   const classes = useStyles();
   return (
     <ThemeProvider theme={theme}>
-      <Button className={classes.signUpLogo} variant="outlined" color="primary" onClick={handleClickOpen}>
+      <Button className={classes.signUpLogo} variant='outlined' color='primary' onClick={handleClickOpen}>
           Sign up
       </Button>
 
       <Dialog
         open={open}
         onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
+        aria-labelledby='alert-dialog-title'
+        aria-describedby='alert-dialog-description'
       >
-        <DialogTitle id="alert-dialog-title">{'Do you want to SIGN UP?'}</DialogTitle>
+        <DialogTitle id='alert-dialog-title'>{'Do you want to SIGN UP?'}</DialogTitle>
         <DialogContent>
           <RegisterForm submitRegisterHandler={(result) => {
             // todo 'Welcome, User' if register is success and login user
@@ -41,7 +41,7 @@ const ModalSignUp = () => {
           }}/>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="default" autoFocus>
+          <Button onClick={handleClose} color='default' autoFocus>
             Next
           </Button>
         </DialogActions>

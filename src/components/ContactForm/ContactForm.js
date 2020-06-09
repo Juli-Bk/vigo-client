@@ -60,7 +60,7 @@ const ContactForm = (props) => {
   // };
 
   return (
-    <Grid className={styles.form} item container xs={12} md={8}>
+    <Grid className={styles.form} item container xs={12} sm={8}>
       <Typography className={styles.heading} variant='h2'>LEAVE A COMMENT</Typography>
       <Grid item xs={12}>
         <Formik
@@ -160,4 +160,4 @@ ContactForm.propTypes = {
   submitHandler: PropTypes.func
 };
 
-export default ContactForm;
+export default React.memo(ContactForm);
