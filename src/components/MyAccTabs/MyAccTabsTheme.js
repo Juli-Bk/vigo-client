@@ -13,6 +13,12 @@ const themeMui = createMuiTheme({
         '&$selected': {
           color: colors.fontThird
         }
+      },
+      wrapper: {
+        fontSize: 10
+      },
+      '@media  (min-width: 400px)': {
+        fontSize: 16
       }
     }
   }

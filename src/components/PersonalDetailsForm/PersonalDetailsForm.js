@@ -91,7 +91,7 @@ const PersonalDetailsForm = (props) => {
   return (
     <Grid container>
       <Grid item xs={12} sm={6}>
-        <Typography className={styles.header} variant='h4' gutterBottom>your personal details</Typography>
+        <Typography className={styles.header} variant='h6' gutterBottom>your personal details</Typography>
         <Formik
           initialValues={initFormValues}
           validationSchema={validateObject}
@@ -121,6 +121,7 @@ const PersonalDetailsForm = (props) => {
                   helperText={touched.firstName ? errors.firstName : ''}
                   error={touched.firstName && Boolean(errors.firstName)}
                   variant='outlined'
+                  size='small'
                   fullWidth
                 />
                 <TextField
@@ -133,6 +134,7 @@ const PersonalDetailsForm = (props) => {
                   helperText={touched.lastName ? errors.lastName : ''}
                   error={touched.lastName && Boolean(errors.lastName)}
                   variant='outlined'
+                  size='small'
                   fullWidth
                 />
                 <TextField
@@ -145,6 +147,7 @@ const PersonalDetailsForm = (props) => {
                   helperText={touched.email ? errors.email : ''}
                   error={touched.email && Boolean(errors.email)}
                   variant='outlined'
+                  size='small'
                   fullWidth
                 />
                 <TextField
@@ -157,6 +160,7 @@ const PersonalDetailsForm = (props) => {
                   helperText={touched.phone ? errors.phone : ''}
                   error={touched.phone && Boolean(errors.phone)}
                   variant='outlined'
+                  size='small'
                   fullWidth
                 />
                 <TextField
@@ -171,6 +175,7 @@ const PersonalDetailsForm = (props) => {
                   fullWidth variant='outlined'
                   helperText={touched.password ? errors.password : ''}
                   error={touched.password && Boolean(errors.password)}
+                  size='small'
                 />
                 <TextField
                   name='confirmPassword'
@@ -184,6 +189,7 @@ const PersonalDetailsForm = (props) => {
                   helperText={touched.confirmPassword ? errors.confirmPassword : ''}
                   error={touched.confirmPassword && Boolean(errors.confirmPassword)}
                   variant='outlined'
+                  size='small'
                   fullWidth
                 />
                 <FormGroup name='saveMyData' column='true'>
