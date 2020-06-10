@@ -4,7 +4,8 @@ export const theme = createMuiTheme({
   overrides: {
     MuiTableCell: {
       root: {
-        borderBottom: 'none'
+        borderBottom: 'none',
+        padding: '16px 0'
       }
     }
   }

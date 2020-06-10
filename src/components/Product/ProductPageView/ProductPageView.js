@@ -16,7 +16,7 @@ import { setChosenQuantity, setChosenSize } from '../../../redux/actions/actions
 const ProductPageView = (props) => {
   const classes = useStyles();
   const { productData, width, productQuantity, size, quantity, setSize, setQuantity } = props;
-  const { name, description, price, rating, brandId, salePrice, productId } = productData;
+  const { name, description, price, rating, brandId, salePrice, productId, isOnSale } = productData;
 
   const sizesArray = ['xs', 's', 'm', 'l', 'xl'];
   sizesArray.unshift('Select Size');
@@ -59,8 +59,8 @@ const ProductPageView = (props) => {
       </Box>
       <Box className={classes.actionBox}>
         <Box className={classes.pricesBox}>
-          <Price value={price}/>
-          {salePrice ? <SalePrice value={salePrice} /> : null}
+          { price > salePrice ? <Price value={price}/> : null}
+          <SalePrice value={salePrice} />
         </Box>
         <ThemeProvider theme={theme}>
           <ActionButtons classes={classes}

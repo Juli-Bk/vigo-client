@@ -25,8 +25,12 @@ const theme = createMuiTheme({
           }
         }
       }
+    },
+    MuiContainer: {
+      root: {
+        padding: '0 !important'
+      }
     }
-
   }
 });
 

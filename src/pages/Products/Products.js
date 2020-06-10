@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Container, Grid } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { calcMaxPrice } from '../../helpers/helpers';
 import AjaxUtils from '../../ajax';
 import useStyles from './ProductsStyles';
 import globalConfig from '../../globalConfig';
@@ -24,6 +23,8 @@ const Products = (props) => {
   const [total, setTotal] = useState(0);
   const [maxProductsPrice, setMaxProductsPrice] = useState(1000);
 
+  const categoryId = window.location.href.split('categoryId=')[1];
+
   const defineSortData = (option) => {
     switch (option) {
       case globalConfig.sortOptions.New_In:
@@ -40,12 +41,11 @@ const Products = (props) => {
   useEffect(() => {
     let isCanceled = false;
     if (!isCanceled) {
-      // todo make request by category
-      AjaxUtils.Products.getAllProducts()
+      AjaxUtils.Products.getMaxPrice()
         .then(result => {
-          setMaxProductsPrice(calcMaxPrice(result.products));
+          setMaxProductsPrice(result.maxSalePrice);
         });
-      AjaxUtils.Products.getProductsByFilters([{minPrice: priceRange[0]}, {maxPrice: priceRange[1]}], currentPage, perPage, `${defineSortData(sortingOption)}`)
+      AjaxUtils.Products.getProductsByFilters([{categoryId: categoryId}, {minPrice: priceRange[0]}, {maxPrice: priceRange[1]}], currentPage, perPage, `${defineSortData(sortingOption)}`)
         .then(result => {
           setProducts(result.products);
           setTotal(result.totalCount);
@@ -54,7 +54,7 @@ const Products = (props) => {
     return () => {
       isCanceled = true;
     };
-  }, [currentPage, perPage, sortingOption, priceRange]);
+  }, [currentPage, perPage, sortingOption, priceRange, categoryId]);
 
   return (
     <Container>
