@@ -92,6 +92,7 @@ const AddressForm = (props) => {
                   helperText={touched.buildingNumber ? errors.buildingNumber : ''}
                   error={touched.buildingNumber && Boolean(errors.buildingNumber)}
                   variant='outlined'
+                  size='small'
                   fullWidth
                 />
                 <TextField
@@ -105,6 +106,7 @@ const AddressForm = (props) => {
                   helperText={touched.appartNumber ? errors.appartNumber : ''}
                   error={touched.appartNumber && Boolean(errors.appartNumber)}
                   variant='outlined'
+                  size='small'
                   fullWidth
                 />
                 <TextField
@@ -118,6 +120,7 @@ const AddressForm = (props) => {
                   helperText={touched.postCode ? errors.postCode : ''}
                   error={touched.postCode && Boolean(errors.postCode)}
                   variant='outlined'
+                  size='small'
                   fullWidth
                 />
                 <FormGroup name='saveMyData' column='true'>

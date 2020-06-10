@@ -21,7 +21,8 @@ const theme = createMuiTheme({
     },
     MuiFormGroup: {
       root: {
-        color: colors.phPrimary
+        color: colors.phPrimary,
+
       }
     }
   }

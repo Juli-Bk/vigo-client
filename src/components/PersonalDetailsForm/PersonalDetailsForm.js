@@ -192,8 +192,8 @@ const PersonalDetailsForm = (props) => {
                   size='small'
                   fullWidth
                 />
-                <FormGroup name='saveMyData' column='true'>
-                  <Checkbox name='subscribe' label='I wish to subscribe to the Vigo Shop newsletter' />
+                <FormGroup className={styles.labels} name='saveMyData' column='true'>
+                  <Checkbox className={styles.labels} name='subscribe' label='I wish to subscribe to the Vigo Shop newsletter' />
                   <Checkbox name='confirmation' label='I have read and agree to the Privacy Policy' />
                 </FormGroup>
               </ThemeProvider>

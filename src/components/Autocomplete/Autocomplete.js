@@ -105,6 +105,7 @@ const AutocompleteComponent = (props) => {
       autoComplete
       includeInputInList
       filterSelectedOptions
+      size='small'
       onChange={(event, newValue) => {
         setOptions(newValue ? [newValue, ...options] : options);
         setValue(newValue);

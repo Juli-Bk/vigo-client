@@ -5,7 +5,9 @@ import { fonts } from '../../styles/fonts/fontsKit';
 const useStyles = makeStyles(theme => (
   {
     header: {
+      fontSize: 20,
       color: colors.fontPrimary,
+      marginBottom: 30,
       fontWeight: 600,
       fontFamily: fonts.f4,
       fonFamily: fonts.f2,
@@ -26,9 +28,6 @@ const useStyles = makeStyles(theme => (
       fontFamily: fonts.f4,
       fonFamily: fonts.f2,
       textTransform: 'uppercase'
-    },
-    checkbox: {
-      paddingTop: 10
     }
   }
 ));
