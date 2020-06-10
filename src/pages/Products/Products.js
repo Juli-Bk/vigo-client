@@ -41,7 +41,6 @@ const Products = (props) => {
   useEffect(() => {
     let isCanceled = false;
     if (!isCanceled) {
-      // todo make request by category
       AjaxUtils.Products.getMaxPrice()
         .then(result => {
           setMaxProductsPrice(result.maxSalePrice);
