@@ -17,6 +17,7 @@ import CreditCardIcon from '@material-ui/icons/CreditCard';
 import IconLabel from '../IconLabel/IconLabel';
 import theme from './CardFormTheme';
 import valid from 'card-validator';
+import AjaxUtils from '../../ajax';
 
 const CardForm = (props) => {
   const {submitCardHandler} = props;
@@ -26,6 +27,16 @@ const CardForm = (props) => {
       setSubmitting(false);
       resetForm();
     });
+    const json = JSON.stringify({
+      name: values.name,
+      surname: values.surname
+    });
+    AjaxUtils.Users.createUser(json)
+      .then(result => {
+        setSubmitting(false);
+        resetForm();
+        submitCardHandler(result);
+      });
   };
 
   const initFormValues = {
@@ -108,7 +119,7 @@ const CardForm = (props) => {
               onChange
             }) => (
               <form autoComplete='on'>
-                <Box>{detectCardType(values)}</Box>
+                <Box>{detectCardType(values.creditCardNumber)}</Box>
                 <TextField
                   name='creditCardNumber'
                   autoComplete='on'
@@ -160,7 +171,7 @@ const CardForm = (props) => {
                   error={touched.cvv && Boolean(errors.cvv)}
                   variant='outlined'
                 />
-                <FormControlLabel control={<Checkbox className={styles.checkbox} color='default' />} label="Remember me" />
+                <FormControlLabel control={<Checkbox name='saveMyData' className={styles.checkbox} color='default' />} label="Remember me" />
                 <CardActions>
                   <Button
                     type='submit'

@@ -7,18 +7,34 @@ import Typography from '@material-ui/core/Typography';
 import useStyles from '../../components/RegisterForm/RegisterFormStyle';
 import globalConfig from '../../globalConfig';
 import CardForm from '../CardForm/CardForm';
+import { ThemeProvider } from '@material-ui/styles';
+import theme from '../DeliveryForm/DeliveryTheme';
+import { Card, ListItem } from '@material-ui/core';
 
 const {paymentOptions} = globalConfig;
 function definePayment (inputValue) {
   switch (inputValue) {
     case paymentOptions.BY_CASH:
       return (
-        <Typography>We accept cash at our VIGO warehous:  19 W 103rd St, New York, NY
-        </Typography>
+        <ThemeProvider theme={theme}>
+          <Card elevation={0}>
+            <ListItem>We accept cash at our VIGO Shop office.
+              Please bring your order number and a valid ID.</ListItem>
+            <ListItem>Vigo Shop Ltd</ListItem>
+            <ListItem>United Kingdom</ListItem>
+            <ListItem>London 02587 </ListItem>
+            <ListItem>Oxford Street 48/188</ListItem>
+            <ListItem>Working days: Mon. - Sun.</ListItem>
+            <ListItem>Working hours: 9 AM - 8 PM</ListItem>
+          </Card>
+        </ThemeProvider>
       );
     case paymentOptions.CREDIT_CARD:
       return (
-        <CardForm />
+        <CardForm submitCardHandler={(result) => {
+          // todo collect card details
+          console.log('register result', result);
+        }}/>
       );
     case paymentOptions.PRYVAT24:
       return (

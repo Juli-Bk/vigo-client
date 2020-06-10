@@ -17,17 +17,17 @@ import globalConfig from '../../globalConfig';
 const {regions} = globalConfig;
 
 const NovaPoshtaCity = (props) => {
-  const {submitCardHandler} = props;
-  const submitCardData = (values, {resetForm, setSubmitting}) => {
+  const {submitNovaPoshtaHandler} = props;
+  const submitNovaPoshtaData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
-    submitCardHandler(values, () => {
+    submitNovaPoshtaHandler(values, () => {
       setSubmitting(false);
       resetForm();
     });
   };
   const defaultProps = {
-    options: regions,
-    getOptionLabel: (option) => option.title
+    options: Object.values(regions),
+    getOptionLabel: option => option
   };
   const initFormValues = {
     city: '',
@@ -37,8 +37,6 @@ const NovaPoshtaCity = (props) => {
   const validateObject = Yup.object().shape({
     npOffice: Yup.number()
       .label('Nova Poshta Office Number')
-      .min(1)
-      .max(4, 'Too long!')
       .required(),
     city: Yup.string()
       .label('Delivery City')
@@ -54,7 +52,7 @@ const NovaPoshtaCity = (props) => {
           <Formik
             initialValues={initFormValues}
             validationSchema={validateObject}
-            onSubmit={submitCardData}>
+            onSubmit={submitNovaPoshtaData}>
             {({
               isSubmitting,
               handleChange,
@@ -72,10 +70,11 @@ const NovaPoshtaCity = (props) => {
                   renderInput={(params) =>
                     <TextField {...params}
                       name='city'
+                      autoComplete='on'
                       className={styles.input}
                       onBlur={handleBlur}
                       label='Choose the city to deliver'
-                      value={values.city}
+                      // value={values.city}
                       onChange={handleChange('city')}
                       helperText={touched.city ? errors.city : ''}
                       error={touched.city && Boolean(errors.city)}
@@ -86,7 +85,7 @@ const NovaPoshtaCity = (props) => {
                   name='npOffice'
                   autoComplete='on'
                   className={styles.input}
-                  value={values.npOffice}
+                  // value={values.npOffice}
                   onBlur={handleBlur}
                   label='choose nova poshta post office number'
                   onChange={handleChange('npOffice')}

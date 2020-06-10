@@ -77,6 +77,7 @@ const MyAccTabs = () => {
             console.log('personal details values', submit);
             handleChange();
           }}/>
+          <Box></Box>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           <AddressForm submitAddressHandler={(submit) => {

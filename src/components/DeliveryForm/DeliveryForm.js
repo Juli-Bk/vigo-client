@@ -11,6 +11,10 @@ import NovaPoshtaCity from '../PostOfficeForm/PostOfficeForm';
 
 const {deliveryOptions} = globalConfig;
 
+const submitNovaPoshtaHandler = (values) => {
+  console.log(values);
+};
+
 // todo get address from BD render static in case VIGO_COURIER_SERVICE
 function defineDelivery (inputValue) {
   switch (inputValue) {
@@ -24,7 +28,7 @@ function defineDelivery (inputValue) {
       );
     case deliveryOptions.NOVA_POSHTA:
       return (
-        <NovaPoshtaCity />
+        <NovaPoshtaCity submitNovaPoshtaHandler={submitNovaPoshtaHandler}/>
       );
     case deliveryOptions.UKRPOSHTA:
       return (
@@ -34,16 +38,14 @@ function defineDelivery (inputValue) {
       return (
         <ThemeProvider theme={theme}>
           <Card elevation={0}>
-            <Box>
-              <ListItem>If you've been notified that your VIGO order is ready for pickup, you are welcomed at our warehouse.
+            <ListItem>If you've been notified that your VIGO order is ready for pickup, you are welcomed at our warehouse.
               Please bring your order number and a valid ID.</ListItem>
-              <ListItem>Vigo Shop Ltd</ListItem>
-              <ListItem>United Kingdom</ListItem>
-              <ListItem>London 02587 </ListItem>
-              <ListItem>Oxford Street 48/188</ListItem>
-              <ListItem>Working days: Mon. - Sun.</ListItem>
-              <ListItem>Working hours: 9 AM - 8 PM</ListItem>
-            </Box>
+            <ListItem>Vigo Shop Ltd</ListItem>
+            <ListItem>United Kingdom</ListItem>
+            <ListItem>London 02587 </ListItem>
+            <ListItem>Oxford Street 48/188</ListItem>
+            <ListItem>Working days: Mon. - Sun.</ListItem>
+            <ListItem>Working hours: 9 AM - 8 PM</ListItem>
           </Card>
         </ThemeProvider>
       );
