@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Container, Grid } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { calcMaxPrice } from '../../helpers/helpers';
 import AjaxUtils from '../../ajax';
 import useStyles from './ProductsStyles';
 import globalConfig from '../../globalConfig';
@@ -43,9 +42,9 @@ const Products = (props) => {
     let isCanceled = false;
     if (!isCanceled) {
       // todo make request by category
-      AjaxUtils.Products.getAllProducts()
+      AjaxUtils.Products.getMaxPrice()
         .then(result => {
-          setMaxProductsPrice(calcMaxPrice(result.products));
+          setMaxProductsPrice(result.maxSalePrice);
         });
       AjaxUtils.Products.getProductsByFilters([{categoryId: categoryId}, {minPrice: priceRange[0]}, {maxPrice: priceRange[1]}], currentPage, perPage, `${defineSortData(sortingOption)}`)
         .then(result => {

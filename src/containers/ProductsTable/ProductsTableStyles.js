@@ -8,7 +8,8 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     alignItems: 'center',
     [theme.breakpoints.up(500)]: {
-      flexDirection: 'row'
+      flexDirection: 'row',
+      alignItems: 'flex-start'
     }
   },
   tableRow: {
@@ -83,7 +84,8 @@ const useStyles = makeStyles(theme => ({
     marginBottom: '1rem',
     color: colors.fontThird,
     textDecoration: 'none',
-    cursor: 'pointer'
+    cursor: 'pointer',
+    fontSize: '1.2rem'
   },
   details: {
     textTransform: 'uppercase',
@@ -115,6 +117,16 @@ const useStyles = makeStyles(theme => ({
   },
   salePrice: {
     color: colors.fontPrice,
+    fontWeight: 'bold',
+    fontSize: '1rem',
+    [theme.breakpoints.up(1280)]: {
+      fontSize: '1.2rem',
+      letterSpacing: '.02em'
+    }
+  },
+  price: {
+    textDecoration: 'line-through',
+    color: colors.fontSixth,
     fontWeight: 'bold',
     fontSize: '1rem',
     [theme.breakpoints.up(1280)]: {

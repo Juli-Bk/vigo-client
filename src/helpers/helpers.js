@@ -73,14 +73,6 @@ export const makeShortText = (text) => {
   return textArray[0];
 };
 
-export const calcMaxPrice = (array) => {
-  const prices = [];
-  array.forEach(object => {
-    prices.push(Number(object.price));
-  });
-  return Math.max(...prices);
-};
-
 export const mapArrayToOptions = (array) => {
   return array.map(item => {
     return <option value={item} key={item}>{item}</option>;

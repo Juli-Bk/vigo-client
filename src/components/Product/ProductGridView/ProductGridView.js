@@ -16,15 +16,15 @@ import Price from '../Price/Price';
 const ProductGridView = (props) => {
   const classes = useStyles();
   const { productData } = props;
-  const { name, description, price, rating, imageUrls, salePrice } = productData;
-
+  const { name, description, price, rating, imageUrls, salePrice, isOnSale } = productData;
+  const sale = isOnSale && price > salePrice;
   const productDescription = capitalize(makeShortText(description));
   // todo product rating
   return (
     <Card className={classes.card}>
       <ThemeProvider theme={theme}>
         <Box className={classes.imageBox}>
-          {price !== salePrice ? <SaleInfoBox price={price} salePrice={salePrice}/> : null}
+          {sale ? <SaleInfoBox price={price} salePrice={salePrice}/> : null}
           <CardMedia image={imageUrls[0]} title='clothing' className={classes.img} />
           <CardContent className={classes.overlay}>
             <ProductRating value={rating || 4}/>
@@ -39,8 +39,8 @@ const ProductGridView = (props) => {
         <CardContent>
           <Link to={`/products/${productData._id}`} className={classes.name}>{capitalize(name)}</Link>
           <Box className={classes.pricesBox}>
-            <Price value={price}/>
-            {salePrice ? <SalePrice value={salePrice} /> : null}
+            { sale ? <Price value={price}/> : null}
+            <SalePrice value={salePrice} />
           </Box>
         </CardContent>
       </ThemeProvider>
