@@ -18,7 +18,7 @@ const BannerLineHomePage = props => {
       </Grid>
       <Grid className={`${styles.fullSize} ${styles.bannerColumn}`} xs={12} sm={4} item>
         <Box className={styles.halfSize}>
-          <Banner title='SALE' alert={true} subtitle='the half price summer ' link='/products/' imageLink='https://vigo-shop-aws-bucket.s3.eu-central-1.amazonaws.com/img/banners/sale.jpg'/>
+          <Banner title='SALE' alert={true} subtitle='the half price summer ' link='/products/filter?isOnSale=true' imageLink='https://vigo-shop-aws-bucket.s3.eu-central-1.amazonaws.com/img/banners/sale.jpg'/>
         </Box>
         <Box className={styles.halfSize}>
           <Banner title='girls' alert={false} link='/products/' imageLink='https://vigo-shop-aws-bucket.s3.eu-central-1.amazonaws.com/img/banners/girls.jpg'/>
