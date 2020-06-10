@@ -1,13 +1,13 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import configureStore from 'redux-mock-store';
+import { render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { BrowserRouter } from 'react-router-dom';
-// import { calculateSale } from '../../helpers/helpers';
-import store from '../../redux/store';
 import { Provider } from 'react-redux';
 import ProductsTable from './ProductsTable';
 
-const testData = [
+const mockStore = configureStore([]);
+const products = [
   {
     _id: 'aaa3342453786497',
     id: 12345667890,
@@ -18,7 +18,10 @@ const testData = [
     imageUrls: ['/img/products/07_002.jpg'],
     salePrice: 405,
     date: Date.now(),
-    isOnSale: true
+    isOnSale: true,
+    color: 'red',
+    size: 'size',
+    productId: 1
   },
   {
     _id: 'aaa3342453786498',
@@ -30,7 +33,10 @@ const testData = [
     imageUrls: ['/img/products/07_002.jpg'],
     salePrice: 405,
     date: Date.now(),
-    isOnSale: true
+    isOnSale: true,
+    color: 'red',
+    size: 'size',
+    productId: 1
   },
   {
     _id: 'aaa3342453786499',
@@ -42,25 +48,83 @@ const testData = [
     imageUrls: ['/img/products/07_002.jpg'],
     salePrice: 405,
     date: Date.now(),
-    isOnSale: true
+    isOnSale: true,
+    color: 'red',
+    size: 'size',
+    productId: 1
   }
 ];
-
-const wishList = ['aaa3342453786499', 'aaa3342453786498', 'aaa3342453786497'];
+const wishList = ['aaa3342453786497', 'aaa3342453786498', 'aaa3342453786499'];
+const changeWishList = jest.fn();
 
 describe('products table testing', () => {
+  const store = mockStore({
+    wishList: ['aaa3342453786499', 'aaa3342453786498', 'aaa3342453786497'],
+    changeWishList: jest.fn()
+  });
   it('should render proper columns amount', function () {
     render(
       <BrowserRouter>
         <Provider store={store}>
           <ProductsTable
-            products={testData}
+            products={products}
+            isMobile={false}
+            changeWishList={changeWishList}
           />
         </Provider>
-      </BrowserRouter>);
-    const thead = document.querySelector('table');
-    console.log(thead);
+      </BrowserRouter>
+    );
+    const thead = document.querySelector('thead');
+    expect(thead).toBeInTheDocument();
     const thCollection = thead.querySelectorAll('th');
     expect(thCollection.length).toBe(5);
+  });
+  it('should render proper columns amount on mobile screen', function () {
+    render(
+      <BrowserRouter>
+        <Provider store={store}>
+          <ProductsTable
+            products={products}
+            isMobile={true}
+            changeWishList={changeWishList}
+          />
+        </Provider>
+      </BrowserRouter>
+    );
+    const thead = document.querySelector('thead');
+    expect(thead).toBeInTheDocument();
+    const thCollection = thead.querySelectorAll('th');
+    expect(thCollection.length).toBe(1);
+  });
+  it('should render proper rows amount', function () {
+    render(
+      <BrowserRouter>
+        <Provider store={store}>
+          <ProductsTable
+            products={products}
+            isMobile={false}
+            wishlist={wishList}
+            changeWishList={changeWishList}
+          />
+        </Provider>
+      </BrowserRouter>
+    );
+    const trArray = document.querySelectorAll('tr');
+    expect(trArray.length).toBe(wishList.length + 1);
+  });
+  it('should render proper product name', function () {
+    const table = render(
+      <BrowserRouter>
+        <Provider store={store}>
+          <ProductsTable
+            products={products}
+            isMobile={false}
+            changeWishList={changeWishList}
+          />
+        </Provider>
+      </BrowserRouter>
+    );
+    const names = table.getAllByText(/orange/i);
+    expect(names[0]).toBeInTheDocument();
   });
 });
