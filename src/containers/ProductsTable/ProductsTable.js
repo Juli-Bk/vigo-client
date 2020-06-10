@@ -12,6 +12,7 @@ import { capitalize, formPriceString, getStorageData, toggleWishItems } from '..
 import { changeWishList } from '../../redux/actions/actions';
 import SaleInfoBox from '../../components/Product/SaleInfoBox/SaleInfoBox';
 import SalePrice from '../../components/Product/SalePrice/SalePrice';
+import Price from '../../components/Product/Price/Price';
 import { theme } from './ProductsTableTheme';
 import useStyles from './ProductsTableStyles';
 import globalConfig from '../../globalConfig';
@@ -49,7 +50,7 @@ const ProductsTable = (props) => {
     <ThemeProvider theme={theme}>
       {wishList.length && products.length &&
               <TableContainer component={Box}>
-                <Table className={classes.table} aria-label="simple table">
+                <Table aria-label="products table">
                   <TableHead>
                     { isMobile
                       ? <TableRow>
@@ -60,7 +61,8 @@ const ProductsTable = (props) => {
                       : <TableRow>
                         <TableCell align="center" className={classes.tableHead}>Product name</TableCell>
                         <TableCell align="center" className={classes.tableHead}>Product code</TableCell>
-                        <TableCell align="center" className={classes.tableHead}>Unit price</TableCell>
+                        <TableCell align="center" className={classes.tableHead}>Price</TableCell>
+                        <TableCell align="center" className={classes.tableHead}>Sale price</TableCell>
                         <TableCell align="center" className={classes.tableHead}>
                           <CloseIcon className={classes.closeBtn}/>
                         </TableCell>
@@ -85,7 +87,12 @@ const ProductsTable = (props) => {
                               <Typography className={classes.details}>Product code: <span className={classes.codeSmall}>{row.productCode}</span>
                               </Typography>
                               <Typography variant='caption' component='p' className={classes.details}>
-                                Unit price: <span className={classes.salePrice}>
+                                Price: <span className={classes.price}>
+                                  {formPriceString(row.price, globalConfig.priceIsInteger)}
+                                </span>
+                              </Typography>
+                              <Typography variant='caption' component='p' className={classes.details}>
+                                Sale price: <span className={classes.salePrice}>
                                   {formPriceString(row.salePrice, globalConfig.priceIsInteger)}
                                 </span>
                               </Typography>
@@ -106,6 +113,9 @@ const ProductsTable = (props) => {
                               </Box>
                             </TableCell>
                             <TableCell align="center" className={classes.code}>{row.productCode}</TableCell>
+                            <TableCell align="center" className={classes.code}>
+                              <Price value={row.price}/>
+                            </TableCell>
                             <TableCell align="center" className={classes.code}>
                               <SalePrice value={row.salePrice}/>
                             </TableCell>
