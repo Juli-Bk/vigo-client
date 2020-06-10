@@ -15,6 +15,7 @@ const testData2 = {
   rating: 4,
   imageUrls: ['/img/products/07_002.jpg'],
   salePrice: 405,
+  isOnSale: true,
   date: Date.now()
 };
 

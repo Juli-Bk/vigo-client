@@ -2,7 +2,12 @@ import { makeStyles } from '@material-ui/core';
 
 const useSliderStyles = makeStyles(theme => ({
   '@global .carousel': {
-    height: 480
+    height: 500
+  },
+  [theme.breakpoints.between(724, 1199)]: {
+    '@global .carousel': {
+      height: 450
+    }
   },
   header: {
     position: 'relative',
