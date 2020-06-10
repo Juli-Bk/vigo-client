@@ -1,6 +1,15 @@
 import pathTo from '../common/paths';
 import methods from '../common/methods';
-import {checkId, getAuthHeader, getQueryString, putJWTtoCookie, putJWTtoRedux} from '../common/helper';
+import {
+  checkId,
+  getAuthHeader,
+  getQueryString,
+  putJWTtoCookie,
+  putJWTtoRedux,
+  putUserIdToCookie,
+  putUserToRedux,
+  putUserToStorage
+} from '../common/helper';
 
 export default {
   /**
@@ -47,7 +56,9 @@ export default {
     };
 
     return fetch(pathTo.customer, requestOptions)
-      .then(response => response.json())
+      .then(response => {
+        return response.json();
+      })
       .catch(error => console.log('getUser error', error.message));
   },
   /**
@@ -67,8 +78,12 @@ export default {
     };
 
     return fetch(pathTo.register, requestOptions)
-      .then(response => {
-        return response.json();
+      .then(async (response) => {
+        const respData = await response.json();
+        return Object.assign({
+          status: response.status,
+          statusText: response.statusText
+        }, respData);
       })
       .catch(error => console.log('createUser error', error.message));
   },
@@ -166,13 +181,22 @@ export default {
     };
 
     return fetch(pathTo.login, requestOptions)
-      .then(response => {
-        return response.json();
+      .then(async (response) => {
+        const respData = await response.json();
+        return Object.assign({
+          status: response.status,
+          statusText: response.statusText
+        }, respData);
       })
       .then((result) => {
         if (result.token) {
           putJWTtoCookie(result.token);
           putJWTtoRedux(result.token);
+        }
+        if (result.user) {
+          putUserIdToCookie(result);
+          putUserToRedux(result.user);
+          putUserToStorage(result.user);
         }
         return result;
       })

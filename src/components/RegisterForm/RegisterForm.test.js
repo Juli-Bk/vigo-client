@@ -46,7 +46,7 @@ describe('RegisterForm with all expected props', () => {
   });
 
   it('Should display New customer header', () => {
-    expect(wrapper.find(Typography).at(0).text()).toContain('new customer');
+    expect(wrapper.find(Typography).at(0).text()).toContain('Register with us for future convenience:');
   });
 
   it('Should display three form field', () => {

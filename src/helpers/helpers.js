@@ -1,4 +1,7 @@
 import React from 'react';
+import { getUserIdFromCookie } from '../ajax/common/helper';
+import AjaxUtils from '../ajax';
+import globalConfig from '../globalConfig';
 
 export const formPriceString = (price, priceToCeil) => {
   if (priceToCeil) {
@@ -106,4 +109,43 @@ export const getStorageData = (key) => {
 
 export const setStorageData = (key, data) => {
   localStorage.setItem(key, JSON.stringify(data));
+};
+
+export const integrateWishLists = (remoteWishList, localWishList) => {
+  remoteWishList.forEach(product => {
+    if (!localWishList.includes(product._id)) localWishList.push(product._id);
+  });
+  setStorageData('wishList', localWishList);
+};
+
+export const toggleWishItems = (productId) => {
+  const userId = getUserIdFromCookie();
+  const wishListLocal = getStorageData('wishList');
+
+  if (wishListLocal.includes(productId)) {
+    setStorageData('wishList', wishListLocal.filter(item => item !== productId));
+
+    if (userId) {
+      AjaxUtils.WishLists.deleteProductFromWishlist(productId)
+        .then(result => {
+          if (result.status) {
+            // todo nice popup
+            alert(globalConfig.userMessages.NOT_AUTHORIZED);
+          }
+          console.log(result);
+        });
+    }
+  } else {
+    setStorageData('wishList', [...wishListLocal, productId]);
+
+    if (userId) {
+      AjaxUtils.WishLists.addProductToWishList(productId, userId)
+        .then(result => {
+          if (result.status) {
+            alert(globalConfig.userMessages.NOT_AUTHORIZED);
+          }
+          console.log(result);
+        });
+    }
+  }
 };

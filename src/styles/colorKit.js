@@ -2,6 +2,7 @@ export const colors = {
   bgPrimary: '#fbfbfb', // main-page-background
   bgSecondary: '#2a2a2a', // header-footer-background
   bgImagePlug: '#cccccc',
+  bg404Message: '#ededed',
   fontPrimary: '#444444', // primary title
   fontSecondary: '#555555', // secondary title
   fontThird: '#666666', // third title

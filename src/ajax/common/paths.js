@@ -5,6 +5,7 @@ const RequestsConfig = {
   products: `${baseUrl}/products`,
   productsFilter: `${baseUrl}/products/filter?`,
   productsSearch: `${baseUrl}/products/search`,
+  maxPrice: `${baseUrl}/products/max`,
   users: `${baseUrl}/users`,
   login: `${baseUrl}/users/login`,
   customer: `${baseUrl}/users/customer`,
@@ -13,7 +14,12 @@ const RequestsConfig = {
   unsubscribe: `${baseUrl}/subscribers/unsubscribe`,
   subscribers: `${baseUrl}/subscribers`,
   subscribe: `${baseUrl}/subscribers/subscribe`,
-  wishlist: `${baseUrl}/wishlist`
+  wishlist: `${baseUrl}/wishlist`,
+  colors: `${baseUrl}/colors`,
+  sizes: `${baseUrl}/sizes`,
+  sizeTables: `${baseUrl}/sizeTables`,
+  quantity: `${baseUrl}/quantity`
+
 };
 
 export default RequestsConfig;

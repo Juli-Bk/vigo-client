@@ -32,6 +32,15 @@ export default {
       .catch(error => console.log('getAllProducts error', error.message));
   },
   /**
+   * Returns max price and max sale price
+   @returns {Promise<any | void>} returns Promise. Use then method on it to get response result
+   */
+  getMaxPrice: () => {
+    return fetch(pathTo.maxPrice, methods.GET)
+      .then(response => response.json())
+      .catch(error => console.log('getMaxPrice error', error.message));
+  },
+  /**
    * Returns product data by product id
    * @param id {GUID} - required. Product id
    * @returns {Promise<any | void>} returns Promise. Use then method on it to get response result
