@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import globalConfig from '../../globalConfig';
 import theme from './DeliveryTheme';
 import { Box, Card, ListItem, ThemeProvider } from '@material-ui/core';
+import NovaPoshtaCity from '../PostOfficeForm/PostOfficeForm';
 
 const {deliveryOptions} = globalConfig;
 
@@ -15,17 +16,17 @@ function defineDelivery (inputValue) {
   switch (inputValue) {
     case deliveryOptions.VIGO_COURIER_SERVICE:
       return (
-        <Box>current user's delivery address</Box>
+        <Box>
+          <Typography variant='body2'>VIGO Courier will deliver the order to the following address:
+          </Typography>
+          {/* <Box>Delivery address from BD to put here</Box> */}
+        </Box>
       );
     case deliveryOptions.NOVA_POSHTA:
       return (
-        ''
+        <NovaPoshtaCity />
       );
-    case deliveryOptions.DHL_EXPRESS:
-      return (
-        ''
-      );
-    case deliveryOptions.FEDEX:
+    case deliveryOptions.UKRPOSHTA:
       return (
         ''
       );
@@ -43,13 +44,9 @@ function defineDelivery (inputValue) {
               <ListItem>Working days: Mon. - Sun.</ListItem>
               <ListItem>Working hours: 9 AM - 8 PM</ListItem>
             </Box>
-
           </Card>
         </ThemeProvider>
       );
-    case deliveryOptions.POST_OFFICE:
-      return ''
-      ;
     default:
       return 'Unknown inputValue';
   }

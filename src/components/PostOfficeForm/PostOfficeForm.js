@@ -3,22 +3,20 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import {ThemeProvider} from '@material-ui/core/styles';
 import {
-  Box,
   Button,
   TextField,
   CardActions,
-  Grid,
-  FormControlLabel,
-  Checkbox
+  Grid
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import useStyles from './CardFormStyle';
-import CreditCardIcon from '@material-ui/icons/CreditCard';
-import IconLabel from '../IconLabel/IconLabel';
-import theme from './CardFormTheme';
-import valid from 'card-validator';
+import useStyles from '../CardForm/CardFormStyle';
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import theme from '../CardForm/CardFormTheme';
+import globalConfig from '../../globalConfig';
 
-const CardForm = (props) => {
+const {regions} = globalConfig;
+
+const NovaPoshtaCity = (props) => {
   const {submitCardHandler} = props;
   const submitCardData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
@@ -27,67 +25,27 @@ const CardForm = (props) => {
       resetForm();
     });
   };
-
+  const defaultProps = {
+    options: regions,
+    getOptionLabel: (option) => option.title
+  };
   const initFormValues = {
-    creditCardNumber: '',
-    Name: '',
-    expirationDate: '',
-    cvv: '',
-    formData: null,
-    saveMyData: true
+    city: '',
+    npOffice: ''
   };
 
   const validateObject = Yup.object().shape({
-    creditCardNumber: Yup.number()
-      .test('test-number',
-        'Credit Card number is invalid',
-        value => valid.number(value).isValid)
-      .max(16, 'Too long! Must be 16 digits')
-      .min(16, 'Must be 16 digits')
+    npOffice: Yup.number()
+      .label('Nova Poshta Office Number')
+      .min(1)
+      .max(4, 'Too long!')
       .required(),
-    name: Yup.string()
-      .label('Name on card')
-      .min(4, 'Enter the correct one')
-      .required(),
-    expirationDate: Yup.number()
-      .min(4)
-      .max(4)
-      .test('test-expirationDate',
-        'Wrong expiry date',
-        value => valid.number(value).isValid)
-      .required(),
-    cvv: Yup.number()
-      .min(3)
-      .max(4)
-      .test('test-cvv',
-        'CVV number is invalid',
-        value => valid.number(value).isValid)
+    city: Yup.string()
+      .label('Delivery City')
       .required()
   });
 
   const styles = useStyles();
-
-  function detectCardType (creditCardNumber) {
-    const types = {
-      electron: /^(4026|417500|4405|4508|4844|4913|4917)\d+$/,
-      maestro: /^(5018|5020|5038|5612|5893|6304|6759|6761|6762|6763|0604|6390)\d+$/,
-      dankort: /^(5019)\d+$/,
-      interpayment: /^(636)\d+$/,
-      unionpay: /^(62|88)\d+$/,
-      visa: /^4[0-9]{12}(?:[0-9]{3})?$/,
-      mastercard: /^5[1-5][0-9]{14}$/,
-      amex: /^3[47][0-9]{13}$/,
-      diners: /^3(?:0[0-5]|[68][0-9])[0-9]{11}$/,
-      discover: /^6(?:011|5[0-9]{2})[0-9]{12}$/,
-      jcb: /^(?:2131|1800|35\d{3})\d{11}$/
-    };
-
-    for (const key in types) {
-      if (types[key].test(creditCardNumber)) {
-        return key;
-      }
-    }
-  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -107,60 +65,36 @@ const CardForm = (props) => {
               touched,
               onChange
             }) => (
-              <form autoComplete='on'>
-                <Box>{detectCardType(values)}</Box>
+              <form>
+                <Autocomplete
+                  {...defaultProps}
+                  id='open-on-focus'
+                  renderInput={(params) =>
+                    <TextField {...params}
+                      name='city'
+                      className={styles.input}
+                      onBlur={handleBlur}
+                      label='Choose the city to deliver'
+                      value={values.city}
+                      onChange={handleChange('city')}
+                      helperText={touched.city ? errors.city : ''}
+                      error={touched.city && Boolean(errors.city)}
+                      variant='outlined'
+                    />}
+                />
                 <TextField
-                  name='creditCardNumber'
+                  name='npOffice'
                   autoComplete='on'
-                  label={<IconLabel label='Enter Card number' Component={CreditCardIcon}/>}
                   className={styles.input}
+                  value={values.npOffice}
                   onBlur={handleBlur}
-                  value={values.creditCardNumber}
-                  onChange={handleChange('creditCardNumber')}
-                  helperText={touched.creditCardNumber ? errors.creditCardNumber : ''}
-                  error={touched.creditCardNumber && Boolean(errors.creditCardNumber)}
+                  label='choose nova poshta post office number'
+                  onChange={handleChange('npOffice')}
+                  helperText={touched.npOffice ? errors.npOffice : ''}
+                  error={touched.npOffice && Boolean(errors.npOffice)}
                   variant='outlined'
                   fullWidth
                 />
-                <TextField
-                  name='name'
-                  autoComplete='on'
-                  className={styles.input}
-                  value={values.name}
-                  onBlur={handleBlur}
-                  label='Name on card'
-                  onChange={handleChange('name')}
-                  helperText={touched.name ? errors.name : ''}
-                  error={touched.name && Boolean(errors.name)}
-                  variant='outlined'
-                  fullWidth
-                />
-                <TextField
-                  name='expirationDate '
-                  autoComplete='off'
-                  className={styles.inputSmall}
-                  label='__ / __'
-                  value={values.expirationDate}
-                  onBlur={handleBlur}
-                  onChange={handleChange('expirationDate ')}
-                  helperText={touched.expirationDate ? errors.expirationDate : ''}
-                  error={touched.expirationDate && Boolean(errors.expirationDate)}
-                  variant='outlined'
-                  fullWidth
-                />
-                <TextField
-                  name='cvv'
-                  autoComplete='on'
-                  className={styles.inputSmall}
-                  value={values.cvv}
-                  label='cvv'
-                  onBlur={handleBlur}
-                  onChange={handleChange('cvv')}
-                  helperText={touched.cvv ? errors.cvv : ''}
-                  error={touched.cvv && Boolean(errors.cvv)}
-                  variant='outlined'
-                />
-                <FormControlLabel control={<Checkbox className={styles.checkbox} color='default' />} label="Remember me" />
                 <CardActions>
                   <Button
                     type='submit'
@@ -182,8 +116,8 @@ const CardForm = (props) => {
   );
 };
 
-CardForm.propTypes = {
-  submitCardHandler: PropTypes.func.isRequired
+NovaPoshtaCity.propTypes = {
+  submitNovaPoshtaHandler: PropTypes.func.isRequired
 };
 
-export default React.memo(CardForm);
+export default React.memo(NovaPoshtaCity);
