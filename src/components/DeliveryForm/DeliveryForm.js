@@ -1,12 +1,10 @@
 import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import globalConfig from '../../globalConfig';
 import theme from './DeliveryTheme';
-import { Box, Card, ListItem, ThemeProvider } from '@material-ui/core';
+import { ListItem, Typography, ThemeProvider } from '@material-ui/core';
 import NovaPoshtaCity from '../PostOfficeForm/PostOfficeForm';
 
 const {deliveryOptions} = globalConfig;
@@ -20,11 +18,10 @@ function defineDelivery (inputValue) {
   switch (inputValue) {
     case deliveryOptions.VIGO_COURIER_SERVICE:
       return (
-        <Box>
-          <Typography variant='body2'>VIGO Courier will deliver the order to the following address:
-          </Typography>
-          {/* <Box>Delivery address from BD to put here</Box> */}
-        </Box>
+        <Grid xs={12} sm={6}>
+         VIGO Courier will deliver the order to the following address:
+          {/* todo <Box>Delivery address from BD to put here</Box> */}
+        </Grid>
       );
     case deliveryOptions.NOVA_POSHTA:
       return (
@@ -37,7 +34,7 @@ function defineDelivery (inputValue) {
     case deliveryOptions.PICKUP:
       return (
         <ThemeProvider theme={theme}>
-          <Card elevation={0}>
+          <Grid xs={12} sm={6} elevation={0}>
             <ListItem>If you've been notified that your VIGO order is ready for pickup, you are welcomed at our warehouse.
               Please bring your order number and a valid ID.</ListItem>
             <ListItem>Vigo Shop Ltd</ListItem>
@@ -46,7 +43,7 @@ function defineDelivery (inputValue) {
             <ListItem>Oxford Street 48/188</ListItem>
             <ListItem>Working days: Mon. - Sun.</ListItem>
             <ListItem>Working hours: 9 AM - 8 PM</ListItem>
-          </Card>
+          </Grid>
         </ThemeProvider>
       );
     default:
@@ -60,10 +57,7 @@ const DeliveryForm = () => {
   const [inputValue, setInputValue] = useState('');
 
   return (
-    <Container>
-      <Typography variant='h6' gutterBottom>
-        Delivery options
-      </Typography>
+    <ThemeProvider theme={theme}>
       <Grid container spacing={6}>
         <Grid item xs={12} md={6}>
           <Autocomplete
@@ -89,8 +83,7 @@ const DeliveryForm = () => {
           {defineDelivery(value)}
         </Grid>
       </Grid>
-    </Container>
-
+    </ThemeProvider>
   );
 };
 export default React.memo(DeliveryForm);

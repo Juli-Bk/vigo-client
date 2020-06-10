@@ -37,8 +37,12 @@ const useStyles = makeStyles(theme => (
       marginBottom: 10,
       fontFamily: fonts.f4,
       fonFamily: fonts.f2,
-      textTransform: 'uppercase'
+      textTransform: 'uppercase',
+      [theme.breakpoints.up(0)]: {
+        fontSize: 10
+      }
     },
+
     checkbox: {
       paddingTop: 10,
       display: 'block'

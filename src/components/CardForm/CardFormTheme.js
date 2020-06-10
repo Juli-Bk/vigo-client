@@ -31,6 +31,10 @@ const theme = createMuiTheme({
         '&$error': {
           color: colors.noticeColor,
           borderColor: colors.noticeColor
+        },
+        fontSize: 10,
+        '@media  (min-width: 400px)': {
+          fontSize: 14
         }
       }
     }

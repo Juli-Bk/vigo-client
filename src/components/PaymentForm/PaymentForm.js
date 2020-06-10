@@ -51,15 +51,12 @@ function definePayment (inputValue) {
 const PaymentForm = () => {
   const options = Object.values(paymentOptions);
   const [value, setValue] = useState(options[0]);
-  const [inputValue, setInputValue] = useState('');
+  const [inputValue, setInputValue] = useState(['']);
   const styles = useStyles;
   return (
-    <Container>
-      <Typography variant='h6' gutterBottom>
-        Payment options
-      </Typography>
+    <ThemeProvider theme={theme}>
       <Grid container spacing={6}>
-        <Grid item xs={6} >
+        <Grid item xs={12} md={6} >
           <Autocomplete
             value={value}
             onChange={(event, newValue) => {
@@ -84,7 +81,7 @@ const PaymentForm = () => {
           {definePayment(value)}
         </Grid>
       </Grid>
-    </Container>
+    </ThemeProvider>
   );
 };
 export default React.memo(PaymentForm);

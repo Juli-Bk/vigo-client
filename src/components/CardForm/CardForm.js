@@ -49,7 +49,7 @@ const CardForm = (props) => {
   };
 
   const validateObject = Yup.object().shape({
-    creditCardNumber: Yup.number()
+    creditCardNumber: Yup.string()
       .test('test-number',
         'Credit Card number is invalid',
         value => valid.number(value).isValid)
@@ -61,15 +61,11 @@ const CardForm = (props) => {
       .min(4, 'Enter the correct one')
       .required(),
     expirationDate: Yup.number()
-      .min(4)
-      .max(4)
       .test('test-expirationDate',
         'Wrong expiry date',
         value => valid.number(value).isValid)
       .required(),
-    cvv: Yup.number()
-      .min(3)
-      .max(4)
+    cvv: Yup.string()
       .test('test-cvv',
         'CVV number is invalid',
         value => valid.number(value).isValid)
@@ -147,13 +143,13 @@ const CardForm = (props) => {
                   fullWidth
                 />
                 <TextField
-                  name='expirationDate '
+                  name='expirationDate'
                   autoComplete='off'
                   className={styles.inputSmall}
                   label='__ / __'
                   value={values.expirationDate}
                   onBlur={handleBlur}
-                  onChange={handleChange('expirationDate ')}
+                  onChange={handleChange('expirationDate')}
                   helperText={touched.expirationDate ? errors.expirationDate : ''}
                   error={touched.expirationDate && Boolean(errors.expirationDate)}
                   variant='outlined'

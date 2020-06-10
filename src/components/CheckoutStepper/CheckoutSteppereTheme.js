@@ -33,6 +33,11 @@ const theme = createMuiTheme({
       root: {
         padding: '0 120px 30px'
       }
+    },
+    MuiStepLabel: {
+      label: {
+        padding: 0
+      }
     }
   }
 }

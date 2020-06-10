@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import {ThemeProvider} from '@material-ui/core/styles';
@@ -18,6 +18,7 @@ const {regions} = globalConfig;
 
 const NovaPoshtaCity = (props) => {
   const {submitNovaPoshtaHandler} = props;
+  const [value, setValue] = useState(regions[0]);
   const submitNovaPoshtaData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
     submitNovaPoshtaHandler(values, () => {
@@ -66,17 +67,20 @@ const NovaPoshtaCity = (props) => {
               <form>
                 <Autocomplete
                   {...defaultProps}
+                  value={value}
                   id='open-on-focus'
+                  onChange={(event, newValue) => {
+                    setValue(newValue);
+                  }}
                   renderInput={(params) =>
                     <TextField {...params}
                       name='city'
-                      autoComplete='on'
                       className={styles.input}
                       onBlur={handleBlur}
-                      label='Choose the city to deliver'
+                      label='Choose the city to delivery'
                       // value={values.city}
-                      onChange={handleChange('city')}
-                      helperText={touched.city ? errors.city : ''}
+                      // onChange={handleChange('city')}
+                      helperText={(errors.city && touched.city) && errors.city}
                       error={touched.city && Boolean(errors.city)}
                       variant='outlined'
                     />}
@@ -85,9 +89,9 @@ const NovaPoshtaCity = (props) => {
                   name='npOffice'
                   autoComplete='on'
                   className={styles.input}
-                  // value={values.npOffice}
+                  value={values.npOffice}
                   onBlur={handleBlur}
-                  label='choose nova poshta post office number'
+                  label='choose nova poshta post office №'
                   onChange={handleChange('npOffice')}
                   helperText={touched.npOffice ? errors.npOffice : ''}
                   error={touched.npOffice && Boolean(errors.npOffice)}
@@ -100,7 +104,7 @@ const NovaPoshtaCity = (props) => {
                     className={styles.button}
                     onClick={handleSubmit}
                     fullWidth
-                    disabled={isSubmitting}
+                    // disabled={isSubmitting}
                     variant='outlined'>Confirm
                   </Button>
                 </CardActions>

@@ -22,8 +22,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: theme.spacing(1)
   },
   instructions: {
-    marginTop: theme.spacing(1),
-    marginBottom: theme.spacing(1)
+    padding: 20
   }
 }));
 
@@ -31,7 +30,7 @@ const steps = ['Personal data', 'Delivery Info', 'Payment Info', 'Complete your 
 
 // todo get User data from BD and render as static info in 'case 0'
 // todo User Order data from BD and render in 'case  3'
-function getStepContent (stepIndex, userData) {
+const getStepContent = (stepIndex, userData) => {
   switch (stepIndex) {
     case 0:
       return (
@@ -62,7 +61,7 @@ function getStepContent (stepIndex, userData) {
     default:
       return 'Unknown stepIndex';
   }
-}
+};
 
 const CheckoutStepper = (props) => {
   const {user} = props;
@@ -80,10 +79,18 @@ const CheckoutStepper = (props) => {
         })
         .catch(error => {
           console.log(error);
+          return (
+            <Button
+              href="#text-buttons"
+              color='default'
+              className={classes.link}>
+              Your session has expired. Please log in again.
+            </Button>
+          );
           // todo open modal window to login again
         });
     }
-  }, [user]);
+  }, [classes.link, user]);
 
   const handleNext = useCallback(() => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);

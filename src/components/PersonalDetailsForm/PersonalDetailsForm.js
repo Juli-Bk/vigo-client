@@ -28,7 +28,7 @@ const PersonalDetailsForm = (props) => {
     submitPersonalDetailsHandler(values, () => {
       setSubmitting(false);
       resetForm();
-    }); console.log('info', values);
+    });
   };
 
   const initFormValues = {
