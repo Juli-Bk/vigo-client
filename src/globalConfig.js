@@ -1,6 +1,11 @@
 const globalConfig = {
   priceIsInteger: true,
-  maxRecentlyViewed: 8,
+  contacts: {
+    landline: ['0203 980 1479', '0203 478 1296'],
+    cellphone: ['445-115-747-38', '445-170-029-32'],
+    email: ['Vigo_shop@gmail.com', 'Vigo@hotmail.com'],
+    skype: ['Vigo_shop_contact', 'Vigo_support']
+  },
   deliveryOptions: {
     VIGO_COURIER_SERVICE: 'Vigo Courier Service',
     NOVA_POSHTA: 'Nova Poshta',
@@ -37,8 +42,22 @@ const globalConfig = {
     UZHHOROD: 'Uzhhorod, Zakarpattia region',
     ZAPORIZHIA: 'Zaporizhia, Zaporizhia region',
     ZYTOMYR: 'Zhytomyr, Zhytomyr region'
+  },
+  maxRecentlyViewed: 8,
+  emptyWishList: 'You don`t have any items in your wishlist',
+  iconsLabels: {
+    ADD_TO_WISHLIST: 'ADD TO WISHLIST',
+    ADD_TO_COMPARE: 'ADD TO COMPARE'
+  },
+  sortOptions: {
+    New_In: 'New In',
+    Price_Low_To_High: 'Price Low To High',
+    Price_High_To_Low: 'Price High To Low'
+  },
+  step: 15,
+  userMessages: {
+    NOT_AUTHORIZED: 'You are not authorized. Login, please'
   }
-
 };
 
 export default globalConfig;

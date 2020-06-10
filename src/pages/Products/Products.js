@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import {Container, Grid} from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { Container, Grid } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import {calcMaxPrice} from '../../helpers/helpers';
+import { connect } from 'react-redux';
+import { calcMaxPrice } from '../../helpers/helpers';
 import AjaxUtils from '../../ajax';
 import useStyles from './ProductsStyles';
-import {sortOptions, step} from './config';
-import {connect} from 'react-redux';
+import globalConfig from '../../globalConfig';
 
 import ProductGrid from '../../containers/ProductsGrid/ProductsGrid';
 import ProductsList from '../../containers/ProductsList/ProductsList';
@@ -26,11 +26,11 @@ const Products = (props) => {
 
   const defineSortData = (option) => {
     switch (option) {
-      case sortOptions.New_In:
+      case globalConfig.sortOptions.New_In:
         return '-date';
-      case sortOptions.Price_High_To_Low:
+      case globalConfig.sortOptions.Price_High_To_Low:
         return '-price';
-      case sortOptions.Price_Low_To_High:
+      case globalConfig.sortOptions.Price_Low_To_High:
         return 'price';
       default:
         return '-date';
@@ -63,7 +63,7 @@ const Products = (props) => {
           <Grid item container className={classes.topFiltersLine}>
             <Grid item container lg={12} className={classes.upperLine}>
               <Grid container item xl={6} lg={6} md={5} sm={6} xs={12} className={classes.sortSelect}>
-                <Sort values={sortOptions}/>
+                <Sort values={globalConfig.sortOptions}/>
               </Grid>
               <Grid item xl={6} lg={6} md={7} sm={6} xs={12} className={classes.filterPrice}>
                 <FilterPrice maxProductsPrice={maxProductsPrice}/>
@@ -74,7 +74,7 @@ const Products = (props) => {
                 <ViewAs label={true}/>
               </Grid>
               <Grid item xl={3} lg={3} md={3} sm={6} xs={6} className={classes.showBy}>
-                <ShowBy step={step}/>
+                <ShowBy step={globalConfig.step}/>
               </Grid>
               <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
                 <PaginationRounded perPage={perPage} total={total}/>

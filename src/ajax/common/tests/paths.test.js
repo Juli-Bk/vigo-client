@@ -54,4 +54,25 @@ describe('ajax paths config', () => {
       expect(requestPaths.wishlist).toEqual(`${baseUrl}/wishlist`);
     });
   });
+
+  describe('returns right path for colors requests', () => {
+    it('plain', () => {
+      expect(requestPaths.colors).toEqual(`${baseUrl}/colors`);
+    });
+  });
+  describe('returns right path for sizes requests', () => {
+    it('plain', () => {
+      expect(requestPaths.sizes).toEqual(`${baseUrl}/sizes`);
+    });
+  });
+  describe('returns right path for sizeTables requests', () => {
+    it('plain', () => {
+      expect(requestPaths.sizeTables).toEqual(`${baseUrl}/sizeTables`);
+    });
+  });
+  describe('returns right path for quantity requests', () => {
+    it('plain', () => {
+      expect(requestPaths.quantity).toEqual(`${baseUrl}/quantity`);
+    });
+  });
 });

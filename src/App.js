@@ -10,16 +10,29 @@ import styles from './App.scss';
 import theme from './mainTheme';
 import Footer from './containers/Footer/Footer';
 import AjaxUtils from './ajax';
-import { changeWishList } from './redux/actions/actions';
-import { getStorageData } from './helpers/helpers';
+import {changeWishList, setUser} from './redux/actions/actions';
+import {getStorageData, integrateWishLists} from './helpers/helpers';
+import {getUserIdFromCookie} from './ajax/common/helper';
 
 function App (props) {
-  const {changeWishList} = props;
+  const {changeWishList, token, setUser} = props;
 
   useEffect(() => {
     AjaxUtils.Categories.getAllCategories();
+
+    const userId = getUserIdFromCookie();
+    if (userId) {
+      AjaxUtils.WishLists.getUserWishList(userId)
+        .then(result => {
+          const wishes = result.userWishList[0];
+          integrateWishLists(wishes ? wishes.products : [], getStorageData('wishList'));
+          changeWishList(getStorageData('wishList'));
+        });
+    }
+
+    setUser(getStorageData('user'));
     changeWishList(getStorageData('wishList'));
-  }, [changeWishList]);
+  }, [changeWishList, setUser, token]);
 
   return (
     <div className={styles.App}>
@@ -35,10 +48,17 @@ function App (props) {
   );
 }
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = store => {
   return {
-    changeWishList: data => dispatch(changeWishList(data))
+    token: store.token
   };
 };
 
-export default connect(null, mapDispatchToProps)(App);
+const mapDispatchToProps = dispatch => {
+  return {
+    changeWishList: data => dispatch(changeWishList(data)),
+    setUser: user => dispatch(setUser(user))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
