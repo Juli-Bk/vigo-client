@@ -9,6 +9,7 @@ import Box from '@material-ui/core/Box';
 import themeMui from './MyAccTabsTheme';
 import PersonalDetailsForm from '../PersonalDetailsForm/PersonalDetailsForm';
 import AddressForm from '../AddressForm/AddressForm';
+import Wishlist from '../../pages/Wishlist/Wishlist';
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -85,7 +86,7 @@ const MyAccTabs = () => {
           }} />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-        Wishlist
+          <Wishlist />
         </TabPanel>
         <TabPanel value={value} index={3} dir={theme.direction}>
         Purchase history
