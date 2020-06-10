@@ -1,4 +1,4 @@
-import React, {useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -11,6 +11,8 @@ import theme from './CheckoutSteppereTheme';
 import DeliveryForm from '../DeliveryForm/DeliveryForm';
 import { Container } from '@material-ui/core';
 import PaymentForm from '../PaymentForm/PaymentForm';
+import {connect} from 'react-redux';
+import AjaxUtils from '../../ajax/index';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -25,23 +27,25 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function getSteps () {
-  return ['Personal data', 'Delivery Info', 'Payment Info', 'Complete your order'];
-}
+const steps = ['Personal data', 'Delivery Info', 'Payment Info', 'Complete your order'];
+
 // todo get User data from BD and render as static info in 'case 0'
 // todo User Order data from BD and render in 'case  3'
-function getStepContent (stepIndex) {
+function getStepContent (stepIndex, userData) {
   switch (stepIndex) {
     case 0:
       return (
         <Grid container>
           <Grid item sm={4}>
+            `
+            ${userData.firstName} ${userData.lastName}
           John Smith
           1 Downing street
           Somewhere,
           City,
           Country, 00222,
           +380976662233
+            `
           </Grid>
         </Grid>
       );
@@ -60,22 +64,39 @@ function getStepContent (stepIndex) {
   }
 }
 
-const CheckoutStepper = () => {
+const CheckoutStepper = (props) => {
+  const {user} = props;
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
-  const steps = getSteps();
+  const [userData, setUser] = useState(0);
 
-  const handleNext = () => {
+  useEffect(() => {
+    if (user && user.id) {
+      AjaxUtils.Users.getUser()
+        .then(result => {
+          if (result.status === 200) {
+            setUser(result.user);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          // todo open modal window to login again
+        });
+    }
+  }, [user]);
+
+  const handleNext = useCallback(() => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  };
+  }, []);
 
-  const handleBack = () => {
+  const handleBack = useCallback(() => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
-  };
+  }, []);
 
-  const handleReset = () => {
+  const handleReset = useCallback(() => {
     setActiveStep(0);
-  };
+  }, []);
+
   // todo - add order numbers instead of #2001539 in Typography
 
   return (
@@ -101,7 +122,11 @@ const CheckoutStepper = () => {
           ) : (
             <Container >
               <Box>
-                <Typography component='span' className={classes.instructions}>{getStepContent(activeStep)}</Typography>
+                <Typography component='span' className={classes.instructions}>
+                  {
+                    getStepContent(activeStep, userData)
+                  }
+                </Typography>
                 <Box>
                   <Button
                     disabled={activeStep === 0}
@@ -122,4 +147,11 @@ const CheckoutStepper = () => {
     </ThemeProvider>
   );
 };
-export default React.memo(CheckoutStepper);
+
+const mapStoreToProps = store => {
+  return {
+    user: store.user
+  };
+};
+
+export default connect(mapStoreToProps)(React.memo(CheckoutStepper));
