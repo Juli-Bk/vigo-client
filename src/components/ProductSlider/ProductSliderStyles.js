@@ -45,18 +45,12 @@ const useStyles = makeStyles(theme => ({
       right: 0,
       [theme.breakpoints.up(500)]: {
         right: 20
-      },
-      [theme.breakpoints.up(940)]: {
-        right: 0
       }
     },
     '@global .image-gallery-left-nav': {
       left: 0,
       [theme.breakpoints.up(500)]: {
         left: 20
-      },
-      [theme.breakpoints.up(940)]: {
-        left: 0
       }
     },
     '@global .image-gallery-left-nav .image-gallery-svg, .image-gallery-right-nav .image-gallery-svg': {
@@ -67,9 +61,6 @@ const useStyles = makeStyles(theme => ({
       right: 30,
       [theme.breakpoints.up(500)]: {
         right: 30
-      },
-      [theme.breakpoints.up(940)]: {
-        right: 0
       }
     },
     '@global .image-gallery-fullscreen-button .image-gallery-svg, .image-gallery-play-button .image-gallery-svg': {
