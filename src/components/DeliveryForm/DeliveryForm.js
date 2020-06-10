@@ -4,9 +4,9 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import PaymentForm from '../PaymentForm/PaymentForm';
 import globalConfig from '../../globalConfig';
-import { Box } from '@material-ui/core';
+import theme from './DeliveryTheme';
+import { Box, Card, ListItem, ThemeProvider } from '@material-ui/core';
 
 const {deliveryOptions} = globalConfig;
 
@@ -19,38 +19,37 @@ function defineDelivery (inputValue) {
       );
     case deliveryOptions.NOVA_POSHTA:
       return (
-        <Grid container>
-          <Grid item sm={6}>
-          </Grid>
-        </Grid>
+        ''
       );
     case deliveryOptions.DHL_EXPRESS:
       return (
-        <Grid container>
-          <Grid item sm={6}>
-          </Grid>
-        </Grid>
+        ''
       );
     case deliveryOptions.FEDEX:
       return (
-        <PaymentForm inputValue={inputValue}/>
+        ''
       );
     case deliveryOptions.PICKUP:
       return (
-        <Grid container>
-          <Grid item sm={6}>
-            <Typography variant='h6' gutterBottom>VIGO warehous address:
-              If you've been notified that your VIGO order is ready for pickup, you are welcomed at our warehouse.
-              Please bring your order number and a valid ID.
-            </Typography>
-          </Grid>
-        </Grid>
+        <ThemeProvider theme={theme}>
+          <Card elevation={0}>
+            <Box>
+              <ListItem>If you've been notified that your VIGO order is ready for pickup, you are welcomed at our warehouse.
+              Please bring your order number and a valid ID.</ListItem>
+              <ListItem>Vigo Shop Ltd</ListItem>
+              <ListItem>United Kingdom</ListItem>
+              <ListItem>London 02587 </ListItem>
+              <ListItem>Oxford Street 48/188</ListItem>
+              <ListItem>Working days: Mon. - Sun.</ListItem>
+              <ListItem>Working hours: 9 AM - 8 PM</ListItem>
+            </Box>
+
+          </Card>
+        </ThemeProvider>
       );
     case deliveryOptions.POST_OFFICE:
-
-      return (
-        <PaymentForm />
-      );
+      return ''
+      ;
     default:
       return 'Unknown inputValue';
   }
@@ -92,6 +91,7 @@ const DeliveryForm = () => {
         </Grid>
       </Grid>
     </Container>
+
   );
 };
 export default React.memo(DeliveryForm);

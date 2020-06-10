@@ -8,7 +8,14 @@ const globalConfig = {
     FEDEX: 'FedEx',
     PICKUP: 'Pickup',
     POST_OFFICE: 'Post Office'
+  },
+  paymentOptions: {
+    BY_CASH: 'By Cash',
+    CREDIT_CARD: 'Credit Card',
+    PRYVAT24: 'Pryvat24',
+    GOOGLE_PAY: 'Google Pay'
   }
+
 };
 
 export default globalConfig;

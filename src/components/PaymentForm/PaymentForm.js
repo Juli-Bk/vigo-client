@@ -5,10 +5,35 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import useStyles from '../../components/RegisterForm/RegisterFormStyle';
+import globalConfig from '../../globalConfig';
+import CardForm from '../CardForm/CardForm';
 
-const options = ['By Cash', 'Pryvat24', 'Credit Card', 'Google Pay'];
-
+const {paymentOptions} = globalConfig;
+function definePayment (inputValue) {
+  switch (inputValue) {
+    case paymentOptions.BY_CASH:
+      return (
+        <Typography>We accept cash at our VIGO warehous:  19 W 103rd St, New York, NY
+        </Typography>
+      );
+    case paymentOptions.CREDIT_CARD:
+      return (
+        <CardForm />
+      );
+    case paymentOptions.PRYVAT24:
+      return (
+        ''
+      );
+    case paymentOptions.GOOGLE_PAY:
+      return (
+        ''
+      );
+    default:
+      return 'Unknown inputValue';
+  }
+}
 const PaymentForm = () => {
+  const options = Object.values(paymentOptions);
   const [value, setValue] = useState(options[0]);
   const [inputValue, setInputValue] = useState('');
   const styles = useStyles;
@@ -33,13 +58,14 @@ const PaymentForm = () => {
             style={{ width: '100%' }}
             renderInput={(params) =>
               <TextField {...params}
-                name='delivery'
+                name='payment'
                 className={styles.input}
                 label='Payment options'
                 variant='outlined' />}
           />
         </Grid>
         <Grid item xs={12} md={6}>
+          {definePayment(value)}
         </Grid>
       </Grid>
     </Container>

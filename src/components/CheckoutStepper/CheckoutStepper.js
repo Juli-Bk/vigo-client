@@ -29,6 +29,7 @@ function getSteps () {
   return ['Personal data', 'Delivery Info', 'Payment Info', 'Complete your order'];
 }
 // todo get User data from BD and render as static info in 'case 0'
+// todo User Order data from BD and render in 'case  3'
 function getStepContent (stepIndex) {
   switch (stepIndex) {
     case 0:
