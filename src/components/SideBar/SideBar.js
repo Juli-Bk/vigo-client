@@ -6,6 +6,7 @@ import useStyles from '../SideBar/SideBarStyle';
 import CategoryTree from '../CategoryTree/CategoryTree';
 import {useTheme} from '@material-ui/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import FilterColors from '../FilterColors/FilterColors';
 
 const anchor = 'right';
 
@@ -47,6 +48,7 @@ const SideBar = () => {
           </>
           : <Grid item lg={4} xl={4} md={4} sm={4}>
             <CategoryTree/>
+            <FilterColors />
           </Grid>
       }
     </>
