@@ -28,7 +28,7 @@ const PersonalDetailsForm = (props) => {
 
   const submitPersonalDetailsData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
-    console.log(values);
+    console.log('dataFromValues', values);
 
     const json = JSON.stringify({
       firstName: values.firstName,
