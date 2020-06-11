@@ -78,7 +78,6 @@ const NovaPoshtaCity = (props) => {
                       className={styles.input}
                       onBlur={handleBlur}
                       label='Choose the city to delivery'
-                      // value={values.city}
                       // onChange={handleChange('city')}
                       helperText={(errors.city && touched.city) && errors.city}
                       error={touched.city && Boolean(errors.city)}

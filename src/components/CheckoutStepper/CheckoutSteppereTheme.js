@@ -18,7 +18,7 @@ const theme = createMuiTheme({
     MuiButton: {
       containedPrimary: {
         backgroundColor: colors.borderDark,
-        '&:hover': {
+        '&:hover, &:active': {
           backgroundColor: colors.bgSecondary
         }
       }

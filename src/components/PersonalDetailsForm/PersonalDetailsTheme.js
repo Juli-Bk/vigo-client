@@ -38,11 +38,11 @@ const theme = createMuiTheme({
     },
     MuiFormLabel: {
       root: {
+        fontSize: 5,
         '&$error': {
           color: colors.noticeColor,
           borderColor: colors.noticeColor
-        },
-        fontSize: 10
+        }
       }
     }
   }

@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import {
@@ -20,12 +21,22 @@ import PersonIcon from '@material-ui/icons/Person';
 import LockIcon from '@material-ui/icons/Lock';
 import EnhancedEncryptionRoundedIcon from '@material-ui/icons/EnhancedEncryptionRounded';
 import EmailIcon from '@material-ui/icons/Email';
+import AjaxUtils from '../../ajax';
 
 const PersonalDetailsForm = (props) => {
-  const {submitPersonalDetailsHandler} = props;
+  const {submitPersonalDetailsHandler, user} = props;
+
   const submitPersonalDetailsData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
+    console.log(values);
     submitPersonalDetailsHandler(values, () => {
+      console.log(values);
+      
+      AjaxUtils.Users.updateUserInfoById(user.id, values)
+        .then(result => {
+          console.log(result);
+        });
+
       setSubmitting(false);
       resetForm();
     });
@@ -74,16 +85,16 @@ const PersonalDetailsForm = (props) => {
       subscribe: Yup.bool(),
       confirmation: Yup.bool()
     })
-      .test('myCustomCheckboxTest', null, (obj) => {
-        if (obj.subscribe || obj.confirmation) {
-          return true;
-        } else {
-          return new Yup.ValidationError(
-            'Must agree to something',
-            null
-          );
-        }
-      })
+    // .test('myCustomCheckboxTest', null, (obj) => {
+    //   if (obj.subscribe || obj.confirmation) {
+    //     return true;
+    //   } else {
+    //     return new Yup.ValidationError(
+    //       'Must agree to something',
+    //       null
+    //     );
+    //   }
+    // })
   });
 
   const styles = useStyles();
@@ -109,9 +120,10 @@ const PersonalDetailsForm = (props) => {
             onChange,
             confirmPassword
           }) => (
-            <form autoComplete='off'>
+            <form autoComplete='on'>
               <ThemeProvider theme={theme}>
                 <TextField
+                  autoComplete='on'
                   name='firstName'
                   label={<IconLabel label='Enter your Name' Component={PersonIcon}/>}
                   className={styles.input}
@@ -125,6 +137,7 @@ const PersonalDetailsForm = (props) => {
                   fullWidth
                 />
                 <TextField
+                  autoComplete='on'
                   name='lastName'
                   label={<IconLabel label='Enter your Surname' Component={PersonIcon}/>}
                   className={styles.input}
@@ -138,6 +151,7 @@ const PersonalDetailsForm = (props) => {
                   fullWidth
                 />
                 <TextField
+                  autoComplete='on'
                   name='email'
                   label={<IconLabel label='Enter your e-mail' Component={EmailIcon}/>}
                   className={styles.input}
@@ -151,6 +165,7 @@ const PersonalDetailsForm = (props) => {
                   fullWidth
                 />
                 <TextField
+                  autoComplete='on'
                   name='phone'
                   label={<IconLabel label='Enter your phone number' Component={PhoneAndroidIcon}/>}
                   className={styles.input}
@@ -164,8 +179,8 @@ const PersonalDetailsForm = (props) => {
                   fullWidth
                 />
                 <TextField
+                  autoComplete='on'
                   name='password'
-                  autoComplete='off'
                   className={styles.input}
                   label={<IconLabel label='Enter your password' Component={LockIcon}/>}
                   type='password'
@@ -178,9 +193,9 @@ const PersonalDetailsForm = (props) => {
                   size='small'
                 />
                 <TextField
+                  autoComplete='on'
                   name='confirmPassword'
                   className={styles.input}
-                  autoComplete='off'
                   label={<IconLabel label='Confirm your password' Component={EnhancedEncryptionRoundedIcon}/>}
                   type='password'
                   value={values.confirmPassword}
@@ -202,7 +217,7 @@ const PersonalDetailsForm = (props) => {
                   type='submit'
                   className={styles.button}
                   onClick={handleSubmit}
-                  disabled={isSubmitting}
+                  // disabled={isSubmitting}
                   size='large'
                   variant='outlined'>Continue
                 </Button>
@@ -221,4 +236,10 @@ PersonalDetailsForm.propTypes = {
   submitPersonalDetailsHandler: PropTypes.func.isRequired
 };
 
-export default React.memo(PersonalDetailsForm);
+const mapStateToProps = store => {
+  return {
+    user: store.user
+  };
+};
+
+export default connect(mapStateToProps)(React.memo(PersonalDetailsForm));

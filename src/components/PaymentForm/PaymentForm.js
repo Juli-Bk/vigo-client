@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
-import useStyles from '../../components/RegisterForm/RegisterFormStyle';
 import globalConfig from '../../globalConfig';
-import CardForm from '../CardForm/CardForm';
 import { ThemeProvider } from '@material-ui/styles';
-import theme from '../DeliveryForm/DeliveryTheme';
-import { Card, ListItem } from '@material-ui/core';
+import theme from './PaymentFormTheme';
+import { Button, Typography, Card, Link, ListItem } from '@material-ui/core';
 
 const {paymentOptions} = globalConfig;
 function definePayment (inputValue) {
@@ -16,8 +14,8 @@ function definePayment (inputValue) {
       return (
         <ThemeProvider theme={theme}>
           <Card elevation={0}>
-            <ListItem>We accept cash at our VIGO Shop office.
-              Please bring your order number and a valid ID.</ListItem>
+            <Typography>We accept cash at our VIGO Shop office.
+              Please bring your order number and a valid ID.</Typography>
             <ListItem>Vigo Shop Ltd</ListItem>
             <ListItem>United Kingdom</ListItem>
             <ListItem>London 02587 </ListItem>
@@ -27,20 +25,13 @@ function definePayment (inputValue) {
           </Card>
         </ThemeProvider>
       );
-    case paymentOptions.CREDIT_CARD:
+    case paymentOptions.LIQ_PAY:
       return (
-        <CardForm submitCardHandler={(result) => {
-          // todo collect card details
-          console.log('register result', result);
-        }}/>
-      );
-    case paymentOptions.PRYVAT24:
-      return (
-        ''
-      );
-    case paymentOptions.GOOGLE_PAY:
-      return (
-        ''
+        <ThemeProvider theme={theme}>
+          <Link href="https://www.liqpay.ua/api/3/checkout?data=eyJ2ZXJzaW9uIjozLCJhY3Rpb24iOiJwYXkiLCJwdWJsaWNfa2V5IjoiaTkzODkzMjAzNTY0IiwiYW1vdW50IjoiNSIsImN1cnJlbmN5IjoiVVNEIiwiZGVzY3JpcHRpb24iOiLQnNC%2B0Lkg0YLQvtCy0LDRgCIsInR5cGUiOiJidXkiLCJsYW5ndWFnZSI6ImVuIn0%3D&signature=qfXnJw%2BIj4LWZZdkhKf8CF7uJkw%3D" target="_blank">
+            <Button fullWidth>Pay</Button>
+          </Link>
+        </ThemeProvider>
       );
     default:
       return 'Unknown inputValue';
@@ -49,8 +40,7 @@ function definePayment (inputValue) {
 const PaymentForm = () => {
   const options = Object.values(paymentOptions);
   const [value, setValue] = useState(options[0]);
-  const [inputValue, setInputValue] = useState(['']);
-  const styles = useStyles;
+  const [inputValue, setInputValue] = useState('');
   return (
     <ThemeProvider theme={theme}>
       <Grid container spacing={6}>
@@ -70,7 +60,6 @@ const PaymentForm = () => {
             renderInput={(params) =>
               <TextField {...params}
                 name='payment'
-                className={styles.input}
                 label='Payment options'
                 variant='outlined' />}
           />

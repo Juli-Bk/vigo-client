@@ -1,19 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang='en'>
 <head>
-  <meta charset="utf-8" />
-  <link rel="icon"
-    href="%PUBLIC_URL%/favicon.ico" />
-  <meta name="viewport"
-    content="width=device-width, initial-scale=1" />
-  <meta name="theme-color"
-    content="#000000" />
-  <meta name="description"
-    content="online clothing shop, vigo shop" />
+  <meta charset='utf-8' />
+  <link rel='icon'
+    href='%PUBLIC_URL%/favicon.ico' />
+  <meta name='viewport'
+    content='width=device-width, initial-scale=1' />
+  <meta name='theme-color'
+    content='#000000' />
+  <meta name='description'
+    content='online clothing shop, vigo shop' />
   <title>Vigo Shop</title>
 </head>
 <body>
-  <div id="root"></div>
-  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+  <div id='root'></div>
+  <div id='liqpay_checkout'></div>
+  <script src='//static.liqpay.ua/libjs/checkout.js' async></script>
+  <script>
+    window.LiqPayCheckoutCallback = function() {
+      LiqPayCheckout.init({
+        data:'eyJhY3Rpb24iOiJwYXkiLCJhbW91bnQiOiIxIiwiY3VycmVuY3kiOiJVU0QiLCJkZXNjcmlwdGlvbiI6ImRlc2NyaXB0aW9uIHRleHQiLCJvcmRlcl9pZCI6Im9yZGVyX2lkXzEiLCJ2ZXJzaW9uIjoiMyJ9',
+        signature: '676htJyQmMkox9gAKkyYoI8ige8=',
+        embedTo: '#liqpay_checkout',
+        mode: 'embed' // embed || popup,
+      }).on('liqpay.callback', function(data){
+        console.log(data.status);
+        console.log(data);
+      }).on('liqpay.ready', function(data){
+        // ready
+      }).on('liqpay.close', function(data){
+        // close
+      });
+    };
+  </script>
+  <script src='https://www.google.com/recaptcha/api.js' async defer></script>
 </body>
 </html>

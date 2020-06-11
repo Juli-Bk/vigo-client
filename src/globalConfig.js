@@ -13,10 +13,8 @@ const globalConfig = {
     PICKUP: 'Pickup'
   },
   paymentOptions: {
-    BY_CASH: 'By Cash',
-    CREDIT_CARD: 'Credit Card',
-    PRYVAT24: 'Pryvat24',
-    GOOGLE_PAY: 'Google Pay'
+    BY_CASH: 'Cash',
+    LIQ_PAY: 'LiqPay'
   },
   regions: {
     KYIV: 'Kyiv, Kyiv region',

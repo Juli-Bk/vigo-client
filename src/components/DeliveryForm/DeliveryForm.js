@@ -4,7 +4,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 import globalConfig from '../../globalConfig';
 import theme from './DeliveryTheme';
-import { ListItem, ThemeProvider } from '@material-ui/core';
+import { Card, ListItem, ThemeProvider } from '@material-ui/core';
 import NovaPoshtaCity from '../PostOfficeForm/PostOfficeForm';
 
 const {deliveryOptions} = globalConfig;
@@ -18,10 +18,16 @@ function defineDelivery (inputValue) {
   switch (inputValue) {
     case deliveryOptions.VIGO_COURIER_SERVICE:
       return (
-        <Grid xs={12} sm={6}>
+        <ThemeProvider theme={theme}>
+          <Grid item xs={12}>
          VIGO Courier will deliver the order to the following address:
-          {/* todo <Box>Delivery address from BD to put here</Box> */}
-        </Grid>
+            <ListItem>user address</ListItem>
+            <ListItem>address</ListItem>
+            <ListItem>address, 2334 </ListItem>
+            <ListItem>Street 48/188</ListItem>
+            {/* todo <Box>Delivery address from BD to put here</Box> */}
+          </Grid>
+        </ThemeProvider>
       );
     case deliveryOptions.NOVA_POSHTA:
       return (
@@ -34,7 +40,7 @@ function defineDelivery (inputValue) {
     case deliveryOptions.PICKUP:
       return (
         <ThemeProvider theme={theme}>
-          <Grid xs={12} sm={6} elevation={0}>
+          <Grid item xs={12} elevation={0}>
             <ListItem>If you've been notified that your VIGO order is ready for pickup, you are welcomed at our warehouse.
               Please bring your order number and a valid ID.</ListItem>
             <ListItem>Vigo Shop Ltd</ListItem>

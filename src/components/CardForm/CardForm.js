@@ -16,7 +16,6 @@ import useStyles from './CardFormStyle';
 import CreditCardIcon from '@material-ui/icons/CreditCard';
 import IconLabel from '../IconLabel/IconLabel';
 import theme from './CardFormTheme';
-import valid from 'card-validator';
 import AjaxUtils from '../../ajax';
 
 const CardForm = (props) => {
@@ -50,25 +49,24 @@ const CardForm = (props) => {
 
   const validateObject = Yup.object().shape({
     creditCardNumber: Yup.string()
-      .test('test-number',
-        'Credit Card number is invalid',
-        value => valid.number(value).isValid)
-      .max(16, 'Too long! Must be 16 digits')
-      .min(16, 'Must be 16 digits')
+      .min(16)
+      .max(16, 'Must be 16 digits')
       .required(),
     name: Yup.string()
       .label('Name on card')
       .min(4, 'Enter the correct one')
       .required(),
-    expirationDate: Yup.number()
-      .test('test-expirationDate',
-        'Wrong expiry date',
-        value => valid.number(value).isValid)
-      .required(),
+    expirationDate: Yup.string()
+      .typeError('Not a valid expiration date. Example: MM/YY')
+      .max(5, 'Not a valid expiration date. Example: MM/YY')
+      .matches(
+        /([0-9]{2})\/([0-9]{2})/,
+        'Not a valid expiration date. Example: MM/YY'
+      )
+      .required('Expiration date is required'),
     cvv: Yup.string()
-      .test('test-cvv',
-        'CVV number is invalid',
-        value => valid.number(value).isValid)
+      .min(3)
+      .max(4)
       .required()
   });
 
