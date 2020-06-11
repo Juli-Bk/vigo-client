@@ -28,7 +28,8 @@ const PersonalDetailsForm = (props) => {
     submitPersonalDetailsHandler(values, () => {
       setSubmitting(false);
       resetForm();
-    }); console.log('info', values);
+    });
+    console.log('info', values);
   };
 
   const initFormValues = {
@@ -207,7 +208,7 @@ const PersonalDetailsForm = (props) => {
       </Grid>
       <Grid item xs={12} sm={6}> </Grid>
     </Grid>
-   
+
   );
 };
 
