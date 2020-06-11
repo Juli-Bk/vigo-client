@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
 import useStyles from '../../components/RegisterForm/RegisterFormStyle';
 import globalConfig from '../../globalConfig';
 import CardForm from '../CardForm/CardForm';

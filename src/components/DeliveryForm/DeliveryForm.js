@@ -4,7 +4,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 import globalConfig from '../../globalConfig';
 import theme from './DeliveryTheme';
-import { ListItem, Typography, ThemeProvider } from '@material-ui/core';
+import { ListItem, ThemeProvider } from '@material-ui/core';
 import NovaPoshtaCity from '../PostOfficeForm/PostOfficeForm';
 
 const {deliveryOptions} = globalConfig;
