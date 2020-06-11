@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import AjaxUtils from '../../ajax';
 import useStyles from './ProductsStyles';
 import globalConfig from '../../globalConfig';
+import { defineSortData, makeFilterItem } from '../../helpers/helpers';
 
 import ProductGrid from '../../containers/ProductsGrid/ProductsGrid';
 import ProductsList from '../../containers/ProductsList/ProductsList';
@@ -22,43 +23,24 @@ const Products = (props) => {
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
   const [maxProductsPrice, setMaxProductsPrice] = useState(1000);
-  const [filtersArray, setFiltersArray] = useState([]);
 
+  const filtersArray = [{minPrice: priceRange[0]}, {maxPrice: priceRange[1]}];
   const href = window.location.href.split('filter?')[1];
-  const pricesFilter = [{minPrice: priceRange[0]}, {maxPrice: priceRange[1]}];
-
-  const makeFilterItem = (string) => {
-    const filterString = string.split('=');
-    const key = filterString[0];
-    const value = filterString[1];
-    return {[key]: value};
-  };
-
-  if (href.includes('&')) {
-    const filterStrings = href.split('&');
-    filterStrings.forEach(string => {
-      setFiltersArray([...filtersArray, makeFilterItem(string)]);
-    });
-  } else {
-    setFiltersArray([...filtersArray, makeFilterItem(href)]);
-  }
-  setFiltersArray([...filtersArray, pricesFilter]);
-
-  const defineSortData = (option) => {
-    switch (option) {
-      case globalConfig.sortOptions.New_In:
-        return '-date';
-      case globalConfig.sortOptions.Price_High_To_Low:
-        return '-price';
-      case globalConfig.sortOptions.Price_Low_To_High:
-        return 'price';
-      default:
-        return '-date';
-    }
-  };
 
   useEffect(() => {
     let isCanceled = false;
+
+    if (href.includes('&')) {
+      const filterStrings = href.split('&');
+      const allFilters = [];
+      filterStrings.forEach(string => {
+        allFilters.push(makeFilterItem(string));
+      });
+      filtersArray.push([...allFilters]);
+    } else {
+      filtersArray.push(makeFilterItem(href));
+    }
+
     if (!isCanceled) {
       AjaxUtils.Products.getMaxPrice()
         .then(result => {
@@ -74,7 +56,8 @@ const Products = (props) => {
     return () => {
       isCanceled = true;
     };
-  }, [currentPage, perPage, sortingOption]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [href, currentPage, perPage, sortingOption, priceRange]);
 
   return (
     <Container>

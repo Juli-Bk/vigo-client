@@ -141,3 +141,23 @@ export const toggleWishItems = (productId) => {
     }
   }
 };
+
+export const defineSortData = (option) => {
+  switch (option) {
+    case globalConfig.sortOptions.New_In:
+      return '-date';
+    case globalConfig.sortOptions.Price_High_To_Low:
+      return '-price';
+    case globalConfig.sortOptions.Price_Low_To_High:
+      return 'price';
+    default:
+      return '-date';
+  }
+};
+
+export const makeFilterItem = (string) => {
+  const filterString = string.split('=');
+  const key = filterString[0];
+  const value = filterString[1];
+  return {[key]: value};
+};
