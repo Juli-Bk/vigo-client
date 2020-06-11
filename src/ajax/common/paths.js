@@ -18,7 +18,8 @@ const RequestsConfig = {
   colors: `${baseUrl}/colors`,
   sizes: `${baseUrl}/sizes`,
   sizeTables: `${baseUrl}/sizeTables`,
-  quantity: `${baseUrl}/quantity`
+  quantity: `${baseUrl}/quantity`,
+  cart: `${baseUrl}/cart`
 
 };
 
