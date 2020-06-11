@@ -46,7 +46,6 @@ const Products = (props) => {
         .then(result => {
           setMaxProductsPrice(result.maxSalePrice);
         });
-      // [{categoryId: categoryId}, {minPrice: priceRange[0]}, {maxPrice: priceRange[1]}]
       AjaxUtils.Products.getProductsByFilters(filtersArray, currentPage, perPage, `${defineSortData(sortingOption)}`)
         .then(result => {
           setProducts(result.products);
