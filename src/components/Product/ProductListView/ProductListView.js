@@ -15,14 +15,15 @@ import Price from '../Price/Price';
 const ProductListView = (props) => {
   const classes = useStyles();
   const { productData, width } = props;
-  const { name, description, price, rating, imageUrls, salePrice } = productData;
+  const { name, description, price, rating, imageUrls, salePrice, isOnSale } = productData;
+  const sale = isOnSale && price > salePrice;
 
   // todo product rating
   return (
     <Box className={classes.card}>
       <Link to={`/products/${productData._id}`} className={classes.linkBox}>
         <CardMedia image={imageUrls[0]} title='clothing' className={classes.img}>
-          {price !== salePrice ? <SaleInfoBox price={price} salePrice={salePrice}/> : null}
+          { sale ? <SaleInfoBox price={price} salePrice={salePrice}/> : null}
         </CardMedia>
       </Link>
       <Box className={classes.content}>
@@ -34,8 +35,8 @@ const ProductListView = (props) => {
         <Divider orientation={width === 'lg' || width === 'xl' ? 'vertical' : 'horizontal'}/>
         <Box className={classes.actionBox}>
           <Box className={classes.pricesBox}>
-            <Price value={price}/>
-            {salePrice ? <SalePrice value={salePrice} /> : null}
+            { sale ? <Price value={price}/> : null}
+            <SalePrice value={salePrice} />
           </Box>
           <ThemeProvider theme={theme}>
             <ActionButtons classes={classes}
