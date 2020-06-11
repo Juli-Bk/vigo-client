@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AutocompleteComponent = (props) => {
-  const {error, touched, name, onBlur} = props;
+  const {error, touched, name, onBlur, setAddress} = props;
   const classes = useStyles();
   const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState('');
@@ -113,18 +113,21 @@ const AutocompleteComponent = (props) => {
 
       onInputChange={(event, newInputValue) => {
         setInputValue(newInputValue);
+        setAddress(newInputValue);
       }}
-      renderInput={(params) => (
-        <TextField {...params}
-          name={name}
-          label={<IconLabel label='city / street / building № ' Component={PublicIcon}/>}
-          variant="outlined"
-          value={value}
-          onBlur={onBlur}
-          helperText={touched.buildingNumber ? error.buildingNumber : ''}
-          error={touched.autocomplete && Boolean(error.autocomplete)}
-          fullWidth />
-      )}
+      renderInput={(params) => {
+        return (
+          <TextField {...params}
+            name={name}
+            label={<IconLabel label='city / street / building № ' Component={PublicIcon}/>}
+            variant="outlined"
+            value={value}
+            onBlur={onBlur}
+            helperText={touched.autocomplete ? error.autocomplete : ''}
+            error={touched.autocomplete && Boolean(error.autocomplete)}
+            fullWidth />
+        );
+      }}
       renderOption={(option) => {
         const matches = option.structured_formatting.main_text_matched_substrings;
         const parts = parse(

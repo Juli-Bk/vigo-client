@@ -29,13 +29,21 @@ const PersonalDetailsForm = (props) => {
   const submitPersonalDetailsData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
     console.log(values);
+
+    const json = JSON.stringify({
+      firstName: values.firstName,
+      lastName: values.lastName,
+      phoneNumber: values.phoneNumber,
+      email: values.email
+    });
+    
+    AjaxUtils.Users.updateUserInfoById(json, user.id, values)
+      .then(result => {
+        console.log('result', result);
+      });
+
     submitPersonalDetailsHandler(values, () => {
-      console.log(values);
-      
-      AjaxUtils.Users.updateUserInfoById(user.id, values)
-        .then(result => {
-          console.log(result);
-        });
+      console.log('UserDara', values);
 
       setSubmitting(false);
       resetForm();
@@ -108,12 +116,10 @@ const PersonalDetailsForm = (props) => {
           validationSchema={validateObject}
           onSubmit={submitPersonalDetailsData}>
           {({
-            classes,
             isSubmitting,
             handleChange,
             handleBlur,
             handleSubmit,
-            handleReset,
             values,
             errors,
             touched,
@@ -131,7 +137,7 @@ const PersonalDetailsForm = (props) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   helperText={touched.firstName ? errors.firstName : ''}
-                  error={touched.firstName && Boolean(errors.firstName)}
+                  error={(errors.firstName && touched.firstName) && errors.firstName}
                   variant='outlined'
                   size='small'
                   fullWidth

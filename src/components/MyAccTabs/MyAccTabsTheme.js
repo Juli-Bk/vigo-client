@@ -16,9 +16,6 @@ const themeMui = createMuiTheme({
       },
       wrapper: {
         fontSize: 10
-      },
-      '@media  (min-width: 400px)': {
-        fontSize: 16
       }
     }
   }

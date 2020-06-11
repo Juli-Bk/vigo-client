@@ -22,14 +22,12 @@
         data:'eyJhY3Rpb24iOiJwYXkiLCJhbW91bnQiOiIxIiwiY3VycmVuY3kiOiJVU0QiLCJkZXNjcmlwdGlvbiI6ImRlc2NyaXB0aW9uIHRleHQiLCJvcmRlcl9pZCI6Im9yZGVyX2lkXzEiLCJ2ZXJzaW9uIjoiMyJ9',
         signature: '676htJyQmMkox9gAKkyYoI8ige8=',
         embedTo: '#liqpay_checkout',
-        mode: 'embed' // embed || popup,
+        mode: 'embed'
       }).on('liqpay.callback', function(data){
         console.log(data.status);
         console.log(data);
       }).on('liqpay.ready', function(data){
-        // ready
       }).on('liqpay.close', function(data){
-        // close
       });
     };
   </script>

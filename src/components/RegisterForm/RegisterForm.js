@@ -14,6 +14,7 @@ import AjaxUtils from '../../ajax';
 
 const RegisterForm = (props) => {
   const {submitRegisterHandler} = props;
+
   const submitRegisterData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
 
@@ -62,7 +63,6 @@ const RegisterForm = (props) => {
   return (
     <Card>
       <CardContent>
-        {/* <Typography className={styles.header} variant='h4' gutterBottom>new customer</Typography> */}
         <Typography className={styles.text} variant='subtitle1' gutterBottom>
           Register with us for future convenience:
         </Typography>
@@ -70,7 +70,17 @@ const RegisterForm = (props) => {
           initialValues={initFormValues}
           validationSchema={validateObject}
           onSubmit={submitRegisterData}>
-          {({values, handleChange, handleSubmit, handleBlur, errors, touched, onChange, isSubmitting, confirmPassword}) => (
+          {({
+            values,
+            handleChange,
+            handleSubmit,
+            handleBlur,
+            errors,
+            touched,
+            onChange,
+            isSubmitting,
+            confirmPassword
+          }) => (
             <form autoComplete='off'>
               <ThemeProvider theme={theme}>
                 <TextField
