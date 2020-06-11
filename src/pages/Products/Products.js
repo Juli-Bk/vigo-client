@@ -22,8 +22,27 @@ const Products = (props) => {
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
   const [maxProductsPrice, setMaxProductsPrice] = useState(1000);
+  const [filtersArray, setFiltersArray] = useState([]);
 
-  const categoryId = window.location.href.split('categoryId=')[1];
+  const href = window.location.href.split('filter?')[1];
+  const pricesFilter = [{minPrice: priceRange[0]}, {maxPrice: priceRange[1]}];
+
+  const makeFilterItem = (string) => {
+    const filterString = string.split('=');
+    const key = filterString[0];
+    const value = filterString[1];
+    return {[key]: value};
+  };
+
+  if (href.includes('&')) {
+    const filterStrings = href.split('&');
+    filterStrings.forEach(string => {
+      setFiltersArray([...filtersArray, makeFilterItem(string)]);
+    });
+  } else {
+    setFiltersArray([...filtersArray, makeFilterItem(href)]);
+  }
+  setFiltersArray([...filtersArray, pricesFilter]);
 
   const defineSortData = (option) => {
     switch (option) {
@@ -45,7 +64,8 @@ const Products = (props) => {
         .then(result => {
           setMaxProductsPrice(result.maxSalePrice);
         });
-      AjaxUtils.Products.getProductsByFilters([{categoryId: categoryId}, {minPrice: priceRange[0]}, {maxPrice: priceRange[1]}], currentPage, perPage, `${defineSortData(sortingOption)}`)
+      // [{categoryId: categoryId}, {minPrice: priceRange[0]}, {maxPrice: priceRange[1]}]
+      AjaxUtils.Products.getProductsByFilters(filtersArray, currentPage, perPage, `${defineSortData(sortingOption)}`)
         .then(result => {
           setProducts(result.products);
           setTotal(result.totalCount);
@@ -54,7 +74,7 @@ const Products = (props) => {
     return () => {
       isCanceled = true;
     };
-  }, [currentPage, perPage, sortingOption, priceRange, categoryId]);
+  }, [currentPage, perPage, sortingOption]);
 
   return (
     <Container>
