@@ -23,7 +23,7 @@ import EmailIcon from '@material-ui/icons/Email';
 
 const PersonalDetailsForm = (props) => {
   const {submitPersonalDetailsHandler} = props;
-
+  // todo get Personal Data from BD and render in myAccount
   const submitPersonalDetailsData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
     console.log('dataFromValues', values);

@@ -145,7 +145,7 @@ const AddressForm = (props) => {
                   className={styles.button}
                   onClick={handleSubmit}
                   size='large'
-                  // disabled={isSubmitting}
+                  disabled={isSubmitting}
                   variant='outlined'>Continue
                 </Button>
               </CardActions>

@@ -22,7 +22,6 @@ const NovaPoshtaCity = (props) => {
   const submitNovaPoshtaData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
     submitNovaPoshtaHandler(values, () => {
-      console.log('novaposhta', values);
       setSubmitting(false);
       resetForm();
     });
@@ -84,7 +83,7 @@ const NovaPoshtaCity = (props) => {
                       className={styles.input}
                       onBlur={handleBlur}
                       helperText={(errors.city && touched.city) && errors.city}
-                      // error={touched.city && Boolean(errors.city)}
+                      error={touched.city && Boolean(errors.city)}
                       label='Choose the city to deliver'
                       variant='outlined' />}
                 />
@@ -107,7 +106,7 @@ const NovaPoshtaCity = (props) => {
                     className={styles.button}
                     onClick={handleSubmit}
                     fullWidth
-                    // disabled={isSubmitting}
+                    disabled={isSubmitting}
                     variant='outlined'>Confirm
                   </Button>
                 </CardActions>

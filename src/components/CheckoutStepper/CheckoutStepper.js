@@ -34,8 +34,7 @@ const getStepContent = (stepIndex, userData) => {
   switch (stepIndex) {
     case 0:
       return (
-        <Grid container>
-          <Grid item sm={4}>
+        <Grid item xs={12}>
             `
             ${userData.firstName} ${userData.lastName}
           John Smith
@@ -45,7 +44,6 @@ const getStepContent = (stepIndex, userData) => {
           Country, 00222,
           +380976662233
             `
-          </Grid>
         </Grid>
       );
     case 1:
