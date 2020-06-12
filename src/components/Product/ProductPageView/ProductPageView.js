@@ -1,22 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Divider, Typography, Box, ThemeProvider, withWidth, Link } from '@material-ui/core';
-import { connect } from 'react-redux';
+import {Box, Divider, Link, ThemeProvider, Typography, withWidth} from '@material-ui/core';
+import {connect} from 'react-redux';
 
 import useStyles from './ProductPageViewStyles';
-import { theme } from './ProductPageViewTheme';
-import { capitalize, mapArrayToOptions, makeNumbersArray } from '../../../helpers/helpers';
+import {theme} from './ProductPageViewTheme';
+import {capitalize, makeNumbersArray, mapArrayToOptions} from '../../../helpers/helpers';
 import ActionButtons from '../ActionButtons/ActionButtons';
 import ProductRating from '../ProductRating/ProductRating';
 import SalePrice from '../SalePrice/SalePrice';
 import Price from '../Price/Price';
 import SelectSimple from '../../Select/SelectSimple';
-import { setChosenQuantity, setChosenSize } from '../../../redux/actions/actions';
+import {setChosenQuantity, setChosenSize} from '../../../redux/actions/actions';
 
 const ProductPageView = (props) => {
   const classes = useStyles();
-  const { productData, width, productQuantity, size, quantity, setSize, setQuantity } = props;
-  const { name, description, price, rating, brandId, salePrice, productId } = productData;
+  const {productData, width, productQuantity, size, quantity, setSize, setQuantity} = props;
+  const {
+    name, description, price, rating, brandId, salePrice, productId
+    // , isOnSale
+  } = productData;
 
   const sizesArray = ['xs', 's', 'm', 'l', 'xl'];
   sizesArray.unshift('Select Size');
@@ -39,7 +42,8 @@ const ProductPageView = (props) => {
       <ProductRating value={rating || 4} classes={classes.rating}/>
       <Divider orientation='horizontal' className={classes.divider}/>
       <Box className={classes.productInfo}>
-        <Typography variant='body2' gutterBottom>Brand: <span className={classes.brand}>{brandId.name}</span></Typography>
+        <Typography variant='body2' gutterBottom>Brand: <span
+          className={classes.brand}>{brandId.name}</span></Typography>
         <Typography variant='body2' gutterBottom>Product code: {productId}</Typography>
       </Box>
       <Typography variant='caption' component='p' className={classes.description}>{description}</Typography>
@@ -59,8 +63,8 @@ const ProductPageView = (props) => {
       </Box>
       <Box className={classes.actionBox}>
         <Box className={classes.pricesBox}>
-          { price > salePrice ? <Price value={price}/> : null}
-          <SalePrice value={salePrice} />
+          {price > salePrice ? <Price value={price}/> : null}
+          <SalePrice value={salePrice}/>
         </Box>
         <ThemeProvider theme={theme}>
           <ActionButtons classes={classes}

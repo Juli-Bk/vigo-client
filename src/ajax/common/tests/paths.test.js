@@ -75,4 +75,9 @@ describe('ajax paths config', () => {
       expect(requestPaths.quantity).toEqual(`${baseUrl}/quantity`);
     });
   });
+  describe('returns right path for cart requests', () => {
+    it('plain', () => {
+      expect(requestPaths.cart).toEqual(`${baseUrl}/cart`);
+    });
+  });
 });
