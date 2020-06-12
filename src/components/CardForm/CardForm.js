@@ -17,6 +17,7 @@ import CreditCardIcon from '@material-ui/icons/CreditCard';
 import IconLabel from '../IconLabel/IconLabel';
 import theme from './CardFormTheme';
 import AjaxUtils from '../../ajax';
+import globalConfig from '../../globalConfig';
 
 const CardForm = (props) => {
   const {submitCardHandler} = props;
@@ -73,15 +74,11 @@ const CardForm = (props) => {
   const styles = useStyles();
 
   function detectCardType (creditCardNumber) {
-    const types = {
-      electron: /^(4026|417500|4405|4508|4844|4913|4917)\d+$/,
-      maestro: /^(5018|5020|5038|5612|5893|6304|6759|6761|6762|6763|0604|6390)\d+$/,
-      visa: /^4[0-9]{12}(?:[0-9]{3})?$/,
-      mastercard: /^5[1-5][0-9]{14}$/
-    };
-    // todo вынести данные в конфигурационный файл
-    for (const key in types) {
-      if (types[key].test(creditCardNumber)) {
+    const {types} = globalConfig;
+    const cardTypes = Object.values(types);
+
+    for (const key in cardTypes) {
+      if (cardTypes[key].test(creditCardNumber)) {
         return key;
       }
     }
