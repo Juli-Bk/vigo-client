@@ -5,7 +5,7 @@ const theme = createMuiTheme({
   overrides: {
     MuiOutlinedInput: {
       input: {
-        padding: 15
+        paddingBottom: 10
       }
     },
     MuiFormLabel: {

@@ -6,6 +6,7 @@ const theme = createMuiTheme({
   overrides: {
     MuiTypography: {
       root: {
+        fontSize: 'small',
         fontFamily: fonts.f4,
         color: colors.phPrimary,
         '@media  (min-width: 724px)': {
@@ -22,6 +23,11 @@ const theme = createMuiTheme({
     MuiFormGroup: {
       root: {
         color: colors.phPrimary
+      }
+    },
+    MuiFormControlLabel: {
+      label: {
+        fontSize: 'small'
       }
     }
   }

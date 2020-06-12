@@ -23,13 +23,27 @@ import EmailIcon from '@material-ui/icons/Email';
 
 const PersonalDetailsForm = (props) => {
   const {submitPersonalDetailsHandler} = props;
+  // todo get Personal Data from BD and render in myAccount
   const submitPersonalDetailsData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
+    console.log('dataFromValues', values);
+
+    // const json = JSON.stringify({
+    //   firstName: values.firstName,
+    //   lastName: values.lastName,
+    //   phoneNumber: values.phoneNumber,
+    //   email: values.email
+    // });
+    //
+    // AjaxUtils.Users.updateUserInfoById(json, values)
+    //   .then(result => {
+    //   });
+
     submitPersonalDetailsHandler(values, () => {
+      console.log('dataFromValues', values);
       setSubmitting(false);
       resetForm();
     });
-    console.log('info', values);
   };
 
   const initFormValues = {
@@ -92,27 +106,26 @@ const PersonalDetailsForm = (props) => {
   return (
     <Grid container>
       <Grid item xs={12} sm={6}>
-        <Typography className={styles.header} variant='h4' gutterBottom>your personal details</Typography>
+        <Typography className={styles.header} variant='h6' gutterBottom>your personal details</Typography>
         <Formik
           initialValues={initFormValues}
           validationSchema={validateObject}
           onSubmit={submitPersonalDetailsData}>
           {({
-            classes,
             isSubmitting,
             handleChange,
             handleBlur,
             handleSubmit,
-            handleReset,
             values,
             errors,
             touched,
             onChange,
             confirmPassword
           }) => (
-            <form autoComplete='off'>
+            <form autoComplete='on'>
               <ThemeProvider theme={theme}>
                 <TextField
+                  autoComplete='on'
                   name='firstName'
                   label={<IconLabel label='Enter your Name' Component={PersonIcon}/>}
                   className={styles.input}
@@ -122,9 +135,11 @@ const PersonalDetailsForm = (props) => {
                   helperText={touched.firstName ? errors.firstName : ''}
                   error={touched.firstName && Boolean(errors.firstName)}
                   variant='outlined'
+                  size='small'
                   fullWidth
                 />
                 <TextField
+                  autoComplete='on'
                   name='lastName'
                   label={<IconLabel label='Enter your Surname' Component={PersonIcon}/>}
                   className={styles.input}
@@ -134,9 +149,11 @@ const PersonalDetailsForm = (props) => {
                   helperText={touched.lastName ? errors.lastName : ''}
                   error={touched.lastName && Boolean(errors.lastName)}
                   variant='outlined'
+                  size='small'
                   fullWidth
                 />
                 <TextField
+                  autoComplete='on'
                   name='email'
                   label={<IconLabel label='Enter your e-mail' Component={EmailIcon}/>}
                   className={styles.input}
@@ -146,9 +163,11 @@ const PersonalDetailsForm = (props) => {
                   helperText={touched.email ? errors.email : ''}
                   error={touched.email && Boolean(errors.email)}
                   variant='outlined'
+                  size='small'
                   fullWidth
                 />
                 <TextField
+                  autoComplete='on'
                   name='phone'
                   label={<IconLabel label='Enter your phone number' Component={PhoneAndroidIcon}/>}
                   className={styles.input}
@@ -158,11 +177,12 @@ const PersonalDetailsForm = (props) => {
                   helperText={touched.phone ? errors.phone : ''}
                   error={touched.phone && Boolean(errors.phone)}
                   variant='outlined'
+                  size='small'
                   fullWidth
                 />
                 <TextField
+                  autoComplete='on'
                   name='password'
-                  autoComplete='off'
                   className={styles.input}
                   label={<IconLabel label='Enter your password' Component={LockIcon}/>}
                   type='password'
@@ -172,11 +192,12 @@ const PersonalDetailsForm = (props) => {
                   fullWidth variant='outlined'
                   helperText={touched.password ? errors.password : ''}
                   error={touched.password && Boolean(errors.password)}
+                  size='small'
                 />
                 <TextField
+                  autoComplete='on'
                   name='confirmPassword'
                   className={styles.input}
-                  autoComplete='off'
                   label={<IconLabel label='Confirm your password' Component={EnhancedEncryptionRoundedIcon}/>}
                   type='password'
                   value={values.confirmPassword}
@@ -185,10 +206,11 @@ const PersonalDetailsForm = (props) => {
                   helperText={touched.confirmPassword ? errors.confirmPassword : ''}
                   error={touched.confirmPassword && Boolean(errors.confirmPassword)}
                   variant='outlined'
+                  size='small'
                   fullWidth
                 />
-                <FormGroup name='saveMyData' column='true'>
-                  <Checkbox name='subscribe' label='I wish to subscribe to the Vigo Shop newsletter' />
+                <FormGroup className={styles.labels} name='saveMyData' column='true'>
+                  <Checkbox className={styles.labels} name='subscribe' label='I wish to subscribe to the Vigo Shop newsletter' />
                   <Checkbox name='confirmation' label='I have read and agree to the Privacy Policy' />
                 </FormGroup>
               </ThemeProvider>
@@ -208,7 +230,6 @@ const PersonalDetailsForm = (props) => {
       </Grid>
       <Grid item xs={12} sm={6}> </Grid>
     </Grid>
-
   );
 };
 

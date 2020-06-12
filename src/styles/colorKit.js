@@ -24,5 +24,7 @@ export const colors = {
   paginationColor: '#999999',
   paginationActive: '#a3a3a3',
   black: '#000000',
-  listColor: '#eeeeee'
+  listColor: '#eeeeee',
+  payButtonColor: '#008000',
+  payButtonColorHover: '#006400'
 };

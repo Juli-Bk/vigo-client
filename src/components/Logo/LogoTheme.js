@@ -6,8 +6,8 @@ const theme = createMuiTheme({
     MuiTypography: {
       body1: {
         fontFamily: fonts.f1,
-        fontSize: '2rem',
         textAlign: 'center',
+        fontSize: '2rem',
         textTransform: 'uppercase',
         '@media (max-width: 500px)': {
           fontSize: '1rem'
@@ -15,7 +15,6 @@ const theme = createMuiTheme({
       }
     }
   }
-  
 });
 
 export default theme;

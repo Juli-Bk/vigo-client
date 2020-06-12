@@ -1,63 +1,55 @@
 import React, { useState } from 'react';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import PaymentForm from '../PaymentForm/PaymentForm';
 import globalConfig from '../../globalConfig';
+import theme from './DeliveryTheme';
+import { ListItem, ThemeProvider } from '@material-ui/core';
+import NovaPoshtaCity from '../PostOfficeForm/PostOfficeForm';
 
 const {deliveryOptions} = globalConfig;
+
+const submitNovaPoshtaHandler = (values) => {
+};
+
 // todo get address from BD render static in case VIGO_COURIER_SERVICE
 function defineDelivery (inputValue) {
   switch (inputValue) {
     case deliveryOptions.VIGO_COURIER_SERVICE:
       return (
-        <Grid container>
-          <Grid item sm={6}>
+        <ThemeProvider theme={theme}>
+          <Grid item xs={12}>
+         VIGO Courier will deliver the order to the following address:
+            <ListItem>user address</ListItem>
+            <ListItem>address</ListItem>
+            <ListItem>address, 2334 </ListItem>
+            <ListItem>Street 48/188</ListItem>
           </Grid>
-        </Grid>
+        </ThemeProvider>
       );
+      // todo <Box>Delivery address from BD to put here</Box>
     case deliveryOptions.NOVA_POSHTA:
       return (
-        <Grid container>
-          <Grid item sm={6}>
-          </Grid>
-        </Grid>
+        <NovaPoshtaCity submitNovaPoshtaHandler={submitNovaPoshtaHandler}/>
       );
-    case deliveryOptions.DHL_EXPRESS:
+    case deliveryOptions.UKRPOSHTA:
       return (
-        <Grid container>
-          <Grid item sm={6}>
-          </Grid>
-        </Grid>
-      );
-    case deliveryOptions.FEDEX:
-      return (
-        <Grid container>
-          <Grid item sm={6}>
-          </Grid>
-        </Grid>
+        ''
       );
     case deliveryOptions.PICKUP:
       return (
-        <Grid container>
-          <Grid item sm={6}>
-            <PaymentForm />
-            <Typography variant='h6' gutterBottom>VIGO warehous address:
-              If you've been notified that your VIGO order is ready for pickup, you are welcomed at our warehouse.
-              Please bring your order number and a valid ID.
-            </Typography>
+        <ThemeProvider theme={theme}>
+          <Grid item xs={12} elevation={0}>
+            <ListItem>If you've been notified that your VIGO order is ready for pickup, you are welcomed at our warehouse.
+              Please bring your order number and a valid ID.</ListItem>
+            <ListItem>Vigo Shop Ltd</ListItem>
+            <ListItem>United Kingdom</ListItem>
+            <ListItem>London 02587 </ListItem>
+            <ListItem>Oxford Street 48/188</ListItem>
+            <ListItem>Working days: Mon. - Sun.</ListItem>
+            <ListItem>Working hours: 9 AM - 8 PM</ListItem>
           </Grid>
-        </Grid>
-      );
-    case deliveryOptions.POST_OFFICE:
-      return (
-        <Grid container>
-          <Grid item sm={6}>
-            <PaymentForm />
-          </Grid>
-        </Grid>
+        </ThemeProvider>
       );
     default:
       return 'Unknown inputValue';
@@ -70,10 +62,7 @@ const DeliveryForm = () => {
   const [inputValue, setInputValue] = useState('');
 
   return (
-    <Container>
-      <Typography variant='h6' gutterBottom>
-        Delivery options
-      </Typography>
+    <ThemeProvider theme={theme}>
       <Grid container spacing={6}>
         <Grid item xs={12} md={6}>
           <Autocomplete
@@ -99,7 +88,7 @@ const DeliveryForm = () => {
           {defineDelivery(value)}
         </Grid>
       </Grid>
-    </Container>
+    </ThemeProvider>
   );
 };
 export default React.memo(DeliveryForm);

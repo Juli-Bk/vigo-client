@@ -56,8 +56,12 @@ export default {
     };
 
     return fetch(pathTo.customer, requestOptions)
-      .then(response => {
-        return response.json();
+      .then(async (response) => {
+        const respData = await response.json();
+        return Object.assign({
+          status: response.status,
+          statusText: response.statusText
+        }, respData);
       })
       .catch(error => console.log('getUser error', error.message));
   },

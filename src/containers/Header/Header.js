@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {Box, Container, Grid, IconButton, Toolbar} from '@material-ui/core';
 import {ThemeProvider} from '@material-ui/core/styles';
 import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
@@ -13,20 +13,27 @@ import NestedMenu from '../../components/NestedMenu/NestedMenu';
 import SearchBar from '../../components/SearchBar/SearchBar';
 import SideMenu from '../../components/SideMenu/SideMenu';
 import ModalLogin from '../../components/ModalLogin/ModalLogin';
-import ModalSignUp from '../../components/ModalSignUp/ModalSignUp';
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+import {useTheme} from '@material-ui/styles';
 
 const Header = () => {
   const classes = useStyles();
 
+  const isMobile = useMediaQuery(useTheme().breakpoints.between(0, 724), {
+    defaultMatches: true
+  });
+
   return (
     <ThemeProvider theme={theme}>
       <Grid container direction="column" className={classes.gridContainer}>
-        <Grid item className={classes.gridItem}>
-          <AppBar position="static" className={classes.appBar}>
+        <Grid item className={classes.gridItem} xs={12}>
+          <AppBar position="static" className={classes.appBar} xs={12}>
             <Container xs={12}>
-              <Toolbar variant="dense" disableGutters={true} className={classes.toolBar}>
+              <Toolbar variant="dense"
+                disableGutters={true}
+                className={classes.toolBar}>
                 <Box className={classes.burgerMenuBlock}>
-                  <SideMenu/>
+                  {isMobile && <SideMenu/>}
                   <Logo description={'Vigo Shop'}/>
                 </Box>
                 <Box className={classes.headerIconsBlock}>
@@ -41,16 +48,13 @@ const Header = () => {
                     {/* todo should open shopping card page */}
                     <LocalMallOutlinedIcon/>
                   </IconButton>
-
-                  {/* todo responsive if mobile - render only icon, else ModalSignUp */}
-                  <ModalLogin />
-                  <ModalSignUp/>
+                  <ModalLogin/>
                 </Box>
               </Toolbar>
             </Container>
           </AppBar>
         </Grid>
-        <NestedMenu/>
+        {!isMobile && <NestedMenu/>}
       </Grid>
     </ThemeProvider>
   );

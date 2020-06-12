@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import {
@@ -22,8 +22,19 @@ import AutocompleteComponent from '../Autocomplete/Autocomplete';
 
 const AddressForm = (props) => {
   const {submitAddressHandler} = props;
+  const [address, setAddress] = useState('');
   const submitAddressData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
+
+    const json = JSON.stringify({
+      address: address,
+      buildingNumber: values.buildingNumber,
+      appartNumber: values.appartNumber,
+      postCode: values.postCode
+    });
+
+    console.log(json);
+
     submitAddressHandler(values, () => {
       setSubmitting(false);
       resetForm();
@@ -40,8 +51,7 @@ const AddressForm = (props) => {
   };
 
   const validateObject = Yup.object().shape({
-    autocomplete: Yup.string()
-      .required('Choose your delivery address here!'),
+    autocomplete: Yup.string(),
     buildingNumber: Yup.string()
       .min(1, 'Correct building number is a must!')
       .required('Required'),
@@ -80,7 +90,9 @@ const AddressForm = (props) => {
           }) => (
             <form autoComplete='on'>
               <ThemeProvider theme={theme}>
-                <AutocompleteComponent name='autocomplete' onBlur={handleBlur} touched={touched} error={errors}/>
+
+                <AutocompleteComponent setAddress={setAddress} name='autocomplete' onBlur={handleBlur} touched={touched} value={values.autocomplete} onChange={handleChange('autocomplete')} error={errors}/>
+
                 <TextField
                   name='buildingNumber'
                   autoComplete='on'
@@ -92,6 +104,7 @@ const AddressForm = (props) => {
                   helperText={touched.buildingNumber ? errors.buildingNumber : ''}
                   error={touched.buildingNumber && Boolean(errors.buildingNumber)}
                   variant='outlined'
+                  size='small'
                   fullWidth
                 />
                 <TextField
@@ -105,6 +118,7 @@ const AddressForm = (props) => {
                   helperText={touched.appartNumber ? errors.appartNumber : ''}
                   error={touched.appartNumber && Boolean(errors.appartNumber)}
                   variant='outlined'
+                  size='small'
                   fullWidth
                 />
                 <TextField
@@ -118,6 +132,7 @@ const AddressForm = (props) => {
                   helperText={touched.postCode ? errors.postCode : ''}
                   error={touched.postCode && Boolean(errors.postCode)}
                   variant='outlined'
+                  size='small'
                   fullWidth
                 />
                 <FormGroup name='saveMyData' column='true'>
