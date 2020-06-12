@@ -32,7 +32,7 @@ const CategoryTree = (props) => {
       {children}
     </StyledTreeItem>;
   },
-  [classes]);
+  [classes, history]);
 
   const elementsToExpand = useMemo(() => {
     const arr = categories
