@@ -7,36 +7,38 @@ import AjaxUtils from '../../ajax';
 import { setChosenColor } from '../../redux/actions/actions';
 
 const FilterColors = (props) => {
-  const {setChosenColor} = props;
+  const {setChosenColor, colorsInStorage} = props;
   const [state, setState] = useState({});
-  const [colorsData, setColorsData] = useState([]);
-  const [checkBoxes, setCheckBoxes] = useState([]);
-  const colorsKit = new Set();
-  console.log('data underSate', colorsData);
+  const [allColors, setAllColors] = useState([]);
+  const [uniqColorNames, setUniqColorNames] = useState([]);
+
+  const createCheckboxes = (namesArray) => {
+    return namesArray.map(colorName => {
+      return <FormControlLabel key={colorName} label={colorName} control={<Checkbox onChange={handleChange} name={colorName} color='default'/>}/>;
+    });
+  };
 
   useEffect(() => {
     AjaxUtils.Colors.getAllColors()
       .then(result => {
-        setColorsData(result.colors);
+        setAllColors(result.colors);
 
+        const colorsSet = new Set();
         result.colors.forEach(color => {
-          colorsKit.add(color.baseColorName);
+          colorsSet.add(color.baseColorName);
         });
 
-        setCheckBoxes(Array.from(colorsKit).map(color => {
-          return <FormControlLabel key={color} label={color} control={<Checkbox onChange={handleChange} name={color} color='default'/>}/>;
-        }));
+        setUniqColorNames(Array.from(colorsSet));
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [state, colorsInStorage, setChosenColor]);
 
   const handleChange = (event) => {
     setState({...state, [event.target.name]: event.target.checked});
 
-    const colorObjects = colorsData.filter(color => color.baseColorName === event.target.name);
-    console.log(colorsData);
-    colorObjects.forEach(color => {
-      console.log(color.id);
+    const chosenColorsData = allColors.filter(color => color.baseColorName === event.target.name);
+
+    chosenColorsData.forEach(color => {
       setChosenColor(color.id);
     });
   };
@@ -44,9 +46,15 @@ const FilterColors = (props) => {
   return (
     <Box>
       <h2>color filter</h2>
-      {checkBoxes}
+      {uniqColorNames.length && createCheckboxes(uniqColorNames)}
     </Box>
   );
+};
+
+const mapStateToProps = store => {
+  return {
+    colorsInStorage: store.colors
+  };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -55,4 +63,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default React.memo(connect(null, mapDispatchToProps)(FilterColors));
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(FilterColors));
