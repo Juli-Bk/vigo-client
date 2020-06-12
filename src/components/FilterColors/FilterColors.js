@@ -1,20 +1,23 @@
 import React, {useEffect, useState} from 'react';
 import { connect } from 'react-redux';
-import { Box } from '@material-ui/core';
+import { ThemeProvider } from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import AjaxUtils from '../../ajax';
 import { setChosenColor } from '../../redux/actions/actions';
+import theme from './FilterColorsTheme';
+import useStyles from './FilterColorsStyles';
 
 const FilterColors = (props) => {
-  const {setChosenColor, colorsInStorage} = props;
+  const {setChosenColor, colorsInStorage, colorNames} = props;
   const [state, setState] = useState({});
   const [allColors, setAllColors] = useState([]);
   const [uniqColorNames, setUniqColorNames] = useState([]);
+  const classes = useStyles(colorNames);
 
   const createCheckboxes = (namesArray) => {
     return namesArray.map(colorName => {
-      return <FormControlLabel key={colorName} label={colorName} control={<Checkbox onChange={handleChange} name={colorName} color='default'/>}/>;
+      return <FormControlLabel className={classes.label} key={colorName} label={colorName} control={<Checkbox className={classes[colorName]} onChange={handleChange} name={colorName} color='default'/>}/>;
     });
   };
 
@@ -44,10 +47,9 @@ const FilterColors = (props) => {
   };
 
   return (
-    <Box>
-      <h2>color filter</h2>
+    <ThemeProvider theme={theme}>
       {uniqColorNames.length && createCheckboxes(uniqColorNames)}
-    </Box>
+    </ThemeProvider>
   );
 };
 

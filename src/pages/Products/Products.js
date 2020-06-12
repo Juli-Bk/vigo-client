@@ -55,18 +55,18 @@ const Products = (props) => {
         });
       // AjaxUtils.Quantity.getAllQuantity()
       //   .then(result => {
-      //     console.log(result.items);
-      //     // colors.length && colors.forEach(color => {
-      //     //   const items = result.items.filter(item => item.colorId === color);
-      //     //   console.log(items);
-      //     // });
+      //     console.log(result);
+      //     colors.length && colors.forEach(color => {
+      //       const items = result.items.filter(item => item.colorId._id === color);
+      //       console.log(items);
+      //     });
       //   });
     }
     return () => {
       isCanceled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [href, currentPage, perPage, sortingOption, priceRange]);
+  }, [href, currentPage, perPage, sortingOption, priceRange, colors]);
 
   return (
     <Container>
@@ -112,7 +112,8 @@ const mapStateToProps = store => {
     perPage: store.productsPerPage,
     sortingOption: store.sortingOption,
     priceRange: store.priceRange,
-    view: store.view
+    view: store.view,
+    colors: store.colors
   };
 };
 

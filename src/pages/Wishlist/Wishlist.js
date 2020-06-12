@@ -10,7 +10,7 @@ import { changeWishList } from '../../redux/actions/actions';
 import EmptyState from '../../components/EmptyState/EmptyState';
 
 const Wishlist = (props) => {
-  const {wishList} = props;
+  const {wishList, isMyAccount} = props;
   const [products, setProducts] = useState([]);
   const isMobile = useMediaQuery('(max-width: 550px)');
   const filterArray = wishList.length ? [{_id: wishList}] : [];
@@ -33,7 +33,7 @@ const Wishlist = (props) => {
 
   return (
     <Container>
-      <PageTitle title='Wishlist' />
+      {isMyAccount ? null : <PageTitle title='Wishlist' />}
       <Grid container>
         {wishList.length && products.length ? <ProductsTable products={products} isMobile={isMobile}/>
           : <EmptyState text={globalConfig.emptyWishList}/>}

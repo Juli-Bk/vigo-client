@@ -10,6 +10,7 @@ import themeMui from './MyAccTabsTheme';
 import PersonalDetailsForm from '../PersonalDetailsForm/PersonalDetailsForm';
 import AddressForm from '../AddressForm/AddressForm';
 import Wishlist from '../../pages/Wishlist/Wishlist';
+import { useMediaQuery } from '@material-ui/core';
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -45,7 +46,8 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const MyAccTabs = () => {
+const MyAccTabs = (props) => {
+  const isMobile = useMediaQuery('(max-width: 400px)');
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
@@ -54,6 +56,8 @@ const MyAccTabs = () => {
     setValue(newValue);
   };
 
+  const orientation = isMobile ? 'vertical' : 'horizontal';
+
   return (
     <Box className={classes.root}>
       <ThemeProvider theme={themeMui}>
@@ -61,6 +65,7 @@ const MyAccTabs = () => {
           <Tabs
             value={value}
             onChange={handleChange}
+            orientation={orientation}
             indicatorColor='primary'
             textColor='primary'
             variant='fullWidth'
@@ -86,7 +91,7 @@ const MyAccTabs = () => {
           }} />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          <Wishlist />
+          <Wishlist isMyAccount={true}/>
         </TabPanel>
         <TabPanel value={value} index={3} dir={theme.direction}>
         Purchase history
