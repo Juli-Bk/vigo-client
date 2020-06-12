@@ -50,11 +50,10 @@ const LoginForm = (props) => {
   const styles = useStyles();
 
   return (
-    <Card>
-
+    <Card id="login-form">
       <CardContent>
         {/* <Typography className={styles.header} variant='h4' gutterBottom>registered customer</Typography> */}
-        <Typography className={styles.text} variant='subtitle1' gutterBottom>
+        <Typography className={styles.text} variant='caption' gutterBottom>
           If you have an account, please log in
         </Typography>
         <Formik

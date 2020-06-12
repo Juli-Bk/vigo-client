@@ -49,7 +49,7 @@ const RegisterForm = (props) => {
       .required('Required'),
     password: Yup.string()
       .required('No password provided.')
-      .min(8, 'Password is too short - should be 8 chars minimum.')
+      .min(8, 'Password is too short - should be 8 chars minimum')
       .required('Required'),
     confirmPassword: Yup.string()
       .required('Confirm your password')
@@ -60,10 +60,10 @@ const RegisterForm = (props) => {
   const styles = useStyles();
 
   return (
-    <Card>
+    <Card id="register-form">
       <CardContent>
         {/* <Typography className={styles.header} variant='h4' gutterBottom>new customer</Typography> */}
-        <Typography className={styles.text} variant='subtitle1' gutterBottom>
+        <Typography className={styles.text} variant='caption' gutterBottom>
           Register with us for future convenience:
         </Typography>
         <Formik

@@ -29,6 +29,9 @@ const blockStyle = {
 };
 
 const useStyles = makeStyles(theme => ({
+  modalWindow: {
+    width: 500
+  },
   gridContainer: {
     marginBottom: 30
   },
