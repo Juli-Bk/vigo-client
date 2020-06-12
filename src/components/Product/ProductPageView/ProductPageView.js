@@ -16,7 +16,7 @@ import { setChosenQuantity, setChosenSize } from '../../../redux/actions/actions
 const ProductPageView = (props) => {
   const classes = useStyles();
   const { productData, width, productQuantity, size, quantity, setSize, setQuantity } = props;
-  const { name, description, price, rating, brandId, salePrice, productId, isOnSale } = productData;
+  const { name, description, price, rating, brandId, salePrice, productId } = productData;
 
   const sizesArray = ['xs', 's', 'm', 'l', 'xl'];
   sizesArray.unshift('Select Size');
