@@ -36,7 +36,7 @@ const Products = (props) => {
       filterStrings.forEach(string => {
         allFilters.push(makeFilterItem(string));
       });
-      filtersArray.push([...allFilters]);
+      filtersArray.push(...allFilters);
     } else {
       filtersArray.push(makeFilterItem(href));
     }
