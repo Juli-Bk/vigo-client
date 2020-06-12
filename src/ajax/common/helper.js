@@ -4,7 +4,6 @@ import {setJWTtoken, setUser} from '../../redux/actions/actions';
 import {setStorageData} from '../../helpers/helpers';
 
 export const getAuthHeader = () => {
-  // todo testing from front
   const state = store.getState();
   const token = state.token || getJWTfromCookie();
 

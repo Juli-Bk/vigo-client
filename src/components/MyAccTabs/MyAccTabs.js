@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles, ThemeProvider, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
@@ -50,7 +50,7 @@ const MyAccTabs = (props) => {
   const isMobile = useMediaQuery('(max-width: 400px)');
   const classes = useStyles();
   const theme = useTheme();
-  const [value, setValue] = React.useState(0);
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -81,13 +81,13 @@ const MyAccTabs = (props) => {
         <TabPanel value={value} index={0} dir={theme.direction}>
           <PersonalDetailsForm submitPersonalDetailsHandler={(submit) => {
             console.log('personal details values', submit);
-            handleChange();
+            handleChange(null, value);
           }}/>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           <AddressForm submitAddressHandler={(submit) => {
             console.log('address', submit);
-            handleChange();
+            handleChange(null, value);
           }} />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
