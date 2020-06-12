@@ -67,7 +67,7 @@ const NovaPoshtaCity = (props) => {
             }) => (
               <form>
                 <Autocomplete
-                  name='city'
+                  id='open-on-focus'
                   value={value}
                   onChange={(event, newValue) => {
                     setValue(newValue);
@@ -76,7 +76,6 @@ const NovaPoshtaCity = (props) => {
                   onInputChange={(event, newInputValue) => {
                     setInputValue(newInputValue);
                   }}
-                  id='open-on-focus'
                   options={options}
                   style={{ width: '100%' }}
                   renderInput={(params) =>
