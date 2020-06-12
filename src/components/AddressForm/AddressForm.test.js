@@ -48,7 +48,7 @@ describe('AddressForm with all expected props', () => {
     expect(wrapper.find(Typography).at(0).text()).toContain('your delivery address');
   });
 
-  it('Should display seven form fields', () => {
+  it('Should display three form fields', () => {
     expect(wrapper.find('input[name="buildingNumber"]')).toBeTruthy();
     expect(wrapper.find('input[name="appartNumber"]')).toBeTruthy();
     expect(wrapper.find('input[name="postCode"]')).toBeTruthy();
