@@ -14,7 +14,6 @@ import AjaxUtils from '../../ajax';
 
 const RegisterForm = (props) => {
   const {submitRegisterHandler} = props;
-
   const submitRegisterData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
 
@@ -49,8 +48,8 @@ const RegisterForm = (props) => {
       .email('Invalid email address')
       .required('Required'),
     password: Yup.string()
-      .required('No password provided.')
-      .min(8, 'Password is too short - should be 8 chars minimum.')
+      .required('No password provided')
+      .min(8, 'Password is too short - should be 8 chars minimum')
       .required('Required'),
     confirmPassword: Yup.string()
       .required('Confirm your password')
@@ -61,7 +60,7 @@ const RegisterForm = (props) => {
   const styles = useStyles();
 
   return (
-    <Card>
+    <Card id="register-form">
       <CardContent>
         <Typography className={styles.text} variant='subtitle1' gutterBottom>
           Register with us for future convenience:

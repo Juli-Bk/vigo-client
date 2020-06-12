@@ -28,12 +28,23 @@ const useStyles = makeStyles(theme => (
     },
 
     text: {
-      color: colors.phPrimary
+      color: colors.phPrimary,
+      [theme.breakpoints.up(724)]: {
+        margin: '6 auto',
+        fontSize: '0.9rem'
+      },
+      [theme.breakpoints.up(1024)]: {
+        fontSize: '0.97rem'
+      },
+      [theme.breakpoints.up(1080)]: {
+        margin: '5 auto',
+        fontSize: '1.05em'
+      }
     },
 
     input: {
-      marginTop: '1.25rem',
-      fontFamily: fonts.f4,
+      marginTop: '1.6rem',
+      marginBottom: 7,
       fonFamily: fonts.f2,
       textTransform: 'uppercase'
     }

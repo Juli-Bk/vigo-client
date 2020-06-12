@@ -46,7 +46,6 @@ const useStyles = makeStyles(theme => (
     input: {
       marginTop: '1.6rem',
       marginBottom: 7,
-      fontFamily: fonts.f4,
       fonFamily: fonts.f2,
       textTransform: 'uppercase'
     }
