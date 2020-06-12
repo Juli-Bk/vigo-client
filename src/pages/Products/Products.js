@@ -17,7 +17,7 @@ import FilterPrice from '../../components/FilterPrice/FilterPrice';
 import ViewAs from '../../components/ViewAs/ViewAs';
 
 const Products = (props) => {
-  const {currentPage, perPage, sortingOption, priceRange, view} = props;
+  const {currentPage, perPage, sortingOption, priceRange, view, colors} = props;
   const classes = useStyles();
 
   const [products, setProducts] = useState([]);
@@ -26,6 +26,8 @@ const Products = (props) => {
 
   const filtersArray = [{minPrice: priceRange[0]}, {maxPrice: priceRange[1]}];
   const href = window.location.href.split('filter?')[1];
+
+  console.log('render');
 
   useEffect(() => {
     let isCanceled = false;
@@ -36,7 +38,7 @@ const Products = (props) => {
       filterStrings.forEach(string => {
         allFilters.push(makeFilterItem(string));
       });
-      filtersArray.push([...allFilters]);
+      filtersArray.push(...allFilters);
     } else {
       filtersArray.push(makeFilterItem(href));
     }
@@ -51,6 +53,14 @@ const Products = (props) => {
           setProducts(result.products);
           setTotal(result.totalCount);
         });
+      // AjaxUtils.Quantity.getAllQuantity()
+      //   .then(result => {
+      //     console.log(result.items);
+      //     // colors.length && colors.forEach(color => {
+      //     //   const items = result.items.filter(item => item.colorId === color);
+      //     //   console.log(items);
+      //     // });
+      //   });
     }
     return () => {
       isCanceled = true;

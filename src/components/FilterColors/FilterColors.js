@@ -9,33 +9,42 @@ import { setChosenColor } from '../../redux/actions/actions';
 const FilterColors = (props) => {
   const {setChosenColor} = props;
   const [state, setState] = useState({});
+  const [colorsData, setColorsData] = useState([]);
   const [checkBoxes, setCheckBoxes] = useState([]);
-
   const colorsKit = new Set();
+  console.log('data underSate', colorsData);
 
   useEffect(() => {
     AjaxUtils.Colors.getAllColors()
       .then(result => {
+        setColorsData(result.colors);
+
         result.colors.forEach(color => {
           colorsKit.add(color.baseColorName);
         });
+
         setCheckBoxes(Array.from(colorsKit).map(color => {
-          return <FormControlLabel key={color} label={color} control={<Checkbox onChange={handleChange} name={color}/>}/>;
+          return <FormControlLabel key={color} label={color} control={<Checkbox onChange={handleChange} name={color} color='default'/>}/>;
         }));
       });
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [colorsKit]);
+  }, []);
 
   const handleChange = (event) => {
     setState({...state, [event.target.name]: event.target.checked});
-    setChosenColor(event.target.name);
+
+    const colorObjects = colorsData.filter(color => color.baseColorName === event.target.name);
+    console.log(colorsData);
+    colorObjects.forEach(color => {
+      console.log(color.id);
+      setChosenColor(color.id);
+    });
   };
 
   return (
     <Box>
       <h2>color filter</h2>
-      {checkBoxes.length && checkBoxes}
+      {checkBoxes}
     </Box>
   );
 };
