@@ -18,18 +18,21 @@ const {regions} = globalConfig;
 
 const NovaPoshtaCity = (props) => {
   const {submitNovaPoshtaHandler} = props;
-  const [value, setValue] = useState(regions[0]);
+
   const submitNovaPoshtaData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
     submitNovaPoshtaHandler(values, () => {
+      console.log('novaposhta', values);
       setSubmitting(false);
       resetForm();
     });
   };
-  const defaultProps = {
-    options: Object.values(regions),
-    getOptionLabel: option => option
-  };
+  const options = Object.values(regions);
+  const [value, setValue] = useState(regions[0]);
+  const [inputValue, setInputValue] = useState('');
+
+  const styles = useStyles();
+
   const initFormValues = {
     city: '',
     npOffice: ''
@@ -43,8 +46,6 @@ const NovaPoshtaCity = (props) => {
       .label('Delivery City')
       .required()
   });
-
-  const styles = useStyles();
 
   return (
     <ThemeProvider theme={theme}>
@@ -66,23 +67,27 @@ const NovaPoshtaCity = (props) => {
             }) => (
               <form>
                 <Autocomplete
-                  {...defaultProps}
+                  name='city'
                   value={value}
-                  id='open-on-focus'
                   onChange={(event, newValue) => {
                     setValue(newValue);
                   }}
+                  inputValue={inputValue}
+                  onInputChange={(event, newInputValue) => {
+                    setInputValue(newInputValue);
+                  }}
+                  id='open-on-focus'
+                  options={options}
+                  style={{ width: '100%' }}
                   renderInput={(params) =>
                     <TextField {...params}
                       name='city'
                       className={styles.input}
                       onBlur={handleBlur}
-                      label='Choose the city to delivery'
-                      // onChange={handleChange('city')}
                       helperText={(errors.city && touched.city) && errors.city}
-                      error={touched.city && Boolean(errors.city)}
-                      variant='outlined'
-                    />}
+                      // error={touched.city && Boolean(errors.city)}
+                      label='Choose the city to deliver'
+                      variant='outlined' />}
                 />
                 <TextField
                   name='npOffice'
@@ -111,13 +116,11 @@ const NovaPoshtaCity = (props) => {
             )}
           </Formik>
         </Grid>
-        <Grid item xs={12} sm={6}>
-        </Grid>
+
       </Grid>
     </ThemeProvider>
   );
 };
-
 NovaPoshtaCity.propTypes = {
   submitNovaPoshtaHandler: PropTypes.func.isRequired
 };

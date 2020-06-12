@@ -51,8 +51,7 @@ const AddressForm = (props) => {
   };
 
   const validateObject = Yup.object().shape({
-    // autocomplete: Yup.string()
-    //   .required('Choose your delivery address here!'),
+    autocomplete: Yup.string(),
     buildingNumber: Yup.string()
       .min(1, 'Correct building number is a must!')
       .required('Required'),
@@ -146,7 +145,7 @@ const AddressForm = (props) => {
                   className={styles.button}
                   onClick={handleSubmit}
                   size='large'
-                  disabled={isSubmitting}
+                  // disabled={isSubmitting}
                   variant='outlined'>Continue
                 </Button>
               </CardActions>

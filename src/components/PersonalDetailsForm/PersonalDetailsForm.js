@@ -1,5 +1,4 @@
 import React from 'react';
-import {connect} from 'react-redux';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import {
@@ -21,30 +20,27 @@ import PersonIcon from '@material-ui/icons/Person';
 import LockIcon from '@material-ui/icons/Lock';
 import EnhancedEncryptionRoundedIcon from '@material-ui/icons/EnhancedEncryptionRounded';
 import EmailIcon from '@material-ui/icons/Email';
-import AjaxUtils from '../../ajax';
 
 const PersonalDetailsForm = (props) => {
-  const {submitPersonalDetailsHandler, user} = props;
+  const {submitPersonalDetailsHandler} = props;
 
   const submitPersonalDetailsData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
     console.log('dataFromValues', values);
 
-    const json = JSON.stringify({
-      firstName: values.firstName,
-      lastName: values.lastName,
-      phoneNumber: values.phoneNumber,
-      email: values.email
-    });
-    
-    AjaxUtils.Users.updateUserInfoById(json, user.id, values)
-      .then(result => {
-        console.log('result', result);
-      });
+    // const json = JSON.stringify({
+    //   firstName: values.firstName,
+    //   lastName: values.lastName,
+    //   phoneNumber: values.phoneNumber,
+    //   email: values.email
+    // });
+    //
+    // AjaxUtils.Users.updateUserInfoById(json, values)
+    //   .then(result => {
+    //   });
 
     submitPersonalDetailsHandler(values, () => {
-      console.log('UserDara', values);
-
+      console.log('dataFromValues', values);
       setSubmitting(false);
       resetForm();
     });
@@ -137,7 +133,7 @@ const PersonalDetailsForm = (props) => {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   helperText={touched.firstName ? errors.firstName : ''}
-                  error={(errors.firstName && touched.firstName) && errors.firstName}
+                  error={touched.firstName && Boolean(errors.firstName)}
                   variant='outlined'
                   size='small'
                   fullWidth
@@ -223,7 +219,7 @@ const PersonalDetailsForm = (props) => {
                   type='submit'
                   className={styles.button}
                   onClick={handleSubmit}
-                  // disabled={isSubmitting}
+                  disabled={isSubmitting}
                   size='large'
                   variant='outlined'>Continue
                 </Button>
@@ -234,7 +230,6 @@ const PersonalDetailsForm = (props) => {
       </Grid>
       <Grid item xs={12} sm={6}> </Grid>
     </Grid>
-   
   );
 };
 
@@ -242,10 +237,4 @@ PersonalDetailsForm.propTypes = {
   submitPersonalDetailsHandler: PropTypes.func.isRequired
 };
 
-const mapStateToProps = store => {
-  return {
-    user: store.user
-  };
-};
-
-export default connect(mapStateToProps)(React.memo(PersonalDetailsForm));
+export default React.memo(PersonalDetailsForm);
