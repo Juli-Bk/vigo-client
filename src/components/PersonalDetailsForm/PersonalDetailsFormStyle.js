@@ -21,10 +21,6 @@ const useStyles = makeStyles(theme => (
       textTransform: 'uppercase'
     },
 
-    text: {
-      color: colors.phPrimary
-    },
-
     input: {
       marginTop: '1.25rem',
       fontFamily: fonts.f4,

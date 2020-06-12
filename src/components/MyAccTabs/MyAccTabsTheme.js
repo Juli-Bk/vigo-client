@@ -13,6 +13,9 @@ const themeMui = createMuiTheme({
         '&$selected': {
           color: colors.fontThird
         }
+      },
+      wrapper: {
+        fontSize: 10
       }
     }
   }

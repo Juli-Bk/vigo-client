@@ -3,6 +3,11 @@ import { colors } from '../../styles/colorKit';
 
 const theme = createMuiTheme({
   overrides: {
+    MuiCardActions: {
+      root: {
+        padding: '10px 0'
+      }
+    },
     MuiFormHelperText: {
       root: {
         '&$error': {
@@ -11,21 +16,6 @@ const theme = createMuiTheme({
         }
       }
     },
-    MuiTypography: {
-      body1: {
-        fontSize: '0.6rem',
-        '@media  (min-width: 400px)': {
-          fontSize: '0.8rem'
-        }
-      }
-    },
-
-    MuiFormGroup: {
-      root: {
-        padding: 10
-      }
-    },
-
     MuiOutlinedInput: {
       root: {
         Mui: {
@@ -42,10 +32,14 @@ const theme = createMuiTheme({
           color: colors.noticeColor,
           borderColor: colors.noticeColor
         },
-        fontSize: 10
+        fontSize: 10,
+        '@media  (min-width: 400px)': {
+          fontSize: 14
+        }
       }
     }
   }
-});
+}
+);
 
 export default theme;

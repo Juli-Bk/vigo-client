@@ -9,10 +9,37 @@ const globalConfig = {
   deliveryOptions: {
     VIGO_COURIER_SERVICE: 'Vigo Courier Service',
     NOVA_POSHTA: 'Nova Poshta',
-    DHL_EXPRESS: 'DHL Express',
-    FEDEX: 'FedEx',
-    PICKUP: 'Pickup',
-    POST_OFFICE: 'Post Office'
+    UKRPOSHTA: 'Post Office Ukrposhta',
+    PICKUP: 'Pickup'
+  },
+  paymentOptions: {
+    BY_CASH: 'Cash',
+    LIQ_PAY: 'LiqPay'
+  },
+  regions: {
+    KYIV: 'Kyiv, Kyiv region',
+    DNIPRO: 'Dnipro, Dnipro region',
+    KHARKIV: 'Kharkiv, Kharkiv region',
+    CHERKASY: 'Cherkasy, Cherkasy region',
+    CHERNIHIV: 'Chernihiv, Chernihiv region',
+    CHERNIVTSI: 'Chernivtsi, Chernivtsi region',
+    DONETSK: 'Donetsk, Donetsk region',
+    IVANO_FRANKIVSK: 'Ivano-Frankivsk, Ivano-Frankivsk region',
+    KHERSON: 'Kherson, Kherson region',
+    KHMELNYTSKYI: 'Khmelnytskyi, Khmelnytskyi region',
+    KROPYVNYTSKYI: 'Kropyvnytskyi, Kirovohrad region',
+    LUHANSK: 'Luhansk, Luhansk region',
+    LVIV: 'Lviv, Lviv region',
+    MYKOLAIV: 'Mykolaiv, Mykolaiv region',
+    ODESSA: 'Odessa, Odessa region',
+    POLTAVA: 'Poltava, Poltava region',
+    RIVNE: 'Rivne, Rivne region',
+    SUMY: 'Sumy, Sumy region',
+    VINNYTSIA: 'Vinnytsia, Vinnytsia region',
+    LUTSK: 'Lutsk, Volyn region',
+    UZHHOROD: 'Uzhhorod, Zakarpattia region',
+    ZAPORIZHIA: 'Zaporizhia, Zaporizhia region',
+    ZYTOMYR: 'Zhytomyr, Zhytomyr region'
   },
   maxRecentlyViewed: 8,
   emptyWishList: 'You don`t have any items in your wishlist',
@@ -28,6 +55,12 @@ const globalConfig = {
   step: 15,
   userMessages: {
     NOT_AUTHORIZED: 'You are not authorized. Login, please'
+  },
+  types: {
+    ELECTRON: '/^(4026|417500|4405|4508|4844|4913|4917)\d+$/',
+    MAESTRO: '/^(5018|5020|5038|5612|5893|6304|6759|6761|6762|6763|0604|6390)\d+$/',
+    VISA: '/^4[0-9]{12}(?:[0-9]{3})?$/',
+    MASTERCARD: '/^5[1-5][0-9]{14}$/'
   },
   minDefaultPrice: 0,
   maxDefaultPrice: 3000
