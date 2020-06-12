@@ -7,9 +7,11 @@ import priceRange from './priceRangeReducer';
 import view from './viewAsReducer';
 import categories from './categoriesReducer';
 import isMenuOpen from './menuReducer';
+import isSearchBarOpen from './searchBarreducer';
 import size from './currentSizeReducer';
 import quantity from './quantityReducer';
-import recentlyViewed from './recentlyViewedReducer';
+import wishList from './wishListReducer';
+import user from './userReducer';
 
 export const rootReducer = combineReducers({
   currentPage,
@@ -22,5 +24,7 @@ export const rootReducer = combineReducers({
   isMenuOpen,
   size,
   quantity,
-  recentlyViewed
+  isSearchBarOpen,
+  wishList,
+  user
 });

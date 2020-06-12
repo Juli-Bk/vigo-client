@@ -1,11 +1,11 @@
-import React, {useEffect, useState} from 'react';
-import {Container, Grid} from '@material-ui/core';
+import React, { useEffect, useState } from 'react';
+import { Container, Grid } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import {calcMaxPrice} from '../../helpers/helpers';
+import { connect } from 'react-redux';
 import AjaxUtils from '../../ajax';
 import useStyles from './ProductsStyles';
-import {sortOptions, step} from './config';
-import {connect} from 'react-redux';
+import globalConfig from '../../globalConfig';
+import { defineSortData, makeFilterItem } from '../../helpers/helpers';
 
 import ProductGrid from '../../containers/ProductsGrid/ProductsGrid';
 import ProductsList from '../../containers/ProductsList/ProductsList';
@@ -24,28 +24,29 @@ const Products = (props) => {
   const [total, setTotal] = useState(0);
   const [maxProductsPrice, setMaxProductsPrice] = useState(1000);
 
-  const defineSortData = (option) => {
-    switch (option) {
-      case sortOptions.New_In:
-        return '-date';
-      case sortOptions.Price_High_To_Low:
-        return '-price';
-      case sortOptions.Price_Low_To_High:
-        return 'price';
-      default:
-        return '-date';
-    }
-  };
+  const filtersArray = [{minPrice: priceRange[0]}, {maxPrice: priceRange[1]}];
+  const href = window.location.href.split('filter?')[1];
 
   useEffect(() => {
     let isCanceled = false;
+
+    if (href.includes('&')) {
+      const filterStrings = href.split('&');
+      const allFilters = [];
+      filterStrings.forEach(string => {
+        allFilters.push(makeFilterItem(string));
+      });
+      filtersArray.push(...allFilters);
+    } else {
+      filtersArray.push(makeFilterItem(href));
+    }
+
     if (!isCanceled) {
-      // todo make request by category
-      AjaxUtils.Products.getAllProducts()
+      AjaxUtils.Products.getMaxPrice()
         .then(result => {
-          setMaxProductsPrice(calcMaxPrice(result.products));
+          setMaxProductsPrice(result.maxSalePrice);
         });
-      AjaxUtils.Products.getProductsByFilters([{minPrice: priceRange[0]}, {maxPrice: priceRange[1]}], currentPage, perPage, `${defineSortData(sortingOption)}`)
+      AjaxUtils.Products.getProductsByFilters(filtersArray, currentPage, perPage, `${defineSortData(sortingOption)}`)
         .then(result => {
           setProducts(result.products);
           setTotal(result.totalCount);
@@ -54,7 +55,8 @@ const Products = (props) => {
     return () => {
       isCanceled = true;
     };
-  }, [currentPage, perPage, sortingOption, priceRange]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [href, currentPage, perPage, sortingOption, priceRange]);
 
   return (
     <Container>
@@ -63,7 +65,7 @@ const Products = (props) => {
           <Grid item container className={classes.topFiltersLine}>
             <Grid item container lg={12} className={classes.upperLine}>
               <Grid container item xl={6} lg={6} md={5} sm={6} xs={12} className={classes.sortSelect}>
-                <Sort values={sortOptions}/>
+                <Sort values={globalConfig.sortOptions}/>
               </Grid>
               <Grid item xl={6} lg={6} md={7} sm={6} xs={12} className={classes.filterPrice}>
                 <FilterPrice maxProductsPrice={maxProductsPrice}/>
@@ -74,7 +76,7 @@ const Products = (props) => {
                 <ViewAs label={true}/>
               </Grid>
               <Grid item xl={3} lg={3} md={3} sm={6} xs={6} className={classes.showBy}>
-                <ShowBy step={step}/>
+                <ShowBy step={globalConfig.step}/>
               </Grid>
               <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
                 <PaginationRounded perPage={perPage} total={total}/>
@@ -86,6 +88,9 @@ const Products = (props) => {
           </Grid>
         </Grid>
         <SideBar/>
+        <Grid item xl={12} lg={12} md={12} sm={12} xs={12} className={classes.paginationBottom}>
+          <PaginationRounded perPage={perPage} total={total}/>
+        </Grid>
       </Grid>
     </Container>
   );

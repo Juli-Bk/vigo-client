@@ -1,4 +1,7 @@
 import React from 'react';
+import { getUserIdFromCookie } from '../ajax/common/helper';
+import AjaxUtils from '../ajax';
+import globalConfig from '../globalConfig';
 
 export const formPriceString = (price, priceToCeil) => {
   if (priceToCeil) {
@@ -70,14 +73,6 @@ export const makeShortText = (text) => {
   return textArray[0];
 };
 
-export const calcMaxPrice = (array) => {
-  const prices = [];
-  array.forEach(object => {
-    prices.push(Number(object.price));
-  });
-  return Math.max(...prices);
-};
-
 export const mapArrayToOptions = (array) => {
   return array.map(item => {
     return <option value={item} key={item}>{item}</option>;
@@ -92,20 +87,77 @@ export const makeNumbersArray = (number) => {
   return array;
 };
 
-export const changeOrder = (arrayOfId, arrayOfObj) => {
-  const newObjArray = [];
+export const changeOrder = (arrayOfId, arrayOfObjects) => {
+  const newObjectsArray = [];
   arrayOfId.forEach(id => {
-    newObjArray.push(arrayOfObj.find(item => item._id === id));
+    newObjectsArray.push(arrayOfObjects.find(object => object._id === id));
   });
-  return newObjArray.reverse();
+  return newObjectsArray.reverse();
 };
 
 export const getStorageData = (key) => {
-  let arrayOfId = JSON.parse(localStorage.getItem(key));
-  arrayOfId = (arrayOfId && arrayOfId.length) ? arrayOfId : [];
-  return arrayOfId;
+  return JSON.parse(localStorage.getItem(key)) || [];
 };
 
 export const setStorageData = (key, data) => {
   localStorage.setItem(key, JSON.stringify(data));
+};
+
+export const integrateWishLists = (remoteWishList, localWishList) => {
+  remoteWishList.forEach(product => {
+    if (!localWishList.includes(product._id)) localWishList.push(product._id);
+  });
+  setStorageData('wishList', localWishList);
+};
+
+export const toggleWishItems = (productId) => {
+  const userId = getUserIdFromCookie();
+  const wishListLocal = getStorageData('wishList');
+
+  if (wishListLocal.includes(productId)) {
+    setStorageData('wishList', wishListLocal.filter(item => item !== productId));
+
+    if (userId) {
+      AjaxUtils.WishLists.deleteProductFromWishlist(productId)
+        .then(result => {
+          if (result.status) {
+            // todo nice popup
+            alert(globalConfig.userMessages.NOT_AUTHORIZED);
+          }
+          console.log(result);
+        });
+    }
+  } else {
+    setStorageData('wishList', [...wishListLocal, productId]);
+
+    if (userId) {
+      AjaxUtils.WishLists.addProductToWishList(productId, userId)
+        .then(result => {
+          if (result.status) {
+            alert(globalConfig.userMessages.NOT_AUTHORIZED);
+          }
+          console.log(result);
+        });
+    }
+  }
+};
+
+export const defineSortData = (option) => {
+  switch (option) {
+    case globalConfig.sortOptions.New_In:
+      return '-date';
+    case globalConfig.sortOptions.Price_High_To_Low:
+      return '-price';
+    case globalConfig.sortOptions.Price_Low_To_High:
+      return 'price';
+    default:
+      return '-date';
+  }
+};
+
+export const makeFilterItem = (string) => {
+  const filterString = string.split('=');
+  const key = filterString[0];
+  const value = filterString[1];
+  return {[key]: value};
 };

@@ -33,6 +33,10 @@ export const toggleMenuOpen = (isOpen) => {
   return {type: Actions.TOGGLE_MENU_OPEN, payload: isOpen};
 };
 
+export const toggleSearchBarOpen = (isOpen) => {
+  return {type: Actions.TOGGLE_SEARCH_BAR_OPEN, payload: isOpen};
+};
+
 export const setChosenSize = (size) => {
   return {type: Actions.SET_CHOSEN_SIZE, payload: size};
 };
@@ -41,6 +45,10 @@ export const setChosenQuantity = (quantity) => {
   return {type: Actions.SET_CHOSEN_QUANTITY, payload: quantity};
 };
 
-export const setRecentlyViewed = (item) => {
-  return {type: Actions.SET_RECENTLY_VIEWED, payload: item};
+export const changeWishList = (data) => {
+  return {type: Actions.CHANGE_WISH_LIST, payload: data};
+};
+
+export const setUser = (userData) => {
+  return {type: Actions.SET_USER, payload: userData};
 };

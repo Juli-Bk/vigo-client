@@ -36,6 +36,11 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end'
+  },
+  paginationBottom: {
+    display: 'flex',
+    justifyContent: 'center',
+    marginBottom: '2rem'
   }
 })
 );

@@ -1,5 +1,6 @@
 import React, {useCallback, useMemo} from 'react';
 import {connect} from 'react-redux';
+import {withRouter} from 'react-router';
 import TreeView from '@material-ui/lab/TreeView';
 import useStyles from './CategoryTreeStyle';
 import StyledTreeItem from '../StyledTreeItem/StyledTreeItem';
@@ -7,7 +8,8 @@ import StyledTreeItem from '../StyledTreeItem/StyledTreeItem';
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 
-const CategoryTree = ({categories}) => {
+const CategoryTree = (props) => {
+  const {categories, history} = props;
   const classes = useStyles();
 
   const getStyledTreeItem = useCallback((category) => {
@@ -24,14 +26,13 @@ const CategoryTree = ({categories}) => {
       className={classes[category.level.toString()]}
       label={`${category.name}`}
       onLabelClick={(event) => {
-        // todo paste here logic for filtering
-        console.log('category filter item click', event);
+        history.push(`/products/filter?categoryId=${category.id}`);
       }}
     >
       {children}
     </StyledTreeItem>;
   },
-  [classes]);
+  [classes, history]);
 
   const elementsToExpand = useMemo(() => {
     const arr = categories
@@ -70,8 +71,8 @@ const CategoryTree = ({categories}) => {
 
 const mapStoreToProps = store => {
   return {
-    categories: store.categories
+    categories: Array.isArray(store.categories) ? store.categories : store.categories.categories
   };
 };
 
-export default connect(mapStoreToProps)(React.memo(CategoryTree));
+export default connect(mapStoreToProps)(React.memo(withRouter(CategoryTree)));

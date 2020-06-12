@@ -1,25 +1,28 @@
 import React from 'react';
-import { CardActions } from '@material-ui/core';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { CardActions } from '@material-ui/core';
 import ButtonAddToCart from './ButtonAddToCart/ButtonAddToCart';
 import FavoriteIcon from './FavoriteIcon/FavoriteIcon';
 import ButtonCompare from './ButtonCompare/ButtonCompare';
-import { labels } from '../labels';
+import globalConfig from '../../../globalConfig';
+import { getStorageData, toggleWishItems } from '../../../helpers/helpers';
+import { changeWishList } from '../../../redux/actions/actions';
 
 const ActionButtons = (props) => {
-  const { classes, product, width, disabledSpacing, isProductPage } = props;
-
+  const { classes, product, width, disabledSpacing, isProductPage, changeWishList } = props;
   // todo logic
-  const addToCart = (id) => {
-    console.log(`product with id ${id} added to shopping cart`);
+  const addToCart = (productId) => {
+    console.log(`product with id ${productId} added to shopping cart`);
   };
 
-  const addToCompare = (id) => {
-    console.log(`product with id ${id} added to compare`);
+  const addToCompare = (productId) => {
+    console.log(`product with id ${productId} added to compare`);
   };
 
-  const addToWishList = (id) => {
-    console.log(`product with id ${id} added to wish list`);
+  const toggleWishList = (productId) => {
+    toggleWishItems(productId);
+    changeWishList(getStorageData('wishList'));
   };
 
   const defineLabel = (width, isProductPage, label) => {
@@ -32,12 +35,12 @@ const ActionButtons = (props) => {
       <ButtonAddToCart classes={classes.button} id={product._id} addToCart={addToCart}/>
       <FavoriteIcon classes={classes}
         id={product._id}
-        addToWishList={addToWishList}
-        label={defineLabel(width, isProductPage, labels.ADD_TO_WISHLIST)}/>
+        addToWishList={toggleWishList}
+        label={defineLabel(width, isProductPage, globalConfig.iconsLabels.ADD_TO_WISHLIST)}/>
       <ButtonCompare classes={classes}
         id={product._id}
         addToCompare={addToCompare}
-        label={defineLabel(width, isProductPage, labels.ADD_TO_COMPARE)}/>
+        label={defineLabel(width, isProductPage, globalConfig.iconsLabels.ADD_TO_COMPARE)}/>
     </CardActions>
   );
 };
@@ -48,7 +51,21 @@ ActionButtons.propTypes = {
   labels: PropTypes.object,
   width: PropTypes.string,
   disabledSpacing: PropTypes.bool,
-  isProductPage: PropTypes.bool
+  isProductPage: PropTypes.bool,
+  token: PropTypes.string,
+  changeWishList: PropTypes.func.isRequired
 };
 
-export default ActionButtons;
+const mapStateToProps = store => {
+  return {
+    token: store.token
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    changeWishList: data => dispatch(changeWishList(data))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(ActionButtons));

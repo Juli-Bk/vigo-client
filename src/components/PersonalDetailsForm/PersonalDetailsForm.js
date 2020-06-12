@@ -6,8 +6,8 @@ import {
   TextField,
   Button,
   CardActions,
-  CardContent,
-  Card, ThemeProvider
+  Grid,
+  ThemeProvider
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import useStyles from './PersonalDetailsFormStyle';
@@ -28,7 +28,8 @@ const PersonalDetailsForm = (props) => {
     submitPersonalDetailsHandler(values, () => {
       setSubmitting(false);
       resetForm();
-    }); console.log('info', values);
+    });
+    console.log('info', values);
   };
 
   const initFormValues = {
@@ -89,8 +90,8 @@ const PersonalDetailsForm = (props) => {
   const styles = useStyles();
 
   return (
-    <Card>
-      <CardContent>
+    <Grid container>
+      <Grid item xs={12} sm={6}>
         <Typography className={styles.header} variant='h4' gutterBottom>your personal details</Typography>
         <Formik
           initialValues={initFormValues}
@@ -204,8 +205,10 @@ const PersonalDetailsForm = (props) => {
             </form>
           )}
         </Formik>
-      </CardContent>
-    </Card>
+      </Grid>
+      <Grid item xs={12} sm={6}> </Grid>
+    </Grid>
+
   );
 };
 

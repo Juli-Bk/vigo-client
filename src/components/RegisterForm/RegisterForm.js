@@ -1,7 +1,7 @@
 import React from 'react';
-import { Formik } from 'formik';
+import {Formik} from 'formik';
 import * as Yup from 'yup';
-import { Button, Card, CardActions, CardContent, TextField, ThemeProvider, Typography } from '@material-ui/core';
+import {Button, Card, CardActions, CardContent, TextField, ThemeProvider, Typography} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import theme from './RegisterFormTheme';
 import IconLabel from '../IconLabel/IconLabel';
@@ -10,8 +10,7 @@ import LockIcon from '@material-ui/icons/Lock';
 import EnhancedEncryptionRoundedIcon from '@material-ui/icons/EnhancedEncryptionRounded';
 import useStyles from './RegisterFormStyle';
 import EmailIcon from '@material-ui/icons/Email';
-
-// import Checkbox from '../Checkbox/Checkbox.js';
+import AjaxUtils from '../../ajax';
 
 const RegisterForm = (props) => {
   const {submitRegisterHandler} = props;
@@ -24,11 +23,13 @@ const RegisterForm = (props) => {
       password: values.password
     });
 
-    submitRegisterHandler(json)
+    AjaxUtils.Users.createUser(json)
       .then(result => {
-        alert(JSON.stringify(result));
         setSubmitting(false);
-        resetForm();
+        if (result.status !== 400) {
+          resetForm();
+        }
+        submitRegisterHandler(result);
       });
   };
 
@@ -61,9 +62,10 @@ const RegisterForm = (props) => {
   return (
     <Card>
       <CardContent>
-        <Typography className={styles.header} variant='h4' gutterBottom>new customer</Typography>
-        <Typography className={styles.text} variant='subtitle1' gutterBottom>Register with us for future
-          convenience:</Typography>
+        {/* <Typography className={styles.header} variant='h4' gutterBottom>new customer</Typography> */}
+        <Typography className={styles.text} variant='subtitle1' gutterBottom>
+          Register with us for future convenience:
+        </Typography>
         <Formik
           initialValues={initFormValues}
           validationSchema={validateObject}
@@ -124,7 +126,6 @@ const RegisterForm = (props) => {
                 />
               </ThemeProvider>
               {/* todo save user password in browser */}
-              {/* <Checkbox label='Remember password' color='default' name='registered'/> */}
               <CardActions>
                 <Button
                   type='submit'
@@ -132,7 +133,7 @@ const RegisterForm = (props) => {
                   onClick={handleSubmit}
                   disabled={isSubmitting}
                   size='large'
-                  variant='outlined'>Register
+                  variant='outlined'>Sign up
                 </Button>
               </CardActions>
             </form>

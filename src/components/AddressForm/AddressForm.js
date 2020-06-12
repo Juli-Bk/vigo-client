@@ -6,8 +6,8 @@ import {
   TextField,
   Button,
   CardActions,
-  CardContent,
-  Card, ThemeProvider
+  Grid,
+  ThemeProvider
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import useStyles from './AddressFormStyle';
@@ -18,7 +18,7 @@ import ApartmentIcon from '@material-ui/icons/Apartment';
 import MyLocationIcon from '@material-ui/icons/MyLocation';
 import IconLabel from '../IconLabel/IconLabel';
 import PinDropIcon from '@material-ui/icons/PinDrop';
-import GoogleMaps from '../Autocomplete/Autocomplete';
+import AutocompleteComponent from '../Autocomplete/Autocomplete';
 
 const AddressForm = (props) => {
   const {submitAddressHandler} = props;
@@ -31,6 +31,7 @@ const AddressForm = (props) => {
   };
 
   const initFormValues = {
+    autocomplete: '',
     buildingNumber: '',
     appartNumber: '',
     postCode: '',
@@ -39,6 +40,8 @@ const AddressForm = (props) => {
   };
 
   const validateObject = Yup.object().shape({
+    autocomplete: Yup.string()
+      .required('Choose your delivery address here!'),
     buildingNumber: Yup.string()
       .min(1, 'Correct building number is a must!')
       .required('Required'),
@@ -55,8 +58,8 @@ const AddressForm = (props) => {
   const styles = useStyles();
 
   return (
-    <Card>
-      <CardContent>
+    <Grid container>
+      <Grid item xs={12} sm={6}>
         <Typography className={styles.header} variant='h4' gutterBottom>your delivery address</Typography>
         <Formik
           initialValues={initFormValues}
@@ -77,13 +80,14 @@ const AddressForm = (props) => {
           }) => (
             <form autoComplete='on'>
               <ThemeProvider theme={theme}>
-                <GoogleMaps />
+                <AutocompleteComponent name='autocomplete' onBlur={handleBlur} touched={touched} error={errors}/>
                 <TextField
                   name='buildingNumber'
                   autoComplete='on'
                   label={<IconLabel label='Enter building number' Component={ApartmentIcon}/>}
                   className={styles.input}
                   value={values.buildingNumber}
+                  onBlur={handleBlur}
                   onChange={handleChange('buildingNumber')}
                   helperText={touched.buildingNumber ? errors.buildingNumber : ''}
                   error={touched.buildingNumber && Boolean(errors.buildingNumber)}
@@ -95,6 +99,7 @@ const AddressForm = (props) => {
                   autoComplete='on'
                   label={<IconLabel label='Enter appartment number' Component={MyLocationIcon}/>}
                   className={styles.input}
+                  onBlur={handleBlur}
                   value={values.appartNumber}
                   onChange={handleChange('appartNumber')}
                   helperText={touched.appartNumber ? errors.appartNumber : ''}
@@ -108,6 +113,7 @@ const AddressForm = (props) => {
                   label={<IconLabel label='Enter postal code' Component={PinDropIcon}/>}
                   className={styles.input}
                   value={values.postCode}
+                  onBlur={handleBlur}
                   onChange={handleChange('postCode')}
                   helperText={touched.postCode ? errors.postCode : ''}
                   error={touched.postCode && Boolean(errors.postCode)}
@@ -131,8 +137,10 @@ const AddressForm = (props) => {
             </form>
           )}
         </Formik>
-      </CardContent>
-    </Card>
+      </Grid>
+      <Grid item xs={12} sm={6}>
+      </Grid>
+    </Grid>
   );
 };
 

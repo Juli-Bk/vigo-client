@@ -1,20 +1,19 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import {Box, Container, Grid, IconButton, Toolbar} from '@material-ui/core';
 import {ThemeProvider} from '@material-ui/core/styles';
 import LocalMallOutlinedIcon from '@material-ui/icons/LocalMallOutlined';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
-import SearchIcon from '@material-ui/icons/Search';
 import AppBar from '@material-ui/core/AppBar';
-
 import useStyles from './headerStyle';
 import theme from './headerTheme';
 
-import ButtonLink from '../../components/ButtonLink/ButtonLink';
-import Search from '../../components/Search/Search';
-import PersonButton from '../../components/PersonButton/PersonButton';
-import SideMenu from '../../components/SideMenu/SideMenu';
 import Logo from '../../components/Logo/Logo';
 import NestedMenu from '../../components/NestedMenu/NestedMenu';
+import SearchBar from '../../components/SearchBar/SearchBar';
+import SideMenu from '../../components/SideMenu/SideMenu';
+import ModalLogin from '../../components/ModalLogin/ModalLogin';
+import ModalSignUp from '../../components/ModalSignUp/ModalSignUp';
 
 const Header = () => {
   const classes = useStyles();
@@ -30,31 +29,22 @@ const Header = () => {
                   <SideMenu/>
                   <Logo description={'Vigo Shop'}/>
                 </Box>
-                <Box className={classes.headerSearchBlock}>
-                  {/* todo responsibility and server request  */}
-                  <Search/>
-                </Box>
                 <Box className={classes.headerIconsBlock}>
-                  <IconButton aria-label="searchIcon" className={classes.searchIcon}>
-                    {/* todo responsibility and server request  */}
-                    <SearchIcon/>
-                  </IconButton>
-
-                  <IconButton aria-label="starIcon" className={classes.starIcon}>
-                    {/* todo should open favorites card page */}
-                    <FavoriteBorderIcon/>
-                  </IconButton>
+                  <SearchBar/>
+                  <Link to='/wishlist'>
+                    <IconButton aria-label="starIcon" className={classes.starIcon}>
+                      <FavoriteBorderIcon/>
+                    </IconButton>
+                  </Link>
 
                   <IconButton aria-label="shoppingBag" className={classes.shoppingBag}>
                     {/* todo should open shopping card page */}
                     <LocalMallOutlinedIcon/>
                   </IconButton>
 
-                  <PersonButton classIncome={classes.personIcon}/>
-                  <Box className={classes.loginControls}>
-                    {/* todo not link, it is button which should open modal window with login form */}
-                    <ButtonLink name="Sign In" path="/login"/>
-                  </Box>
+                  {/* todo responsive if mobile - render only icon, else ModalSignUp */}
+                  <ModalLogin />
+                  <ModalSignUp/>
                 </Box>
               </Toolbar>
             </Container>

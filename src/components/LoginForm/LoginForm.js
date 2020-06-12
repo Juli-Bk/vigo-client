@@ -1,21 +1,14 @@
 import React from 'react';
-import { Formik } from 'formik';
+import {Formik} from 'formik';
 import * as Yup from 'yup';
-// import Checkbox from '../Checkbox/Checkbox.js';
-import {
-  Typography,
-  TextField,
-  Button,
-  CardActions,
-  CardContent,
-  Card, ThemeProvider
-} from '@material-ui/core';
+import {Button, Card, CardActions, CardContent, TextField, ThemeProvider, Typography} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import useStyles from './LoginFormStyle';
 import theme from './LoginFormTheme';
 import EmailIcon from '@material-ui/icons/Email';
 import LockIcon from '@material-ui/icons/Lock';
 import IconLabel from '../IconLabel/IconLabel';
+import AjaxUtils from '../../ajax';
 
 const LoginForm = (props) => {
   const {submitLoginHandler} = props;
@@ -28,11 +21,13 @@ const LoginForm = (props) => {
       password: values.password
     });
 
-    submitLoginHandler(json)
+    AjaxUtils.Users.login(json)
       .then(result => {
-        // todo set in header 'Welcome, User' if token
         setSubmitting(false);
-        resetForm();
+        if (result.status !== 400) {
+          resetForm();
+        }
+        submitLoginHandler(result);
       });
   };
   const initFormValues = {
@@ -58,13 +53,15 @@ const LoginForm = (props) => {
     <Card>
 
       <CardContent>
-        <Typography className={styles.header} variant='h4' gutterBottom>registered customer</Typography>
-        <Typography className={styles.text} variant='subtitle1' gutterBottom>If you have an account, please log in.</Typography>
+        {/* <Typography className={styles.header} variant='h4' gutterBottom>registered customer</Typography> */}
+        <Typography className={styles.text} variant='subtitle1' gutterBottom>
+          If you have an account, please log in
+        </Typography>
         <Formik
           initialValues={initFormValues}
           validationSchema={validateObject}
           onSubmit={submitLoginData}>
-          {({ values, handleChange, handleSubmit, handleBlur, isSubmitting, errors, touched, onChange }) => (
+          {({values, handleChange, handleSubmit, handleBlur, isSubmitting, errors, touched, onChange}) => (
             <form autoComplete='off'>
               <ThemeProvider theme={theme}>
                 <TextField
@@ -94,7 +91,6 @@ const LoginForm = (props) => {
                 />
               </ThemeProvider>
               {/* todo save user data for quick login */}
-              {/* <Checkbox name='saveMyData' label='Remember password'/> */}
               <CardActions>
                 <Button
                   type='submit'

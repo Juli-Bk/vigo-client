@@ -4,6 +4,7 @@ import '@testing-library/jest-dom/extend-expect';
 import { BrowserRouter } from 'react-router-dom';
 import ProductListView from './ProductListView';
 import { calculateSale } from '../../../helpers/helpers';
+jest.mock('../ActionButtons/ActionButtons');
 
 const testData2 = {
   _id: 'aaa3342453786497',
@@ -14,6 +15,7 @@ const testData2 = {
   rating: 4,
   imageUrls: ['/img/products/07_002.jpg'],
   salePrice: 405,
+  isOnSale: true,
   date: Date.now()
 };
 

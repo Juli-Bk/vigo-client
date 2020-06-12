@@ -36,6 +36,12 @@ const CustomSlider = withStyles({
       backgroundColor: colors.paginationActive,
       marginLeft: 1,
       marginRight: 1
+    },
+    '&[data-index="0"] > span': {
+      left: 'calc(-50% - 15px)'
+    },
+    '&[data-index="1"] > span': {
+      left: '50%'
     }
   },
   // material ui needs this empty rule
