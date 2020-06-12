@@ -13,6 +13,7 @@ import { Container } from '@material-ui/core';
 import PaymentForm from '../PaymentForm/PaymentForm';
 import {connect} from 'react-redux';
 import AjaxUtils from '../../ajax/index';
+import {getJWTfromCookie} from '../../ajax/common/helper';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,13 +63,13 @@ const getStepContent = (stepIndex, userData) => {
 };
 
 const CheckoutStepper = (props) => {
-  const {user} = props;
+  const {user, token} = props;
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const [userData, setUser] = useState(0);
 
   useEffect(() => {
-    if (user && user.id) {
+    if (token || getJWTfromCookie()) {
       AjaxUtils.Users.getUser()
         .then(result => {
           if (result.status === 200) {
@@ -88,7 +89,7 @@ const CheckoutStepper = (props) => {
           // todo open modal window to login again
         });
     }
-  }, [classes.link, user]);
+  }, [classes.link, token]);
 
   const handleNext = useCallback(() => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -155,7 +156,8 @@ const CheckoutStepper = (props) => {
 
 const mapStoreToProps = store => {
   return {
-    user: store.user
+    user: store.user,
+    token: store.token
   };
 };
 
