@@ -5,13 +5,10 @@ import useStyles from './BannerLineHomePageStyle';
 import moment from 'moment';
 import { connect } from 'react-redux';
 
-// todo working links
-
 const BannerLineHomePage = props => {
   const {categories} = props;
   const [menLink, setMenLink] = useState('/products');
   const [girlsLink, setGirlsLink] = useState('');
-  console.log('Categories', categories);
   const styles = useStyles();
   const twoWeeksAgo = moment().subtract(14, 'days').format('YYYY.MM.DD');
   const currentDate = moment().format('YYYY.MM.DD');
