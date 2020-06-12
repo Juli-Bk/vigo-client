@@ -10,7 +10,6 @@ import NovaPoshtaCity from '../PostOfficeForm/PostOfficeForm';
 const {deliveryOptions} = globalConfig;
 
 const submitNovaPoshtaHandler = (values) => {
-  console.log(values);
 };
 
 // todo get address from BD render static in case VIGO_COURIER_SERVICE
