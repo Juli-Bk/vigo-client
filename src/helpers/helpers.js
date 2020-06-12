@@ -73,14 +73,6 @@ export const makeShortText = (text) => {
   return textArray[0];
 };
 
-export const calcMaxPrice = (array) => {
-  const prices = [];
-  array.forEach(object => {
-    prices.push(Number(object.price));
-  });
-  return Math.max(...prices);
-};
-
 export const mapArrayToOptions = (array) => {
   return array.map(item => {
     return <option value={item} key={item}>{item}</option>;
@@ -148,4 +140,24 @@ export const toggleWishItems = (productId) => {
         });
     }
   }
+};
+
+export const defineSortData = (option) => {
+  switch (option) {
+    case globalConfig.sortOptions.New_In:
+      return '-date';
+    case globalConfig.sortOptions.Price_High_To_Low:
+      return '-price';
+    case globalConfig.sortOptions.Price_Low_To_High:
+      return 'price';
+    default:
+      return '-date';
+  }
+};
+
+export const makeFilterItem = (string) => {
+  const filterString = string.split('=');
+  const key = filterString[0];
+  const value = filterString[1];
+  return {[key]: value};
 };

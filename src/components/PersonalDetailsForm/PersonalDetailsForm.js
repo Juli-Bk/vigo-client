@@ -89,16 +89,16 @@ const PersonalDetailsForm = (props) => {
       subscribe: Yup.bool(),
       confirmation: Yup.bool()
     })
-    // .test('myCustomCheckboxTest', null, (obj) => {
-    //   if (obj.subscribe || obj.confirmation) {
-    //     return true;
-    //   } else {
-    //     return new Yup.ValidationError(
-    //       'Must agree to something',
-    //       null
-    //     );
-    //   }
-    // })
+    .test('myCustomCheckboxTest', null, (obj) => {
+      if (obj.subscribe || obj.confirmation) {
+        return true;
+      } else {
+        return new Yup.ValidationError(
+          'Must agree to something',
+          null
+        );
+      }
+    })
   });
 
   const styles = useStyles();

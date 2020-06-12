@@ -118,6 +118,7 @@
     "eslint-plugin-react": "^7.20.0",
     "expect": "^26.0.1",
     "modern-css-reset": "^1.1.0",
+    "redux-mock-store": "^1.5.4",
     "sinon": "^9.0.2",
     "standard": "^14.3.4"
   },

@@ -55,7 +55,9 @@ const globalConfig = {
   step: 15,
   userMessages: {
     NOT_AUTHORIZED: 'You are not authorized. Login, please'
-  }
+  },
+  minDefaultPrice: 0,
+  maxDefaultPrice: 3000
 };
 
 export default globalConfig;

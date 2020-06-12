@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Container, Grid } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { calcMaxPrice } from '../../helpers/helpers';
 import AjaxUtils from '../../ajax';
 import useStyles from './ProductsStyles';
 import globalConfig from '../../globalConfig';
+import { defineSortData, makeFilterItem } from '../../helpers/helpers';
 
 import ProductGrid from '../../containers/ProductsGrid/ProductsGrid';
 import ProductsList from '../../containers/ProductsList/ProductsList';
@@ -24,28 +24,29 @@ const Products = (props) => {
   const [total, setTotal] = useState(0);
   const [maxProductsPrice, setMaxProductsPrice] = useState(1000);
 
-  const defineSortData = (option) => {
-    switch (option) {
-      case globalConfig.sortOptions.New_In:
-        return '-date';
-      case globalConfig.sortOptions.Price_High_To_Low:
-        return '-price';
-      case globalConfig.sortOptions.Price_Low_To_High:
-        return 'price';
-      default:
-        return '-date';
-    }
-  };
+  const filtersArray = [{minPrice: priceRange[0]}, {maxPrice: priceRange[1]}];
+  const href = window.location.href.split('filter?')[1];
 
   useEffect(() => {
     let isCanceled = false;
+
+    if (href.includes('&')) {
+      const filterStrings = href.split('&');
+      const allFilters = [];
+      filterStrings.forEach(string => {
+        allFilters.push(makeFilterItem(string));
+      });
+      filtersArray.push([...allFilters]);
+    } else {
+      filtersArray.push(makeFilterItem(href));
+    }
+
     if (!isCanceled) {
-      // todo make request by category
-      AjaxUtils.Products.getAllProducts()
+      AjaxUtils.Products.getMaxPrice()
         .then(result => {
-          setMaxProductsPrice(calcMaxPrice(result.products));
+          setMaxProductsPrice(result.maxSalePrice);
         });
-      AjaxUtils.Products.getProductsByFilters([{minPrice: priceRange[0]}, {maxPrice: priceRange[1]}], currentPage, perPage, `${defineSortData(sortingOption)}`)
+      AjaxUtils.Products.getProductsByFilters(filtersArray, currentPage, perPage, `${defineSortData(sortingOption)}`)
         .then(result => {
           setProducts(result.products);
           setTotal(result.totalCount);
@@ -54,7 +55,8 @@ const Products = (props) => {
     return () => {
       isCanceled = true;
     };
-  }, [currentPage, perPage, sortingOption, priceRange]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [href, currentPage, perPage, sortingOption, priceRange]);
 
   return (
     <Container>
