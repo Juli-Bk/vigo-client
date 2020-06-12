@@ -25,10 +25,10 @@ function defineDelivery (inputValue) {
             <ListItem>address</ListItem>
             <ListItem>address, 2334 </ListItem>
             <ListItem>Street 48/188</ListItem>
-            {/* todo <Box>Delivery address from BD to put here</Box> */}
           </Grid>
         </ThemeProvider>
       );
+      // todo <Box>Delivery address from BD to put here</Box>
     case deliveryOptions.NOVA_POSHTA:
       return (
         <NovaPoshtaCity submitNovaPoshtaHandler={submitNovaPoshtaHandler}/>

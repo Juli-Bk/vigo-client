@@ -24,8 +24,6 @@
         embedTo: '#liqpay_checkout',
         mode: 'embed'
       }).on('liqpay.callback', function(data){
-        console.log(data.status);
-        console.log(data);
       }).on('liqpay.ready', function(data){
       }).on('liqpay.close', function(data){
       });
