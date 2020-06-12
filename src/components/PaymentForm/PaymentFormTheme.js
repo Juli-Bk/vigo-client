@@ -5,10 +5,10 @@ const theme = createMuiTheme({
   overrides: {
     MuiButton: {
       root: {
-        backgroundColor: 'green',
+        backgroundColor: colors.payButtonColor,
         color: colors.fontOncard,
         '&:hover': {
-          backgroundColor: 'darkGreen'
+          backgroundColor: colors.payButtonColorHover
         }
       },
       containedPrimary: {

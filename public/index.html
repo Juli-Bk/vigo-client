@@ -17,14 +17,9 @@
   <div id='liqpay_checkout'></div>
   <script src='//static.liqpay.ua/libjs/checkout.js' async></script>
   <script>
-    // todo вынести строку подкючения к LiqPay в конфиг файл
+    import keysLiqpay from '../keysConfig';
     window.LiqPayCheckoutCallback = function() {
-      LiqPayCheckout.init({
-        data:'eyJhY3Rpb24iOiJwYXkiLCJhbW91bnQiOiIxIiwiY3VycmVuY3kiOiJVU0QiLCJkZXNjcmlwdGlvbiI6ImRlc2NyaXB0aW9uIHRleHQiLCJvcmRlcl9pZCI6Im9yZGVyX2lkXzEiLCJ2ZXJzaW9uIjoiMyJ9',
-        signature: '676htJyQmMkox9gAKkyYoI8ige8=',
-        embedTo: '#liqpay_checkout',
-        mode: 'embed'
-      }).on('liqpay.callback', function(data){
+      LiqPayCheckout.init(keysLiqpay).on('liqpay.callback', function(data){
       }).on('liqpay.ready', function(data){
       }).on('liqpay.close', function(data){
       });
