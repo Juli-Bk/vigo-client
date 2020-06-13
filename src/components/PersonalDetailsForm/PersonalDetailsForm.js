@@ -7,7 +7,7 @@ import {
   Button,
   CardActions,
   Grid,
-  ThemeProvider
+  ThemeProvider, FormHelperText
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import useStyles from './PersonalDetailsFormStyle';
@@ -22,7 +22,8 @@ import EnhancedEncryptionRoundedIcon from '@material-ui/icons/EnhancedEncryption
 import EmailIcon from '@material-ui/icons/Email';
 
 const PersonalDetailsForm = (props) => {
-  const {submitPersonalDetailsHandler} = props;
+  const {submitPersonalDetailsHandler, user} = props;
+
   // todo get Personal Data from BD and render in myAccount
   const submitPersonalDetailsData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
@@ -50,12 +51,12 @@ const PersonalDetailsForm = (props) => {
     firstName: '',
     lastName: '',
     phone: '',
-    email: '',
+    email: user ? user.email : '',
     password: '',
     confirmPassword: '',
-    confirmation: true,
-    subscribe: true,
-    checkboxGroup: '',
+    confirmation: false,
+    subscribe: false,
+    checkboxGroup: [],
     saveMyData: true
   };
 
@@ -81,24 +82,23 @@ const PersonalDetailsForm = (props) => {
     confirmPassword: Yup.string()
       .required('Confirm your password')
       .oneOf([Yup.ref('password')], 'Password does not match'),
-    confirmation: Yup.boolean()
-      .oneOf([true], 'Must Accept Privacy Policy'),
-    subscribe: Yup.boolean(),
-    checkboxGroup: Yup.array().required('At least one checkbox is required'),
-    ValidateCheckBoxSchema: Yup.object().shape({
-      subscribe: Yup.bool(),
-      confirmation: Yup.bool()
-    })
-      .test('myCustomCheckboxTest', null, (obj) => {
-        if (obj.subscribe || obj.confirmation) {
-          return true;
-        } else {
-          return new Yup.ValidationError(
-            'Must agree to something',
-            null
-          );
-        }
-      })
+    subscribe: Yup.bool(),
+    confirmation: Yup.bool()
+      .oneOf([true], 'You must agree to The Privacy Policy')
+    // checkboxGroup: Yup.array().required('At least one checkbox is required')
+    // ValidateCheckBoxSchema: Yup.object().shape({
+    //
+    // })
+    // .test('myCustomCheckboxTest', null, (obj) => {
+    //   if (obj.subscribe || obj.confirmation) {
+    //     return true;
+    //   } else {
+    //     return new Yup.ValidationError(
+    //       'Must agree to something',
+    //       null
+    //     );
+    //   }
+    // })
   });
 
   const styles = useStyles();
@@ -209,9 +209,13 @@ const PersonalDetailsForm = (props) => {
                   size='small'
                   fullWidth
                 />
-                <FormGroup className={styles.labels} name='saveMyData' column='true'>
-                  <Checkbox className={styles.labels} name='subscribe' label='I wish to subscribe to the Vigo Shop newsletter' />
-                  <Checkbox name='confirmation' label='I have read and agree to the Privacy Policy' />
+                <FormGroup className={styles.labels}
+                  name='saveMyData'
+                  column='true'>
+                  <Checkbox checked={values.subscribe} onChange={handleChange} className={styles.labels} name='subscribe' label='I wish to subscribe to the Vigo Shop newsletter' />
+                  <Checkbox checked={values.confirmation} onChange={handleChange} name='confirmation' label='I have read and agree to the Privacy Policy' />
+                  {touched.confirmation && errors.confirmation &&
+                              <FormHelperText error={touched.confirmation && !!errors.confirmation}>{errors.confirmation}</FormHelperText>}
                 </FormGroup>
               </ThemeProvider>
               <CardActions>
@@ -219,7 +223,7 @@ const PersonalDetailsForm = (props) => {
                   type='submit'
                   className={styles.button}
                   onClick={handleSubmit}
-                  disabled={isSubmitting}
+                  // disabled={isSubmitting}
                   size='large'
                   variant='outlined'>Continue
                 </Button>
