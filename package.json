@@ -21,6 +21,7 @@
     "clsx": "^1.1.1",
     "dotenv": "^8.2.0",
     "enzyme-adapter-react-15": "^1.4.1",
+    "fetch-inject": "^2.0.4",
     "formik": "^2.1.4",
     "if-env": "^1.0.4",
     "js-cookie": "^2.2.1",

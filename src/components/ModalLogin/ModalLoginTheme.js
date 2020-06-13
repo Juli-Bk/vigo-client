@@ -21,7 +21,10 @@ const theme = createMuiTheme({
     MuiTab: {
       wrapper: {
         fontFamily: fonts.f2,
-        fontSize: '1.5rem'
+        fontSize: '1.5rem',
+        '&:hover': {
+          color: colors.noticeColor
+        }
       }
     }
   }

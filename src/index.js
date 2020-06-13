@@ -3,11 +3,25 @@ import ReactDOM from 'react-dom';
 import * as serviceWorker from './serviceWorker';
 import App from './App';
 import store from './redux/store';
-import { Provider } from 'react-redux';
+import {Provider} from 'react-redux';
+import keysLiqpay from '../src/keysConfig';
+import fetchInject from 'fetch-inject';
+
+fetchInject([
+  '//static.liqpay.ua/libjs/checkout.js',
+  'https://cdn.jsdelivr.net/momentjs/2.17.1/moment.min.js'
+]).then(() => {
+  window.LiqPayCheckoutCallback = function (LiqPayCheckout) {
+    LiqPayCheckout.init(keysLiqpay).on('liqpay.callback', function (data) {
+    }).on('liqpay.ready', function (data) {
+    }).on('liqpay.close', function (data) {
+    });
+  };
+});
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <App/>
   </Provider>,
   document.getElementById('root')
 );

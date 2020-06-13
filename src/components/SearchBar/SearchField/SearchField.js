@@ -85,7 +85,7 @@ const SearchField = (props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      {searchList.length && searchComponent}
+      {searchList.length > 0 && searchComponent}
     </ThemeProvider>
   );
 };
