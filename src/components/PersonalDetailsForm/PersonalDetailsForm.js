@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -25,6 +25,7 @@ import { setUser } from '../../redux/actions/actions';
 
 const PersonalDetailsForm = (props) => {
   const {user, setUser} = props;
+  const {firstName, lastName, email, phoneNumber} = user;
 
   const submitPersonalDetailsData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
@@ -47,10 +48,10 @@ const PersonalDetailsForm = (props) => {
   };
 
   const initFormValues = {
-    firstName: user ? user.firstName : '',
-    lastName: user ? user.lastName : '',
-    phone: user ? user.phoneNumber : '',
-    email: user ? user.email : '',
+    firstName: user ? firstName : '',
+    lastName: user ? lastName : '',
+    phone: user ? phoneNumber : '',
+    email: user ? email : '',
     password: '',
     confirmPassword: '',
     confirmation: false,
@@ -102,9 +103,7 @@ const PersonalDetailsForm = (props) => {
             handleSubmit,
             values,
             errors,
-            touched,
-            onChange,
-            confirmPassword
+            touched
           }) => (
             <form autoComplete='on'>
               <ThemeProvider theme={theme}>
@@ -193,7 +192,7 @@ const PersonalDetailsForm = (props) => {
                   size='small'
                   fullWidth
                 />
-                <FormGroup className={styles.labels}
+                <FormGroup
                   name='saveMyData'
                   column='true'>
                   <FormControlLabel
