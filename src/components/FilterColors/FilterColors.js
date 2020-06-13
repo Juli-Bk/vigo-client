@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ThemeProvider } from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -9,11 +10,11 @@ import theme from './FilterColorsTheme';
 import useStyles from './FilterColorsStyles';
 
 const FilterColors = (props) => {
-  const {setChosenColor, colorsInStorage, colorNames} = props;
+  const {setChosenColor, colorsInStorage} = props;
   const [state, setState] = useState({});
   const [allColors, setAllColors] = useState([]);
   const [uniqColorNames, setUniqColorNames] = useState([]);
-  const classes = useStyles(colorNames);
+  const classes = useStyles();
 
   const createCheckboxes = (namesArray) => {
     return namesArray.map(colorName => {
@@ -59,6 +60,11 @@ const FilterColors = (props) => {
       {uniqColorNames.length && createCheckboxes(uniqColorNames)}
     </ThemeProvider>
   );
+};
+
+FilterColors.propTypes = {
+  colorsInStorage: PropTypes.array,
+  setChosenColor: PropTypes.func.isRequired
 };
 
 const mapStateToProps = store => {

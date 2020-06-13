@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Container, Grid, useMediaQuery } from '@material-ui/core';
 import PageTitle from '../../components/PageTitle/PageTitle';
 import AjaxUtils from '../../ajax';
 import globalConfig from '../../globalConfig';
-import ProductsTable from '../../containers/ProductsTable/ProductsTable';
 
+import ProductsTable from '../../containers/ProductsTable/ProductsTable';
 import { changeWishList } from '../../redux/actions/actions';
 import EmptyState from '../../components/EmptyState/EmptyState';
 
@@ -44,10 +45,13 @@ const Wishlist = (props) => {
 
 const mapStateToProps = store => {
   return {
-    token: store.token,
-    wishList: store.wishList,
-    user: store.user
+    wishList: store.wishList
   };
+};
+
+Wishlist.propTypes = {
+  wishlist: PropTypes.array,
+  isMyAccount: PropTypes.bool
 };
 
 const mapDispatchToProps = dispatch => {
