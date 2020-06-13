@@ -13,7 +13,7 @@ const Wishlist = (props) => {
   const {wishList, isMyAccount} = props;
   const [products, setProducts] = useState([]);
   const isMobile = useMediaQuery('(max-width: 550px)');
-  const filterArray = wishList.length ? [{_id: wishList}] : [];
+  const filterArray = (wishList.length && [{_id: wishList}]) || [];
 
   useEffect(() => {
     // eslint-disable-next-line
@@ -33,7 +33,7 @@ const Wishlist = (props) => {
 
   return (
     <Container>
-      {isMyAccount ? null : <PageTitle title='Wishlist' />}
+      {isMyAccount && <PageTitle title='Wishlist' />}
       <Grid container>
         {wishList.length && products.length ? <ProductsTable products={products} isMobile={isMobile}/>
           : <EmptyState text={globalConfig.emptyWishList}/>}

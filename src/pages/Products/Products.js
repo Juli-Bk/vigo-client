@@ -22,12 +22,11 @@ const Products = (props) => {
 
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
-  const [maxProductsPrice, setMaxProductsPrice] = useState(1000);
+  const [maxProductsPrice, setMaxProductsPrice] = useState(0);
 
   const filtersArray = [{minPrice: priceRange[0]}, {maxPrice: priceRange[1]}];
+  // todo withRouter
   const href = window.location.href.split('filter?')[1];
-
-  console.log('render');
 
   useEffect(() => {
     let isCanceled = false;
@@ -53,14 +52,6 @@ const Products = (props) => {
           setProducts(result.products);
           setTotal(result.totalCount);
         });
-      // AjaxUtils.Quantity.getAllQuantity()
-      //   .then(result => {
-      //     console.log(result);
-      //     colors.length && colors.forEach(color => {
-      //       const items = result.items.filter(item => item.colorId._id === color);
-      //       console.log(items);
-      //     });
-      //   });
     }
     return () => {
       isCanceled = true;

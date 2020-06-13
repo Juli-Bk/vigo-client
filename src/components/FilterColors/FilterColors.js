@@ -17,7 +17,15 @@ const FilterColors = (props) => {
 
   const createCheckboxes = (namesArray) => {
     return namesArray.map(colorName => {
-      return <FormControlLabel className={classes.label} key={colorName} label={colorName} control={<Checkbox className={classes[colorName]} onChange={handleChange} name={colorName} color='default'/>}/>;
+      return <FormControlLabel
+        className={classes.label}
+        key={colorName}
+        label={colorName}
+        control={<Checkbox
+          className={classes[colorName]}
+          onChange={handleChange}
+          name={colorName}
+          color='default'/>}/>;
     });
   };
 
