@@ -9,6 +9,7 @@ import FilterColorsTreeItem from '../FilterColors/FilterColorsTreeItem';
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 import FilterColors from '../FilterColors/FilterColors';
+import FilterSizes from '../FilterSizes/FilterSizes';
 
 const CategoryTree = (props) => {
   const {categories, history} = props;
@@ -66,8 +67,15 @@ const CategoryTree = (props) => {
         key={'colorsRoot'}
         nodeId={'colorsRoot'}
         className={classes['0']}
-        label={'Filters'}>
+        label={'Color Filter'}>
         <FilterColors/>
+      </FilterColorsTreeItem>
+      <FilterColorsTreeItem
+        key={'sizesRoot'}
+        nodeId={'sizesRoot'}
+        className={classes['0']}
+        label={'Size Filter'}>
+        <FilterSizes/>
       </FilterColorsTreeItem>
     </TreeView>
     : <></>;

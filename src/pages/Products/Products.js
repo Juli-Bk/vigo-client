@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Grid } from '@material-ui/core';
+import { Container, Grid, useMediaQuery } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import AjaxUtils from '../../ajax';
@@ -18,6 +18,7 @@ import ViewAs from '../../components/ViewAs/ViewAs';
 
 const Products = (props) => {
   const {currentPage, perPage, sortingOption, priceRange, view, colors} = props;
+  const isSmScreen = useMediaQuery('(max-width: 723px)');
   const classes = useStyles();
 
   const [products, setProducts] = useState([]);
@@ -65,14 +66,21 @@ const Products = (props) => {
         <Grid item container lg={8} xl={8} md={8} sm={8} xs={12} className={classes.grid}>
           <Grid item container className={classes.topFiltersLine}>
             <Grid item container lg={12} className={classes.upperLine}>
-              <Grid container item xl={6} lg={6} md={5} sm={6} xs={12} className={classes.sortSelect}>
-                <Sort values={globalConfig.sortOptions}/>
-              </Grid>
+              {!isSmScreen
+                ? <Grid container item xl={6} lg={6} md={5} sm={6} xs={12} className={classes.sortSelect}>
+                  <Sort values={globalConfig.sortOptions}/>
+                </Grid>
+                : null
+              }
               <Grid item xl={6} lg={6} md={7} sm={6} xs={12} className={classes.filterPrice}>
                 <FilterPrice maxProductsPrice={maxProductsPrice}/>
               </Grid>
             </Grid>
-            <Grid item container lg={12} spacing={2}>
+            {isSmScreen ? <Grid container item sm={6} xs={12} className={classes.sortSelect}>
+              <Sort values={globalConfig.sortOptions}/>
+            </Grid>
+              : null}
+            <Grid item container lg={12} spacing={0}>
               <Grid item xl={3} lg={3} md={3} sm={6} xs={6}>
                 <ViewAs label={true}/>
               </Grid>
