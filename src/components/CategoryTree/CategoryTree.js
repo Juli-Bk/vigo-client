@@ -4,9 +4,11 @@ import {withRouter} from 'react-router';
 import TreeView from '@material-ui/lab/TreeView';
 import useStyles from './CategoryTreeStyle';
 import StyledTreeItem from '../StyledTreeItem/StyledTreeItem';
+import FilterColorsTreeItem from '../FilterColors/FilterColorsTreeItem';
 
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
+import FilterColors from '../FilterColors/FilterColors';
 
 const CategoryTree = (props) => {
   const {categories, history} = props;
@@ -60,7 +62,13 @@ const CategoryTree = (props) => {
         label={'Categories'}>
         {categoriesTree}
       </StyledTreeItem>
-
+      <FilterColorsTreeItem
+        key={'colorsRoot'}
+        nodeId={'colorsRoot'}
+        className={classes['0']}
+        label={'Filters'}>
+        <FilterColors/>
+      </FilterColorsTreeItem>
     </TreeView>
     : <></>;
 

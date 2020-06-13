@@ -25,8 +25,12 @@ export const setPriceRange = (values) => {
   return {type: Actions.SET_PRICE_RANGE, payload: values};
 };
 
-export const setCategories = (caregoties) => {
-  return {type: Actions.SET_CATEGORIES_LIST, payload: caregoties};
+export const setChosenColor = (color) => {
+  return {type: Actions.SET_CHOSEN_COLOR, payload: color};
+};
+
+export const setCategories = (categories) => {
+  return {type: Actions.SET_CATEGORIES_LIST, payload: categories};
 };
 
 export const toggleMenuOpen = (isOpen) => {

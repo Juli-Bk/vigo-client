@@ -17,14 +17,15 @@ import FilterPrice from '../../components/FilterPrice/FilterPrice';
 import ViewAs from '../../components/ViewAs/ViewAs';
 
 const Products = (props) => {
-  const {currentPage, perPage, sortingOption, priceRange, view} = props;
+  const {currentPage, perPage, sortingOption, priceRange, view, colors} = props;
   const classes = useStyles();
 
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
-  const [maxProductsPrice, setMaxProductsPrice] = useState(1000);
+  const [maxProductsPrice, setMaxProductsPrice] = useState(0);
 
   const filtersArray = [{minPrice: priceRange[0]}, {maxPrice: priceRange[1]}];
+  // todo withRouter
   const href = window.location.href.split('filter?')[1];
 
   useEffect(() => {
@@ -56,7 +57,7 @@ const Products = (props) => {
       isCanceled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [href, currentPage, perPage, sortingOption, priceRange]);
+  }, [href, currentPage, perPage, sortingOption, priceRange, colors]);
 
   return (
     <Container>
@@ -102,7 +103,8 @@ const mapStateToProps = store => {
     perPage: store.productsPerPage,
     sortingOption: store.sortingOption,
     priceRange: store.priceRange,
-    view: store.view
+    view: store.view,
+    colors: store.colors
   };
 };
 
