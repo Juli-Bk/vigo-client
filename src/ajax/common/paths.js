@@ -19,8 +19,9 @@ const RequestsConfig = {
   sizes: `${baseUrl}/sizes`,
   sizeTables: `${baseUrl}/sizeTables`,
   quantity: `${baseUrl}/quantity`,
-  cart: `${baseUrl}/cart`
-
+  cart: `${baseUrl}/cart`,
+  orders: `${baseUrl}/orders`,
+  cancelOrder: `${baseUrl}/orders/cancel`
 };
 
 export default RequestsConfig;
