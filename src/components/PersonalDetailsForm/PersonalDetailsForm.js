@@ -29,6 +29,7 @@ const PersonalDetailsForm = (props) => {
 
   const submitPersonalDetailsData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
+    // todo delete console.log() after all forms is working
     console.log('dataFromValues', values);
 
     const data = {
@@ -74,6 +75,7 @@ const PersonalDetailsForm = (props) => {
       .max(30, 'Too long!')
       .required('Required.  Write your Last Name please'),
     phoneNumber: Yup.string()
+    // todo replace regExp to config and use it in all places where it`s needed
       .matches(('^\\+?3?8?(0\\d{9})$'), 'use form +38(097)1112233')
       .required('Required'),
     email: Yup.string()
