@@ -45,7 +45,13 @@ const PersonalDetailsForm = (props) => {
           setUser(result);
         }
       });
-
+    if (values.subscribe === true) {
+      AjaxUtils.Subscribers.subscribe(values.email)
+        .then(result => {
+          // todo message to user
+          console.log('You will be informed by our best offers by email', result);
+        });
+    }
     submitPersonalDetailsHandler(values, () => {
       setSubmitting(false);
       resetForm();

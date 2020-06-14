@@ -12,6 +12,7 @@ import Page404 from '../pages/Page404/Page404';
 import Wishlist from '../pages/Wishlist/Wishlist';
 import Header from '../containers/Header/Header';
 import MyAccount from '../pages/MyAccount/MyAccount';
+import { getJWTfromCookie } from '../ajax/common/helper';
 
 const AppRoutes = () => {
   return (
@@ -30,16 +31,16 @@ const AppRoutes = () => {
         <Route exact path='/checkout' component={Checkout}/>
         <Route exact path='/about' component={About}/>
         <Route exact path='/contacts' component={Contacts}/>
-        <Route exact path='/myAccount' component={MyAccount}/>
+        <ProtectedRoute
+          authenticated={!!getJWTfromCookie()}
+          exact path='/account'
+          component={MyAccount}/>
         <Route path='*' component={Page404}/>
       </Switch>
     </>
   );
 };
 
-// todo add logic for protected routs
-
-// eslint-disable-next-line
 const ProtectedRoute = (props) => {
   const {component: Component, authenticated, render, ...rest} = props;
 
@@ -52,6 +53,7 @@ const ProtectedRoute = (props) => {
           return <Component {...renderProps} />;
         }
       }
+      // todo add open modal window for login
       return <Redirect to='/login'/>;
     }}
     />
