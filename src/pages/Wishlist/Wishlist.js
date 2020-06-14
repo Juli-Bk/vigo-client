@@ -34,8 +34,8 @@ const Wishlist = (props) => {
   return (
     <Container>
       <Grid container>
-      {wishList.length && products.length ? <ProductsTable products={products} isMobile={isMobile}/>
-        : <EmptyState text={globalConfig.emptyWishList}/>}
+        {wishList.length && products.length ? <ProductsTable products={products} isMobile={isMobile}/>
+          : <EmptyState text={globalConfig.emptyWishList}/>}
       </Grid>
     </Container>
   );
