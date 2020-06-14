@@ -5,6 +5,7 @@ import TreeView from '@material-ui/lab/TreeView';
 import useStyles from './CategoryTreeStyle';
 import StyledTreeItem from '../StyledTreeItem/StyledTreeItem';
 import FilterColorsTreeItem from '../FilterColors/FilterColorsTreeItem';
+import {setCategoryId} from '../../redux/actions/actions';
 
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
@@ -12,7 +13,7 @@ import FilterColors from '../FilterColors/FilterColors';
 import FilterSizes from '../FilterSizes/FilterSizes';
 
 const CategoryTree = (props) => {
-  const {categories, history} = props;
+  const {categories, history, setCategoryId} = props;
   const classes = useStyles();
 
   const getStyledTreeItem = useCallback((category) => {
@@ -30,6 +31,7 @@ const CategoryTree = (props) => {
       label={`${category.name}`}
       onLabelClick={(event) => {
         history.push(`/products/filter?categoryId=${category.id}`);
+        setCategoryId(category.id);
       }}
     >
       {children}
@@ -75,7 +77,7 @@ const CategoryTree = (props) => {
         nodeId={'sizesRoot'}
         className={classes['0']}
         label={'Size Filter'}>
-        <FilterSizes/>
+        <FilterSizes categories={categories}/>
       </FilterColorsTreeItem>
     </TreeView>
     : <></>;
@@ -91,4 +93,10 @@ const mapStoreToProps = store => {
   };
 };
 
-export default connect(mapStoreToProps)(React.memo(withRouter(CategoryTree)));
+const mapDispatchToProps = dispatch => {
+  return {
+    setCategoryId: categoryId => dispatch(setCategoryId(categoryId))
+  };
+};
+
+export default connect(mapStoreToProps, mapDispatchToProps)(React.memo(withRouter(CategoryTree)));

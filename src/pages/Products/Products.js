@@ -7,6 +7,7 @@ import AjaxUtils from '../../ajax';
 import useStyles from './ProductsStyles';
 import globalConfig from '../../globalConfig';
 import { defineSortData, makeFilterItem } from '../../helpers/helpers';
+import { getFilterString } from '../../ajax/common/helper';
 
 import ProductGrid from '../../containers/ProductsGrid/ProductsGrid';
 import ProductsList from '../../containers/ProductsList/ProductsList';
@@ -16,9 +17,10 @@ import ShowBy from '../../components/ShowBy/ShowBy';
 import Sort from '../../components/Sort/Sort';
 import FilterPrice from '../../components/FilterPrice/FilterPrice';
 import ViewAs from '../../components/ViewAs/ViewAs';
+import { setCategoryId } from '../../redux/actions/actions';
 
 const Products = (props) => {
-  const {currentPage, perPage, sortingOption, priceRange, view, colors, location, search, history} = props;
+  const {currentPage, categoryId, perPage, sortingOption, priceRange, view, colors, location, history} = props;
   const isSmScreen = useMediaQuery('(max-width: 723px)');
   const classes = useStyles();
 
@@ -26,9 +28,13 @@ const Products = (props) => {
   const [total, setTotal] = useState(0);
   const [maxProductsPrice, setMaxProductsPrice] = useState(0);
 
-  console.log(location);
   const filtersArray = [{minPrice: priceRange[0]}, {maxPrice: priceRange[1]}, {color: colors}];
   const searchString = location.search.split('?')[1];
+  // console.log(`/products/filter?categoryId=${categoryId}&${getFilterString(filtersArray, defineSortData(sortingOption))}`);
+
+  // location.search.concat(getFilterString(filtersArray, defineSortData(sortingOption)));
+  // console.log(location);
+  //  console.log(getFilterString(filtersArray, defineSortData(sortingOption)));
 
   useEffect(() => {
     let isCanceled = false;
@@ -38,11 +44,16 @@ const Products = (props) => {
       const allFilters = [];
       filterStrings.forEach(string => {
         allFilters.push(makeFilterItem(string));
+        console.log('string', string);
       });
       filtersArray.push(...allFilters);
+      console.log('filtersArray', filtersArray);
     } else {
       filtersArray.push(makeFilterItem(searchString));
+      console.log('filtersArray', filtersArray);
     }
+
+    // history.replace(`/products/filter?categoryId=${categoryId}&${getFilterString(filtersArray, defineSortData(sortingOption))}`);
 
     if (!isCanceled) {
       AjaxUtils.Products.getMaxPrice()
@@ -106,6 +117,16 @@ const Products = (props) => {
   );
 };
 
+Products.propTypes = {
+  currentPage: PropTypes.number.isRequired,
+  perPage: PropTypes.number.isRequired,
+  sortingOption: PropTypes.string.isRequired,
+  priceRange: PropTypes.array.isRequired,
+  view: PropTypes.string.isRequired,
+  colors: PropTypes.array,
+  categoryId: PropTypes.string
+};
+
 const mapStateToProps = store => {
   return {
     currentPage: store.currentPage,
@@ -113,16 +134,9 @@ const mapStateToProps = store => {
     sortingOption: store.sortingOption,
     priceRange: store.priceRange,
     view: store.view,
-    colors: store.colors
+    colors: store.colors,
+    categoryId: store.categoryId
   };
-};
-
-Products.propTypes = {
-  currentPage: PropTypes.number.isRequired,
-  perPage: PropTypes.number.isRequired,
-  sortingOption: PropTypes.string.isRequired,
-  priceRange: PropTypes.array.isRequired,
-  view: PropTypes.string.isRequired
 };
 
 export default React.memo(connect(mapStateToProps)(withRouter(Products)));
