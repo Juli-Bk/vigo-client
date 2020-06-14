@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ThemeProvider } from '@material-ui/core';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import AjaxUtils from '../../ajax';
 import theme from '../CategoryTree/CategoryTreeTheme';
 
-const FilterSizes = (props) => {
+const FilterSizes = () => {
   const [sizes, setSizes] = useState([]);
   const [sizeTypes, setSizeTypes] = useState([]);
 
@@ -28,7 +25,6 @@ const FilterSizes = (props) => {
         });
         setSizeTypes(Array.from(sizesSet));
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (<ThemeProvider theme={theme}><h2>Filters</h2></ThemeProvider>);
 };

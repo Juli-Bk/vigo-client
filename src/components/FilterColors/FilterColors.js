@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { ThemeProvider } from '@material-ui/core';
+import {connect} from 'react-redux';
+import {ThemeProvider} from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import AjaxUtils from '../../ajax';
-import { setChosenColor } from '../../redux/actions/actions';
+import {setChosenColor} from '../../redux/actions/actions';
 import theme from './FilterColorsTheme';
 import useStyles from './FilterColorsStyles';
 
@@ -16,35 +16,46 @@ const FilterColors = (props) => {
   const classes = useStyles();
 
   const createCheckboxes = (namesArray) => {
-    return namesArray.map(colorName => {
+    return namesArray.map(color => {
       return <FormControlLabel
         className={classes.label}
-        key={colorName}
-        label={colorName}
-        control={<Checkbox
-          className={classes[colorName]}
-          onChange={handleChange}
-          name={colorName}
-          color='default'/>}/>;
+        key={color.name + color.hex}
+        label={color.name}
+        control={
+          <Checkbox
+            onChange={handleChange}
+            name={color.name}
+            color="primary"
+            style={{
+              color: color.hex.toLowerCase() === '#ffffff' ? '#f9f9f9' : color.hex
+            }}
+          />
+        }/>;
     });
   };
 
   useEffect(() => {
     AjaxUtils.Colors.getAllColors()
       .then(result => {
-        const colorsSet = new Set();
-
+        const colorsSet = new Map();
         result.colors.forEach(color => {
-          colorsSet.add(color.baseColorName);
+          colorsSet.set(color.baseColorName, {
+            name: color.baseColorName,
+            hex: color.hex
+          });
         });
 
-        setUniqColorNames(Array.from(colorsSet));
+        const colors = Array.from(colorsSet).map(item => item[1]);
+        setUniqColorNames(colors);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, colorsInStorage, setChosenColor]);
 
   const handleChange = (event) => {
-    setState({...state, [event.target.name]: event.target.checked});
+    setState({
+      ...state,
+      [event.target.name]: event.target.checked
+    });
     setChosenColor(event.target.name);
   };
 
