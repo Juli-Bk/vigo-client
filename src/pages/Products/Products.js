@@ -26,23 +26,22 @@ const Products = (props) => {
   const [total, setTotal] = useState(0);
   const [maxProductsPrice, setMaxProductsPrice] = useState(0);
 
-  const filtersArray = [{minPrice: priceRange[0]}, {maxPrice: priceRange[1]}];
-  // todo withRouter
-  const href = window.location.href.split('filter?')[1];
   console.log(location);
+  const filtersArray = [{minPrice: priceRange[0]}, {maxPrice: priceRange[1]}, {color: colors}];
+  const searchString = location.search.split('?')[1];
 
   useEffect(() => {
     let isCanceled = false;
 
-    if (href.includes('&')) {
-      const filterStrings = href.split('&');
+    if (searchString.includes('&')) {
+      const filterStrings = searchString.split('&');
       const allFilters = [];
       filterStrings.forEach(string => {
         allFilters.push(makeFilterItem(string));
       });
       filtersArray.push(...allFilters);
     } else {
-      filtersArray.push(makeFilterItem(href));
+      filtersArray.push(makeFilterItem(searchString));
     }
 
     if (!isCanceled) {
@@ -60,7 +59,7 @@ const Products = (props) => {
       isCanceled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [href, currentPage, perPage, sortingOption, priceRange, colors]);
+  }, [searchString, currentPage, perPage, sortingOption, priceRange, colors]);
 
   return (
     <Container>

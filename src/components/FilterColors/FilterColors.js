@@ -12,7 +12,6 @@ import useStyles from './FilterColorsStyles';
 const FilterColors = (props) => {
   const {setChosenColor, colorsInStorage} = props;
   const [state, setState] = useState({});
-  const [allColors, setAllColors] = useState([]);
   const [uniqColorNames, setUniqColorNames] = useState([]);
   const classes = useStyles();
 
@@ -33,9 +32,8 @@ const FilterColors = (props) => {
   useEffect(() => {
     AjaxUtils.Colors.getAllColors()
       .then(result => {
-        setAllColors(result.colors);
-
         const colorsSet = new Set();
+
         result.colors.forEach(color => {
           colorsSet.add(color.baseColorName);
         });
@@ -47,12 +45,7 @@ const FilterColors = (props) => {
 
   const handleChange = (event) => {
     setState({...state, [event.target.name]: event.target.checked});
-
-    const chosenColorsData = allColors.filter(color => color.baseColorName === event.target.name);
-
-    chosenColorsData.forEach(color => {
-      setChosenColor(color.id);
-    });
+    setChosenColor(event.target.name);
   };
 
   return (
