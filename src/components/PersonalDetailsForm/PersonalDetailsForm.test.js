@@ -1,11 +1,15 @@
 import { configure, mount } from 'enzyme';
 import React from 'react';
+import { Provider } from 'react-redux';
+import configureStore from 'redux-mock-store';
 import expect from 'expect';
 import {wait} from '@testing-library/react';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import PersonalDetailsForm from './PersonalDetailsForm';
 import Adapter from 'enzyme-adapter-react-16';
+
+const mockStore = configureStore([]);
 
 configure({adapter: new Adapter()});
 const validFirstName = 'someName';
@@ -41,11 +45,22 @@ describe('PersonalDetailsForm with all expected props', () => {
   let wrapper;
   let onSubmitCallback;
 
+  const user = {
+    firstName: 'firstName',
+    lastName: 'lastName',
+    email: 'test@mail.ru',
+    phoneNumber: '+38(098)1112233'
+  };
+
+  const store = mockStore({
+    setUser: jest.fn()
+  });
+
   beforeEach(async () => {
     onSubmitCallback = jest.fn();
 
     await wait(() => {
-      wrapper = mount(<PersonalDetailsForm submitPersonalDetailsHandler={onSubmitCallback}/>);
+      wrapper = mount(<Provider store={store}><PersonalDetailsForm user={user} submitPersonalDetailsHandler={onSubmitCallback}/></Provider>);
     });
   });
 
@@ -77,8 +92,8 @@ describe('PersonalDetailsForm with all expected props', () => {
   });
 
   it('Should update phone input field on change', () => {
-    updateField(wrapper.find('input[name="phone"]'), 'phone', validPhoneValue);
-    expect(wrapper.find('input[name="phone"]').props().value).toEqual(validPhoneValue);
+    updateField(wrapper.find('input[name="phoneNumber"]'), 'phone', validPhoneValue);
+    expect(wrapper.find('input[name="phoneNumber"]').props().value).toEqual(validPhoneValue);
   });
 
   it('Should update email input field on change', () => {
@@ -139,7 +154,7 @@ describe('PersonalDetailsForm with all expected props', () => {
   it('Should trigger submit on submit clicked with valid form', async () => {
     updateField(wrapper.find('input[name="firstName"]'), 'firstName', validFirstName);
     updateField(wrapper.find('input[name="lastName"]'), 'lastName', validLastNameValue);
-    updateField(wrapper.find('input[name="phone"]'), 'phone', validPhoneValue);
+    updateField(wrapper.find('input[name="phoneNumber"]'), 'phoneNumber', validPhoneValue);
     updateField(wrapper.find('input[name="email"]'), 'email', validEmail);
     updateField(wrapper.find('input[name="password"]'), 'password', validPass);
     updateField(wrapper.find('input[name="confirmPassword"]'), 'confirmPassword', validConfPass);
@@ -167,7 +182,7 @@ describe('PersonalDetailsForm with all expected props', () => {
   });
 
   it('Should not trigger submit on submit clicked with invalid phone number', async () => {
-    updateField(wrapper.find('input[name="phone"]'), 'phone', invalidPhoneValue);
+    updateField(wrapper.find('input[name="phoneNumber"]'), 'phoneNumber', invalidPhoneValue);
 
     const button = wrapper.find(Button);
     expect(button.props().type).toEqual('submit');

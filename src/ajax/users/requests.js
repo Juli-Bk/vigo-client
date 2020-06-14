@@ -101,12 +101,14 @@ export default {
     checkId(id);
     if (!formData) throw new TypeError('empty form data');
 
+    const data = JSON.stringify({
+      id,
+      ...formData
+    });
+
     const requestOptions = {
       headers: getAuthHeader(),
-      body: {
-        ...formData,
-        id
-      },
+      body: data,
       ...methods.POST
     };
 

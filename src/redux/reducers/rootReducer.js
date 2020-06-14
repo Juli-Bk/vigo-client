@@ -13,7 +13,6 @@ import quantity from './quantityReducer';
 import wishList from './wishListReducer';
 import user from './userReducer';
 import colors from './colorReducer';
-
 export const rootReducer = combineReducers({
   currentPage,
   sortingOption,
