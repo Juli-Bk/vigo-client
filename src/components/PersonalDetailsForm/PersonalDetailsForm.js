@@ -24,7 +24,7 @@ import AjaxUtils from '../../ajax';
 import { setUser } from '../../redux/actions/actions';
 
 const PersonalDetailsForm = (props) => {
-  const {user, setUser} = props;
+  const {user, setUser, submitPersonalDetailsHandler} = props;
   const {firstName, lastName, email, phoneNumber} = user;
 
   const submitPersonalDetailsData = (values, {resetForm, setSubmitting}) => {
@@ -40,10 +40,15 @@ const PersonalDetailsForm = (props) => {
 
     AjaxUtils.Users.updateUserInfoById(user._id, data)
       .then(result => {
-        setUser(result);
+        if (result) {
+          setUser(result);
+        }
       });
-    setSubmitting(false);
-    resetForm();
+
+    submitPersonalDetailsHandler(values, () => {
+      setSubmitting(false);
+      resetForm();
+    });
     // todo message to user 'Your data is successfully updated/saved'
   };
 

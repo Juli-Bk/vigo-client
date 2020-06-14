@@ -30,7 +30,7 @@ function App (props) {
         });
     }
 
-    setUser(Object.assign({}, getStorageData('user')));
+    setUser(getStorageData('user'));
     changeWishList(getStorageData('wishList'));
   }, [changeWishList, setUser, token]);
 

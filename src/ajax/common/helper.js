@@ -63,7 +63,7 @@ export const putJWTtoRedux = (jwt) => {
 };
 
 export const putUserToRedux = (user) => {
-  user && store.dispatch(setUser(Object.assign({}, user)));
+  user && store.dispatch(setUser(user));
 };
 
 export const isGuid = (value) => {
