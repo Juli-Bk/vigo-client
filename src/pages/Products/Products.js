@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Container, Grid, useMediaQuery } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import AjaxUtils from '../../ajax';
 import useStyles from './ProductsStyles';
 import globalConfig from '../../globalConfig';
@@ -17,7 +18,7 @@ import FilterPrice from '../../components/FilterPrice/FilterPrice';
 import ViewAs from '../../components/ViewAs/ViewAs';
 
 const Products = (props) => {
-  const {currentPage, perPage, sortingOption, priceRange, view, colors} = props;
+  const {currentPage, perPage, sortingOption, priceRange, view, colors, location, search, history} = props;
   const isSmScreen = useMediaQuery('(max-width: 723px)');
   const classes = useStyles();
 
@@ -28,6 +29,7 @@ const Products = (props) => {
   const filtersArray = [{minPrice: priceRange[0]}, {maxPrice: priceRange[1]}];
   // todo withRouter
   const href = window.location.href.split('filter?')[1];
+  console.log(location);
 
   useEffect(() => {
     let isCanceled = false;
@@ -124,4 +126,4 @@ Products.propTypes = {
   view: PropTypes.string.isRequired
 };
 
-export default React.memo(connect(mapStateToProps)(Products));
+export default React.memo(connect(mapStateToProps)(withRouter(Products)));
