@@ -93,7 +93,7 @@ const MyAccTabs = (props) => {
           }} />
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
-          <Wishlist isMyAccount={true}/>
+          <Wishlist />
         </TabPanel>
         <TabPanel value={value} index={3} dir={theme.direction}>
         Purchase history

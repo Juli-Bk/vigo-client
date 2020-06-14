@@ -50,7 +50,7 @@ const PersonalDetailsForm = (props) => {
   const initFormValues = {
     firstName: user ? firstName : '',
     lastName: user ? lastName : '',
-    phone: user ? phoneNumber : '',
+    phoneNumber: user ? phoneNumber : '',
     email: user ? email : '',
     password: '',
     confirmPassword: '',
@@ -68,7 +68,7 @@ const PersonalDetailsForm = (props) => {
       .min(3, 'Too short!')
       .max(30, 'Too long!')
       .required('Required.  Write your Last Name please'),
-    phone: Yup.string()
+    phoneNumber: Yup.string()
       .matches(('^\\+?3?8?(0\\d{9})$'), 'use form +38(097)1112233')
       .required('Required'),
     email: Yup.string()
@@ -151,14 +151,14 @@ const PersonalDetailsForm = (props) => {
                 />
                 <TextField
                   autoComplete='on'
-                  name='phone'
+                  name='phoneNumber'
                   label={<IconLabel label='Enter your phone number' Component={PhoneAndroidIcon}/>}
                   className={styles.input}
-                  value={values.phone}
+                  value={values.phoneNumber}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  helperText={touched.phone ? errors.phone : ''}
-                  error={touched.phone && Boolean(errors.phone)}
+                  helperText={touched.phoneNumber ? errors.phoneNumber : ''}
+                  error={touched.phoneNumber && Boolean(errors.phoneNumber)}
                   variant='outlined'
                   size='small'
                   fullWidth

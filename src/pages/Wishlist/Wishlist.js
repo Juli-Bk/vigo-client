@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Container, Grid, useMediaQuery } from '@material-ui/core';
-import PageTitle from '../../components/PageTitle/PageTitle';
 import AjaxUtils from '../../ajax';
 import globalConfig from '../../globalConfig';
 
@@ -11,7 +10,7 @@ import { changeWishList } from '../../redux/actions/actions';
 import EmptyState from '../../components/EmptyState/EmptyState';
 
 const Wishlist = (props) => {
-  const {wishList, isMyAccount} = props;
+  const {wishList} = props;
   const [products, setProducts] = useState([]);
   const isMobile = useMediaQuery('(max-width: 550px)');
   const filterArray = (wishList.length && [{_id: wishList}]) || [];
@@ -34,7 +33,6 @@ const Wishlist = (props) => {
 
   return (
     <Container>
-      {isMyAccount && <PageTitle title='Wishlist' />}
       <Grid container>
         {wishList.length && products.length ? <ProductsTable products={products} isMobile={isMobile}/>
           : <EmptyState text={globalConfig.emptyWishList}/>}
