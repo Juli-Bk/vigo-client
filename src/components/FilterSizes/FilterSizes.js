@@ -1,9 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { ThemeProvider } from '@material-ui/core';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import AjaxUtils from '../../ajax';
 import theme from '../CategoryTree/CategoryTreeTheme';
 
