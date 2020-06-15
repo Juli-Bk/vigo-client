@@ -4,12 +4,9 @@ import {ThemeProvider} from '@material-ui/core/styles';
 import useStyles from './FooterStyle';
 import theme from './FooterTheme';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
 
 const Footer = () => {
   const styles = useStyles();
-  const twoWeeksAgo = moment().subtract(14, 'days').format('YYYY.MM.DD');
-  const currentDate = moment().format('YYYY.MM.DD');
 
   return (
     <ThemeProvider theme={theme}>
@@ -18,7 +15,7 @@ const Footer = () => {
           <Grid item className={styles.gridItem} xs={12} sm={6} md={3}>
             <Box className={styles.box}>
               <Typography className={styles.title} variant='subtitle1' gutterBottom>Information</Typography>
-              <ListItem><Link to={`/products/filter?minCreatedDate=${twoWeeksAgo}&maxCreatedDate=${currentDate}`} className={styles.item}>New products</Link></ListItem>
+              <ListItem><Link to='/products/filter?new=true' className={styles.item}>New products</Link></ListItem>
               <ListItem><Link to='/products/filter?isOnSale=true' className={styles.item}>Hot sale</Link></ListItem>
               <ListItem><Link to='/products/filter?special=true' className={styles.item}>Specials</Link></ListItem>
               <ListItem><Link to='/contacts' className={styles.item}>Our stores</Link></ListItem>
