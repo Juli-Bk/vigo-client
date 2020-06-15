@@ -5,6 +5,7 @@ import {wait} from '@testing-library/react';
 import Typography from '@material-ui/core/Typography';
 import Footer from './Footer';
 import Adapter from 'enzyme-adapter-react-16';
+import {BrowserRouter} from 'react-router-dom';
 
 configure({adapter: new Adapter()});
 
@@ -13,7 +14,7 @@ describe('Footer with all expected info', () => {
 
   beforeEach(async () => {
     await wait(() => {
-      wrapper = mount(<Footer />);
+      wrapper = mount(<BrowserRouter><Footer /></BrowserRouter>);
     });
   });
 
