@@ -25,7 +25,7 @@ const useStyles = makeStyles(theme => ({
     position: 'fixed',
     right: 0,
     top: '30%',
-    backgroundColor: colors.listColor,
+    backgroundColor: 'rgba(0, 0, 0, 0.12)',
     color: colors.fontSecondary,
     borderRadius: '5px 0 0 5px',
     ...iconStyles,

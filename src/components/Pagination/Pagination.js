@@ -17,7 +17,15 @@ const PaginationRounded = (props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Pagination count={count} variant="outlined" shape="rounded" size="small" page={currentPage} onChange={handleChange}/>
+      {count > 0 &&
+      <Pagination
+        count={count}
+        variant="outlined"
+        shape="rounded"
+        size="small"
+        page={currentPage}
+        onChange={handleChange}/>
+      }
     </ThemeProvider>
   );
 };

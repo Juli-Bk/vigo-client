@@ -48,7 +48,7 @@ const RegisterForm = (props) => {
       .email('Invalid email address')
       .required('Required'),
     password: Yup.string()
-      .required('No password provided.')
+      .required('No password provided')
       .min(8, 'Password is too short - should be 8 chars minimum')
       .required('Required'),
     confirmPassword: Yup.string()
@@ -62,15 +62,24 @@ const RegisterForm = (props) => {
   return (
     <Card id="register-form">
       <CardContent>
-        {/* <Typography className={styles.header} variant='h4' gutterBottom>new customer</Typography> */}
-        <Typography className={styles.text} variant='caption' gutterBottom>
+        <Typography className={styles.text} variant='subtitle1' gutterBottom>
           Register with us for future convenience:
         </Typography>
         <Formik
           initialValues={initFormValues}
           validationSchema={validateObject}
           onSubmit={submitRegisterData}>
-          {({values, handleChange, handleSubmit, handleBlur, errors, touched, onChange, isSubmitting, confirmPassword}) => (
+          {({
+            values,
+            handleChange,
+            handleSubmit,
+            handleBlur,
+            errors,
+            touched,
+            onChange,
+            isSubmitting,
+            confirmPassword
+          }) => (
             <form autoComplete='off'>
               <ThemeProvider theme={theme}>
                 <TextField

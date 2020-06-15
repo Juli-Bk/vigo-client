@@ -80,4 +80,12 @@ describe('ajax paths config', () => {
       expect(requestPaths.cart).toEqual(`${baseUrl}/cart`);
     });
   });
+  describe('returns right path for orders requests', () => {
+    it('plain', () => {
+      expect(requestPaths.orders).toEqual(`${baseUrl}/orders`);
+    });
+    it('order cancellation', () => {
+      expect(requestPaths.cancelOrder).toEqual(`${baseUrl}/orders/cancel`);
+    });
+  });
 });

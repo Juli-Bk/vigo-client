@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Grid } from '@material-ui/core';
+import { Container, Grid, useMediaQuery } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router';
 import AjaxUtils from '../../ajax';
 import useStyles from './ProductsStyles';
 import globalConfig from '../../globalConfig';
@@ -17,28 +18,29 @@ import FilterPrice from '../../components/FilterPrice/FilterPrice';
 import ViewAs from '../../components/ViewAs/ViewAs';
 
 const Products = (props) => {
-  const {currentPage, perPage, sortingOption, priceRange, view} = props;
+  const {currentPage, perPage, sortingOption, priceRange, view, colors, location} = props;
+  const isSmScreen = useMediaQuery('(max-width: 723px)');
   const classes = useStyles();
 
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
-  const [maxProductsPrice, setMaxProductsPrice] = useState(1000);
+  const [maxProductsPrice, setMaxProductsPrice] = useState(0);
 
-  const filtersArray = [{minPrice: priceRange[0]}, {maxPrice: priceRange[1]}];
-  const href = window.location.href.split('filter?')[1];
+  const filtersArray = [{minPrice: priceRange[0]}, {maxPrice: priceRange[1]}, {color: colors}];
+  const searchString = location.search.split('?')[1];
 
   useEffect(() => {
     let isCanceled = false;
 
-    if (href.includes('&')) {
-      const filterStrings = href.split('&');
+    if (searchString.includes('&')) {
+      const filterStrings = searchString.split('&');
       const allFilters = [];
       filterStrings.forEach(string => {
         allFilters.push(makeFilterItem(string));
       });
       filtersArray.push(...allFilters);
     } else {
-      filtersArray.push(makeFilterItem(href));
+      filtersArray.push(makeFilterItem(searchString));
     }
 
     if (!isCanceled) {
@@ -56,7 +58,7 @@ const Products = (props) => {
       isCanceled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [href, currentPage, perPage, sortingOption, priceRange]);
+  }, [searchString, currentPage, perPage, sortingOption, priceRange, colors]);
 
   return (
     <Container>
@@ -64,14 +66,21 @@ const Products = (props) => {
         <Grid item container lg={8} xl={8} md={8} sm={8} xs={12} className={classes.grid}>
           <Grid item container className={classes.topFiltersLine}>
             <Grid item container lg={12} className={classes.upperLine}>
-              <Grid container item xl={6} lg={6} md={5} sm={6} xs={12} className={classes.sortSelect}>
-                <Sort values={globalConfig.sortOptions}/>
-              </Grid>
+              {!isSmScreen
+                ? <Grid container item xl={6} lg={6} md={5} sm={6} xs={12} className={classes.sortSelect}>
+                  <Sort values={globalConfig.sortOptions}/>
+                </Grid>
+                : null
+              }
               <Grid item xl={6} lg={6} md={7} sm={6} xs={12} className={classes.filterPrice}>
                 <FilterPrice maxProductsPrice={maxProductsPrice}/>
               </Grid>
             </Grid>
-            <Grid item container lg={12} spacing={2}>
+            {isSmScreen ? <Grid container item sm={6} xs={12} className={classes.sortSelect}>
+              <Sort values={globalConfig.sortOptions}/>
+            </Grid>
+              : null}
+            <Grid item container lg={12} spacing={0}>
               <Grid item xl={3} lg={3} md={3} sm={6} xs={6}>
                 <ViewAs label={true}/>
               </Grid>
@@ -102,7 +111,8 @@ const mapStateToProps = store => {
     perPage: store.productsPerPage,
     sortingOption: store.sortingOption,
     priceRange: store.priceRange,
-    view: store.view
+    view: store.view,
+    colors: store.colors
   };
 };
 
@@ -114,4 +124,4 @@ Products.propTypes = {
   view: PropTypes.string.isRequired
 };
 
-export default React.memo(connect(mapStateToProps)(Products));
+export default React.memo(connect(mapStateToProps)(withRouter(Products)));

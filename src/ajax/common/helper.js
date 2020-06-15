@@ -4,7 +4,6 @@ import {setJWTtoken, setUser} from '../../redux/actions/actions';
 import {setStorageData} from '../../helpers/helpers';
 
 export const getAuthHeader = () => {
-  // todo testing from front
   const state = store.getState();
   const token = state.token || getJWTfromCookie();
 
@@ -23,7 +22,7 @@ export const putJWTtoCookie = (loginResponse) => {
 
 export const putUserIdToCookie = (loginResponse) => {
   const exp = moment(Date.now()).add(loginResponse.expiresInMinutes, 'm').toDate();
-  document.cookie = `userId=${loginResponse.user.id};expires=${exp}`;
+  document.cookie = `userId=${loginResponse.user._id};expires=${exp}`;
 };
 
 export const putUserToStorage = (userData) => {

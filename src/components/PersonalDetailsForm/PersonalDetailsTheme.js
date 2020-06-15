@@ -13,9 +13,9 @@ const theme = createMuiTheme({
     },
     MuiTypography: {
       body1: {
-        fontSize: '0.8rem',
+        fontSize: '0.6rem',
         '@media  (min-width: 400px)': {
-          fontSize: '1rem'
+          fontSize: '0.8rem'
         }
       }
     },
@@ -38,6 +38,7 @@ const theme = createMuiTheme({
     },
     MuiFormLabel: {
       root: {
+        fontSize: 5,
         '&$error': {
           color: colors.noticeColor,
           borderColor: colors.noticeColor
