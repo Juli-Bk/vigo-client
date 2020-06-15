@@ -53,7 +53,8 @@ ActionButtons.propTypes = {
   disabledSpacing: PropTypes.bool,
   isProductPage: PropTypes.bool,
   token: PropTypes.string,
-  changeWishList: PropTypes.func.isRequired
+  changeWishList: PropTypes.func.isRequired,
+  changeShoppingCart: PropTypes.func.isRequired
 };
 
 const mapStateToProps = store => {

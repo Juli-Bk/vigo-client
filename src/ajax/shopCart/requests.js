@@ -45,7 +45,7 @@ export default {
    * @returns {Promise<any | void>} returns Promise. Use then method on it to get response result
    */
   createShopCart: (userId, products) => {
-    checkId(userId);
+    if (userId) checkId(userId);
     if (!products.length) throw new TypeError('empty products list in the cart');
 
     const requestOptions = {

@@ -103,11 +103,18 @@ export const setStorageData = (key, data) => {
   localStorage.setItem(key, JSON.stringify(data));
 };
 
-export const integrateWishLists = (remoteWishList, localWishList) => {
+export const integrateData = (remoteWishList, localWishList) => {
   remoteWishList.forEach(product => {
     if (!localWishList.includes(product._id)) localWishList.push(product._id);
   });
   setStorageData('wishList', localWishList);
+};
+
+export const integrateCart = (remoteCart, localCart) => {
+  remoteCart.forEach(item => {
+    if (!localCart.includes(item.productId)) localCart.push(item.productId);
+  });
+  setStorageData('shoppingCart', localCart);
 };
 
 export const toggleWishItems = (productId) => {
@@ -142,35 +149,55 @@ export const toggleWishItems = (productId) => {
   }
 };
 
-export const toggleCartItems = (productId) => {
+export const toggleCartItems = (productId, quantity = 1) => {
   const userId = getUserIdFromCookie();
   const shopCartLocal = getStorageData('shoppingCart');
+  const cartId = JSON.parse(localStorage.getItem('cartId'));
+
+  const products = shopCartLocal.map(() => {
+    return {
+      productId,
+      cartQuantity: quantity
+    };
+  });
 
   if (shopCartLocal.includes(productId)) {
     setStorageData('shoppingCart', shopCartLocal.filter(item => item !== productId));
-
-    // if (userId) {
-    //   AjaxUtils.WishLists.deleteProductFromWishlist(productId)
-    //     .then(result => {
-    //       if (result.status) {
-    //         // todo nice popup
-    //         alert(globalConfig.userMessages.NOT_AUTHORIZED);
-    //       }
-    //       console.log(result);
-    //     });
-    // }
   } else {
     setStorageData('shoppingCart', [...shopCartLocal, productId]);
-
-    // if (userId) {
-    //   AjaxUtils.WishLists.addProductToWishList(productId, userId)
-    //     .then(result => {
-    //       if (result.status) {
-    //         alert(globalConfig.userMessages.NOT_AUTHORIZED);
-    //       }
-    //       console.log(result);
-    //     });
-    // }
+  }
+  if (userId && !cartId) {
+    AjaxUtils.ShopCart.getUserShopCart(userId)
+      .then(result => {
+        if (result.message) {
+          AjaxUtils.ShopCart.createShopCart(userId, products)
+            .then(result => {
+              // todo nice popup
+              console.log(result);
+              setStorageData('cartId', result._id);
+            });
+        } else {
+          AjaxUtils.ShopCart.updateShopCartById(result._id, products, result.userId)
+            .then(result => {
+              // todo nice popup
+              console.log(result);
+              setStorageData('cartId', result._id);
+            });
+        }
+      });
+  } else if (!userId && cartId) {
+    AjaxUtils.ShopCart.updateShopCartById(cartId, products)
+      .then(result => {
+        // todo nice popup
+        console.log(result);
+      });
+  } else {
+    AjaxUtils.ShopCart.createShopCart(null, products)
+      .then(result => {
+        // todo nice popup
+        console.log(result);
+        setStorageData('cartId', result._id);
+      });
   }
 };
 

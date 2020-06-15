@@ -11,7 +11,7 @@ import theme from './mainTheme';
 import Footer from './containers/Footer/Footer';
 import AjaxUtils from './ajax';
 import {changeWishList, setUser, changeShoppingCart} from './redux/actions/actions';
-import {getStorageData, integrateWishLists} from './helpers/helpers';
+import {getStorageData, integrateData, integrateCart} from './helpers/helpers';
 import {getUserIdFromCookie} from './ajax/common/helper';
 
 function App (props) {
@@ -25,15 +25,22 @@ function App (props) {
       AjaxUtils.WishLists.getUserWishList(userId)
         .then(result => {
           const wishes = result.userWishList[0];
-          integrateWishLists(wishes ? wishes.products : [], getStorageData('wishList'));
+          integrateData(wishes ? wishes.products : [], getStorageData('wishList'));
           changeWishList(getStorageData('wishList'));
+        });
+      AjaxUtils.ShopCart.getUserShopCart(userId)
+        .then(result => {
+          if (!result.message) {
+            integrateCart(result.products, getStorageData('shoppingCart'));
+            changeShoppingCart(getStorageData('shoppingCart'));
+          }
         });
     }
 
     setUser(getStorageData('user'));
     changeWishList(getStorageData('wishList'));
     changeShoppingCart(getStorageData('shoppingCart'));
-  }, [changeWishList, setUser, token]);
+  }, [changeShoppingCart, changeWishList, setUser, token]);
 
   return (
     <div className={styles.App}>
