@@ -18,6 +18,8 @@ const useStyles = makeStyles(theme => ({
     position: 'relative',
     color: colors.paginationColor,
     cursor: 'pointer',
+    textDecoration: 'none',
+    textTransform: 'capitalize',
     '&:after': {
       display: 'block',
       position: 'absolute',
