@@ -22,7 +22,6 @@ import EnhancedEncryptionRoundedIcon from '@material-ui/icons/EnhancedEncryption
 import EmailIcon from '@material-ui/icons/Email';
 import AjaxUtils from '../../ajax';
 import { setUser } from '../../redux/actions/actions';
-import config from '../../globalConfig';
 
 const PersonalDetailsForm = (props) => {
   const {user, setUser, submitPersonalDetailsHandler} = props;

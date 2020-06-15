@@ -16,14 +16,6 @@
   <div id='root'></div>
   <div id='liqpay_checkout'></div>
   <script src='//static.liqpay.ua/libjs/checkout.js' async></script>
-  <script>
-    window.LiqPayCheckoutCallback = function() {
-      LiqPayCheckout.init(keysLiqpay).on('liqpay.callback', function(data){
-      }).on('liqpay.ready', function(data){
-      }).on('liqpay.close', function(data){
-      });
-    };
-  </script>
   <script src='https://www.google.com/recaptcha/api.js' async defer></script>
 </body>
 </html>

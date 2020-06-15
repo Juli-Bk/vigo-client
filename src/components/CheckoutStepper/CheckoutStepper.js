@@ -1,5 +1,3 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {makeStyles, ThemeProvider} from '@material-ui/core/styles';
 import React, { useEffect, useState, useCallback } from 'react';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
@@ -16,6 +14,8 @@ import PaymentForm from '../PaymentForm/PaymentForm';
 import {connect} from 'react-redux';
 import AjaxUtils from '../../ajax/index';
 import {getJWTfromCookie} from '../../ajax/common/helper';
+import { setUser } from '../../redux/actions/actions';
+import { logDOM } from '@testing-library/dom';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,49 +33,45 @@ const steps = ['Personal data', 'Delivery Info', 'Payment Info', 'Complete your 
 
 // todo get User data from BD and render as static info in 'case 0'
 // todo User Order data from BD and render in 'case  3'
-const getStepContent = (stepIndex, userData) => {
-  switch (stepIndex) {
-    case 0:
-      return (
-        <Grid item xs={12}>
-          `
-          ${userData.firstName} ${userData.lastName}
-          John Smith
-          1 Downing street
-          Somewhere,
-          City,
-          Country, 00222,
-          +380976662233
-          `
-        </Grid>
-      );
-    case 1:
-      return (
-        <DeliveryForm/>
-      );
-    case 2:
-      return (
-        <PaymentForm/>
-      );
-    case 3:
-      return 'Review of order: order summary';
-    default:
-      return 'Unknown stepIndex';
-  }
-};
 
 const CheckoutStepper = (props) => {
   const {token} = props;
   const classes = useStyles();
+  const [user, setUser] = useState({});
   const [activeStep, setActiveStep] = useState(0);
-  const [userData, setUser] = useState(0);
+
+  const getStepContent = (stepIndex, user) => {
+    switch (stepIndex) {
+      case 0:
+        console.log(user);
+        return (
+          <Grid item xs={12}>
+            FirstName: {user.firstName},
+            LastName: {user.lastName},
+          </Grid>
+        );
+      case 1:
+        return (
+          <DeliveryForm/>
+        );
+      case 2:
+        return (
+          <PaymentForm/>
+        );
+      case 3:
+        return 'Review of order: order summary';
+      default:
+        return 'Unknown stepIndex';
+    }
+  };
 
   useEffect(() => {
     if (token || getJWTfromCookie()) {
       AjaxUtils.Users.getUser()
         .then(result => {
           if (result.status === 200) {
-            setUser(result.user);
+            setUser(result);
+            console.log(result);
           }
         })
         .catch(error => {
@@ -91,7 +87,8 @@ const CheckoutStepper = (props) => {
           // todo open modal window to login again
         });
     }
-  }, [classes.link, token]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [token]);
 
   const handleNext = useCallback(() => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -132,7 +129,7 @@ const CheckoutStepper = (props) => {
               <Box>
                 <Typography component='span' className={classes.instructions}>
                   {
-                    getStepContent(activeStep, userData)
+                    getStepContent(activeStep, user)
                   }
                 </Typography>
                 <Box>
@@ -162,5 +159,10 @@ const mapStoreToProps = store => {
     token: store.token
   };
 };
+const mapDispatchToProps = dispatch => {
+  return {
+    setUser: data => dispatch(setUser(data))
+  };
+};
 
-export default connect(mapStoreToProps)(React.memo(CheckoutStepper));
+export default React.memo(connect(mapStoreToProps, mapDispatchToProps)(CheckoutStepper));

@@ -7,33 +7,49 @@ import {
   Button,
   CardActions,
   Grid,
-  ThemeProvider
+  ThemeProvider,
+  FormControlLabel,
+  FormHelperText,
+  Checkbox
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import useStyles from './AddressFormStyle';
 import FormGroup from '@material-ui/core/FormGroup/FormGroup';
-import Checkbox from '../Checkbox/Checkbox.js';
+// import Checkbox from '../Checkbox/Checkbox.js';
 import theme from './AddressFormTheme';
 import ApartmentIcon from '@material-ui/icons/Apartment';
 import MyLocationIcon from '@material-ui/icons/MyLocation';
 import IconLabel from '../IconLabel/IconLabel';
 import PinDropIcon from '@material-ui/icons/PinDrop';
 import AutocompleteComponent from '../Autocomplete/Autocomplete';
+import { connect } from 'react-redux';
+import { setUser } from '../../redux/actions/actions';
+import AjaxUtils from '../../ajax';
 
 const AddressForm = (props) => {
-  const {submitAddressHandler} = props;
+  const {user, setUser, submitAddressHandler} = props;
+
   const [address, setAddress] = useState('');
   const submitAddressData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
 
-    const json = JSON.stringify({
-      address: address,
-      buildingNumber: values.buildingNumber,
-      appartNumber: values.appartNumber,
-      postCode: values.postCode
+    const data = JSON.stringify({
+      addresses: {
+        address: address,
+        house: values.buildingNumber,
+        apartment: values.apartNumber,
+        postalCode: values.postCode
+      }
     });
 
-    console.log(json);
+    // AjaxUtils.Users.updateUserInfoById(user._id, data)
+    //   .then(result => {
+    //     if (result) {
+    //       setUser(result);
+    //     }
+    //   });
+
+    console.log('saved address', data);
 
     submitAddressHandler(values, () => {
       setSubmitting(false);
@@ -44,25 +60,21 @@ const AddressForm = (props) => {
   const initFormValues = {
     autocomplete: '',
     buildingNumber: '',
-    appartNumber: '',
+    apartNumber: '',
     postCode: '',
-    confirmation: true,
-    saveMyData: true
+    confirmation: false
   };
 
   const validateObject = Yup.object().shape({
     autocomplete: Yup.string(),
+    // .required('Required'),
     buildingNumber: Yup.string()
       .min(1, 'Correct building number is a must!')
       .required('Required'),
-    appartNumber: Yup.number()
+    apartNumber: Yup.number()
       .required('Required'),
     confirmation: Yup.boolean()
-      .oneOf([true], 'Must Accept Privacy Policy'),
-    ValidateCheckBoxSchema: Yup.object().shape({
-      subscribe: Yup.bool(),
-      confirmation: Yup.bool()
-    })
+      .oneOf([true], 'Must Accept Privacy Policy')
   });
 
   const styles = useStyles();
@@ -76,7 +88,6 @@ const AddressForm = (props) => {
           validationSchema={validateObject}
           onSubmit={submitAddressData}>
           {({
-            classes,
             isSubmitting,
             handleChange,
             handleBlur,
@@ -85,13 +96,19 @@ const AddressForm = (props) => {
             values,
             errors,
             touched,
-            onChange,
-            confirmPassword
+            onChange
           }) => (
             <form autoComplete='on'>
               <ThemeProvider theme={theme}>
 
-                <AutocompleteComponent setAddress={setAddress} name='autocomplete' onBlur={handleBlur} touched={touched} value={values.autocomplete} onChange={handleChange('autocomplete')} error={errors}/>
+                <AutocompleteComponent
+                  setAddress={setAddress}
+                  name='autocomplete'
+                  onBlur={handleBlur}
+                  touched={touched}
+                  value={values.autocomplete}
+                  onChange={handleChange('autocomplete')}
+                  error={errors}/>
 
                 <TextField
                   name='buildingNumber'
@@ -108,17 +125,15 @@ const AddressForm = (props) => {
                   fullWidth
                 />
                 <TextField
-                  name='appartNumber'
+                  name='apartNumber'
                   autoComplete='on'
-                  label={<IconLabel label='Enter appartment number' Component={MyLocationIcon}/>}
+                  label={<IconLabel label='Enter apartment number' Component={MyLocationIcon}/>}
                   className={styles.input}
                   onBlur={handleBlur}
-                  // change default value to data from DB
-                  defaultValue={!touched.appartNumber && 1}
-                  value={touched.appartNumber && values.appartNumber}
-                  onChange={handleChange('appartNumber')}
-                  helperText={touched.appartNumber ? errors.appartNumber : ''}
-                  error={touched.appartNumber && Boolean(errors.appartNumber)}
+                  value={values.apartNumber}
+                  onChange={handleChange('apartNumber')}
+                  helperText={touched.apartNumber ? errors.apartNumber : ''}
+                  error={touched.apartNumber && Boolean(errors.apartNumber)}
                   variant='outlined'
                   size='small'
                   fullWidth
@@ -137,8 +152,22 @@ const AddressForm = (props) => {
                   size='small'
                   fullWidth
                 />
-                <FormGroup name='saveMyData' column='true'>
-                  <Checkbox className='checkbox' name='confirmation' label='I have read and agree to the Privacy Policy' />
+                <FormGroup
+                  name='saveMyData'>
+                  <FormControlLabel
+                    control={<Checkbox
+                      className='checkbox'
+                      checked={values.confirmation}
+                      onChange={handleChange}
+                      name='confirmation'
+                      color='default'/>}
+                    label='I have read and agree to the Privacy Policy'
+                  />
+                  {touched.confirmation && errors.confirmation &&
+                  <FormHelperText
+                    error={touched.confirmation && !!errors.confirmation}>
+                    {errors.confirmation}
+                  </FormHelperText>}
                 </FormGroup>
               </ThemeProvider>
               <CardActions>
@@ -164,5 +193,9 @@ const AddressForm = (props) => {
 AddressForm.propTypes = {
   submitAddressHandler: PropTypes.func.isRequired
 };
-
-export default React.memo(AddressForm);
+const mapDispatchToProps = dispatch => {
+  return {
+    setUser: data => dispatch(setUser(data))
+  };
+};
+export default React.memo(connect(null, mapDispatchToProps)(AddressForm));
