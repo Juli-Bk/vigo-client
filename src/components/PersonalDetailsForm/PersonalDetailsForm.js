@@ -8,12 +8,11 @@ import {
   Button,
   CardActions,
   Grid,
-  ThemeProvider
+  ThemeProvider, FormHelperText, Checkbox, FormControlLabel
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import useStyles from './PersonalDetailsFormStyle';
 import FormGroup from '@material-ui/core/FormGroup/FormGroup';
-import Checkbox from '../Checkbox/Checkbox.js';
 import theme from './PersonalDetailsTheme';
 import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
 import IconLabel from '../IconLabel/IconLabel';
@@ -21,42 +20,55 @@ import PersonIcon from '@material-ui/icons/Person';
 import LockIcon from '@material-ui/icons/Lock';
 import EnhancedEncryptionRoundedIcon from '@material-ui/icons/EnhancedEncryptionRounded';
 import EmailIcon from '@material-ui/icons/Email';
+import AjaxUtils from '../../ajax';
+import { setUser } from '../../redux/actions/actions';
+import config from '../../globalConfig';
 
 const PersonalDetailsForm = (props) => {
-  const {submitPersonalDetailsHandler, user} = props;
-  // todo get Personal Data from BD and render in myAccount
+  const {user, setUser, submitPersonalDetailsHandler} = props;
+  const {firstName, lastName, email, phoneNumber} = user;
+
   const submitPersonalDetailsData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
+    // todo delete console.log() after all forms is working
     console.log('dataFromValues', values);
 
-    // const json = JSON.stringify({
-    //   firstName: values.firstName,
-    //   lastName: values.lastName,
-    //   phoneNumber: values.phoneNumber,
-    //   email: values.email
-    // });
-    //
-    // AjaxUtils.Users.updateUserInfoById(json, values)
-    //   .then(result => {
-    //   });
+    const data = {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      phoneNumber: values.phoneNumber,
+      email: values.email
+    };
 
+    AjaxUtils.Users.updateUserInfoById(user._id, data)
+      .then(result => {
+        if (result) {
+          setUser(result);
+        }
+      });
+    if (values.subscribe === true) {
+      AjaxUtils.Subscribers.subscribe(values.email)
+        .then(result => {
+          // todo message to user
+          console.log('You will be informed by our best offers by email', result);
+        });
+    }
     submitPersonalDetailsHandler(values, () => {
-      console.log('dataFromValues', values);
       setSubmitting(false);
       resetForm();
     });
+    // todo message to user 'Your data is successfully updated/saved'
   };
 
   const initFormValues = {
-    firstName: '',
-    lastName: '',
-    phone: '',
-    email: '',
+    firstName: user ? firstName : '',
+    lastName: user ? lastName : '',
+    phoneNumber: user ? phoneNumber : '',
+    email: user ? email : '',
     password: '',
     confirmPassword: '',
-    confirmation: true,
-    subscribe: true,
-    checkboxGroup: '',
+    confirmation: false,
+    subscribe: false,
     saveMyData: true
   };
 
@@ -69,8 +81,8 @@ const PersonalDetailsForm = (props) => {
       .min(3, 'Too short!')
       .max(30, 'Too long!')
       .required('Required.  Write your Last Name please'),
-    phone: Yup.string()
-      .matches(('^\\+?3?8?(0\\d{9})$'), 'use form +38(097)1112233')
+    phoneNumber: Yup.string()
+      .matches(config.phoneNumberRegExp, 'Please, use +38(0XX)XXXXXXX format')
       .required('Required'),
     email: Yup.string()
       .email()
@@ -82,24 +94,9 @@ const PersonalDetailsForm = (props) => {
     confirmPassword: Yup.string()
       .required('Confirm your password')
       .oneOf([Yup.ref('password')], 'Password does not match'),
-    confirmation: Yup.boolean()
-      .oneOf([true], 'Must Accept Privacy Policy'),
-    subscribe: Yup.boolean(),
-    checkboxGroup: Yup.array().required('At least one checkbox is required'),
-    ValidateCheckBoxSchema: Yup.object().shape({
-      subscribe: Yup.bool(),
-      confirmation: Yup.bool()
-    })
-      .test('myCustomCheckboxTest', null, (obj) => {
-        if (obj.subscribe || obj.confirmation) {
-          return true;
-        } else {
-          return new Yup.ValidationError(
-            'Must agree to something',
-            null
-          );
-        }
-      })
+    subscribe: Yup.bool(),
+    confirmation: Yup.bool()
+      .oneOf([true], 'You must agree to The Privacy Policy')
   });
 
   const styles = useStyles();
@@ -119,9 +116,7 @@ const PersonalDetailsForm = (props) => {
             handleSubmit,
             values,
             errors,
-            touched,
-            onChange,
-            confirmPassword
+            touched
           }) => (
             <form autoComplete='on'>
               <ThemeProvider theme={theme}>
@@ -158,8 +153,7 @@ const PersonalDetailsForm = (props) => {
                   name='email'
                   label={<IconLabel label='Enter your e-mail' Component={EmailIcon}/>}
                   className={styles.input}
-                  defaultValue={!touched.email && user.email}
-                  value={touched.email && values.email}
+                  value={values.email}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   helperText={touched.email ? errors.email : ''}
@@ -170,14 +164,14 @@ const PersonalDetailsForm = (props) => {
                 />
                 <TextField
                   autoComplete='on'
-                  name='phone'
+                  name='phoneNumber'
                   label={<IconLabel label='Enter your phone number' Component={PhoneAndroidIcon}/>}
                   className={styles.input}
-                  value={values.phone}
+                  value={values.phoneNumber}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  helperText={touched.phone ? errors.phone : ''}
-                  error={touched.phone && Boolean(errors.phone)}
+                  helperText={touched.phoneNumber ? errors.phoneNumber : ''}
+                  error={touched.phoneNumber && Boolean(errors.phoneNumber)}
                   variant='outlined'
                   size='small'
                   fullWidth
@@ -211,9 +205,28 @@ const PersonalDetailsForm = (props) => {
                   size='small'
                   fullWidth
                 />
-                <FormGroup className={styles.labels} name='saveMyData' column='true'>
-                  <Checkbox className={styles.labels} name='subscribe' label='I wish to subscribe to the Vigo Shop newsletter' />
-                  <Checkbox name='confirmation' label='I have read and agree to the Privacy Policy' />
+                <FormGroup
+                  name='saveMyData'
+                  column='true'>
+                  <FormControlLabel
+                    control={<Checkbox checked={values.subscribe}
+                      onChange={handleChange}
+                      name='subscribe'
+                      color='default'/>}
+                    label='I wish to subscribe to the Vigo Shop newsletter'
+                  />
+                  <FormControlLabel
+                    control={<Checkbox checked={values.confirmation}
+                      onChange={handleChange}
+                      name='confirmation'
+                      color='default'/>}
+                    label='I have read and agree to the Privacy Policy'
+                  />
+                  {touched.confirmation && errors.confirmation &&
+                  <FormHelperText
+                    error={touched.confirmation && !!errors.confirmation}>
+                    {errors.confirmation}
+                  </FormHelperText>}
                 </FormGroup>
               </ThemeProvider>
               <CardActions>
@@ -235,14 +248,14 @@ const PersonalDetailsForm = (props) => {
   );
 };
 
-const mapStateToProps = store =>{
-  return {
-    user: store.user
-  };
-};
-
 PersonalDetailsForm.propTypes = {
   submitPersonalDetailsHandler: PropTypes.func.isRequired
 };
 
-export default React.memo(connect(mapStateToProps)(PersonalDetailsForm));
+const mapDispatchToProps = dispatch => {
+  return {
+    setUser: data => dispatch(setUser(data))
+  };
+};
+
+export default React.memo(connect(null, mapDispatchToProps)(PersonalDetailsForm));
