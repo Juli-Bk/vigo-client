@@ -142,6 +142,38 @@ export const toggleWishItems = (productId) => {
   }
 };
 
+export const toggleCartItems = (productId) => {
+  const userId = getUserIdFromCookie();
+  const shopCartLocal = getStorageData('shoppingCart');
+
+  if (shopCartLocal.includes(productId)) {
+    setStorageData('shoppingCart', shopCartLocal.filter(item => item !== productId));
+
+    // if (userId) {
+    //   AjaxUtils.WishLists.deleteProductFromWishlist(productId)
+    //     .then(result => {
+    //       if (result.status) {
+    //         // todo nice popup
+    //         alert(globalConfig.userMessages.NOT_AUTHORIZED);
+    //       }
+    //       console.log(result);
+    //     });
+    // }
+  } else {
+    setStorageData('shoppingCart', [...shopCartLocal, productId]);
+
+    // if (userId) {
+    //   AjaxUtils.WishLists.addProductToWishList(productId, userId)
+    //     .then(result => {
+    //       if (result.status) {
+    //         alert(globalConfig.userMessages.NOT_AUTHORIZED);
+    //       }
+    //       console.log(result);
+    //     });
+    // }
+  }
+};
+
 export const defineSortData = (option) => {
   switch (option) {
     case globalConfig.sortOptions.New_In:

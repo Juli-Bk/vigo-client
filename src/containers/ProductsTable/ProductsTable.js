@@ -10,8 +10,8 @@ import {
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
-import { capitalize, formPriceString, getStorageData, toggleWishItems } from '../../helpers/helpers';
-import { changeWishList } from '../../redux/actions/actions';
+import { capitalize, formPriceString, getStorageData, toggleCartItems, toggleWishItems } from '../../helpers/helpers';
+import { changeWishList, changeShoppingCart } from '../../redux/actions/actions';
 import SaleInfoBox from '../../components/Product/SaleInfoBox/SaleInfoBox';
 import SalePrice from '../../components/Product/SalePrice/SalePrice';
 import Price from '../../components/Product/Price/Price';
@@ -22,7 +22,14 @@ import globalConfig from '../../globalConfig';
 const ProductsTable = (props) => {
   // todo quantity and reducer for shopping cart
   // eslint-disable-next-line no-unused-vars
-  const { isMobile, products, wishList, changeWishList, currentQuantity, setCurrentQuantity, isShoppingCart } = props;
+  const {
+    isMobile,
+    products,
+    wishList,
+    changeWishList,
+    changeShoppingCart,
+    isShoppingCart
+  } = props;
   const classes = useStyles();
 
   const deleteFromWishList = (id) => {
@@ -31,8 +38,8 @@ const ProductsTable = (props) => {
   };
 
   const deleteFromCart = (id) => {
-    // todo logic for shopping cart
-    console.log(`product with ${id} deleted `);
+    toggleCartItems(id);
+    changeShoppingCart(getStorageData('shoppingCart'));
   };
 
   const rows = products.map(product => {
@@ -140,10 +147,9 @@ ProductsTable.propTypes = {
   products: PropTypes.array.isRequired,
   wishlist: PropTypes.array,
   changeWishList: PropTypes.func.isRequired,
+  changeShoppingCart: PropTypes.func.isRequired,
   isShoppingCart: PropTypes.bool,
-  isMobile: PropTypes.bool.isRequired,
-  currentQuantity: PropTypes.any,
-  setCurrentQuantity: PropTypes.func
+  isMobile: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = store => {
@@ -154,7 +160,8 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeWishList: data => dispatch(changeWishList(data))
+    changeWishList: data => dispatch(changeWishList(data)),
+    changeShoppingCart: data => dispatch(changeShoppingCart(data))
   };
 };
 

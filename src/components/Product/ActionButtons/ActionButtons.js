@@ -6,14 +6,14 @@ import ButtonAddToCart from './ButtonAddToCart/ButtonAddToCart';
 import FavoriteIcon from './FavoriteIcon/FavoriteIcon';
 import ButtonCompare from './ButtonCompare/ButtonCompare';
 import globalConfig from '../../../globalConfig';
-import { getStorageData, toggleWishItems } from '../../../helpers/helpers';
-import { changeWishList } from '../../../redux/actions/actions';
+import { getStorageData, toggleWishItems, toggleCartItems } from '../../../helpers/helpers';
+import { changeShoppingCart, changeWishList } from '../../../redux/actions/actions';
 
 const ActionButtons = (props) => {
-  const { classes, product, width, disabledSpacing, isProductPage, changeWishList } = props;
-  // todo logic
-  const addToCart = (productId) => {
-    console.log(`product with id ${productId} added to shopping cart`);
+  const { classes, product, width, disabledSpacing, isProductPage, changeWishList, changeShoppingCart } = props;
+  const toggleInCart = (productId) => {
+    toggleCartItems(productId);
+    changeShoppingCart(getStorageData('shoppingCart'));
   };
 
   const addToCompare = (productId) => {
@@ -32,7 +32,7 @@ const ActionButtons = (props) => {
 
   return (
     <CardActions disableSpacing={disabledSpacing}>
-      <ButtonAddToCart classes={classes.button} id={product._id} addToCart={addToCart}/>
+      <ButtonAddToCart classes={classes.button} id={product._id} addToCart={toggleInCart}/>
       <FavoriteIcon classes={classes}
         id={product._id}
         addToWishList={toggleWishList}
@@ -64,7 +64,8 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeWishList: data => dispatch(changeWishList(data))
+    changeWishList: data => dispatch(changeWishList(data)),
+    changeShoppingCart: data => dispatch(changeShoppingCart(data))
   };
 };
 

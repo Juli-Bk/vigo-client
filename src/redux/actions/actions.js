@@ -56,3 +56,7 @@ export const changeWishList = (data) => {
 export const setUser = (userData) => {
   return {type: Actions.SET_USER, payload: userData};
 };
+
+export const changeShoppingCart = (data) => {
+  return {type: Actions.CHANGE_SHOPPING_CART, payload: data};
+};

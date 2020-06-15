@@ -29,7 +29,6 @@ const AppRoutes = () => {
         <Route exact path='/wishlist' component={Wishlist}/>
         <Route exact path='/cart' component={ShoppingCart}/>
         <Route exact path='/checkout' component={Checkout}/>
-        <Route exact path='/about' component={About}/>
         <Route exact path='/contacts' component={Contacts}/>
         <ProtectedRoute
           authenticated={!!getJWTfromCookie()}

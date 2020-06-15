@@ -13,6 +13,8 @@ import quantity from './quantityReducer';
 import wishList from './wishListReducer';
 import user from './userReducer';
 import colors from './colorReducer';
+import shoppingCart from './shoppingCartReducer';
+
 export const rootReducer = combineReducers({
   currentPage,
   sortingOption,
@@ -27,5 +29,6 @@ export const rootReducer = combineReducers({
   isSearchBarOpen,
   wishList,
   user,
-  colors
+  colors,
+  shoppingCart
 });
