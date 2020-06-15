@@ -10,28 +10,28 @@ const useStyles = makeStyles(theme => ({
     fontFamily: fonts.f4,
     fontWeight: 800,
     position: 'relative',
-    textDecoration: 'none',
-    '&:after': {
-      display: 'block',
-      position: 'absolute',
-      bottom: 3,
-      left: 0,
-      width: 0,
-      height: 2,
-      backgroundColor: colors.fontOncard,
-      content: '""',
-      transition: 'width 0.3s ease-out'
-    },
-    '&:hover': {
-      '&:after': {
-        width: '100%'
-      }
-    },
-    '&:focus': {
-      '&:after': {
-        width: '100%'
-      }
-    }
+    textDecoration: 'none'
+    // '&:after': {
+    //   display: 'block',
+    //   position: 'absolute',
+    //   bottom: 3,
+    //   left: 0,
+    //   width: 0,
+    //   height: 2,
+    //   backgroundColor: colors.fontOncard,
+    //   content: '""',
+    //   transition: 'width 0.3s ease-out'
+    // },
+    // '&:hover': {
+    //   '&:after': {
+    //     width: '100%'
+    //   }
+    // },
+    // '&:focus': {
+    //   '&:after': {
+    //     width: '100%'
+    //   }
+    // }
   }
 }));
 

@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import moment from 'moment';
 import PropTypes from 'prop-types';
 import { Box, makeStyles, Tab, Tabs, ThemeProvider, withWidth } from '@material-ui/core';
 import TabPanel from './TabPanel';
@@ -15,7 +14,7 @@ function a11yProps (index) {
   };
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     flexGrow: 1
   },
@@ -44,19 +43,19 @@ const TabsSliders = (props) => {
 
   useEffect(() => {
     let isCanceled = false;
-    const twoWeeksAgo = moment().subtract(14, 'days').format('YYYY.MM.DD');
-    const currentDate = moment().format('YYYY.MM.DD');
-
     if (!isCanceled) {
-      AjaxUtils.Products.getProductsByFilters([{minCreatedDate: twoWeeksAgo}, {maxCreatedDate: currentDate}], 1, 15, '')
+      AjaxUtils.Products
+        .getProductsByFilters([{new: true}], 1, 15, '')
         .then(result => {
           setNewArrivals(result.products);
         });
-      AjaxUtils.Products.getProductsByFilters([{featured: true}], 1, 15, '')
+      AjaxUtils.Products
+        .getProductsByFilters([{featured: true}], 1, 15, '')
         .then(result => {
           setFeatured(result.products);
         });
-      AjaxUtils.Products.getProductsByFilters([{special: true}], 1, 15, '')
+      AjaxUtils.Products
+        .getProductsByFilters([{special: true}], 1, 15, '')
         .then(result => {
           setSpecial(result.products);
         });
@@ -81,7 +80,8 @@ const TabsSliders = (props) => {
             onChange={handleChange}
             aria-label="tabs-for-sliders">
             {tabsNames.map((name, index) => {
-              return (<Tab label={name} {...a11yProps(index)} key={index} disableRipple={true} className={classes.tab}/>);
+              return (<Tab label={name} {...a11yProps(index)} key={index}
+                disableRipple={true} className={classes.tab}/>);
             })}
           </Tabs>
         </Box>
