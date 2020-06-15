@@ -15,7 +15,6 @@ import {
 import PropTypes from 'prop-types';
 import useStyles from './AddressFormStyle';
 import FormGroup from '@material-ui/core/FormGroup/FormGroup';
-// import Checkbox from '../Checkbox/Checkbox.js';
 import theme from './AddressFormTheme';
 import ApartmentIcon from '@material-ui/icons/Apartment';
 import MyLocationIcon from '@material-ui/icons/MyLocation';
@@ -24,10 +23,9 @@ import PinDropIcon from '@material-ui/icons/PinDrop';
 import AutocompleteComponent from '../Autocomplete/Autocomplete';
 import { connect } from 'react-redux';
 import { setUser } from '../../redux/actions/actions';
-import AjaxUtils from '../../ajax';
 
 const AddressForm = (props) => {
-  const {user, setUser, submitAddressHandler} = props;
+  const {submitAddressHandler} = props;
 
   const [address, setAddress] = useState('');
   const submitAddressData = (values, {resetForm, setSubmitting}) => {
@@ -36,18 +34,11 @@ const AddressForm = (props) => {
     const data = JSON.stringify({
       addresses: {
         address: address,
-        house: values.buildingNumber,
-        apartment: values.apartNumber,
-        postalCode: values.postCode
+        house: values.house,
+        apartment: values.apartment,
+        postalCode: values.postalCode
       }
     });
-
-    // AjaxUtils.Users.updateUserInfoById(user._id, data)
-    //   .then(result => {
-    //     if (result) {
-    //       setUser(result);
-    //     }
-    //   });
 
     console.log('saved address', data);
 
@@ -59,19 +50,19 @@ const AddressForm = (props) => {
 
   const initFormValues = {
     autocomplete: '',
-    buildingNumber: '',
-    apartNumber: '',
-    postCode: '',
+    house: '',
+    apartment: '',
+    postalCode: '',
     confirmation: false
   };
 
   const validateObject = Yup.object().shape({
     autocomplete: Yup.string(),
     // .required('Required'),
-    buildingNumber: Yup.string()
+    house: Yup.string()
       .min(1, 'Correct building number is a must!')
       .required('Required'),
-    apartNumber: Yup.number()
+    apartment: Yup.number()
       .required('Required'),
     confirmation: Yup.boolean()
       .oneOf([true], 'Must Accept Privacy Policy')
@@ -92,68 +83,65 @@ const AddressForm = (props) => {
             handleChange,
             handleBlur,
             handleSubmit,
-            handleReset,
             values,
             errors,
-            touched,
-            onChange
+            touched
           }) => (
             <form autoComplete='on'>
               <ThemeProvider theme={theme}>
-
                 <AutocompleteComponent
+                  autoComplete='on'
                   setAddress={setAddress}
                   name='autocomplete'
                   onBlur={handleBlur}
                   touched={touched}
                   value={values.autocomplete}
-                  onChange={handleChange('autocomplete')}
+                  onChange={handleChange}
                   error={errors}/>
 
                 <TextField
-                  name='buildingNumber'
+                  name='house'
                   autoComplete='on'
                   label={<IconLabel label='Enter building number' Component={ApartmentIcon}/>}
                   className={styles.input}
-                  value={values.buildingNumber}
+                  value={values.house}
                   onBlur={handleBlur}
-                  onChange={handleChange('buildingNumber')}
-                  helperText={touched.buildingNumber ? errors.buildingNumber : ''}
-                  error={touched.buildingNumber && Boolean(errors.buildingNumber)}
+                  onChange={handleChange}
+                  helperText={touched.house ? errors.house : ''}
+                  error={touched.house && Boolean(errors.house)}
                   variant='outlined'
                   size='small'
                   fullWidth
                 />
                 <TextField
-                  name='apartNumber'
+                  name='apartment'
                   autoComplete='on'
                   label={<IconLabel label='Enter apartment number' Component={MyLocationIcon}/>}
                   className={styles.input}
                   onBlur={handleBlur}
-                  value={values.apartNumber}
-                  onChange={handleChange('apartNumber')}
-                  helperText={touched.apartNumber ? errors.apartNumber : ''}
-                  error={touched.apartNumber && Boolean(errors.apartNumber)}
+                  value={values.apartment}
+                  onChange={handleChange}
+                  helperText={touched.apartment ? errors.apartment : ''}
+                  error={touched.apartment && Boolean(errors.apartment)}
                   variant='outlined'
                   size='small'
                   fullWidth
                 />
                 <TextField
-                  name='postCode'
+                  name='postalCode'
                   autoComplete='on'
                   label={<IconLabel label='Enter postal code' Component={PinDropIcon}/>}
                   className={styles.input}
-                  value={values.postCode}
+                  value={values.postalCode}
                   onBlur={handleBlur}
-                  onChange={handleChange('postCode')}
-                  helperText={touched.postCode ? errors.postCode : ''}
-                  error={touched.postCode && Boolean(errors.postCode)}
+                  onChange={handleChange}
+                  helperText={touched.postalCode ? errors.postalCode : ''}
+                  error={touched.postalCode && Boolean(errors.postalCode)}
                   variant='outlined'
                   size='small'
                   fullWidth
                 />
-                <FormGroup
-                  name='saveMyData'>
+                <FormGroup>
                   <FormControlLabel
                     control={<Checkbox
                       className='checkbox'

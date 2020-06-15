@@ -5,6 +5,9 @@ import {wait} from '@testing-library/react';
 import Button from '@material-ui/core/Button';
 import AddressForm from './AddressForm';
 import Adapter from 'enzyme-adapter-react-16';
+import store from '../../redux/store';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
 
 configure({adapter: new Adapter()});
 
@@ -27,7 +30,7 @@ const updateField = (wrapper, name, value) => {
   });
 };
 
-xdescribe('AddressForm with all expected props', () => {
+describe('AddressForm with all expected props', () => {
   let wrapper;
   let onSubmitCallback;
 
@@ -35,7 +38,7 @@ xdescribe('AddressForm with all expected props', () => {
     onSubmitCallback = jest.fn();
 
     await wait(() => {
-      wrapper = mount(<AddressForm submitAddressHandler={onSubmitCallback}/>);
+      wrapper = mount(<Provider store={store}><AddressForm submitAddressHandler={onSubmitCallback}/></Provider>);
     });
   });
 
@@ -94,9 +97,6 @@ xdescribe('AddressForm with all expected props', () => {
 
   it('Should not trigger submit on submit clicked with invalid house', async () => {
     updateField(wrapper.find('input[name="house"]'), 'house', invalidBuilding);
-    //
-    // it('Should not trigger submit on submit clicked with invalid apartment', async () => {
-    // updateField(wrapper.find('input[name="apartment"]'), 'apartment', invalidAppart);
 
     const button = wrapper.find(Button);
     expect(button.props().type).toEqual('submit');
@@ -113,7 +113,7 @@ xdescribe('AddressForm with all expected props', () => {
   });
 
   it('Should not trigger submit on submit clicked with invalid apartment', async () => {
-    updateField(wrapper.find('input[name="apartment"]'), 'address', invalidAppart);
+    updateField(wrapper.find('input[name="apartment"]'), 'apartment', invalidAppart);
 
     const button = wrapper.find(Button);
     expect(button.props().type).toEqual('submit');

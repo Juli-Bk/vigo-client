@@ -6,6 +6,9 @@ import globalConfig from '../../globalConfig';
 import theme from './DeliveryTheme';
 import { ListItem, ThemeProvider } from '@material-ui/core';
 import NovaPoshtaCity from '../PostOfficeForm/PostOfficeForm';
+import Box from '@material-ui/core/Box';
+import { connect } from 'react-redux';
+import { setUser } from '../../redux/actions/actions';
 
 const {deliveryOptions} = globalConfig;
 
@@ -20,10 +23,10 @@ function defineDelivery (inputValue) {
         <ThemeProvider theme={theme}>
           <Grid item xs={12}>
          VIGO Courier will deliver the order to the following address:
-            <ListItem>user address</ListItem>
-            <ListItem>address</ListItem>
-            <ListItem>address, 2334 </ListItem>
-            <ListItem>Street 48/188</ListItem>
+            <Box>
+              {/* <ListItem>Address: {user.addresses}</ListItem> */}
+              {/* <ListItem>Phone Number: {user.phoneNumber}</ListItem> */}
+            </Box>
           </Grid>
         </ThemeProvider>
       );
@@ -59,8 +62,16 @@ function defineDelivery (inputValue) {
 const DeliveryForm = () => {
   const options = Object.values(deliveryOptions);
   const [value, setValue] = useState(options[0]);
+  const [address, setAddress] = useState('');
   const [inputValue, setInputValue] = useState('');
-
+  const data = JSON.stringify({
+    addresses: {
+      address: address
+      // house: values.house,
+      // apartment: values.apartment,
+      // postalCode: values.postalCode
+    }
+  });
   return (
     <ThemeProvider theme={theme}>
       <Grid container spacing={6}>
@@ -91,4 +102,15 @@ const DeliveryForm = () => {
     </ThemeProvider>
   );
 };
-export default React.memo(DeliveryForm);
+const mapStoreToProps = store => {
+  return {
+    user: store.user,
+    token: store.token
+  };
+};
+const mapDispatchToProps = dispatch => {
+  return {
+    setUser: data => dispatch(setUser(data))
+  };
+};
+export default React.memo(connect(mapStoreToProps, mapDispatchToProps)(DeliveryForm));

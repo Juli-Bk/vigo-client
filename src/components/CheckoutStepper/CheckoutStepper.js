@@ -6,16 +6,15 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
 import theme from './CheckoutSteppereTheme';
 import DeliveryForm from '../DeliveryForm/DeliveryForm';
-import {Container} from '@material-ui/core';
+import { Container, ListItem } from '@material-ui/core';
 import PaymentForm from '../PaymentForm/PaymentForm';
 import {connect} from 'react-redux';
 import AjaxUtils from '../../ajax/index';
 import {getJWTfromCookie} from '../../ajax/common/helper';
 import { setUser } from '../../redux/actions/actions';
-import { logDOM } from '@testing-library/dom';
+import ModalPersDetails from '../ModalPersDetails/ModalPersDetails';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -45,10 +44,18 @@ const CheckoutStepper = (props) => {
       case 0:
         console.log(user);
         return (
-          <Grid item xs={12}>
-            FirstName: {user.firstName},
-            LastName: {user.lastName},
-          </Grid>
+          <Box display='flex' flexWrap="wrap">
+            <Box p={1}>
+              <ListItem>First Name: {user.firstName}</ListItem>
+              <ListItem>Last Name: {user.lastName}</ListItem>
+              <ListItem>Phone Number: {user.phoneNumber}</ListItem>
+              <ListItem>Email: {user.email}</ListItem>
+              <ListItem>Address: {user.addresses}</ListItem>
+            </Box>
+            <Box p={1}>
+              <ModalPersDetails />
+            </Box>
+          </Box>
         );
       case 1:
         return (

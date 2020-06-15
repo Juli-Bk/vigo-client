@@ -26,13 +26,9 @@ const updateField = (name, value) => {
 };
 
 describe('PaymentForm with all expected props', () => {
-  const updateField = mount(<PaymentForm />);
+  const updateField = mount(<Provider store={store}><PaymentForm /></Provider>);
   afterEach(() => {
     updateField.unmount();
-  });
-
-  it('Should display autocomplete form field', () => {
-    expect(updateField.find('input[name="payment"]')).toBeTruthy();
   });
 
   it('switch function renders proper paymentOptions', () => {

@@ -21,6 +21,10 @@ const theme = createMuiTheme({
         '&:hover, &:active': {
           backgroundColor: colors.bgSecondary
         }
+      },
+      root: {
+        color: colors.fontSixth,
+        backgroundColor: colors.fontBanner
       }
     },
     MuiContainer: {

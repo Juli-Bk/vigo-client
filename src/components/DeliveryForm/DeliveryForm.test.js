@@ -7,6 +7,8 @@ import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import store from '../../redux/store';
 import Sort from '../Sort/Sort';
+import AddressForm from '../AddressForm/AddressForm';
+import { BrowserRouter } from 'react-router-dom';
 
 configure({adapter: new Adapter()});
 const deliveryOptions = {
@@ -26,7 +28,7 @@ const updateField = (name, value) => {
   });
 };
 describe('DeliveryForm with all expected props', () => {
-  const updateField = mount(<DeliveryForm />);
+  const updateField = mount(<Provider store={store}><DeliveryForm /></Provider>);
   afterEach(() => {
   });
 
