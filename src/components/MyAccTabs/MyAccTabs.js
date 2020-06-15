@@ -57,7 +57,7 @@ const MyAccTabs = () => {
   return (
     <Box className={classes.root}>
       <ThemeProvider theme={themeMui}>
-        <AppBar position='static' color='default'>
+        <AppBar elevation={0} position='static' color='default'>
           <Tabs
             value={value}
             onChange={handleChange}

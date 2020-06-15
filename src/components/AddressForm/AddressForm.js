@@ -113,7 +113,9 @@ const AddressForm = (props) => {
                   label={<IconLabel label='Enter appartment number' Component={MyLocationIcon}/>}
                   className={styles.input}
                   onBlur={handleBlur}
-                  value={values.appartNumber}
+                  // change default value to data from DB
+                  defaultValue={!touched.appartNumber && 1}
+                  value={touched.appartNumber && values.appartNumber}
                   onChange={handleChange('appartNumber')}
                   helperText={touched.appartNumber ? errors.appartNumber : ''}
                   error={touched.appartNumber && Boolean(errors.appartNumber)}

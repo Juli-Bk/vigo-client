@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import {
@@ -22,7 +23,7 @@ import EnhancedEncryptionRoundedIcon from '@material-ui/icons/EnhancedEncryption
 import EmailIcon from '@material-ui/icons/Email';
 
 const PersonalDetailsForm = (props) => {
-  const {submitPersonalDetailsHandler} = props;
+  const {submitPersonalDetailsHandler, user} = props;
   // todo get Personal Data from BD and render in myAccount
   const submitPersonalDetailsData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
@@ -157,7 +158,8 @@ const PersonalDetailsForm = (props) => {
                   name='email'
                   label={<IconLabel label='Enter your e-mail' Component={EmailIcon}/>}
                   className={styles.input}
-                  value={values.email}
+                  defaultValue={!touched.email && user.email}
+                  value={touched.email && values.email}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   helperText={touched.email ? errors.email : ''}
@@ -233,8 +235,14 @@ const PersonalDetailsForm = (props) => {
   );
 };
 
+const mapStateToProps = store =>{
+  return {
+    user: store.user
+  };
+};
+
 PersonalDetailsForm.propTypes = {
   submitPersonalDetailsHandler: PropTypes.func.isRequired
 };
 
-export default React.memo(PersonalDetailsForm);
+export default React.memo(connect(mapStateToProps)(PersonalDetailsForm));
