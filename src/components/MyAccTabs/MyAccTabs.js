@@ -1,5 +1,6 @@
-import React, {useState } from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { makeStyles, ThemeProvider, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -10,9 +11,10 @@ import themeMui from './MyAccTabsTheme';
 import PersonalDetailsForm from '../PersonalDetailsForm/PersonalDetailsForm';
 import AddressForm from '../AddressForm/AddressForm';
 import Wishlist from '../../pages/Wishlist/Wishlist';
+import { useMediaQuery } from '@material-ui/core';
 
 const TabPanel = (props) => {
-  const { children, value, index, ...other } = props;
+  const { user, children, value, index, ...other } = props;
 
   return (
     <Box
@@ -45,7 +47,9 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const MyAccTabs = () => {
+const MyAccTabs = (props) => {
+  const {user} = props;
+  const isMobile = useMediaQuery('(max-width: 400px)');
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = useState(0);
@@ -54,6 +58,8 @@ const MyAccTabs = () => {
     setValue(newValue);
   };
 
+  const orientation = isMobile ? 'vertical' : 'horizontal';
+
   return (
     <Box className={classes.root}>
       <ThemeProvider theme={themeMui}>
@@ -61,6 +67,7 @@ const MyAccTabs = () => {
           <Tabs
             value={value}
             onChange={handleChange}
+            orientation={orientation}
             indicatorColor='primary'
             textColor='primary'
             variant='fullWidth'
@@ -74,7 +81,7 @@ const MyAccTabs = () => {
         </AppBar>
 
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <PersonalDetailsForm submitPersonalDetailsHandler={(submit) => {
+          <PersonalDetailsForm user={user} submitPersonalDetailsHandler={(submit) => {
             console.log('personal details values', submit);
             handleChange(null, value);
           }}/>
@@ -101,4 +108,11 @@ TabPanel.propTypes = {
   index: PropTypes.any.isRequired,
   value: PropTypes.any.isRequired
 };
-export default React.memo(MyAccTabs);
+
+const mapStateToProps = store => {
+  return {
+    user: store.user
+  };
+};
+
+export default React.memo(connect(mapStateToProps)(MyAccTabs));

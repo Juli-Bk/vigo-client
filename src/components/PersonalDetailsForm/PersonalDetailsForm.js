@@ -82,7 +82,8 @@ const PersonalDetailsForm = (props) => {
       .max(30, 'Too long!')
       .required('Required.  Write your Last Name please'),
     phoneNumber: Yup.string()
-      .matches(config.phoneNumberRegExp, 'Please, use +38(0XX)XXXXXXX format')
+    // todo replace regExp to config and use it in all places where it`s needed
+      .matches(('^\\+?3?8?(0\\d{9})$'), 'use form +38(097)1112233')
       .required('Required'),
     email: Yup.string()
       .email()
@@ -223,10 +224,10 @@ const PersonalDetailsForm = (props) => {
                     label='I have read and agree to the Privacy Policy'
                   />
                   {touched.confirmation && errors.confirmation &&
-                  <FormHelperText
-                    error={touched.confirmation && !!errors.confirmation}>
-                    {errors.confirmation}
-                  </FormHelperText>}
+                              <FormHelperText
+                                error={touched.confirmation && !!errors.confirmation}>
+                                {errors.confirmation}
+                              </FormHelperText>}
                 </FormGroup>
               </ThemeProvider>
               <CardActions>

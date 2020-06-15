@@ -9,6 +9,7 @@ import BannerLineHomePage from '../../components/BannerLineHomePage/BannerLineHo
 import NewCustomerForm from '../../components/NewCustomerForm/NewCustomerForm';
 import AjaxUtils from '../../ajax';
 import ScrollToTop from '../../components/ScrollToTop/ScrollToTop';
+import { getJWTfromCookie } from '../../ajax/common/helper';
 
 const renderData = {
   title: 'what\'s new',
@@ -35,6 +36,8 @@ const onSubmitCallback = () => {
 };
 
 const Home = () => {
+  const token = getJWTfromCookie();
+
   return (
     <Container>
       <TopSlider renderData={renderData} imgUrls={urls}/>
@@ -46,7 +49,7 @@ const Home = () => {
           <AboutUsBlock title="About Vigo Shop"/>
         </Grid>
         <Grid item xl={4} lg={4} md={4} sm={4} xs={12}>
-          <CardNewsletter saveEmail={AjaxUtils.Subscribers.subscribe}/>
+          {token ? <CardNewsletter saveEmail={AjaxUtils.Subscribers.subscribe}/> : null}
         </Grid>
       </Grid>
 

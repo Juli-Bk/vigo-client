@@ -1,6 +1,5 @@
-
-import { makeStyles } from '@material-ui/core/styles';
-import { fade } from '@material-ui/core/styles/colorManipulator';
+import {makeStyles} from '@material-ui/core/styles';
+import {fade} from '@material-ui/core/styles/colorManipulator';
 import {colors} from '../../styles/colorKit';
 import {fonts} from '../../styles/fonts/fontsKit';
 
@@ -30,7 +29,10 @@ const blockStyle = {
 
 const useStyles = makeStyles(theme => ({
   modalWindow: {
-    width: 500
+    width: 500,
+    [theme.breakpoints.between(0, 500)]: {
+      width: '90%'
+    }
   },
   gridContainer: {
     marginBottom: 30
@@ -61,11 +63,17 @@ const useStyles = makeStyles(theme => ({
   },
   toolBar: {
     display: 'flex',
+    paddingLeft: 24,
+    paddingRight: 24,
     justifyContent: 'space-between',
     alignItems: 'center',
     height: '100%',
     [theme.breakpoints.up('md')]: {
       paddingTop: 0
+    },
+    [theme.breakpoints.between(0, 500)]: {
+      paddingLeft: 10,
+      paddingRight: 10
     }
   },
   burgerMenuBlock: {

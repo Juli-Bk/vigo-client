@@ -64,7 +64,8 @@ const MouseAwayListener = (props) => {
     children,
     disableReactTree = false,
     mouseEvent = 'onMouseOut',
-    onMouseAway
+    onMouseAway,
+    touchEvent = 'onTouchEnd'
   } = props;
 
   const movedRef = React.useRef(false);
@@ -123,6 +124,31 @@ const MouseAwayListener = (props) => {
 
   const childrenProps = {ref: handleRef};
 
+  if (touchEvent !== false) {
+    childrenProps[touchEvent] = createHandleSynthetic(touchEvent);
+  }
+
+  React.useEffect(() => {
+    if (touchEvent !== false) {
+      const mappedTouchEvent = mapEventPropToEvent(touchEvent);
+      const doc = ownerDocument(nodeRef.current);
+
+      const handleTouchMove = () => {
+        movedRef.current = true;
+      };
+
+      doc.addEventListener(mappedTouchEvent, handleMouseOutAway);
+      doc.addEventListener('touchmove', handleTouchMove);
+
+      return () => {
+        doc.removeEventListener(mappedTouchEvent, handleMouseOutAway);
+        doc.removeEventListener('touchmove', handleTouchMove);
+      };
+    }
+
+    return undefined;
+  }, [handleMouseOutAway, touchEvent]);
+
   if (mouseEvent !== false) {
     childrenProps[mouseEvent] = createHandleSynthetic(mouseEvent);
   }
@@ -148,7 +174,8 @@ const MouseAwayListener = (props) => {
 MouseAwayListener.propTypes = {
   /**
    * The wrapped element.
-   * If mouse leave this block of elements the seated handler onMouseAway will be called
+   * If mouse leave this block of elements or touch event occur outside this elements block,
+   * the seated handler onMouseAway will be called
    */
   children: elementAcceptingRef.isRequired,
   /**
@@ -159,11 +186,15 @@ MouseAwayListener.propTypes = {
   /**
    * The mouse event to listen to. You can disable the listener by providing `false`.
    */
-  mouseEvent: PropTypes.oneOf(['onMouseLeave', 'onMouseOut', false]),
+  mouseEvent: PropTypes.oneOf(['onMouseLeave', 'onMouseOut', 'onClick', 'onMouseDown', 'onMouseUp', false]),
   /**
    * Callback fired when a "mouseOut" event is detected.
    */
-  onMouseAway: PropTypes.func.isRequired
+  onMouseAway: PropTypes.func.isRequired,
+  /**
+   * The touch event to listen to. You can disable the listener by providing `false`.
+   */
+  touchEvent: PropTypes.oneOf(['onTouchEnd', 'onTouchStart', false])
 };
 
 if (process.env.NODE_ENV !== 'production') {

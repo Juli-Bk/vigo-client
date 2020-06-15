@@ -9,13 +9,8 @@ const useStyles = makeStyles(theme => ({
     color: colors.fontOncard,
     fontFamily: fonts.f4,
     fontWeight: 800,
-    fontSize: 30,
     position: 'relative',
-    textDecoration: 'none',
-    [theme.breakpoints.between(0, 500)]: {
-      marginRight: 0,
-      paddingLeft: 0
-    }
+    textDecoration: 'none'
     // '&:after': {
     //   display: 'block',
     //   position: 'absolute',

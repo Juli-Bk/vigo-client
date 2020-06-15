@@ -1,3 +1,5 @@
+import React, {useCallback, useEffect, useState} from 'react';
+import {makeStyles, ThemeProvider} from '@material-ui/core/styles';
 import React, { useEffect, useState, useCallback } from 'react';
 import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
@@ -9,10 +11,11 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import theme from './CheckoutSteppereTheme';
 import DeliveryForm from '../DeliveryForm/DeliveryForm';
-import { Container } from '@material-ui/core';
+import {Container} from '@material-ui/core';
 import PaymentForm from '../PaymentForm/PaymentForm';
 import {connect} from 'react-redux';
 import AjaxUtils from '../../ajax/index';
+import {getJWTfromCookie} from '../../ajax/common/helper';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,24 +38,24 @@ const getStepContent = (stepIndex, userData) => {
     case 0:
       return (
         <Grid item xs={12}>
-            `
-            ${userData.firstName} ${userData.lastName}
+          `
+          ${userData.firstName} ${userData.lastName}
           John Smith
           1 Downing street
           Somewhere,
           City,
           Country, 00222,
           +380976662233
-            `
+          `
         </Grid>
       );
     case 1:
       return (
-        <DeliveryForm />
+        <DeliveryForm/>
       );
     case 2:
       return (
-        <PaymentForm />
+        <PaymentForm/>
       );
     case 3:
       return 'Review of order: order summary';
@@ -62,13 +65,13 @@ const getStepContent = (stepIndex, userData) => {
 };
 
 const CheckoutStepper = (props) => {
-  const {user} = props;
+  const {token} = props;
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const [userData, setUser] = useState(0);
 
   useEffect(() => {
-    if (user && user.id) {
+    if (token || getJWTfromCookie()) {
       AjaxUtils.Users.getUser()
         .then(result => {
           if (result.status === 200) {
@@ -88,7 +91,7 @@ const CheckoutStepper = (props) => {
           // todo open modal window to login again
         });
     }
-  }, [classes.link, user]);
+  }, [classes.link, token]);
 
   const handleNext = useCallback(() => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -116,16 +119,16 @@ const CheckoutStepper = (props) => {
         </Stepper>
         <Box>
           {activeStep === steps.length ? (
-            <Box >
+            <Box>
               <Typography variant='h6' className={classes.instructions}>Thank you for your order.</Typography>
               <Typography variant='body2' className={classes.instructions}>Your order number is #2001539.
-              We have emailed your order confirmation, and will send you an update when your order has shipped.
-              Thank you for your order.</Typography>
+                We have emailed your order confirmation, and will send you an update when your order has shipped.
+                Thank you for your order.</Typography>
               <Button onClick={handleReset}>Reset</Button>
             </Box>
 
           ) : (
-            <Container >
+            <Container>
               <Box>
                 <Typography component='span' className={classes.instructions}>
                   {
@@ -138,7 +141,7 @@ const CheckoutStepper = (props) => {
                     onClick={handleBack}
                     className={classes.backButton}
                   >
-                Back
+                    Back
                   </Button>
                   <Button variant='contained' color='primary' onClick={handleNext}>
                     {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
@@ -155,7 +158,8 @@ const CheckoutStepper = (props) => {
 
 const mapStoreToProps = store => {
   return {
-    user: store.user
+    user: store.user,
+    token: store.token
   };
 };
 

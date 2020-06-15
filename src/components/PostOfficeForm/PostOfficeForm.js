@@ -22,6 +22,7 @@ const NovaPoshtaCity = (props) => {
   const submitNovaPoshtaData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
     submitNovaPoshtaHandler(values, () => {
+      console.log('novaposhta', values);
       setSubmitting(false);
       resetForm();
     });
@@ -116,7 +117,6 @@ const NovaPoshtaCity = (props) => {
         </Grid>
 
       </Grid>
-
     </ThemeProvider>
   );
 };

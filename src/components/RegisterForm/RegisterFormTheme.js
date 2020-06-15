@@ -13,9 +13,9 @@ const theme = createMuiTheme({
     },
     MuiTypography: {
       body1: {
-        fontSize: '0.8rem',
-        '@media  (min-width: 400px)': {
-          fontSize: '1rem'
+        fontSize: '1rem',
+        '@media  (max-width: 400px)': {
+          fontSize: '0.7rem'
         }
       }
     },
