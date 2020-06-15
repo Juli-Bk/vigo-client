@@ -9,15 +9,19 @@ import AjaxUtils from '../../ajax';
 import theme from '../CategoryTree/CategoryTreeTheme';
 import { makeStyles } from '@material-ui/core/styles';
 import TreeView from '@material-ui/lab/TreeView';
-import TreeItem from '@material-ui/lab/TreeItem';
 import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import ChevronRightIcon from '@material-ui/icons/ChevronRight';
 import StyledTreeItem from '../StyledTreeItem/StyledTreeItem';
+import { setChosenSize } from '../../redux/actions/actions';
 
 const FilterSizes = (props) => {
-  const { categories, categoryId, location } = props;
+  const { categories, categoryId, location, setChosenSize } = props;
+  const [state, setState] = useState({});
   const [sizes, setSizes] = useState([]);
   const [sizeTypes, setSizeTypes] = useState([]);
+  const sizesTree = {
+    accessories: {}
+  };
   let renderOption = 'all';
 
   useEffect(() => {
@@ -33,12 +37,6 @@ const FilterSizes = (props) => {
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [categoryId, location, categories]);
-
-  const sizesTree = {};
-  sizeTypes.length && sizeTypes.map(type => {
-    return sizesTree[type] = sizes.filter(obj => obj.sizeType === type);
-  });
-
   const searchString = location.search.split('?')[1];
 
   if (searchString.includes('categoryId')) {
@@ -48,36 +46,74 @@ const FilterSizes = (props) => {
     if (category.parentId !== null) {
       if (breadCrumbs.length === 3) {
         renderOption = category.name;
-      } else if (breadCrumbs.includes('accessories') && category.name !== 'accessories') {
-        renderOption = category.name;
       } else {
         renderOption = category.parentId.name;
       }
     }
   }
-  console.log('render option', renderOption);
+  // console.log('render option', renderOption);
 
-  const getStyledTreeItem = useCallback((sizeType) => {
-    let children = [];
-    if (sizeType.children.length) {
-      children = sizeType.children.map(child => {
-        return getStyledTreeItem(child);
-      });
+  sizeTypes.length && sizeTypes.map(type => {
+    if (type === 'clothing' || type === 'shoes' || type === 'one size') {
+      return sizesTree[type] = sizes.filter(obj => obj.sizeType === type);
+    } else {
+      return sizesTree.accessories[type] = sizes.filter(obj => obj.sizeType === type);
     }
+  });
 
+  const handleChange = (event) => {
+    setState({...state, [event.target.name]: event.target.checked});
+    setChosenSize(event.target.name);
+  };
+
+  const sizesArray = Object.entries(sizesTree);
+
+  const getStyledTreeItem = useCallback((treeItem, checkboxesLabels) => {
+    if (treeItem) console.log(treeItem);
     return <StyledTreeItem
-      key={sizeType}
-      nodeId={sizeType}
-      label={sizeType}
+      key={treeItem}
+      nodeId={treeItem}
+      label={treeItem}
       onLabelClick={(event) => {
         // history.push(`/products/filter?categoryId=${category.id}`);
-        console.log('chosen seze type is', sizeType);
-      }}
-    >
-      {children}
+        // console.log('chosen size type is', sizeType);
+      }}>
+      {checkboxesLabels.map(label => {
+        return <FormControlLabel
+          // className={classes.label}
+          key={label}
+          label={label}
+          control={<Checkbox
+            onChange={handleChange}
+            name={label}
+            color='default'/>}/>;
+      })}
     </StyledTreeItem>;
   },
   []);
+
+  const tree = sizesArray.map(array => {
+    const itemLabel = array[0];
+    let checkboxesLabels = [];
+    if (Array.isArray(array[1])) {
+      array[1].forEach(obj => {
+        checkboxesLabels.push(obj.name);
+      });
+    } else {
+      const checkboxesSet = new Set();
+      const accessoriesArray = Object.entries(array[1]);
+      if (Array.isArray(accessoriesArray) && accessoriesArray.length) {
+        accessoriesArray.forEach(array => {
+          array[1].forEach(obj => {
+            checkboxesSet.add(obj.name);
+          });
+        });
+      }
+      checkboxesLabels = Array.from(checkboxesSet);
+    }
+    return getStyledTreeItem(itemLabel, checkboxesLabels);
+  });
+  console.log('tree', tree);
 
   return (<ThemeProvider theme={theme}>
     <TreeView
@@ -85,35 +121,7 @@ const FilterSizes = (props) => {
       defaultExpandIcon={<ChevronRightIcon />}
       multiSelect
     >
-      <TreeItem nodeId="1" label="Accessories">
-        <TreeItem nodeId="2" label="Belts">
-          <FormControlLabel
-            key='belt1'
-            label='belt1'
-            control={<Checkbox
-            // onChange={handleChange}
-              name='belt1'
-              color='default'/>}/>
-          <FormControlLabel
-            key='belt3'
-            label='belt3'
-            control={<Checkbox
-            // onChange={handleChange}
-              name='belt3'
-              color='default'/>}/>
-        </TreeItem>
-        <TreeItem nodeId="3" label="Hats" />
-        <TreeItem nodeId="4" label="Scarves" />
-        <TreeItem nodeId="10" label="Bags" />
-      </TreeItem>
-      <TreeItem nodeId="5" label="Documents">
-        <TreeItem nodeId="6" label="Material-UI">
-          <TreeItem nodeId="7" label="src">
-            <TreeItem nodeId="8" label="index.js" />
-            <TreeItem nodeId="9" label="tree-view.js" />
-          </TreeItem>
-        </TreeItem>
-      </TreeItem>
+      {tree}
     </TreeView>
   </ThemeProvider>);
 };
@@ -125,4 +133,10 @@ const mapStateToProps = store => {
   };
 };
 
-export default React.memo(connect(mapStateToProps)(withRouter(FilterSizes)));
+const mapDispatchToProps = dispatch => {
+  return {
+    setChosenSize: size => dispatch(setChosenSize(size))
+  };
+};
+
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(withRouter(FilterSizes)));

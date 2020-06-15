@@ -20,7 +20,7 @@ import ViewAs from '../../components/ViewAs/ViewAs';
 import { setCategoryId } from '../../redux/actions/actions';
 
 const Products = (props) => {
-  const {currentPage, categoryId, perPage, sortingOption, priceRange, view, colors, location, history} = props;
+  const {currentPage, categoryId, perPage, sortingOption, priceRange, view, colors, size, location, history} = props;
   const isSmScreen = useMediaQuery('(max-width: 723px)');
   const classes = useStyles();
 
@@ -28,7 +28,7 @@ const Products = (props) => {
   const [total, setTotal] = useState(0);
   const [maxProductsPrice, setMaxProductsPrice] = useState(0);
 
-  const filtersArray = [{minPrice: priceRange[0]}, {maxPrice: priceRange[1]}, {color: colors}];
+  const filtersArray = [{minPrice: priceRange[0]}, {maxPrice: priceRange[1]}, {color: colors}, {size: size}];
   const searchString = location.search.split('?')[1];
   // console.log(`/products/filter?categoryId=${categoryId}&${getFilterString(filtersArray, defineSortData(sortingOption))}`);
 
@@ -70,7 +70,7 @@ const Products = (props) => {
       isCanceled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchString, currentPage, perPage, sortingOption, priceRange, colors]);
+  }, [searchString, currentPage, perPage, sortingOption, priceRange, colors, size]);
 
   return (
     <Container>
@@ -135,7 +135,8 @@ const mapStateToProps = store => {
     priceRange: store.priceRange,
     view: store.view,
     colors: store.colors,
-    categoryId: store.categoryId
+    categoryId: store.categoryId,
+    size: store.size
   };
 };
 
