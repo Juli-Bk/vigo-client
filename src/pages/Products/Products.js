@@ -62,7 +62,7 @@ const Products = (props) => {
 
   return (
     <Container>
-      <Grid container spacing={6}>
+      <Grid container>
         <Grid item container lg={8} xl={8} md={8} sm={8} xs={12} className={classes.grid}>
           <Grid item container className={classes.topFiltersLine}>
             <Grid item container lg={12} className={classes.upperLine}>
