@@ -11,6 +11,7 @@ import AjaxUtils from '../../ajax';
 import ScrollToTop from '../../components/ScrollToTop/ScrollToTop';
 import { getJWTfromCookie } from '../../ajax/common/helper';
 
+// todo delete data
 const renderData = {
   title: 'what\'s new',
   text: 'Showcasing what the world\'s most stylish people are buying right now',
