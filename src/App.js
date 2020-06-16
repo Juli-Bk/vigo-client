@@ -26,27 +26,26 @@ function App (props) {
         AjaxUtils.WishLists.getUserWishList(userId)
           .then(result => {
             const wishes = result.userWishList[0];
-          integrateData(wishes ? wishes.products : [], getStorageData('wishList'));
+            integrateData(wishes ? wishes.products : [], getStorageData('wishList'));
             changeWishList(getStorageData('wishList'));
           });
-      AjaxUtils.ShopCart.getUserShopCart(userId)
-        .then(result => {
-          if (!result.message) {
-            integrateCart(result.products, getStorageData('shoppingCart'));
-            changeShoppingCart(getStorageData('shoppingCart'));
-          }
-        });
+        AjaxUtils.ShopCart.getUserShopCart(userId)
+          .then(result => {
+            if (!result.message) {
+              integrateCart(result.products, getStorageData('shoppingCart'));
+              changeShoppingCart(getStorageData('shoppingCart'));
+            }
+          });
       }
 
       setUser(getStorageData('user'));
       changeWishList(getStorageData('wishList'));
+      changeShoppingCart(getStorageData('shoppingCart'));
     }
     return () => {
       isCanceled = true;
     };
-  }, [changeWishList, setUser, token]);
-    changeShoppingCart(getStorageData('shoppingCart'));
-  }, [changeShoppingCart, changeWishList, setUser, token]);
+  }, [changeWishList, setUser, changeShoppingCart, token]);
 
   return (
     <BrowserRouter>
