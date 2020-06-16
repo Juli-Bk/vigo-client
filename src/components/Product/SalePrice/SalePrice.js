@@ -12,8 +12,19 @@ const font = {
 };
 
 const useStyles = makeStyles(theme => ({
+  subTotal: {
+    color: colors.noticeColor,
+    fontWeight: 'bold',
+    fontFamily: fonts.f1,
+    fontSize: '1.5rem',
+    [theme.breakpoints.up(1280)]: {
+      fontSize: '1.7rem',
+      letterSpacing: '.02em'
+    }
+  },
   salePrice: {
-    ...font,
+    color: colors.fontPrice,
+    fontWeight: 'bold',
     fontSize: '1rem',
     [theme.breakpoints.up(1280)]: {
       fontSize: '1.2rem',
@@ -21,7 +32,8 @@ const useStyles = makeStyles(theme => ({
     }
   },
   unitPrice: {
-    ...font,
+    color: colors.fontPrice,
+    fontWeight: 'bold',
     fontFamily: fonts.f1,
     fontSize: '1.5rem',
     [theme.breakpoints.up(1280)]: {
@@ -33,13 +45,13 @@ const useStyles = makeStyles(theme => ({
 );
 
 const SalePrice = (props) => {
+  const {value, isUnitPrice, isSubTotal} = props;
   const classes = useStyles();
-  const {value, isUnitPrice} = props;
 
   return <Typography
     variant='caption'
     component='p'
-    className={isUnitPrice ? classes.unitPrice : classes.salePrice}>{formPriceString(value, globalConfig.priceIsInteger)}</Typography>;
+    className={isSubTotal ? classes.subTotal : (isUnitPrice ? classes.unitPrice : classes.salePrice)}>{formPriceString(value, globalConfig.priceIsInteger)}</Typography>;
 };
 SalePrice.propTypes = {
   value: PropTypes.number.isRequired,

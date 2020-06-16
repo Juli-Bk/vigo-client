@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -20,7 +20,10 @@ import useStyles from './ProductsTableStyles';
 import globalConfig from '../../globalConfig';
 
 const ProductsTable = (props) => {
-  // todo quantity and reducer for shopping cart
+  // todo quantity
+  const getSubtotal = (price, quantity) => {
+    return price * quantity;
+  };
   // eslint-disable-next-line no-unused-vars
   const {
     isMobile,
@@ -43,14 +46,24 @@ const ProductsTable = (props) => {
   };
 
   const rows = products.map(product => {
-    return {
-      imgUrl: product.imageUrls[0],
-      mainData: {name: product.name, color: product.color, size: product.size},
-      productCode: product.productId,
-      price: product.price,
-      id: product._id,
-      salePrice: product.salePrice
-    };
+    return isShoppingCart
+      ? {
+        imgUrl: product.imageUrls[0],
+        mainData: {name: product.name, color: product.color, size: product.size},
+        productCode: product.productId,
+        price: product.price,
+        id: product._id,
+        salePrice: product.salePrice,
+        quantity: product.quantity || 1
+      }
+      : {
+        imgUrl: product.imageUrls[0],
+        mainData: {name: product.name, color: product.color, size: product.size},
+        productCode: product.productId,
+        price: product.price,
+        id: product._id,
+        salePrice: product.salePrice
+      };
   });
 
   return (
@@ -68,8 +81,17 @@ const ProductsTable = (props) => {
               : <TableRow>
                 <TableCell align="center" className={classes.tableHead}>Product name</TableCell>
                 <TableCell align="center" className={classes.tableHead}>Product code</TableCell>
-                <TableCell align="center" className={classes.tableHead}>Price</TableCell>
-                <TableCell align="center" className={classes.tableHead}>Sale price</TableCell>
+                { isShoppingCart
+                  ? <>
+                    <TableCell align="center" className={classes.tableHead}>Unit Price</TableCell>
+                    <TableCell align="center" className={classes.tableHead}>Quantity</TableCell>
+                    <TableCell align="center" className={classes.tableHead}>Subtotal</TableCell>
+                  </>
+                  : <>
+                    <TableCell align="center" className={classes.tableHead}>Price</TableCell>
+                    <TableCell align="center" className={classes.tableHead}>Sale price</TableCell>
+                  </>
+                }
                 <TableCell align="center" className={classes.tableHead}>
                   <CloseIcon className={classes.closeBtn}/>
                 </TableCell>
@@ -120,12 +142,28 @@ const ProductsTable = (props) => {
                       </Box>
                     </TableCell>
                     <TableCell align="center" className={classes.code}>{row.productCode}</TableCell>
-                    <TableCell align="center" className={classes.code}>
-                      <Price value={row.price}/>
-                    </TableCell>
-                    <TableCell align="center" className={classes.code}>
-                      <SalePrice value={row.salePrice}/>
-                    </TableCell>
+                    {isShoppingCart
+                      ? <>
+                        <TableCell align="center" className={classes.code}>
+                          <SalePrice value={row.salePrice}/>
+                        </TableCell>
+                        <TableCell align="center" className={classes.code}>
+                          {row.quantity}
+                        </TableCell>
+                        <TableCell align="center" className={classes.code}>
+                          <SalePrice isSubtotal={true}
+                            value={getSubtotal(row.salePrice, 1)}/>
+                        </TableCell>
+                      </>
+                      : <>
+                        <TableCell align="center" className={classes.code}>
+                          <Price value={row.price}/>
+                        </TableCell>
+                        <TableCell align="center" className={classes.code}>
+                          <SalePrice value={row.salePrice}/>
+                        </TableCell>
+                      </>
+                    }
                     <TableCell align="center">
                       <CloseIcon data-testid='deleteIcon' className={classes.closeIcon} onClick={() => {
                         isShoppingCart ? deleteFromCart(row.id) : deleteFromWishList(row.id);
