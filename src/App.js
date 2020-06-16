@@ -3,10 +3,9 @@ import {BrowserRouter} from 'react-router-dom';
 import AppRoutes from './routes/AppRoutes';
 
 import {connect} from 'react-redux';
-
+import PropTypes from 'prop-types';
 import {StylesProvider, ThemeProvider} from '@material-ui/styles';
 
-import styles from './App.scss';
 import theme from './mainTheme';
 import Footer from './containers/Footer/Footer';
 import AjaxUtils from './ajax';
@@ -18,16 +17,18 @@ function App (props) {
   const {changeWishList, token, setUser, changeShoppingCart} = props;
 
   useEffect(() => {
-    AjaxUtils.Categories.getAllCategories();
+    let isCanceled = false;
+    if (!isCanceled) {
+      AjaxUtils.Categories.getAllCategories();
 
-    const userId = getUserIdFromCookie();
-    if (userId) {
-      AjaxUtils.WishLists.getUserWishList(userId)
-        .then(result => {
-          const wishes = result.userWishList[0];
+      const userId = getUserIdFromCookie();
+      if (userId) {
+        AjaxUtils.WishLists.getUserWishList(userId)
+          .then(result => {
+            const wishes = result.userWishList[0];
           integrateData(wishes ? wishes.products : [], getStorageData('wishList'));
-          changeWishList(getStorageData('wishList'));
-        });
+            changeWishList(getStorageData('wishList'));
+          });
       AjaxUtils.ShopCart.getUserShopCart(userId)
         .then(result => {
           if (!result.message) {
@@ -35,26 +36,35 @@ function App (props) {
             changeShoppingCart(getStorageData('shoppingCart'));
           }
         });
-    }
+      }
 
-    setUser(getStorageData('user'));
-    changeWishList(getStorageData('wishList'));
+      setUser(getStorageData('user'));
+      changeWishList(getStorageData('wishList'));
+    }
+    return () => {
+      isCanceled = true;
+    };
+  }, [changeWishList, setUser, token]);
     changeShoppingCart(getStorageData('shoppingCart'));
   }, [changeShoppingCart, changeWishList, setUser, token]);
 
   return (
-    <div className={styles.App}>
-      <BrowserRouter>
-        <StylesProvider injectFirst>
-          <ThemeProvider theme={theme}>
-            <AppRoutes/>
-            <Footer/>
-          </ThemeProvider>
-        </StylesProvider>
-      </BrowserRouter>
-    </div>
+    <BrowserRouter>
+      <StylesProvider injectFirst>
+        <ThemeProvider theme={theme}>
+          <AppRoutes/>
+          <Footer/>
+        </ThemeProvider>
+      </StylesProvider>
+    </BrowserRouter>
   );
 }
+
+App.propTypes = {
+  token: PropTypes.string,
+  changeWishList: PropTypes.func.isRequired,
+  setUser: PropTypes.func.isRequired
+};
 
 const mapStateToProps = store => {
   return {

@@ -14,7 +14,7 @@ const iconStyles = {
 const labelStyles = {
   textTransform: 'uppercase',
   textAlign: 'left',
-  fontSize: '.7rem',
+  fontSize: '.8rem',
   fontWeight: 'bold'
 };
 
@@ -48,14 +48,14 @@ const useStyles = makeStyles(theme => ({
     fontSize: '.9em',
     border: `2px solid ${colors.noticeColor}`,
     transition: 'all .15s ease',
-    marginLeft: '1.8rem',
+    marginBottom: '.5rem',
     '&:hover': {
       color: colors.noticeColor,
       background: colors.fontOncard,
       borderColor: colors.noticeColor
     },
     [theme.breakpoints.up(440)]: {
-      marginLeft: 0
+      marginBottom: 0
     },
     [theme.breakpoints.up('sm')]: {
       padding: '.1em .8em',
@@ -98,12 +98,9 @@ const useStyles = makeStyles(theme => ({
       alignItems: 'baseline',
       justifyContent: 'space-between'
     },
-    [theme.breakpoints.between('md', 'md')]: {
+    [theme.breakpoints.up('md')]: {
       display: 'block',
       marginTop: 0
-    },
-    [theme.breakpoints.up('lg')]: {
-      alignItems: 'center'
     }
   },
   link: {
@@ -116,21 +113,20 @@ const useStyles = makeStyles(theme => ({
   },
   pricesBox: {
     display: 'inline-block',
-    margin: '0 1rem .7rem 0',
+    margin: '0 1rem 1rem 0',
     '& > p': {
       display: 'inline-block',
-      fontSize: '1rem',
+      fontSize: '1.2rem',
       marginRight: '.5rem',
       [theme.breakpoints.up(440)]: {
         marginRight: '1rem'
       },
       [theme.breakpoints.up('sm')]: {
-        fontSize: '1.2rem'
+        fontSize: '1.5rem'
       }
     },
     [theme.breakpoints.up(440)]: {
-      display: 'flex',
-      justifyContent: 'center'
+      display: 'flex'
     },
     [theme.breakpoints.up('md')]: {
       justifyContent: 'flex-start'
@@ -150,7 +146,7 @@ const useStyles = makeStyles(theme => ({
     textDecoration: 'none',
     cursor: 'pointer',
     [theme.breakpoints.up('sm')]: {
-      fontSize: '1.2rem'
+      fontSize: '1.5rem'
     }
   },
   description: {
@@ -162,6 +158,9 @@ const useStyles = makeStyles(theme => ({
   },
   label: {
     ...labelStyles,
+    [theme.breakpoints.up(440)]: {
+      fontSize: '.7rem'
+    },
     [theme.breakpoints.up('sm')]: {
       fontSize: '.75rem'
     }
@@ -169,6 +168,9 @@ const useStyles = makeStyles(theme => ({
   labelChosen: {
     ...labelStyles,
     color: colors.noticeColor,
+    [theme.breakpoints.up(440)]: {
+      fontSize: '.7rem'
+    },
     [theme.breakpoints.up('sm')]: {
       fontSize: '.75rem'
     }

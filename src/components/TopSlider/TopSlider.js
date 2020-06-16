@@ -5,16 +5,11 @@ import useStyles from './TopSliderStyles';
 import { theme } from './TopSliderTheme';
 import { Box, Button, Typography, ThemeProvider } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import moment from 'moment';
+import globalConfig from '../../globalConfig';
 
-// todo working button Take Look (getProductsByFilters, filter take from new arrivals)
-
-const TopSlider = (props) => {
-  const {imgUrls, renderData} = props;
+const TopSlider = () => {
   const classes = useStyles();
-
-  const twoWeeksAgo = moment().subtract(14, 'days').format('YYYY.MM.DD');
-  const currentDate = moment().format('YYYY.MM.DD');
+  const {title, text, buttonText} = globalConfig.topSliderData;
 
   const createImagesArray = (array) => {
     return array.map(item => {
@@ -26,11 +21,11 @@ const TopSlider = (props) => {
     return (
       <Box>
         <Box className={classes.overlay}>
-          <Typography variant='h2' className={classes.title}>{renderData.title}</Typography>
-          <Typography variant='subtitle1' className={classes.text}>{renderData.text}</Typography>
+          <Typography variant='h2' className={classes.title}>{title}</Typography>
+          <Typography variant='subtitle1' className={classes.text}>{text}</Typography>
           <ThemeProvider theme={theme}>
-            <Link to={`/products/filter?minCreatedDate=${twoWeeksAgo}&maxCreatedDate=${currentDate}`}>
-              <Button className={classes.button}>{renderData.buttonText}</Button>
+            <Link to='/products/filter?new=true'>
+              <Button className={classes.button}>{buttonText}</Button>
             </Link>
           </ThemeProvider>
         </Box>
@@ -41,7 +36,7 @@ const TopSlider = (props) => {
 
   return (
     <Box className={classes.container}>
-      <ImageGallery items={createImagesArray(imgUrls)}
+      <ImageGallery items={createImagesArray(globalConfig.topSliderImages)}
         showNav={true}
         showThumbnails={false}
         showFullscreenButton={false}

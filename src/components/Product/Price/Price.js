@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Typography, makeStyles } from '@material-ui/core';
 import { colors } from '../../../styles/colorKit';
 import { formPriceString } from '../../../helpers/helpers';
@@ -23,6 +24,10 @@ const Price = (props) => {
   const {value} = props;
 
   return <Typography variant='caption' component='p' className={classes.price}>{formPriceString(value, globalConfig.priceIsInteger)}</Typography>;
+};
+
+Price.propTypes = {
+  value: PropTypes.number.isRequired
 };
 
 export default React.memo(Price);

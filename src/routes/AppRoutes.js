@@ -6,13 +6,15 @@ import Products from '../pages/Products/Products';
 import ProductCompare from '../pages/ProductCompare/ProductCompare';
 import ShoppingCart from '../pages/ShoppingCart/ShoppingCart';
 import Checkout from '../pages/Checkout/Checkout';
-import About from '../pages/About/About';
 import Contacts from '../pages/Contacts/Contacts';
 import Page404 from '../pages/Page404/Page404';
 import Wishlist from '../pages/Wishlist/Wishlist';
 import Header from '../containers/Header/Header';
 import MyAccount from '../pages/MyAccount/MyAccount';
 import { getJWTfromCookie } from '../ajax/common/helper';
+import PrivacyPolicy from '../pages/PrivacyPolicy/PrivacyPolicy';
+import Returns from '../pages/Returns/Returns';
+import Shipping from '../pages/Shipping/Shipping';
 
 const AppRoutes = () => {
   return (
@@ -30,6 +32,10 @@ const AppRoutes = () => {
         <Route exact path='/cart' component={ShoppingCart}/>
         <Route exact path='/checkout' component={Checkout}/>
         <Route exact path='/contacts' component={Contacts}/>
+        <Route exact path='/privacyPolicy' component={PrivacyPolicy}/>
+        <Route exact path='/returns' component={Returns}/>
+        <Route exact path='/shipping' component={Shipping}/>
+
         <ProtectedRoute
           authenticated={!!getJWTfromCookie()}
           exact path='/account'
