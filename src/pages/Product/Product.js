@@ -60,7 +60,7 @@ const Product = (props) => {
           </Grid>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-          {sliderData
+          {sliderData && sliderData.length
             ? <>
               <LowerTitle text='recently viewed'/>
               <TabSlider data={sliderData} width={width}/>

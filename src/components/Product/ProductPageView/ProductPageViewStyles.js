@@ -119,13 +119,13 @@ const useStyles = makeStyles(theme => ({
     margin: '0 1rem .7rem 0',
     '& > p': {
       display: 'inline-block',
-      fontSize: '1rem',
+      fontSize: '1.2rem',
       marginRight: '.5rem',
       [theme.breakpoints.up(440)]: {
         marginRight: '1rem'
       },
       [theme.breakpoints.up('sm')]: {
-        fontSize: '1.2rem'
+        fontSize: '1.5rem'
       }
     },
     [theme.breakpoints.up(440)]: {
@@ -150,7 +150,7 @@ const useStyles = makeStyles(theme => ({
     textDecoration: 'none',
     cursor: 'pointer',
     [theme.breakpoints.up('sm')]: {
-      fontSize: '1.2rem'
+      fontSize: '1.5rem'
     }
   },
   description: {
