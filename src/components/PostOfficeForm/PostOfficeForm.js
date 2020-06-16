@@ -18,9 +18,11 @@ const {regions} = globalConfig;
 
 const NovaPoshtaCity = (props) => {
   const {submitNovaPoshtaHandler} = props;
+
   // todo get values from BD to render them in checkout
   const submitNovaPoshtaData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
+
     submitNovaPoshtaHandler(values, () => {
       console.log('novaposhta', values);
       setSubmitting(false);
@@ -62,8 +64,7 @@ const NovaPoshtaCity = (props) => {
               handleSubmit,
               values,
               errors,
-              touched,
-              onChange
+              touched
             }) => (
               <form>
                 <Autocomplete

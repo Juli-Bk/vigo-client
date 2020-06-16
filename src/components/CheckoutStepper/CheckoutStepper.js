@@ -3,6 +3,7 @@ import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
+import { colors } from '../../styles/colorKit';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
@@ -15,13 +16,16 @@ import AjaxUtils from '../../ajax/index';
 import {getJWTfromCookie} from '../../ajax/common/helper';
 import { setUser } from '../../redux/actions/actions';
 import ModalPersDetails from '../ModalPersDetails/ModalPersDetails';
+import PropTypes from 'prop-types';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%'
   },
   backButton: {
-    marginRight: theme.spacing(1)
+    marginRight: theme.spacing(1),
+    backgroundColor: colors.borderLight,
+    color: colors.fontOncard
   },
   instructions: {
     padding: 20
@@ -29,9 +33,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const steps = ['Personal data', 'Delivery Info', 'Payment Info', 'Complete your order'];
-
-// todo get User data from BD and render as static info in 'case 0'
-// todo User Order data from BD and render in 'case  3'
 
 const CheckoutStepper = (props) => {
   const {token} = props;
@@ -170,6 +171,10 @@ const mapDispatchToProps = dispatch => {
   return {
     setUser: data => dispatch(setUser(data))
   };
+};
+
+CheckoutStepper.propTypes = {
+  token: PropTypes.string.isRequired
 };
 
 export default React.memo(connect(mapStoreToProps, mapDispatchToProps)(CheckoutStepper));

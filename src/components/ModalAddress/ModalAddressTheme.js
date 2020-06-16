@@ -35,6 +35,12 @@ const theme = createMuiTheme({
       root: {
         display: 'contents'
       }
+    },
+    MuiGrid: {
+      root: {
+        maxWidth: '100%',
+        flexBasis: '100%'
+      }
     }
   }
 });

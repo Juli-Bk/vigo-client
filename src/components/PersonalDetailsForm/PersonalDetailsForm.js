@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -26,7 +26,17 @@ import { setUser } from '../../redux/actions/actions';
 
 const PersonalDetailsForm = (props) => {
   const {user, setUser, submitPersonalDetailsHandler} = props;
+  // const [user, setCurrentUser] = useState({});
   const {firstName, lastName, email, phoneNumber} = user;
+  //
+  // useEffect(() => {
+  //   AjaxUtils.Users.getUser()
+  //     .then(result => {
+  //       console.log(result);
+  //       setCurrentUser(result);
+  //     });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   const submitPersonalDetailsData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
@@ -251,7 +261,7 @@ const PersonalDetailsForm = (props) => {
 };
 
 PersonalDetailsForm.propTypes = {
-  submitPersonalDetailsHandler: PropTypes.func.isRequired
+  submitPersonalDetailsHandler: PropTypes.func
 };
 
 const mapDispatchToProps = dispatch => {

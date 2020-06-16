@@ -57,8 +57,8 @@ const AddressForm = (props) => {
   };
 
   const validateObject = Yup.object().shape({
-    autocomplete: Yup.string(),
-    // .required('Required'),
+    autocomplete: Yup.object()
+      .required('Required'),
     house: Yup.string()
       .min(1, 'Correct building number is a must!')
       .required('Required'),
@@ -72,7 +72,7 @@ const AddressForm = (props) => {
 
   return (
     <Grid container>
-      <Grid item xs={12} sm={6}>
+      <Grid item xs={12} >
         <Typography className={styles.header} variant='h4' gutterBottom>your delivery address</Typography>
         <Formik
           initialValues={initFormValues}
@@ -97,8 +97,8 @@ const AddressForm = (props) => {
                   touched={touched}
                   value={values.autocomplete}
                   onChange={handleChange}
-                  error={errors}/>
-
+                  error={errors}
+                />
                 <TextField
                   name='house'
                   autoComplete='on'
@@ -172,7 +172,7 @@ const AddressForm = (props) => {
           )}
         </Formik>
       </Grid>
-      <Grid item xs={12} sm={6}>
+      <Grid item xs={12} >
       </Grid>
     </Grid>
   );

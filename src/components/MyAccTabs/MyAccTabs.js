@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { makeStyles, ThemeProvider, useTheme } from '@material-ui/core/styles';
@@ -12,6 +12,7 @@ import PersonalDetailsForm from '../PersonalDetailsForm/PersonalDetailsForm';
 import AddressForm from '../AddressForm/AddressForm';
 import Wishlist from '../../pages/Wishlist/Wishlist';
 import { useMediaQuery } from '@material-ui/core';
+import AjaxUtils from '../../ajax';
 
 const TabPanel = (props) => {
   const { user, children, value, index, ...other } = props;
@@ -48,11 +49,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MyAccTabs = (props) => {
-  const {user} = props;
   const isMobile = useMediaQuery('(max-width: 400px)');
   const classes = useStyles();
   const theme = useTheme();
+  const [user, setUser] = useState({});
   const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    AjaxUtils.Users.getUser()
+      .then(result => {
+        console.log(result);
+        setUser(result);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -82,7 +92,6 @@ const MyAccTabs = (props) => {
 
         <TabPanel value={value} index={0} dir={theme.direction}>
           <PersonalDetailsForm user={user} submitPersonalDetailsHandler={(submit) => {
-            console.log('personal details values', submit);
             handleChange(null, value);
           }}/>
         </TabPanel>

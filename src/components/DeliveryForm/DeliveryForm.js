@@ -4,74 +4,22 @@ import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 import globalConfig from '../../globalConfig';
 import theme from './DeliveryTheme';
-import { ListItem, ThemeProvider } from '@material-ui/core';
-import NovaPoshtaCity from '../PostOfficeForm/PostOfficeForm';
-import Box from '@material-ui/core/Box';
-import { connect } from 'react-redux';
-import { setUser } from '../../redux/actions/actions';
+import { ThemeProvider } from '@material-ui/core';
+import DefineDelivery from '../DefineDelivery/DefineDelivery';
 
 const {deliveryOptions} = globalConfig;
-
-const submitNovaPoshtaHandler = (values) => {
-};
-
-// todo get address from BD render static in case VIGO_COURIER_SERVICE
-function defineDelivery (inputValue) {
-  switch (inputValue) {
-    case deliveryOptions.VIGO_COURIER_SERVICE:
-      return (
-        <ThemeProvider theme={theme}>
-          <Grid item xs={12}>
-         VIGO Courier will deliver the order to the following address:
-            <Box>
-              {/* <ListItem>Address: {user.addresses}</ListItem> */}
-              {/* <ListItem>Phone Number: {user.phoneNumber}</ListItem> */}
-            </Box>
-          </Grid>
-        </ThemeProvider>
-      );
-      // todo <Box>Delivery address from BD to put here</Box>
-    case deliveryOptions.NOVA_POSHTA:
-      return (
-        <NovaPoshtaCity submitNovaPoshtaHandler={submitNovaPoshtaHandler}/>
-      );
-    case deliveryOptions.UKRPOSHTA:
-      return (
-        ''
-      );
-    case deliveryOptions.PICKUP:
-      return (
-        <ThemeProvider theme={theme}>
-          <Grid item xs={12} elevation={0}>
-            <ListItem>If you've been notified that your VIGO order is ready for pickup, you are welcomed at our warehouse.
-              Please bring your order number and a valid ID.</ListItem>
-            <ListItem>Vigo Shop Ltd</ListItem>
-            <ListItem>United Kingdom</ListItem>
-            <ListItem>London 02587 </ListItem>
-            <ListItem>Oxford Street 48/188</ListItem>
-            <ListItem>Working days: Mon. - Sun.</ListItem>
-            <ListItem>Working hours: 9 AM - 8 PM</ListItem>
-          </Grid>
-        </ThemeProvider>
-      );
-    default:
-      return 'Unknown inputValue';
-  }
-}
 
 const DeliveryForm = () => {
   const options = Object.values(deliveryOptions);
   const [value, setValue] = useState(options[0]);
-  const [address, setAddress] = useState('');
   const [inputValue, setInputValue] = useState('');
-  const data = JSON.stringify({
-    addresses: {
-      address: address
-      // house: values.house,
-      // apartment: values.apartment,
-      // postalCode: values.postalCode
-    }
-  });
+  // const data = {
+  //   addresses: {
+  //     address: user.address,
+  //     house: user.house,
+  //     apartment: user.apartment,
+  //     postalCode: user.postalCode
+  //   }
   return (
     <ThemeProvider theme={theme}>
       <Grid container spacing={6}>
@@ -95,22 +43,12 @@ const DeliveryForm = () => {
                 variant='outlined' />}
           />
         </Grid>
-        <Grid item xs={12} md={6} >
-          {defineDelivery(value)}
+        <Grid item xs={12} md={6}>
+          <DefineDelivery inputValue={inputValue}/>
         </Grid>
       </Grid>
     </ThemeProvider>
   );
 };
-const mapStoreToProps = store => {
-  return {
-    user: store.user,
-    token: store.token
-  };
-};
-const mapDispatchToProps = dispatch => {
-  return {
-    setUser: data => dispatch(setUser(data))
-  };
-};
-export default React.memo(connect(mapStoreToProps, mapDispatchToProps)(DeliveryForm));
+
+export default React.memo(DeliveryForm);

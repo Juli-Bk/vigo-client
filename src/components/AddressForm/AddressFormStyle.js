@@ -16,6 +16,7 @@ const useStyles = makeStyles(theme => (
 
     button: {
       color: colors.fontSecondary,
+      backgroundColor: 'transparent',
       fontWeight: 700,
       fontFamily: fonts.f3,
       border: `.125rem solid ${colors.fontSecondary}`,

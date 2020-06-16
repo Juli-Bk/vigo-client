@@ -14,6 +14,7 @@ const useStyles = makeStyles(theme => (
 
     button: {
       color: colors.fontSecondary,
+      backgroundColor: 'transparent',
       fontWeight: 700,
       fontFamily: fonts.f3,
       border: `.125rem solid ${colors.fontSecondary}`,
@@ -23,7 +24,6 @@ const useStyles = makeStyles(theme => (
 
     input: {
       marginTop: '1.25rem',
-      width: '40%',
       paddingRight: 30,
       fontFamily: fonts.f4,
       fonFamily: fonts.f2,
