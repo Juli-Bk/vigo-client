@@ -1,4 +1,5 @@
 import React, {useCallback} from 'react';
+import PropTypes from 'prop-types';
 import {Box, IconButton} from '@material-ui/core';
 import SearchIcon from '@material-ui/icons/Search';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
@@ -12,7 +13,8 @@ import {toggleSearchBarOpen} from '../../redux/actions/actions';
 
 const anchor = 'top';
 
-const SearchBar = ({isSearchBarOpen, toggleSearchBarOpen}) => {
+const SearchBar = (props) => {
+  const {isSearchBarOpen, toggleSearchBarOpen} = props;
   const theme = useTheme();
   const classes = useStyles();
 
@@ -52,6 +54,11 @@ const SearchBar = ({isSearchBarOpen, toggleSearchBarOpen}) => {
     </>
 
   );
+};
+
+SearchBar.propTypes = {
+  isSearchBarOpen: PropTypes.bool.isRequired,
+  toggleSearchBarOpen: PropTypes.func.isRequired
 };
 
 const mapStoreToProps = store => {

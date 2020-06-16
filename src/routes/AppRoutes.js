@@ -6,7 +6,6 @@ import Products from '../pages/Products/Products';
 import ProductCompare from '../pages/ProductCompare/ProductCompare';
 import ShoppingCart from '../pages/ShoppingCart/ShoppingCart';
 import Checkout from '../pages/Checkout/Checkout';
-import About from '../pages/About/About';
 import Contacts from '../pages/Contacts/Contacts';
 import Page404 from '../pages/Page404/Page404';
 import Wishlist from '../pages/Wishlist/Wishlist';
@@ -32,7 +31,6 @@ const AppRoutes = () => {
         <Route exact path='/wishlist' component={Wishlist}/>
         <Route exact path='/cart' component={ShoppingCart}/>
         <Route exact path='/checkout' component={Checkout}/>
-        <Route exact path='/about' component={About}/>
         <Route exact path='/contacts' component={Contacts}/>
         <Route exact path='/privacyPolicy' component={PrivacyPolicy}/>
         <Route exact path='/returns' component={Returns}/>

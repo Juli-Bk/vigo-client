@@ -1,4 +1,5 @@
 import React, {useState, useEffect} from 'react';
+import PropTypes from 'prop-types';
 import { Grid, Box } from '@material-ui/core';
 import Banner from './Banner/Banner';
 import useStyles from './BannerLineHomePageStyle';
@@ -40,6 +41,10 @@ const BannerLineHomePage = props => {
       </Grid>
     </Grid>
   );
+};
+
+BannerLineHomePage.propTypes = {
+  categories: PropTypes.array
 };
 
 const mapStateToProps = store => {

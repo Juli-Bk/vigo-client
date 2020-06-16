@@ -15,16 +15,22 @@ const FilterSizes = (props) => {
   console.log(sizesTree);
 
   useEffect(() => {
-    AjaxUtils.Sizes.getAllSizes()
-      .then(result => {
-        setSizes(result.items);
+    let isCanceled = false;
+    if (!isCanceled) {
+      AjaxUtils.Sizes.getAllSizes()
+        .then(result => {
+          setSizes(result.items);
 
-        const sizesSet = new Set();
-        result.items.forEach(size => {
-          sizesSet.add(size.sizeType);
+          const sizesSet = new Set();
+          result.items.forEach(size => {
+            sizesSet.add(size.sizeType);
+          });
+          setSizeTypes(Array.from(sizesSet));
         });
-        setSizeTypes(Array.from(sizesSet));
-      });
+    }
+    return () => {
+      isCanceled = true;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (<ThemeProvider theme={theme}><h2>Filters</h2></ThemeProvider>);

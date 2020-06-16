@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
@@ -157,4 +158,13 @@ const AutocompleteComponent = (props) => {
     />
   );
 };
+
+AutocompleteComponent.propTypes = {
+  error: PropTypes.object,
+  touched: PropTypes.object,
+  name: PropTypes.string.isRequired,
+  onBlur: PropTypes.func.isRequired,
+  setAddress: PropTypes.func
+};
+
 export default React.memo(AutocompleteComponent);
