@@ -11,27 +11,6 @@ import AjaxUtils from '../../ajax';
 import ScrollToTop from '../../components/ScrollToTop/ScrollToTop';
 import { getJWTfromCookie } from '../../ajax/common/helper';
 
-// todo delete data
-const renderData = {
-  title: 'what\'s new',
-  text: 'Showcasing what the world\'s most stylish people are buying right now',
-  buttonText: 'Take look'
-};
-
-const urls = [
-  {
-    original: 'https://vigo-shop-aws-bucket.s3.eu-central-1.amazonaws.com/img/top-slider/top_slider_1.jpg'
-  },
-  {
-    original: 'https://vigo-shop-aws-bucket.s3.eu-central-1.amazonaws.com/img/top-slider/top_slider_2.jpg'
-  },
-  {
-    original: 'https://vigo-shop-aws-bucket.s3.eu-central-1.amazonaws.com/img/top-slider/top_slider_3.jpg'
-  }
-];
-
-const tabsNames = ['new arrivals', 'featured', 'special'];
-
 const onSubmitCallback = () => {
   console.log('newCustomerForm');
 };
@@ -41,9 +20,9 @@ const Home = () => {
 
   return (
     <Container>
-      <TopSlider renderData={renderData} imgUrls={urls}/>
+      <TopSlider/>
       <BannerLineHomePage/>
-      <TabsSliders tabsNames={tabsNames}/>
+      <TabsSliders/>
       <Grid container spacing={2} justify="center">
         <Grid item xl={8} lg={8} md={8} sm={8} xs={12}>
           <Bestsellers/>

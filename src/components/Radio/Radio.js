@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { ThemeProvider, withStyles } from '@material-ui/core/styles';
 import Radio from '@material-ui/core/Radio';
 import theme from '../NewCustomerForm/CheckoutLabels/CheckboxLabelsTheme';
@@ -30,4 +31,9 @@ const RadioButtons = (props) => {
     </div>
   );
 };
+
+RadioButtons.propTypes = {
+  value: PropTypes.string.isRequired
+};
+
 export default React.memo(RadioButtons);
