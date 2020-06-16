@@ -53,6 +53,7 @@ const globalConfig = {
     Price_High_To_Low: 'Price High To Low'
   },
   step: 15,
+  defaultQuantity: 1,
   userMessages: {
     NOT_AUTHORIZED: 'You are not authorized. Login, please'
   },
@@ -82,7 +83,11 @@ const globalConfig = {
       original: 'https://vigo-shop-aws-bucket.s3.eu-central-1.amazonaws.com/img/top-slider/top_slider_3.jpg'
     }
   ],
-  tabsSliderNames: ['new arrivals', 'featured', 'special']
+  tabsSliderNames: ['new arrivals', 'featured', 'special'],
+  viewOptions: {
+    module: 'module',
+    list: 'list'
+  }
 };
 
 export default globalConfig;
