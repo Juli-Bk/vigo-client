@@ -5,9 +5,11 @@ export const theme = createMuiTheme({
     MuiCardActions: {
       root: {
         padding: 0,
-        display: 'inline',
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'stretch',
         '@media (min-width: 440px)': {
-          display: 'flex',
+          flexDirection: 'row',
           justifyContent: 'space-between'
         }
       }
@@ -20,9 +22,6 @@ export const theme = createMuiTheme({
         borderRadius: 0,
         '&:hover': {
           backgroundColor: 'transparent'
-        },
-        '@media (max-width: 339px)': {
-          marginLeft: '4rem'
         }
       }
     }

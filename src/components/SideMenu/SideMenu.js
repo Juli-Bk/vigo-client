@@ -1,4 +1,5 @@
 import React, {useMemo, useState} from 'react';
+import PropTypes from 'prop-types';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import MenuIcon from '@material-ui/icons/Menu';
 import Box from '@material-ui/core/Box';
@@ -86,6 +87,10 @@ const SideMenu = (props) => {
       </React.Fragment>
     </div>
   );
+};
+
+SideMenu.propTypes = {
+  categories: PropTypes.array.isRequired
 };
 
 const mapStoreToProps = store => {
