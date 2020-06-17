@@ -87,6 +87,10 @@ const globalConfig = {
   viewOptions: {
     module: 'module',
     list: 'list'
+  },
+  sizeRenderOptions: {
+    ALL: 'all',
+    ACCESSORIES: 'accessories'
   }
 };
 
