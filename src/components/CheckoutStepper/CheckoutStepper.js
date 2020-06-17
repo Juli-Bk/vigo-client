@@ -77,7 +77,7 @@ const CheckoutStepper = (props) => {
     if (token || getJWTfromCookie()) {
       AjaxUtils.Users.getUser()
         .then(result => {
-          if (result.status === 200) {
+          if (result) {
             setUser(result);
             console.log(result);
           }

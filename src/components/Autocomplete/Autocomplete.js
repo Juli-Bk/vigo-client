@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AutocompleteComponent = (props) => {
-  const {error, touched, name, onBlur, setAddress} = props;
+  const {error, touched, name, onBlur, setAddress, className} = props;
   const classes = useStyles();
   const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState('');
@@ -98,11 +98,11 @@ const AutocompleteComponent = (props) => {
 
     <Autocomplete
       id="googleMap"
-      style={{ width: '100%', textTransform: 'uppercase' }}
       getOptionLabel={(option) => (typeof option === 'string' ? option : option.description)}
       filterOptions={(x) => x}
       options={options}
       autoComplete
+      className={className}
       includeInputInList
       filterSelectedOptions
       size='small'

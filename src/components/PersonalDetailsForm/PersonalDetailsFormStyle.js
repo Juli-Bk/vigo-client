@@ -26,8 +26,11 @@ const useStyles = makeStyles(theme => (
       marginTop: '1.25rem',
       paddingRight: 30,
       fontFamily: fonts.f4,
-      fonFamily: fonts.f2,
-      textTransform: 'uppercase'
+      fonFamily: fonts.f2
+      // textTransform: 'uppercase',
+      // [theme.breakpoints.up(700)]: {
+      //   width: '50%'
+      // }
     }
   }
 ));

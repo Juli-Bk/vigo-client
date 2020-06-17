@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import Card from '@material-ui/core/Card';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
@@ -40,11 +39,9 @@ const ModalPersDetails = (props) => {
           aria-describedby="alert-dialog-description"
         >
           <DialogTitle id="alert-dialog-title">{'Do you want to change your contact info?'}</DialogTitle>
-          <DialogContent className={classes.modalWindow}>
+          <DialogContent component='span' className={classes.modalWindow}>
             <DialogContentText id="alert-dialog-description">
-              <Card component='span'>
-                <PersonalDetailsForm user={user}/>
-              </Card>
+              <PersonalDetailsForm component='span' user={user}/>
             </DialogContentText>
           </DialogContent>
 

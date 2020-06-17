@@ -43,7 +43,7 @@ const ModalAddress = (props) => {
           <DialogContent className={classes.modalWindow}>
             <DialogContentText id="alert-dialog-description">
               <Card component='span'>
-                <AddressForm user={user}/>
+                <AddressForm component='span' user={user}/>
               </Card>
             </DialogContentText>
           </DialogContent>

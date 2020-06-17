@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -11,7 +11,6 @@ import {
   ThemeProvider, FormHelperText, Checkbox, FormControlLabel
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { flexbox } from '@material-ui/system';
 import useStyles from './PersonalDetailsFormStyle';
 import FormGroup from '@material-ui/core/FormGroup/FormGroup';
 import theme from './PersonalDetailsTheme';
@@ -27,15 +26,15 @@ import { setUser } from '../../redux/actions/actions';
 const PersonalDetailsForm = (props) => {
   const {user, setUser, submitPersonalDetailsHandler} = props;
   // const [user, setCurrentUser] = useState({});
-  const {firstName, lastName, email, phoneNumber} = user;
-  //
+  const {firstName, lastName, email, phoneNumber} = setUser;
+
   // useEffect(() => {
   //   AjaxUtils.Users.getUser()
   //     .then(result => {
   //       console.log(result);
   //       setCurrentUser(result);
   //     });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, []);
 
   const submitPersonalDetailsData = (values, {resetForm, setSubmitting}) => {
@@ -113,11 +112,8 @@ const PersonalDetailsForm = (props) => {
   const styles = useStyles();
 
   return (
-    <Box display='flex'
-      flexWrap='wrap'
-      alignItems='center'
-      p={1}>
-      <Typography className={styles.header} variant='h6' gutterBottom>your personal details</Typography>
+    <Box>
+      <Typography component='span' className={styles.header} variant='h6' gutterBottom>your personal details</Typography>
       <Formik
         initialValues={initFormValues}
         validationSchema={validateObject}
@@ -131,7 +127,7 @@ const PersonalDetailsForm = (props) => {
           errors,
           touched
         }) => (
-          <form autoComplete='on'>
+          <form>
             <ThemeProvider theme={theme}>
               <TextField
                 autoComplete='on'
@@ -255,7 +251,6 @@ const PersonalDetailsForm = (props) => {
           </form>
         )}
       </Formik>
-
     </Box>
   );
 };
