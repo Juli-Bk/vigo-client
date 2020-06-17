@@ -7,7 +7,7 @@ import {
   TextField,
   Button,
   CardActions,
-  Box,
+  Grid,
   ThemeProvider, FormHelperText, Checkbox, FormControlLabel
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
@@ -24,18 +24,8 @@ import AjaxUtils from '../../ajax';
 import { setUser } from '../../redux/actions/actions';
 
 const PersonalDetailsForm = (props) => {
-  const {user, setUser, submitPersonalDetailsHandler} = props;
-  // const [user, setCurrentUser] = useState({});
-  const {firstName, lastName, email, phoneNumber} = setUser;
-
-  // useEffect(() => {
-  //   AjaxUtils.Users.getUser()
-  //     .then(result => {
-  //       console.log(result);
-  //       setCurrentUser(result);
-  //     });
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  const {user, setUser} = props;
+  const {firstName, lastName, email, phoneNumber} = user;
 
   const submitPersonalDetailsData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
@@ -62,10 +52,8 @@ const PersonalDetailsForm = (props) => {
           console.log('You will be informed by our best offers by email', result);
         });
     }
-    submitPersonalDetailsHandler(values, () => {
-      setSubmitting(false);
-      resetForm();
-    });
+    setSubmitting(false);
+    resetForm();
     // todo message to user 'Your data is successfully updated/saved'
   };
 
@@ -112,146 +100,149 @@ const PersonalDetailsForm = (props) => {
   const styles = useStyles();
 
   return (
-    <Box>
-      <Typography component='span' className={styles.header} variant='h6' gutterBottom>your personal details</Typography>
-      <Formik
-        initialValues={initFormValues}
-        validationSchema={validateObject}
-        onSubmit={submitPersonalDetailsData}>
-        {({
-          isSubmitting,
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          values,
-          errors,
-          touched
-        }) => (
-          <form>
-            <ThemeProvider theme={theme}>
-              <TextField
-                autoComplete='on'
-                name='firstName'
-                label={<IconLabel label='Enter your Name' Component={PersonIcon}/>}
-                className={styles.input}
-                value={values.firstName}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                helperText={touched.firstName ? errors.firstName : ''}
-                error={touched.firstName && Boolean(errors.firstName)}
-                variant='outlined'
-                size='small'
-                fullWidth
-              />
-              <TextField
-                autoComplete='on'
-                name='lastName'
-                label={<IconLabel label='Enter your Surname' Component={PersonIcon}/>}
-                className={styles.input}
-                value={values.lastName}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                helperText={touched.lastName ? errors.lastName : ''}
-                error={touched.lastName && Boolean(errors.lastName)}
-                variant='outlined'
-                size='small'
-                fullWidth
-              />
-              <TextField
-                autoComplete='on'
-                name='email'
-                label={<IconLabel label='Enter your e-mail' Component={EmailIcon}/>}
-                className={styles.input}
-                value={values.email}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                helperText={touched.email ? errors.email : ''}
-                error={touched.email && Boolean(errors.email)}
-                variant='outlined'
-                size='small'
-                fullWidth
-              />
-              <TextField
-                autoComplete='on'
-                name='phoneNumber'
-                label={<IconLabel label='Enter your phone number' Component={PhoneAndroidIcon}/>}
-                className={styles.input}
-                value={values.phoneNumber}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                helperText={touched.phoneNumber ? errors.phoneNumber : ''}
-                error={touched.phoneNumber && Boolean(errors.phoneNumber)}
-                variant='outlined'
-                size='small'
-                fullWidth
-              />
-              <TextField
-                autoComplete='on'
-                name='password'
-                className={styles.input}
-                label={<IconLabel label='Enter your password' Component={LockIcon}/>}
-                type='password'
-                value={values.password}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                fullWidth variant='outlined'
-                helperText={touched.password ? errors.password : ''}
-                error={touched.password && Boolean(errors.password)}
-                size='small'
-              />
-              <TextField
-                autoComplete='on'
-                name='confirmPassword'
-                className={styles.input}
-                label={<IconLabel label='Confirm your password' Component={EnhancedEncryptionRoundedIcon}/>}
-                type='password'
-                value={values.confirmPassword}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                helperText={touched.confirmPassword ? errors.confirmPassword : ''}
-                error={touched.confirmPassword && Boolean(errors.confirmPassword)}
-                variant='outlined'
-                size='small'
-                fullWidth
-              />
-              <FormGroup
-                name='saveMyData'
-                column='true'>
-                <FormControlLabel
-                  control={<Checkbox checked={values.subscribe}
-                    onChange={handleChange}
-                    name='subscribe'
-                    color='default'/>}
-                  label='I wish to subscribe to the Vigo Shop newsletter'
+    <Grid container>
+      <Grid item xs={12} sm={6}>
+        <Typography className={styles.header} variant='h6' gutterBottom>your personal details</Typography>
+        <Formik
+          initialValues={initFormValues}
+          validationSchema={validateObject}
+          onSubmit={submitPersonalDetailsData}>
+          {({
+            isSubmitting,
+            handleChange,
+            handleBlur,
+            handleSubmit,
+            values,
+            errors,
+            touched
+          }) => (
+            <form autoComplete='on'>
+              <ThemeProvider theme={theme}>
+                <TextField
+                  autoComplete='on'
+                  name='firstName'
+                  label={<IconLabel label='Enter your Name' Component={PersonIcon}/>}
+                  className={styles.input}
+                  value={values.firstName}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  helperText={touched.firstName ? errors.firstName : ''}
+                  error={touched.firstName && Boolean(errors.firstName)}
+                  variant='outlined'
+                  size='small'
+                  fullWidth
                 />
-                <FormControlLabel
-                  control={<Checkbox checked={values.confirmation}
-                    onChange={handleChange}
-                    name='confirmation'
-                    color='default'/>}
-                  label='I have read and agree to the Privacy Policy'
+                <TextField
+                  autoComplete='on'
+                  name='lastName'
+                  label={<IconLabel label='Enter your Surname' Component={PersonIcon}/>}
+                  className={styles.input}
+                  value={values.lastName}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  helperText={touched.lastName ? errors.lastName : ''}
+                  error={touched.lastName && Boolean(errors.lastName)}
+                  variant='outlined'
+                  size='small'
+                  fullWidth
                 />
-                {touched.confirmation && errors.confirmation &&
-                              <FormHelperText
-                                error={touched.confirmation && !!errors.confirmation}>
-                                {errors.confirmation}
-                              </FormHelperText>}
-              </FormGroup>
-            </ThemeProvider>
-            <CardActions>
-              <Button
-                type='submit'
-                className={styles.button}
-                onClick={handleSubmit}
-                disabled={isSubmitting}
-                size='large'
-                variant='outlined'>Continue
-              </Button>
-            </CardActions>
-          </form>
-        )}
-      </Formik>
-    </Box>
+                <TextField
+                  autoComplete='on'
+                  name='email'
+                  label={<IconLabel label='Enter your e-mail' Component={EmailIcon}/>}
+                  className={styles.input}
+                  value={values.email}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  helperText={touched.email ? errors.email : ''}
+                  error={touched.email && Boolean(errors.email)}
+                  variant='outlined'
+                  size='small'
+                  fullWidth
+                />
+                <TextField
+                  autoComplete='on'
+                  name='phoneNumber'
+                  label={<IconLabel label='Enter your phone number' Component={PhoneAndroidIcon}/>}
+                  className={styles.input}
+                  value={values.phoneNumber}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  helperText={touched.phoneNumber ? errors.phoneNumber : ''}
+                  error={touched.phoneNumber && Boolean(errors.phoneNumber)}
+                  variant='outlined'
+                  size='small'
+                  fullWidth
+                />
+                <TextField
+                  autoComplete='on'
+                  name='password'
+                  className={styles.input}
+                  label={<IconLabel label='Enter your password' Component={LockIcon}/>}
+                  type='password'
+                  value={values.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  fullWidth variant='outlined'
+                  helperText={touched.password ? errors.password : ''}
+                  error={touched.password && Boolean(errors.password)}
+                  size='small'
+                />
+                <TextField
+                  autoComplete='on'
+                  name='confirmPassword'
+                  className={styles.input}
+                  label={<IconLabel label='Confirm your password' Component={EnhancedEncryptionRoundedIcon}/>}
+                  type='password'
+                  value={values.confirmPassword}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  helperText={touched.confirmPassword ? errors.confirmPassword : ''}
+                  error={touched.confirmPassword && Boolean(errors.confirmPassword)}
+                  variant='outlined'
+                  size='small'
+                  fullWidth
+                />
+                <FormGroup
+                  name='saveMyData'
+                  column='true'>
+                  <FormControlLabel
+                    control={<Checkbox checked={values.subscribe}
+                      onChange={handleChange}
+                      name='subscribe'
+                      color='default'/>}
+                    label='I wish to subscribe to the Vigo Shop newsletter'
+                  />
+                  <FormControlLabel
+                    control={<Checkbox checked={values.confirmation}
+                      onChange={handleChange}
+                      name='confirmation'
+                      color='default'/>}
+                    label='I have read and agree to the Privacy Policy'
+                  />
+                  {touched.confirmation && errors.confirmation &&
+                  <FormHelperText
+                    error={touched.confirmation && !!errors.confirmation}>
+                    {errors.confirmation}
+                  </FormHelperText>}
+                </FormGroup>
+              </ThemeProvider>
+              <CardActions>
+                <Button
+                  type='submit'
+                  className={styles.button}
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                  size='large'
+                  variant='outlined'>Continue
+                </Button>
+              </CardActions>
+            </form>
+          )}
+        </Formik>
+      </Grid>
+      <Grid item xs={12} sm={6}> </Grid>
+    </Grid>
   );
 };
 

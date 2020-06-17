@@ -39,11 +39,11 @@ const ModalAddress = (props) => {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle id="alert-dialog-title">{'Do you want to change delivery address?'}</DialogTitle>
-          <DialogContent className={classes.modalWindow}>
-            <DialogContentText id="alert-dialog-description">
+          <DialogTitle component='span' id="alert-dialog-title">{'Do you want to change delivery address?'}</DialogTitle>
+          <DialogContent component='span' className={classes.modalWindow}>
+            <DialogContentText component='span' id="alert-dialog-description">
               <Card component='span'>
-                <AddressForm component='span' user={user}/>
+                <AddressForm user={user}/>
               </Card>
             </DialogContentText>
           </DialogContent>

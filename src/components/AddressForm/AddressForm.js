@@ -23,24 +23,36 @@ import PinDropIcon from '@material-ui/icons/PinDrop';
 import AutocompleteComponent from '../Autocomplete/Autocomplete';
 import { connect } from 'react-redux';
 import { setUser } from '../../redux/actions/actions';
+import AjaxUtils from '../../ajax';
 
 const AddressForm = (props) => {
-  const {submitAddressHandler} = props;
+  const {submitAddressHandler, user} = props;
 
   const [address, setAddress] = useState('');
   const submitAddressData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
 
-    const data = JSON.stringify({
-      addresses: {
+    const addresses = {
+      addresses: [{
         address: address,
         house: values.house,
         apartment: values.apartment,
         postalCode: values.postalCode
-      }
-    });
+      }]
+    };
 
-    console.log('saved address', data);
+    AjaxUtils.Users.updateUserInfoById(user._id, addresses)
+      .then(result => {
+        setSubmitting(false);
+        if (result.status !== 400) {
+          resetForm();
+        }
+        // submitAddressHandler(values, () => {
+        //   setSubmitting(false);
+        //   resetForm();
+        // });
+      });
+    console.log('saved address', addresses);
 
     submitAddressHandler(values, () => {
       setSubmitting(false);
@@ -175,10 +187,10 @@ const AddressForm = (props) => {
     </Box>
   );
 };
-//
-// AddressForm.propTypes = {
-//   submitAddressHandler: PropTypes.func.isRequired
-// };
+
+AddressForm.propTypes = {
+  submitAddressHandler: PropTypes.func.isRequired
+};
 const mapDispatchToProps = dispatch => {
   return {
     setUser: data => dispatch(setUser(data))

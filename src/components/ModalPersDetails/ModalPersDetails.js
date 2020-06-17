@@ -40,7 +40,7 @@ const ModalPersDetails = (props) => {
         >
           <DialogTitle id="alert-dialog-title">{'Do you want to change your contact info?'}</DialogTitle>
           <DialogContent component='span' className={classes.modalWindow}>
-            <DialogContentText id="alert-dialog-description">
+            <DialogContentText component='span' id="alert-dialog-description">
               <PersonalDetailsForm component='span' user={user}/>
             </DialogContentText>
           </DialogContent>
