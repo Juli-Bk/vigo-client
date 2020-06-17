@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import { ThemeProvider } from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import AjaxUtils from '../../ajax';
-import { setChosenColor } from '../../redux/actions/actions';
+import AjaxUtils from '../../../ajax';
+import { setChosenColor } from '../../../redux/actions/actions';
 import theme from './FilterColorsTheme';
 import useStyles from './FilterColorsStyles';
 

@@ -3,7 +3,7 @@ import {IconButton} from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import useStyles from '../SideBar/SideBarStyle';
-import CategoryTree from '../CategoryTree/CategoryTree';
+import CategoryTree from '../FiltersTree/FiltersTree';
 import {useTheme} from '@material-ui/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 

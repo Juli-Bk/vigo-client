@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { ThemeProvider, Checkbox, FormControlLabel } from '@material-ui/core';
-import AjaxUtils from '../../ajax';
+import AjaxUtils from '../../../ajax';
 import theme from '../FilterColors/FilterColorsTheme';
-import { setChosenSize } from '../../redux/actions/actions';
-import globalConfig from '../../globalConfig';
+import { setChosenSize } from '../../../redux/actions/actions';
+import globalConfig from '../../../globalConfig';
 
 const FilterSizes = (props) => {
   const { categories, location, setChosenSize } = props;

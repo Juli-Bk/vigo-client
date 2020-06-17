@@ -1,6 +1,6 @@
 import {createMuiTheme} from '@material-ui/core';
-import {colors} from '../../styles/colorKit';
-import {fonts} from '../../styles/fonts/fontsKit';
+import {colors} from '../../../styles/colorKit';
+import {fonts} from '../../../styles/fonts/fontsKit';
 
 const theme = createMuiTheme({
   overrides: {
