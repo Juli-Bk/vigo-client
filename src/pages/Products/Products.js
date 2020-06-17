@@ -7,7 +7,7 @@ import AjaxUtils from '../../ajax';
 import useStyles from './ProductsStyles';
 import globalConfig from '../../globalConfig';
 import { defineSortData, makeFilterItem } from '../../helpers/helpers';
-// import { getFilterString } from '../../ajax/common/helper';
+import { getFilterString } from '../../ajax/common/helper';
 
 import ProductGrid from '../../containers/ProductsGrid/ProductsGrid';
 import ProductsList from '../../containers/ProductsList/ProductsList';
@@ -20,7 +20,7 @@ import ViewAs from '../../components/ViewAs/ViewAs';
 import EmptyState from '../../components/EmptyState/EmptyState';
 
 const Products = (props) => {
-  const {currentPage, categoryId, perPage, sortingOption, priceRange, view, colors, size, location} = props;
+  const {currentPage, categoryId, perPage, sortingOption, priceRange, view, colors, size, location, history} = props;
   const isSmScreen = useMediaQuery('(max-width: 723px)');
   const classes = useStyles();
   const [products, setProducts] = useState([]);
@@ -39,6 +39,8 @@ const Products = (props) => {
       filterStrings.forEach(string => {
         allFilters.push(makeFilterItem(string));
       });
+      allFilters.forEach(filter => {});
+      // todo proper filtration here
       filtersArray.push(...allFilters);
     } else {
       filtersArray.push(makeFilterItem(searchString));
@@ -55,7 +57,8 @@ const Products = (props) => {
           setTotal(result.totalCount);
         });
       // todo url string with all filters
-      // history.replace(`/products/filter?categoryId=${categoryId}&${getFilterString(filtersArray, defineSortData(sortingOption))}`);
+      history.push(`filter?${getFilterString(filtersArray, defineSortData(sortingOption))}`);
+      console.log(getFilterString(filtersArray, defineSortData(sortingOption)));
     }
     return () => {
       isCanceled = true;
@@ -67,40 +70,42 @@ const Products = (props) => {
     <Container>
       <Grid container spacing={6}>
         <Grid item container lg={8} xl={8} md={8} sm={8} xs={12} className={classes.grid}>
-          <Grid item xl={12} lg={12} md={12} sm={12} xs={12} className={classes.topFiltersLine}>
-            <Grid item container lg={12} className={classes.upperLine}>
-              {!isSmScreen
-                ? <Grid container item xl={6} lg={6} md={5} sm={6} xs={12} className={classes.sortSelect}>
-                  <Sort values={globalConfig.sortOptions}/>
+          <Container>
+            <Grid item xl={12} lg={12} md={12} sm={12} xs={12} className={classes.topFiltersLine}>
+              <Grid item container lg={12} className={classes.upperLine}>
+                {!isSmScreen
+                  ? <Grid container item xl={6} lg={6} md={5} sm={6} xs={12} className={classes.sortSelect}>
+                    <Sort values={globalConfig.sortOptions}/>
+                  </Grid>
+                  : null
+                }
+                <Grid item xl={6} lg={6} md={7} sm={6} xs={12} className={classes.filterPrice}>
+                  <FilterPrice maxProductsPrice={maxProductsPrice}/>
                 </Grid>
-                : null
-              }
-              <Grid item xl={6} lg={6} md={7} sm={6} xs={12} className={classes.filterPrice}>
-                <FilterPrice maxProductsPrice={maxProductsPrice}/>
+              </Grid>
+              {isSmScreen ? <Grid container item sm={6} xs={12} className={classes.sortSelect}>
+                <Sort values={globalConfig.sortOptions}/>
+              </Grid>
+                : null}
+              <Grid item container lg={12} spacing={0}>
+                <Grid item xl={3} lg={3} md={3} sm={6} xs={6}>
+                  <ViewAs label={true}/>
+                </Grid>
+                <Grid item xl={3} lg={3} md={3} sm={6} xs={6} className={classes.showBy}>
+                  <ShowBy step={globalConfig.step}/>
+                </Grid>
+                <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
+                  <PaginationRounded perPage={perPage} total={total}/>
+                </Grid>
               </Grid>
             </Grid>
-            {isSmScreen ? <Grid container item sm={6} xs={12} className={classes.sortSelect}>
-              <Sort values={globalConfig.sortOptions}/>
+            <Grid item container className={classes.products} xl={12} lg={12} md={12} sm={12} xs={12}>
+              {products.length
+                ? (view === 'module' ? <ProductGrid products={products}/>
+                  : <ProductsList products={products}/>)
+                : <EmptyState text={globalConfig.userMessages.EMPTY_RESULT}/>}
             </Grid>
-              : null}
-            <Grid item container lg={12} spacing={0}>
-              <Grid item xl={3} lg={3} md={3} sm={6} xs={6}>
-                <ViewAs label={true}/>
-              </Grid>
-              <Grid item xl={3} lg={3} md={3} sm={6} xs={6} className={classes.showBy}>
-                <ShowBy step={globalConfig.step}/>
-              </Grid>
-              <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
-                <PaginationRounded perPage={perPage} total={total}/>
-              </Grid>
-            </Grid>
-          </Grid>
-          <Grid item container className={classes.products} xl={12} lg={12} md={12} sm={12} xs={12}>
-            {products.length
-              ? (view === 'module' ? <ProductGrid products={products}/>
-                : <ProductsList products={products}/>)
-              : <EmptyState text={globalConfig.userMessages.EMPTY_RESULT}/>}
-          </Grid>
+          </Container>
         </Grid>
         <Grid item lg={4} xl={4} md={4} sm={4}>
           <SideBar/>
