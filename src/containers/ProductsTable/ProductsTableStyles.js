@@ -133,6 +133,24 @@ const useStyles = makeStyles(theme => ({
       fontSize: '1.2rem',
       letterSpacing: '.02em'
     }
+  },
+  quantity: {
+    textAlign: 'center',
+    fontSize: '1.5rem',
+    userSelect: 'none'
+  },
+  changeQuantityBtn: {
+    display: 'inline-block',
+    border: `1px solid ${colors.paginationActive}`,
+    width: '20',
+    height: '20',
+    textAlign: 'center',
+    fontSize: '1.5rem',
+    lineHeight: '1rem',
+    padding: 5,
+    cursor: 'pointer',
+    margin: 15,
+    userSelect: 'none'
   }
 }));
 

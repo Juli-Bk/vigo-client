@@ -28,6 +28,7 @@ const Product = (props) => {
   const { width } = props;
   const [product, setProduct] = useState(null);
   const [sliderData, setSliderData] = useState(null);
+  const [productInStock, setProductInStock] = useState({});
 
   const dataFromStorage = getStorageData('recentlyViewed');
   const filterArray = dataFromStorage.length ? [{_id: dataFromStorage}] : [];
@@ -39,6 +40,11 @@ const Product = (props) => {
       AjaxUtils.Products.getProductById(id)
         .then(result => {
           setProduct(result);
+        });
+      AjaxUtils.Quantity.getQuantityByProductId(id)
+        .then(result => {
+          setProductInStock(result);
+          console.log(result);
         });
       if (filterArray.length) {
         AjaxUtils.Products.getProductsByFilters(filterArray, 1, 8, '')
@@ -70,7 +76,7 @@ const Product = (props) => {
             {product ? <ProductSlider product={product}/> : null}
           </Grid>
           <Grid item xs={12} sm={12} md={6} lg={7} xl={7}>
-            {product ? <ProductPageView productData={product} productQuantity={5} /> : null}
+            {product && productInStock ? <ProductPageView productData={product} productQuantity={productInStock} /> : null}
           </Grid>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>

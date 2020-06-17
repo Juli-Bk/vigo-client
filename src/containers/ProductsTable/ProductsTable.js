@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -18,12 +18,10 @@ import Price from '../../components/Product/Price/Price';
 import { theme } from './ProductsTableTheme';
 import useStyles from './ProductsTableStyles';
 import globalConfig from '../../globalConfig';
+import AjaxUtils from '../../ajax';
 
 const ProductsTable = (props) => {
   // todo quantity
-  const getSubtotal = (price, quantity) => {
-    return price * quantity;
-  };
   // eslint-disable-next-line no-unused-vars
   const {
     isMobile,
@@ -35,14 +33,40 @@ const ProductsTable = (props) => {
   } = props;
   const classes = useStyles();
 
+  useEffect(() => {
+    const idArray = [];
+    products.forEach(product => {
+      idArray.push(product._id);
+      console.log(idArray);
+    });
+    idArray.forEach(id => {
+      AjaxUtils.Quantity.getQuantityByProductId(id)
+        .then(result => {
+          console.log(id, result);
+          // setProductsQuantity(...productsQuantity, [])
+        });
+    });
+  });
+
+  const getSubtotal = (price, quantity) => {
+    return price * quantity;
+  };
+
   const deleteFromWishList = (id) => {
     toggleWishItems(id);
     changeWishList(getStorageData('wishList'));
   };
-
+  // to do different functions to add znd to delete
   const deleteFromCart = (id) => {
     toggleCartItems(id);
     changeShoppingCart(getStorageData('shoppingCart'));
+  };
+
+  const decreaseInCart = (productId) => {
+    console.log('decrease');
+  };
+  const increaseInCart = (productId) => {
+    console.log('increase');
   };
 
   const rows = products.map(product => {
@@ -148,7 +172,15 @@ const ProductsTable = (props) => {
                           <SalePrice value={row.salePrice}/>
                         </TableCell>
                         <TableCell align="center" className={classes.code}>
-                          {row.quantity}
+                          <Box className={classes.quantity}>
+                            <span className={classes.changeQuantityBtn} onClick={() => {
+                              decreaseInCart(row.productId);
+                            }}>-</span>
+                            {row.quantity}
+                            <span className={classes.changeQuantityBtn} onClick={() => {
+                              increaseInCart(row.productId);
+                            }}>+</span>
+                          </Box>
                         </TableCell>
                         <TableCell align="center" className={classes.code}>
                           <SalePrice isSubtotal={true}
