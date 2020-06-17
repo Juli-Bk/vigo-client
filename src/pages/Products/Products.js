@@ -16,6 +16,7 @@ import ShowBy from '../../components/ShowBy/ShowBy';
 import Sort from '../../components/Sort/Sort';
 import FilterPrice from '../../components/FilterPrice/FilterPrice';
 import ViewAs from '../../components/ViewAs/ViewAs';
+import EmptyState from '../../components/EmptyState/EmptyState';
 
 const Products = (props) => {
   const {currentPage, perPage, sortingOption, priceRange, view, colors, location} = props;
@@ -64,7 +65,7 @@ const Products = (props) => {
     <Container>
       <Grid container spacing={6}>
         <Grid item container lg={8} xl={8} md={8} sm={8} xs={12} className={classes.grid}>
-          <Grid item container className={classes.topFiltersLine}>
+          <Grid item xl={12} lg={12} md={12} sm={12} xs={12} className={classes.topFiltersLine}>
             <Grid item container lg={12} className={classes.upperLine}>
               {!isSmScreen
                 ? <Grid container item xl={6} lg={6} md={5} sm={6} xs={12} className={classes.sortSelect}>
@@ -93,7 +94,10 @@ const Products = (props) => {
             </Grid>
           </Grid>
           <Grid item container className={classes.products} xl={12} lg={12} md={12} sm={12} xs={12}>
-            {view === 'module' ? <ProductGrid products={products}/> : <ProductsList products={products}/>}
+            {products.length
+              ? (view === 'module' ? <ProductGrid products={products}/>
+                : <ProductsList products={products}/>)
+              : <EmptyState text={globalConfig.userMessages.EMPTY_RESULT}/>}
           </Grid>
         </Grid>
         <SideBar/>
