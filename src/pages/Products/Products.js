@@ -7,7 +7,7 @@ import AjaxUtils from '../../ajax';
 import useStyles from './ProductsStyles';
 import globalConfig from '../../globalConfig';
 import { defineSortData, makeFilterItem } from '../../helpers/helpers';
-import { getFilterString } from '../../ajax/common/helper';
+// import { getFilterString } from '../../ajax/common/helper';
 
 import ProductGrid from '../../containers/ProductsGrid/ProductsGrid';
 import ProductsList from '../../containers/ProductsList/ProductsList';
@@ -17,24 +17,17 @@ import ShowBy from '../../components/ShowBy/ShowBy';
 import Sort from '../../components/Sort/Sort';
 import FilterPrice from '../../components/FilterPrice/FilterPrice';
 import ViewAs from '../../components/ViewAs/ViewAs';
-import { setCategoryId } from '../../redux/actions/actions';
 
 const Products = (props) => {
-  const {currentPage, categoryId, perPage, sortingOption, priceRange, view, colors, size, location, history} = props;
+  const {currentPage, categoryId, perPage, sortingOption, priceRange, view, colors, size, location} = props;
   const isSmScreen = useMediaQuery('(max-width: 723px)');
   const classes = useStyles();
-
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
   const [maxProductsPrice, setMaxProductsPrice] = useState(0);
 
   const filtersArray = [{minPrice: priceRange[0]}, {maxPrice: priceRange[1]}, {color: colors}, {size: size}];
   const searchString = location.search.split('?')[1];
-  // console.log(`/products/filter?categoryId=${categoryId}&${getFilterString(filtersArray, defineSortData(sortingOption))}`);
-
-  // location.search.concat(getFilterString(filtersArray, defineSortData(sortingOption)));
-  // console.log(location);
-  //  console.log(getFilterString(filtersArray, defineSortData(sortingOption)));
 
   useEffect(() => {
     let isCanceled = false;
@@ -44,16 +37,11 @@ const Products = (props) => {
       const allFilters = [];
       filterStrings.forEach(string => {
         allFilters.push(makeFilterItem(string));
-        console.log('string', string);
       });
       filtersArray.push(...allFilters);
-      console.log('filtersArray', filtersArray);
     } else {
       filtersArray.push(makeFilterItem(searchString));
-      console.log('filtersArray', filtersArray);
     }
-
-    // history.replace(`/products/filter?categoryId=${categoryId}&${getFilterString(filtersArray, defineSortData(sortingOption))}`);
 
     if (!isCanceled) {
       AjaxUtils.Products.getMaxPrice()
@@ -65,12 +53,14 @@ const Products = (props) => {
           setProducts(result.products);
           setTotal(result.totalCount);
         });
+      // todo url string with all filters
+      // history.replace(`/products/filter?categoryId=${categoryId}&${getFilterString(filtersArray, defineSortData(sortingOption))}`);
     }
     return () => {
       isCanceled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchString, currentPage, perPage, sortingOption, priceRange, colors, size]);
+  }, [categoryId, currentPage, perPage, sortingOption, priceRange, colors, size]);
 
   return (
     <Container>
@@ -108,7 +98,9 @@ const Products = (props) => {
             {view === 'module' ? <ProductGrid products={products}/> : <ProductsList products={products}/>}
           </Grid>
         </Grid>
-        <SideBar/>
+        <Grid item lg={4} xl={4} md={4} sm={4}>
+          <SideBar/>
+        </Grid>
         <Grid item xl={12} lg={12} md={12} sm={12} xs={12} className={classes.paginationBottom}>
           <PaginationRounded perPage={perPage} total={total}/>
         </Grid>

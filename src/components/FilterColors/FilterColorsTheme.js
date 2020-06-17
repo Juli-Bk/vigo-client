@@ -30,7 +30,7 @@ const theme = createMuiTheme({
     MuiCollapse: {
       entered: {
         wrapperInner: {
-          height: 350,
+          maxHeight: 500,
           display: 'flex !important',
           flexDirection: 'column',
           flexWrap: 'wrap'

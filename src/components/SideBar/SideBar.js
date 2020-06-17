@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {Grid, IconButton} from '@material-ui/core';
+import {IconButton} from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import useStyles from '../SideBar/SideBarStyle';
@@ -45,9 +45,7 @@ const SideBar = () => {
               <CategoryTree/>
             </SwipeableDrawer>
           </>
-          : <Grid item lg={4} xl={4} md={4} sm={4}>
-            <CategoryTree/>
-          </Grid>
+          : <CategoryTree/>
       }
     </>
 
