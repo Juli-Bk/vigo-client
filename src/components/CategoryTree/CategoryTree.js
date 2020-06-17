@@ -1,5 +1,6 @@
 import React, {useCallback, useMemo} from 'react';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import {withRouter} from 'react-router';
 import TreeView from '@material-ui/lab/TreeView';
 import useStyles from './CategoryTreeStyle';
@@ -17,31 +18,32 @@ const CategoryTree = (props) => {
   const classes = useStyles();
 
   const getStyledTreeItem = useCallback((category) => {
-    let children = [];
-    if (category.children.length) {
-      children = category.children.map(child => {
+    let categoryChildren = [];
+    const { children, id, level, name } = category;
+    if (children.length) {
+      categoryChildren = children.map(child => {
         return getStyledTreeItem(child);
       });
     }
 
     return <StyledTreeItem
-      key={`${category.id}`}
-      nodeId={`${category.id}`}
-      className={classes[category.level.toString()]}
-      label={`${category.name}`}
+      key={`${id}`}
+      nodeId={`${id}`}
+      className={classes[level.toString()]}
+      label={`${name}`}
       onLabelClick={(event) => {
         history.push(`/products/filter?categoryId=${category.id}`);
         setCategoryId(category.id);
       }}
     >
-      {children}
+      {categoryChildren}
     </StyledTreeItem>;
   },
   [classes, history]);
 
   const elementsToExpand = useMemo(() => {
     const arr = categories
-      .filter(category => category.level === 1)
+      .filter(category => category.level && category.level === 1)
       .map(item => item.id.toString());
     arr.push('categoriesRoot');
     return arr;
@@ -85,6 +87,11 @@ const CategoryTree = (props) => {
   return (
     tree
   );
+};
+
+CategoryTree.propTypes = {
+  categories: PropTypes.array.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 const mapStoreToProps = store => {

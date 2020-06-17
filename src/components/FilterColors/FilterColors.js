@@ -30,16 +30,22 @@ const FilterColors = (props) => {
   };
 
   useEffect(() => {
-    AjaxUtils.Colors.getAllColors()
-      .then(result => {
-        const colorsSet = new Set();
+    let isCanceled = false;
+    if (!isCanceled) {
+      AjaxUtils.Colors.getAllColors()
+        .then(result => {
+          const colorsSet = new Set();
 
-        result.colors.forEach(color => {
-          colorsSet.add(color.baseColorName);
+          result.colors.forEach(color => {
+            colorsSet.add(color.baseColorName);
+          });
+
+          setUniqColorNames(Array.from(colorsSet));
         });
-
-        setUniqColorNames(Array.from(colorsSet));
-      });
+    }
+    return () => {
+      isCanceled = true;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state, colorsInStorage, setChosenColor]);
 

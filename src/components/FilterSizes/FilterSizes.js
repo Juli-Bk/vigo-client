@@ -25,6 +25,8 @@ const FilterSizes = (props) => {
   let renderOption = 'all';
 
   useEffect(() => {
+    let isCanceled = false;
+    if (!isCanceled) {
     AjaxUtils.Sizes.getAllSizes()
       .then(result => {
         setSizes(result.items);
@@ -34,7 +36,11 @@ const FilterSizes = (props) => {
           namesSet.add(size.name);
         });
         setSizeNames(Array.from(namesSet));
-      });
+        });
+    }
+    return () => {
+      isCanceled = true;
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

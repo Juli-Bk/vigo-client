@@ -69,7 +69,8 @@ const CheckoutStepper = (props) => {
   const [userData, setUser] = useState(0);
 
   useEffect(() => {
-    if (token || getJWTfromCookie()) {
+    let isCanceled = false;
+    if (!isCanceled && (token || getJWTfromCookie())) {
       AjaxUtils.Users.getUser()
         .then(result => {
           if (result.status === 200) {
@@ -89,6 +90,9 @@ const CheckoutStepper = (props) => {
           // todo open modal window to login again
         });
     }
+    return () => {
+      isCanceled = true;
+    };
   }, [classes.link, token]);
 
   const handleNext = useCallback(() => {
