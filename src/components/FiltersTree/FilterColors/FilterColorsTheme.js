@@ -1,6 +1,6 @@
 import {createMuiTheme} from '@material-ui/core';
-import {colors} from '../../styles/colorKit';
-import {fonts} from '../../styles/fonts/fontsKit';
+import {colors} from '../../../styles/colorKit';
+import {fonts} from '../../../styles/fonts/fontsKit';
 
 const theme = createMuiTheme({
   overrides: {
@@ -27,19 +27,9 @@ const theme = createMuiTheme({
         fontSize: 'inherit'
       }
     },
-    MuiCollapse: {
-      entered: {
-        wrapperInner: {
-          height: 350,
-          display: 'flex !important',
-          flexDirection: 'column',
-          flexWrap: 'wrap'
-        }
-      }
-    },
     MuiFormControlLabel: {
       label: {
-        fontSize: '1.1rem'
+        fontSize: '1rem'
       }
     }
   }

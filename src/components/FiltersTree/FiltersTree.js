@@ -1,43 +1,23 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useMemo} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router';
 import TreeView from '@material-ui/lab/TreeView';
-import useStyles from './CategoryTreeStyle';
+import useStyles from './FiltersTreeStyle';
 import StyledTreeItem from '../StyledTreeItem/StyledTreeItem';
-import FilterColorsTreeItem from '../FilterColors/FilterColorsTreeItem';
+import FilterColorsTreeItem from './FilterColors/FilterColorsTreeItem';
+import FilterSizesTreeItem from './FilterSizes/FilterSizesTreeItem';
+import {setCategoryId} from '../../redux/actions/actions';
 
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
-import FilterColors from '../FilterColors/FilterColors';
-import FilterSizes from '../FilterSizes/FilterSizes';
+import FilterColors from './FilterColors/FilterColors';
+import FilterSizes from './FilterSizes/FilterSizes';
+import FilterCategory from './FilterCategory/FilterCategory';
 
-const CategoryTree = (props) => {
-  const {categories, history} = props;
+const FiltersTree = (props) => {
+  const {categories} = props;
   const classes = useStyles();
-
-  const getStyledTreeItem = useCallback((category) => {
-    let categoryChildren = [];
-    const { children, id, level, name } = category;
-    if (children.length) {
-      categoryChildren = children.map(child => {
-        return getStyledTreeItem(child);
-      });
-    }
-
-    return <StyledTreeItem
-      key={`${id}`}
-      nodeId={`${id}`}
-      className={classes[level.toString()]}
-      label={`${name}`}
-      onLabelClick={(event) => {
-        history.push(`/products/filter?categoryId=${id}`);
-      }}
-    >
-      {categoryChildren}
-    </StyledTreeItem>;
-  },
-  [classes, history]);
 
   const elementsToExpand = useMemo(() => {
     const arr = categories
@@ -46,10 +26,6 @@ const CategoryTree = (props) => {
     arr.push('categoriesRoot');
     return arr;
   }, [categories]);
-
-  const categoriesTree = useMemo(() => categories.map(category => {
-    return getStyledTreeItem(category);
-  }), [categories, getStyledTreeItem]);
 
   const tree = elementsToExpand.length > 1
     ? <TreeView
@@ -63,7 +39,7 @@ const CategoryTree = (props) => {
         nodeId={'categoriesRoot'}
         className={classes['0']}
         label={'Categories'}>
-        {categoriesTree}
+        <FilterCategory/>
       </StyledTreeItem>
       <FilterColorsTreeItem
         key={'colorsRoot'}
@@ -72,13 +48,13 @@ const CategoryTree = (props) => {
         label={'Color Filter'}>
         <FilterColors/>
       </FilterColorsTreeItem>
-      <FilterColorsTreeItem
+      <FilterSizesTreeItem
         key={'sizesRoot'}
         nodeId={'sizesRoot'}
         className={classes['0']}
         label={'Size Filter'}>
-        <FilterSizes/>
-      </FilterColorsTreeItem>
+        <FilterSizes categories={categories}/>
+      </FilterSizesTreeItem>
     </TreeView>
     : <></>;
 
@@ -87,7 +63,7 @@ const CategoryTree = (props) => {
   );
 };
 
-CategoryTree.propTypes = {
+FiltersTree.propTypes = {
   categories: PropTypes.array.isRequired,
   history: PropTypes.object.isRequired
 };
@@ -98,4 +74,10 @@ const mapStoreToProps = store => {
   };
 };
 
-export default connect(mapStoreToProps)(React.memo(withRouter(CategoryTree)));
+const mapDispatchToProps = dispatch => {
+  return {
+    setCategoryId: categoryId => dispatch(setCategoryId(categoryId))
+  };
+};
+
+export default connect(mapStoreToProps, mapDispatchToProps)(React.memo(withRouter(FiltersTree)));

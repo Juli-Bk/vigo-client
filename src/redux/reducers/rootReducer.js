@@ -15,6 +15,8 @@ import user from './userReducer';
 import colors from './colorReducer';
 import shoppingCart from './shoppingCartReducer';
 
+import categoryId from './categoryIdReducer';
+
 export const rootReducer = combineReducers({
   currentPage,
   sortingOption,
@@ -30,5 +32,6 @@ export const rootReducer = combineReducers({
   wishList,
   user,
   colors,
-  shoppingCart
+  shoppingCart,
+  categoryId
 });
