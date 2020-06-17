@@ -27,15 +27,15 @@ const FilterSizes = (props) => {
   useEffect(() => {
     let isCanceled = false;
     if (!isCanceled) {
-    AjaxUtils.Sizes.getAllSizes()
-      .then(result => {
-        setSizes(result.items);
+      AjaxUtils.Sizes.getAllSizes()
+        .then(result => {
+          setSizes(result.items);
 
-        const namesSet = new Set();
-        result.items.forEach(size => {
-          namesSet.add(size.name);
-        });
-        setSizeNames(Array.from(namesSet));
+          const namesSet = new Set();
+          result.items.forEach(size => {
+            namesSet.add(size.name);
+          });
+          setSizeNames(Array.from(namesSet));
         });
     }
     return () => {
