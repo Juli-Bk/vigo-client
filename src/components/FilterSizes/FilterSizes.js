@@ -2,23 +2,13 @@ import React, { useCallback, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { ThemeProvider, makeStyles, Checkbox, FormControlLabel } from '@material-ui/core';
+import { ThemeProvider, Checkbox, FormControlLabel } from '@material-ui/core';
 import AjaxUtils from '../../ajax';
 import theme from '../FilterColors/FilterColorsTheme';
 import { setChosenSize } from '../../redux/actions/actions';
 
-const useStyles = makeStyles(theme => {
-  return {
-    label: {
-      fontSize: '1.1rem',
-      textTransform: 'uppercase'
-    }
-  };
-});
-
 const FilterSizes = (props) => {
   const { categories, location, setChosenSize } = props;
-  const classes = useStyles();
   const [state, setState] = useState({});
   const [sizes, setSizes] = useState([]);
   const [sizeNames, setSizeNames] = useState([]);
@@ -89,7 +79,6 @@ const FilterSizes = (props) => {
     const labelNames = Array.from(getLabelNames(renderOption));
     return labelNames.map(name => {
       return <FormControlLabel
-        className={classes.label}
         key={name}
         label={name}
         control={<Checkbox

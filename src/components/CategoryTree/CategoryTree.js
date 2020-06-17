@@ -6,6 +6,7 @@ import TreeView from '@material-ui/lab/TreeView';
 import useStyles from './CategoryTreeStyle';
 import StyledTreeItem from '../StyledTreeItem/StyledTreeItem';
 import FilterColorsTreeItem from '../FilterColors/FilterColorsTreeItem';
+import FilterSizesTreeItem from '../FilterSizes/FilterSizesTreeItem';
 import {setCategoryId} from '../../redux/actions/actions';
 
 import RemoveIcon from '@material-ui/icons/Remove';
@@ -39,7 +40,7 @@ const CategoryTree = (props) => {
       {categoryChildren}
     </StyledTreeItem>;
   },
-  [classes, history]);
+  [classes, history, setCategoryId]);
 
   const elementsToExpand = useMemo(() => {
     const arr = categories
@@ -74,13 +75,13 @@ const CategoryTree = (props) => {
         label={'Color Filter'}>
         <FilterColors/>
       </FilterColorsTreeItem>
-      <FilterColorsTreeItem
+      <FilterSizesTreeItem
         key={'sizesRoot'}
         nodeId={'sizesRoot'}
         className={classes['0']}
         label={'Size Filter'}>
         <FilterSizes categories={categories}/>
-      </FilterColorsTreeItem>
+      </FilterSizesTreeItem>
     </TreeView>
     : <></>;
 

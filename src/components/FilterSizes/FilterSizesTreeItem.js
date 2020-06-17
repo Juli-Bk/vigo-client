@@ -1,7 +1,7 @@
 import React from 'react';
 import {withStyles} from '@material-ui/core/styles';
 import {ThemeProvider} from '@material-ui/core';
-import theme from './FilterColorsTheme';
+import theme from '../FilterColors/FilterColorsTheme';
 import TransitionComponent from '../TransitionComponent/TransitionComponent';
 import TreeItem from '@material-ui/lab/TreeItem';
 import { colors } from '../../styles/colorKit';
@@ -57,7 +57,7 @@ const FilterColorsTreeItem = withStyles(() => ({
     '& > div > div': {
       display: 'flex',
       flexDirection: 'column',
-      maxHeight: 350,
+      maxHeight: 500,
       flexWrap: 'wrap'
     }
   }

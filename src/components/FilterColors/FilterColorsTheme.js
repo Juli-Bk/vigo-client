@@ -27,19 +27,9 @@ const theme = createMuiTheme({
         fontSize: 'inherit'
       }
     },
-    MuiCollapse: {
-      entered: {
-        wrapperInner: {
-          maxHeight: 500,
-          display: 'flex !important',
-          flexDirection: 'column',
-          flexWrap: 'wrap'
-        }
-      }
-    },
     MuiFormControlLabel: {
       label: {
-        fontSize: '1.1rem'
+        fontSize: '1rem'
       }
     }
   }
