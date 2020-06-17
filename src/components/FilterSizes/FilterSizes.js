@@ -6,13 +6,14 @@ import { ThemeProvider, Checkbox, FormControlLabel } from '@material-ui/core';
 import AjaxUtils from '../../ajax';
 import theme from '../FilterColors/FilterColorsTheme';
 import { setChosenSize } from '../../redux/actions/actions';
+import globalConfig from '../../globalConfig';
 
 const FilterSizes = (props) => {
   const { categories, location, setChosenSize } = props;
   const [state, setState] = useState({});
   const [sizes, setSizes] = useState([]);
   const [sizeNames, setSizeNames] = useState([]);
-  let renderOption = 'all';
+  let renderOption = globalConfig.sizeRenderOptions.ALL;
 
   useEffect(() => {
     let isCanceled = false;
@@ -36,8 +37,8 @@ const FilterSizes = (props) => {
 
   const getLabelNames = useCallback((renderOption) => {
     const labelNames = new Set();
-    if (renderOption !== 'all') {
-      if (renderOption === 'accessories') {
+    if (renderOption !== globalConfig.sizeRenderOptions.ALL) {
+      if (renderOption === globalConfig.sizeRenderOptions.ACCESSORIES) {
         const accessories = categories.plainList.filter(category => category.parentId && category.parentId.name === renderOption);
         sizes.forEach(size => {
           if (accessories.find(object => object.name === size.sizeType)) labelNames.add(size.name);
@@ -62,7 +63,7 @@ const FilterSizes = (props) => {
     const id = searchString.split('categoryId=')[1].split('&')[0];
     const category = categories.plainList.find(category => category._id === id);
     if (category.level > 1) {
-      if (category.level === 2 || category.name === 'accessories') {
+      if (category.level === 2 || category.name === globalConfig.sizeRenderOptions.ACCESSORIES) {
         renderOption = category.name;
       } else {
         renderOption = category.parentId.name;
