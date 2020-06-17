@@ -6,6 +6,8 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 import {ThemeProvider} from '@material-ui/core/styles';
+import EmailIcon from '@material-ui/icons/Email';
+import IconLabel from '../IconLabel/IconLabel';
 
 const CardNewsletter = (props) => {
   const {saveEmail} = props;
@@ -51,13 +53,15 @@ const CardNewsletter = (props) => {
                 <TextField
                   name='email'
                   className={styles.email}
-                  label='Enter your e-mail address'
+                  label={<IconLabel label='Enter your e-mail' Component={EmailIcon}/>}
                   variant='outlined'
                   error={errors.email && touched.email}
                   value={values.email}
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  helperText={(errors.email && touched.email) && errors.email}/>
+                  helperText={(errors.email && touched.email) && errors.email}
+                  size='small'
+                />
               </ThemeProvider>
               <CardActions>
                 <Button

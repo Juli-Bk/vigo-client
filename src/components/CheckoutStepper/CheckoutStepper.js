@@ -14,9 +14,12 @@ import PaymentForm from '../PaymentForm/PaymentForm';
 import {connect} from 'react-redux';
 import AjaxUtils from '../../ajax/index';
 import {getJWTfromCookie} from '../../ajax/common/helper';
-import { setUser } from '../../redux/actions/actions';
+import { setUser, setLoginModalOpenState, setPersDetailsOpenState} from '../../redux/actions/actions';
 import ModalPersDetails from '../ModalPersDetails/ModalPersDetails';
+import NewCustomerForm from '../../components/NewCustomerForm/NewCustomerForm';
 import PropTypes from 'prop-types';
+import useCommonStyles from '../../styles/formStyle/formStyle';
+import ModalLogin from '../ModalLogin/ModalLogin';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,34 +32,77 @@ const useStyles = makeStyles((theme) => ({
   },
   instructions: {
     padding: 20
+  },
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   }
 }));
 
 const steps = ['Personal data', 'Delivery Info', 'Payment Info', 'Complete your order'];
 
 const CheckoutStepper = (props) => {
-  const {token} = props;
+  const {token, setLoginModalOpenState, setPersDetailsOpenState} = props;
   const classes = useStyles();
+  const commonClasses = useCommonStyles();
   const [user, setUser] = useState({});
   const [activeStep, setActiveStep] = useState(0);
+  const [guest, setGuest] = useState({radioGroup: null});
+
+  // если пользователь - гость
+  //                     показать форму сразу заполнения данных о себе для заказа. когда заполнит, где то сохранить
+  //                     для последующей обработки заказа
+
+  // если пользователь в процессе чекаута просто сделал паузу и токен протух,(как это узнать)
+  //                    показываем ему окно логина
+
+  // todo write handler on new Customer form
+  const onSubmitCallback = (values, callback) => {
+    console.log('newCustomerForm', values);
+    callback();
+    if (values.radioGroup === 'iWillRegister') {
+      setLoginModalOpenState(true);
+    }
+    if (values.radioGroup === 'asGuest') {
+      setPersDetailsOpenState(true);
+    }
+    setGuest({radioGroup: values.radioGroup});
+  };
 
   const getStepContent = (stepIndex, user) => {
+    let fields = null;
     switch (stepIndex) {
       case 0:
-        console.log(user);
-        return (
-          <Box display='flex' flexWrap="wrap">
+        if (token) {
+          // если пользователь залогине- подтягивать его сохраненные данные, и показывать кнопку изменить данные
+          // как эта инфа о пользователе пропихивается дальше
+          fields = <Box display='flex' flexWrap="wrap">
             <Box p={1}>
-              <ListItem>First Name: {user.firstName}</ListItem>
-              <ListItem>Last Name: {user.lastName}</ListItem>
-              <ListItem>Phone Number: {user.phoneNumber}</ListItem>
-              <ListItem>Email: {user.email}</ListItem>
-              <ListItem>Address: {user.addresses}</ListItem>
+              <ListItem>First Name:<br/>  {user.firstName}</ListItem>
+              <ListItem>Last Name: <br/>  {user.lastName}</ListItem>
+              <ListItem>Phone Number: <br/>  {user.phoneNumber}</ListItem>
+              <ListItem>Email: <br/> {user.email}</ListItem>
+              <ListItem>Address: <br/>  {user.address}</ListItem>
             </Box>
             <Box p={1}>
               <ModalPersDetails />
             </Box>
-          </Box>
+          </Box>;
+        } else if (guest.radioGroup) {
+          if (guest.radioGroup === 'iWillRegister') {
+            fields = <>
+              <NewCustomerForm submitNewCustomerHandler={onSubmitCallback}/>
+              <ModalLogin/>
+            </>;
+          } else {
+            fields = <ModalPersDetails />;
+          }
+        } else {
+          fields = <NewCustomerForm submitNewCustomerHandler={onSubmitCallback}/>;
+        }
+        return (
+          fields
         );
       case 1:
         return (
@@ -74,7 +120,8 @@ const CheckoutStepper = (props) => {
   };
 
   useEffect(() => {
-    if (token || getJWTfromCookie()) {
+    const cookieToken = getJWTfromCookie();
+    if (token || cookieToken) {
       AjaxUtils.Users.getUser()
         .then(result => {
           if (result) {
@@ -140,16 +187,17 @@ const CheckoutStepper = (props) => {
                     getStepContent(activeStep, user)
                   }
                 </Typography>
-                <Box>
+                <Box className={classes.buttonContainer}>
                   <Button
                     disabled={activeStep === 0}
                     onClick={handleBack}
-                    className={classes.backButton}
+                    className={commonClasses.button}
                   >
-                    Back
+                    {'<'}
                   </Button>
-                  <Button variant='contained' color='primary' onClick={handleNext}>
-                    {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
+                  <Button className={commonClasses.button}
+                    onClick={handleNext}>
+                    {activeStep === steps.length - 1 ? 'Place order' : '>'}
                   </Button>
                 </Box>
               </Box>
@@ -169,7 +217,9 @@ const mapStoreToProps = store => {
 };
 const mapDispatchToProps = dispatch => {
   return {
-    setUser: data => dispatch(setUser(data))
+    setUser: data => dispatch(setUser(data)),
+    setLoginModalOpenState: isOpen => dispatch(setLoginModalOpenState(isOpen)),
+    setPersDetailsOpenState: isOpen => dispatch(setPersDetailsOpenState(isOpen))
   };
 };
 

@@ -23,7 +23,7 @@ const DefineDelivery = (props) => {
           <Grid item xs={12}>
             VIGO Courier will deliver the order to the following address:
             <Box>
-              <ListItem className='listItem'>Address: {user.addresses}</ListItem>
+              <ListItem className='listItem'>Address: {user.address}</ListItem>
               <ListItem className='listItem'>Phone Number: {user.phoneNumber}</ListItem>
             </Box>
             <ModalAddress/>

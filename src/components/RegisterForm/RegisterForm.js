@@ -3,12 +3,12 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {Button, Card, CardActions, CardContent, TextField, ThemeProvider, Typography} from '@material-ui/core';
 import PropTypes from 'prop-types';
-import theme from './RegisterFormTheme';
+import theme from '../../styles/formStyle/formStyleTheme';
 import IconLabel from '../IconLabel/IconLabel';
 import PersonIcon from '@material-ui/icons/Person';
 import LockIcon from '@material-ui/icons/Lock';
 import EnhancedEncryptionRoundedIcon from '@material-ui/icons/EnhancedEncryptionRounded';
-import useStyles from './RegisterFormStyle';
+import useStyles from '../../styles/formStyle/formStyle';
 import EmailIcon from '@material-ui/icons/Email';
 import AjaxUtils from '../../ajax';
 
@@ -93,7 +93,9 @@ const RegisterForm = (props) => {
                   value={values.login}
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  helperText={(errors.login && touched.login) && errors.login}/>
+                  helperText={(errors.login && touched.login) && errors.login}
+                  size='small'
+                />
                 <TextField
                   name='email'
                   autoComplete='on'
@@ -105,7 +107,9 @@ const RegisterForm = (props) => {
                   value={values.email}
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  helperText={(errors.email && touched.email) && errors.email}/>
+                  helperText={(errors.email && touched.email) && errors.email}
+                  size='small'
+                />
                 <TextField
                   name='password'
                   autoComplete='off'
@@ -118,6 +122,7 @@ const RegisterForm = (props) => {
                   fullWidth variant='outlined'
                   helperText={touched.password ? errors.password : ''}
                   error={touched.password && Boolean(errors.password)}
+                  size='small'
                 />
                 <TextField
                   name='confirmPassword'
@@ -131,6 +136,7 @@ const RegisterForm = (props) => {
                   helperText={touched.confirmPassword ? errors.confirmPassword : ''}
                   error={touched.confirmPassword && Boolean(errors.confirmPassword)}
                   variant='outlined'
+                  size='small'
                   fullWidth
                 />
               </ThemeProvider>

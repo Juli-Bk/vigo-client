@@ -16,26 +16,18 @@ const theme = createMuiTheme({
       }
     },
     MuiButton: {
-      containedPrimary: {
-        backgroundColor: colors.borderDark,
-        '&:hover, &:active': {
-          backgroundColor: colors.bgSecondary
+      outlinedPrimary: {
+        border: 'none',
+        padding: 0,
+        '&:hover': {
+          border: 'none'
         }
-      },
-      root: {
-        color: colors.fontSixth,
-        backgroundColor: colors.fontBanner
       }
     },
     MuiContainer: {
       root: {
         marginBottom: 30,
         paddingBottom: 30
-      }
-    },
-    MuiTypography: {
-      root: {
-        padding: '0 120px 30px'
       }
     },
     MuiStepLabel: {

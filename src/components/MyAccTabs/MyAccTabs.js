@@ -57,6 +57,7 @@ const MyAccTabs = (props) => {
     AjaxUtils.Users.getUser()
       .then(result => {
         setUser(result);
+        console.log(result);
       });
   }, []);
 

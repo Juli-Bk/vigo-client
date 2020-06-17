@@ -4,6 +4,13 @@ import { fonts } from '../../styles/fonts/fontsKit';
 
 const useStyles = makeStyles(theme => (
   {
+    modalWindow: {
+      width: 500,
+      [theme.breakpoints.between(0, 500)]: {
+        width: '100%',
+        padding: 0
+      }
+    },
     header: {
       color: colors.fontPrimary,
       fontWeight: 600,
@@ -19,7 +26,7 @@ const useStyles = makeStyles(theme => (
     },
 
     button: {
-      marginTop: '1.55rem',
+      marginTop: '1.25rem',
       color: colors.fontSecondary,
       fontWeight: 700,
       fontFamily: fonts.f3,
@@ -27,7 +34,10 @@ const useStyles = makeStyles(theme => (
       fonFamily: fonts.f2,
       textTransform: 'uppercase'
     },
-
+    icon: {
+      color: colors.borderLight,
+      marginBottom: 15
+    },
     text: {
       color: colors.phPrimary,
       [theme.breakpoints.up(724)]: {

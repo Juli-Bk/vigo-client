@@ -6,7 +6,6 @@ const theme = createMuiTheme({
   overrides: {
     MuiButton: {
       outlinedPrimary: {
-        border: 'none',
         padding: 0,
         '&:hover': {
           border: 'none'
@@ -33,7 +32,14 @@ const theme = createMuiTheme({
     },
     MuiDialogActions: {
       root: {
-        display: 'contents'
+        border: '.125rem solid #555555',
+        borderRadius: 4,
+        padding: 3,
+        position: 'absolute',
+        fontFamily: fonts.f3,
+        maxWidth: 'fit-content',
+        right: 30,
+        bottom: 16
       }
     }
   }

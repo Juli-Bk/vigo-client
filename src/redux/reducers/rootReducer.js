@@ -13,6 +13,8 @@ import quantity from './quantityReducer';
 import wishList from './wishListReducer';
 import user from './userReducer';
 import colors from './colorReducer';
+import isLoginModalOpen from './isLoginModalOpenReducer';
+import isPersDetailsModalOpen from './isPersDetailsModalOpenReducer';
 export const rootReducer = combineReducers({
   currentPage,
   sortingOption,
@@ -27,5 +29,7 @@ export const rootReducer = combineReducers({
   isSearchBarOpen,
   wishList,
   user,
-  colors
+  colors,
+  isLoginModalOpen,
+  isPersDetailsModalOpen
 });

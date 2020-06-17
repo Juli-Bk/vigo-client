@@ -24,8 +24,12 @@ import AjaxUtils from '../../ajax';
 import { setUser } from '../../redux/actions/actions';
 
 const PersonalDetailsForm = (props) => {
-  const {user, setUser} = props;
+  const {user, setUser, submitPersDetailsHandler} = props;
   const {firstName, lastName, email, phoneNumber} = user;
+
+  const handleCancel = () => {
+    submitPersDetailsHandler({});
+  };
 
   const submitPersonalDetailsData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
@@ -41,6 +45,8 @@ const PersonalDetailsForm = (props) => {
 
     AjaxUtils.Users.updateUserInfoById(user._id, data)
       .then(result => {
+        setSubmitting(false);
+
         if (result) {
           setUser(result);
         }
@@ -101,7 +107,7 @@ const PersonalDetailsForm = (props) => {
 
   return (
     <Grid container>
-      <Grid item xs={12} sm={6}>
+      <Grid item xs={12}>
         <Typography className={styles.header} variant='h6' gutterBottom>your personal details</Typography>
         <Formik
           initialValues={initFormValues}
@@ -229,19 +235,25 @@ const PersonalDetailsForm = (props) => {
               </ThemeProvider>
               <CardActions>
                 <Button
+                  type='button'
+                  className={styles.button}
+                  onClick={handleCancel}
+                  size='large'
+                  variant='outlined'>cancel
+                </Button>
+                <Button
                   type='submit'
                   className={styles.button}
                   onClick={handleSubmit}
                   disabled={isSubmitting}
                   size='large'
-                  variant='outlined'>Continue
+                  variant='outlined'>Save
                 </Button>
               </CardActions>
             </form>
           )}
         </Formik>
       </Grid>
-      <Grid item xs={12} sm={6}> </Grid>
     </Grid>
   );
 };

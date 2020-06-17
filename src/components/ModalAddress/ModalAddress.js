@@ -5,7 +5,6 @@ import Card from '@material-ui/core/Card';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
 import theme from './ModalAddressTheme';
 import AddressForm from '../AddressForm/AddressForm';
 import useStyles from '../../containers/Header/headerStyle';
@@ -39,7 +38,6 @@ const ModalAddress = (props) => {
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogTitle component='span' id="alert-dialog-title">{'Do you want to change delivery address?'}</DialogTitle>
           <DialogContent component='span' className={classes.modalWindow}>
             <DialogContentText component='span' id="alert-dialog-description">
               <Card component='span'>

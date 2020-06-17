@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => (
       fontFamily: fonts.f4,
       fonFamily: fonts.f2,
       textTransform: 'uppercase',
-      [theme.breakpoints.up(700)]: {
+      [theme.breakpoints.up(900)]: {
         width: '50%'
       }
     }

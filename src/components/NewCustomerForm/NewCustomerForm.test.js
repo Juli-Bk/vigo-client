@@ -37,7 +37,7 @@ describe('New Customer Form with all expected props', () => {
   });
 
   it('Should display Title for new customer', () => {
-    expect(wrapper.find(Typography).at(0).text()).toContain('new customer');
+    expect(wrapper.find(Typography).at(0).text()).toContain('How do you want to continue?');
   });
 
   it('Should display Subtitle for new customer', () => {

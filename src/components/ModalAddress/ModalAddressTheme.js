@@ -33,13 +33,14 @@ const theme = createMuiTheme({
     },
     MuiDialogActions: {
       root: {
-        display: 'contents'
-      }
-    },
-    MuiGrid: {
-      root: {
-        maxWidth: '100%',
-        flexBasis: '100%'
+        border: '.125rem solid black',
+        borderRadius: 4,
+        padding: 3,
+        position: 'absolute',
+        fontFamily: fonts.f3,
+        maxWidth: 'fit-content',
+        right: 30,
+        bottom: 16
       }
     }
   }

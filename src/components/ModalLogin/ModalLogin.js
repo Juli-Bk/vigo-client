@@ -7,11 +7,14 @@ import Box from '@material-ui/core/Box';
 import SwipeableViews from 'react-swipeable-views';
 import LoginForm from '../LoginForm/LoginForm';
 import useStyles from '../../containers/Header/headerStyle';
-import theme from './ModalLoginTheme';
+import useCommonStyles from '../../styles/formStyle/formStyle';
+import theme from '../../styles/formStyle/formStyleTheme';
 import {ThemeProvider} from '@material-ui/styles';
 import PersonIcon from '@material-ui/icons/Person';
 import {IconButton, Typography} from '@material-ui/core';
 import RegisterForm from '../RegisterForm/RegisterForm';
+import {connect} from 'react-redux';
+import {setLoginModalOpenState} from '../../redux/actions/actions';
 
 function a11yProps (index) {
   return {
@@ -40,19 +43,19 @@ function TabPanel (props) {
   );
 }
 
-const ModalLogin = () => {
+const ModalLogin = ({isLoginModalOpen, setLoginModalOpenState}) => {
   const classes = useStyles();
-  const [open, setOpen] = React.useState(false);
+  const commonClasses = useCommonStyles();
   const [message, setMessage] = React.useState('');
   const [value, setValue] = React.useState(0);
   const [isMessageHidden, setIsMessageHidden] = React.useState(false);
 
   const handleClickOpen = () => {
-    setOpen(true);
+    setLoginModalOpenState(true);
   };
 
   const handleClose = () => {
-    setOpen(false);
+    setLoginModalOpenState(false);
   };
 
   const handleChange = (event, newValue) => {
@@ -83,12 +86,12 @@ const ModalLogin = () => {
       </IconButton>
 
       <Dialog
-        open={open}
+        open={isLoginModalOpen}
         onClose={handleClose}
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >
-        <DialogContent className={classes.modalWindow}>
+        <DialogContent className={commonClasses.modalWindow}>
           <Tabs
             value={value}
             onChange={handleChange}
@@ -131,11 +134,23 @@ const ModalLogin = () => {
               }}/>
             </TabPanel>
           </SwipeableViews>
-
           {isMessageHidden && messageTag}
         </DialogContent>
       </Dialog>
     </ThemeProvider>
   );
 };
-export default React.memo(ModalLogin);
+
+const mapStoreToProps = store => {
+  return {
+    isLoginModalOpen: store.isLoginModalOpen
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setLoginModalOpenState: isOpen => dispatch(setLoginModalOpenState(isOpen))
+  };
+};
+
+export default connect(mapStoreToProps, mapDispatchToProps)(React.memo(ModalLogin));
