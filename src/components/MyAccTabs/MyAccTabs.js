@@ -83,7 +83,7 @@ const MyAccTabs = (props) => {
             <Tab component='span' label='Contact info' {...a11yProps(0)} />
             <Tab component='span' label='Address' {...a11yProps(1)} />
             <Tab component='span' label='Wishlist' {...a11yProps(2)} />
-            <Tab component='span' label='Purchase history' {...a11yProps(3)} />
+            <Tab component='span' label='Orders' {...a11yProps(3)} />
           </Tabs>
         </AppBar>
 
@@ -102,7 +102,8 @@ const MyAccTabs = (props) => {
           <Wishlist />
         </TabPanel>
         <TabPanel value={value} index={3} dir={theme.direction}>
-          Purchase history
+          {/* todo orders list. if order list is empty, show to user link to products */}
+         your orders list
         </TabPanel>
       </ThemeProvider>
     </Box>
