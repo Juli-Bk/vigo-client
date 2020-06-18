@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Grid, useMediaQuery } from '@material-ui/core';
+import React, {useEffect, useState} from 'react';
+import {Container, Grid, useMediaQuery} from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import {connect} from 'react-redux';
+import {withRouter} from 'react-router';
 import AjaxUtils from '../../ajax';
 import useStyles from './ProductsStyles';
 import globalConfig from '../../globalConfig';
 import { defineSortData, makeFilterItem } from '../../helpers/helpers';
-import {getFilterString} from '../../ajax/common/helper';
+// import { getFilterString } from '../../ajax/common/helper';
+
 import ProductGrid from '../../containers/ProductsGrid/ProductsGrid';
 import ProductsList from '../../containers/ProductsList/ProductsList';
 import PaginationRounded from '../../components/Pagination/Pagination';
@@ -32,7 +33,7 @@ const Products = (props) => {
   useEffect(() => {
     let isCanceled = false;
 
-    if (searchString.includes('&')) {
+    if (searchString && searchString.includes('&')) {
       const filterStrings = searchString.split('&');
       // const allFilters = [];
       filterStrings.forEach(string => {

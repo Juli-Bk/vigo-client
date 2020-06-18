@@ -7,10 +7,6 @@ import {IconButton} from '@material-ui/core';
 import useStyles from './SideMenuStyle';
 import {connect} from 'react-redux';
 import {Link} from 'react-router-dom';
-import moment from 'moment';
-
-const twoWeeksAgo = moment().subtract(14, 'days').format('YYYY.MM.DD');
-const currentDate = moment().format('YYYY.MM.DD');
 
 function getRandomInt (min, max) {
   return Math.random() * (max - min) + min;
@@ -20,7 +16,7 @@ const data = [
   {
     id: getRandomInt(50, 100),
     name: 'New in',
-    filter: `minCreatedDate=${twoWeeksAgo}&maxCreatedDate=${currentDate}`
+    filter: 'new=true'
   },
   {
     id: getRandomInt(50, 100),

@@ -20,6 +20,7 @@ import PersonIcon from '@material-ui/icons/Person';
 import EmailIcon from '@material-ui/icons/Email';
 import AjaxUtils from '../../ajax';
 import { setUser } from '../../redux/actions/actions';
+import config from '../../globalConfig';
 
 const PersonalDetailsForm = (props) => {
   const {user, setUser, submitPersDetailsHandler} = props;
@@ -84,8 +85,7 @@ const PersonalDetailsForm = (props) => {
       .max(30, 'Too long!')
       .required('Required.  Write your Last Name please'),
     phoneNumber: Yup.string()
-    // todo replace regExp to config and use it in all places where it`s needed
-      .matches(('^\\+?3?8?(0\\d{9})$'), 'use form +38(097)1112233')
+      .matches(config.phoneNumberRegExp, 'Please, use +38(0XX)XXXXXXX format')
       .required('Required'),
     email: Yup.string()
       .email()

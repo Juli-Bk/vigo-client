@@ -6,7 +6,7 @@ import ProductSlider from '../../components/ProductSlider/ProductSlider';
 import ProductPageView from '../../components/Product/ProductPageView/ProductPageView';
 import LowerTitle from '../../components/LowerTitle/LowerTitle';
 import TabSlider from '../../components/TabsSliders/TabSlider';
-import { changeOrder, getStorageData, setStorageData } from '../../helpers/helpers';
+import {changeOrder, getStorageData, setStorageData} from '../../helpers/helpers';
 import globalConfig from '../../globalConfig';
 
 const useStyles = makeStyles(theme => ({
@@ -48,6 +48,11 @@ const Product = (props) => {
       if (filterArray.length) {
         AjaxUtils.Products.getProductsByFilters(filterArray, 1, 8, '')
           .then(result => {
+            if ((result.products && result.products.length) < dataFromStorage.length) {
+              setSliderData([]);
+              setStorageData('recentlyViewed', [id]);
+              return;
+            }
             console.log(result);
             if (!result.message) {
               const data = changeOrder(dataFromStorage.filter(item => item !== id), result.products);
