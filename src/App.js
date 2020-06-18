@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {StylesProvider, ThemeProvider} from '@material-ui/styles';
 
-import styles from './App.scss';
+import './App.scss';
 import theme from './mainTheme';
 import Footer from './containers/Footer/Footer';
 import AjaxUtils from './ajax';
