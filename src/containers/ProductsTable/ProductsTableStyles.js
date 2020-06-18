@@ -133,6 +133,17 @@ const useStyles = makeStyles(theme => ({
       fontSize: '1.2rem',
       letterSpacing: '.02em'
     }
+  },
+  select: {
+    width: '80%',
+    marginBottom: '1rem',
+    padding: '.4rem 0 .4rem .3rem',
+    borderColor: colors.fontFourth,
+    color: colors.paginationActive,
+    fontSize: '1rem',
+    [theme.breakpoints.up('sm')]: {
+      marginBottom: 0
+    }
   }
 }));
 

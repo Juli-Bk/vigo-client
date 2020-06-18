@@ -45,11 +45,13 @@ export default {
    * @returns {Promise<any | void>} returns Promise. Use then method on it to get response result
    */
   createShopCart: (userId, products) => {
-    checkId(userId);
+    if (userId) checkId(userId);
     if (!products.length) throw new TypeError('empty products list in the cart');
 
     const requestOptions = {
-      headers: getAuthHeader(),
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({
         userId,
         products
@@ -84,7 +86,9 @@ export default {
     }
 
     const requestOptions = {
-      headers: getAuthHeader(),
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(data),
       ...methods.POST
     };
