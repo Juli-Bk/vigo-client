@@ -1,11 +1,10 @@
 import moment from 'moment';
 import store from '../../redux/store';
-import {setJWTtoken, setUser} from '../../redux/actions/actions';
-import {setStorageData} from '../../helpers/helpers';
+import { setJWTtoken, setUser } from '../../redux/actions/actions';
+import { setStorageData } from '../../helpers/helpers';
 
 export const getAuthHeader = () => {
-  const state = store.getState();
-  const token = state.token || getJWTfromCookie();
+  const token = getToken();
 
   if (!token) throw new Error('unauthorized');
 
@@ -13,6 +12,11 @@ export const getAuthHeader = () => {
   myHeaders.append('Authorization', token);
   myHeaders.append('Content-Type', 'application/json');
   return myHeaders;
+};
+
+export const getToken = () => {
+  const state = store.getState();
+  return state.token || getJWTfromCookie();
 };
 
 export const putJWTtoCookie = (loginResponse) => {

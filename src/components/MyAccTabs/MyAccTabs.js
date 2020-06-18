@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const MyAccTabs = () => {
+const MyAccTabs = (props) => {
   const isMobile = useMediaQuery('(max-width: 400px)');
   const classes = useStyles();
   const theme = useTheme();
@@ -57,6 +57,7 @@ const MyAccTabs = () => {
     AjaxUtils.Users.getUser()
       .then(result => {
         setUser(result);
+        console.log(result);
       });
   }, []);
 
@@ -89,13 +90,11 @@ const MyAccTabs = () => {
         <TabPanel value={value} index={0} dir={theme.direction}>
           {user
             ? <PersonalDetailsForm user={user} submitPersonalDetailsHandler={(submit) => {
-              console.log('personal details values', submit);
               handleChange(null, value);
             }}/> : null}
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           <AddressForm submitAddressHandler={(submit) => {
-            console.log('address', submit);
             handleChange(null, value);
           }} />
         </TabPanel>
@@ -103,7 +102,7 @@ const MyAccTabs = () => {
           <Wishlist />
         </TabPanel>
         <TabPanel value={value} index={3} dir={theme.direction}>
-        Purchase history
+          Purchase history
         </TabPanel>
       </ThemeProvider>
     </Box>
