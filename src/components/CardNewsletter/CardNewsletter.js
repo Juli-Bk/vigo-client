@@ -60,7 +60,6 @@ const CardNewsletter = (props) => {
                   onBlur={handleBlur}
                   onChange={handleChange}
                   helperText={(errors.email && touched.email) && errors.email}
-                  size='small'
                 />
               </ThemeProvider>
               <CardActions>

@@ -10,6 +10,10 @@ const useStyles = makeStyles(theme => (
     icon: {
       paddingRight: 15,
       fontSize: 20
+    },
+
+    label: {
+      fontSize: '.7rem'
     }
 
   }
