@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
+import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AutocompleteComponent = (props) => {
-  const {error, touched, name, onBlur, setAddress} = props;
+  const {error, touched, name, onBlur, setAddress, className} = props;
   const classes = useStyles();
   const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState('');
@@ -98,17 +99,19 @@ const AutocompleteComponent = (props) => {
 
     <Autocomplete
       id="googleMap"
-      style={{ width: '100%', textTransform: 'uppercase' }}
       getOptionLabel={(option) => (typeof option === 'string' ? option : option.description)}
       filterOptions={(x) => x}
       options={options}
       autoComplete
+      className={className}
       includeInputInList
       filterSelectedOptions
       size='small'
+      value={value}
       onChange={(event, newValue) => {
         setOptions(newValue ? [newValue, ...options] : options);
         setValue(newValue);
+        // setAddress(newValue);
       }}
 
       onInputChange={(event, newInputValue) => {
@@ -157,4 +160,13 @@ const AutocompleteComponent = (props) => {
     />
   );
 };
+
+AutocompleteComponent.propTypes = {
+  error: PropTypes.object,
+  touched: PropTypes.object,
+  name: PropTypes.string.isRequired,
+  onBlur: PropTypes.func.isRequired,
+  setAddress: PropTypes.func
+};
+
 export default React.memo(AutocompleteComponent);

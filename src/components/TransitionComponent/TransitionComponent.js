@@ -1,5 +1,5 @@
 import {ThemeProvider} from '@material-ui/core';
-import theme from '../CategoryTree/CategoryTreeTheme';
+import theme from '../FiltersTree/FiltersTreeTheme';
 import Collapse from '@material-ui/core/Collapse';
 import PropTypes from 'prop-types';
 import React from 'react';

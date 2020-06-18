@@ -9,36 +9,15 @@ import BannerLineHomePage from '../../components/BannerLineHomePage/BannerLineHo
 import AjaxUtils from '../../ajax';
 import ScrollToTop from '../../components/ScrollToTop/ScrollToTop';
 import { getJWTfromCookie } from '../../ajax/common/helper';
-import globalConfig from '../../globalConfig';
-
-const renderData = {
-  title: 'what\'s new',
-  text: 'Showcasing what the world\'s most stylish people are buying right now',
-  buttonText: 'Take look'
-};
-
-const urls = [
-  {
-    original: globalConfig.baseImgUrl + '/img/top-slider/top_slider_1.jpg'
-  },
-  {
-    original: globalConfig.baseImgUrl + '/img/top-slider/top_slider_2.jpg'
-  },
-  {
-    original: globalConfig.baseImgUrl + '/img/top-slider/top_slider_3.jpg'
-  }
-];
-
-const tabsNames = ['new arrivals', 'featured', 'special'];
 
 const Home = () => {
   const token = getJWTfromCookie();
 
   return (
     <Container>
-      <TopSlider renderData={renderData} imgUrls={urls}/>
+      <TopSlider/>
       <BannerLineHomePage/>
-      <TabsSliders tabsNames={tabsNames}/>
+      <TabsSliders/>
       <Grid container spacing={2} justify="center">
         <Grid item xl={8} lg={8} md={8} sm={8} xs={12}>
           <Bestsellers/>

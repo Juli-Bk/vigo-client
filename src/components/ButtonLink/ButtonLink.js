@@ -2,7 +2,7 @@ import React from 'react';
 import { Button } from '@material-ui/core';
 
 import useStyle from './buttonLinkStyle';
-import { PropTypes } from 'prop-types';
+import PropTypes from 'prop-types';
 
 const ButtonLink = (props) => {
   const classes = useStyle();

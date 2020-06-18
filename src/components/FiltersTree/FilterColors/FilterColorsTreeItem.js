@@ -1,12 +1,12 @@
+import React from 'react';
 import {withStyles} from '@material-ui/core/styles';
-import {colors} from '../../styles/colorKit';
 import {ThemeProvider} from '@material-ui/core';
 import theme from './FilterColorsTheme';
-import TransitionComponent from '../TransitionComponent/TransitionComponent';
+import TransitionComponent from '../../TransitionComponent/TransitionComponent';
 import TreeItem from '@material-ui/lab/TreeItem';
-import React from 'react';
+import { colors } from '../../../styles/colorKit';
 
-const FilterColorsTreeItem = withStyles((theme) => ({
+const FilterColorsTreeItem = withStyles(() => ({
   iconContainer: {
     '& .close': {
       opacity: 0.3
@@ -22,14 +22,6 @@ const FilterColorsTreeItem = withStyles((theme) => ({
     flexDirection: 'row-reverse',
     '$expanded > &': {
       fontWeight: theme.typography.fontWeightRegular
-    }
-  },
-  group: {
-    '& > div > div': {
-      display: 'flex',
-      flexDirection: 'column',
-      height: 350,
-      flexWrap: 'wrap'
     }
   },
   selected: {},
@@ -59,6 +51,14 @@ const FilterColorsTreeItem = withStyles((theme) => ({
     },
     '&$selected:focus > $content $label': {
       backgroundColor: colors.listColor
+    }
+  },
+  group: {
+    '& > div > div': {
+      display: 'flex',
+      flexDirection: 'column',
+      maxHeight: 350,
+      flexWrap: 'wrap'
     }
   }
 }))(

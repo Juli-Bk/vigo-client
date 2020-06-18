@@ -56,3 +56,13 @@ export const changeWishList = (data) => {
 export const setUser = (userData) => {
   return {type: Actions.SET_USER, payload: userData};
 };
+export const setLoginModalOpenState = (isOpen) => {
+  return {type: Actions.IS_LOGIN_MODAL_OPEN, payload: isOpen};
+};
+export const setPersDetailsOpenState = (isOpen) => {
+  return {type: Actions.IS_PERSONAL_DETAILS_MODAL_OPEN, payload: isOpen};
+};
+
+export const setCategoryId = (categoryId) => {
+  return {type: Actions.SET_CATEGORY_ID, payload: categoryId};
+};

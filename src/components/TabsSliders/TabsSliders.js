@@ -6,6 +6,7 @@ import TabSlider from './TabSlider';
 import theme from './TabsSlidersTheme';
 import {colors} from '../../styles/colorKit';
 import AjaxUtils from '../../ajax';
+import globalConfig from '../../globalConfig';
 
 function a11yProps (index) {
   return {
@@ -34,7 +35,7 @@ const useStyles = makeStyles(() => ({
 
 const TabsSliders = (props) => {
   const classes = useStyles();
-  const {width, tabsNames} = props;
+  const {width} = props;
 
   const [newArrivals, setNewArrivals] = useState([]);
   const [featured, setFeatured] = useState([]);
@@ -82,9 +83,8 @@ const TabsSliders = (props) => {
             orientation={orientation}
             onChange={handleChange}
             aria-label="tabs-for-sliders">
-            {tabsNames.map((name, index) => {
-              return (<Tab label={name} {...a11yProps(index)} key={index}
-                disableRipple={true} className={classes.tab}/>);
+            {globalConfig.tabsSliderNames.map((name, index) => {
+              return (<Tab label={name} {...a11yProps(index)} key={index} disableRipple={true} className={classes.tab}/>);
             })}
           </Tabs>
         </Box>

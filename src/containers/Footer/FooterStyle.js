@@ -4,6 +4,7 @@ import {fonts} from '../../styles/fonts/fontsKit';
 
 const useStyles = makeStyles(theme => ({
   footer: {
+    marginTop: '4rem',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
@@ -18,6 +19,8 @@ const useStyles = makeStyles(theme => ({
     position: 'relative',
     color: colors.paginationColor,
     cursor: 'pointer',
+    textDecoration: 'none',
+    textTransform: 'capitalize',
     '&:after': {
       display: 'block',
       position: 'absolute',

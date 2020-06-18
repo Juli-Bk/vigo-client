@@ -41,6 +41,10 @@ const ProductPageView = (props) => {
       <Divider orientation='horizontal' className={classes.divider}/>
       <ProductRating value={rating || 4} classes={classes.rating}/>
       <Divider orientation='horizontal' className={classes.divider}/>
+      <Box className={classes.pricesBox}>
+        {price > salePrice ? <Price value={price}/> : null}
+        <SalePrice value={salePrice}/>
+      </Box>
       <Box className={classes.productInfo}>
         <Typography variant='body2' gutterBottom>Brand: <span
           className={classes.brand}>{brandId.name}</span></Typography>
@@ -62,10 +66,6 @@ const ProductPageView = (props) => {
           options={mapArrayToOptions(makeNumbersArray(productQuantity))}/>
       </Box>
       <Box className={classes.actionBox}>
-        <Box className={classes.pricesBox}>
-          {price > salePrice ? <Price value={price}/> : null}
-          <SalePrice value={salePrice}/>
-        </Box>
         <ThemeProvider theme={theme}>
           <ActionButtons classes={classes}
             product={productData}

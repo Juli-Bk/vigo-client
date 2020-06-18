@@ -17,6 +17,7 @@ export const getMenuLink = (item, index, className) => {
     className={className}
     key={item.id}
     href={href}
+    categoryId={item.id}
     {...applyProps(item, index)}
   />;
 };

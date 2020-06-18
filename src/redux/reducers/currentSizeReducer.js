@@ -1,8 +1,12 @@
 import Actions from '../constants/constants';
 
-const reducer = (state = 'Select Size', action) => {
+const reducer = (state = [], action) => {
   if (action.type === Actions.SET_CHOSEN_SIZE) {
-    return action.payload;
+    if (state.includes(action.payload)) {
+      return state.filter(item => item !== action.payload) || [];
+    } else {
+      return [...state, action.payload];
+    }
   }
   return state;
 };

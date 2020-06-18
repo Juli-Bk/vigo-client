@@ -17,47 +17,52 @@ import theme from './PersonalDetailsTheme';
 import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
 import IconLabel from '../IconLabel/IconLabel';
 import PersonIcon from '@material-ui/icons/Person';
-import LockIcon from '@material-ui/icons/Lock';
-import EnhancedEncryptionRoundedIcon from '@material-ui/icons/EnhancedEncryptionRounded';
 import EmailIcon from '@material-ui/icons/Email';
 import AjaxUtils from '../../ajax';
 import { setUser } from '../../redux/actions/actions';
 import config from '../../globalConfig';
 
 const PersonalDetailsForm = (props) => {
-  const {user, setUser, submitPersonalDetailsHandler} = props;
+  const {user, setUser, submitPersDetailsHandler} = props;
   const {firstName, lastName, email, phoneNumber} = user;
+
+  const handleCancel = () => {
+    submitPersDetailsHandler({});
+  };
 
   const submitPersonalDetailsData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
-    // todo delete console.log() after all forms is working
-    console.log('dataFromValues', values);
 
-    const data = {
-      firstName: values.firstName,
-      lastName: values.lastName,
-      phoneNumber: values.phoneNumber,
-      email: values.email
-    };
+    if (user) {
+      const data = {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        phoneNumber: values.phoneNumber,
+        email: values.email
+      };
 
-    AjaxUtils.Users.updateUserInfoById(user._id, data)
-      .then(result => {
-        if (result) {
-          setUser(result);
-        }
-      });
-    if (values.subscribe === true) {
-      AjaxUtils.Subscribers.subscribe(values.email)
+      AjaxUtils.Users.updateUserInfoById(user._id, data)
         .then(result => {
-          // todo message to user
-          console.log('You will be informed by our best offers by email', result);
+          setSubmitting(false);
+          if (result.status !== 400) {
+            resetForm();
+          } else {
+            submitPersDetailsHandler(result);
+            setUser(result);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+          setSubmitting(false);
+          submitPersDetailsHandler(values, error);
         });
+    } else {
+      submitPersDetailsHandler(values);
     }
-    submitPersonalDetailsHandler(values, () => {
-      setSubmitting(false);
-      resetForm();
-    });
-    // todo message to user 'Your data is successfully updated/saved'
+
+    if (values.subscribe === true) {
+      AjaxUtils.Subscribers.subscribe(values.email);
+    }
   };
 
   const initFormValues = {
@@ -65,8 +70,6 @@ const PersonalDetailsForm = (props) => {
     lastName: user ? lastName : '',
     phoneNumber: user ? phoneNumber : '',
     email: user ? email : '',
-    password: '',
-    confirmPassword: '',
     confirmation: false,
     subscribe: false,
     saveMyData: true
@@ -87,13 +90,6 @@ const PersonalDetailsForm = (props) => {
     email: Yup.string()
       .email()
       .required('Required'),
-    password: Yup.string()
-      .required('No password provided.')
-      .min(8, 'Password is too short - should be 8 chars minimum.')
-      .required('Required'),
-    confirmPassword: Yup.string()
-      .required('Confirm your password')
-      .oneOf([Yup.ref('password')], 'Password does not match'),
     subscribe: Yup.bool(),
     confirmation: Yup.bool()
       .oneOf([true], 'You must agree to The Privacy Policy')
@@ -103,7 +99,7 @@ const PersonalDetailsForm = (props) => {
 
   return (
     <Grid container>
-      <Grid item xs={12} sm={6}>
+      <Grid item xs={12}>
         <Typography className={styles.header} variant='h6' gutterBottom>your personal details</Typography>
         <Formik
           initialValues={initFormValues}
@@ -176,35 +172,6 @@ const PersonalDetailsForm = (props) => {
                   size='small'
                   fullWidth
                 />
-                <TextField
-                  autoComplete='on'
-                  name='password'
-                  className={styles.input}
-                  label={<IconLabel label='Enter your password' Component={LockIcon}/>}
-                  type='password'
-                  value={values.password}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  fullWidth variant='outlined'
-                  helperText={touched.password ? errors.password : ''}
-                  error={touched.password && Boolean(errors.password)}
-                  size='small'
-                />
-                <TextField
-                  autoComplete='on'
-                  name='confirmPassword'
-                  className={styles.input}
-                  label={<IconLabel label='Confirm your password' Component={EnhancedEncryptionRoundedIcon}/>}
-                  type='password'
-                  value={values.confirmPassword}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  helperText={touched.confirmPassword ? errors.confirmPassword : ''}
-                  error={touched.confirmPassword && Boolean(errors.confirmPassword)}
-                  variant='outlined'
-                  size='small'
-                  fullWidth
-                />
                 <FormGroup
                   name='saveMyData'
                   column='true'>
@@ -223,33 +190,39 @@ const PersonalDetailsForm = (props) => {
                     label='I have read and agree to the Privacy Policy'
                   />
                   {touched.confirmation && errors.confirmation &&
-                              <FormHelperText
-                                error={touched.confirmation && !!errors.confirmation}>
-                                {errors.confirmation}
-                              </FormHelperText>}
+                  <FormHelperText
+                    error={touched.confirmation && !!errors.confirmation}>
+                    {errors.confirmation}
+                  </FormHelperText>}
                 </FormGroup>
               </ThemeProvider>
               <CardActions>
+                <Button
+                  type='button'
+                  className={styles.button}
+                  onClick={handleCancel}
+                  size='large'
+                  variant='outlined'>cancel
+                </Button>
                 <Button
                   type='submit'
                   className={styles.button}
                   onClick={handleSubmit}
                   disabled={isSubmitting}
                   size='large'
-                  variant='outlined'>Continue
+                  variant='outlined'>Save
                 </Button>
               </CardActions>
             </form>
           )}
         </Formik>
       </Grid>
-      <Grid item xs={12} sm={6}> </Grid>
     </Grid>
   );
 };
 
 PersonalDetailsForm.propTypes = {
-  submitPersonalDetailsHandler: PropTypes.func.isRequired
+  submitPersDetailsHandler: PropTypes.func
 };
 
 const mapDispatchToProps = dispatch => {
