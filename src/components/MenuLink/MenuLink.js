@@ -1,4 +1,4 @@
-import {toggleMenuOpen} from '../../redux/actions/actions';
+import { setCategoryId, toggleMenuOpen } from '../../redux/actions/actions';
 import {connect} from 'react-redux';
 import React, {useCallback} from 'react';
 import Tab from '@material-ui/core/Tab';
@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import {withRouter} from 'react-router';
 
 const MenuLink = (props) => {
-  const {history, href, staticContext, toggleMenuOpen, ...rest} = props;
+  const {history, href, setCategoryId, categoryId, staticContext, toggleMenuOpen, ...rest} = props;
 
   const handleHover = useCallback((event) => {
     event.isSimulated = true;
@@ -20,6 +20,7 @@ const MenuLink = (props) => {
         event.preventDefault();
         if (event.isSimulated !== undefined) {
           history.push(href);
+          setCategoryId(categoryId);
           toggleMenuOpen(false);
         }
       }}
@@ -37,7 +38,8 @@ MenuLink.propTypes = {
 
 const mapDispatchToProps = dispatch => {
   return {
-    toggleMenuOpen: isOpen => dispatch(toggleMenuOpen(isOpen))
+    toggleMenuOpen: isOpen => dispatch(toggleMenuOpen(isOpen)),
+    setCategoryId: categoryId => dispatch(setCategoryId(categoryId))
   };
 };
 

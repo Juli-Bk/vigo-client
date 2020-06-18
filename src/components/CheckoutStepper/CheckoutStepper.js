@@ -141,8 +141,10 @@ const CheckoutStepper = (props) => {
           // todo open modal window to login again
         });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
+    return () => {
+      isCanceled = true;
+    };
+  }, [classes.link, token]);
 
   const handleNext = useCallback(() => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);

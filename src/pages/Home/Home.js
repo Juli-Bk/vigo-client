@@ -35,9 +35,9 @@ const Home = () => {
 
   return (
     <Container>
-      <TopSlider renderData={renderData} imgUrls={urls}/>
+      <TopSlider/>
       <BannerLineHomePage/>
-      <TabsSliders tabsNames={tabsNames}/>
+      <TabsSliders/>
       <Grid container spacing={2} justify="center">
         <Grid item xl={8} lg={8} md={8} sm={8} xs={12}>
           <Bestsellers/>
