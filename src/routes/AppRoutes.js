@@ -15,6 +15,8 @@ import { getJWTfromCookie } from '../ajax/common/helper';
 import PrivacyPolicy from '../pages/PrivacyPolicy/PrivacyPolicy';
 import Returns from '../pages/Returns/Returns';
 import Shipping from '../pages/Shipping/Shipping';
+import store from './../redux/store';
+import {setLoginModalOpenState} from '../redux/actions/actions';
 
 const AppRoutes = () => {
   return (
@@ -58,8 +60,7 @@ const ProtectedRoute = (props) => {
           return <Component {...renderProps} />;
         }
       }
-      // todo add open modal window for login
-      return <Redirect to='/login'/>;
+      store.dispatch(setLoginModalOpenState(true));
     }}
     />
   );

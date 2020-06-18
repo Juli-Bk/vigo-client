@@ -45,11 +45,13 @@ export default {
    * @returns {Promise<any | void>} returns Promise. Use then method on it to get response result
    */
   createShopCart: (userId, products) => {
-    checkId(userId);
+    if (userId) checkId(userId);
     if (!products.length) throw new TypeError('empty products list in the cart');
 
     const requestOptions = {
-      headers: getAuthHeader(),
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({
         userId,
         products
@@ -60,15 +62,6 @@ export default {
     return fetch(pathTo.cart, requestOptions)
       .then(response => response.json())
       .catch(error => console.log('createShopCart error', error.message));
-    /**
-     * Updates shop cart data by id.
-     * @param id {GUID} required. shop cart id
-     * @param products {Array} product list in shop cart
-     * @param userId {GUID} user id - optional. might be changed
-     *                      if user decide to register,
-     *                      but shop cart was created for user before as anonymous
-     * @returns {Promise<any | void>} returns Promise. Use then method on it to get response result
-     */
   },
   /**
    * Updates shop cart data by id
@@ -93,7 +86,9 @@ export default {
     }
 
     const requestOptions = {
-      headers: getAuthHeader(),
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(data),
       ...methods.POST
     };

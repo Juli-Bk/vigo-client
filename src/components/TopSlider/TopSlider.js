@@ -48,4 +48,4 @@ const TopSlider = () => {
   );
 };
 
-export default TopSlider;
+export default React.memo(TopSlider);

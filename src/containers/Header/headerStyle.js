@@ -28,12 +28,6 @@ const blockStyle = {
 };
 
 const useStyles = makeStyles(theme => ({
-  modalWindow: {
-    width: 500,
-    [theme.breakpoints.between(0, 500)]: {
-      width: '90%'
-    }
-  },
   gridContainer: {
     marginBottom: 30
   },

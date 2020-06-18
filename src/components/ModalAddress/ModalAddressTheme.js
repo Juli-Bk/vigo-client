@@ -11,6 +11,10 @@ const theme = createMuiTheme({
         '&:hover': {
           border: 'none'
         }
+      },
+      root: {
+        color: colors.fontOncard,
+        backgroundColor: colors.fontSixth
       }
     },
     PrivateTabIndicator: {
@@ -25,6 +29,18 @@ const theme = createMuiTheme({
         '&:hover': {
           color: colors.noticeColor
         }
+      }
+    },
+    MuiDialogActions: {
+      root: {
+        border: '.125rem solid black',
+        borderRadius: 4,
+        padding: 3,
+        position: 'absolute',
+        fontFamily: fonts.f3,
+        maxWidth: 'fit-content',
+        right: 30,
+        bottom: 16
       }
     }
   }
