@@ -4,9 +4,9 @@ import { colors } from '../../styles/colorKit';
 const theme = createMuiTheme({
   overrides: {
     MuiOutlinedInput: {
-      // input: {
-      //   paddingBottom: 10
-      // }
+      input: {
+        paddingBottom: 10
+      }
     },
     MuiFormLabel: {
       root: {

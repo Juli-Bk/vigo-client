@@ -10,7 +10,7 @@ const IconLabel = (props) => {
   return (
     <Box className={styles.formIcon} >
       <Component className={styles.icon}/>
-      <Typography className={styles.label}>{label}</Typography>
+      <Typography>{label}</Typography>
     </Box>
   );
 };
