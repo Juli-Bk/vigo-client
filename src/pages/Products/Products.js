@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Grid, useMediaQuery } from '@material-ui/core';
+import React, {useEffect, useState} from 'react';
+import {Container, Grid, useMediaQuery} from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import {connect} from 'react-redux';
+import {withRouter} from 'react-router';
 import AjaxUtils from '../../ajax';
 import useStyles from './ProductsStyles';
 import globalConfig from '../../globalConfig';
@@ -27,12 +27,12 @@ const Products = (props) => {
   const [maxProductsPrice, setMaxProductsPrice] = useState(0);
 
   const filtersArray = [{minPrice: priceRange[0]}, {maxPrice: priceRange[1]}, {color: colors}, {size: size}];
-  const searchString = location.search.split('?')[1];
+  const searchString = location.search ? location.search.split('?')[1] : '';
 
   useEffect(() => {
     let isCanceled = false;
 
-    if (searchString.includes('&')) {
+    if (searchString && searchString.includes('&')) {
       const filterStrings = searchString.split('&');
       const allFilters = [];
       filterStrings.forEach(string => {
