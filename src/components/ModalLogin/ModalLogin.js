@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import Tabs from '@material-ui/core/Tabs';
@@ -46,9 +46,9 @@ function TabPanel (props) {
 const ModalLogin = ({isLoginModalOpen, setLoginModalOpenState}) => {
   const classes = useStyles();
   const commonClasses = useCommonStyles();
-  const [message, setMessage] = React.useState('');
-  const [value, setValue] = React.useState(0);
-  const [isMessageHidden, setIsMessageHidden] = React.useState(false);
+  const [message, setMessage] = useState('');
+  const [value, setValue] = useState(0);
+  const [isMessageHidden, setIsMessageHidden] = useState(false);
 
   const handleClickOpen = () => {
     setLoginModalOpenState(true);

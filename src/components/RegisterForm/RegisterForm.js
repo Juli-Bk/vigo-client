@@ -14,6 +14,9 @@ import AjaxUtils from '../../ajax';
 
 const RegisterForm = (props) => {
   const {submitRegisterHandler} = props;
+  const handleCancel = () => {
+    submitRegisterHandler({});
+  };
   const submitRegisterData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
 
@@ -142,6 +145,13 @@ const RegisterForm = (props) => {
               </ThemeProvider>
               {/* todo save user password in browser */}
               <CardActions>
+                <Button
+                  type='button'
+                  className={styles.button}
+                  onClick={handleCancel}
+                  size='large'
+                  variant='outlined'>cancel
+                </Button>
                 <Button
                   type='submit'
                   className={styles.button}

@@ -6,7 +6,6 @@ import Button from '@material-ui/core/Button';
 import AddressForm from './AddressForm';
 import Adapter from 'enzyme-adapter-react-16';
 import store from '../../redux/store';
-import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 
 configure({adapter: new Adapter()});

@@ -85,7 +85,7 @@ const NovaPoshtaCity = (props) => {
                   renderInput={(params) =>
                     <TextField {...params}
                       autoComplete='false'
-                      // name='city'
+                      name='city'
                       className={styles.input}
                       value=""
                       onBlur={handleBlur}

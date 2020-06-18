@@ -30,8 +30,6 @@ const urls = [
 
 const tabsNames = ['new arrivals', 'featured', 'special'];
 
-
-
 const Home = () => {
   const token = getJWTfromCookie();
 

@@ -59,7 +59,6 @@ const CheckoutStepper = (props) => {
 
   // todo write handler on new Customer form
   const onSubmitCallback = (values, callback) => {
-    console.log('newCustomerForm', values);
     callback();
     if (values.radioGroup === 'iWillRegister') {
       setLoginModalOpenState(true);

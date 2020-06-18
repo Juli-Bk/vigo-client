@@ -7,8 +7,6 @@ import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import store from '../../redux/store';
 import Sort from '../Sort/Sort';
-import AddressForm from '../AddressForm/AddressForm';
-import { BrowserRouter } from 'react-router-dom';
 
 configure({adapter: new Adapter()});
 const deliveryOptions = {

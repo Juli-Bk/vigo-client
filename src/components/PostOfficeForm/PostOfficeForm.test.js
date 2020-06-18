@@ -51,11 +51,6 @@ describe('PostOffice Form with all expected props', () => {
     expect(wrapper.find('input[name="npOffice"]')).toBeTruthy();
   });
 
-  it('Should update Nova poshta office input on change', () => {
-    updateField(wrapper.find('input[name="npOffice"]'), 'npOffice', validNpOffice);
-    expect(wrapper.find('input[name="npOffice"]').props().value).toEqual(validNpOffice);
-  });
-
   it('Should trigger submit on submit clicked with valid form', async () => {
     updateField(wrapper.find('input[name="npOffice"]'), '', validNpOffice);
 
