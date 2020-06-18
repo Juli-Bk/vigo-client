@@ -53,12 +53,14 @@ const Products = (props) => {
         });
       AjaxUtils.Products.getProductsByFilters(filtersArray, currentPage, perPage, `${defineSortData(sortingOption)}`)
         .then(result => {
-          setProducts(result.products);
-          setTotal(result.totalCount);
+          if (result) {
+            setProducts(result.products);
+            setTotal(result.totalCount);
+          }
         });
       // todo url string with all filters
-      history.push(`filter?${getFilterString(filtersArray, defineSortData(sortingOption))}`);
-      console.log(getFilterString(filtersArray, defineSortData(sortingOption)));
+      // history.push(`filter?${getFilterString(filtersArray, defineSortData(sortingOption))}`);
+      // console.log(getFilterString(filtersArray, defineSortData(sortingOption)));
     }
     return () => {
       isCanceled = true;

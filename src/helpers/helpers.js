@@ -95,7 +95,7 @@ export const changeOrder = (arrayOfId, arrayOfObjects) => {
       if (product) {
         newObjectsArray.push(product);
       } else {
-        setStorageData('recentlyViewed', [...arrayOfId.filter(item => item === id)]);
+        setStorageData('recentlyViewed', [...arrayOfId.filter(item => item !== id)]);
       }
     });
   }

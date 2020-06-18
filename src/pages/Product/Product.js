@@ -30,11 +30,10 @@ const Product = (props) => {
   const [sliderData, setSliderData] = useState(null);
   const [productInStock, setProductInStock] = useState({});
 
-  const dataFromStorage = getStorageData('recentlyViewed');
-  const filterArray = dataFromStorage.length ? [{_id: dataFromStorage}] : [];
-
   useEffect(() => {
     let isCanceled = false;
+    const dataFromStorage = getStorageData('recentlyViewed');
+    const filterArray = dataFromStorage.length ? [{_id: dataFromStorage}] : [];
 
     if (!isCanceled) {
       AjaxUtils.Products.getProductById(id)
@@ -49,8 +48,18 @@ const Product = (props) => {
       if (filterArray.length) {
         AjaxUtils.Products.getProductsByFilters(filterArray, 1, 8, '')
           .then(result => {
-            const data = changeOrder(dataFromStorage.filter(item => item !== id), result.products);
-            if (data.length) setSliderData(data);
+            console.log(result);
+            if (!result.message) {
+              const data = changeOrder(dataFromStorage.filter(item => item !== id), result.products);
+              if (data.length) setSliderData(data);
+            } else {
+              const message = result.message;
+              let wrongId = '';
+              if (message.includes('_id')) {
+                wrongId = message.split('/')[1];
+              }
+              setStorageData('recentlyViewed', [...dataFromStorage.filter(item => item !== wrongId)]);
+            }
           });
       }
     }
