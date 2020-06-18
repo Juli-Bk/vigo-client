@@ -16,7 +16,7 @@ import AjaxUtils from '../../ajax';
 import {colors} from '../../styles/colorKit';
 
 const TabPanel = (props) => {
-  const { children, value, index, ...other } = props;
+  const { user, children, value, index, ...other } = props;
 
   return (
     <Box
@@ -121,7 +121,8 @@ const MyAccTabs = (props) => {
           <Wishlist />
         </TabPanel>
         <TabPanel value={value} index={3} dir={theme.direction}>
-          Purchase history
+          {/* todo orders list. if order list is empty, show to user link to products */}
+         your orders list
         </TabPanel>
       </ThemeProvider>
     </Box>
