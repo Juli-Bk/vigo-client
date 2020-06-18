@@ -37,11 +37,15 @@ const Footer = () => {
               <ListItem>United Kingdom</ListItem>
               <ListItem>London 02587 </ListItem>
               <ListItem>Oxford Street 48/188</ListItem>
+            </Box>
+          </Grid>
+          <Grid item className={styles.gridItem} xs={12} sm={6} md={3}>
+            <Box className={styles.box}>
+              <Typography className={styles.title} variant='subtitle1' gutterBottom>Our schedule</Typography>
               <ListItem>Working days: Mon. - Sun.</ListItem>
               <ListItem>Working hours: 9 AM - 8 PM</ListItem>
             </Box>
           </Grid>
-
           <Grid item xs={12}>
             <Box m={5}>
               <Typography className={styles.footerSocial} variant='body2' gutterBottom>© 2012 Powered by WooCommerce™. All Rights Reserved.</Typography>
