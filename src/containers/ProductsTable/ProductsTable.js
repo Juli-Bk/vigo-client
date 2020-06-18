@@ -42,7 +42,6 @@ const ProductsTable = (props) => {
   const classes = useStyles();
   const [chosenQuantity, setChosenQuantity] = useState({});
 
-
   useEffect(() => {
     products.forEach(product => {
       AjaxUtils.Quantity.getQuantityByProductId(product._id)
@@ -115,6 +114,7 @@ const ProductsTable = (props) => {
                   : <>
                     <TableCell align="center" className={classes.tableHead}>Price</TableCell>
                     <TableCell align="center" className={classes.tableHead}>Sale price</TableCell>
+                <TableCell align="center" className={classes.tableHead}>Delete</TableCell>
                   </>
                 }
                 <TableCell align="center" className={classes.tableHead}>
