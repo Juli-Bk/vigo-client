@@ -47,7 +47,7 @@ const AddressForm = (props) => {
       setSubmitting(false);
       resetForm();
     });
-    AjaxUtils.Users.updateUserInfoById(setUser._id, addresses)
+    AjaxUtils.Users.updateUserInfoById(setUser, addresses)
       .then(result => {
         setSubmitting(false);
         if (result.status !== 400) {

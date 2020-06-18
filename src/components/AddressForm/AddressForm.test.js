@@ -66,7 +66,7 @@ describe('AddressForm with all expected props', () => {
     updateField(wrapper.find('input[name="postalCode"]'), 'postalCode', validPostCode);
     expect(wrapper.find('input[name="postalCode"]').props().value).toEqual(validPostCode);
   });
-
+  // todo 3 tests after making AddressForm work
   xit('Should trigger submit on submit clicked with valid form', async () => {
     updateField(wrapper.find('input[name="house"]'), 'house', validBuilding);
     updateField(wrapper.find('input[name="apartment"]'), 'apartment', validAppart);
