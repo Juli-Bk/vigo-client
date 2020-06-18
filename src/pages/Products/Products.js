@@ -6,8 +6,7 @@ import { withRouter } from 'react-router';
 import AjaxUtils from '../../ajax';
 import useStyles from './ProductsStyles';
 import globalConfig from '../../globalConfig';
-import { defineSortData, makeFilterItem } from '../../helpers/helpers';
-import { getFilterString } from '../../ajax/common/helper';
+import { defineSortData, makeFilterItem, getFilterString } from '../../helpers/helpers';
 
 import ProductGrid from '../../containers/ProductsGrid/ProductsGrid';
 import ProductsList from '../../containers/ProductsList/ProductsList';
@@ -60,7 +59,7 @@ const Products = (props) => {
         });
       // todo url string with all filters
       // history.push(`filter?${getFilterString(filtersArray, defineSortData(sortingOption))}`);
-      // console.log(getFilterString(filtersArray, defineSortData(sortingOption)));
+      console.log(getFilterString(filtersArray, defineSortData(sortingOption)));
     }
     return () => {
       isCanceled = true;

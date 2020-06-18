@@ -1,5 +1,5 @@
 import React from 'react';
-import {getUserIdFromCookie} from '../ajax/common/helper';
+import { getQueryString, getUserIdFromCookie } from '../ajax/common/helper';
 import AjaxUtils from '../ajax';
 import globalConfig from '../globalConfig';
 
@@ -226,4 +226,16 @@ export const makeFilterItem = (string) => {
   const key = filterString[0];
   const value = filterString[1];
   return {[key]: value};
+};
+
+export const getFilterString = (filterArray = [], sortingData) => {
+  const queryString = getQueryString(sortingData);
+  console.log(filterArray);
+  const filterString = filterArray.map(filter => {
+    Object.keys(filter).map(key => `${key}=${filter[key]}`);
+  }).join('&');
+
+  return filterString.length
+    ? filterString + '&' + queryString
+    : queryString;
 };
