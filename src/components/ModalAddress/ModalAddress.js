@@ -7,7 +7,6 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import theme from './ModalAddressTheme';
 import AddressForm from '../AddressForm/AddressForm';
 import useStyles from '../../containers/Header/headerStyle';
-
 import Box from '@material-ui/core/Box';
 import { ThemeProvider } from '@material-ui/styles';
 import { setUser } from '../../redux/actions/actions';

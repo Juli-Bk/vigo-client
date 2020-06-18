@@ -22,7 +22,7 @@ import globalConfig from '../../globalConfig';
 const ProductsTable = (props) => {
   // todo quantity and reducer for shopping cart
   // eslint-disable-next-line no-unused-vars
-  const { isMobile, products, wishList, changeWishList, currentQuantity, setCurrentQuantity, isShoppingCart } = props;
+  const { isMobile, products, wishList, changeWishList, isShoppingCart } = props;
   const classes = useStyles();
 
   const deleteFromWishList = (id) => {
@@ -63,9 +63,7 @@ const ProductsTable = (props) => {
                 <TableCell align="center" className={classes.tableHead}>Product code</TableCell>
                 <TableCell align="center" className={classes.tableHead}>Price</TableCell>
                 <TableCell align="center" className={classes.tableHead}>Sale price</TableCell>
-                <TableCell align="center" className={classes.tableHead}>
-                  <CloseIcon className={classes.closeBtn}/>
-                </TableCell>
+                <TableCell align="center" className={classes.tableHead}>Delete</TableCell>
               </TableRow> }
           </TableHead>
           <TableBody>

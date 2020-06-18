@@ -28,7 +28,7 @@ const theme = createMuiTheme({
     },
     MuiDialogActions: {
       root: {
-        border: '.125rem solid #555555',
+        border: '.125rem solid black',
         borderRadius: 4,
         padding: 3,
         position: 'absolute',

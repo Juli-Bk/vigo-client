@@ -23,8 +23,6 @@ const NovaPoshtaCity = (props) => {
   const submitNovaPoshtaData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
 
-    console.log('novaposhta', values);
-
     submitNovaPoshtaHandler(values, () => {
       setSubmitting(false);
       resetForm();
@@ -64,7 +62,8 @@ const NovaPoshtaCity = (props) => {
               handleSubmit,
               values,
               errors,
-              touched
+              touched,
+              onChange
             }) => (
               <form>
                 <Autocomplete
