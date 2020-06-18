@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import moment from 'moment';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import { Box, makeStyles, Tab, Tabs, ThemeProvider, withWidth } from '@material-ui/core';
+import {Box, makeStyles, Tab, Tabs, ThemeProvider, withWidth} from '@material-ui/core';
 import TabPanel from './TabPanel';
 import TabSlider from './TabSlider';
 import theme from './TabsSlidersTheme';
-import { colors } from '../../styles/colorKit';
+import {colors} from '../../styles/colorKit';
 import AjaxUtils from '../../ajax';
 import globalConfig from '../../globalConfig';
 
@@ -16,7 +15,7 @@ function a11yProps (index) {
   };
 }
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles(() => ({
   root: {
     flexGrow: 1
   },
@@ -45,21 +44,24 @@ const TabsSliders = (props) => {
 
   useEffect(() => {
     let isCanceled = false;
-    const twoWeeksAgo = moment().subtract(14, 'days').format('YYYY.MM.DD');
-    const currentDate = moment().format('YYYY.MM.DD');
-
     if (!isCanceled) {
-      AjaxUtils.Products.getProductsByFilters([{minCreatedDate: twoWeeksAgo}, {maxCreatedDate: currentDate}], 1, 15, '')
+      AjaxUtils.Products
+        .getProductsByFilters([{new: true}], 1, 15, '')
         .then(result => {
-          setNewArrivals(result.products);
+          const newIn = result && result.products ? result.products : [];
+          setNewArrivals(newIn);
         });
-      AjaxUtils.Products.getProductsByFilters([{featured: true}], 1, 15, '')
+      AjaxUtils.Products
+        .getProductsByFilters([{featured: true}], 1, 15, '')
         .then(result => {
-          setFeatured(result.products);
+          const featured = result && result.products ? result.products : [];
+          setFeatured(featured);
         });
-      AjaxUtils.Products.getProductsByFilters([{special: true}], 1, 15, '')
+      AjaxUtils.Products
+        .getProductsByFilters([{special: true}], 1, 15, '')
         .then(result => {
-          setSpecial(result.products);
+          const specials = result && result.products ? result.products : [];
+          setSpecial(specials);
         });
     }
     return () => {
