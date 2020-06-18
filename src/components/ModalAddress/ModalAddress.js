@@ -41,16 +41,10 @@ const ModalAddress = (props) => {
           <DialogContent component='span' className={classes.modalWindow}>
             <DialogContentText component='span' id="alert-dialog-description">
               <Card component='span'>
-                <AddressForm user={user}/>
+                <AddressForm component='span' user={user}/>
               </Card>
             </DialogContentText>
           </DialogContent>
-
-          <DialogActions>
-            <Button onClick={handleClose} autoFocus>
-            Next
-            </Button>
-          </DialogActions>
         </Dialog>
       </Box>
     </ThemeProvider>

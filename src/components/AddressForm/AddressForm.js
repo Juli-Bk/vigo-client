@@ -189,7 +189,7 @@ const AddressForm = (props) => {
 };
 
 AddressForm.propTypes = {
-  submitAddressHandler: PropTypes.func.isRequired
+  submitAddressHandler: PropTypes.func
 };
 const mapDispatchToProps = dispatch => {
   return {
