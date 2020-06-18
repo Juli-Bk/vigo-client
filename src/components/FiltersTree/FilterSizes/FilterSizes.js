@@ -39,7 +39,7 @@ const FilterSizes = (props) => {
     const labelNames = new Set();
     if (renderOption !== globalConfig.sizeRenderOptions.ALL) {
       if (renderOption === globalConfig.sizeRenderOptions.ACCESSORIES) {
-        const accessories = categories.plainList.filter(category => category.parentId && category.parentId.name === renderOption);
+        const accessories = categories.plainList && categories.plainList.filter(category => category.parentId && category.parentId.name === renderOption);
         sizes.forEach(size => {
           if (accessories.find(object => object.name === size.sizeType)) labelNames.add(size.name);
         });
@@ -50,7 +50,7 @@ const FilterSizes = (props) => {
         });
       }
     } else {
-      sizeNames.sort(function (a, b) {
+      sizeNames.sort((a, b) => {
         return a - b;
       }).forEach(name => labelNames.add(name));
     }

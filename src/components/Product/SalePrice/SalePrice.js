@@ -13,7 +13,8 @@ const font = {
 
 const useStyles = makeStyles(theme => ({
   salePrice: {
-    ...font,
+    color: colors.fontPrice,
+    fontWeight: 'bold',
     fontSize: '1rem',
     [theme.breakpoints.up(1280)]: {
       fontSize: '1.2rem',
@@ -21,7 +22,8 @@ const useStyles = makeStyles(theme => ({
     }
   },
   unitPrice: {
-    ...font,
+    color: colors.fontPrice,
+    fontWeight: 'bold',
     fontFamily: fonts.f1,
     fontSize: '1.5rem',
     [theme.breakpoints.up(1280)]: {
@@ -33,8 +35,8 @@ const useStyles = makeStyles(theme => ({
 );
 
 const SalePrice = (props) => {
-  const classes = useStyles();
   const {value, isUnitPrice} = props;
+  const classes = useStyles();
 
   return <Typography
     variant='caption'

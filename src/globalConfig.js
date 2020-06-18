@@ -46,7 +46,8 @@ const globalConfig = {
     ZYTOMYR: 'Zhytomyr, Zhytomyr region'
   },
   maxRecentlyViewed: 8,
-  emptyWishList: 'You don`t have any items in your wishlist',
+  emptyWishList: 'You don`t have any items in your Wishlist',
+  emptyCart: 'You don`t have any items in your Shopping Cart',
   iconsLabels: {
     ADD_TO_WISHLIST: 'ADD TO WISHLIST',
     ADD_TO_COMPARE: 'ADD TO COMPARE'
@@ -59,7 +60,8 @@ const globalConfig = {
   step: 15,
   defaultQuantity: 1,
   userMessages: {
-    NOT_AUTHORIZED: 'You are not authorized. Login, please'
+    NOT_AUTHORIZED: 'You are not authorized. Login, please',
+    EMPTY_RESULT: 'Any results matching your search'
   },
   types: {
     // eslint-disable-next-line
