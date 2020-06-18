@@ -142,7 +142,6 @@ const CheckoutStepper = (props) => {
         });
     }
     return () => {
-      isCanceled = true;
     };
   }, [classes.link, token]);
 

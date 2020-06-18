@@ -32,7 +32,7 @@ export const rootReducer = combineReducers({
   wishList,
   user,
   colors,
-  categoryId
+  categoryId,
   isLoginModalOpen,
   isPersDetailsModalOpen
 });
