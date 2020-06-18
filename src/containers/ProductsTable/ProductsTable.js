@@ -41,15 +41,11 @@ const ProductsTable = (props) => {
   } = props;
   const classes = useStyles();
   const [chosenQuantity, setChosenQuantity] = useState({});
-  console.log(chosenQuantity);
+
 
   useEffect(() => {
-    const idArray = [];
     products.forEach(product => {
-      idArray.push(product._id);
-    });
-    idArray.forEach(id => {
-      AjaxUtils.Quantity.getQuantityByProductId(id)
+      AjaxUtils.Quantity.getQuantityByProductId(product._id)
         .then(result => {
           // todo get quantity from redux or from DB
           // setProductsQuantity(...productsQuantity, [])
