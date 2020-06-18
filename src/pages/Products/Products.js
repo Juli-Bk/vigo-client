@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { Container, Grid, useMediaQuery } from '@material-ui/core';
+import React, {useEffect, useState} from 'react';
+import {Container, Grid, useMediaQuery} from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { withRouter } from 'react-router';
+import {connect} from 'react-redux';
+import {withRouter} from 'react-router';
 import AjaxUtils from '../../ajax';
 import useStyles from './ProductsStyles';
 import globalConfig from '../../globalConfig';
@@ -27,12 +27,12 @@ const Products = (props) => {
   const [maxProductsPrice, setMaxProductsPrice] = useState(0);
 
   const filtersArray = [{minPrice: priceRange[0]}, {maxPrice: priceRange[1]}, {color: colors}, {size: size}];
-  const searchString = location.search.split('?')[1];
+  const searchString = location.search ? location.search.split('?')[1] : '';
 
   useEffect(() => {
     let isCanceled = false;
 
-    if (searchString.includes('&')) {
+    if (searchString && searchString.includes('&')) {
       const filterStrings = searchString.split('&');
       const allFilters = [];
       filterStrings.forEach(string => {
@@ -87,7 +87,7 @@ const Products = (props) => {
                 <ViewAs label={true}/>
               </Grid>
               <Grid item xl={3} lg={3} md={3} sm={6} xs={6} className={classes.showBy}>
-                <ShowBy step={globalConfig.step}/>
+                {total > globalConfig.step ? <ShowBy step={globalConfig.step}/> : null}
               </Grid>
               <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
                 <PaginationRounded perPage={perPage} total={total}/>

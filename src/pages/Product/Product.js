@@ -6,7 +6,7 @@ import ProductSlider from '../../components/ProductSlider/ProductSlider';
 import ProductPageView from '../../components/Product/ProductPageView/ProductPageView';
 import LowerTitle from '../../components/LowerTitle/LowerTitle';
 import TabSlider from '../../components/TabsSliders/TabSlider';
-import { changeOrder, getStorageData, setStorageData } from '../../helpers/helpers';
+import {changeOrder, getStorageData, setStorageData} from '../../helpers/helpers';
 import globalConfig from '../../globalConfig';
 
 const useStyles = makeStyles(theme => ({
@@ -43,6 +43,11 @@ const Product = (props) => {
       if (filterArray.length) {
         AjaxUtils.Products.getProductsByFilters(filterArray, 1, 8, '')
           .then(result => {
+            if ((result.products && result.products.length) < dataFromStorage.length) {
+              setSliderData([]);
+              setStorageData('recentlyViewed', [id]);
+              return;
+            }
             const data = changeOrder(dataFromStorage.filter(item => item !== id), result.products);
             if (data.length) setSliderData(data);
           });
@@ -70,7 +75,7 @@ const Product = (props) => {
             {product ? <ProductSlider product={product}/> : null}
           </Grid>
           <Grid item xs={12} sm={12} md={6} lg={7} xl={7}>
-            {product ? <ProductPageView productData={product} productQuantity={5} /> : null}
+            {product ? <ProductPageView productData={product} productQuantity={5}/> : null}
           </Grid>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>

@@ -46,6 +46,7 @@ const PaymentForm = () => {
       <Grid container spacing={6}>
         <Grid item xs={12} md={6} >
           <Autocomplete
+            name='autopayment'
             value={value}
             onChange={(event, newValue) => {
               setValue(newValue);
