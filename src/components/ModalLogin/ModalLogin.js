@@ -114,7 +114,7 @@ const ModalLogin = ({isLoginModalOpen, setLoginModalOpenState}) => {
                   setMessage(result.message);
                   setIsMessageHidden(true);
                 } else {
-                  setIsMessageHidden(false);
+                  isMessageHidden && setIsMessageHidden(false);
                   handleClose();
                   // todo change avatar
                 }
@@ -127,7 +127,7 @@ const ModalLogin = ({isLoginModalOpen, setLoginModalOpenState}) => {
                   setMessage(result.message);
                   setIsMessageHidden(true);
                 } else {
-                  setIsMessageHidden(false);
+                  isMessageHidden && setIsMessageHidden(false);
                   handleClose();
                   // todo go to user cabinet?? on
                 }
