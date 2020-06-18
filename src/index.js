@@ -17,6 +17,8 @@ fetchInject([
     }).on('liqpay.close', function (data) {
     });
   };
+}).catch(error => {
+  console.log(error);
 });
 
 ReactDOM.render(

@@ -3,6 +3,7 @@ import {Box, Grid} from '@material-ui/core';
 import Banner from './Banner/Banner';
 import useStyles from './BannerLineHomePageStyle';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import config from '../../globalConfig';
 
 const BannerLineHomePage = props => {
@@ -50,6 +51,10 @@ const BannerLineHomePage = props => {
       </Grid>
     </Grid>
   );
+};
+
+BannerLineHomePage.propTypes = {
+  categories: PropTypes.array
 };
 
 const mapStateToProps = store => {

@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import { Grid, withWidth, makeStyles } from '@material-ui/core';
+import {Grid, makeStyles, withWidth} from '@material-ui/core';
 import ProductGridView from '../../components/Product/ProductGridView/ProductGridView';
 import LowerTitle from '../../components/LowerTitle/LowerTitle';
 import DividerPlusBtn from '../../components/DividerAndPlusBtn/DividerAndPlusBtn';
 import AjaxUtils from '../../ajax';
-import { calculatePerPageParam } from '../../helpers/helpers';
+import {calculatePerPageParam} from '../../helpers/helpers';
 
 const useStyles = makeStyles({
   container: {
@@ -26,7 +26,8 @@ const Bestsellers = (props) => {
     if (!isCanceled) {
       AjaxUtils.Products.getProductsByFilters([{bestseller: true}], startPage, perPage, '')
         .then(result => {
-          setProductsData(result.products);
+          const bestsellers = result && result.products ? result.products : [];
+          setProductsData(bestsellers);
         });
     }
     return () => {
@@ -48,7 +49,7 @@ const Bestsellers = (props) => {
 
   return (
     <Grid container justify="center" spacing={2} className={classes.container}>
-      <Grid item xl={12} lg={12} md={12} sm={12} xs={12} >
+      <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
         <LowerTitle data-testid='section-title' text='Bestsellers'/>
       </Grid>
       {cards}

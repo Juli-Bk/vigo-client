@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import PropTypes from 'prop-types';
 import {TextField, ThemeProvider} from '@material-ui/core';
 import Autocomplete, {createFilterOptions} from '@material-ui/lab/Autocomplete';
 import {connect} from 'react-redux';
@@ -88,6 +89,12 @@ const SearchField = (props) => {
       {searchList.length > 0 && searchComponent}
     </ThemeProvider>
   );
+};
+
+SearchField.propTypes = {
+  history: PropTypes.object.isRequired,
+  categories: PropTypes.array.isRequired,
+  toggleSearchBarOpen: PropTypes.func.isRequired
 };
 
 const mapStoreToProps = store => {

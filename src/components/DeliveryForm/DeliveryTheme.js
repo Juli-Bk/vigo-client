@@ -12,7 +12,7 @@ const theme = createMuiTheme({
     root: {
       paddingTop: 0,
       paddingBottom: 0,
-      fontSize: 12
+      fontSize: 10
     },
     gutters: {
       paddingLeft: 0

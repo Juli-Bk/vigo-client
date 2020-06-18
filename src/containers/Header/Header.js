@@ -44,10 +44,11 @@ const Header = () => {
                     </IconButton>
                   </Link>
 
-                  <IconButton aria-label="shoppingBag" className={classes.shoppingBag}>
-                    {/* todo should open shopping card page */}
-                    <LocalMallOutlinedIcon/>
-                  </IconButton>
+                  <Link to='/cart'>
+                    <IconButton aria-label="shoppingBag" className={classes.shoppingBag}>
+                      <LocalMallOutlinedIcon/>
+                    </IconButton>
+                  </Link>
                   <ModalLogin/>
                 </Box>
               </Toolbar>

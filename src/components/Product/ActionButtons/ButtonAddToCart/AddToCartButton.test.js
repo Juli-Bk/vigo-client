@@ -1,5 +1,5 @@
 import React from 'react';
-import ButtonAddToCart from './ButtonAddToCart';
+import ButtonAddToCart from './AddToCartButton';
 import { fireEvent, render } from '@testing-library/react';
 
 const testClasses = 'testBtn';

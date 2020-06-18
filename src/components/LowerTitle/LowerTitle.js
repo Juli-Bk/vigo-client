@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Typography, Box, Divider } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { colors } from '../../styles/colorKit';
@@ -41,6 +42,10 @@ const LowerTitle = (props) => {
       <Typography variant='subtitle1' className={classes.title}>{text}</Typography>
     </Box>
   );
+};
+
+LowerTitle.propTypes = {
+  text: PropTypes.string.isRequired
 };
 
 export default React.memo(LowerTitle);

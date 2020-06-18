@@ -3,77 +3,129 @@ import {makeStyles, ThemeProvider} from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
+import { colors } from '../../styles/colorKit';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
 import theme from './CheckoutSteppereTheme';
 import DeliveryForm from '../DeliveryForm/DeliveryForm';
-import {Container} from '@material-ui/core';
+import { Container, ListItem } from '@material-ui/core';
 import PaymentForm from '../PaymentForm/PaymentForm';
 import {connect} from 'react-redux';
 import AjaxUtils from '../../ajax/index';
 import {getJWTfromCookie} from '../../ajax/common/helper';
+import { setUser, setLoginModalOpenState, setPersDetailsOpenState} from '../../redux/actions/actions';
+import ModalPersDetails from '../ModalPersDetails/ModalPersDetails';
+import NewCustomerForm from '../../components/NewCustomerForm/NewCustomerForm';
+import PropTypes from 'prop-types';
+import useCommonStyles from '../../styles/formStyle/formStyle';
+import ModalLogin from '../ModalLogin/ModalLogin';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%'
   },
   backButton: {
-    marginRight: theme.spacing(1)
+    marginRight: theme.spacing(1),
+    backgroundColor: colors.borderLight,
+    color: colors.fontOncard
   },
   instructions: {
     padding: 20
+  },
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   }
 }));
 
 const steps = ['Personal data', 'Delivery Info', 'Payment Info', 'Complete your order'];
 
-// todo get User data from BD and render as static info in 'case 0'
-// todo User Order data from BD and render in 'case  3'
-const getStepContent = (stepIndex, userData) => {
-  switch (stepIndex) {
-    case 0:
-      return (
-        <Grid item xs={12}>
-          `
-          ${userData.firstName} ${userData.lastName}
-          John Smith
-          1 Downing street
-          Somewhere,
-          City,
-          Country, 00222,
-          +380976662233
-          `
-        </Grid>
-      );
-    case 1:
-      return (
-        <DeliveryForm/>
-      );
-    case 2:
-      return (
-        <PaymentForm/>
-      );
-    case 3:
-      return 'Review of order: order summary';
-    default:
-      return 'Unknown stepIndex';
-  }
-};
-
 const CheckoutStepper = (props) => {
-  const {token} = props;
+  const {token, setLoginModalOpenState, setPersDetailsOpenState} = props;
   const classes = useStyles();
+  const commonClasses = useCommonStyles();
+  const [user, setUser] = useState({});
   const [activeStep, setActiveStep] = useState(0);
-  const [userData, setUser] = useState(0);
+  const [guest, setGuest] = useState({radioGroup: null});
+
+  // если пользователь - гость
+  //                     показать форму сразу заполнения данных о себе для заказа. когда заполнит, где то сохранить
+  //                     для последующей обработки заказа
+
+  // если пользователь в процессе чекаута просто сделал паузу и токен протух,(как это узнать)
+  //                    показываем ему окно логина
+
+  // todo write handler on new Customer form
+  const onSubmitCallback = (values, callback) => {
+    callback();
+    if (values.radioGroup === 'iWillRegister') {
+      setLoginModalOpenState(true);
+    }
+    if (values.radioGroup === 'asGuest') {
+      setPersDetailsOpenState(true);
+    }
+    setGuest({radioGroup: values.radioGroup});
+  };
+
+  const getStepContent = (stepIndex, user) => {
+    let fields = null;
+    switch (stepIndex) {
+      case 0:
+        if (token) {
+          // если пользователь залогине- подтягивать его сохраненные данные, и показывать кнопку изменить данные
+          // как эта инфа о пользователе пропихивается дальше
+          fields = <Box display='flex' flexWrap="wrap">
+            <Box p={1}>
+              <ListItem>First Name:<br/>  {user.firstName}</ListItem>
+              <ListItem>Last Name: <br/>  {user.lastName}</ListItem>
+              <ListItem>Phone Number: <br/>  {user.phoneNumber}</ListItem>
+              <ListItem>Email: <br/> {user.email}</ListItem>
+              <ListItem>Address: <br/>  {user.address}</ListItem>
+            </Box>
+            <Box p={1}>
+              <ModalPersDetails />
+            </Box>
+          </Box>;
+        } else if (guest.radioGroup) {
+          if (guest.radioGroup === 'iWillRegister') {
+            fields = <>
+              <NewCustomerForm submitNewCustomerHandler={onSubmitCallback}/>
+              <ModalLogin/>
+            </>;
+          } else {
+            fields = <ModalPersDetails />;
+          }
+        } else {
+          fields = <NewCustomerForm submitNewCustomerHandler={onSubmitCallback}/>;
+        }
+        return (
+          fields
+        );
+      case 1:
+        return (
+          <DeliveryForm/>
+        );
+      case 2:
+        return (
+          <PaymentForm/>
+        );
+      case 3:
+        return 'Review of order: order summary';
+      default:
+        return 'Unknown stepIndex';
+    }
+  };
 
   useEffect(() => {
-    if (token || getJWTfromCookie()) {
+    const cookieToken = getJWTfromCookie();
+    if (token || cookieToken) {
       AjaxUtils.Users.getUser()
         .then(result => {
-          if (result.status === 200) {
-            setUser(result.user);
+          if (result) {
+            setUser(result);
+            console.log(result);
           }
         })
         .catch(error => {
@@ -89,6 +141,8 @@ const CheckoutStepper = (props) => {
           // todo open modal window to login again
         });
     }
+    return () => {
+    };
   }, [classes.link, token]);
 
   const handleNext = useCallback(() => {
@@ -130,19 +184,20 @@ const CheckoutStepper = (props) => {
               <Box>
                 <Typography component='span' className={classes.instructions}>
                   {
-                    getStepContent(activeStep, userData)
+                    getStepContent(activeStep, user)
                   }
                 </Typography>
-                <Box>
+                <Box className={classes.buttonContainer}>
                   <Button
                     disabled={activeStep === 0}
                     onClick={handleBack}
-                    className={classes.backButton}
+                    className={commonClasses.button}
                   >
-                    Back
+                    {'<'}
                   </Button>
-                  <Button variant='contained' color='primary' onClick={handleNext}>
-                    {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
+                  <Button className={commonClasses.button}
+                    onClick={handleNext}>
+                    {activeStep === steps.length - 1 ? 'Place order' : '>'}
                   </Button>
                 </Box>
               </Box>
@@ -160,5 +215,16 @@ const mapStoreToProps = store => {
     token: store.token
   };
 };
+const mapDispatchToProps = dispatch => {
+  return {
+    setUser: data => dispatch(setUser(data)),
+    setLoginModalOpenState: isOpen => dispatch(setLoginModalOpenState(isOpen)),
+    setPersDetailsOpenState: isOpen => dispatch(setPersDetailsOpenState(isOpen))
+  };
+};
 
-export default connect(mapStoreToProps)(React.memo(CheckoutStepper));
+CheckoutStepper.propTypes = {
+  token: PropTypes.string.isRequired
+};
+
+export default React.memo(connect(mapStoreToProps, mapDispatchToProps)(CheckoutStepper));

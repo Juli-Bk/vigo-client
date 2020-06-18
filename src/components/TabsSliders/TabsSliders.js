@@ -1,11 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import { Box, makeStyles, Tab, Tabs, ThemeProvider, withWidth } from '@material-ui/core';
+import {Box, makeStyles, Tab, Tabs, ThemeProvider, withWidth} from '@material-ui/core';
 import TabPanel from './TabPanel';
 import TabSlider from './TabSlider';
 import theme from './TabsSlidersTheme';
-import { colors } from '../../styles/colorKit';
+import {colors} from '../../styles/colorKit';
 import AjaxUtils from '../../ajax';
+import globalConfig from '../../globalConfig';
 
 function a11yProps (index) {
   return {
@@ -34,7 +35,7 @@ const useStyles = makeStyles(() => ({
 
 const TabsSliders = (props) => {
   const classes = useStyles();
-  const {width, tabsNames} = props;
+  const {width} = props;
 
   const [newArrivals, setNewArrivals] = useState([]);
   const [featured, setFeatured] = useState([]);
@@ -47,17 +48,20 @@ const TabsSliders = (props) => {
       AjaxUtils.Products
         .getProductsByFilters([{new: true}], 1, 15, '')
         .then(result => {
-          setNewArrivals(result.products);
+          const newIn = result && result.products ? result.products : [];
+          setNewArrivals(newIn);
         });
       AjaxUtils.Products
         .getProductsByFilters([{featured: true}], 1, 15, '')
         .then(result => {
-          setFeatured(result.products);
+          const featured = result && result.products ? result.products : [];
+          setFeatured(featured);
         });
       AjaxUtils.Products
         .getProductsByFilters([{special: true}], 1, 15, '')
         .then(result => {
-          setSpecial(result.products);
+          const specials = result && result.products ? result.products : [];
+          setSpecial(specials);
         });
     }
     return () => {
@@ -79,9 +83,8 @@ const TabsSliders = (props) => {
             orientation={orientation}
             onChange={handleChange}
             aria-label="tabs-for-sliders">
-            {tabsNames.map((name, index) => {
-              return (<Tab label={name} {...a11yProps(index)} key={index}
-                disableRipple={true} className={classes.tab}/>);
+            {globalConfig.tabsSliderNames.map((name, index) => {
+              return (<Tab label={name} {...a11yProps(index)} key={index} disableRipple={true} className={classes.tab}/>);
             })}
           </Tabs>
         </Box>
