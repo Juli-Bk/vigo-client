@@ -156,7 +156,7 @@ export const toggleWishItems = (productId) => {
   }
 };
 
-export const AddOrDeleteCartItems = (productId, quantity = 1) => {
+export const cartHandler = (productId, quantity = 1) => {
   const userId = getUserIdFromCookie();
   const shopCartLocal = getStorageData('shoppingCart');
   const cartId = JSON.parse(localStorage.getItem('cartId'));

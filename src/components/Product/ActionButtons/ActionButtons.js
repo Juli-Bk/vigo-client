@@ -2,17 +2,17 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { CardActions } from '@material-ui/core';
-import ButtonAddToCart from './ButtonAddToCart/ButtonAddToCart';
+import ButtonAddToCart from './ButtonAddToCart/AddToCartButton';
 import FavoriteIcon from './FavoriteIcon/FavoriteIcon';
 import ButtonCompare from './ButtonCompare/ButtonCompare';
 import globalConfig from '../../../globalConfig';
-import { getStorageData, toggleWishItems, AddOrDeleteCartItems } from '../../../helpers/helpers';
+import { getStorageData, toggleWishItems, cartHandler } from '../../../helpers/helpers';
 import { changeShoppingCart, changeWishList } from '../../../redux/actions/actions';
 
 const ActionButtons = (props) => {
   const { classes, product, width, disabledSpacing, isProductPage, changeWishList, changeShoppingCart } = props;
   const toggleInCart = (productId) => {
-    AddOrDeleteCartItems(productId);
+    cartHandler(productId);
     changeShoppingCart(getStorageData('shoppingCart'));
   };
 

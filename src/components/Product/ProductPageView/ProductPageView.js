@@ -21,6 +21,8 @@ const ProductPageView = (props) => {
   const [chosenQuantity, setChosenQuantity] = useState(1);
   const [quantityOfCurrentSize, setQuantityOfCurrentSize] = useState(1);
   const sizesArray = [];
+  const color = capitalize(productQuantity.length && productQuantity[0].colorId.name);
+  const quantityOptions = mapArrayToOptions(makeNumbersArray(quantityOfCurrentSize));
 
   productQuantity.length && productQuantity.forEach(item => {
     sizesArray.push(item.sizeId.name);
@@ -55,7 +57,7 @@ const ProductPageView = (props) => {
       </Box>
       <Typography variant='caption' component='p' className={classes.description}>{description}</Typography>
       <Box className={classes.colorBox}>
-        <Typography variant='body2'>Color: <span className={classes.colorName}>{capitalize(productQuantity.length && productQuantity[0].colorId.name)}</span></Typography>
+        <Typography variant='body2'>Color: <span className={classes.colorName}>{color}</span></Typography>
         <Link variant='body2' className={classes.link}>View sizes guide</Link>
       </Box>
       <Box>
@@ -67,7 +69,7 @@ const ProductPageView = (props) => {
           <SelectSimple value={chosenQuantity}
             classes={classes}
             handleChange={handleSetQuantity}
-            options={mapArrayToOptions(makeNumbersArray(quantityOfCurrentSize))}/>
+            options={quantityOptions}/>
         </Box>
         <Box className={classes.actionBox}>
           <ThemeProvider theme={theme}>

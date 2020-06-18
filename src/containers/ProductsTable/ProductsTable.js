@@ -14,7 +14,7 @@ import {
   capitalize,
   formPriceString,
   getStorageData,
-  AddOrDeleteCartItems,
+  cartHandler,
   toggleWishItems,
   mapArrayToOptions, makeNumbersArray
 } from '../../helpers/helpers';
@@ -71,7 +71,7 @@ const ProductsTable = (props) => {
   };
   // to do different functions to add znd to delete
   const deleteFromCart = (id) => {
-    AddOrDeleteCartItems(id);
+    cartHandler(id);
     changeShoppingCart(getStorageData('shoppingCart'));
   };
   // todo replace logic
