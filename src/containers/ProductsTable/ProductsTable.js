@@ -40,30 +40,29 @@ const ProductsTable = (props) => {
     isShoppingCart
   } = props;
   const classes = useStyles();
-  const [chosenQuantity, setChosenQuantity] = useState(1);
-  const [quantityOfCurrentSize, setQuantityOfCurrentSize] = useState(1);
+  const [chosenQuantity, setChosenQuantity] = useState({});
+  console.log(chosenQuantity);
 
   useEffect(() => {
     const idArray = [];
     products.forEach(product => {
       idArray.push(product._id);
-      console.log(idArray);
     });
     idArray.forEach(id => {
       AjaxUtils.Quantity.getQuantityByProductId(id)
         .then(result => {
-          console.log(id, result);
+          // todo get quantity from redux or from DB
           // setProductsQuantity(...productsQuantity, [])
         });
     });
   });
 
-  const handleSetQuantity = (event) => {
-    setChosenQuantity(Number(event.target.value));
+  const handleSetQuantity = (event, id) => {
+    setChosenQuantity({[id]: Number(event.target.value)});
   };
 
   const getSubtotal = (price, quantity) => {
-    return price * quantity;
+    return quantity ? price * quantity : price;
   };
 
   const deleteFromWishList = (id) => {
@@ -84,8 +83,7 @@ const ProductsTable = (props) => {
         productCode: product.productId,
         price: product.price,
         id: product._id,
-        salePrice: product.salePrice,
-        quantity: product.quantity || 1
+        salePrice: product.salePrice
       }
       : {
         imgUrl: product.imageUrls[0],
@@ -168,8 +166,11 @@ const ProductsTable = (props) => {
                       <Box className={classes.textBox}>
                         <Link to={`/products/${row.id}`}
                           className={classes.name}>{capitalize(row.mainData.name)}</Link>
-                        <Typography className={classes.details}>Color: {row.mainData.color}</Typography>
-                        <Typography className={classes.details}>Size: {row.mainData.size}</Typography>
+                        {isShoppingCart
+                          ? <>
+                            <Typography className={classes.details}>Color: {row.mainData.color}</Typography>
+                            <Typography className={classes.details}>Size: {row.mainData.size}</Typography>
+                          </> : null}
                       </Box>
                     </TableCell>
                     <TableCell align="center" className={classes.code}>{row.productCode}</TableCell>
@@ -180,19 +181,15 @@ const ProductsTable = (props) => {
                         </TableCell>
                         <TableCell align="center" className={classes.code}>
                           <Box>
-                            <SelectSimple value={chosenQuantity}
+                            <SelectSimple value={chosenQuantity[row.id] || 1}
                               classes={classes}
-                              handleChange={handleSetQuantity}
+                              handleChange={(event) => handleSetQuantity(event, row.id)}
                               options={mapArrayToOptions(makeNumbersArray(10))}/>
-                            {/* {row.quantity} */}
-                            {/* <span className={classes.changeQuantityBtn} onClick={() => { */}
-                            {/*  increaseInCart(row.productId); */}
-                            {/* }}>+</span> */}
                           </Box>
                         </TableCell>
                         <TableCell align="center" className={classes.code}>
                           <SalePrice isSubtotal={true}
-                            value={getSubtotal(row.salePrice, 1)}/>
+                            value={getSubtotal(row.salePrice, chosenQuantity[row.id])}/>
                         </TableCell>
                       </>
                       : <>

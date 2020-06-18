@@ -11,7 +11,7 @@ import ProductRating from '../ProductRating/ProductRating';
 import SalePrice from '../SalePrice/SalePrice';
 import Price from '../Price/Price';
 import SelectSimple from '../../Select/SelectSimple';
-import { setCartData, setChosenQuantity, setChosenSize } from '../../../redux/actions/actions';
+import { setChosenQuantity, setChosenSize } from '../../../redux/actions/actions';
 
 const ProductPageView = (props) => {
   const classes = useStyles();
@@ -92,16 +92,14 @@ ProductPageView.propTypes = {
 const mapStateToProps = store => {
   return {
     size: store.size,
-    quantity: store.quantity,
-    cartData: store.cartData
+    quantity: store.quantity
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     setSize: value => dispatch(setChosenSize(value)),
-    setQuantity: value => dispatch(setChosenQuantity(value)),
-    setCartData: data => dispatch(setCartData(data))
+    setQuantity: value => dispatch(setChosenQuantity(value))
   };
 };
 

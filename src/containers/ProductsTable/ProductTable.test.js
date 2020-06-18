@@ -9,7 +9,7 @@ import ProductsTable from './ProductsTable';
 const mockStore = configureStore([]);
 const products = [
   {
-    _id: 'aaa3342453786497',
+    _id: '5ee4ebcc87ae95ab81b85ff8',
     id: 12345667890,
     name: 'Orange dress',
     description: 'Very-very-very beautiful orange dress. Very-very-very beautiful orange dress. Very-very-very beautiful orange dress',
@@ -24,7 +24,7 @@ const products = [
     productId: 1
   },
   {
-    _id: 'aaa3342453786498',
+    _id: '5ee4ebb287ae95ab81b85f9b',
     id: 12345667890,
     name: 'Orange dress',
     description: 'Very-very-very beautiful orange dress. Very-very-very beautiful orange dress. Very-very-very beautiful orange dress',
@@ -39,7 +39,7 @@ const products = [
     productId: 1
   },
   {
-    _id: 'aaa3342453786499',
+    _id: '5ee4ebb387ae95ab81b85f9c',
     id: 12345667890,
     name: 'Orange dress',
     description: 'Very-very-very beautiful orange dress. Very-very-very beautiful orange dress. Very-very-very beautiful orange dress',
@@ -54,12 +54,12 @@ const products = [
     productId: 1
   }
 ];
-const wishList = ['aaa3342453786497', 'aaa3342453786498', 'aaa3342453786499'];
+const wishList = ['5ee4ebb387ae95ab81b85f9c', '5ee4ebb287ae95ab81b85f9b', '5ee4ebcc87ae95ab81b85ff8'];
 const changeWishList = jest.fn();
 
 describe('products table testing', () => {
   const store = mockStore({
-    wishList: ['aaa3342453786499', 'aaa3342453786498', 'aaa3342453786497'],
+    wishList: ['5ee4ebb387ae95ab81b85f9c', '5ee4ebb287ae95ab81b85f9b', '5ee4ebcc87ae95ab81b85ff8'],
     changeWishList: jest.fn()
   });
   it('should render proper columns amount', function () {

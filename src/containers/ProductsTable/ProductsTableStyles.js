@@ -134,22 +134,16 @@ const useStyles = makeStyles(theme => ({
       letterSpacing: '.02em'
     }
   },
-  quantity: {
-    textAlign: 'center',
-    fontSize: '1.5rem',
-    userSelect: 'none',
-    border: `1px solid ${colors.borderLight}`
-  },
-  changeQuantityBtn: {
-    width: '20',
-    height: '20',
-    textAlign: 'center',
-    fontSize: '1.5rem',
-    padding: 5,
-    cursor: 'pointer',
-    margin: 15,
-    userSelect: 'none',
-    borderLeft: `1px solid ${colors.borderLight}`
+  select: {
+    width: '80%',
+    marginBottom: '1rem',
+    padding: '.4rem 0 .4rem .3rem',
+    borderColor: colors.fontFourth,
+    color: colors.paginationActive,
+    fontSize: '1rem',
+    [theme.breakpoints.up('sm')]: {
+      marginBottom: 0
+    }
   }
 }));
 
