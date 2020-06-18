@@ -35,11 +35,9 @@ const Products = (props) => {
 
     if (searchString && searchString.includes('&')) {
       const filterStrings = searchString.split('&');
-      // const allFilters = [];
       filterStrings.forEach(string => {
         filtersArray.push(makeFilterItem(string));
       });
-      // filtersArray.push(...allFilters);
     } else {
       filtersArray.push(makeFilterItem(searchString));
     }
