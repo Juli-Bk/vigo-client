@@ -53,6 +53,7 @@ const globalConfig = {
     Price_High_To_Low: 'Price High To Low'
   },
   step: 15,
+  defaultQuantity: 1,
   userMessages: {
     NOT_AUTHORIZED: 'You are not authorized. Login, please'
   },
@@ -65,7 +66,32 @@ const globalConfig = {
     MASTERCARD: '/^5[1-5][0-9]{14}$/'
   },
   minDefaultPrice: 0,
-  maxDefaultPrice: 3000
+  maxDefaultPrice: 3000,
+  topSliderData: {
+    title: 'what\'s new',
+    text: 'Showcasing what the world\'s most stylish people are buying right now',
+    buttonText: 'Take look'
+  },
+  topSliderImages: [
+    {
+      original: 'https://vigo-shop-aws-bucket.s3.eu-central-1.amazonaws.com/img/top-slider/top_slider_1.jpg'
+    },
+    {
+      original: 'https://vigo-shop-aws-bucket.s3.eu-central-1.amazonaws.com/img/top-slider/top_slider_2.jpg'
+    },
+    {
+      original: 'https://vigo-shop-aws-bucket.s3.eu-central-1.amazonaws.com/img/top-slider/top_slider_3.jpg'
+    }
+  ],
+  tabsSliderNames: ['new arrivals', 'featured', 'special'],
+  viewOptions: {
+    module: 'module',
+    list: 'list'
+  },
+  sizeRenderOptions: {
+    ALL: 'all',
+    ACCESSORIES: 'accessories'
+  }
 };
 
 export default globalConfig;

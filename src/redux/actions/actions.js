@@ -56,3 +56,7 @@ export const changeWishList = (data) => {
 export const setUser = (userData) => {
   return {type: Actions.SET_USER, payload: userData};
 };
+
+export const setCategoryId = (categoryId) => {
+  return {type: Actions.SET_CATEGORY_ID, payload: categoryId};
+};

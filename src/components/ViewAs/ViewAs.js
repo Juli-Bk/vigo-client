@@ -10,6 +10,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import theme from './ViewAsTheme';
 import { connect } from 'react-redux';
 import {setChosenView} from '../../redux/actions/actions';
+import globalConfig from '../../globalConfig';
 
 const ViewAs = (props) => {
   const {label, setView, view} = props;
@@ -22,7 +23,7 @@ const ViewAs = (props) => {
   };
 
   useEffect(() => {
-    const chosenView = localStorage.getItem('chosenView') || 'module';
+    const chosenView = localStorage.getItem('chosenView') || globalConfig.viewOptions.module;
     setView(chosenView);
   }, [setView]);
 
@@ -31,10 +32,10 @@ const ViewAs = (props) => {
       {label && <Typography className={styles.label} variant='caption'>View as:</Typography>}
       <ThemeProvider theme={theme}>
         <ToggleButtonGroup data-testid='toggleButtonGroup' orientation="horizontal" value={view} exclusive onChange={handleChange}>
-          <ToggleButton value='module' aria-label="module">
+          <ToggleButton value={globalConfig.viewOptions.module} aria-label={globalConfig.viewOptions.module}>
             <ViewModuleIcon className={styles.icons}/>
           </ToggleButton>
-          <ToggleButton value="list" aria-label="list">
+          <ToggleButton value={globalConfig.viewOptions.list} aria-label={globalConfig.viewOptions.list}>
             <FormatListBulletedIcon className={styles.icons}/>
           </ToggleButton>
         </ToggleButtonGroup>

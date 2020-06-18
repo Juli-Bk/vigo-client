@@ -1,12 +1,12 @@
-import {withStyles} from '@material-ui/core/styles';
-import {colors} from '../../styles/colorKit';
-import {ThemeProvider} from '@material-ui/core';
-import theme from '../FiltersTree/FiltersTreeTheme';
-import TransitionComponent from '../TransitionComponent/TransitionComponent';
-import TreeItem from '@material-ui/lab/TreeItem';
 import React from 'react';
+import {withStyles} from '@material-ui/core/styles';
+import {ThemeProvider} from '@material-ui/core';
+import theme from '../FilterColors/FilterColorsTheme';
+import TransitionComponent from '../../TransitionComponent/TransitionComponent';
+import TreeItem from '@material-ui/lab/TreeItem';
+import { colors } from '../../../styles/colorKit';
 
-const StyledTreeItem = withStyles((theme) => ({
+const FilterColorsTreeItem = withStyles(() => ({
   iconContainer: {
     '& .close': {
       opacity: 0.3
@@ -52,6 +52,14 @@ const StyledTreeItem = withStyles((theme) => ({
     '&$selected:focus > $content $label': {
       backgroundColor: colors.listColor
     }
+  },
+  group: {
+    '& > div > div': {
+      display: 'flex',
+      flexDirection: 'column',
+      maxHeight: 500,
+      flexWrap: 'wrap'
+    }
   }
 }))(
   (props) =>
@@ -60,4 +68,4 @@ const StyledTreeItem = withStyles((theme) => ({
     </ThemeProvider>
 );
 
-export default React.memo(StyledTreeItem);
+export default React.memo(FilterColorsTreeItem);
