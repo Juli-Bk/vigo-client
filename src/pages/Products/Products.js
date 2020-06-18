@@ -6,7 +6,7 @@ import {withRouter} from 'react-router';
 import AjaxUtils from '../../ajax';
 import useStyles from './ProductsStyles';
 import globalConfig from '../../globalConfig';
-import { defineSortData, makeFilterItem } from '../../helpers/helpers';
+import {defineSortData, makeFilterItem} from '../../helpers/helpers';
 // import { getFilterString } from '../../ajax/common/helper';
 
 import ProductGrid from '../../containers/ProductsGrid/ProductsGrid';
@@ -20,7 +20,7 @@ import ViewAs from '../../components/ViewAs/ViewAs';
 import EmptyState from '../../components/EmptyState/EmptyState';
 
 const Products = (props) => {
-  const {currentPage, categoryId, perPage, sortingOption, priceRange, view, colors, size, location, history} = props;
+  const {currentPage, categoryId, perPage, sortingOption, priceRange, view, colors, size, location} = props;
   const isSmScreen = useMediaQuery('(max-width: 723px)');
   const classes = useStyles();
   const [products, setProducts] = useState([]);
@@ -89,7 +89,7 @@ const Products = (props) => {
                   <ViewAs label={true}/>
                 </Grid>
                 <Grid item xl={3} lg={3} md={3} sm={6} xs={6} className={classes.showBy}>
-                {total > globalConfig.step ? <ShowBy step={globalConfig.step}/> : null}
+                  {total > globalConfig.step ? <ShowBy step={globalConfig.step}/> : null}
                 </Grid>
                 <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
                   <PaginationRounded perPage={perPage} total={total}/>

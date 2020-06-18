@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 import {
   Box, Typography, CardMedia, ThemeProvider,
@@ -114,7 +114,7 @@ const ProductsTable = (props) => {
                   : <>
                     <TableCell align="center" className={classes.tableHead}>Price</TableCell>
                     <TableCell align="center" className={classes.tableHead}>Sale price</TableCell>
-                <TableCell align="center" className={classes.tableHead}>Delete</TableCell>
+                    <TableCell align="center" className={classes.tableHead}>Delete</TableCell>
                   </>
                 }
                 <TableCell align="center" className={classes.tableHead}>

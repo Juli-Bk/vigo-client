@@ -77,7 +77,7 @@ describe('products table testing', () => {
     const thead = document.querySelector('thead');
     expect(thead).toBeInTheDocument();
     const thCollection = thead.querySelectorAll('th');
-    expect(thCollection.length).toBe(5);
+    expect(thCollection.length).toBe(6);
   });
   it('should render proper columns amount on mobile screen', function () {
     render(
