@@ -6,10 +6,10 @@ import Bestsellers from '../../containers/Bestsellers/Bestsellers';
 import AboutUsBlock from '../../components/AboutVigoShop/AboutUsBlock/AboutUsBlock';
 import TabsSliders from '../../components/TabsSliders/TabsSliders';
 import BannerLineHomePage from '../../components/BannerLineHomePage/BannerLineHomePage';
-import NewCustomerForm from '../../components/NewCustomerForm/NewCustomerForm';
 import AjaxUtils from '../../ajax';
 import ScrollToTop from '../../components/ScrollToTop/ScrollToTop';
 import { getJWTfromCookie } from '../../ajax/common/helper';
+import globalConfig from '../../globalConfig';
 
 const renderData = {
   title: 'what\'s new',
@@ -19,21 +19,17 @@ const renderData = {
 
 const urls = [
   {
-    original: 'https://vigo-shop-aws-bucket.s3.eu-central-1.amazonaws.com/img/top-slider/top_slider_1.jpg'
+    original: globalConfig.baseImgUrl + '/img/top-slider/top_slider_1.jpg'
   },
   {
-    original: 'https://vigo-shop-aws-bucket.s3.eu-central-1.amazonaws.com/img/top-slider/top_slider_2.jpg'
+    original: globalConfig.baseImgUrl + '/img/top-slider/top_slider_2.jpg'
   },
   {
-    original: 'https://vigo-shop-aws-bucket.s3.eu-central-1.amazonaws.com/img/top-slider/top_slider_3.jpg'
+    original: globalConfig.baseImgUrl + '/img/top-slider/top_slider_3.jpg'
   }
 ];
 
 const tabsNames = ['new arrivals', 'featured', 'special'];
-
-const onSubmitCallback = () => {
-  console.log('newCustomerForm');
-};
 
 const Home = () => {
   const token = getJWTfromCookie();
@@ -50,12 +46,6 @@ const Home = () => {
         </Grid>
         <Grid item xl={4} lg={4} md={4} sm={4} xs={12}>
           {token ? <CardNewsletter saveEmail={AjaxUtils.Subscribers.subscribe}/> : null}
-        </Grid>
-      </Grid>
-
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} lg={6}>
-          <NewCustomerForm submitNewCustomerHandler={onSubmitCallback}/>
         </Grid>
       </Grid>
       <ScrollToTop/>

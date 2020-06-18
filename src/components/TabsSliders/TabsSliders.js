@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
-import { Box, makeStyles, Tab, Tabs, ThemeProvider, withWidth } from '@material-ui/core';
+import {Box, makeStyles, Tab, Tabs, ThemeProvider, withWidth} from '@material-ui/core';
 import TabPanel from './TabPanel';
 import TabSlider from './TabSlider';
 import theme from './TabsSlidersTheme';
-import { colors } from '../../styles/colorKit';
+import {colors} from '../../styles/colorKit';
 import AjaxUtils from '../../ajax';
 
 function a11yProps (index) {
@@ -47,17 +47,20 @@ const TabsSliders = (props) => {
       AjaxUtils.Products
         .getProductsByFilters([{new: true}], 1, 15, '')
         .then(result => {
-          setNewArrivals(result.products);
+          const newIn = result && result.products ? result.products : [];
+          setNewArrivals(newIn);
         });
       AjaxUtils.Products
         .getProductsByFilters([{featured: true}], 1, 15, '')
         .then(result => {
-          setFeatured(result.products);
+          const featured = result && result.products ? result.products : [];
+          setFeatured(featured);
         });
       AjaxUtils.Products
         .getProductsByFilters([{special: true}], 1, 15, '')
         .then(result => {
-          setSpecial(result.products);
+          const specials = result && result.products ? result.products : [];
+          setSpecial(specials);
         });
     }
     return () => {
