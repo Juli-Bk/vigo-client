@@ -35,7 +35,11 @@ const useStyles = makeStyles(theme => ({
   showBy: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    marginBottom: 10
+  },
+  viewBox: {
+    marginBottom: 10
   },
   paginationBottom: {
     display: 'flex',

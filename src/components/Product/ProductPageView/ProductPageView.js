@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {Box, Divider, Link, ThemeProvider, Typography, withWidth} from '@material-ui/core';
 import {connect} from 'react-redux';
@@ -11,29 +11,34 @@ import ProductRating from '../ProductRating/ProductRating';
 import SalePrice from '../SalePrice/SalePrice';
 import Price from '../Price/Price';
 import SelectSimple from '../../Select/SelectSimple';
-import {setChosenQuantity, setChosenSize} from '../../../redux/actions/actions';
+import { setChosenQuantity, setChosenSize } from '../../../redux/actions/actions';
 
 const ProductPageView = (props) => {
   const classes = useStyles();
-  const {productData, width, productQuantity, size, quantity, setSize, setQuantity} = props;
-  const {
-    name, description, price, rating, brandId, salePrice, productId
-    // , isOnSale
-  } = productData;
+  const {productData, width, productQuantity} = props;
+  const {name, description, price, rating, brandId, salePrice, productId, isOnSale} = productData;
+  const [chosenSize, setChosenSize] = useState('');
+  const [chosenQuantity, setChosenQuantity] = useState(1);
+  const [quantityOfCurrentSize, setQuantityOfCurrentSize] = useState(1);
+  const sizesArray = [];
+  const color = capitalize(productQuantity.length && productQuantity[0].colorId.name);
+  const quantityOptions = mapArrayToOptions(makeNumbersArray(quantityOfCurrentSize));
 
-  const sizesArray = ['xs', 's', 'm', 'l', 'xl'];
+  productQuantity.length && productQuantity.forEach(item => {
+    sizesArray.push(item.sizeId.name);
+  });
   sizesArray.unshift('Select Size');
 
   const handleSetQuantity = (event) => {
-    setQuantity(Number(event.target.value));
+    setChosenQuantity(Number(event.target.value));
   };
 
   const handleSetSize = (event) => {
-    setSize(event.target.value);
+    setChosenSize(event.target.value);
+    setQuantityOfCurrentSize(productQuantity.find(item => item.sizeId.name === event.target.value).quantity);
   };
 
   // todo product rating
-  // todo color
   // todo search by brand on click by brand
   return (
     <Box className={classes.card}>
@@ -42,7 +47,7 @@ const ProductPageView = (props) => {
       <ProductRating value={rating || 4} classes={classes.rating}/>
       <Divider orientation='horizontal' className={classes.divider}/>
       <Box className={classes.pricesBox}>
-        {price > salePrice ? <Price value={price}/> : null}
+        {isOnSale ? <Price value={price}/> : null}
         <SalePrice value={salePrice}/>
       </Box>
       <Box className={classes.productInfo}>
@@ -52,28 +57,30 @@ const ProductPageView = (props) => {
       </Box>
       <Typography variant='caption' component='p' className={classes.description}>{description}</Typography>
       <Box className={classes.colorBox}>
-        <Typography variant='body2'>Color: <span className={classes.colorName}>{capitalize('red')}</span></Typography>
+        <Typography variant='body2'>Color: <span className={classes.colorName}>{color}</span></Typography>
         <Link variant='body2' className={classes.link}>View sizes guide</Link>
       </Box>
-      <Box className={classes.selectBox}>
-        <SelectSimple value={size}
-          classes={classes}
-          handleChange={handleSetSize}
-          options={mapArrayToOptions(sizesArray)}/>
-        <SelectSimple value={quantity}
-          classes={classes}
-          handleChange={handleSetQuantity}
-          options={mapArrayToOptions(makeNumbersArray(productQuantity))}/>
-      </Box>
-      <Box className={classes.actionBox}>
-        <ThemeProvider theme={theme}>
-          <ActionButtons classes={classes}
-            product={productData}
-            width={width}
-            disabledSpacing={true}
-            isProductPage={true}
-          />
-        </ThemeProvider>
+      <Box>
+        <Box className={classes.selectBox}>
+          <SelectSimple value={chosenSize}
+            classes={classes}
+            handleChange={handleSetSize}
+            options={mapArrayToOptions(sizesArray)}/>
+          <SelectSimple value={chosenQuantity}
+            classes={classes}
+            handleChange={handleSetQuantity}
+            options={quantityOptions}/>
+        </Box>
+        <Box className={classes.actionBox}>
+          <ThemeProvider theme={theme}>
+            <ActionButtons classes={classes}
+              product={productData}
+              width={width}
+              disabledSpacing={true}
+              isProductPage={true}
+            />
+          </ThemeProvider>
+        </Box>
       </Box>
     </Box>
   );

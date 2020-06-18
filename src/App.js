@@ -10,12 +10,12 @@ import './App.scss';
 import theme from './mainTheme';
 import Footer from './containers/Footer/Footer';
 import AjaxUtils from './ajax';
-import {changeWishList, setUser} from './redux/actions/actions';
-import {getStorageData, integrateWishLists} from './helpers/helpers';
+import {changeWishList, setUser, changeShoppingCart} from './redux/actions/actions';
+import {getStorageData, integrateData, integrateCart} from './helpers/helpers';
 import {getUserIdFromCookie} from './ajax/common/helper';
 
 function App (props) {
-  const {changeWishList, token, setUser} = props;
+  const {changeWishList, token, setUser, changeShoppingCart} = props;
 
   useEffect(() => {
     let isCanceled = false;
@@ -27,18 +27,26 @@ function App (props) {
         AjaxUtils.WishLists.getUserWishList(userId)
           .then(result => {
             const wishes = result.userWishList[0];
-            integrateWishLists(wishes ? wishes.products : [], getStorageData('wishList'));
+            integrateData(wishes ? wishes.products : [], getStorageData('wishList'));
             changeWishList(getStorageData('wishList'));
+          });
+        AjaxUtils.ShopCart.getUserShopCart(userId)
+          .then(result => {
+            if (!result.message) {
+              integrateCart(result.products, getStorageData('shoppingCart'));
+              changeShoppingCart(getStorageData('shoppingCart'));
+            }
           });
       }
 
       setUser(getStorageData('user'));
       changeWishList(getStorageData('wishList'));
+      changeShoppingCart(getStorageData('shoppingCart'));
     }
     return () => {
       isCanceled = true;
     };
-  }, [changeWishList, setUser, token]);
+  }, [changeWishList, setUser, changeShoppingCart, token]);
 
   return (
     <BrowserRouter>
@@ -67,7 +75,8 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
   return {
     changeWishList: data => dispatch(changeWishList(data)),
-    setUser: user => dispatch(setUser(user))
+    setUser: user => dispatch(setUser(user)),
+    changeShoppingCart: data => dispatch(changeShoppingCart(data))
   };
 };
 

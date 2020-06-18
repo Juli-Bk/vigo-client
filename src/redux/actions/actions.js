@@ -63,6 +63,10 @@ export const setPersDetailsOpenState = (isOpen) => {
   return {type: Actions.IS_PERSONAL_DETAILS_MODAL_OPEN, payload: isOpen};
 };
 
+export const changeShoppingCart = (data) => {
+  return {type: Actions.CHANGE_SHOPPING_CART, payload: data};
+};
+
 export const setCategoryId = (categoryId) => {
   return {type: Actions.SET_CATEGORY_ID, payload: categoryId};
 };
