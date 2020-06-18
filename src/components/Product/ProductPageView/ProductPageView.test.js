@@ -22,13 +22,32 @@ const testData2 = {
   date: Date.now()
 };
 
+const quantity = [
+  {
+    sizeId: {
+      name: 'm'
+    },
+    colorId: {
+      name: 'red'
+    }
+  },
+  {
+    sizeId: {
+      name: 's'
+    },
+    colorId: {
+      name: 'red'
+    }
+  }
+];
+
 const widthSm = 'sm';
 
 describe('product page view testing', () => {
   it('product page view renders salePrice when product has sale price', () => {
     const card = render(
       <Provider store={store}>
-        <ProductPageView productData={testData2} width={widthSm}/>
+        <ProductPageView productData={testData2} width={widthSm} productQuantity={quantity}/>
       </Provider>);
     const salePrice = card.getByText(`$${testData2.salePrice}`);
     expect(salePrice).toBeInTheDocument();
@@ -36,7 +55,7 @@ describe('product page view testing', () => {
   it('product page view renders proper product description', () => {
     const card = render(
       <Provider store={store}>
-        <ProductPageView productData={testData2} width={widthSm}/>
+        <ProductPageView productData={testData2} width={widthSm} productQuantity={quantity}/>
       </Provider>);
     const text = card.getByText(testData2.description);
     expect(text).toBeInTheDocument();
@@ -44,7 +63,7 @@ describe('product page view testing', () => {
   it('product page view renders proper product name', () => {
     const card = render(
       <Provider store={store}>
-        <ProductPageView productData={testData2} width={widthSm}/>
+        <ProductPageView productData={testData2} width={widthSm} productQuantity={quantity}/>
       </Provider>);
     const text = card.getByText(testData2.name);
     expect(text).toBeInTheDocument();
@@ -52,7 +71,7 @@ describe('product page view testing', () => {
   it('product page renders two select blocks', () => {
     render(
       <Provider store={store}>
-        <ProductPageView productData={testData2} width={widthSm}/>
+        <ProductPageView productData={testData2} width={widthSm} productQuantity={quantity}/>
       </Provider>);
     const selects = document.querySelectorAll('select');
     expect(selects.length).toEqual(2);

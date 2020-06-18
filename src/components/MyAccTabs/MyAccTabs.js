@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import { makeStyles, ThemeProvider, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
+import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import themeMui from './MyAccTabsTheme';
 import PersonalDetailsForm from '../PersonalDetailsForm/PersonalDetailsForm';
@@ -13,7 +15,7 @@ import { useMediaQuery } from '@material-ui/core';
 import AjaxUtils from '../../ajax';
 
 const TabPanel = (props) => {
-  const { children, value, index, ...other } = props;
+  const { user, children, value, index, ...other } = props;
 
   return (
     <Box
@@ -25,7 +27,7 @@ const TabPanel = (props) => {
     >
       {value === index && (
         <Box p={3}>
-          {children}
+          <Typography component='span'>{children}</Typography>
         </Box>
       )}
     </Box>
@@ -47,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MyAccTabs = (props) => {
+  const {user} = props;
   const isMobile = useMediaQuery('(max-width: 400px)');
   const classes = useStyles();
   const theme = useTheme();
@@ -83,7 +86,7 @@ const MyAccTabs = (props) => {
             <Tab component='span' label='Contact info' {...a11yProps(0)} />
             <Tab component='span' label='Address' {...a11yProps(1)} />
             <Tab component='span' label='Wishlist' {...a11yProps(2)} />
-            <Tab component='span' label='Purchase history' {...a11yProps(3)} />
+            <Tab component='span' label='Orders' {...a11yProps(3)} />
           </Tabs>
         </AppBar>
 
@@ -102,7 +105,8 @@ const MyAccTabs = (props) => {
           <Wishlist />
         </TabPanel>
         <TabPanel value={value} index={3} dir={theme.direction}>
-          Purchase history
+          {/* todo orders list. if order list is empty, show to user link to products */}
+         your orders list
         </TabPanel>
       </ThemeProvider>
     </Box>
@@ -115,4 +119,10 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired
 };
 
-export default React.memo(MyAccTabs);
+const mapStateToProps = store => {
+  return {
+    user: store.user
+  };
+};
+
+export default React.memo(connect(mapStateToProps)(MyAccTabs));

@@ -1,9 +1,13 @@
 const globalConfig = {
+  baseImgUrl: 'https://vigo-shop-aws-bucket.s3.eu-central-1.amazonaws.com',
+  phoneNumberRegExp: /^\+?3?8?(0\d{9})$/,
   priceIsInteger: true,
   contacts: {
     landline: ['0203 980 1479', '0203 478 1296'],
-    cellphone: ['445-115-747-38', '445-170-029-32'],
+    cellphone: ['044-115-747-38', '044-170-029-32'],
+    // todo завести такую почту
     email: ['Vigo_shop@gmail.com', 'Vigo@hotmail.com'],
+    // todo завести такой скайп
     skype: ['Vigo_shop_contact', 'Vigo_support']
   },
   deliveryOptions: {
@@ -42,7 +46,8 @@ const globalConfig = {
     ZYTOMYR: 'Zhytomyr, Zhytomyr region'
   },
   maxRecentlyViewed: 8,
-  emptyWishList: 'You don`t have any items in your wishlist',
+  emptyWishList: 'You don`t have any items in your Wishlist',
+  emptyCart: 'You don`t have any items in your Shopping Cart',
   iconsLabels: {
     ADD_TO_WISHLIST: 'ADD TO WISHLIST',
     ADD_TO_COMPARE: 'ADD TO COMPARE'
@@ -55,7 +60,8 @@ const globalConfig = {
   step: 15,
   defaultQuantity: 1,
   userMessages: {
-    NOT_AUTHORIZED: 'You are not authorized. Login, please'
+    NOT_AUTHORIZED: 'You are not authorized. Login, please',
+    EMPTY_RESULT: 'Any results matching your search'
   },
   types: {
     // eslint-disable-next-line
