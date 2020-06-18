@@ -10,10 +10,6 @@ const theme = createMuiTheme({
         '&:hover': {
           border: 'none'
         }
-      },
-      root: {
-        color: colors.fontOncard,
-        backgroundColor: colors.fontSixth
       }
     },
     PrivateTabIndicator: {

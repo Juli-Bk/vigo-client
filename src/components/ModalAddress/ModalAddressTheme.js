@@ -13,8 +13,7 @@ const theme = createMuiTheme({
         }
       },
       root: {
-        color: colors.fontOncard,
-        backgroundColor: colors.fontSixth
+        color: colors.fontOncard
       }
     },
     PrivateTabIndicator: {

@@ -26,6 +26,12 @@ const useStyles = makeStyles(theme => (
       }
     },
 
+    subtitle: {
+      color: colors.fontSecondary,
+      padding: '0 15px 15px 15px',
+      fontWeight: 700
+    },
+
     button: {
       marginTop: '1.25rem',
       color: colors.fontSecondary,

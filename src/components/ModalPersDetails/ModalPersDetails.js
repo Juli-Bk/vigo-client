@@ -35,7 +35,7 @@ const ModalPersDetails = (props) => {
   return (
     <ThemeProvider theme={theme}>
       <Box>
-        <Button onClick={handleClickOpen}>
+        <Button className={commonClasses.button} onClick={handleClickOpen}>
         Change contact info
         </Button>
         <Dialog

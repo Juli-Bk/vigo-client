@@ -11,6 +11,7 @@ import AddressForm from '../AddressForm/AddressForm';
 import Wishlist from '../../pages/Wishlist/Wishlist';
 import { useMediaQuery } from '@material-ui/core';
 import AjaxUtils from '../../ajax';
+import { colors } from '../../styles/colorKit';
 
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
@@ -42,12 +43,27 @@ function a11yProps (index) {
 const useStyles = makeStyles((theme) => ({
   root: {
     backgroundColor: theme.palette.background.paper,
-    width: '100%'
+    flexGrow: 1
+  },
+  tab: {
+    position: 'relative',
+    '&::before': {
+      position: 'absolute',
+      content: '""',
+      height: 1,
+      width: '300%',
+      background: colors.thinLine,
+      bottom: 0,
+      left: 0,
+      '&$selected': {
+        color: colors.noticeColor
+      }
+    }
   }
 }));
 
 const MyAccTabs = (props) => {
-  const isMobile = useMediaQuery('(max-width: 400px)');
+  const isMobile = useMediaQuery('(max-width: 500px)');
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = useState(0);
@@ -70,8 +86,10 @@ const MyAccTabs = (props) => {
   return (
     <Box className={classes.root}>
       <ThemeProvider theme={themeMui}>
-        <AppBar position='static' color='default'>
+        <AppBar elevation={0} position='static' color='default'>
           <Tabs
+
+            className={classes.tab}
             value={value}
             onChange={handleChange}
             orientation={orientation}
@@ -80,10 +98,10 @@ const MyAccTabs = (props) => {
             variant='fullWidth'
             aria-label='full width tabs'
           >
-            <Tab component='span' label='Contact info' {...a11yProps(0)} />
-            <Tab component='span' label='Address' {...a11yProps(1)} />
-            <Tab component='span' label='Wishlist' {...a11yProps(2)} />
-            <Tab component='span' label='Purchase history' {...a11yProps(3)} />
+            <Tab className={classes.tab} component='span' label='Contact info' {...a11yProps(0)} />
+            <Tab className={classes.tab} component='span' label='Address' {...a11yProps(1)} />
+            <Tab className={classes.tab} component='span' label='Wishlist' {...a11yProps(2)} />
+            <Tab className={classes.tab} component='span' label='Purchase history' {...a11yProps(3)} />
           </Tabs>
         </AppBar>
 

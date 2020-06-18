@@ -7,15 +7,16 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import theme from './ModalAddressTheme';
 import AddressForm from '../AddressForm/AddressForm';
 import useStyles from '../../containers/Header/headerStyle';
+
 import Box from '@material-ui/core/Box';
 import { ThemeProvider } from '@material-ui/styles';
 import { setUser } from '../../redux/actions/actions';
 import { connect} from 'react-redux';
 import { Typography } from '@material-ui/core';
+import useCommonStyles from '../../styles/formStyle/formStyle';
 
 const ModalAddress = (props) => {
   const {user} = props;
-  const classes = useStyles();
   const [open, setOpen] = useState(false);
   const [message, setMessage] = useState('');
   const [isMessageHidden, setIsMessageHidden] = useState(false);
@@ -28,6 +29,9 @@ const ModalAddress = (props) => {
     setOpen(false);
   };
 
+  const commonClasses = useCommonStyles();
+  const classes = useStyles();
+
   const messageTag = <DialogContent>
     <Typography variant='subtitle1' gutterBottom style={{
       color: '#f0877c'
@@ -37,7 +41,7 @@ const ModalAddress = (props) => {
   return (
     <ThemeProvider theme={theme}>
       <Box>
-        <Button onClick={handleClickOpen}>
+        <Button className={commonClasses.button} onClick={handleClickOpen}>
         Change delivery address
         </Button>
         <Dialog

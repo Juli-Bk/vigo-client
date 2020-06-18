@@ -22,7 +22,9 @@ const NovaPoshtaCity = (props) => {
   // todo get values from BD to render them in checkout
   const submitNovaPoshtaData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
+
     console.log('novaposhta', values);
+
     submitNovaPoshtaHandler(values, () => {
       setSubmitting(false);
       resetForm();
@@ -68,15 +70,11 @@ const NovaPoshtaCity = (props) => {
                 <Autocomplete
                   id='open-on-focus'
                   name='city'
-                  // defaultValue={value}
-                  // onChange={(event, newValue) => {
-                  //   console.log('newvalue', newValue);
-                  //   setValue(newValue);
-                  // }}
+                  onChange={(event, newValue) => {
+                    console.log('newvalue', newValue);
+                  }}
                   inputValue={inputValue}
                   onInputChange={(event, newInputValue) => {
-                    console.log('newinput', newInputValue);
-                    console.log('newinput', typeof newInputValue);
                     setInputValue(newInputValue);
                   }}
                   options={options}
@@ -88,6 +86,7 @@ const NovaPoshtaCity = (props) => {
                       className={styles.input}
                       value=""
                       onBlur={handleBlur}
+                      onChange={handleChange}
                       helperText={(errors.city && touched.city) && errors.city}
                       error={touched.city && Boolean(errors.city)}
                       label='Choose the city to deliver'
@@ -99,12 +98,13 @@ const NovaPoshtaCity = (props) => {
                   name='npOffice'
                   autoComplete='on'
                   className={styles.input}
-                  defaultValue={values.npOffice}
-                  onBlur={handleBlur}
+                  type='npOffice'
                   label='choose nova poshta post office №'
-                  onChange={handleChange('npOffice')}
-                  helperText={touched.npOffice ? errors.npOffice : ''}
-                  error={touched.npOffice && Boolean(errors.npOffice)}
+                  value={values.npOffice}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  helperText={(errors.npOffice && touched.npOffice) && errors.npOffice}
+                  error={errors.npOffice && touched.npOffice}
                   variant='outlined'
                   size='small'
                   fullWidth
@@ -123,7 +123,6 @@ const NovaPoshtaCity = (props) => {
             )}
           </Formik>
         </Grid>
-
       </Grid>
     </ThemeProvider>
   );
