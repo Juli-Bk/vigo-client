@@ -137,20 +137,19 @@ const useStyles = makeStyles(theme => ({
   quantity: {
     textAlign: 'center',
     fontSize: '1.5rem',
-    userSelect: 'none'
+    userSelect: 'none',
+    border: `1px solid ${colors.borderLight}`
   },
   changeQuantityBtn: {
-    display: 'inline-block',
-    border: `1px solid ${colors.paginationActive}`,
     width: '20',
     height: '20',
     textAlign: 'center',
     fontSize: '1.5rem',
-    lineHeight: '1rem',
     padding: 5,
     cursor: 'pointer',
     margin: 15,
-    userSelect: 'none'
+    userSelect: 'none',
+    borderLeft: `1px solid ${colors.borderLight}`
   }
 }));
 

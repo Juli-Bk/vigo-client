@@ -156,7 +156,7 @@ export const toggleWishItems = (productId) => {
   }
 };
 
-export const toggleCartItems = (productId, quantity = 1) => {
+export const AddOrDeleteCartItems = (productId, quantity = 1) => {
   const userId = getUserIdFromCookie();
   const shopCartLocal = getStorageData('shoppingCart');
   const cartId = JSON.parse(localStorage.getItem('cartId'));
@@ -226,16 +226,4 @@ export const makeFilterItem = (string) => {
   const key = filterString[0];
   const value = filterString[1];
   return {[key]: value};
-};
-
-export const getFilterString = (filterArray = [], sortingData) => {
-  const queryString = getQueryString(sortingData);
-  console.log(filterArray);
-  const filterString = filterArray.map(filter => {
-    Object.keys(filter).map(key => `${key}=${filter[key]}`);
-  }).join('&');
-
-  return filterString.length
-    ? filterString + '&' + queryString
-    : queryString;
 };

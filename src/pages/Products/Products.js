@@ -6,8 +6,8 @@ import { withRouter } from 'react-router';
 import AjaxUtils from '../../ajax';
 import useStyles from './ProductsStyles';
 import globalConfig from '../../globalConfig';
-import { defineSortData, makeFilterItem, getFilterString } from '../../helpers/helpers';
-
+import { defineSortData, makeFilterItem } from '../../helpers/helpers';
+import {getFilterString} from '../../ajax/common/helper';
 import ProductGrid from '../../containers/ProductsGrid/ProductsGrid';
 import ProductsList from '../../containers/ProductsList/ProductsList';
 import PaginationRounded from '../../components/Pagination/Pagination';
@@ -25,8 +25,8 @@ const Products = (props) => {
   const [products, setProducts] = useState([]);
   const [total, setTotal] = useState(0);
   const [maxProductsPrice, setMaxProductsPrice] = useState(0);
-
   const filtersArray = [{minPrice: priceRange[0]}, {maxPrice: priceRange[1]}, {color: colors}, {size: size}];
+
   const searchString = location.search.split('?')[1];
 
   useEffect(() => {
@@ -34,17 +34,15 @@ const Products = (props) => {
 
     if (searchString.includes('&')) {
       const filterStrings = searchString.split('&');
-      const allFilters = [];
+      // const allFilters = [];
       filterStrings.forEach(string => {
-        allFilters.push(makeFilterItem(string));
+        filtersArray.push(makeFilterItem(string));
       });
-      allFilters.forEach(filter => {});
-      // todo proper filtration here
-      filtersArray.push(...allFilters);
+      // filtersArray.push(...allFilters);
     } else {
       filtersArray.push(makeFilterItem(searchString));
     }
-
+    console.log(filtersArray);
     if (!isCanceled) {
       AjaxUtils.Products.getMaxPrice()
         .then(result => {
@@ -59,7 +57,7 @@ const Products = (props) => {
         });
       // todo url string with all filters
       // history.push(`filter?${getFilterString(filtersArray, defineSortData(sortingOption))}`);
-      console.log(getFilterString(filtersArray, defineSortData(sortingOption)));
+      // console.log(getFilterString(filtersArray, defineSortData(sortingOption)));
     }
     return () => {
       isCanceled = true;
@@ -89,7 +87,7 @@ const Products = (props) => {
               </Grid>
                 : null}
               <Grid item container lg={12} spacing={0}>
-                <Grid item xl={3} lg={3} md={3} sm={6} xs={6}>
+                <Grid item xl={3} lg={3} md={3} sm={6} xs={6} className={classes.viewBox}>
                   <ViewAs label={true}/>
                 </Grid>
                 <Grid item xl={3} lg={3} md={3} sm={6} xs={6} className={classes.showBy}>

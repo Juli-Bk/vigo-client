@@ -10,7 +10,14 @@ import {
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
-import { capitalize, formPriceString, getStorageData, toggleCartItems, toggleWishItems } from '../../helpers/helpers';
+import {
+  capitalize,
+  formPriceString,
+  getStorageData,
+  AddOrDeleteCartItems,
+  toggleWishItems,
+  mapArrayToOptions, makeNumbersArray
+} from '../../helpers/helpers';
 import { changeWishList, changeShoppingCart } from '../../redux/actions/actions';
 import SaleInfoBox from '../../components/Product/SaleInfoBox/SaleInfoBox';
 import SalePrice from '../../components/Product/SalePrice/SalePrice';
@@ -19,6 +26,7 @@ import { theme } from './ProductsTableTheme';
 import useStyles from './ProductsTableStyles';
 import globalConfig from '../../globalConfig';
 import AjaxUtils from '../../ajax';
+import SelectSimple from '../../components/Select/SelectSimple';
 
 const ProductsTable = (props) => {
   // todo quantity
@@ -32,6 +40,8 @@ const ProductsTable = (props) => {
     isShoppingCart
   } = props;
   const classes = useStyles();
+  const [chosenQuantity, setChosenQuantity] = useState(1);
+  const [quantityOfCurrentSize, setQuantityOfCurrentSize] = useState(1);
 
   useEffect(() => {
     const idArray = [];
@@ -48,6 +58,10 @@ const ProductsTable = (props) => {
     });
   });
 
+  const handleSetQuantity = (event) => {
+    setChosenQuantity(Number(event.target.value));
+  };
+
   const getSubtotal = (price, quantity) => {
     return price * quantity;
   };
@@ -58,17 +72,10 @@ const ProductsTable = (props) => {
   };
   // to do different functions to add znd to delete
   const deleteFromCart = (id) => {
-    toggleCartItems(id);
+    AddOrDeleteCartItems(id);
     changeShoppingCart(getStorageData('shoppingCart'));
   };
-
-  const decreaseInCart = (productId) => {
-    console.log('decrease');
-  };
-  const increaseInCart = (productId) => {
-    console.log('increase');
-  };
-
+  // todo replace logic
   const rows = products.map(product => {
     return isShoppingCart
       ? {
@@ -172,14 +179,15 @@ const ProductsTable = (props) => {
                           <SalePrice value={row.salePrice}/>
                         </TableCell>
                         <TableCell align="center" className={classes.code}>
-                          <Box className={classes.quantity}>
-                            <span className={classes.changeQuantityBtn} onClick={() => {
-                              decreaseInCart(row.productId);
-                            }}>-</span>
-                            {row.quantity}
-                            <span className={classes.changeQuantityBtn} onClick={() => {
-                              increaseInCart(row.productId);
-                            }}>+</span>
+                          <Box>
+                            <SelectSimple value={chosenQuantity}
+                              classes={classes}
+                              handleChange={handleSetQuantity}
+                              options={mapArrayToOptions(makeNumbersArray(10))}/>
+                            {/* {row.quantity} */}
+                            {/* <span className={classes.changeQuantityBtn} onClick={() => { */}
+                            {/*  increaseInCart(row.productId); */}
+                            {/* }}>+</span> */}
                           </Box>
                         </TableCell>
                         <TableCell align="center" className={classes.code}>

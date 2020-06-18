@@ -21,7 +21,9 @@ const ShoppingCart = (props) => {
     if (filterArray.length) {
       AjaxUtils.Products.getProductsByFilters(filterArray, 1, 15, '')
         .then(result => {
-          setProducts(result.products);
+          if (result && !result.message) {
+            setProducts(result.products);
+          }
         });
     }
     return () => {

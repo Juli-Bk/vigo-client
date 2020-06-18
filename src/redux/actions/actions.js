@@ -64,3 +64,7 @@ export const changeShoppingCart = (data) => {
 export const setCategoryId = (categoryId) => {
   return {type: Actions.SET_CATEGORY_ID, payload: categoryId};
 };
+
+export const setCartData = (data) => {
+  return {type: Actions.SET_CART_DATA, payload: data};
+};
