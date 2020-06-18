@@ -87,7 +87,7 @@ const Products = (props) => {
                 <ViewAs label={true}/>
               </Grid>
               <Grid item xl={3} lg={3} md={3} sm={6} xs={6} className={classes.showBy}>
-                <ShowBy step={globalConfig.step}/>
+                {total > 15 ? <ShowBy step={globalConfig.step}/> : null}
               </Grid>
               <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
                 <PaginationRounded perPage={perPage} total={total}/>
