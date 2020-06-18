@@ -1,14 +1,15 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Formik } from 'formik';
-import * as Yup from 'yup';
+import {Formik} from 'formik';
 import {
-  Typography,
-  TextField,
   Button,
   CardActions,
+  Checkbox,
+  FormControlLabel,
+  FormHelperText,
   Grid,
-  ThemeProvider, FormHelperText, Checkbox, FormControlLabel
+  TextField,
+  ThemeProvider,
+  Typography
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import useStyles from './PersonalDetailsFormStyle';
@@ -19,80 +20,57 @@ import IconLabel from '../IconLabel/IconLabel';
 import PersonIcon from '@material-ui/icons/Person';
 import EmailIcon from '@material-ui/icons/Email';
 import AjaxUtils from '../../ajax';
-import { setUser } from '../../redux/actions/actions';
 import {validateObject} from './helper';
+import * as Yup from 'yup';
 
-const PersonalDetailsForm = (props) => {
-  const {user, setUser, submitPersDetailsHandler} = props;
-  const {firstName, lastName, email, phoneNumber} = user;
+const PersonalDetailsGuestForm = (props) => {
+  const {saveGuestDataHandler, guestData} = props;
+  const styles = useStyles();
 
   const handleCancel = () => {
-    submitPersDetailsHandler(null);
-  };
-
-  const submitPersonalDetailsData = (values, {resetForm, setSubmitting}) => {
-    setSubmitting(true);
-
-    if (user._id) {
-      const data = {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        phoneNumber: values.phoneNumber,
-        email: values.email
-      };
-
-      AjaxUtils.Users.updateUserInfoById(user._id, data)
-        .then(result => {
-          setSubmitting(false);
-          if (result.status !== 400) {
-            resetForm();
-            submitPersDetailsHandler(result);
-          } else {
-            submitPersDetailsHandler(result);
-            setUser(result);
-          }
-        })
-        .catch(error => {
-          console.log(error);
-          setSubmitting(false);
-          submitPersDetailsHandler(values, error);
-        });
-    }
-    if (values.subscribe === true) {
-      AjaxUtils.Subscribers.subscribe(values.email);
-    }
+    saveGuestDataHandler(null);
   };
 
   const initFormValues = {
-    firstName: user ? firstName : '',
-    lastName: user ? lastName : '',
-    phoneNumber: user ? phoneNumber : '',
-    email: user ? email : '',
-    password: '',
-    confirmPassword: '',
-    confirmation: false,
-    subscribe: false,
-    saveMyData: true
+    firstName: guestData ? guestData.firstName : '',
+    lastName: guestData ? guestData.lastName : '',
+    phoneNumber: guestData ? guestData.phoneNumber : '',
+    email: guestData ? guestData.email : '',
+    confirmation: guestData ? guestData.confirmation : false,
+    subscribe: guestData ? guestData.subscribe : false,
+    saveMyData: guestData ? guestData.saveMyData : true
   };
 
-  const styles = useStyles();
+  const saveGuestData = (values, {resetForm, setSubmitting}) => {
+    setSubmitting(true);
+    if (values.subscribe === true) {
+      AjaxUtils.Subscribers.subscribe(values.email)
+        .then(() => {
+          resetForm();
+          setSubmitting(false);
+          saveGuestDataHandler(values);
+        });
+    } else {
+      resetForm();
+      setSubmitting(false);
+      saveGuestDataHandler(values);
+    }
+  };
 
   return (
     <Grid container>
       <Grid item xs={12}>
         <Typography className={styles.header} variant='h6' gutterBottom>your personal details</Typography>
         <Formik
+          validateOnChange={true}
+          validateOnBlur={true}
+          validateOnMount={true}
           initialValues={initFormValues}
           validationSchema={Yup.object().shape(validateObject)}
-          onSubmit={submitPersonalDetailsData}>
+          onSubmit={saveGuestData}>
           {({
-            isSubmitting,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            values,
-            errors,
-            touched
+            isSubmitting, handleChange, handleBlur,
+            handleSubmit, values, errors, touched
           }) => (
             <form autoComplete='on'>
               <ThemeProvider theme={theme}>
@@ -156,18 +134,18 @@ const PersonalDetailsForm = (props) => {
                   name='saveMyData'
                   column='true'>
                   <FormControlLabel
-                    control={<Checkbox checked={values.subscribe}
+                    control={<Checkbox checked={values.subscribe || false}
                       onChange={handleChange}
                       name='subscribe'
                       color='default'/>}
                     label='I wish to subscribe to the Vigo Shop newsletter'
                   />
                   <FormControlLabel
-                    control={<Checkbox checked={values.confirmation}
+                    control={<Checkbox checked={values.confirmation || false}
                       onChange={handleChange}
                       name='confirmation'
                       color='default'/>}
-                    label='I have read and agree to the Privacy Policy'
+                    label='I have read and agree on the Privacy Policy'
                   />
                   {touched.confirmation && errors.confirmation &&
                   <FormHelperText
@@ -190,32 +168,19 @@ const PersonalDetailsForm = (props) => {
                   onClick={handleSubmit}
                   disabled={isSubmitting}
                   size='large'
-                  variant='outlined'>Continue
+                  variant='outlined'>Save
                 </Button>
               </CardActions>
             </form>
           )}
         </Formik>
-
       </Grid>
     </Grid>
   );
 };
 
-PersonalDetailsForm.propTypes = {
-  submitPersDetailsHandler: PropTypes.func.isRequired
+PersonalDetailsGuestForm.propTypes = {
+  saveGuestDataHandler: PropTypes.func
 };
 
-const mapStateToProps = store => {
-  return {
-    user: store.user
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    setUser: data => dispatch(setUser(data))
-  };
-};
-
-export default React.memo(connect(mapStateToProps, mapDispatchToProps)(PersonalDetailsForm));
+export default React.memo(PersonalDetailsGuestForm);

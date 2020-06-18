@@ -1,15 +1,10 @@
 import React from 'react';
-import { Typography, makeStyles } from '@material-ui/core';
+import {makeStyles, Typography} from '@material-ui/core';
 import PropTypes from 'prop-types';
-import { colors } from '../../../styles/colorKit';
-import { formPriceString } from '../../../helpers/helpers';
+import {colors} from '../../../styles/colorKit';
+import {formPriceString} from '../../../helpers/helpers';
 import globalConfig from '../../../globalConfig';
-import { fonts } from '../../../styles/fonts/fontsKit';
-
-const font = {
-  color: colors.fontPrice,
-  fontWeight: 'bold'
-};
+import {fonts} from '../../../styles/fonts/fontsKit';
 
 const useStyles = makeStyles(theme => ({
   salePrice: {
@@ -38,11 +33,18 @@ const SalePrice = (props) => {
   const {value, isUnitPrice} = props;
   const classes = useStyles();
 
+  const priceClass = isUnitPrice ? classes.unitPrice : classes.salePrice;
+  const price = formPriceString(value, globalConfig.priceIsInteger);
+
   return <Typography
     variant='caption'
     component='p'
-    className={isUnitPrice ? classes.unitPrice : classes.salePrice}>{formPriceString(value, globalConfig.priceIsInteger)}</Typography>;
+    className={priceClass}
+  >
+    {price}
+  </Typography>;
 };
+
 SalePrice.propTypes = {
   value: PropTypes.number.isRequired,
   isUnitPrice: PropTypes.bool
