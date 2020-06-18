@@ -2,7 +2,6 @@ import React, {useState} from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import Card from '@material-ui/core/Card';
-import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import theme from './ModalAddressTheme';
@@ -12,11 +11,14 @@ import Box from '@material-ui/core/Box';
 import { ThemeProvider } from '@material-ui/styles';
 import { setUser } from '../../redux/actions/actions';
 import { connect} from 'react-redux';
+import { Typography } from '@material-ui/core';
 
 const ModalAddress = (props) => {
   const {user} = props;
   const classes = useStyles();
   const [open, setOpen] = useState(false);
+  const [message, setMessage] = useState('');
+  const [isMessageHidden, setIsMessageHidden] = useState(false);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -25,6 +27,12 @@ const ModalAddress = (props) => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const messageTag = <DialogContent>
+    <Typography variant='subtitle1' gutterBottom style={{
+      color: '#f0877c'
+    }}>{message}</Typography>
+  </DialogContent>;
 
   return (
     <ThemeProvider theme={theme}>
@@ -41,9 +49,18 @@ const ModalAddress = (props) => {
           <DialogContent component='span' className={classes.modalWindow}>
             <DialogContentText component='span' id="alert-dialog-description">
               <Card component='span'>
-                <AddressForm component='span' user={user}/>
+                <AddressForm submitAddressHandler={(result) => {
+                  if (result.status === 400) {
+                    setMessage(result.message);
+                    setIsMessageHidden(true);
+                  } else {
+                    setIsMessageHidden(false);
+                    handleClose();
+                  }
+                }} component='span' user={user}/>
               </Card>
             </DialogContentText>
+            {isMessageHidden && messageTag}
           </DialogContent>
         </Dialog>
       </Box>

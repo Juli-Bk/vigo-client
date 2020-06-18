@@ -40,7 +40,8 @@ const DeliveryForm = () => {
               <TextField {...params}
                 name='delivery'
                 label='Delivery options'
-                variant='outlined' />}
+                variant='outlined'
+                size='small'/>}
           />
         </Grid>
         <Grid item xs={12} md={6}>

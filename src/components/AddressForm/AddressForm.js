@@ -25,7 +25,11 @@ import { setUser } from '../../redux/actions/actions';
 import AjaxUtils from '../../ajax';
 
 const AddressForm = (props) => {
-  const {submitAddressHandler, user} = props;
+  const {submitAddressHandler, setUser} = props;
+
+  const handleCancel = () => {
+    submitAddressHandler({});
+  };
 
   const [address, setAddress] = useState('');
   const submitAddressData = (values, {resetForm, setSubmitting}) => {
@@ -39,24 +43,17 @@ const AddressForm = (props) => {
         postalCode: values.postalCode
       }]
     };
-
-    AjaxUtils.Users.updateUserInfoById(user._id, addresses)
+    submitAddressHandler(values, () => {
+      setSubmitting(false);
+      resetForm();
+    });
+    AjaxUtils.Users.updateUserInfoById(setUser._id, addresses)
       .then(result => {
         setSubmitting(false);
         if (result.status !== 400) {
           resetForm();
         }
-        // submitAddressHandler(values, () => {
-        //   setSubmitting(false);
-        //   resetForm();
-        // });
       });
-    console.log('saved address', addresses);
-
-    submitAddressHandler(values, () => {
-      setSubmitting(false);
-      resetForm();
-    });
   };
 
   const initFormValues = {
@@ -68,6 +65,7 @@ const AddressForm = (props) => {
   };
 
   const validateObject = Yup.object().shape({
+    autocomplete: Yup.string(),
     address: Yup.object()
       .required('Required'),
     house: Yup.string()
@@ -171,6 +169,13 @@ const AddressForm = (props) => {
                 </FormGroup>
               </ThemeProvider>
               <CardActions>
+                <Button
+                  type='button'
+                  className={styles.button}
+                  onClick={handleCancel}
+                  size='large'
+                  variant='outlined'>cancel
+                </Button>
                 <Button
                   type='submit'
                   className={styles.button}

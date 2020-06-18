@@ -60,7 +60,7 @@ const ModalPersDetails = (props) => {
                   // сохранить данные анонимного покупателя для дальнейшего оформления заказа
                   console.log('need to save guest data', result);
                 }
-              }}component='span' user={user}/>
+              }} component='span' user={user}/>
             </DialogContentText>
             {isMessageHidden && messageTag}
           </DialogContent>

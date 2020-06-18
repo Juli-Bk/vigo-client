@@ -29,7 +29,6 @@ const NovaPoshtaCity = (props) => {
     });
   };
   const options = Object.values(regions);
-  // const [value, setValue] = useState(regions[0]);
   const [inputValue, setInputValue] = useState('');
 
   const styles = useStyles();
@@ -92,7 +91,9 @@ const NovaPoshtaCity = (props) => {
                       helperText={(errors.city && touched.city) && errors.city}
                       error={touched.city && Boolean(errors.city)}
                       label='Choose the city to deliver'
-                      variant='outlined' />}
+                      variant='outlined'
+                      size='small'
+                    />}
                 />
                 <TextField
                   name='npOffice'
@@ -105,6 +106,7 @@ const NovaPoshtaCity = (props) => {
                   helperText={touched.npOffice ? errors.npOffice : ''}
                   error={touched.npOffice && Boolean(errors.npOffice)}
                   variant='outlined'
+                  size='small'
                   fullWidth
                 />
                 <CardActions>
