@@ -18,17 +18,18 @@ const {regions} = globalConfig;
 
 const NovaPoshtaCity = (props) => {
   const {submitNovaPoshtaHandler} = props;
+
   // todo get values from BD to render them in checkout
   const submitNovaPoshtaData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
+    console.log('novaposhta', values);
     submitNovaPoshtaHandler(values, () => {
-      console.log('novaposhta', values);
       setSubmitting(false);
       resetForm();
     });
   };
   const options = Object.values(regions);
-  const [value, setValue] = useState(regions[0]);
+  // const [value, setValue] = useState(regions[0]);
   const [inputValue, setInputValue] = useState('');
 
   const styles = useStyles();
@@ -62,26 +63,31 @@ const NovaPoshtaCity = (props) => {
               handleSubmit,
               values,
               errors,
-              touched,
-              onChange
+              touched
             }) => (
               <form>
                 <Autocomplete
                   id='open-on-focus'
-                  value={value}
-                  onChange={(event, newValue) => {
-                    setValue(newValue);
-                  }}
+                  name='city'
+                  // defaultValue={value}
+                  // onChange={(event, newValue) => {
+                  //   console.log('newvalue', newValue);
+                  //   setValue(newValue);
+                  // }}
                   inputValue={inputValue}
                   onInputChange={(event, newInputValue) => {
+                    console.log('newinput', newInputValue);
+                    console.log('newinput', typeof newInputValue);
                     setInputValue(newInputValue);
                   }}
                   options={options}
                   style={{ width: '100%' }}
                   renderInput={(params) =>
                     <TextField {...params}
+                      autoComplete='false'
                       name='city'
                       className={styles.input}
+                      value=""
                       onBlur={handleBlur}
                       helperText={(errors.city && touched.city) && errors.city}
                       error={touched.city && Boolean(errors.city)}
@@ -92,7 +98,7 @@ const NovaPoshtaCity = (props) => {
                   name='npOffice'
                   autoComplete='on'
                   className={styles.input}
-                  value={values.npOffice}
+                  defaultValue={values.npOffice}
                   onBlur={handleBlur}
                   label='choose nova poshta post office №'
                   onChange={handleChange('npOffice')}

@@ -41,7 +41,6 @@ const NewCustomerForm = (props) => {
   return (
     <Card>
       <CardContent>
-        <Typography className={styles.header} variant='h4' gutterBottom>new customer</Typography>
         <Formik
           initialValues={initFormValues}
           validationSchema={validateObject}
@@ -49,11 +48,11 @@ const NewCustomerForm = (props) => {
           {({ handleChange, values, handleSubmit, isSubmitting, errors}) => (
             <Form autoComplete='off' id='newCustomerForm'>
               <FormControl>
-                <Typography variant='subtitle2' className={styles.text}>Register with us for future convenience:</Typography>
+                <Typography variant='subtitle2' className={styles.text}>How do you want to continue?</Typography>
                 <ThemeProvider theme={theme}>
                   <RadioGroup id='radioGroup' aria-label='newCustomer' value={values.radioGroup} name='formNew' onChange={handleChange}>
                     <FormControlLabel value='asGuest' name='radioGroup' id='radioOption1' color='default' control={<Radio />} label='Checkout as a guest' />
-                    <FormControlLabel value='iWillRegister' name='radioGroup' id='radioOption2' color='default' control={<Radio />} label='Register' />
+                    <FormControlLabel value='iWillRegister' name='radioGroup' id='radioOption2' color='default' control={<Radio />} label='Login/Register' />
                   </RadioGroup>
                   <FormHelperText>{errors.radioGroup}</FormHelperText>
                 </ThemeProvider>

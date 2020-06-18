@@ -1,20 +1,19 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import { makeStyles, ThemeProvider, useTheme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import themeMui from './MyAccTabsTheme';
 import PersonalDetailsForm from '../PersonalDetailsForm/PersonalDetailsForm';
 import AddressForm from '../AddressForm/AddressForm';
 import Wishlist from '../../pages/Wishlist/Wishlist';
 import { useMediaQuery } from '@material-ui/core';
+import AjaxUtils from '../../ajax';
 
 const TabPanel = (props) => {
-  const { user, children, value, index, ...other } = props;
+  const { children, value, index, ...other } = props;
 
   return (
     <Box
@@ -26,7 +25,7 @@ const TabPanel = (props) => {
     >
       {value === index && (
         <Box p={3}>
-          <Typography component='span'>{children}</Typography>
+          {children}
         </Box>
       )}
     </Box>
@@ -48,11 +47,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const MyAccTabs = (props) => {
-  const {user} = props;
   const isMobile = useMediaQuery('(max-width: 400px)');
   const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = useState(0);
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    AjaxUtils.Users.getUser()
+      .then(result => {
+        setUser(result);
+        console.log(result);
+      });
+  }, []);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -81,14 +88,13 @@ const MyAccTabs = (props) => {
         </AppBar>
 
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <PersonalDetailsForm user={user} submitPersonalDetailsHandler={(submit) => {
-            console.log('personal details values', submit);
-            handleChange(null, value);
-          }}/>
+          {user
+            ? <PersonalDetailsForm user={user} submitPersonalDetailsHandler={(submit) => {
+              handleChange(null, value);
+            }}/> : null}
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           <AddressForm submitAddressHandler={(submit) => {
-            console.log('address', submit);
             handleChange(null, value);
           }} />
         </TabPanel>
@@ -96,7 +102,7 @@ const MyAccTabs = (props) => {
           <Wishlist />
         </TabPanel>
         <TabPanel value={value} index={3} dir={theme.direction}>
-        Purchase history
+          Purchase history
         </TabPanel>
       </ThemeProvider>
     </Box>
@@ -109,10 +115,4 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired
 };
 
-const mapStateToProps = store => {
-  return {
-    user: store.user
-  };
-};
-
-export default React.memo(connect(mapStateToProps)(MyAccTabs));
+export default React.memo(MyAccTabs);

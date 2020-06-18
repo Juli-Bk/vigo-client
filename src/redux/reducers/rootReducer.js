@@ -13,6 +13,8 @@ import quantity from './quantityReducer';
 import wishList from './wishListReducer';
 import user from './userReducer';
 import colors from './colorReducer';
+import isLoginModalOpen from './isLoginModalOpenReducer';
+import isPersDetailsModalOpen from './isPersDetailsModalOpenReducer';
 import categoryId from './categoryIdReducer';
 
 export const rootReducer = combineReducers({
@@ -30,5 +32,7 @@ export const rootReducer = combineReducers({
   wishList,
   user,
   colors,
-  categoryId
+  categoryId,
+  isLoginModalOpen,
+  isPersDetailsModalOpen
 });

@@ -3,8 +3,8 @@ import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {Button, Card, CardActions, CardContent, TextField, ThemeProvider, Typography} from '@material-ui/core';
 import PropTypes from 'prop-types';
-import useStyles from './LoginFormStyle';
-import theme from './LoginFormTheme';
+import useStyles from '../../styles/formStyle/formStyle';
+import theme from '../../styles/formStyle/formStyleTheme';
 import EmailIcon from '@material-ui/icons/Email';
 import LockIcon from '@material-ui/icons/Lock';
 import IconLabel from '../IconLabel/IconLabel';
@@ -12,6 +12,10 @@ import AjaxUtils from '../../ajax';
 
 const LoginForm = (props) => {
   const {submitLoginHandler} = props;
+
+  const handleCancel = () => {
+    submitLoginHandler({});
+  };
 
   const submitLoginData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
@@ -74,7 +78,8 @@ const LoginForm = (props) => {
                   value={values.email}
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  helperText={(errors.email && touched.email) && errors.email}/>
+                  helperText={(errors.email && touched.email) && errors.email}
+                  size='small'/>
                 <TextField
                   name='password'
                   autoComplete='off'
@@ -87,10 +92,18 @@ const LoginForm = (props) => {
                   fullWidth variant='outlined'
                   helperText={touched.password ? errors.password : ''}
                   error={touched.password && Boolean(errors.password)}
+                  size='small'
                 />
               </ThemeProvider>
               {/* todo save user data for quick login */}
               <CardActions>
+                <Button
+                  type='button'
+                  className={styles.button}
+                  onClick={handleCancel}
+                  size='large'
+                  variant='outlined'>cancel
+                </Button>
                 <Button
                   type='submit'
                   className={styles.button}
