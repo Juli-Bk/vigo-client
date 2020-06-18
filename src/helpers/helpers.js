@@ -89,9 +89,16 @@ export const makeNumbersArray = (number) => {
 
 export const changeOrder = (arrayOfId, arrayOfObjects) => {
   const newObjectsArray = [];
-  arrayOfId.forEach(id => {
-    newObjectsArray.push(arrayOfObjects.find(object => object._id === id));
-  });
+  if (arrayOfObjects) {
+    arrayOfId.forEach(id => {
+      const product = arrayOfObjects.find(object => object._id === id);
+      if (product) {
+        newObjectsArray.push(product);
+      } else {
+        setStorageData('recentlyViewed', [...arrayOfId.filter(item => item === id)]);
+      }
+    });
+  }
   return newObjectsArray.reverse();
 };
 

@@ -15,7 +15,7 @@ import {setChosenQuantity, setChosenSize} from '../../../redux/actions/actions';
 
 const ProductPageView = (props) => {
   const classes = useStyles();
-  const {productData, width, productQuantity, size, setSize} = props;
+  const {productData, width, productQuantity} = props;
   const {name, description, price, rating, brandId, salePrice, productId, isOnSale} = productData;
   const [chosenSize, setChosenSize] = useState('');
   const [chosenQuantity, setChosenQuantity] = useState(1);
@@ -32,7 +32,6 @@ const ProductPageView = (props) => {
   };
 
   const handleSetSize = (event) => {
-    setSize(event.target.value);
     setChosenSize(event.target.value);
     setQuantityOfCurrentSize(productQuantity.find(item => item.sizeId.name === event.target.value).quantity);
   };
@@ -61,7 +60,7 @@ const ProductPageView = (props) => {
       </Box>
       <Box>
         <Box className={classes.selectBox}>
-          <SelectSimple value={size}
+          <SelectSimple value={chosenSize}
             classes={classes}
             handleChange={handleSetSize}
             options={mapArrayToOptions(sizesArray)}/>
