@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import ProductsTable from './ProductsTable';
+import WishListTable from './WishListTable';
 
 const mockStore = configureStore([]);
 const products = [
@@ -66,7 +66,7 @@ describe('products table testing', () => {
     render(
       <BrowserRouter>
         <Provider store={store}>
-          <ProductsTable
+          <WishListTable
             products={products}
             isMobile={false}
             changeWishList={changeWishList}
@@ -77,13 +77,13 @@ describe('products table testing', () => {
     const thead = document.querySelector('thead');
     expect(thead).toBeInTheDocument();
     const thCollection = thead.querySelectorAll('th');
-    expect(thCollection.length).toBe(6);
+    expect(thCollection.length).toBe(5);
   });
   it('should render proper columns amount on mobile screen', function () {
     render(
       <BrowserRouter>
         <Provider store={store}>
-          <ProductsTable
+          <WishListTable
             products={products}
             isMobile={true}
             changeWishList={changeWishList}
@@ -100,7 +100,7 @@ describe('products table testing', () => {
     render(
       <BrowserRouter>
         <Provider store={store}>
-          <ProductsTable
+          <WishListTable
             products={products}
             isMobile={false}
             wishlist={wishList}
@@ -116,7 +116,7 @@ describe('products table testing', () => {
     const table = render(
       <BrowserRouter>
         <Provider store={store}>
-          <ProductsTable
+          <WishListTable
             products={products}
             isMobile={false}
             changeWishList={changeWishList}

@@ -5,7 +5,7 @@ import { Container, Grid, useMediaQuery } from '@material-ui/core';
 import AjaxUtils from '../../ajax';
 import globalConfig from '../../globalConfig';
 
-import ProductsTable from '../../containers/ProductsTable/ProductsTable';
+import ShopCartView from '../../components/ShopCartView/ShopCartView';
 import EmptyState from '../../components/EmptyState/EmptyState';
 
 const ShoppingCart = (props) => {
@@ -36,9 +36,8 @@ const ShoppingCart = (props) => {
     <Container>
       <Grid container>
         {shoppingCart.length && products.length
-          ? <ProductsTable
+          ? <ShopCartView
             products={products}
-            isShoppingCart={true}
             isMobile={isMobile}/>
           : <EmptyState text={globalConfig.emptyCart}/>}
       </Grid>

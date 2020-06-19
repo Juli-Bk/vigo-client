@@ -2,12 +2,12 @@ import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Container, Grid, useMediaQuery } from '@material-ui/core';
-import AjaxUtils from '../../ajax';
-import globalConfig from '../../globalConfig';
 
-import ProductsTable from '../../containers/ProductsTable/ProductsTable';
-import { changeWishList } from '../../redux/actions/actions';
+import WishListView from '../../components/WishListView/WishListTable';
 import EmptyState from '../../components/EmptyState/EmptyState';
+import globalConfig from '../../globalConfig';
+import AjaxUtils from '../../ajax';
+import { changeWishList } from '../../redux/actions/actions';
 
 const Wishlist = (props) => {
   const {wishList} = props;
@@ -34,7 +34,7 @@ const Wishlist = (props) => {
   return (
     <Container>
       <Grid container>
-        {wishList.length && products.length ? <ProductsTable products={products} isMobile={isMobile}/>
+        {wishList.length && products.length ? <WishListView products={products} isMobile={isMobile}/>
           : <EmptyState text={globalConfig.emptyWishList}/>}
       </Grid>
     </Container>
