@@ -99,7 +99,7 @@ const ProductsTable = (props) => {
             { isMobile
               ? <TableRow>
                 <TableCell align="center" className={classes.tableHead}>
-                  {products.length} products in your cart
+                  {products.length} products in your {isShoppingCart ? 'cart' : 'Wishlist'}
                 </TableCell>
               </TableRow>
               : <TableRow>
