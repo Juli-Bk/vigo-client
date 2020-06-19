@@ -14,21 +14,11 @@ const paymentOptions = {
   BY_CASH: 'BY_CASH',
   LIQ_PAY: 'LIQ_PAY'
 };
-const updateField = (name, value) => {
-  updateField.simulate('change', {
-    persist: () => {
-    },
-    target: {
-      name,
-      value
-    }
-  });
-};
 
 describe('PaymentForm with all expected props', () => {
-  const updateField = mount(<Provider store={store}><PaymentForm /></Provider>);
+  const form = mount(<Provider store={store}><PaymentForm /></Provider>);
   afterEach(() => {
-    updateField.unmount();
+    form.unmount();
   });
 
   it('switch function renders proper paymentOptions', () => {

@@ -15,26 +15,17 @@ const deliveryOptions = {
   UKRPOSHTA: 'UKRPOSHTA',
   PICKUP: 'PICKUP'
 };
-const updateField = (name, value) => {
-  updateField.simulate('change', {
-    persist: () => {
-    },
-    target: {
-      name,
-      value
-    }
-  });
-};
+
 describe('DeliveryForm with all expected props', () => {
-  const updateField = mount(<Provider store={store}><DeliveryForm /></Provider>);
+  const form = mount(<Provider store={store}><DeliveryForm /></Provider>);
   afterEach(() => {
   });
 
   it('Should display autocomplete form field', () => {
-    expect(updateField.find('input[name="delivery"]')).toBeTruthy();
+    expect(form.find('input[name="delivery"]')).toBeTruthy();
   });
 
-  it('switch function renders proper deliveryOptions', () => {
+  it('switch function renders properly deliveryOptions', () => {
     render(<Provider store={store}><Sort values={deliveryOptions}/></Provider>);
     const options = document.querySelectorAll('option');
     expect(options.length).toBe(Object.values(deliveryOptions).length);
