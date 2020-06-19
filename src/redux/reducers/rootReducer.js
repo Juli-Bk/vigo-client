@@ -14,6 +14,7 @@ import wishList from './wishListReducer';
 import user from './userReducer';
 import colors from './colorReducer';
 import isLoginModalOpen from './isLoginModalOpenReducer';
+import isAddressModalOpen from './isAddressModalOpenReducer';
 import isPersDetailsModalOpen from './isPersDetailsModalOpenReducer';
 import shoppingCart from './shoppingCartReducer';
 import categoryId from './categoryIdReducer';
@@ -38,5 +39,6 @@ export const rootReducer = combineReducers({
   isLoginModalOpen,
   isPersDetailsModalOpen,
   shoppingCart,
-  guestData
+  guestData,
+  isAddressModalOpen
 });

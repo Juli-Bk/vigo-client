@@ -103,7 +103,8 @@ export const changeOrder = (arrayOfId, arrayOfObjects) => {
 };
 
 export const getStorageData = (key) => {
-  return JSON.parse(localStorage.getItem(key)) || [];
+  const defaultUserValue = (key === 'user') && {};
+  return JSON.parse(localStorage.getItem(key)) || defaultUserValue;
 };
 
 export const setStorageData = (key, data) => {
@@ -119,9 +120,13 @@ export const integrateData = (remoteWishList, localWishList) => {
 
 export const integrateCart = (remoteCart, localCart) => {
   remoteCart.forEach(item => {
-    if (!localCart.includes(item.productId)) localCart.push(item.productId);
+    if (localCart) {
+      if (!localCart.includes(item.productId)) {
+        localCart.push(item.productId);
+      }
+    }
   });
-  setStorageData('shoppingCart', localCart);
+  setStorageData('shoppingCart', localCart || []);
 };
 
 export const toggleWishItems = (productId) => {

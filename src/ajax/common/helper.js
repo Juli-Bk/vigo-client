@@ -24,6 +24,10 @@ export const putJWTtoCookie = (loginResponse) => {
   document.cookie = `token=${loginResponse.token};expires=${exp}`;
 };
 
+export const putJWTtoRedux = (jwt) => {
+  jwt && store.dispatch(setJWTtoken(jwt.token));
+};
+
 export const putUserIdToCookie = (loginResponse) => {
   const exp = moment(Date.now()).add(loginResponse.expiresInMinutes, 'm').toDate();
   document.cookie = `userId=${loginResponse.user._id};expires=${exp}`;
@@ -60,10 +64,6 @@ export const deleteJWTcookie = () => {
   exp = exp.toUTCString();
   const token = getJWTfromCookie();
   document.cookie = `token=${token};expires=${exp}`;
-};
-
-export const putJWTtoRedux = (jwt) => {
-  jwt && store.dispatch(setJWTtoken(jwt.token));
 };
 
 export const putUserToRedux = (user) => {

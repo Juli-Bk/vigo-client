@@ -4,31 +4,31 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
 import ListItem from '@material-ui/core/ListItem';
 import DialogContentText from '@material-ui/core/DialogContentText';
-import theme from './ModalPersDetailsTheme';
+import theme from '../../styles/formStyle/formStyleTheme';
 import PersonalDetailsForm from '../PersonalDetailsForm/PersonalDetailsForm';
 import useCommonStyles from '../../styles/formStyle/formStyle';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import {ThemeProvider} from '@material-ui/styles';
-import {setGuestData, setPersDetailsOpenState, setUser} from '../../redux/actions/actions';
+import {setGuestData, setPersDetailsOpenState} from '../../redux/actions/actions';
 import {connect} from 'react-redux';
 import PersonalDetailsGuestForm from '../PersonalDetailsForm/PersonalDetailsGuestForm';
 
 const ModalPersDetails = (props) => {
   const {
-    user, isPersDetailsModalOpen,
-    setPersDetailsOpenState, setGuestData, guestData
+    user, isModalOpen,
+    setModalOpen, setGuestData, guestData
   } = props;
   const commonClasses = useCommonStyles();
   const [message, setMessage] = useState('');
   const [isMessageHidden, setIsMessageHidden] = useState(false);
 
   const handleClickOpen = () => {
-    setPersDetailsOpenState(true);
+    setModalOpen(true);
   };
 
   const handleClose = () => {
-    setPersDetailsOpenState(false);
+    setModalOpen(false);
   };
 
   const messageTag = <DialogContent>
@@ -42,10 +42,10 @@ const ModalPersDetails = (props) => {
       <Box component='ul' id="guest-data-list" style={{
         marginBottom: 10
       }}>
-        <ListItem className='listItem'>First Name: {guestData.firstName}</ListItem>
-        <ListItem className='listItem'>Last Name: {guestData.lastName}</ListItem>
-        <ListItem className='listItem'>Phone Number: {guestData.phoneNumber}</ListItem>
-        <ListItem className='listItem'>Email: {guestData.email}</ListItem>
+        <ListItem className={commonClasses.text}>First Name: {guestData.firstName}</ListItem>
+        <ListItem className={commonClasses.text}>Last Name: {guestData.lastName}</ListItem>
+        <ListItem className={commonClasses.text}>Phone Number: {guestData.phoneNumber}</ListItem>
+        <ListItem className={commonClasses.text}>Email: {guestData.email}</ListItem>
       </Box>
     </>
     : null;
@@ -55,10 +55,10 @@ const ModalPersDetails = (props) => {
       <Box component='ul' id="user-data-list" style={{
         marginBottom: 10
       }}>
-        <ListItem className='listItem'>First Name: {user.firstName}</ListItem>
-        <ListItem className='listItem'>Last Name: {user.lastName}</ListItem>
-        <ListItem className='listItem'>Phone Number: {user.phoneNumber}</ListItem>
-        <ListItem className='listItem'>Email: {user.email}</ListItem>
+        <ListItem className={commonClasses.text}>First Name: {user.firstName}</ListItem>
+        <ListItem className={commonClasses.text}>Last Name: {user.lastName}</ListItem>
+        <ListItem className={commonClasses.text}>Phone Number: {user.phoneNumber}</ListItem>
+        <ListItem className={commonClasses.text}>Email: {user.email}</ListItem>
       </Box>
     </>
     : null;
@@ -72,21 +72,24 @@ const ModalPersDetails = (props) => {
         {
           savedUserData
         }
-        <Button onClick={handleClickOpen}>
+        <Button className={commonClasses.button} onClick={handleClickOpen}>
           Change contact info
         </Button>
         <Dialog
-          open={isPersDetailsModalOpen}
+          open={isModalOpen}
           onClose={handleClose}
           aria-labelledby="alert-dialog-title"
           aria-describedby="alert-dialog-description"
         >
-          <DialogContent component='span' className={commonClasses.modalWindow}>
+          <DialogContent
+            component='span'
+            className={commonClasses.modalWindow}>
+
             <DialogContentText component='span' id="alert-dialog-description">
               {
                 user._id
                   ? <PersonalDetailsForm component='span'
-                    submitPersDetailsHandler={(result) => {
+                    saveUserAddressesHandler={(result) => {
                       if (result) {
                         if (result.status === 400) {
                           setMessage(result.message);
@@ -120,18 +123,18 @@ const ModalPersDetails = (props) => {
     </ThemeProvider>
   );
 };
+
 const mapStateToProps = store => {
   return {
-    token: store.token,
-    isPersDetailsModalOpen: store.isPersDetailsModalOpen,
+    isModalOpen: store.isPersDetailsModalOpen,
     user: store.user,
     guestData: store.guestData
   };
 };
+
 const mapDispatchToProps = dispatch => {
   return {
-    setUser: data => dispatch(setUser(data)),
-    setPersDetailsOpenState: data => dispatch(setPersDetailsOpenState(data)),
+    setModalOpen: data => dispatch(setPersDetailsOpenState(data)),
     setGuestData: data => dispatch(setGuestData(data))
   };
 };

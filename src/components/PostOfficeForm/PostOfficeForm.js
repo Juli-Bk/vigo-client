@@ -9,9 +9,9 @@ import {
   Grid
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import useStyles from '../CardForm/CardFormStyle';
+import useStyles from '../../styles/formStyle/formStyle';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import theme from '../CardForm/CardFormTheme';
+import theme from '../../styles/formStyle/formStyleTheme';
 import globalConfig from '../../globalConfig';
 
 const {regions} = globalConfig;
@@ -19,15 +19,6 @@ const {regions} = globalConfig;
 const NovaPoshtaCity = (props) => {
   const {submitNovaPoshtaHandler} = props;
 
-  // todo get values from BD to render them in checkout
-  const submitNovaPoshtaData = (values, {resetForm, setSubmitting}) => {
-    setSubmitting(true);
-
-    submitNovaPoshtaHandler(values, () => {
-      setSubmitting(false);
-      resetForm();
-    });
-  };
   const options = Object.values(regions);
   const [inputValue, setInputValue] = useState('');
 
@@ -54,7 +45,7 @@ const NovaPoshtaCity = (props) => {
           <Formik
             initialValues={initFormValues}
             validationSchema={validateObject}
-            onSubmit={submitNovaPoshtaData}>
+            onSubmit={submitNovaPoshtaHandler}>
             {({
               isSubmitting,
               handleChange,

@@ -19,62 +19,36 @@ import MyLocationIcon from '@material-ui/icons/MyLocation';
 import IconLabel from '../IconLabel/IconLabel';
 import PinDropIcon from '@material-ui/icons/PinDrop';
 import AutocompleteComponent from '../Autocomplete/Autocomplete';
-import { connect } from 'react-redux';
-import AjaxUtils from '../../ajax';
 import {validateObject} from './helper';
-import { setUser } from '../../redux/actions/actions';
 
-const AddressForm = (props) => {
-  const {submitAddressHandler, user} = props;
-  // const {addresses = []} = user;
+const AddressGuestForm = (props) => {
+  const {saveGuestDataHandler, guestData} = props;
   const [address, setAddress] = useState('');
 
+  const classes = useStyles();
+
   const handleCancel = () => {
-    submitAddressHandler(null);
+    saveGuestDataHandler(null);
   };
 
-  const submitAddressData = (values, {resetForm, setSubmitting}) => {
-    setSubmitting(true);
-
-    if (user._id) {
-      const addresses = {
-        addresses: [{
-          address: address,
-          house: values.house,
-          apartment: values.apartment,
-          postalCode: values.postalCode
-        }]
-      };
-
-      AjaxUtils.Users.updateUserInfoById(user._id, addresses)
-        .then(result => {
-          if (result.status !== 400) {
-            submitAddressHandler(values);
-            setSubmitting(false);
-            resetForm();
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          submitAddressHandler(values);
-          setSubmitting(false);
-        });
-    } else {
-      setSubmitting(false);
-      resetForm();
-      submitAddressHandler();
-    }
+  const submitAddressData = (values, {resetForm}) => {
+    const deliveryAddress = {
+      address: address,
+      house: values.house,
+      apartment: values.apartment,
+      postalCode: values.postalCode
+    };
+    resetForm();
+    saveGuestDataHandler(deliveryAddress);
   };
 
   const initFormValues = {
     autocomplete: '',
-    house: '',
-    apartment: '',
-    postalCode: '',
-    confirmation: false
+    house: guestData ? guestData.house : '',
+    apartment: guestData ? guestData.apartment : '',
+    postalCode: guestData ? guestData.postalCode : '',
+    confirmation: guestData ? guestData.confirmation : false
   };
-
-  const classes = useStyles();
 
   return (
     <Grid container>
@@ -112,7 +86,8 @@ const AddressForm = (props) => {
                 <TextField
                   autoComplete='off'
                   name='house'
-                  label={<IconLabel label='Enter building number' Component={ApartmentIcon}/>}
+                  label={<IconLabel label='Enter building number'
+                    Component={ApartmentIcon}/>}
                   className={classes.input}
                   value={values.house}
                   onBlur={handleBlur}
@@ -125,7 +100,8 @@ const AddressForm = (props) => {
                 />
                 <TextField
                   name='apartment'
-                  label={<IconLabel label='Enter apartment number' Component={MyLocationIcon}/>}
+                  label={<IconLabel label='Enter apartment number'
+                    Component={MyLocationIcon}/>}
                   className={classes.input}
                   onBlur={handleBlur}
                   value={values.apartment}
@@ -139,7 +115,8 @@ const AddressForm = (props) => {
                 <TextField
                   name='postalCode'
                   autoComplete='on'
-                  label={<IconLabel label='Enter postal code' Component={PinDropIcon}/>}
+                  label={<IconLabel label='Enter postal code'
+                    Component={PinDropIcon}/>}
                   className={classes.input}
                   value={values.postalCode}
                   onBlur={handleBlur}
@@ -192,20 +169,8 @@ const AddressForm = (props) => {
   );
 };
 
-AddressForm.propTypes = {
-  submitAddressHandler: PropTypes.func
+AddressGuestForm.propTypes = {
+  saveGuestDataHandler: PropTypes.func
 };
 
-const mapStateToProps = store => {
-  return {
-    user: store.user
-  };
-};
-
-const mapDispatchToProps = dispatch => {
-  return {
-    setUser: data => dispatch(setUser(data))
-  };
-};
-
-export default React.memo(connect(mapStateToProps, mapDispatchToProps())(AddressForm));
+export default React.memo(AddressGuestForm);

@@ -61,6 +61,10 @@ export const setLoginModalOpenState = (isOpen) => {
   return {type: Actions.IS_LOGIN_MODAL_OPEN, payload: isOpen};
 };
 
+export const setAddressModalOpenState = (isOpen) => {
+  return {type: Actions.IS_ADDRESS_MODAL_OPEN, payload: isOpen};
+};
+
 export const setPersDetailsOpenState = (isOpen) => {
   return {type: Actions.IS_PERSONAL_DETAILS_MODAL_OPEN, payload: isOpen};
 };
