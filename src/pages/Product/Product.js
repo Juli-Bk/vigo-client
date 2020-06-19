@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Container, Grid, withWidth, makeStyles } from '@material-ui/core';
+import React, {useEffect, useState} from 'react';
+import {useParams} from 'react-router-dom';
+import {Container, Grid, withWidth, makeStyles} from '@material-ui/core';
 import AjaxUtils from '../../ajax';
 import ProductSlider from '../../components/ProductSlider/ProductSlider';
 import ProductPageView from '../../components/Product/ProductPageView/ProductPageView';
@@ -43,7 +43,6 @@ const Product = (props) => {
       AjaxUtils.Quantity.getQuantityByProductId(id)
         .then(result => {
           setProductInStock(result);
-          console.log(result);
         });
       if (filterArray.length) {
         AjaxUtils.Products.getProductsByFilters(filterArray, 1, 8, '')
@@ -53,7 +52,6 @@ const Product = (props) => {
               setStorageData('recentlyViewed', [id]);
               return;
             }
-            console.log(result);
             if (!result.message) {
               const data = changeOrder(dataFromStorage.filter(item => item !== id), result.products);
               if (data.length) setSliderData(data);

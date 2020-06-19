@@ -1,5 +1,5 @@
 import React from 'react';
-import {Redirect, Route, Switch} from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import Home from '../pages/Home/Home';
 import Product from '../pages/Product/Product';
 import Products from '../pages/Products/Products';
@@ -11,7 +11,7 @@ import Page404 from '../pages/Page404/Page404';
 import Wishlist from '../pages/Wishlist/Wishlist';
 import Header from '../containers/Header/Header';
 import MyAccount from '../pages/MyAccount/MyAccount';
-import { getJWTfromCookie } from '../ajax/common/helper';
+import {getJWTfromCookie} from '../ajax/common/helper';
 import PrivacyPolicy from '../pages/PrivacyPolicy/PrivacyPolicy';
 import Returns from '../pages/Returns/Returns';
 import Shipping from '../pages/Shipping/Shipping';
@@ -21,7 +21,7 @@ import {setLoginModalOpenState} from '../redux/actions/actions';
 const AppRoutes = () => {
   return (
     <>
-      <Route path='/:page?' component={Header} />
+      <Route path='/:page?' component={Header}/>
       <Switch>
         <Route exact path='/' component={Home}/>
 

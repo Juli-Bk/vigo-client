@@ -27,11 +27,13 @@ const LoginForm = (props) => {
 
     AjaxUtils.Users.login(json)
       .then(result => {
-        setSubmitting(false);
         if (result.status !== 400) {
           resetForm();
+          submitLoginHandler(result);
+        } else {
+          submitLoginHandler(result);
         }
-        submitLoginHandler(result);
+        setSubmitting(false);
       });
   };
   const initFormValues = {

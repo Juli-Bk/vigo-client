@@ -107,10 +107,11 @@ const MyAccTabs = (props) => {
         </AppBar>
 
         <TabPanel value={value} index={0} dir={theme.direction}>
-          {user
-            ? <PersonalDetailsForm user={user} submitPersonalDetailsHandler={(submit) => {
-              handleChange(null, value);
-            }}/> : null}
+          {
+            user._id
+              ? <PersonalDetailsForm submitPersonalDetailsHandler={() => {
+                handleChange(null, value);
+              }}/> : null}
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           <AddressForm submitAddressHandler={(submit) => {

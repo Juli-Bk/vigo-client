@@ -1,5 +1,5 @@
 import React from 'react';
-import { getQueryString, getUserIdFromCookie } from '../ajax/common/helper';
+import {getUserIdFromCookie } from '../ajax/common/helper';
 import AjaxUtils from '../ajax';
 import globalConfig from '../globalConfig';
 
