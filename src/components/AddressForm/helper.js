@@ -1,14 +1,16 @@
 import * as Yup from 'yup';
+import config from '../../globalConfig';
 
 export const validateObject = Yup.object().shape({
   autocomplete: Yup.string(),
-  address: Yup.object()
-    .required('Required'),
   house: Yup.string()
-    .min(1, 'Correct building number is a must!')
+    .min(1, 'Enter correct building number')
     .required('Required'),
-  apartment: Yup.number()
+  apartment: Yup.string()
+    .min(1, 'Enter correct apartment number'),
+  postalCode: Yup.string()
+    .matches(config.postalCode, 'Please, use XXXX format')
     .required('Required'),
   confirmation: Yup.boolean()
-    .oneOf([true], 'Must Accept Privacy Policy')
+    .oneOf([true], 'Please, accept privacy policy')
 });

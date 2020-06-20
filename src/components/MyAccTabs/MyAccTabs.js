@@ -71,11 +71,11 @@ const MyAccTabs = (props) => {
   const [value, setValue] = useState(0);
   const [user, setUser] = useState(null);
 
+  // todo первести на редакс санк
   useEffect(() => {
     AjaxUtils.Users.getUser()
       .then(result => {
         setUser(result);
-        console.log(result);
       });
   }, []);
 

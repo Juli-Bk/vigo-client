@@ -20,6 +20,7 @@ import IconLabel from '../IconLabel/IconLabel';
 import PinDropIcon from '@material-ui/icons/PinDrop';
 import AutocompleteComponent from '../Autocomplete/Autocomplete';
 import {validateObject} from './helper';
+import {connect} from 'react-redux';
 
 const AddressGuestForm = (props) => {
   const {saveGuestDataHandler, guestData} = props;
@@ -31,7 +32,7 @@ const AddressGuestForm = (props) => {
     saveGuestDataHandler(null);
   };
 
-  const submitAddressData = (values, {resetForm}) => {
+  const saveGuestData = (values, {resetForm}) => {
     const deliveryAddress = {
       address: address,
       house: values.house,
@@ -51,26 +52,25 @@ const AddressGuestForm = (props) => {
   };
 
   return (
-    <Grid container>
-      <Grid item xs={12}>
-        <Typography className={classes.header} variant='h4' gutterBottom>
+    <ThemeProvider theme={theme}>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography className={classes.header} variant='h4' gutterBottom>
           your delivery address
-        </Typography>
-        <Formik
-          initialValues={initFormValues}
-          validationSchema={validateObject}
-          onSubmit={submitAddressData}>
-          {({
-            isSubmitting,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            values,
-            errors,
-            touched
-          }) => (
-            <form>
-              <ThemeProvider theme={theme}>
+          </Typography>
+          <Formik
+            initialValues={initFormValues}
+            validationSchema={validateObject}
+            onSubmit={saveGuestData}>
+            {({
+              values,
+              handleChange,
+              handleSubmit, handleBlur,
+              isSubmitting,
+              errors,
+              touched
+            }) => (
+              <form>
                 <AutocompleteComponent
                   autoComplete='on'
                   className={classes.input}
@@ -89,7 +89,7 @@ const AddressGuestForm = (props) => {
                   label={<IconLabel label='Enter building number'
                     Component={ApartmentIcon}/>}
                   className={classes.input}
-                  value={values.house}
+                  value={values.house || ''}
                   onBlur={handleBlur}
                   onChange={handleChange}
                   helperText={touched.house ? errors.house : ''}
@@ -104,7 +104,7 @@ const AddressGuestForm = (props) => {
                     Component={MyLocationIcon}/>}
                   className={classes.input}
                   onBlur={handleBlur}
-                  value={values.apartment}
+                  value={values.apartment || ''}
                   onChange={handleChange}
                   helperText={touched.apartment ? errors.apartment : ''}
                   error={touched.apartment && Boolean(errors.apartment)}
@@ -118,7 +118,7 @@ const AddressGuestForm = (props) => {
                   label={<IconLabel label='Enter postal code'
                     Component={PinDropIcon}/>}
                   className={classes.input}
-                  value={values.postalCode}
+                  value={values.postalCode || ''}
                   onBlur={handleBlur}
                   onChange={handleChange}
                   helperText={touched.postalCode ? errors.postalCode : ''}
@@ -143,34 +143,43 @@ const AddressGuestForm = (props) => {
                     {errors.confirmation}
                   </FormHelperText>}
                 </FormGroup>
-              </ThemeProvider>
-              <CardActions>
-                <Button
-                  type='button'
-                  className={classes.button}
-                  onClick={handleCancel}
-                  size='large'
-                  variant='outlined'>cancel
-                </Button>
-                <Button
-                  type='submit'
-                  className={classes.button}
-                  onClick={handleSubmit}
-                  size='large'
-                  disabled={isSubmitting}
-                  variant='outlined'>submit
-                </Button>
-              </CardActions>
-            </form>
-          )}
-        </Formik>
+
+                <CardActions>
+                  <Button
+                    type='button'
+                    className={classes.button}
+                    onClick={handleCancel}
+                    size='large'
+                    variant='outlined'>
+                    cancel
+                  </Button>
+                  <Button
+                    type='submit'
+                    className={classes.button}
+                    onClick={handleSubmit}
+                    size='large'
+                    disabled={isSubmitting}
+                    variant='outlined'>
+                    save
+                  </Button>
+                </CardActions>
+              </form>
+            )}
+          </Formik>
+        </Grid>
       </Grid>
-    </Grid>
+    </ThemeProvider>
   );
 };
 
 AddressGuestForm.propTypes = {
-  saveGuestDataHandler: PropTypes.func
+  saveGuestDataHandler: PropTypes.func.isRequired
 };
 
-export default React.memo(AddressGuestForm);
+const mapStateToProps = store => {
+  return {
+    guestData: store.guestData
+  };
+};
+
+export default React.memo(connect(mapStateToProps)(AddressGuestForm));

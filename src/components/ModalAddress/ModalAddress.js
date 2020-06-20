@@ -40,11 +40,39 @@ const ModalAddress = (props) => {
     }}>{message}</Typography>
   </DialogContent>;
 
+  const userForm = <AddressForm component='span'
+    submitAddressHandler={(result) => {
+      if (result) {
+        if (result.status === 400) {
+          setMessage(result.message);
+          setIsMessageHidden(true);
+        } else if (result.status === 200) {
+          isAddressModalOpen && setIsMessageHidden(false);
+          handleClose();
+        }
+      }
+      handleClose();
+    }}/>;
+
+  const guestForm = <AddressGuestForm component='span'
+    saveGuestDataHandler={(deliveryAddress) => {
+      if (deliveryAddress) {
+        setGuestData({
+          ...guestData,
+          deliveryAddress
+        });
+      }
+      handleClose();
+    }
+    }/>;
+
+  const form = user._id ? userForm : guestForm;
+
   return (
     <ThemeProvider theme={theme}>
       <Box>
         <Button className={commonClasses.button} onClick={handleClickOpen}>
-        Change delivery address
+        Add delivery address
         </Button>
         <Dialog
           open={isAddressModalOpen}
@@ -57,34 +85,7 @@ const ModalAddress = (props) => {
             className={classes.modalWindow}>
 
             <DialogContentText component='span' id="alert-dialog-description">
-              {
-                user._id
-                  ? <AddressForm component='span'
-                    submitAddressHandler={(result) => {
-                      if (result) {
-                        if (result.status === 400) {
-                          setMessage(result.message);
-                          setIsMessageHidden(true);
-                        } else if (result.status === 200) {
-                          isAddressModalOpen && setIsMessageHidden(false);
-                          handleClose();
-                        }
-                      }
-                      handleClose();
-                    }}/>
-                  : <AddressGuestForm component='span' guestData={guestData}
-                    saveGuestDataHandler={(result) => {
-                      if (result) {
-                        const userName = `${result.firstName} ${result.lastName}`;
-                        setGuestData({
-                          ...result,
-                          userName
-                        });
-                      }
-                      handleClose();
-                    }
-                    }/>
-              }
+              {form}
             </DialogContentText>
             {isMessageHidden && messageTag}
           </DialogContent>
@@ -104,7 +105,7 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setModalOpen: data => dispatch(setAddressModalOpenState(data)),
+    setModalOpen: isOpen => dispatch(setAddressModalOpenState(isOpen)),
     setGuestData: data => dispatch(setGuestData(data))
   };
 };

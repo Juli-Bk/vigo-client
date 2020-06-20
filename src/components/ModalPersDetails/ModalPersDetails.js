@@ -101,7 +101,7 @@ const ModalPersDetails = (props) => {
                       }
                       handleClose();
                     }}/>
-                  : <PersonalDetailsGuestForm component='span' guestData={guestData}
+                  : <PersonalDetailsGuestForm component='span'
                     saveGuestDataHandler={(result) => {
                       if (result) {
                         const userName = `${result.firstName} ${result.lastName}`;

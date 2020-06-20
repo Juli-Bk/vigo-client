@@ -75,8 +75,7 @@ const ModalLogin = ({isLoginModalOpen, setLoginModalOpenState}) => {
   </DialogContent>;
 
   return (
-    <ThemeProvider theme={theme}>
-
+    <>
       <IconButton
         variant="outlined" color="primary"
         aria-label="personIcon"
@@ -84,60 +83,61 @@ const ModalLogin = ({isLoginModalOpen, setLoginModalOpenState}) => {
         className={classes.personIcon}>
         <PersonIcon/>
       </IconButton>
+      <ThemeProvider theme={theme}>
+        <Dialog
+          open={isLoginModalOpen}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogContent className={commonClasses.modalWindow}>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              variant="fullWidth"
+              aria-label="login or register"
+            >
+              <Tab label="Login" {...a11yProps(0)} />
+              <Tab label="Register" {...a11yProps(1)} />
+            </Tabs>
 
-      <Dialog
-        open={isLoginModalOpen}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogContent className={commonClasses.modalWindow}>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            variant="fullWidth"
-            aria-label="login or register"
-          >
-            <Tab label="Login" {...a11yProps(0)} />
-            <Tab label="Register" {...a11yProps(1)} />
-          </Tabs>
+            <SwipeableViews
+              axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+              index={value}
+              onChangeIndex={handleChangeIndex}
+            >
 
-          <SwipeableViews
-            axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-            index={value}
-            onChangeIndex={handleChangeIndex}
-          >
-
-            <TabPanel value={value} index={0} dir={theme.direction}>
-              <LoginForm submitLoginHandler={(result) => {
-                if (result.status === 400) {
-                  setMessage(result.message);
-                  setIsMessageHidden(true);
-                } else {
-                  isMessageHidden && setIsMessageHidden(false);
-                  handleClose();
+              <TabPanel value={value} index={0} dir={theme.direction}>
+                <LoginForm submitLoginHandler={(result) => {
+                  if (result.status === 400) {
+                    setMessage(result.message);
+                    setIsMessageHidden(true);
+                  } else {
+                    isMessageHidden && setIsMessageHidden(false);
+                    handleClose();
                   // todo change avatar
-                }
-              }}/>
-            </TabPanel>
+                  }
+                }}/>
+              </TabPanel>
 
-            <TabPanel value={value} index={1} dir={theme.direction}>
-              <RegisterForm submitRegisterHandler={(result) => {
-                if (result.status === 400) {
-                  setMessage(result.message);
-                  setIsMessageHidden(true);
-                } else {
-                  isMessageHidden && setIsMessageHidden(false);
-                  handleClose();
+              <TabPanel value={value} index={1} dir={theme.direction}>
+                <RegisterForm submitRegisterHandler={(result) => {
+                  if (result.status === 400) {
+                    setMessage(result.message);
+                    setIsMessageHidden(true);
+                  } else {
+                    isMessageHidden && setIsMessageHidden(false);
+                    handleClose();
                   // todo go to user cabinet?? on
-                }
-              }}/>
-            </TabPanel>
-          </SwipeableViews>
-          {isMessageHidden && messageTag}
-        </DialogContent>
-      </Dialog>
-    </ThemeProvider>
+                  }
+                }}/>
+              </TabPanel>
+            </SwipeableViews>
+            {isMessageHidden && messageTag}
+          </DialogContent>
+        </Dialog>
+      </ThemeProvider>
+    </>
   );
 };
 

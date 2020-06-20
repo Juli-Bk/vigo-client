@@ -5,7 +5,9 @@ import { IconButton, Typography } from '@material-ui/core';
 import { Favorite } from '@material-ui/icons';
 
 const FavoriteIcon = (props) => {
-  const { classes, id, wishList, addToWishList, label } = props;
+  const { classes, id, wishList = [], addToWishList, label } = props;
+  const className = wishList.includes(id) ? classes.iconChosen : classes.icon;
+  const labelClass = wishList.includes(id) ? classes.labelChosen : classes.label;
 
   if (label) {
     return (
@@ -14,12 +16,12 @@ const FavoriteIcon = (props) => {
         className={classes.iconBtn}
         disableFocusRipple
         disableRipple>
-        <Favorite className={wishList.includes(id) ? classes.iconChosen : classes.icon}/>
-        <Typography variant='body2' className={wishList.includes(id) ? classes.labelChosen : classes.label}>{label}</Typography>
+        <Favorite className={className}/>
+        <Typography variant='body2' className={labelClass}>{label}</Typography>
       </IconButton>
     );
   }
-  return <Favorite className={wishList.includes(id) ? classes.iconChosen : classes.icon} onClick={() => addToWishList(id)} />;
+  return <Favorite className={className} onClick={() => addToWishList(id)} />;
 };
 
 FavoriteIcon.propTypes = {
@@ -30,7 +32,9 @@ FavoriteIcon.propTypes = {
 };
 
 const mapStateToProps = store => {
-  return {wishList: store.wishList};
+  return {
+    wishList: store.wishList
+  };
 };
 
 export default connect(mapStateToProps)(React.memo(FavoriteIcon));
