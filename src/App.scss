@@ -4,3 +4,21 @@
 body {
   font-size: 1rem;
 }
+
+a:link, a:visited {
+  text-decoration: none;
+  cursor: pointer;
+  outline: none;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+*:focus {
+  outline: none;
+}
+
+button:focus {
+  outline: none;
+}
