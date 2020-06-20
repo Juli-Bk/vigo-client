@@ -62,9 +62,6 @@ const CheckoutStepper = (props) => {
     const asAGuest = guest.radioGroup && guest.radioGroup === 'asGuest';
     switch (stepIndex) {
       case 0:
-        // todo при существующем в куки токене и обновлении страницы
-        // ModalPersDetails не подтягивает данные пользователя в форму
-        // так как в сторедже токен пустой
         if (token || asAGuest) {
           fields = <ModalPersDetails/>;
         } else {

@@ -19,7 +19,7 @@ const submitNovaPoshtaHandler = (values) => {
 const DefineDelivery = (props) => {
   const {inputValue, user, guestData} = props;
   const styles = useStyles();
-  let childed = null;
+  let children = null;
 
   const fields = user._id
     ? <UserAddressData user={user}/>
@@ -27,29 +27,29 @@ const DefineDelivery = (props) => {
 
   switch (inputValue) {
     case deliveryOptions.VIGO_COURIER_SERVICE:
-      childed = fields;
+      children = fields;
       break;
 
     case deliveryOptions.NOVA_POSHTA:
-      childed = <NovaPoshtaCity submitNovaPoshtaHandler={submitNovaPoshtaHandler}/>;
+      children = <NovaPoshtaCity submitNovaPoshtaHandler={submitNovaPoshtaHandler}/>;
       break;
 
     case deliveryOptions.UKRPOSHTA:
-      childed = fields;
+      children = fields;
       break;
 
     case deliveryOptions.PICKUP:
-      childed = <VigoAddress/>;
+      children = <VigoAddress/>;
       break;
 
     default:
-      childed = <Typography variant='subtitle2' className={styles.text}>
+      children = <Typography variant='subtitle2' className={styles.text}>
         Please, select delivery option
       </Typography>;
   }
   return (
     <ThemeProvider theme={theme}>
-      {childed}
+      {children}
     </ThemeProvider>
   );
 };
