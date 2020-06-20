@@ -1,15 +1,14 @@
-import React, {useState} from 'react';
-import {Formik} from 'formik';
+import React, { useState } from 'react';
+import { Formik } from 'formik';
 import {
+  Typography,
+  TextField,
   Button,
   CardActions,
-  Checkbox,
+  ThemeProvider,
   FormControlLabel,
   FormHelperText,
-  Grid,
-  TextField,
-  ThemeProvider,
-  Typography
+  Checkbox, Grid
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import useStyles from '../../styles/formStyle/formStyle';
@@ -20,75 +19,58 @@ import MyLocationIcon from '@material-ui/icons/MyLocation';
 import IconLabel from '../IconLabel/IconLabel';
 import PinDropIcon from '@material-ui/icons/PinDrop';
 import AutocompleteComponent from '../Autocomplete/Autocomplete';
-import {connect} from 'react-redux';
 import {validateObject} from './helper';
-import {saveUserData} from '../../redux/actions/user';
+import {connect} from 'react-redux';
 
-const AddressForm = (props) => {
-  const {submitAddressHandler, user, saveUserData} = props;
-  const {addresses = []} = user;
+const AddressGuestForm = (props) => {
+  const {saveGuestDataHandler, guestData} = props;
   const [address, setAddress] = useState('');
 
+  const classes = useStyles();
+
   const handleCancel = () => {
-    submitAddressHandler(null);
+    saveGuestDataHandler(null);
   };
 
-  const submitAddressData = (values, {resetForm, setSubmitting}) => {
-    setSubmitting(true);
-
-    const newAddressesList = {
-      addresses: [
-        ...addresses,
-        {
-          address: address,
-          house: values.house,
-          apartment: values.apartment,
-          postalCode: values.postalCode
-        }
-      ]
+  const saveGuestData = (values, {resetForm}) => {
+    const deliveryAddress = {
+      address: address,
+      house: values.house,
+      apartment: values.apartment,
+      postalCode: values.postalCode
     };
-
-    saveUserData(newAddressesList, (result) => {
-      setSubmitting(false);
-      if (result && result.status !== 400) {
-        resetForm();
-      }
-      submitAddressHandler(result);
-    });
+    resetForm();
+    saveGuestDataHandler(deliveryAddress);
   };
 
   const initFormValues = {
     autocomplete: '',
-    house: '',
-    apartment: '',
-    postalCode: '',
-    confirmation: false
+    house: guestData ? guestData.house : '',
+    apartment: guestData ? guestData.apartment : '',
+    postalCode: guestData ? guestData.postalCode : '',
+    confirmation: guestData ? guestData.confirmation : false
   };
-
-  const classes = useStyles();
 
   return (
     <ThemeProvider theme={theme}>
       <Grid container>
         <Grid item xs={12}>
           <Typography className={classes.header} variant='h4' gutterBottom>
-            your delivery address
+          your delivery address
           </Typography>
           <Formik
             initialValues={initFormValues}
             validationSchema={validateObject}
-            onSubmit={submitAddressData}>
+            onSubmit={saveGuestData}>
             {({
-              isSubmitting,
-              handleChange,
-              handleBlur,
-              handleSubmit,
               values,
+              handleChange,
+              handleSubmit, handleBlur,
+              isSubmitting,
               errors,
               touched
             }) => (
               <form>
-
                 <AutocompleteComponent
                   autoComplete='on'
                   className={classes.input}
@@ -104,7 +86,8 @@ const AddressForm = (props) => {
                 <TextField
                   autoComplete='off'
                   name='house'
-                  label={<IconLabel label='Enter building number' Component={ApartmentIcon}/>}
+                  label={<IconLabel label='Enter building number'
+                    Component={ApartmentIcon}/>}
                   className={classes.input}
                   value={values.house || ''}
                   onBlur={handleBlur}
@@ -117,7 +100,8 @@ const AddressForm = (props) => {
                 />
                 <TextField
                   name='apartment'
-                  label={<IconLabel label='Enter apartment number' Component={MyLocationIcon}/>}
+                  label={<IconLabel label='Enter apartment number'
+                    Component={MyLocationIcon}/>}
                   className={classes.input}
                   onBlur={handleBlur}
                   value={values.apartment || ''}
@@ -131,7 +115,8 @@ const AddressForm = (props) => {
                 <TextField
                   name='postalCode'
                   autoComplete='on'
-                  label={<IconLabel label='Enter postal code' Component={PinDropIcon}/>}
+                  label={<IconLabel label='Enter postal code'
+                    Component={PinDropIcon}/>}
                   className={classes.input}
                   value={values.postalCode || ''}
                   onBlur={handleBlur}
@@ -158,13 +143,15 @@ const AddressForm = (props) => {
                     {errors.confirmation}
                   </FormHelperText>}
                 </FormGroup>
+
                 <CardActions>
                   <Button
                     type='button'
                     className={classes.button}
                     onClick={handleCancel}
                     size='large'
-                    variant='outlined'>cancel
+                    variant='outlined'>
+                    cancel
                   </Button>
                   <Button
                     type='submit'
@@ -172,7 +159,8 @@ const AddressForm = (props) => {
                     onClick={handleSubmit}
                     size='large'
                     disabled={isSubmitting}
-                    variant='outlined'>submit
+                    variant='outlined'>
+                    save
                   </Button>
                 </CardActions>
               </form>
@@ -184,20 +172,14 @@ const AddressForm = (props) => {
   );
 };
 
-AddressForm.propTypes = {
-  submitAddressHandler: PropTypes.func
+AddressGuestForm.propTypes = {
+  saveGuestDataHandler: PropTypes.func.isRequired
 };
 
 const mapStateToProps = store => {
   return {
-    user: store.user
+    guestData: store.guestData
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    saveUserData: (data, callback) => dispatch(saveUserData(data, callback))
-  };
-};
-
-export default React.memo(connect(mapStateToProps, mapDispatchToProps)(AddressForm));
+export default React.memo(connect(mapStateToProps)(AddressGuestForm));

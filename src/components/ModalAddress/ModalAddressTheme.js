@@ -6,15 +6,13 @@ const theme = createMuiTheme({
   overrides: {
     MuiButton: {
       outlinedPrimary: {
-        border: 'none',
         padding: 0,
         '&:hover': {
           border: 'none'
         }
       },
       root: {
-        color: colors.fontOncard,
-        backgroundColor: colors.fontSixth
+        color: colors.fontOncard
       }
     },
     PrivateTabIndicator: {

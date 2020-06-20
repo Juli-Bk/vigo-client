@@ -12,9 +12,9 @@ import {
   Typography
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import useStyles from './PersonalDetailsFormStyle';
+import useStyles from '../../styles/formStyle/formStyle';
 import FormGroup from '@material-ui/core/FormGroup/FormGroup';
-import theme from './PersonalDetailsTheme';
+import theme from '../../styles/formStyle/formStyleTheme';
 import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
 import IconLabel from '../IconLabel/IconLabel';
 import PersonIcon from '@material-ui/icons/Person';
@@ -22,10 +22,11 @@ import EmailIcon from '@material-ui/icons/Email';
 import AjaxUtils from '../../ajax';
 import {validateObject} from './helper';
 import * as Yup from 'yup';
+import {connect} from 'react-redux';
 
 const PersonalDetailsGuestForm = (props) => {
   const {saveGuestDataHandler, guestData} = props;
-  const styles = useStyles();
+  const classes = useStyles();
 
   const handleCancel = () => {
     saveGuestDataHandler(null);
@@ -60,7 +61,7 @@ const PersonalDetailsGuestForm = (props) => {
   return (
     <Grid container>
       <Grid item xs={12}>
-        <Typography className={styles.header} variant='h6' gutterBottom>your personal details</Typography>
+        <Typography className={classes.header} variant='h6' gutterBottom>your personal details</Typography>
         <Formik
           validateOnChange={true}
           validateOnBlur={true}
@@ -78,7 +79,7 @@ const PersonalDetailsGuestForm = (props) => {
                   autoComplete='on'
                   name='firstName'
                   label={<IconLabel label='Enter your Name' Component={PersonIcon}/>}
-                  className={styles.input}
+                  className={classes.input}
                   value={values.firstName || ''}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -92,7 +93,7 @@ const PersonalDetailsGuestForm = (props) => {
                   autoComplete='on'
                   name='lastName'
                   label={<IconLabel label='Enter your Surname' Component={PersonIcon}/>}
-                  className={styles.input}
+                  className={classes.input}
                   value={values.lastName || ''}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -106,7 +107,7 @@ const PersonalDetailsGuestForm = (props) => {
                   autoComplete='on'
                   name='email'
                   label={<IconLabel label='Enter your e-mail' Component={EmailIcon}/>}
-                  className={styles.input}
+                  className={classes.input}
                   value={values.email || ''}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -120,7 +121,7 @@ const PersonalDetailsGuestForm = (props) => {
                   autoComplete='on'
                   name='phoneNumber'
                   label={<IconLabel label='Enter your phone number' Component={PhoneAndroidIcon}/>}
-                  className={styles.input}
+                  className={classes.input}
                   value={values.phoneNumber || ''}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -157,14 +158,14 @@ const PersonalDetailsGuestForm = (props) => {
               <CardActions>
                 <Button
                   type='button'
-                  className={styles.button}
+                  className={classes.button}
                   onClick={handleCancel}
                   size='large'
                   variant='outlined'>cancel
                 </Button>
                 <Button
                   type='submit'
-                  className={styles.button}
+                  className={classes.button}
                   onClick={handleSubmit}
                   disabled={isSubmitting}
                   size='large'
@@ -183,4 +184,10 @@ PersonalDetailsGuestForm.propTypes = {
   saveGuestDataHandler: PropTypes.func
 };
 
-export default React.memo(PersonalDetailsGuestForm);
+const mapStateToProps = store => {
+  return {
+    guestData: store.guestData
+  };
+};
+
+export default React.memo(connect(mapStateToProps)(PersonalDetailsGuestForm));

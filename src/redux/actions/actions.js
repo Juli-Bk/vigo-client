@@ -13,10 +13,6 @@ export const setChosenView = (view) => ({
   payload: view
 });
 
-export const setJWTtoken = (token) => {
-  return {type: Actions.SET_JWT_TOKEN, payload: token};
-};
-
 export const setSortingOption = (option) => {
   return {type: Actions.SET_SORTING_OPTION, payload: option};
 };
@@ -27,10 +23,6 @@ export const setPriceRange = (values) => {
 
 export const setChosenColor = (color) => {
   return {type: Actions.SET_CHOSEN_COLOR, payload: color};
-};
-
-export const setCategories = (categories) => {
-  return {type: Actions.SET_CATEGORIES_LIST, payload: categories};
 };
 
 export const toggleMenuOpen = (isOpen) => {
@@ -49,30 +41,23 @@ export const setChosenQuantity = (quantity) => {
   return {type: Actions.SET_CHOSEN_QUANTITY, payload: quantity};
 };
 
-export const changeWishList = (data) => {
-  return {type: Actions.CHANGE_WISH_LIST, payload: data};
-};
-
-export const setUser = (userData) => {
-  return {type: Actions.SET_USER, payload: userData};
-};
-
 export const setLoginModalOpenState = (isOpen) => {
   return {type: Actions.IS_LOGIN_MODAL_OPEN, payload: isOpen};
+};
+
+export const setAddressModalOpenState = (isOpen) => {
+  return {type: Actions.IS_ADDRESS_MODAL_OPEN, payload: isOpen};
 };
 
 export const setPersDetailsOpenState = (isOpen) => {
   return {type: Actions.IS_PERSONAL_DETAILS_MODAL_OPEN, payload: isOpen};
 };
 
-export const changeShoppingCart = (data) => {
-  return {type: Actions.CHANGE_SHOPPING_CART, payload: data};
-};
-
-export const setCategoryId = (categoryId) => {
-  return {type: Actions.SET_CATEGORY_ID, payload: categoryId};
-};
-
 export const setGuestData = (data) => {
   return {type: Actions.SET_GUEST_DATA, payload: data};
+};
+
+export const setLoading = (isLoading) => {
+  // todo use this action for Loader/spinner
+  return {type: Actions.SET_LOADING_PROCESS, payload: isLoading};
 };

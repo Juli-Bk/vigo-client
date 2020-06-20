@@ -1,23 +1,21 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
+import React, {useCallback, useState} from 'react';
+import {makeStyles, ThemeProvider} from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
-import { colors } from '../../styles/colorKit';
+import {colors} from '../../styles/colorKit';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import theme from './CheckoutStepperTheme';
 import DeliveryForm from '../DeliveryForm/DeliveryForm';
-import { Container } from '@material-ui/core';
+import {Container} from '@material-ui/core';
 import PaymentForm from '../PaymentForm/PaymentForm';
 import {connect} from 'react-redux';
-import AjaxUtils from '../../ajax/index';
-import {getJWTfromCookie} from '../../ajax/common/helper';
-import { setUser, setLoginModalOpenState, setPersDetailsOpenState} from '../../redux/actions/actions';
+import {setLoginModalOpenState, setPersDetailsOpenState} from '../../redux/actions/actions';
+import { setUser} from '../../redux/actions/user';
 import ModalPersDetails from '../ModalPersDetails/ModalPersDetails';
 import NewCustomerForm from '../../components/NewCustomerForm/NewCustomerForm';
-import PropTypes from 'prop-types';
 import useCommonStyles from '../../styles/formStyle/formStyle';
 
 const useStyles = makeStyles((theme) => ({
@@ -42,21 +40,12 @@ const useStyles = makeStyles((theme) => ({
 const steps = ['Personal data', 'Delivery Info', 'Payment Info', 'Complete your order'];
 
 const CheckoutStepper = (props) => {
-  const {token, setLoginModalOpenState, setPersDetailsOpenState} = props;
+  const {setLoginModalOpenState, setPersDetailsOpenState, token} = props;
   const classes = useStyles();
   const commonClasses = useCommonStyles();
   const [activeStep, setActiveStep] = useState(0);
   const [guest, setGuest] = useState({radioGroup: null});
-  const cookieToken = token || getJWTfromCookie();
 
-  // если пользователь - гость
-  //                     показать форму сразу заполнения данных о себе для заказа. когда заполнит, где то сохранить
-  //                     для последующей обработки заказа
-
-  // если пользователь в процессе чекаута просто сделал паузу и токен протух,(как это узнать)
-  //                    показываем ему окно логина
-
-  // todo write handler on new Customer form
   const onSubmitCallback = (values, callback) => {
     callback();
     if (values.radioGroup === 'iWillRegister') {
@@ -70,24 +59,15 @@ const CheckoutStepper = (props) => {
 
   const getStepContent = (stepIndex) => {
     let fields = null;
+    const asAGuest = guest.radioGroup && guest.radioGroup === 'asGuest';
     switch (stepIndex) {
       case 0:
-        if (cookieToken) {
-          // если пользователь залогине- подтягивать его сохраненные данные, и показывать кнопку изменить данные
-          // как эта инфа о пользователе пропихивается дальше
-          fields = <ModalPersDetails />;
+        if (token || asAGuest) {
+          fields = <ModalPersDetails/>;
         } else {
           fields = <NewCustomerForm submitNewCustomerHandler={onSubmitCallback}/>;
         }
 
-        if (guest.radioGroup) {
-          if (guest.radioGroup === 'iWillRegister') {
-            fields = <NewCustomerForm submitNewCustomerHandler={onSubmitCallback}/>;
-            setLoginModalOpenState(true);
-          } else {
-            fields = <ModalPersDetails />;
-          }
-        }
         return (
           fields
         );
@@ -105,30 +85,6 @@ const CheckoutStepper = (props) => {
         return 'Unknown stepIndex';
     }
   };
-
-  useEffect(() => {
-    if (cookieToken) {
-      AjaxUtils.Users.getUser()
-        .then(result => {
-          if (result) {
-            setUser(result);
-          }
-        })
-        .catch(() => {
-          setLoginModalOpenState(true);
-          return (
-            <Button
-              href="#text-buttons"
-              color='default'
-              className={classes.link}>
-              Your session is expired. Please log in again.
-            </Button>
-          );
-        });
-    }
-    return () => {
-    };
-  }, [classes.link, cookieToken, setLoginModalOpenState]);
 
   const handleNext = useCallback(() => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -194,11 +150,12 @@ const CheckoutStepper = (props) => {
   );
 };
 
-const mapStoreToProps = store => {
+const mapStateToProps = store => {
   return {
     token: store.token
   };
 };
+
 const mapDispatchToProps = dispatch => {
   return {
     setUser: data => dispatch(setUser(data)),
@@ -207,8 +164,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-CheckoutStepper.propTypes = {
-  token: PropTypes.string.isRequired
-};
-
-export default React.memo(connect(mapStoreToProps, mapDispatchToProps)(CheckoutStepper));
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(CheckoutStepper));

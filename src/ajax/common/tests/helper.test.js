@@ -4,8 +4,7 @@ import {
   getFilterString,
   getJWTfromCookie,
   getQueryString,
-  isGuid,
-  putJWTtoRedux
+  isGuid
 } from '../helper';
 import {mock} from './testHelper';
 import Cookie from 'js-cookie';
@@ -49,11 +48,7 @@ describe('ajax helper getAuthHeader tests', () => {
 
   it('returns an request Header if token specified in cookie', () => {
     const token = 'token';
-    putJWTtoRedux({
-      expiresInMinutes: 60,
-      token: token
-    });
-
+    Cookie.set('token', token, { path: '' });
     const header = getAuthHeader();
     expect(header.constructor.name).toEqual('Headers');
     expect(header.get('Authorization')).toEqual(token);
@@ -66,16 +61,6 @@ describe('ajax helper getJWTfromCookie tests', () => {
     const token = 'example_token';
     Cookie.set('token', token, { path: '' });
     expect(getJWTfromCookie()).toEqual(token);
-  });
-
-  it('sets token to cookie', () => {
-    const token = 'example_token';
-    putJWTtoRedux({
-      expiresInMinutes: 60,
-      token: token
-    });
-
-    expect(Cookie.get('token')).toEqual(token);
   });
 });
 
