@@ -6,14 +6,21 @@ import ButtonAddToCart from './ButtonAddToCart/AddToCartButton';
 import FavoriteIcon from './FavoriteIcon/FavoriteIcon';
 import ButtonCompare from './ButtonCompare/ButtonCompare';
 import globalConfig from '../../../globalConfig';
-import { getStorageData, toggleWishItems, cartHandler } from '../../../helpers/helpers';
+import { getStorageData, toggleWishItems, addToCart } from '../../../helpers/helpers';
 import { changeShoppingCart, changeWishList } from '../../../redux/actions/actions';
 
 const ActionButtons = (props) => {
-  const { classes, product, width, disabledSpacing, isProductPage, changeWishList, changeShoppingCart } = props;
-  const toggleInCart = (productId) => {
-    cartHandler(productId);
-    changeShoppingCart(getStorageData('shoppingCart'));
+  const { classes, product, width, disabledSpacing, isProductPage, changeWishList, changeShoppingCart, size, quantity } = props;
+  const toggleModalDetails = () => {
+
+  };
+  const addToShopCart = (productId, quantity, size) => {
+    if (!size) {
+      toggleModalDetails(true);
+    } else {
+      addToCart(productId, quantity, size);
+      changeShoppingCart(getStorageData('shoppingCart'));
+    }
   };
 
   const addToCompare = (productId) => {
@@ -32,7 +39,11 @@ const ActionButtons = (props) => {
 
   return (
     <CardActions disableSpacing={disabledSpacing}>
-      <ButtonAddToCart classes={classes.button} id={product._id} addToCart={toggleInCart}/>
+      <ButtonAddToCart classes={classes.button}
+        id={product._id}
+        addToCart={addToShopCart}
+        quantity={quantity}
+        size={size}/>
       <FavoriteIcon classes={classes}
         id={product._id}
         addToWishList={toggleWishList}

@@ -11,8 +11,15 @@ import EmptyState from '../../components/EmptyState/EmptyState';
 const ShoppingCart = (props) => {
   const {shoppingCart} = props;
   const [products, setProducts] = useState([]);
+
   const isMobile = useMediaQuery('(max-width: 550px)');
-  const filterArray = (shoppingCart.length && [{_id: shoppingCart}]) || [];
+  const productsId = [];
+  shoppingCart.forEach(item => {
+    productsId.push(item.productId);
+  });
+  const filterArray = (productsId.length && [{_id: productsId}]) || [];
+
+  // todo request to productsQuantity to get max quantity
 
   useEffect(() => {
     // eslint-disable-next-line

@@ -42,6 +42,7 @@ const Product = (props) => {
         });
       AjaxUtils.Quantity.getQuantityByProductId(id)
         .then(result => {
+          console.log(result);
           setProductInStock(result);
         });
       if (filterArray.length) {

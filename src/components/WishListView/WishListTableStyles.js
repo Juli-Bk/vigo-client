@@ -144,6 +144,43 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('sm')]: {
       marginBottom: 0
     }
+  },
+  quantityBox: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderTop: `1.5px solid ${colors.borderLight}`,
+    borderBottom: `1.5px solid ${colors.borderLight}`,
+    lineHeight: '1.5rem'
+  },
+  btn: {
+    color: colors.fontFourth,
+    cursor: 'pointer',
+    lineHeight: '1.2rem',
+    verticalAlign: 'middle',
+    '&:hover': {
+      color: colors.noticeColor,
+      transition: 'all .5s ease'
+    }
+  },
+  borderRight: {
+    borderRight: `1.5px solid  ${colors.thinLine}`,
+    '&:hover': {
+      background: colors.thinLine,
+      transition: 'all .5s ease'
+    }
+  },
+  borderLeft: {
+    borderLeft: `1.5px solid  ${colors.thinLine}`,
+    '&:hover': {
+      background: colors.thinLine,
+      transition: 'all .5s ease'
+    }
+  },
+  active: {
+    fontSize: '1.2rem',
+    fontWeight: 'bold',
+    lineHeight: 'unset'
   }
 }));
 

@@ -14,45 +14,38 @@ import {
   capitalize,
   formPriceString,
   getStorageData,
-  cartHandler,
-  mapArrayToOptions, makeNumbersArray
+  deleteFromCart,
+  setStorageData,
+  addToCart
 } from '../../helpers/helpers';
 import AjaxUtils from '../../ajax';
 import { changeShoppingCart } from '../../redux/actions/actions';
 import SaleInfoBox from '../Product/SaleInfoBox/SaleInfoBox';
 import SalePrice from '../Product/SalePrice/SalePrice';
-import SelectSimple from '../Select/SelectSimple';
+import Quantity from '../Product/Quantity/Quantity';
 import { theme } from '../WishListView/WishListTableTheme';
 import useStyles from '../WishListView/WishListTableStyles';
 import globalConfig from '../../globalConfig';
-import Quantity from '../Product/Quantity/Quantity';
 
 const ShopCartView = (props) => {
-  // todo quantity
+  // todo max quantity
   const {isMobile, products, changeShoppingCart, shoppingCart } = props;
   const classes = useStyles();
-  const [chosenQuantity, setChosenQuantity] = useState({});
 
-  useEffect(() => {
-    products.forEach(product => {
-      AjaxUtils.Quantity.getQuantityByProductId(product._id)
-        .then(result => {
-          // todo get quantity from redux or from DB
-          // setProductsQuantity(...productsQuantity, [])
-        });
-    });
-  });
-
-  const handleSetQuantity = (event, id) => {
-    setChosenQuantity({[id]: Number(event.target.value)});
+  const handleQuantity = (id, number) => {
+    const productToChange = shoppingCart.find(item => item.productId === id);
+    productToChange.cartQuantity = number;
+    changeShoppingCart([...shoppingCart.filter(item => item.productId !== id), productToChange]);
+    setStorageData('shoppingCart', [...shoppingCart.filter(item => item.productId !== id), productToChange]);
+    addToCart(id, number);
   };
 
   const getSubtotal = (price, quantity) => {
     return quantity ? price * quantity : price;
   };
 
-  const deleteFromCart = (id) => {
-    cartHandler(id);
+  const deleteFromShopCart = (id) => {
+    deleteFromCart(id);
     changeShoppingCart(getStorageData('shoppingCart'));
   };
 
@@ -63,7 +56,9 @@ const ShopCartView = (props) => {
       productCode: product.productId,
       price: product.price,
       id: product._id,
-      salePrice: product.salePrice
+      salePrice: product.salePrice,
+      isOnSale: product.isOnSale,
+      quantity: shoppingCart.find(item => item.productId === product._id).cartQuantity
     };
   });
 
@@ -120,7 +115,7 @@ const ShopCartView = (props) => {
                               <TableCell component="th" scope="row" className={classes.firstCell}>
                                 <Link to={`/products/${row.id}`} className={classes.linkBox}>
                                   <CardMedia image={row.imgUrl} className={classes.img}/>
-                                  {row.price !== row.salePrice
+                                  {row.isOnSale
                                     ? <SaleInfoBox price={row.price} salePrice={row.salePrice}/> : null}
                                 </Link>
                                 <Box className={classes.textBox}>
@@ -135,23 +130,23 @@ const ShopCartView = (props) => {
                                 <SalePrice value={row.salePrice}/>
                               </TableCell>
                               <TableCell align="center" className={classes.code}>
-                                <Quantity quantity={chosenQuantity[row.id]} max={5}/>
-                                {/* <Box> */}
-                                {/*  <SelectSimple value={chosenQuantity[row.id] || 1} */}
-                                {/*    classes={classes} */}
-                                {/*    handleChange={(event) => handleSetQuantity(event, row.id)} */}
-                                {/*    options={mapArrayToOptions(makeNumbersArray(10))}/> */}
-                                {/* </Box> */}
+                                <Quantity
+                                  quantity={row.quantity}
+                                  max={5}
+                                  id={row.id}
+                                  classes={classes}
+                                  handleQuantity={handleQuantity}
+                                />
                               </TableCell>
                               <TableCell align="center" className={classes.code}>
                                 <SalePrice isSubtotal={true}
-                                  value={getSubtotal(row.salePrice, chosenQuantity[row.id])}/>
+                                  value={getSubtotal(row.salePrice, row.quantity)}/>
                               </TableCell>
                               <TableCell align="center">
                                 <CloseIcon data-testid='deleteIcon'
                                   className={classes.closeIcon}
                                   onClick={() => {
-                                    deleteFromCart(row.id);
+                                    deleteFromShopCart(row.id);
                                   }}/>
                               </TableCell>
                             </>

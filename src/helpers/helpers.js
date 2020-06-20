@@ -118,8 +118,11 @@ export const integrateData = (remoteWishList, localWishList) => {
 };
 
 export const integrateCart = (remoteCart, localCart) => {
-  remoteCart.forEach(item => {
-    if (!localCart.includes(item.productId)) localCart.push(item.productId);
+  remoteCart.forEach(remoteItem => {
+    if (!localCart.find(localItem => localItem.productId === remoteItem.productId) ||
+            !localCart.find(localItem => localItem.size === remoteItem.size)) {
+      localCart.push(remoteItem);
+    }
   });
   setStorageData('shoppingCart', localCart);
 };
@@ -156,23 +159,9 @@ export const toggleWishItems = (productId) => {
   }
 };
 
-export const cartHandler = (productId, quantity = 1) => {
+const cartHandler = (products) => {
   const userId = getUserIdFromCookie();
-  const shopCartLocal = getStorageData('shoppingCart');
-  const cartId = JSON.parse(localStorage.getItem('cartId'));
-
-  const products = shopCartLocal.map(() => {
-    return {
-      productId,
-      cartQuantity: quantity
-    };
-  });
-
-  if (shopCartLocal.includes(productId)) {
-    setStorageData('shoppingCart', shopCartLocal.filter(item => item !== productId));
-  } else {
-    setStorageData('shoppingCart', [...shopCartLocal, productId]);
-  }
+  const cartId = localStorage.getItem('cartId') !== 'undefined' && JSON.parse(localStorage.getItem('cartId'));
   if (userId && !cartId) {
     AjaxUtils.ShopCart.getUserShopCart(userId)
       .then(result => {
@@ -180,14 +169,12 @@ export const cartHandler = (productId, quantity = 1) => {
           AjaxUtils.ShopCart.createShopCart(userId, products)
             .then(result => {
               // todo nice popup
-              console.log(result);
               setStorageData('cartId', result._id);
             });
         } else {
           AjaxUtils.ShopCart.updateShopCartById(result._id, products, result.userId)
             .then(result => {
               // todo nice popup
-              console.log(result);
               setStorageData('cartId', result._id);
             });
         }
@@ -196,16 +183,52 @@ export const cartHandler = (productId, quantity = 1) => {
     AjaxUtils.ShopCart.updateShopCartById(cartId, products)
       .then(result => {
         // todo nice popup
-        console.log(result);
+        console.log('updating for unregistered user', result);
       });
   } else {
     AjaxUtils.ShopCart.createShopCart(null, products)
       .then(result => {
         // todo nice popup
         console.log(result);
-        setStorageData('cartId', result._id);
+        if (result.cart) setStorageData('cartId', result.cart._id);
       });
   }
+};
+
+export const addToCart = (productId, cartQuantity = 1, size = '') => {
+  const shopCartLocal = getStorageData('shoppingCart');
+  const product = {
+    productId,
+    cartQuantity,
+    size
+  };
+
+  const itemInCart = shopCartLocal.find(item => item.productId === productId);
+  if (itemInCart) {
+    if (size !== itemInCart.size) {
+      const newItem = {
+        productId,
+        cartQuantity,
+        size
+      };
+      setStorageData('shoppingCart', [...shopCartLocal, newItem]);
+      return;
+    }
+    if (cartQuantity !== itemInCart.cartQuantity) {
+      setStorageData('shoppingCart', [...shopCartLocal, itemInCart.cartQuantity = cartQuantity]);
+    }
+  } else {
+    setStorageData('shoppingCart', [...shopCartLocal, product]);
+  }
+
+  cartHandler(getStorageData('shoppingCart'));
+};
+
+export const deleteFromCart = (productId) => {
+  const shopCartLocal = getStorageData('shoppingCart');
+  const products = shopCartLocal.filter(item => item.productId !== productId);
+  setStorageData('shoppingCart', shopCartLocal.filter(item => item.productId !== productId));
+  cartHandler(products);
 };
 
 export const defineSortData = (option) => {
@@ -226,4 +249,10 @@ export const makeFilterItem = (string) => {
   const key = filterString[0];
   const value = filterString[1];
   return {[key]: value};
+};
+
+export const getMaxQuantity = (productQuantity, size) => {
+  if (size && size !== globalConfig.defaultSizeOption) {
+    return productQuantity.find(item => item.sizeId.name === size).quantity;
+  }
 };

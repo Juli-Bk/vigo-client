@@ -1,36 +1,27 @@
 import React from 'react';
-import { Box, Typography, makeStyles } from '@material-ui/core';
-import { colors } from '../../../styles/colorKit';
-
-const useStyles = makeStyles({
-  quantityBox: {
-    display: 'flex',
-    justifyContent: 'center'
-  },
-  btn: {
-    fontSize: '1rem'
-  },
-  active: {
-    color: colors.fontFourth
-  },
-  disabled: {
-    color: colors.thinLine
-  }
-});
+import { Box, Typography} from '@material-ui/core';
+import AddIcon from '@material-ui/icons/Add';
+import RemoveIcon from '@material-ui/icons/Remove';
 
 const Quantity = (props) => {
-  const {quantity, max} = props;
-  const classes = useStyles();
+  const {quantity, id, classes, handleQuantity, max} = props;
+
+  const handleMinus = () => {
+    if (quantity > 1) handleQuantity(id, quantity - 1);
+  };
+
+  const handlePlus = () => {
+    if (quantity < max) handleQuantity(id, quantity + 1);
+  };
+
   return (
     <Box className={classes.quantityBox}>
-      <Typography variant='p'
-        className={classes.btn}>-</Typography>
-      <Typography variant='p'
+      <span className={classes.borderRight} onClick={handleMinus}><RemoveIcon className={classes.btn}/></span>
+      <Typography variant='caption'
         className={classes.active}>
-        {quantity || 1}
+        {quantity}
       </Typography>
-      <Typography variant='p'
-        className={classes.btn}>+</Typography>
+      <span className={classes.borderLeft} onClick={handlePlus}><AddIcon className={classes.btn}/></span>
     </Box>
   );
 };
