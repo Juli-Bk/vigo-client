@@ -7,16 +7,18 @@ import FavoriteIcon from './FavoriteIcon/FavoriteIcon';
 import ButtonCompare from './ButtonCompare/ButtonCompare';
 import globalConfig from '../../../globalConfig';
 import { getStorageData, toggleWishItems, addToCart } from '../../../helpers/helpers';
-import { changeShoppingCart, changeWishList } from '../../../redux/actions/actions';
+import { changeShoppingCart, changeWishList, toggleModalSize } from '../../../redux/actions/actions';
 
 const ActionButtons = (props) => {
-  const { classes, product, width, disabledSpacing, isProductPage, changeWishList, changeShoppingCart, size, quantity } = props;
-  const toggleModalDetails = () => {
+  const {
+    classes, product, width, disabledSpacing,
+    isProductPage, changeWishList, changeShoppingCart,
+    size, quantity, toggleModalSize
+  } = props;
 
-  };
   const addToShopCart = (productId, quantity, size) => {
     if (!size) {
-      toggleModalDetails(true);
+      toggleModalSize(true);
     } else {
       addToCart(productId, quantity, size);
       changeShoppingCart(getStorageData('shoppingCart'));
@@ -65,7 +67,8 @@ ActionButtons.propTypes = {
   isProductPage: PropTypes.bool,
   token: PropTypes.string,
   changeWishList: PropTypes.func.isRequired,
-  changeShoppingCart: PropTypes.func.isRequired
+  changeShoppingCart: PropTypes.func.isRequired,
+  toggleModalSize: PropTypes.func.isRequired
 };
 
 const mapStateToProps = store => {
@@ -77,7 +80,8 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
   return {
     changeWishList: data => dispatch(changeWishList(data)),
-    changeShoppingCart: data => dispatch(changeShoppingCart(data))
+    changeShoppingCart: data => dispatch(changeShoppingCart(data)),
+    toggleModalSize: flag => dispatch(toggleModalSize(flag))
   };
 };
 

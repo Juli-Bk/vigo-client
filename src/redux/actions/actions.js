@@ -76,3 +76,7 @@ export const setCategoryId = (categoryId) => {
 export const setGuestData = (data) => {
   return {type: Actions.SET_GUEST_DATA, payload: data};
 };
+
+export const toggleModalSize = (flag) => {
+  return {type: Actions.TOGGLE_MODAL_SIZE, payload: flag};
+};

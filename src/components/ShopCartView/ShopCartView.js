@@ -52,13 +52,17 @@ const ShopCartView = (props) => {
   const rows = products.map(product => {
     return {
       imgUrl: product.imageUrls[0],
-      mainData: {name: product.name, color: product.color, size: product.size},
+      mainData: {
+        name: product.name,
+        color: product.color,
+        size: shoppingCart.find(item => item.productId === product._id).size || ''
+      },
       productCode: product.productId,
       price: product.price,
       id: product._id,
       salePrice: product.salePrice,
       isOnSale: product.isOnSale,
-      quantity: shoppingCart.find(item => item.productId === product._id).cartQuantity
+      quantity: shoppingCart.find(item => item.productId === product._id).cartQuantity || 1
     };
   });
 

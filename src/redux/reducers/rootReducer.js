@@ -18,6 +18,7 @@ import isPersDetailsModalOpen from './isPersDetailsModalOpenReducer';
 import shoppingCart from './shoppingCartReducer';
 import categoryId from './categoryIdReducer';
 import guestData from './guestReducer';
+import isModalSizeOpen from './modalSizeReducer';
 
 export const rootReducer = combineReducers({
   currentPage,
@@ -38,5 +39,6 @@ export const rootReducer = combineReducers({
   isLoginModalOpen,
   isPersDetailsModalOpen,
   shoppingCart,
-  guestData
+  guestData,
+  isModalSizeOpen
 });
