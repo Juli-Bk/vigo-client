@@ -13,12 +13,12 @@ import CloseIcon from '@material-ui/icons/Close';
 import {
   capitalize,
   formPriceString,
-  getStorageData,
   cartHandler,
   toggleWishItems,
   mapArrayToOptions, makeNumbersArray
 } from '../../helpers/helpers';
-import { changeWishList, changeShoppingCart } from '../../redux/actions/actions';
+import { changeShoppingCart } from '../../redux/actions/shopCart';
+import { changeWishList } from '../../redux/actions/wishlist';
 import SaleInfoBox from '../../components/Product/SaleInfoBox/SaleInfoBox';
 import SalePrice from '../../components/Product/SalePrice/SalePrice';
 import Price from '../../components/Product/Price/Price';
@@ -62,12 +62,12 @@ const ProductsTable = (props) => {
 
   const deleteFromWishList = (id) => {
     toggleWishItems(id);
-    changeWishList(getStorageData('wishList'));
+    changeWishList();
   };
   // to do different functions to add znd to delete
   const deleteFromCart = (id) => {
     cartHandler(id);
-    changeShoppingCart(getStorageData('shoppingCart'));
+    changeShoppingCart();
   };
   // todo replace logic
   const rows = products.map(product => {
@@ -231,8 +231,8 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeWishList: data => dispatch(changeWishList(data)),
-    changeShoppingCart: data => dispatch(changeShoppingCart(data))
+    changeWishList: () => dispatch(changeWishList()),
+    changeShoppingCart: () => dispatch(changeShoppingCart())
   };
 };
 

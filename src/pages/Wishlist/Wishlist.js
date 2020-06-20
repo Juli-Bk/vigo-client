@@ -6,7 +6,7 @@ import AjaxUtils from '../../ajax';
 import globalConfig from '../../globalConfig';
 
 import ProductsTable from '../../containers/ProductsTable/ProductsTable';
-import { changeWishList } from '../../redux/actions/actions';
+import { changeWishList } from '../../redux/actions/wishlist';
 import EmptyState from '../../components/EmptyState/EmptyState';
 
 const Wishlist = (props) => {
@@ -54,7 +54,7 @@ Wishlist.propTypes = {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeWishList: data => dispatch(changeWishList(data))
+    changeWishList: () => dispatch(changeWishList())
   };
 };
 

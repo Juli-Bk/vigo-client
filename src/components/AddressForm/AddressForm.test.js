@@ -72,8 +72,7 @@ describe('AddressForm with all expected props', () => {
     updateField(wrapper.find('input[name="apartment"]'), 'apartment', validAppart);
     updateField(wrapper.find('input[name="postalCode"]'), 'postalCode', validPostCode);
 
-    const button = wrapper.find(Button);
-    expect(button.props().type).toEqual('submit');
+    const button = wrapper.find('button[type="submit"]');
     await wait(() => {
       button.simulate('click', {
         preventDefault: () => {
@@ -97,8 +96,7 @@ describe('AddressForm with all expected props', () => {
   it('Should not trigger submit on submit clicked with invalid house', async () => {
     updateField(wrapper.find('input[name="house"]'), 'house', invalidBuilding);
 
-    const button = wrapper.find(Button);
-    expect(button.props().type).toEqual('submit');
+    const button = wrapper.find('button[type="submit"]');
     button.simulate('click', {
       preventDefault: () => {
       }
@@ -111,11 +109,10 @@ describe('AddressForm with all expected props', () => {
     }, 3000);
   });
 
-  it('Should not trigger submit on submit clicked with invalid apartment', async () => {
+  it('Should trigger submit on submit click with empty apartment', async () => {
     updateField(wrapper.find('input[name="apartment"]'), 'apartment', invalidAppart);
 
-    const button = wrapper.find(Button);
-    expect(button.props().type).toEqual('submit');
+    const button = wrapper.find('button[type="submit"]');
     button.simulate('click', {
       preventDefault: () => {
       }

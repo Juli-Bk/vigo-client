@@ -105,13 +105,14 @@ const RegisterForm = (props) => {
                   className={styles.input}
                   type='email'
                   label={<IconLabel label='Enter your email' Component={EmailIcon}/>}
-                  error={errors.email && touched.email}
-                  fullWidth variant='outlined'
                   value={values.email}
                   onBlur={handleBlur}
                   onChange={handleChange}
                   helperText={(errors.email && touched.email) && errors.email}
+                  error={errors.email && touched.email}
                   size='small'
+                  fullWidth
+                  variant='outlined'
                 />
                 <TextField
                   name='password'
