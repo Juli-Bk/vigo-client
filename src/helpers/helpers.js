@@ -161,8 +161,8 @@ export const toggleWishItems = (productId) => {
 
 const cartHandler = (products) => {
   const userId = getUserIdFromCookie();
-  const cartId = localStorage.getItem('cartId') !== 'undefined' && JSON.parse(localStorage.getItem('cartId'));
-  if (userId && !cartId) {
+  const cartId = getStorageData('cartId');
+  if (userId && !cartId.length) {
     AjaxUtils.ShopCart.getUserShopCart(userId)
       .then(result => {
         if (result.message) {
@@ -179,7 +179,7 @@ const cartHandler = (products) => {
             });
         }
       });
-  } else if (!userId && cartId) {
+  } else if (!userId && cartId.length) {
     AjaxUtils.ShopCart.updateShopCartById(cartId, products)
       .then(result => {
         // todo nice popup
