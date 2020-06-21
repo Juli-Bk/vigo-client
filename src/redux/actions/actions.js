@@ -78,5 +78,5 @@ export const setGuestData = (data) => {
 };
 
 export const toggleModalSize = (flag) => {
-  return {type: Actions.TOGGLE_MODAL_SIZE, payload: flag};
+  return {type: Actions.IS_MODAL_SIZE_OPEN, payload: flag};
 };

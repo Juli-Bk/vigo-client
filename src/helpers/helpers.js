@@ -212,7 +212,7 @@ export const addToCart = (productId, cartQuantity = 1, sizeId = '') => {
 
   const itemInCart = shopCartLocal.find(item => item.productId === productId);
   if (itemInCart) {
-    if (sizeId !== itemInCart.size) {
+    if (sizeId !== itemInCart.sizeId) {
       const newItem = {
         productId,
         cartQuantity,
@@ -262,6 +262,15 @@ export const getMaxQuantity = (productQuantity, size) => {
   if (productQuantity.length) {
     if (size && size !== globalConfig.defaultSizeOption) {
       return productQuantity.find(item => item.sizeId.name === size).quantity;
+    }
+  }
+};
+
+export const getProductStockData = (quantityArray, productId) => {
+  if (quantityArray.length) {
+    const productQuantity = quantityArray.find(item => item.productId === productId);
+    if (productQuantity && productQuantity.inStock.length) {
+      return productQuantity.inStock;
     }
   }
 };

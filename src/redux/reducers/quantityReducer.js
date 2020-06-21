@@ -1,9 +1,10 @@
 import Actions from '../constants/constants';
-import globalConfig from '../../globalConfig';
 
-const reducer = (state = globalConfig.defaultQuantity, action) => {
-  if (action.type === Actions.SET_CHOSEN_QUANTITY) {
-    return action.payload;
+const reducer = (state = [], action) => {
+  if (action.type === Actions.GET_PRODUCTS_QUANTITY) {
+    if (!state.find(item => item.productId === action.productId)) {
+      return [...state, {productId: action.productId, inStock: action.payload}];
+    }
   }
   return state;
 };

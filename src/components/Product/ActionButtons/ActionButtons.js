@@ -13,14 +13,14 @@ const ActionButtons = (props) => {
   const {
     classes, product, width, disabledSpacing,
     isProductPage, changeWishList, changeShoppingCart,
-    size, quantity, toggleModalSize
+    sizeId, quantity, toggleModalSize
   } = props;
 
-  const addToShopCart = (productId, quantity, size) => {
-    if (!size) {
+  const addToShopCart = (productId, quantity, sizeId) => {
+    if (!sizeId) {
       toggleModalSize(true);
     } else {
-      addToCart(productId, quantity, size);
+      addToCart(productId, quantity, sizeId);
       changeShoppingCart(getStorageData('shoppingCart'));
     }
   };
@@ -45,7 +45,7 @@ const ActionButtons = (props) => {
         id={product._id}
         addToCart={addToShopCart}
         quantity={quantity}
-        size={size}/>
+        sizeId={sizeId}/>
       <FavoriteIcon classes={classes}
         id={product._id}
         addToWishList={toggleWishList}

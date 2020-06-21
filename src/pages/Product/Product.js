@@ -40,11 +40,11 @@ const Product = (props) => {
         .then(result => {
           setProduct(result);
         });
-      AjaxUtils.Quantity.getQuantityByProductId(id)
-        .then(result => {
-          console.log(result);
-          setProductInStock(result);
-        });
+      // AjaxUtils.Quantity.getQuantityByProductId(id)
+      //   .then(result => {
+      //     console.log(result);
+      //     setProductInStock(result);
+      //   });
       if (filterArray.length) {
         AjaxUtils.Products.getProductsByFilters(filterArray, 1, 8, '')
           .then(result => {
@@ -89,7 +89,7 @@ const Product = (props) => {
             {product ? <ProductSlider product={product}/> : null}
           </Grid>
           <Grid item xs={12} sm={12} md={6} lg={7} xl={7}>
-            {product && productInStock ? <ProductPageView productData={product} productQuantity={productInStock} /> : null}
+            {product && productInStock ? <ProductPageView productData={product} /> : null}
           </Grid>
         </Grid>
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
