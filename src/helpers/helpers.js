@@ -117,13 +117,20 @@ export const integrateData = (remoteWishList, localWishList) => {
   setStorageData('wishList', localWishList);
 };
 
-export const integrateCart = (remoteCart, localCart) => {
-  remoteCart.forEach(remoteItem => {
-    if (!localCart.find(localItem => localItem.productId === remoteItem.productId) ||
-            !localCart.find(localItem => localItem.size === remoteItem.size)) {
-      localCart.push(remoteItem);
-    }
-  });
+export const integrateCart = (remoteCart) => {
+  const localCart = getStorageData('shoppingCart');
+  if (localCart) {
+    remoteCart.forEach(remoteItem => {
+      if (!localCart.find(localItem => localItem.productId === remoteItem.productId)) {
+        localCart.push(remoteItem);
+      }
+    });
+    localCart.forEach(localItem => {
+      if (!remoteCart.find(remoteItem => remoteItem.productId === localItem.productId)) {
+        cartHandler([localItem]);
+      }
+    });
+  }
   setStorageData('shoppingCart', localCart);
 };
 
@@ -162,7 +169,7 @@ export const toggleWishItems = (productId) => {
 const cartHandler = (products) => {
   const userId = getUserIdFromCookie();
   const cartId = getStorageData('cartId');
-  if (userId && !cartId.length) {
+  if (userId) {
     AjaxUtils.ShopCart.getUserShopCart(userId)
       .then(result => {
         if (result.message) {
@@ -195,21 +202,21 @@ const cartHandler = (products) => {
   }
 };
 
-export const addToCart = (productId, cartQuantity = 1, size = '') => {
+export const addToCart = (productId, cartQuantity = 1, sizeId = '') => {
   const shopCartLocal = getStorageData('shoppingCart');
   const product = {
     productId,
     cartQuantity,
-    size
+    sizeId
   };
 
   const itemInCart = shopCartLocal.find(item => item.productId === productId);
   if (itemInCart) {
-    if (size !== itemInCart.size) {
+    if (sizeId !== itemInCart.size) {
       const newItem = {
         productId,
         cartQuantity,
-        size
+        sizeId
       };
       setStorageData('shoppingCart', [...shopCartLocal, newItem]);
       return;
@@ -227,7 +234,7 @@ export const addToCart = (productId, cartQuantity = 1, size = '') => {
 export const deleteFromCart = (productId) => {
   const shopCartLocal = getStorageData('shoppingCart');
   const products = shopCartLocal.filter(item => item.productId !== productId);
-  setStorageData('shoppingCart', shopCartLocal.filter(item => item.productId !== productId));
+  setStorageData('shoppingCart', products);
   cartHandler(products);
 };
 
@@ -252,7 +259,9 @@ export const makeFilterItem = (string) => {
 };
 
 export const getMaxQuantity = (productQuantity, size) => {
-  if (size && size !== globalConfig.defaultSizeOption) {
-    return productQuantity.find(item => item.sizeId.name === size).quantity;
+  if (productQuantity.length) {
+    if (size && size !== globalConfig.defaultSizeOption) {
+      return productQuantity.find(item => item.sizeId.name === size).quantity;
+    }
   }
 };

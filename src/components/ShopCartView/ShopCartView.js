@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
@@ -18,12 +18,11 @@ import {
   setStorageData,
   addToCart
 } from '../../helpers/helpers';
-import AjaxUtils from '../../ajax';
-import { changeShoppingCart } from '../../redux/actions/actions';
+import {changeShoppingCart} from '../../redux/actions/actions';
 import SaleInfoBox from '../Product/SaleInfoBox/SaleInfoBox';
 import SalePrice from '../Product/SalePrice/SalePrice';
 import Quantity from '../Product/Quantity/Quantity';
-import { theme } from '../WishListView/WishListTableTheme';
+import {theme} from '../WishListView/WishListTableTheme';
 import useStyles from '../WishListView/WishListTableStyles';
 import globalConfig from '../../globalConfig';
 
@@ -44,6 +43,14 @@ const ShopCartView = (props) => {
     return quantity ? price * quantity : price;
   };
 
+  const getCartData = (product) => {
+    const itemInCart = shoppingCart.find(item => item.productId === product._id);
+    return {
+      size: itemInCart && itemInCart.size,
+      quantity: itemInCart && itemInCart.cartQuantity
+    };
+  };
+
   const deleteFromShopCart = (id) => {
     deleteFromCart(id);
     changeShoppingCart(getStorageData('shoppingCart'));
@@ -55,14 +62,14 @@ const ShopCartView = (props) => {
       mainData: {
         name: product.name,
         color: product.color,
-        size: shoppingCart.find(item => item.productId === product._id).size || ''
+        size: getCartData(product).size || ''
       },
       productCode: product.productId,
       price: product.price,
       id: product._id,
       salePrice: product.salePrice,
       isOnSale: product.isOnSale,
-      quantity: shoppingCart.find(item => item.productId === product._id).cartQuantity || 1
+      quantity: getCartData(product).cartQuantity || 1
     };
   });
 

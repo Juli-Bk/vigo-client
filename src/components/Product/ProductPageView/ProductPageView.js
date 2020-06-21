@@ -27,13 +27,19 @@ const ProductPageView = (props) => {
   const maxQuantity = productQuantity.length && getMaxQuantity(productQuantity, chosenSize);
 
   productQuantity.length && productQuantity.forEach(item => {
+    // sizesArray.push({[item.sizeId.name]: item.sizeId._id});
     sizesArray.push(item.sizeId.name);
   });
+
   sizesArray.unshift(globalConfig.defaultSizeOption);
 
+  // const options = mapArrayToOptions(Object.keys(sizesArray).unshift(globalConfig.defaultSizeOption));
+
   const handleSetSize = (event) => {
-    setChosenSize(event.target.value);
-    setDisplayHelper(false);
+    if (event.target.value !== globalConfig.defaultSizeOption) {
+      setChosenSize(event.target.value);
+      setDisplayHelper(false);
+    }
   };
 
   const handleQuantity = (id, number) => {
