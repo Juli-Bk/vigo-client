@@ -6,23 +6,25 @@ import ButtonAddToCart from './ButtonAddToCart/AddToCartButton';
 import FavoriteIcon from './FavoriteIcon/FavoriteIcon';
 import ButtonCompare from './ButtonCompare/ButtonCompare';
 import globalConfig from '../../../globalConfig';
-import { getStorageData, toggleWishItems, cartHandler } from '../../../helpers/helpers';
-import { changeShoppingCart, changeWishList } from '../../../redux/actions/actions';
+import {toggleWishItems, cartHandler } from '../../../helpers/helpers';
+import { changeShoppingCart} from '../../../redux/actions/shopCart';
+import { changeWishList } from '../../../redux/actions/wishlist';
 
 const ActionButtons = (props) => {
   const { classes, product, width, disabledSpacing, isProductPage, changeWishList, changeShoppingCart } = props;
   const toggleInCart = (productId) => {
     cartHandler(productId);
-    changeShoppingCart(getStorageData('shoppingCart'));
+    changeShoppingCart();
   };
 
   const addToCompare = (productId) => {
+    // todo implementation
     console.log(`product with id ${productId} added to compare`);
   };
 
   const toggleWishList = (productId) => {
     toggleWishItems(productId);
-    changeWishList(getStorageData('wishList'));
+    changeWishList();
   };
 
   const defineLabel = (width, isProductPage, label) => {
@@ -65,8 +67,8 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeWishList: data => dispatch(changeWishList(data)),
-    changeShoppingCart: data => dispatch(changeShoppingCart(data))
+    changeWishList: () => dispatch(changeWishList()),
+    changeShoppingCart: () => dispatch(changeShoppingCart())
   };
 };
 

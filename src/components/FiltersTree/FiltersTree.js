@@ -7,7 +7,7 @@ import useStyles from './FiltersTreeStyle';
 import StyledTreeItem from '../StyledTreeItem/StyledTreeItem';
 import FilterColorsTreeItem from './FilterColors/FilterColorsTreeItem';
 import FilterSizesTreeItem from './FilterSizes/FilterSizesTreeItem';
-import {setCategoryId} from '../../redux/actions/actions';
+import {setCategoryId} from '../../redux/actions/categories';
 
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';

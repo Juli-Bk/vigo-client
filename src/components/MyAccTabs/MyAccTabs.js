@@ -71,11 +71,11 @@ const MyAccTabs = (props) => {
   const [value, setValue] = useState(0);
   const [user, setUser] = useState(null);
 
+  // todo первести на редакс санк
   useEffect(() => {
     AjaxUtils.Users.getUser()
       .then(result => {
         setUser(result);
-        console.log(result);
       });
   }, []);
 
@@ -102,7 +102,7 @@ const MyAccTabs = (props) => {
             <Tab className={classes.tab} component='span' label='Contact info' {...a11yProps(0)} />
             <Tab className={classes.tab} component='span' label='Address' {...a11yProps(1)} />
             <Tab className={classes.tab} component='span' label='Wishlist' {...a11yProps(2)} />
-            <Tab className={classes.tab} component='span' label='Purchase history' {...a11yProps(3)} />
+            <Tab className={classes.tab} component='span' label='Orders' {...a11yProps(3)} />
           </Tabs>
         </AppBar>
 

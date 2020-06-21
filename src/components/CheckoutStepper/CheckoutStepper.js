@@ -1,18 +1,19 @@
-import React, { useState, useCallback } from 'react';
-import { makeStyles, ThemeProvider } from '@material-ui/core/styles';
+import React, {useCallback, useState} from 'react';
+import {makeStyles, ThemeProvider} from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
-import { colors } from '../../styles/colorKit';
+import {colors} from '../../styles/colorKit';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import theme from './CheckoutStepperTheme';
 import DeliveryForm from '../DeliveryForm/DeliveryForm';
-import { Container } from '@material-ui/core';
+import {Container} from '@material-ui/core';
 import PaymentForm from '../PaymentForm/PaymentForm';
 import {connect} from 'react-redux';
-import { setUser, setLoginModalOpenState, setPersDetailsOpenState} from '../../redux/actions/actions';
+import {setLoginModalOpenState, setPersDetailsOpenState} from '../../redux/actions/actions';
+import { setUser} from '../../redux/actions/user';
 import ModalPersDetails from '../ModalPersDetails/ModalPersDetails';
 import NewCustomerForm from '../../components/NewCustomerForm/NewCustomerForm';
 import useCommonStyles from '../../styles/formStyle/formStyle';
@@ -59,14 +60,15 @@ const CheckoutStepper = (props) => {
 
   const getStepContent = (stepIndex) => {
     let fields = null;
+    const asAGuest = guest.radioGroup && guest.radioGroup === 'asGuest';
     switch (stepIndex) {
       case 0:
-        if (token) {
-          fields = <ModalPersDetails />;
+        if (token || asAGuest) {
+          fields = <ModalPersDetails/>;
         } else {
           fields = <NewCustomerForm submitNewCustomerHandler={onSubmitCallback}/>;
         }
-        // todo убрать упрощение, не работает as a guest
+
         return (
           fields
         );

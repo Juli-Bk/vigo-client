@@ -2,7 +2,6 @@ import pathTo from '../common/paths';
 import methods from '../common/methods';
 import store from '../../redux/store';
 import {checkId, getAuthHeader} from '../common/helper';
-import {setCategories} from '../../redux/actions/actions';
 
 export default {
   /**
@@ -24,10 +23,7 @@ export default {
       } else {
         fetch(pathTo.categories, methods.GET)
           .then(response => response.json())
-          .then(response => {
-            store.dispatch(setCategories(response));
-            resolve(response);
-          })
+          .then(response => resolve(response))
           .catch(error => {
             console.log('getAllCategories error', error.message);
             reject(error);

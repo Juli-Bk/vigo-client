@@ -1,14 +1,17 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Formik } from 'formik';
+import {connect} from 'react-redux';
+import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {
-  Typography,
-  TextField,
   Button,
   CardActions,
+  Checkbox,
+  FormControlLabel,
+  FormHelperText,
   Grid,
-  ThemeProvider, FormHelperText, Checkbox, FormControlLabel
+  TextField,
+  ThemeProvider,
+  Typography
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import useStyles from '../../styles/formStyle/formStyle';
@@ -19,11 +22,11 @@ import IconLabel from '../IconLabel/IconLabel';
 import PersonIcon from '@material-ui/icons/Person';
 import EmailIcon from '@material-ui/icons/Email';
 import AjaxUtils from '../../ajax';
-import { setUser } from '../../redux/actions/actions';
+import {saveUserData} from '../../redux/actions/user';
 import {validateObject} from './helper';
 
 const PersonalDetailsForm = (props) => {
-  const {user, setUser, saveUserAddressesHandler} = props;
+  const {user, saveUserData, saveUserAddressesHandler} = props;
   const {firstName, lastName, email, phoneNumber} = user;
 
   const handleCancel = () => {
@@ -33,33 +36,27 @@ const PersonalDetailsForm = (props) => {
   const submitPersonalDetailsData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
 
-    if (user._id) {
-      const data = {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        phoneNumber: values.phoneNumber,
-        email: values.email
-      };
+    const data = {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      phoneNumber: values.phoneNumber,
+      email: values.email
+    };
 
-      AjaxUtils.Users.updateUserInfoById(user._id, data)
-        .then(result => {
-          setSubmitting(false);
-          if (result.status !== 400) {
-            resetForm();
-            saveUserAddressesHandler(result);
-          } else {
-            saveUserAddressesHandler(result);
-            setUser(result);
-          }
-        })
-        .catch(error => {
-          console.log(error);
-          setSubmitting(false);
-          saveUserAddressesHandler(values, error);
-        });
-    }
+    saveUserData(data, (result) => {
+      setSubmitting(false);
+      if (result && result.status !== 400) {
+        resetForm();
+      }
+      saveUserAddressesHandler(result);
+    });
+
     if (values.subscribe === true) {
-      AjaxUtils.Subscribers.subscribe(values.email);
+      AjaxUtils.Subscribers.subscribe(values.email)
+        .then(result => {
+          console.log(result);
+          // todo nice popup : You are subscribed
+        });
     }
   };
 
@@ -214,7 +211,7 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setUser: data => dispatch(setUser(data))
+    saveUserData: (data, callback) => dispatch(saveUserData(data, callback))
   };
 };
 

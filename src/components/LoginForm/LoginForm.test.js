@@ -5,7 +5,8 @@ import {wait} from '@testing-library/react';
 import Typography from '@material-ui/core/Typography';
 import LoginForm from './LoginForm';
 import Adapter from 'enzyme-adapter-react-16';
-import AjaxUtils from '../../ajax';
+import {Provider} from 'react-redux';
+import store from '../../redux/store';
 
 configure({adapter: new Adapter()});
 
@@ -31,10 +32,10 @@ describe('LoginForm with all expected props', () => {
   let onSubmitCallback;
 
   beforeEach(async () => {
-    onSubmitCallback = jest.fn(AjaxUtils.Users.login);
+    onSubmitCallback = jest.fn();
 
     await wait(() => {
-      wrapper = mount(<LoginForm submitLoginHandler={onSubmitCallback}/>);
+      wrapper = mount(<Provider store={store}><LoginForm submitLoginHandler={onSubmitCallback}/></Provider>);
     });
   });
 

@@ -22,6 +22,7 @@ import EmailIcon from '@material-ui/icons/Email';
 import AjaxUtils from '../../ajax';
 import {validateObject} from './helper';
 import * as Yup from 'yup';
+import {connect} from 'react-redux';
 
 const PersonalDetailsGuestForm = (props) => {
   const {saveGuestDataHandler, guestData} = props;
@@ -183,4 +184,10 @@ PersonalDetailsGuestForm.propTypes = {
   saveGuestDataHandler: PropTypes.func
 };
 
-export default React.memo(PersonalDetailsGuestForm);
+const mapStateToProps = store => {
+  return {
+    guestData: store.guestData
+  };
+};
+
+export default React.memo(connect(mapStateToProps)(PersonalDetailsGuestForm));

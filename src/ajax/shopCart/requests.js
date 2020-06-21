@@ -22,7 +22,13 @@ export default {
   getUserShopCart: (userId) => {
     checkId(userId);
     return fetch(`${pathTo.cart}/${userId}`, methods.GET)
-      .then(response => response.json())
+      .then(async (response) => {
+        const respData = await response.json();
+        return Object.assign({
+          status: response.status,
+          statusText: response.statusText
+        }, respData);
+      })
       .catch(error => console.log('getUserShopCart error', error.message));
   },
   /**
@@ -60,7 +66,13 @@ export default {
     };
 
     return fetch(pathTo.cart, requestOptions)
-      .then(response => response.json())
+      .then(async (response) => {
+        const respData = await response.json();
+        return Object.assign({
+          status: response.status,
+          statusText: response.statusText
+        }, respData);
+      })
       .catch(error => console.log('createShopCart error', error.message));
   },
   /**
@@ -94,7 +106,13 @@ export default {
     };
 
     return fetch(`${pathTo.cart}/${id}`, requestOptions)
-      .then(response => response.json())
+      .then(async (response) => {
+        const respData = await response.json();
+        return Object.assign({
+          status: response.status,
+          statusText: response.statusText
+        }, respData);
+      })
       .catch(error => console.log('updateShopCartById error', error.message));
   },
   /**

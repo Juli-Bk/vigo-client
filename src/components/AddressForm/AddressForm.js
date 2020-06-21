@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
-import { Formik } from 'formik';
+import React, {useState} from 'react';
+import {Formik} from 'formik';
 import {
-  Typography,
-  TextField,
   Button,
   CardActions,
-  ThemeProvider,
+  Checkbox,
   FormControlLabel,
   FormHelperText,
-  Checkbox, Grid
+  Grid,
+  TextField,
+  ThemeProvider,
+  Typography
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import useStyles from '../../styles/formStyle/formStyle';
@@ -19,14 +20,13 @@ import MyLocationIcon from '@material-ui/icons/MyLocation';
 import IconLabel from '../IconLabel/IconLabel';
 import PinDropIcon from '@material-ui/icons/PinDrop';
 import AutocompleteComponent from '../Autocomplete/Autocomplete';
-import { connect } from 'react-redux';
-import AjaxUtils from '../../ajax';
+import {connect} from 'react-redux';
 import {validateObject} from './helper';
-import { setUser } from '../../redux/actions/actions';
+import {saveUserData} from '../../redux/actions/user';
 
 const AddressForm = (props) => {
-  const {submitAddressHandler, user} = props;
-  // const {addresses = []} = user;
+  const {submitAddressHandler, user, saveUserData} = props;
+  const {addresses = []} = user;
   const [address, setAddress] = useState('');
 
   const handleCancel = () => {
@@ -36,34 +36,25 @@ const AddressForm = (props) => {
   const submitAddressData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
 
-    if (user._id) {
-      const addresses = {
-        addresses: [{
+    const newAddressesList = {
+      addresses: [
+        ...addresses,
+        {
           address: address,
           house: values.house,
           apartment: values.apartment,
           postalCode: values.postalCode
-        }]
-      };
+        }
+      ]
+    };
 
-      AjaxUtils.Users.updateUserInfoById(user._id, addresses)
-        .then(result => {
-          if (result.status !== 400) {
-            submitAddressHandler(values);
-            setSubmitting(false);
-            resetForm();
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-          submitAddressHandler(values);
-          setSubmitting(false);
-        });
-    } else {
+    saveUserData(newAddressesList, (result) => {
       setSubmitting(false);
-      resetForm();
-      submitAddressHandler();
-    }
+      if (result && result.status !== 400) {
+        resetForm();
+      }
+      submitAddressHandler(result);
+    });
   };
 
   const initFormValues = {
@@ -77,26 +68,27 @@ const AddressForm = (props) => {
   const classes = useStyles();
 
   return (
-    <Grid container>
-      <Grid item xs={12}>
-        <Typography className={classes.header} variant='h4' gutterBottom>
-          your delivery address
-        </Typography>
-        <Formik
-          initialValues={initFormValues}
-          validationSchema={validateObject}
-          onSubmit={submitAddressData}>
-          {({
-            isSubmitting,
-            handleChange,
-            handleBlur,
-            handleSubmit,
-            values,
-            errors,
-            touched
-          }) => (
-            <form>
-              <ThemeProvider theme={theme}>
+    <ThemeProvider theme={theme}>
+      <Grid container>
+        <Grid item xs={12}>
+          <Typography className={classes.header} variant='h4' gutterBottom>
+            your delivery address
+          </Typography>
+          <Formik
+            initialValues={initFormValues}
+            validationSchema={validateObject}
+            onSubmit={submitAddressData}>
+            {({
+              isSubmitting,
+              handleChange,
+              handleBlur,
+              handleSubmit,
+              values,
+              errors,
+              touched
+            }) => (
+              <form>
+
                 <AutocompleteComponent
                   autoComplete='on'
                   className={classes.input}
@@ -114,7 +106,7 @@ const AddressForm = (props) => {
                   name='house'
                   label={<IconLabel label='Enter building number' Component={ApartmentIcon}/>}
                   className={classes.input}
-                  value={values.house}
+                  value={values.house || ''}
                   onBlur={handleBlur}
                   onChange={handleChange}
                   helperText={touched.house ? errors.house : ''}
@@ -128,7 +120,7 @@ const AddressForm = (props) => {
                   label={<IconLabel label='Enter apartment number' Component={MyLocationIcon}/>}
                   className={classes.input}
                   onBlur={handleBlur}
-                  value={values.apartment}
+                  value={values.apartment || ''}
                   onChange={handleChange}
                   helperText={touched.apartment ? errors.apartment : ''}
                   error={touched.apartment && Boolean(errors.apartment)}
@@ -141,7 +133,7 @@ const AddressForm = (props) => {
                   autoComplete='on'
                   label={<IconLabel label='Enter postal code' Component={PinDropIcon}/>}
                   className={classes.input}
-                  value={values.postalCode}
+                  value={values.postalCode || ''}
                   onBlur={handleBlur}
                   onChange={handleChange}
                   helperText={touched.postalCode ? errors.postalCode : ''}
@@ -166,29 +158,29 @@ const AddressForm = (props) => {
                     {errors.confirmation}
                   </FormHelperText>}
                 </FormGroup>
-              </ThemeProvider>
-              <CardActions>
-                <Button
-                  type='button'
-                  className={classes.button}
-                  onClick={handleCancel}
-                  size='large'
-                  variant='outlined'>cancel
-                </Button>
-                <Button
-                  type='submit'
-                  className={classes.button}
-                  onClick={handleSubmit}
-                  size='large'
-                  disabled={isSubmitting}
-                  variant='outlined'>submit
-                </Button>
-              </CardActions>
-            </form>
-          )}
-        </Formik>
+                <CardActions>
+                  <Button
+                    type='button'
+                    className={classes.button}
+                    onClick={handleCancel}
+                    size='large'
+                    variant='outlined'>cancel
+                  </Button>
+                  <Button
+                    type='submit'
+                    className={classes.button}
+                    onClick={handleSubmit}
+                    size='large'
+                    disabled={isSubmitting}
+                    variant='outlined'>submit
+                  </Button>
+                </CardActions>
+              </form>
+            )}
+          </Formik>
+        </Grid>
       </Grid>
-    </Grid>
+    </ThemeProvider>
   );
 };
 
@@ -204,8 +196,8 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setUser: data => dispatch(setUser(data))
+    saveUserData: (data, callback) => dispatch(saveUserData(data, callback))
   };
 };
 
-export default React.memo(connect(mapStateToProps, mapDispatchToProps())(AddressForm));
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(AddressForm));

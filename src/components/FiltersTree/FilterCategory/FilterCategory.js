@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import {withRouter} from 'react-router';
 import useStyles from '../FiltersTreeStyle';
 import StyledTreeItem from '../../StyledTreeItem/StyledTreeItem';
-import {setCategoryId} from '../../../redux/actions/actions';
+import {setCategoryId} from '../../../redux/actions/categories';
 
 import theme from '../FilterColors/FilterColorsTheme';
 import { ThemeProvider } from '@material-ui/core';
