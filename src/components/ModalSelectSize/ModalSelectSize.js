@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import {connect} from 'react-redux';
 import Button from '@material-ui/core/Button';
-import {makeStyles} from '@material-ui/core';
+import {makeStyles, ThemeProvider} from '@material-ui/core';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+
 import ActionButtons from '../Product/ActionButtons/ActionButtons';
 import SelectSimple from '../Select/SelectSimple';
 import globalConfig from '../../globalConfig';
@@ -13,7 +14,8 @@ import {toggleModalSize} from '../../redux/actions/actions';
 import {getProductsQuantity} from '../../redux/actions/Quantity';
 import { getChosenSizeId, getProductStockData, getSizesArray, mapArrayToOptions } from '../../helpers/helpers';
 import { colors } from '../../styles/colorKit';
-import { fonts } from '../../styles/fonts/fontsKit';
+import {button} from '../Product/ProductPageView/ProductPageViewStyles';
+import theme from './ModalSelectTheme';
 
 const useStyles = makeStyles(theme => ({
   select: {
@@ -25,40 +27,23 @@ const useStyles = makeStyles(theme => ({
     fontSize: '1rem',
     [theme.breakpoints.up('sm')]: {
       width: 150,
-      marginBottom: 0,
-      marginRight: '2rem'
+      marginBottom: 0
     }
   },
+  form: {
+    textAlign: 'center'
+  },
   button: {
-    padding: '.15rem .3rem',
-    color: colors.fontOncard,
-    background: colors.noticeColor,
-    fontFamily: fonts.f3,
-    fontWeight: 'bold',
-    fontSize: '.9em',
-    border: `2px solid ${colors.noticeColor}`,
-    transition: 'all .15s ease',
-    marginBottom: '.5rem',
+    ...button
+  },
+  cancel: {
+    ...button,
+    color: colors.noticeColor,
+    background: colors.fontOncard,
     '&:hover': {
-      color: colors.noticeColor,
-      background: colors.fontOncard,
+      color: colors.fontOncard,
+      background: colors.noticeColor,
       borderColor: colors.noticeColor
-    },
-    [theme.breakpoints.up(440)]: {
-      marginBottom: 0
-    },
-    [theme.breakpoints.up('sm')]: {
-      padding: '.1em .8em',
-      fontSize: '1em',
-      marginRight: '1rem'
-    },
-    [theme.breakpoints.between('md', 'lg')]: {
-      padding: '.32em .7em',
-      fontSize: '.8em'
-    },
-    [theme.breakpoints.up(1200)]: {
-      padding: '.2em 1em',
-      fontSize: '.9em'
     }
   }
 }));
@@ -102,10 +87,12 @@ const ModalSize = (props) => {
           handleChange={handleSetSize}
           options={mapArrayToOptions(sizesArray)}/>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} color="primary">Cancel</Button>
-        <ActionButtons classes={classes} product={currentProduct} isModal={true} sizeId={sizeId}/>
-      </DialogActions>
+      <ThemeProvider theme={theme}>
+        <DialogActions disableSpacing={true}>
+          <Button onClick={handleClose} className={classes.cancel}>Cancel</Button>
+          <ActionButtons classes={classes} product={currentProduct} isModal={true} sizeId={sizeId}/>
+        </DialogActions>
+      </ThemeProvider>
     </Dialog>
   );
 };

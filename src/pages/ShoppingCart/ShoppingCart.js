@@ -8,6 +8,8 @@ import { getProductsByFilters } from '../../redux/actions/Products';
 import ShopCartView from '../../components/ShopCartView/ShopCartView';
 import EmptyState from '../../components/EmptyState/EmptyState';
 
+// todo render items, if sizes are different, but product id is the same
+
 const ShoppingCart = (props) => {
   const {shoppingCart, getProductsByFilters, products} = props;
 

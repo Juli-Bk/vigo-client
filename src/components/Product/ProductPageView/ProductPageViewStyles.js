@@ -18,7 +18,24 @@ const labelStyles = {
   fontWeight: 'bold'
 };
 
-const useStyles = makeStyles(theme => ({
+export const button = {
+  padding: '.15rem .3rem',
+  color: colors.fontOncard,
+  background: colors.noticeColor,
+  fontFamily: fonts.f3,
+  fontWeight: 'bold',
+  fontSize: '.9em',
+  border: `2px solid ${colors.noticeColor}`,
+  transition: 'all .15s ease',
+  marginBottom: '.5rem',
+  '&:hover': {
+    color: colors.noticeColor,
+    background: colors.fontOncard,
+    borderColor: colors.noticeColor
+  }
+};
+
+export const useStyles = makeStyles(theme => ({
   card: {
     margin: '0 auto 1.5rem auto',
     borderRadius: 0,
@@ -40,20 +57,7 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 'bold'
   },
   button: {
-    padding: '.15rem .3rem',
-    color: colors.fontOncard,
-    background: colors.noticeColor,
-    fontFamily: fonts.f3,
-    fontWeight: 'bold',
-    fontSize: '.9em',
-    border: `2px solid ${colors.noticeColor}`,
-    transition: 'all .15s ease',
-    marginBottom: '.5rem',
-    '&:hover': {
-      color: colors.noticeColor,
-      background: colors.fontOncard,
-      borderColor: colors.noticeColor
-    },
+    ...button,
     [theme.breakpoints.up(440)]: {
       marginBottom: 0
     },
@@ -235,5 +239,3 @@ const useStyles = makeStyles(theme => ({
     lineHeight: 'unset'
   }
 }));
-
-export default useStyles;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Box, Divider, Link, ThemeProvider, Typography, withWidth} from '@material-ui/core';
@@ -12,8 +12,8 @@ import {
   getChosenSizeId,
   getSizesArray
 } from '../../../helpers/helpers';
-import { getProductsQuantity } from '../../../redux/actions/Quantity';
-import useStyles from './ProductPageViewStyles';
+import {getProductsQuantity} from '../../../redux/actions/Quantity';
+import {useStyles} from './ProductPageViewStyles';
 import {theme} from './ProductPageViewTheme';
 import {colors} from '../../../styles/colorKit';
 import globalConfig from '../../../globalConfig';

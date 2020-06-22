@@ -6,9 +6,9 @@ const SelectSimple = (props) => {
   const { value, handleChange, options, label, classes } = props;
 
   return (
-    <Box className={classes.form}>
+    <Box>
       <label>{label}</label>
-      <form>
+      <form className={classes.form}>
         <select
           className={classes.select}
           value={value}
