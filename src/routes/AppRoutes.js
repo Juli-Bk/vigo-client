@@ -42,6 +42,7 @@ const AppRoutes = () => {
           authenticated={!!getJWTfromCookie()}
           exact path='/account'
           component={MyAccount}/>
+
         <Route path='*' component={Page404}/>
       </Switch>
     </>
