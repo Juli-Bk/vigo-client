@@ -6,7 +6,8 @@ import ButtonAddToCart from './ButtonAddToCart/AddToCartButton';
 import FavoriteIcon from './FavoriteIcon/FavoriteIcon';
 import ButtonCompare from './ButtonCompare/ButtonCompare';
 import globalConfig from '../../../globalConfig';
-import { getStorageData, toggleWishItems, addToCart } from '../../../helpers/helpers';
+import { getStorageData, toggleWishItems } from '../../../helpers/helpers';
+import { addToCart } from '../../../pages/ShoppingCart/cartHelpers';
 import { changeShoppingCart, changeWishList, toggleModalSize } from '../../../redux/actions/actions';
 
 const ActionButtons = (props) => {

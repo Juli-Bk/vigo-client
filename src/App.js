@@ -11,7 +11,8 @@ import theme from './mainTheme';
 import Footer from './containers/Footer/Footer';
 import AjaxUtils from './ajax';
 import {changeWishList, setUser, changeShoppingCart} from './redux/actions/actions';
-import {getStorageData, integrateData, integrateCart} from './helpers/helpers';
+import {getStorageData, integrateData} from './helpers/helpers';
+import {integrateCart} from './pages/ShoppingCart/cartHelpers';
 import {getUserIdFromCookie} from './ajax/common/helper';
 
 function App (props) {

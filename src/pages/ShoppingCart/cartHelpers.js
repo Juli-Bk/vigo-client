@@ -1,3 +1,7 @@
+import { getUserIdFromCookie } from '../../ajax/common/helper';
+import AjaxUtils from '../../ajax';
+import { getStorageData, setStorageData } from '../../helpers/helpers';
+
 export const getProductsId = (shoppingCart) => {
   const array = [];
   if (shoppingCart && shoppingCart.length) {
@@ -43,4 +47,99 @@ export const updateCartData = (shoppingCart, productId, updatedProduct) => {
 
 export const getSubtotal = (price, quantity) => {
   return quantity ? price * quantity : price;
+};
+
+const cartHandler = (products) => {
+  const userId = getUserIdFromCookie();
+  const cartId = getStorageData('cartId');
+  if (userId) {
+    AjaxUtils.ShopCart.getUserShopCart(userId)
+      .then(result => {
+        if (result.message) {
+          AjaxUtils.ShopCart.createShopCart(userId, products)
+            .then(result => {
+              // todo nice popup
+              if (result && result._id) {
+                setStorageData('cartId', result._id);
+              }
+            });
+        } else {
+          AjaxUtils.ShopCart.updateShopCartById(result._id, products, result.userId)
+            .then(result => {
+              // todo nice popup
+              if (result && result._id) {
+                setStorageData('cartId', result._id);
+              }
+            });
+        }
+      });
+  } else if (!userId && cartId.length) {
+    AjaxUtils.ShopCart.updateShopCartById(cartId, products)
+      .then(result => {
+        // todo nice popup
+        console.log('updating for unregistered user', result);
+      });
+  } else {
+    AjaxUtils.ShopCart.createShopCart(null, products)
+      .then(result => {
+        // todo nice popup
+        console.log(result);
+        if (result && result.cart) setStorageData('cartId', result.cart._id);
+      });
+  }
+};
+
+export const addToCart = (productId, cartQuantity = 1, sizeId = '') => {
+  const shopCartLocal = getStorageData('shoppingCart');
+  const product = {
+    productId,
+    cartQuantity,
+    sizeId
+  };
+
+  const itemInCart = shopCartLocal.find(item => item.productId === productId);
+  if (itemInCart) {
+    if (sizeId !== itemInCart.sizeId) {
+      const newItem = {
+        productId,
+        cartQuantity,
+        sizeId
+      };
+      setStorageData('shoppingCart', [...shopCartLocal, newItem]);
+      return;
+    }
+    if (cartQuantity !== itemInCart.cartQuantity) {
+      setStorageData('shoppingCart', [...shopCartLocal, itemInCart.cartQuantity = cartQuantity]);
+    }
+  } else {
+    setStorageData('shoppingCart', [...shopCartLocal, product]);
+  }
+
+  cartHandler(getStorageData('shoppingCart'));
+};
+
+export const deleteFromCart = (productId) => {
+  const shopCartLocal = getStorageData('shoppingCart');
+  if (shopCartLocal && shopCartLocal.length) {
+    const products = shopCartLocal.filter(item => item.productId !== productId);
+    setStorageData('shoppingCart', products);
+    cartHandler(products);
+  }
+};
+
+export const integrateCart = (remoteCart) => {
+  const localCart = getStorageData('shoppingCart');
+  if (localCart) {
+    remoteCart.forEach(remoteItem => {
+      if (!localCart.find(localItem => localItem.productId === remoteItem.productId)) {
+        localCart.push(remoteItem);
+      }
+    });
+    localCart.forEach(localItem => {
+      if (!remoteCart.find(remoteItem => remoteItem.productId === localItem.productId)) {
+        cartHandler([localItem]);
+      }
+    });
+  }
+  setStorageData('shoppingCart', localCart);
 };

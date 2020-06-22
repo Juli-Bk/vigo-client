@@ -4,18 +4,15 @@ import PropTypes from 'prop-types';
 
 import { Box, ThemeProvider, TableContainer } from '@material-ui/core';
 
-import {
-  getStorageData,
-  deleteFromCart,
-  setStorageData,
-  addToCart
-} from '../../helpers/helpers';
+import { getStorageData, setStorageData } from '../../helpers/helpers';
 import {
   findItemInCart,
   getChosenProductData,
   getItemStockData,
   updateCartData,
-  updateProductQuantity
+  updateProductQuantity,
+  addToCart,
+  deleteFromCart
 } from '../../pages/ShoppingCart/cartHelpers';
 
 import {changeShoppingCart} from '../../redux/actions/actions';
