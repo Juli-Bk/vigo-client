@@ -12,11 +12,13 @@ const TableDesktopView = (props) => {
   return (
     <Table aria-label="products table">
       <TableHead style={{verticalAlign: 'middle'}}>
-        <TableCell align="center" className={classes.tableHead}>Product name</TableCell>
-        <TableCell align="center" className={classes.tableHead}>Unit Price</TableCell>
-        <TableCell align="center" className={classes.tableHead}>Quantity</TableCell>
-        <TableCell align="center" className={classes.tableHead}>Subtotal</TableCell>
-        <TableCell align="center" className={classes.tableHead}>Delete</TableCell>
+        <TableRow>
+          <TableCell align="center" className={classes.tableHead}>Product name</TableCell>
+          <TableCell align="center" className={classes.tableHead}>Unit Price</TableCell>
+          <TableCell align="center" className={classes.tableHead}>Quantity</TableCell>
+          <TableCell align="center" className={classes.tableHead}>Subtotal</TableCell>
+          <TableCell align="center" className={classes.tableHead}>Delete</TableCell>
+        </TableRow>
       </TableHead>
       <TableBody>
         {rows.map(row => (
@@ -29,12 +31,12 @@ const TableDesktopView = (props) => {
               </Link>
               <Box className={classes.textBox}>
                 <Link to={`/products/${row.id}`}
-                  className={classes.name}>{capitalize(row.mainData.name)}</Link>
+                  className={classes.name}>{capitalize(row.name)}</Link>
                 <Typography className={classes.details}>
-                          Color: <span className={classes.boldText}>{row.mainData.color}</span>
+                          Color: <span className={classes.boldText}>{row.color}</span>
                 </Typography>
                 <Typography className={classes.details}>
-                          Size: <span className={classes.boldText}>{row.mainData.size}</span></Typography>
+                          Size: <span className={classes.boldText}>{row.size}</span></Typography>
                 <Typography className={classes.details}>
                           Product code: <span className={classes.boldText}>{row.productCode}</span>
                 </Typography>

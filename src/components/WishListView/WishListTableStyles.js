@@ -96,9 +96,6 @@ const useStyles = makeStyles(theme => ({
   code: {
     fontSize: '1.3rem'
   },
-  codeSmall: {
-    fontSize: '1rem'
-  },
   closeBtn: {
     fill: `2px solid ${colors.borderDark}`,
     border: '2px solid transparent'

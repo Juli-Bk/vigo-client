@@ -11,9 +11,11 @@ const TableMobileView = (props) => {
   return (
     <Table aria-label="products table">
       <TableHead>
-        <TableCell align="center" className={classes.tableHead}>
-          {productsAmount} products in your Cart
-        </TableCell>
+        <TableRow>
+          <TableCell align="center" className={classes.tableHead}>
+            {productsAmount} products in your Cart
+          </TableCell>
+        </TableRow>
       </TableHead>
       <TableBody>
         {rows.map(row => (
@@ -30,10 +32,15 @@ const TableMobileView = (props) => {
               </Box>
               <Box className={classes.textBox}>
                 <Link to={`/products/${row.id}`}
-                  className={classes.name}>{capitalize(row.mainData.name)}</Link>
-                <Typography className={classes.details}>Color: {row.mainData.color}</Typography>
-                <Typography className={classes.details}>Size: {row.mainData.size}</Typography>
-                <Typography className={classes.details}>Product code: <span className={classes.codeSmall}>{row.productCode}</span>
+                  className={classes.name}>{capitalize(row.name)}</Link>
+                <Typography className={classes.details}>
+                    Color: <span className={classes.boldText}>{row.color}</span>
+                </Typography>
+                <Typography className={classes.details}>
+                    Size: <span className={classes.boldText}>{row.size}</span>
+                </Typography>
+                <Typography className={classes.details}>
+                    Product code: <span className={classes.boldText}>{row.productCode}</span>
                 </Typography>
                 <Typography variant='caption' component='p' className={classes.details}>
                       Sale price: <span className={classes.salePrice}>

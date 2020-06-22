@@ -67,11 +67,9 @@ const ShopCartView = (props) => {
   const rows = products.map(product => {
     return {
       imgUrl: product.imageUrls[0],
-      mainData: {
-        name: product.name,
-        color: getCartData(product._id).color,
-        size: getCartData(product._id).size
-      },
+      name: product.name,
+      color: getCartData(product._id).color,
+      size: getCartData(product._id).size,
       productCode: product.productId,
       price: product.price,
       id: product._id,
