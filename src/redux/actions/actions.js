@@ -45,10 +45,6 @@ export const setChosenSize = (size) => {
   return {type: Actions.SET_CHOSEN_SIZE, payload: size};
 };
 
-export const setChosenQuantity = (quantity) => {
-  return {type: Actions.SET_CHOSEN_QUANTITY, payload: quantity};
-};
-
 export const changeWishList = (data) => {
   return {type: Actions.CHANGE_WISH_LIST, payload: data};
 };
@@ -79,4 +75,8 @@ export const setGuestData = (data) => {
 
 export const toggleModalSize = (flag) => {
   return {type: Actions.IS_MODAL_SIZE_OPEN, payload: flag};
+};
+
+export const setCurrentProduct = (product) => {
+  return {type: Actions.SET_CURRENT_PRODUCT, payload: product};
 };

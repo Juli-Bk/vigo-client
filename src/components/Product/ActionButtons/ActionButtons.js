@@ -8,16 +8,22 @@ import ButtonCompare from './ButtonCompare/ButtonCompare';
 import globalConfig from '../../../globalConfig';
 import { getStorageData, toggleWishItems } from '../../../helpers/helpers';
 import { addToCart } from '../../../pages/ShoppingCart/cartHelpers';
-import { changeShoppingCart, changeWishList, toggleModalSize } from '../../../redux/actions/actions';
+import {
+  changeShoppingCart,
+  changeWishList,
+  setCurrentProduct,
+  toggleModalSize
+} from '../../../redux/actions/actions';
 
 const ActionButtons = (props) => {
   const {
     classes, product, width, disabledSpacing,
     isProductPage, changeWishList, changeShoppingCart,
-    sizeId, quantity, toggleModalSize, setDisplayHelper, isModal
+    sizeId, quantity, toggleModalSize, setDisplayHelper, isModal, setCurrentProduct
   } = props;
 
   const addToShopCart = (productId, quantity, sizeId) => {
+    setCurrentProduct(product);
     if (isProductPage && !sizeId) {
       setDisplayHelper(true);
     }
@@ -26,6 +32,7 @@ const ActionButtons = (props) => {
     } else {
       addToCart(productId, quantity, sizeId);
       changeShoppingCart(getStorageData('shoppingCart'));
+      toggleModalSize(false);
     }
   };
 
@@ -49,6 +56,7 @@ const ActionButtons = (props) => {
         id={product._id}
         addToCart={addToShopCart}
         quantity={quantity}
+        product={product}
         sizeId={sizeId}/>
       {!isModal
         ? <>
@@ -89,7 +97,8 @@ const mapDispatchToProps = dispatch => {
   return {
     changeWishList: data => dispatch(changeWishList(data)),
     changeShoppingCart: data => dispatch(changeShoppingCart(data)),
-    toggleModalSize: flag => dispatch(toggleModalSize(flag))
+    toggleModalSize: flag => dispatch(toggleModalSize(flag)),
+    setCurrentProduct: product => dispatch(setCurrentProduct(product))
   };
 };
 

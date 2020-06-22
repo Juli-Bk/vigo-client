@@ -64,7 +64,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ModalSize = (props) => {
-  const {open, setOpen, product, productsQuantity, getProductsQuantity} = props;
+  const {open, setOpen, productsQuantity, getProductsQuantity, currentProduct} = props;
   const classes = useStyles();
 
   const [chosenSize, setChosenSize] = useState('');
@@ -79,8 +79,8 @@ const ModalSize = (props) => {
   };
 
   useEffect(() => {
-    getProductsQuantity([product._id]);
-    setProductQuantity(getProductStockData(productsQuantity, product._id));
+    getProductsQuantity([currentProduct._id]);
+    setProductQuantity(getProductStockData(productsQuantity, currentProduct._id));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chosenSize, productsQuantity]);
 
@@ -104,7 +104,7 @@ const ModalSize = (props) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose} color="primary">Cancel</Button>
-        <ActionButtons classes={classes} product={product} isModal={true} sizeId={sizeId}/>
+        <ActionButtons classes={classes} product={currentProduct} isModal={true} sizeId={sizeId}/>
       </DialogActions>
     </Dialog>
   );
@@ -113,7 +113,8 @@ const ModalSize = (props) => {
 const mapStateToProps = store => {
   return {
     open: store.isModalSizeOpen,
-    productsQuantity: store.quantity
+    productsQuantity: store.quantity,
+    currentProduct: store.currentProduct
   };
 };
 

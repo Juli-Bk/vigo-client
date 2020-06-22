@@ -14,9 +14,10 @@ import {changeWishList, setUser, changeShoppingCart} from './redux/actions/actio
 import {getStorageData, integrateData} from './helpers/helpers';
 import {integrateCart} from './pages/ShoppingCart/cartHelpers';
 import {getUserIdFromCookie} from './ajax/common/helper';
+import ModalSize from './components/ModalSelectSize/ModalSelectSize';
 
 function App (props) {
-  const {changeWishList, token, setUser, changeShoppingCart} = props;
+  const {changeWishList, token, setUser, changeShoppingCart, isModalSizeOpen} = props;
 
   useEffect(() => {
     let isCanceled = false;
@@ -54,6 +55,7 @@ function App (props) {
       <StylesProvider injectFirst>
         <ThemeProvider theme={theme}>
           <AppRoutes/>
+          {isModalSizeOpen && <ModalSize/>}
           <Footer/>
         </ThemeProvider>
       </StylesProvider>
@@ -69,7 +71,8 @@ App.propTypes = {
 
 const mapStateToProps = store => {
   return {
-    token: store.token
+    token: store.token,
+    isModalSizeOpen: store.isModalSizeOpen
   };
 };
 

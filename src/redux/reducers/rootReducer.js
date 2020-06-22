@@ -20,6 +20,7 @@ import categoryId from './categoryIdReducer';
 import guestData from './guestReducer';
 import isModalSizeOpen from './modalSizeReducer';
 import productsByFilters from './productsByFiltersReducer';
+import currentProduct from './currentProductIdReducer';
 
 export const rootReducer = combineReducers({
   currentPage,
@@ -42,5 +43,6 @@ export const rootReducer = combineReducers({
   shoppingCart,
   guestData,
   isModalSizeOpen,
-  productsByFilters
+  productsByFilters,
+  currentProduct
 });

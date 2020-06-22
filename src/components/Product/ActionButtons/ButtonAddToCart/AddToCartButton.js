@@ -11,8 +11,8 @@ AddToCartButton.propTypes = {
   classes: PropTypes.string.isRequired,
   addToCart: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
-  quantity: PropTypes.number.isRequired,
-  sizeId: PropTypes.string.isRequired
+  quantity: PropTypes.number,
+  sizeId: PropTypes.string
 };
 
 export default React.memo(AddToCartButton);
