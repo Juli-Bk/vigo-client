@@ -2,7 +2,6 @@ import { configure, mount } from 'enzyme';
 import React from 'react';
 import expect from 'expect';
 import {wait} from '@testing-library/react';
-import Button from '@material-ui/core/Button';
 import AddressForm from './AddressForm';
 import Adapter from 'enzyme-adapter-react-16';
 import store from '../../redux/store';
