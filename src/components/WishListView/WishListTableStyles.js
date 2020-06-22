@@ -87,7 +87,10 @@ const useStyles = makeStyles(theme => ({
     color: colors.fontThird,
     textDecoration: 'none',
     cursor: 'pointer',
-    fontSize: '1.2rem'
+    fontSize: '1.2rem',
+    [theme.breakpoints.down(500)]: {
+      textAlign: 'center'
+    }
   },
   details: {
     textTransform: 'uppercase',

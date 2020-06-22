@@ -30,3 +30,7 @@ export const updateCartData = (shoppingCart, productId, updatedProduct) => {
     return [...shoppingCart.filter(item => item.productId !== productId), updatedProduct];
   }
 };
+
+export const getSubtotal = (price, quantity) => {
+  return quantity ? price * quantity : price;
+};

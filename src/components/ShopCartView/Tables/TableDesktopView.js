@@ -1,6 +1,7 @@
 import { Box, CardMedia, Table, TableCell, TableRow, Typography, TableHead, TableBody} from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
-import { capitalize, getSubtotal } from '../../../helpers/helpers';
+import { capitalize } from '../../../helpers/helpers';
+import {getSubtotal} from '../helpers';
 import { Link } from 'react-router-dom';
 import Quantity from '../../Product/Quantity/Quantity';
 import React from 'react';

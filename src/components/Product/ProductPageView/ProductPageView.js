@@ -3,21 +3,30 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Box, Divider, Link, ThemeProvider, Typography, withWidth} from '@material-ui/core';
 
+import {
+  capitalize,
+  mapArrayToOptions,
+  getMaxQuantity,
+  getProductStockData,
+  getColorName,
+  getChosenSizeId,
+  getSizesArray
+} from '../../../helpers/helpers';
+import { getProductsQuantity } from '../../../redux/actions/Quantity';
 import useStyles from './ProductPageViewStyles';
 import {theme} from './ProductPageViewTheme';
-import {capitalize, mapArrayToOptions, getMaxQuantity, getProductStockData} from '../../../helpers/helpers';
+import {colors} from '../../../styles/colorKit';
+import globalConfig from '../../../globalConfig';
 import ActionButtons from '../ActionButtons/ActionButtons';
 import ProductRating from '../ProductRating/ProductRating';
 import SalePrice from '../SalePrice/SalePrice';
 import Price from '../Price/Price';
 import SelectSimple from '../../Select/SelectSimple';
 import Quantity from '../Quantity/Quantity';
-import {colors} from '../../../styles/colorKit';
-import globalConfig from '../../../globalConfig';
-import { getProductsQuantity } from '../../../redux/actions/Quantity';
 
 const ProductPageView = (props) => {
   const classes = useStyles();
+
   const {productData, width, productsQuantity, getProductsQuantity} = props;
   const {name, description, price, rating, brandId, salePrice, productId, isOnSale, _id} = productData;
 
@@ -26,16 +35,10 @@ const ProductPageView = (props) => {
   const [displayHelper, setDisplayHelper] = useState(false);
   const [productQuantity, setProductQuantity] = useState([]);
 
-  const color = productQuantity && capitalize(productQuantity[0] && productQuantity[0].colorId.name);
-  const maxQuantity = productQuantity && getMaxQuantity(productQuantity, chosenSize);
-  const sizeId = productQuantity && chosenSize &&
-          productQuantity.find(item => item.sizeId.name === chosenSize).sizeId._id;
-  const sizesArray = [];
-
-  productQuantity && productQuantity.forEach(item => {
-    sizesArray.push(item.sizeId.name);
-  });
-  sizesArray.unshift(globalConfig.defaultSizeOption);
+  const color = getColorName(productQuantity);
+  const maxQuantity = getMaxQuantity(productQuantity, chosenSize);
+  const sizeId = getChosenSizeId(productQuantity, chosenSize);
+  const sizesArray = getSizesArray(productQuantity);
 
   useEffect(() => {
     getProductsQuantity([_id]);
@@ -83,7 +86,13 @@ const ProductPageView = (props) => {
         <Link variant='body2' className={classes.link}>View sizes guide</Link>
       </Box>
       <Box>
-        {displayHelper ? <Typography variant='subtitle1' style={{color: colors.noticeColor}}>Please, chose size</Typography> : null}
+        {displayHelper
+          ? <Typography
+            variant='subtitle1'
+            style={{color: colors.noticeColor}}>
+                  Please, chose size
+          </Typography>
+          : null}
         <Box className={classes.selectBox}>
           <SelectSimple value={chosenSize}
             classes={classes}
@@ -111,7 +120,8 @@ const ProductPageView = (props) => {
 ProductPageView.propTypes = {
   productData: PropTypes.object.isRequired,
   width: PropTypes.string.isRequired,
-  productsQuantity: PropTypes.array.isRequired
+  productsQuantity: PropTypes.array.isRequired,
+  getProductsQuantity: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (store) => {

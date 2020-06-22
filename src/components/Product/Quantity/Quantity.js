@@ -16,12 +16,16 @@ const Quantity = (props) => {
 
   return (
     <Box className={classes.quantityBox}>
-      <span className={classes.borderRight} onClick={handleMinus}><RemoveIcon className={classes.btn}/></span>
+      <Box className={classes.borderRight} onClick={handleMinus}>
+        <RemoveIcon className={classes.btn}/>
+      </Box>
       <Typography variant='caption'
         className={classes.active}>
         {quantity}
       </Typography>
-      <span className={classes.borderLeft} onClick={handlePlus}><AddIcon className={classes.btn}/></span>
+      <Box className={classes.borderLeft} onClick={handlePlus}>
+        <AddIcon className={classes.btn}/>
+      </Box>
     </Box>
   );
 };

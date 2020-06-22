@@ -259,7 +259,7 @@ export const makeFilterItem = (string) => {
 };
 
 export const getMaxQuantity = (productQuantity, size) => {
-  if (productQuantity.length) {
+  if (productQuantity && productQuantity.length) {
     if (size && size !== globalConfig.defaultSizeOption) {
       return productQuantity.find(item => item.sizeId.name === size).quantity;
     }
@@ -275,6 +275,28 @@ export const getProductStockData = (quantityArray, productId) => {
   }
 };
 
-export const getSubtotal = (price, quantity) => {
-  return quantity ? price * quantity : price;
+export const getColorName = (quantityArray) => {
+  if (quantityArray && quantityArray.length) {
+    return capitalize(quantityArray[0] && quantityArray[0].colorId.name);
+  }
+};
+
+export const getChosenSizeId = (productQuantity, chosenSize) => {
+  if (productQuantity && chosenSize) {
+    const item = productQuantity.find(item => item.sizeId.name === chosenSize);
+    if (item && item.sizeId) {
+      return item.sizeId._id;
+    }
+  }
+};
+
+export const getSizesArray = (productQuantity) => {
+  const sizesArray = [];
+  if (productQuantity && productQuantity.length) {
+    productQuantity.forEach(item => {
+      sizesArray.push(item.sizeId.name);
+    });
+    sizesArray.unshift(globalConfig.defaultSizeOption);
+  }
+  return sizesArray;
 };
