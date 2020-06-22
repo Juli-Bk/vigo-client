@@ -83,12 +83,12 @@ const AddressForm = (props) => {
               handleChange,
               handleBlur,
               handleSubmit,
+              setFieldValue,
               values,
               errors,
               touched
             }) => (
               <form>
-
                 <AutocompleteComponent
                   autoComplete='on'
                   className={classes.input}
@@ -96,8 +96,9 @@ const AddressForm = (props) => {
                   name='autocomplete'
                   onBlur={handleBlur}
                   touched={touched}
-                  value={values.autocomplete}
-                  onChange={handleChange}
+                  // value={values.autocomplete}
+                  onChange={(event, value) => { setFieldValue('autocomplete', values.autocomplete); }}
+                  // onChange={handleChange}
                   error={errors}
                   fullWidth
                 />

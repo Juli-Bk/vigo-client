@@ -27,6 +27,7 @@ const CourierDelivery = (props) => {
       <Typography className={styles.subtitle}>
         VIGO Courier will deliver the order to the following address:
       </Typography>
+      
       <Box>
         {adr}
       </Box>

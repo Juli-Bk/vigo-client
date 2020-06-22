@@ -45,7 +45,8 @@ const NovaPoshtaCity = (props) => {
           <Formik
             initialValues={initFormValues}
             validationSchema={validateObject}
-            onSubmit={submitNovaPoshtaHandler}>
+            onSubmit={submitNovaPoshtaHandler}
+          >
             {({
               isSubmitting,
               handleChange,
@@ -54,28 +55,28 @@ const NovaPoshtaCity = (props) => {
               values,
               errors,
               touched,
-              onChange
+              onChange,
+              setFieldValue
             }) => (
               <form>
                 <Autocomplete
                   id='open-on-focus'
-                  name='city'
-                  onChange={(event, newValue) => {
-                    // todo delete this
-                    console.log('newvalue', newValue);
+                  onChange={(event, newInputValue) => {
+                    console.log('city is', values);
+                    setFieldValue('city', values);
                   }}
                   inputValue={inputValue}
                   onInputChange={(event, newInputValue) => {
-                    setInputValue(newInputValue);
+                    setInputValue('city', values);
                   }}
                   options={options}
                   style={{ width: '100%' }}
                   renderInput={(params) =>
                     <TextField {...params}
-                      autoComplete='false'
+                      autoComplete='Delivery-City'
                       name='city'
                       className={styles.input}
-                      value=""
+                      // value={values.city}
                       onBlur={handleBlur}
                       onChange={handleChange}
                       helperText={(errors.city && touched.city) && errors.city}

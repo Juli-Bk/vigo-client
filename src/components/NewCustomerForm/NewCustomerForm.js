@@ -33,7 +33,8 @@ const NewCustomerForm = (props) => {
     radioGroup: ''
   };
   const validateObject = Yup.object({
-    radioGroup: Yup.string().required('Please, choose one of these options')
+    radioGroup: Yup.string()
+      .required('Please, choose one of these options')
   });
 
   const styles = useStyles();
