@@ -109,6 +109,7 @@ const ProductPageView = (props) => {
               width={width}
               disabledSpacing={true}
               isProductPage={true}
+              setDisplayHelper={setDisplayHelper}
             />
           </ThemeProvider>
         </Box>

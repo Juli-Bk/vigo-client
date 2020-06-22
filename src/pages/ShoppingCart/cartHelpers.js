@@ -106,10 +106,11 @@ export const addToCart = (productId, cartQuantity = 1, sizeId = '') => {
         sizeId
       };
       setStorageData('shoppingCart', [...shopCartLocal, newItem]);
-      return;
     }
     if (cartQuantity !== itemInCart.cartQuantity) {
-      setStorageData('shoppingCart', [...shopCartLocal, itemInCart.cartQuantity = cartQuantity]);
+      const updatedItem = updateProductQuantity(productId, cartQuantity, shopCartLocal);
+      const updatedCart = updateCartData(shopCartLocal, productId, updatedItem);
+      setStorageData('shoppingCart', updatedCart);
     }
   } else {
     setStorageData('shoppingCart', [...shopCartLocal, product]);

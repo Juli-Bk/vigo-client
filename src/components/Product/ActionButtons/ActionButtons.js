@@ -14,10 +14,13 @@ const ActionButtons = (props) => {
   const {
     classes, product, width, disabledSpacing,
     isProductPage, changeWishList, changeShoppingCart,
-    sizeId, quantity, toggleModalSize
+    sizeId, quantity, toggleModalSize, setDisplayHelper, isModal
   } = props;
 
   const addToShopCart = (productId, quantity, sizeId) => {
+    if (isProductPage && !sizeId) {
+      setDisplayHelper(true);
+    }
     if (!sizeId) {
       toggleModalSize(true);
     } else {
@@ -47,14 +50,18 @@ const ActionButtons = (props) => {
         addToCart={addToShopCart}
         quantity={quantity}
         sizeId={sizeId}/>
-      <FavoriteIcon classes={classes}
-        id={product._id}
-        addToWishList={toggleWishList}
-        label={defineLabel(width, isProductPage, globalConfig.iconsLabels.ADD_TO_WISHLIST)}/>
-      <ButtonCompare classes={classes}
-        id={product._id}
-        addToCompare={addToCompare}
-        label={defineLabel(width, isProductPage, globalConfig.iconsLabels.ADD_TO_COMPARE)}/>
+      {!isModal
+        ? <>
+          <FavoriteIcon classes={classes}
+            id={product._id}
+            addToWishList={toggleWishList}
+            label={defineLabel(width, isProductPage, globalConfig.iconsLabels.ADD_TO_WISHLIST)}/>
+          <ButtonCompare classes={classes}
+            id={product._id}
+            addToCompare={addToCompare}
+            label={defineLabel(width, isProductPage, globalConfig.iconsLabels.ADD_TO_COMPARE)}/>
+        </>
+        : null}
     </CardActions>
   );
 };

@@ -11,6 +11,7 @@ import ActionButtons from '../ActionButtons/ActionButtons';
 import ProductRating from '../ProductRating/ProductRating';
 import SalePrice from '../SalePrice/SalePrice';
 import Price from '../Price/Price';
+import ModalSize from '../../ModalSelectSize/ModalSelectSize';
 
 const ProductListView = (props) => {
   const classes = useStyles();

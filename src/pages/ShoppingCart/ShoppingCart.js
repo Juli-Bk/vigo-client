@@ -1,33 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Container, Grid, useMediaQuery } from '@material-ui/core';
-import AjaxUtils from '../../ajax';
 import globalConfig from '../../globalConfig';
 import { getProductsId } from './cartHelpers';
-
+import { getProductsByFilters } from '../../redux/actions/Products';
 import ShopCartView from '../../components/ShopCartView/ShopCartView';
 import EmptyState from '../../components/EmptyState/EmptyState';
 
 const ShoppingCart = (props) => {
-  const {shoppingCart} = props;
-  const [products, setProducts] = useState([]);
+  const {shoppingCart, getProductsByFilters, products} = props;
 
   const isMobile = useMediaQuery('(max-width: 550px)');
   const productsId = getProductsId(shoppingCart);
   const filterArray = (productsId.length && [{_id: productsId}]) || [];
 
   useEffect(() => {
-    // eslint-disable-next-line
     let isCanceled = false;
-
-    if (filterArray.length) {
-      AjaxUtils.Products.getProductsByFilters(filterArray, 1, 15, '')
-        .then(result => {
-          if (result && !result.message) {
-            setProducts(result.products);
-          }
-        });
+    if (!isCanceled) {
+      getProductsByFilters(filterArray, 1, 15, '');
     }
     return () => {
       isCanceled = true;
@@ -50,12 +41,21 @@ const ShoppingCart = (props) => {
 
 const mapStateToProps = store => {
   return {
-    shoppingCart: store.shoppingCart
+    shoppingCart: store.shoppingCart,
+    products: store.productsByFilters
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getProductsByFilters: (args) => dispatch(getProductsByFilters(args))
   };
 };
 
 ShoppingCart.propTypes = {
-  shoppingCart: PropTypes.array
+  shoppingCart: PropTypes.array,
+  products: PropTypes.array,
+  getProductsByFilters: PropTypes.func.isRequired
 };
 
-export default connect(mapStateToProps)(React.memo(ShoppingCart));
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(ShoppingCart));
