@@ -68,12 +68,14 @@ const useStyles = makeStyles(theme => ({
     }
   },
   textBox: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
     color: colors.fontThird,
     fontSize: '1rem',
     fontFamily: fonts.f3,
-    textAlign: 'center',
     [theme.breakpoints.up(500)]: {
-      textAlign: 'left'
+      alignItems: 'flex-start'
     },
     [theme.breakpoints.up('sm')]: {
       fontSize: '1.2rem'
@@ -151,7 +153,11 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     borderTop: `1.5px solid ${colors.borderLight}`,
     borderBottom: `1.5px solid ${colors.borderLight}`,
-    lineHeight: '1.5rem'
+    lineHeight: '1.5rem',
+    margin: '10px 0',
+    [theme.breakpoints.down('sm')]: {
+      width: 100
+    }
   },
   btn: {
     color: colors.fontFourth,
@@ -164,23 +170,18 @@ const useStyles = makeStyles(theme => ({
     }
   },
   borderRight: {
-    borderRight: `1.5px solid  ${colors.thinLine}`,
-    '&:hover': {
-      background: colors.thinLine,
-      transition: 'all .5s ease'
-    }
+    borderRight: `1.5px solid  ${colors.thinLine}`
   },
   borderLeft: {
-    borderLeft: `1.5px solid  ${colors.thinLine}`,
-    '&:hover': {
-      background: colors.thinLine,
-      transition: 'all .5s ease'
-    }
+    borderLeft: `1.5px solid  ${colors.thinLine}`
   },
   active: {
     fontSize: '1.2rem',
     fontWeight: 'bold',
     lineHeight: 'unset'
+  },
+  boldText: {
+    fontWeight: 'bold'
   }
 }));
 

@@ -274,3 +274,7 @@ export const getProductStockData = (quantityArray, productId) => {
     }
   }
 };
+
+export const getSubtotal = (price, quantity) => {
+  return quantity ? price * quantity : price;
+};

@@ -1,75 +1,83 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {Link} from 'react-router-dom';
+
+import { Box, ThemeProvider, TableContainer } from '@material-ui/core';
 
 import {
-  Box, Typography, CardMedia, ThemeProvider,
-  Table, TableBody, TableCell, TableContainer,
-  TableHead, TableRow
-} from '@material-ui/core';
-import CloseIcon from '@material-ui/icons/Close';
-
-import {
-  capitalize,
-  formPriceString,
   getStorageData,
   deleteFromCart,
   setStorageData,
   addToCart
 } from '../../helpers/helpers';
+import {
+  findItemInCart,
+  getChosenProductData,
+  getItemStockData,
+  updateCartData,
+  updateProductQuantity
+} from './helpers';
+
 import {changeShoppingCart} from '../../redux/actions/actions';
-import SaleInfoBox from '../Product/SaleInfoBox/SaleInfoBox';
-import SalePrice from '../Product/SalePrice/SalePrice';
-import Quantity from '../Product/Quantity/Quantity';
+import {getProductsQuantity} from '../../redux/actions/Quantity';
 import {theme} from '../WishListView/WishListTableTheme';
 import useStyles from '../WishListView/WishListTableStyles';
-import globalConfig from '../../globalConfig';
+import TableMobileView from './Tables/TableMobileView';
+import TableDesktopView from './Tables/TableDesktopView';
 
 const ShopCartView = (props) => {
-  // todo max quantity
-  const {isMobile, products, changeShoppingCart, shoppingCart } = props;
+  const {isMobile, products, changeShoppingCart, shoppingCart, productsQuantity, getProductsQuantity} = props;
   const classes = useStyles();
 
-  const handleQuantity = (id, number) => {
-    const productToChange = shoppingCart.find(item => item.productId === id);
-    productToChange.cartQuantity = number;
-    changeShoppingCart([...shoppingCart.filter(item => item.productId !== id), productToChange]);
-    setStorageData('shoppingCart', [...shoppingCart.filter(item => item.productId !== id), productToChange]);
-    addToCart(id, number);
-  };
-
-  const getSubtotal = (price, quantity) => {
-    return quantity ? price * quantity : price;
-  };
-
-  const getCartData = (product) => {
-    const itemInCart = shoppingCart.find(item => item.productId === product._id);
-    return {
-      size: itemInCart && itemInCart.size,
-      quantity: itemInCart && itemInCart.cartQuantity
-    };
-  };
+  useEffect(() => {
+    const idArray = [];
+    products.forEach(product => {
+      idArray.push(product._id);
+    });
+    getProductsQuantity(idArray);
+  }, [getProductsQuantity, products]);
 
   const deleteFromShopCart = (id) => {
     deleteFromCart(id);
     changeShoppingCart(getStorageData('shoppingCart'));
   };
 
+  const handleQuantity = (id, number) => {
+    const updatedProduct = updateProductQuantity(id, number, shoppingCart);
+    const updatedCart = updateCartData(shoppingCart, id, updatedProduct);
+
+    changeShoppingCart(updatedCart);
+    setStorageData('shoppingCart', updatedCart);
+    addToCart(id, number, updatedProduct.sizeId);
+  };
+
+  const getCartData = useCallback((productId) => {
+    const itemInCart = findItemInCart(productId, shoppingCart);
+    const itemStockData = getItemStockData(productsQuantity, productId);
+    const item = getChosenProductData(itemStockData, itemInCart);
+
+    return {
+      size: item && item.sizeId.name,
+      quantity: itemInCart && itemInCart.cartQuantity,
+      color: item && item.colorId.name,
+      totalQuantity: item && item.quantity
+    };
+  }, [shoppingCart, productsQuantity]);
+
   const rows = products.map(product => {
     return {
       imgUrl: product.imageUrls[0],
       mainData: {
         name: product.name,
-        color: product.color,
-        size: getCartData(product).size || ''
+        color: getCartData(product._id).color,
+        size: getCartData(product._id).size
       },
       productCode: product.productId,
       price: product.price,
       id: product._id,
       salePrice: product.salePrice,
       isOnSale: product.isOnSale,
-      quantity: getCartData(product).cartQuantity || 1
+      quantity: getCartData(product._id).quantity
     };
   });
 
@@ -77,95 +85,22 @@ const ShopCartView = (props) => {
     <ThemeProvider theme={theme}>
       {shoppingCart.length && products.length &&
                 <TableContainer component={Box}>
-                  <Table aria-label="products table">
-                    <TableHead>
-                      { isMobile
-                        ? <TableRow>
-                          <TableCell align="center" className={classes.tableHead}>
-                            {products.length} products in your Cart
-                          </TableCell>
-                        </TableRow>
-                        : <TableRow>
-                          <TableCell align="center" className={classes.tableHead}>Product name</TableCell>
-                          <TableCell align="center" className={classes.tableHead}>Product code</TableCell>
-                          <TableCell align="center" className={classes.tableHead}>Unit Price</TableCell>
-                          <TableCell align="center" className={classes.tableHead}>Quantity</TableCell>
-                          <TableCell align="center" className={classes.tableHead}>Subtotal</TableCell>
-                          <TableCell align="center" className={classes.tableHead}>Delete</TableCell>
-                        </TableRow> }
-                    </TableHead>
-                    <TableBody>
-                      {rows.map(row => (
-                        <TableRow key={row.id} className={classes.tableRow}>
-                          { isMobile
-                            ? <TableCell component="th" scope="row" className={classes.firstCell}>
-                              <Box className={classes.linkBox}>
-                                <CardMedia image={row.imgUrl} className={classes.img}/>
-                                <CloseIcon
-                                  data-testid='deleteIcon'
-                                  className={classes.closeIcon}
-                                  onClick={() => {
-                                    deleteFromCart(row.id);
-                                  }}/>
-                              </Box>
-                              <Box className={classes.textBox}>
-                                <Link to={`/products/${row.id}`}
-                                  className={classes.name}>{capitalize(row.mainData.name)}</Link>
-                                <Typography className={classes.details}>Color: {row.mainData.color}</Typography>
-                                <Typography className={classes.details}>Size: {row.mainData.size}</Typography>
-                                <Typography className={classes.details}>Product code: <span className={classes.codeSmall}>{row.productCode}</span>
-                                </Typography>
-                                <Typography variant='caption' component='p' className={classes.details}>
-                                                            Sale price: <span className={classes.salePrice}>
-                                    {formPriceString(row.salePrice, globalConfig.priceIsInteger)}
-                                  </span>
-                                </Typography>
-                              </Box>
-                            </TableCell>
-                            : <>
-                              <TableCell component="th" scope="row" className={classes.firstCell}>
-                                <Link to={`/products/${row.id}`} className={classes.linkBox}>
-                                  <CardMedia image={row.imgUrl} className={classes.img}/>
-                                  {row.isOnSale
-                                    ? <SaleInfoBox price={row.price} salePrice={row.salePrice}/> : null}
-                                </Link>
-                                <Box className={classes.textBox}>
-                                  <Link to={`/products/${row.id}`}
-                                    className={classes.name}>{capitalize(row.mainData.name)}</Link>
-                                  <Typography className={classes.details}>Color: {row.mainData.color}</Typography>
-                                  <Typography className={classes.details}>Size: {row.mainData.size}</Typography>
-                                </Box>
-                              </TableCell>
-                              <TableCell align="center" className={classes.code}>{row.productCode}</TableCell>
-                              <TableCell align="center" className={classes.code}>
-                                <SalePrice value={row.salePrice}/>
-                              </TableCell>
-                              <TableCell align="center" className={classes.code}>
-                                <Quantity
-                                  quantity={row.quantity}
-                                  max={5}
-                                  id={row.id}
-                                  classes={classes}
-                                  handleQuantity={handleQuantity}
-                                />
-                              </TableCell>
-                              <TableCell align="center" className={classes.code}>
-                                <SalePrice isSubtotal={true}
-                                  value={getSubtotal(row.salePrice, row.quantity)}/>
-                              </TableCell>
-                              <TableCell align="center">
-                                <CloseIcon data-testid='deleteIcon'
-                                  className={classes.closeIcon}
-                                  onClick={() => {
-                                    deleteFromShopCart(row.id);
-                                  }}/>
-                              </TableCell>
-                            </>
-                          }
-                        </TableRow>
-                      ))}
-                    </TableBody>
-                  </Table>
+                  { isMobile
+                    ? <TableMobileView
+                      classes={classes}
+                      handleQuantity={handleQuantity}
+                      getCartData={getCartData}
+                      rows={rows}
+                      deleteFromShopCart={deleteFromShopCart}
+                      productsAmount={products.length}
+                    />
+                    : <TableDesktopView
+                      classes={classes}
+                      handleQuantity={handleQuantity}
+                      getCartData={getCartData}
+                      rows={rows}
+                      deleteFromShopCart={deleteFromShopCart}
+                    />}
                 </TableContainer>
       }
     </ThemeProvider>
@@ -176,18 +111,22 @@ ShopCartView.propTypes = {
   products: PropTypes.array.isRequired,
   shoppingCart: PropTypes.array,
   changeShoppingCart: PropTypes.func.isRequired,
-  isMobile: PropTypes.bool.isRequired
+  isMobile: PropTypes.bool.isRequired,
+  productsQuantity: PropTypes.array.isRequired,
+  getProductsQuantity: PropTypes.func.isRequired
 };
 
 const mapStateToProps = store => {
   return {
-    shoppingCart: store.shoppingCart
+    shoppingCart: store.shoppingCart,
+    productsQuantity: store.quantity
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeShoppingCart: data => dispatch(changeShoppingCart(data))
+    changeShoppingCart: data => dispatch(changeShoppingCart(data)),
+    getProductsQuantity: idArray => dispatch(getProductsQuantity(idArray))
   };
 };
 
