@@ -10,7 +10,9 @@ const AddToCartButton = (props) => {
 AddToCartButton.propTypes = {
   classes: PropTypes.string.isRequired,
   addToCart: PropTypes.func.isRequired,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  quantity: PropTypes.number.isRequired,
+  sizeId: PropTypes.string.isRequired
 };
 
 export default React.memo(AddToCartButton);

@@ -7,7 +7,7 @@ import store from '../../../redux/store';
 jest.mock('../ActionButtons/ActionButtons');
 
 const testData2 = {
-  _id: 'aaa3342453786497',
+  _id: '5ee4ebb487ae95ab81b85fa0',
   id: 1,
   name: 'Orange dress',
   brandId: {
@@ -68,12 +68,12 @@ describe('product page view testing', () => {
     const text = card.getByText(testData2.name);
     expect(text).toBeInTheDocument();
   });
-  it('product page renders two select blocks', () => {
+  it('product page renders select block', () => {
     render(
       <Provider store={store}>
         <ProductPageView productData={testData2} width={widthSm} productQuantity={quantity}/>
       </Provider>);
-    const selects = document.querySelectorAll('select');
-    expect(selects.length).toEqual(2);
+    const select = document.querySelector('select');
+    expect(select).toBeInTheDocument();
   });
 });
