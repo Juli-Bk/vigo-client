@@ -13,7 +13,6 @@ import {
   ThemeProvider,
   Typography
 } from '@material-ui/core';
-import PropTypes from 'prop-types';
 import useStyles from '../../styles/formStyle/formStyle';
 import FormGroup from '@material-ui/core/FormGroup/FormGroup';
 import theme from '../../styles/formStyle/formStyleTheme';
@@ -199,8 +198,8 @@ const PersonalDetailsForm = (props) => {
   );
 };
 
-PersonalDetailsForm.propTypes = {
-  saveUserAddressesHandler: PropTypes.func.isRequired
+PersonalDetailsForm.defaultProps = {
+  saveUserAddressesHandler: () => {}
 };
 
 const mapStateToProps = store => {

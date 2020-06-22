@@ -53,10 +53,11 @@ export default {
     return fetch(pathTo.customer, requestOptions)
       .then(async (response) => {
         const respData = await response.json();
-        return Object.assign({
+        return {
           status: response.status,
-          statusText: response.statusText
-        }, respData);
+          statusText: response.statusText,
+          user: respData.user
+        };
       })
       .catch(error => console.log('getUser error', error.message));
   },
