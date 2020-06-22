@@ -16,7 +16,7 @@ import {
   getItemStockData,
   updateCartData,
   updateProductQuantity
-} from './helpers';
+} from '../../pages/ShoppingCart/cartHelpers';
 
 import {changeShoppingCart} from '../../redux/actions/actions';
 import {getProductsQuantity} from '../../redux/actions/Quantity';

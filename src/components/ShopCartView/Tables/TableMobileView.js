@@ -1,7 +1,7 @@
 import { Box, CardMedia, Table, TableCell, Typography, TableHead, TableBody, TableRow } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 import { capitalize, formPriceString } from '../../../helpers/helpers';
-import { getSubtotal } from '../helpers';
+import { getSubtotal } from '../../../pages/ShoppingCart/cartHelpers';
 import { Link } from 'react-router-dom';
 import globalConfig from '../../../globalConfig';
 import Quantity from '../../Product/Quantity/Quantity';

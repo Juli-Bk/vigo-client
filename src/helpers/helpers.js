@@ -176,13 +176,17 @@ const cartHandler = (products) => {
           AjaxUtils.ShopCart.createShopCart(userId, products)
             .then(result => {
               // todo nice popup
-              setStorageData('cartId', result._id);
+              if (result && result._id) {
+                setStorageData('cartId', result._id);
+              }
             });
         } else {
           AjaxUtils.ShopCart.updateShopCartById(result._id, products, result.userId)
             .then(result => {
               // todo nice popup
-              setStorageData('cartId', result._id);
+              if (result && result._id) {
+                setStorageData('cartId', result._id);
+              }
             });
         }
       });
@@ -197,7 +201,7 @@ const cartHandler = (products) => {
       .then(result => {
         // todo nice popup
         console.log(result);
-        if (result.cart) setStorageData('cartId', result.cart._id);
+        if (result && result.cart) setStorageData('cartId', result.cart._id);
       });
   }
 };

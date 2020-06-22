@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Container, Grid, useMediaQuery } from '@material-ui/core';
 import AjaxUtils from '../../ajax';
 import globalConfig from '../../globalConfig';
+import { getProductsId } from './cartHelpers';
 
 import ShopCartView from '../../components/ShopCartView/ShopCartView';
 import EmptyState from '../../components/EmptyState/EmptyState';
@@ -13,13 +14,8 @@ const ShoppingCart = (props) => {
   const [products, setProducts] = useState([]);
 
   const isMobile = useMediaQuery('(max-width: 550px)');
-  const productsId = [];
-  shoppingCart.forEach(item => {
-    productsId.push(item.productId);
-  });
+  const productsId = getProductsId(shoppingCart);
   const filterArray = (productsId.length && [{_id: productsId}]) || [];
-
-  // todo request to productsQuantity to get max quantity
 
   useEffect(() => {
     // eslint-disable-next-line

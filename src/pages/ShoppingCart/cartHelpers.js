@@ -1,3 +1,13 @@
+export const getProductsId = (shoppingCart) => {
+  const array = [];
+  if (shoppingCart && shoppingCart.length) {
+    shoppingCart.forEach(item => {
+      array.push(item.productId);
+    });
+  }
+  return array;
+};
+
 export const findItemInCart = (productId, shoppingCart) => {
   if (shoppingCart && shoppingCart.length) {
     return shoppingCart.find(item => item.productId === productId);
