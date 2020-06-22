@@ -1,7 +1,7 @@
 import AjaxUtils from '../../../ajax';
 import {
   deleteJWTcookie,
-  getToken,
+  getJWTfromCookie,
   getUserIdFromCookie,
   putJWTtoCookie,
   putUserIdToCookie
@@ -57,17 +57,18 @@ export const getUserData = () => {
   return (dispatch) => {
     const clear = () => {
       dispatch(setUser({}));
-      dispatch(setJWTtoken(''));
       deleteJWTcookie();
     };
 
-    const token = getToken();
+    const token = getJWTfromCookie();
     if (token) {
       AjaxUtils.Users.getUser()
         .then(result => {
           dispatch(setUser(result.user));
         })
-        .catch(() => clear());
+        .catch(() => {
+          clear();
+        });
     } else {
       clear();
     }
