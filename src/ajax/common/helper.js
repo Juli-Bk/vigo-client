@@ -1,8 +1,7 @@
 import moment from 'moment';
-import store from '../../redux/store';
 
 export const getAuthHeader = () => {
-  const token = getToken();
+  const token = getJWTfromCookie();
 
   if (!token) throw new Error('unauthorized');
 
@@ -12,13 +11,11 @@ export const getAuthHeader = () => {
   return myHeaders;
 };
 
-export const getToken = () => {
-  const state = store.getState();
-  return state.token || getJWTfromCookie();
-};
-
 export const putJWTtoCookie = (loginResponse) => {
-  const exp = moment(Date.now()).add(loginResponse.expiresInMinutes, 'm').toDate();
+  const exp = moment(Date.now()).add(1
+    // loginResponse.expiresInMinutes
+    ,
+    'm').toDate();
   document.cookie = `token=${loginResponse.token};expires=${exp}`;
 };
 
@@ -42,6 +39,7 @@ export const getJWTfromCookie = () => {
 };
 
 export const getUserIdFromCookie = () => {
+  // todo это вечные куки.. удалять?
   const user = getCookie() && getCookie().filter(item => item.includes('userId'));
   const userData = user && user[0] ? user[0].split('=') : [];
   if (userData[0] === 'userId') {
