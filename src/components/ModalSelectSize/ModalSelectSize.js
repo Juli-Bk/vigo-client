@@ -8,7 +8,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 import ActionButtons from '../Product/ActionButtons/ActionButtons';
-import SelectSimple from '../Select/SelectSimple';
+import SelectSimple from '../Select/SelectBox';
 import globalConfig from '../../globalConfig';
 import {toggleModalSize} from '../../redux/actions/actions';
 import {getProductsQuantity} from '../../redux/actions/Quantity';
@@ -53,9 +53,9 @@ const ModalSize = (props) => {
 
   useEffect(() => {
     getProductsQuantity([currentProduct._id]);
-    setProductQuantity(getProductStockData(productsQuantity, currentProduct._id));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chosenSize, productsQuantity]);
+    const quantityOfCurrentProduct = getProductStockData(productsQuantity, currentProduct._id);
+    setProductQuantity(quantityOfCurrentProduct);
+  }, [chosenSize, productsQuantity, getProductsQuantity, currentProduct._id]);
 
   const handleClose = () => {
     setOpen(false);

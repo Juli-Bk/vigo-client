@@ -21,7 +21,7 @@ import ActionButtons from '../ActionButtons/ActionButtons';
 import ProductRating from '../ProductRating/ProductRating';
 import SalePrice from '../SalePrice/SalePrice';
 import Price from '../Price/Price';
-import SelectSimple from '../../Select/SelectSimple';
+import SelectSimple from '../../Select/SelectBox';
 import Quantity from '../Quantity/Quantity';
 
 const ProductPageView = (props) => {
@@ -42,9 +42,8 @@ const ProductPageView = (props) => {
 
   useEffect(() => {
     getProductsQuantity([_id]);
-    if (productQuantity) {
-      setProductQuantity(getProductStockData(productsQuantity, _id));
-    }
+    const quantityOfCurrentProduct = getProductStockData(productsQuantity, _id);
+    setProductQuantity(quantityOfCurrentProduct);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chosenSize, productsQuantity, productData, getProductsQuantity, getProductStockData]);
 

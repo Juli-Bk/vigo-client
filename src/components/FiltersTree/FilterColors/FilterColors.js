@@ -10,7 +10,7 @@ import theme from './FilterColorsTheme';
 import useStyles from './FilterColorsStyles';
 
 const FilterColors = (props) => {
-  const {setChosenColor, colorsInStorage} = props;
+  const {setChosenColor, colors} = props;
   const [state, setState] = useState({});
   const [uniqColorNames, setUniqColorNames] = useState([]);
   const classes = useStyles();
@@ -46,7 +46,7 @@ const FilterColors = (props) => {
               hex: color.hex
             });
           });
-  
+
           const colors = Array.from(colorsSet).map(item => item[1]);
           setUniqColorNames(colors);
         });
@@ -55,7 +55,7 @@ const FilterColors = (props) => {
       isCanceled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state, colorsInStorage, setChosenColor]);
+  }, [state, colors, setChosenColor]);
 
   const handleChange = (event) => {
     setState({
@@ -79,7 +79,7 @@ FilterColors.propTypes = {
 
 const mapStateToProps = store => {
   return {
-    colorsInStorage: store.colors
+    colors: store.colors
   };
 };
 

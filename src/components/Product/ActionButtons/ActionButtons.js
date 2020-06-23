@@ -6,7 +6,7 @@ import ButtonAddToCart from './ButtonAddToCart/AddToCartButton';
 import FavoriteIcon from './FavoriteIcon/FavoriteIcon';
 import ButtonCompare from './ButtonCompare/ButtonCompare';
 import globalConfig from '../../../globalConfig';
-import { getStorageData, toggleWishItems } from '../../../helpers/helpers';
+import { toggleWishItems } from '../../../helpers/helpers';
 import { addToCart } from '../../../pages/ShoppingCart/cartHelpers';
 import {
   setCurrentProduct,
@@ -28,7 +28,7 @@ const ActionButtons = (props) => {
       isProductPage ? setDisplayHelper(true) : toggleModalSize(true);
     } else {
       addToCart(productId, quantity, sizeId);
-      changeShoppingCart(getStorageData('shoppingCart'));
+      changeShoppingCart();
       toggleModalSize(false);
     }
   };
@@ -94,7 +94,7 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
   return {
     changeWishList: () => dispatch(changeWishList()),
-    changeShoppingCart: data => dispatch(changeShoppingCart(data)),
+    changeShoppingCart: () => dispatch(changeShoppingCart()),
     toggleModalSize: flag => dispatch(toggleModalSize(flag)),
     setCurrentProduct: product => dispatch(setCurrentProduct(product))
   };

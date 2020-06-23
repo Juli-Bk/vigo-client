@@ -10,7 +10,7 @@ import {
 } from '@material-ui/core';
 import CloseIcon from '@material-ui/icons/Close';
 
-import {capitalize, formPriceString, getStorageData, toggleWishItems} from '../../helpers/helpers';
+import {capitalize, formPriceString, toggleWishItems} from '../../helpers/helpers';
 import { changeWishList } from '../../redux/actions/wishlist';
 import SaleInfoBox from '../Product/SaleInfoBox/SaleInfoBox';
 import SalePrice from '../Product/SalePrice/SalePrice';
@@ -25,7 +25,7 @@ const WishListTable = (props) => {
 
   const deleteFromWishList = (id) => {
     toggleWishItems(id);
-    changeWishList(getStorageData('wishList'));
+    changeWishList();
   };
 
   const rows = products.map(product => {
@@ -145,7 +145,7 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeWishList: data => dispatch(changeWishList(data))
+    changeWishList: () => dispatch(changeWishList())
   };
 };
 

@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 import { Box, ThemeProvider, TableContainer } from '@material-ui/core';
 
-import { getStorageData, setStorageData } from '../../helpers/helpers';
+import { setStorageData } from '../../helpers/helpers';
 import {
   findItemInCart,
   getChosenProductData,
@@ -36,15 +36,15 @@ const ShopCartView = (props) => {
 
   const deleteFromShopCart = (id) => {
     deleteFromCart(id);
-    changeShoppingCart(getStorageData('shoppingCart'));
+    changeShoppingCart();
   };
 
   const handleQuantity = (id, number) => {
     const updatedProduct = updateProductQuantity(id, number, shoppingCart);
     const updatedCart = updateCartData(shoppingCart, id, updatedProduct);
 
-    changeShoppingCart(updatedCart);
     setStorageData('shoppingCart', updatedCart);
+    changeShoppingCart();
     addToCart(id, number, updatedProduct.sizeId);
   };
 
@@ -120,7 +120,7 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeShoppingCart: data => dispatch(changeShoppingCart(data)),
+    changeShoppingCart: () => dispatch(changeShoppingCart()),
     getProductsQuantity: idArray => dispatch(getProductsQuantity(idArray))
   };
 };

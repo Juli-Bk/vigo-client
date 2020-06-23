@@ -11,19 +11,11 @@ import theme from './mainTheme';
 import Footer from './containers/Footer/Footer';
 import {getCategories} from './redux/actions/categories';
 import {getUserData} from './redux/actions/user';
-import { changeShoppingCart, getUserShopCart } from './redux/actions/shopCart';
-import ModalSize from './components/ModalSelectSize/ModalSelectSize';
-import { getStorageData } from './helpers/helpers';
-import { changeWishList } from './redux/actions/wishlist';
 
 function App (props) {
   const {
     getUserData,
-    getCategories,
-    getUserShopCart,
-    isModalSizeOpen,
-    changeShoppingCart,
-    changeWishList
+    getCategories
   } = props;
 
   useEffect(() => {
@@ -31,21 +23,17 @@ function App (props) {
     if (!isCanceled) {
       getCategories();
       getUserData();
-      getUserShopCart();
-      changeShoppingCart(getStorageData('shoppingCart'));
-      changeWishList();
     }
     return () => {
       isCanceled = true;
     };
-  }, [changeShoppingCart, getCategories, getUserData, getUserShopCart, changeWishList]);
+  }, [getCategories, getUserData]);
 
   return (
     <BrowserRouter>
       <StylesProvider injectFirst>
         <ThemeProvider theme={theme}>
           <AppRoutes/>
-          {isModalSizeOpen && <ModalSize/>}
           <Footer/>
         </ThemeProvider>
       </StylesProvider>
@@ -55,8 +43,7 @@ function App (props) {
 
 App.propTypes = {
   getUserData: PropTypes.func.isRequired,
-  getCategories: PropTypes.func.isRequired,
-  isModalSizeOpen: PropTypes.bool.isRequired
+  getCategories: PropTypes.func.isRequired
 };
 
 const mapStateToProps = store => {
@@ -68,10 +55,7 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
   return {
     getUserData: () => dispatch(getUserData()),
-    getCategories: () => dispatch(getCategories()),
-    getUserShopCart: () => dispatch(getUserShopCart()),
-    changeShoppingCart: data => dispatch(changeShoppingCart(data)),
-    changeWishList: () => dispatch(changeWishList())
+    getCategories: () => dispatch(getCategories())
   };
 };
 

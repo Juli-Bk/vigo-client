@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Box } from '@material-ui/core';
 
-const SelectSimple = (props) => {
+const SelectBox = (props) => {
   const { value, handleChange, options, label, classes } = props;
 
   return (
@@ -22,11 +22,11 @@ const SelectSimple = (props) => {
   );
 };
 
-SelectSimple.propTypes = {
+SelectBox.propTypes = {
   options: PropTypes.array.isRequired,
   value: PropTypes.any.isRequired,
   handleChange: PropTypes.func.isRequired,
   label: PropTypes.string
 };
 
-export default React.memo(SelectSimple);
+export default React.memo(SelectBox);

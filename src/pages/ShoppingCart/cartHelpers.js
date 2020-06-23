@@ -41,7 +41,8 @@ export const updateProductQuantity = (productId, newQuantity, shoppingCart) => {
 
 export const updateCartData = (shoppingCart, productId, updatedProduct) => {
   if (shoppingCart.find(item => item.productId === productId)) {
-    return [...shoppingCart.filter(item => item.productId !== productId), updatedProduct];
+    const updatedCart = shoppingCart.filter(item => item.productId !== productId);
+    return [...updatedCart, updatedProduct];
   }
 };
 
@@ -132,12 +133,14 @@ export const integrateCarts = (remoteCart) => {
   const localCart = getStorageData('shoppingCart');
   if (localCart) {
     remoteCart.forEach(remoteItem => {
-      if (!localCart.find(localItem => localItem.productId === remoteItem.productId)) {
+      const itemInLocalCart = localCart.find(localItem => localItem.productId === remoteItem.productId);
+      if (!itemInLocalCart) {
         localCart.push(remoteItem);
       }
     });
     localCart.forEach(localItem => {
-      if (!remoteCart.find(remoteItem => remoteItem.productId === localItem.productId)) {
+      const itemInRemoteCart = remoteCart.find(remoteItem => remoteItem.productId === localItem.productId);
+      if (!itemInRemoteCart) {
         cartHandler([localItem]);
       }
     });

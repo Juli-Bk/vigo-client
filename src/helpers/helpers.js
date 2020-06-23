@@ -177,23 +177,24 @@ export const makeFilterItem = (string) => {
 export const getMaxQuantity = (productQuantity, size) => {
   if (productQuantity && productQuantity.length) {
     if (size && size !== globalConfig.defaultSizeOption) {
-      return productQuantity.find(item => item.sizeId.name === size).quantity;
+      const product = productQuantity.find(item => item.sizeId.name === size);
+      if (product && product.quantity) return product.quantity || 0;
     }
   }
 };
 
 export const getProductStockData = (quantityArray, productId) => {
-  if (quantityArray.length) {
+  if (quantityArray && quantityArray.length) {
     const productQuantity = quantityArray.find(item => item.productId === productId);
     if (productQuantity && productQuantity.inStock.length) {
-      return productQuantity.inStock;
+      return productQuantity.inStock || [];
     }
   }
 };
 
 export const getColorName = (quantityArray) => {
   if (quantityArray && quantityArray.length) {
-    return capitalize(quantityArray[0] && quantityArray[0].colorId.name);
+    return capitalize(quantityArray[0] && quantityArray[0].colorId.name) || '';
   }
 };
 
@@ -201,7 +202,7 @@ export const getChosenSizeId = (productQuantity, chosenSize) => {
   if (productQuantity && chosenSize) {
     const item = productQuantity.find(item => item.sizeId.name === chosenSize);
     if (item && item.sizeId) {
-      return item.sizeId._id;
+      return item.sizeId._id || '';
     }
   }
 };

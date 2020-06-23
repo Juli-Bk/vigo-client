@@ -4,7 +4,8 @@ import AjaxUtils from '../../../ajax';
 import {integrateCarts} from '../../../pages/ShoppingCart/cartHelpers';
 import { getStorageData } from '../../../helpers/helpers';
 
-export const changeShoppingCart = (data) => {
+export const changeShoppingCart = () => {
+  const data = getStorageData('shoppingCart');
   return {type: Actions.CHANGE_SHOPPING_CART, payload: data};
 };
 
@@ -16,7 +17,7 @@ export const getUserShopCart = () => {
         .then(result => {
           if (result.status !== 400) {
             integrateCarts(result.products || []);
-            dispatch(changeShoppingCart(getStorageData('shoppingCart')));
+            dispatch(changeShoppingCart());
           }
         })
         .catch((error) => {

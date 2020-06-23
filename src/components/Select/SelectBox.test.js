@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import SelectSimple from './SelectSimple';
+import SelectSimple from './SelectBox';
 
 const handler = jest.fn();
 const testLabel = 'label';
