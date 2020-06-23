@@ -22,6 +22,13 @@ export const setUser = (userData) => {
   };
 };
 
+export const setUserDeliveryAddress = (deliveryAdr) => {
+  return {
+    type: Actions.SET_USER_DELIVERY_ADDRESS,
+    payload: deliveryAdr
+  };
+};
+
 export const getUserTokenAndData = (email, password, callback) => {
   return (dispatch) => {
     const json = JSON.stringify({
@@ -97,5 +104,15 @@ export const saveUserData = (data, callback) => {
     } else {
       clear();
     }
+  };
+};
+
+// todo add logout handler for UI click logout link/button
+export const logout = () => {
+  return (dispatch) => {
+    dispatch(setUser({}));
+    dispatch(setJWTtoken(''));
+    deleteJWTcookie();
+    // todo add push link to /login
   };
 };

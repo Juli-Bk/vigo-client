@@ -72,7 +72,7 @@ const ModalAddress = (props) => {
     <ThemeProvider theme={theme}>
       <Box>
         <Button className={commonClasses.button} onClick={handleClickOpen}>
-        Add delivery address
+        Add address
         </Button>
         <Dialog
           open={isAddressModalOpen}

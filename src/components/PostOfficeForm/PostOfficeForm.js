@@ -35,7 +35,6 @@ const NovaPoshtaCity = (props) => {
       .required(),
     city: Yup.string()
       .label('Delivery City')
-      .required()
   });
 
   return (
@@ -61,8 +60,6 @@ const NovaPoshtaCity = (props) => {
                   id='open-on-focus'
                   name='city'
                   onChange={(event, newValue) => {
-                    // todo delete this
-                    console.log('newvalue', newValue);
                   }}
                   inputValue={inputValue}
                   onInputChange={(event, newInputValue) => {
