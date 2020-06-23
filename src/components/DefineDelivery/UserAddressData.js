@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import ModalAddress from '../ModalAddress/ModalAddress';
 import useStyles from '../../styles/formStyle/formStyle';
+import AddressRadioGroup from './AddressRadioGroup';
 
 const UserAddressData = (props) => {
   const {user} = props;
@@ -45,9 +46,10 @@ const UserAddressData = (props) => {
       <Typography className={styles.subtitle}>
         We will send your order to the following address:
       </Typography>
+
       <Box p={1}>
         {/* todo if many addresses - make checkboxes here */}
-        {adr}
+        <AddressRadioGroup value={adr} />
       </Box>
     </>;
 

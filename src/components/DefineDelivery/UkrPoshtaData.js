@@ -40,7 +40,6 @@ const UkrPoshtaData = (props) => {
   return (
     <ThemeProvider theme={theme}>
       <Grid item xs={12}>
-        <AddressRadioGroup value={adr} />
         {labels}
         <ModalAddress/>
       </Grid>

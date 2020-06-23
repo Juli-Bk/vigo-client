@@ -2,8 +2,7 @@ import * as Yup from 'yup';
 import config from '../../globalConfig';
 
 export const validateObject = Yup.object().shape({
-  autocomplete: Yup.string()
-    .required('Required'),
+  autocomplete: Yup.string(),
   house: Yup.string()
     .min(1, 'Enter correct building number')
     .required('Required'),
@@ -11,7 +10,7 @@ export const validateObject = Yup.object().shape({
     .min(1, 'Enter correct apartment number')
     .required('Required'),
   postalCode: Yup.string()
-    .matches(config.postalCode, 'Please, use XXXX format')
+    .matches(config.postalCode, 'Please, use XXXXX format')
     .required('Required'),
   confirmation: Yup.boolean()
     .oneOf([true], 'Please, accept privacy policy')

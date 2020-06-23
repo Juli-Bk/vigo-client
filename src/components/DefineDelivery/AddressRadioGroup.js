@@ -7,16 +7,15 @@ import {
   CardActions,
   FormControl,
   FormHelperText,
-  CardContent,
-  FormControlLabel,
+   FormControlLabel,
   Radio,
-  Card, ThemeProvider
+  ThemeProvider
 } from '@material-ui/core';
 import useStyles from '../../styles/formStyle/formStyle';
 import theme from '../../styles/formStyle/formStyleTheme';
 
 const AddressRadioGroup = (props) => {
-  const {adr, submitRadioGroupHandler} = props;
+  const {value, submitRadioGroupHandler} = props;
 
   const submitRadioGroupData = (values, { resetForm, setSubmitting }) => {
     setSubmitting(true);
@@ -39,39 +38,35 @@ const AddressRadioGroup = (props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Card>
-        <CardContent>
-          <Formik
-            initialValues={initFormValues}
-            validationSchema={validateObject}
-            onSubmit={submitRadioGroupData}>
-            {({ handleChange, values, handleSubmit, isSubmitting, errors }) => (
-              <Form autoComplete='off' id='addressRadioGroup'>
-                <FormControl>
-                  <RadioGroup id='radioGroup' value={values.radioGroup} name='formAddress'
-                    onChange={handleChange}>
-                    <FormControlLabel value={adr} name='radioGroup' id='radioOption1' color='default'
-                      control={<Radio/>} label='Address 1'/>
-                    <FormControlLabel value={adr} name='radioGroup' id='radioOption2' color='default'
-                      control={<Radio/>} label='Address 2'/>
-                  </RadioGroup>
-                  <FormHelperText>{errors.radioGroup}</FormHelperText>
-                  <CardActions>
-                    <Button
-                      type='submit'
-                      className={styles.button}
-                      size='large'
-                      onClick={handleSubmit}
-                      disabled={isSubmitting}
-                      variant='outlined'>
-                    </Button>
-                  </CardActions>
-                </FormControl>
-              </Form>
-            )}
-          </Formik>
-        </CardContent>
-      </Card>
+      <Formik
+        initialValues={initFormValues}
+        validationSchema={validateObject}
+        onSubmit={submitRadioGroupData}>
+        {({ handleChange, values, handleSubmit, isSubmitting, errors }) => (
+          <Form autoComplete='off' id='addressRadioGroup'>
+            <FormControl>
+              <RadioGroup id='radioGroup' value={values.radioGroup} name='formAddress'
+                onChange={handleChange}>
+                <FormControlLabel value={value} name='radioGroup' id='radioOption1' color='default'
+                  control={<Radio/>} label={value}/>
+                <FormControlLabel value={value} name='radioGroup' id='radioOption2' color='default'
+                  control={<Radio/>} label='Address 2'/>
+              </RadioGroup>
+              <FormHelperText>{errors.radioGroup}</FormHelperText>
+              <CardActions>
+                <Button
+                  type='submit'
+                  className={styles.button}
+                  size='small'
+                  onClick={handleSubmit}
+                  disabled={isSubmitting}
+                  variant='outlined'>Save
+                </Button>
+              </CardActions>
+            </FormControl>
+          </Form>
+        )}
+      </Formik>
     </ThemeProvider>
   );
 };

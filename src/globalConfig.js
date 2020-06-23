@@ -1,7 +1,7 @@
 const globalConfig = {
   baseImgUrl: 'https://vigo-shop-aws-bucket.s3.eu-central-1.amazonaws.com',
   phoneNumberRegExp: /^\+?3?8?(0\d{9})$/,
-  postalCode: /\b\d{4}\b/g,
+  postalCode: /\b\d{5}\b/g,
   priceIsInteger: true,
   contacts: {
     landline: ['0203 980 1479', '0203 478 1296'],
