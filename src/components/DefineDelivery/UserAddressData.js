@@ -14,29 +14,9 @@ const UserAddressData = (props) => {
   const styles = useStyles();
 
   const isEmptyUserData = Object.keys(user).length <= 0;
-  const hasSavedAddresses = user && user.addresses && user.addresses.length > 0;
+  const hasSavedAddresses = user && Array.isArray(user.addresses) && user.addresses.length > 0;
 
-  const adr = hasSavedAddresses
-    ? user.addresses.map(address => {
-      const tags = [];
-      for (const [key, value] of Object.entries(address)) {
-        if (key !== '_id') {
-          // todo if more than 1 address - make checkboxes
-          tags.push(
-            <Typography className={styles.text} key={key}>
-              <Typography component='span'>
-                {`${key}: `}
-              </Typography>
-              <Typography component='span'>
-                {`${value}`}
-              </Typography>
-            </Typography>
-          );
-        }
-      }
-      return tags;
-    })
-    : null;
+  const adr = hasSavedAddresses ? <AddressRadioGroup addresses={ user.addresses} /> : null;
 
   const labels = !isEmptyUserData && !hasSavedAddresses
     ? <Typography className={styles.subtitle}>
@@ -48,8 +28,7 @@ const UserAddressData = (props) => {
       </Typography>
 
       <Box p={1}>
-        {/* todo if many addresses - make checkboxes here */}
-        <AddressRadioGroup value={adr} />
+        {adr}
       </Box>
     </>;
 

@@ -32,6 +32,11 @@ const theme = createMuiTheme({
         color: colors.phPrimary
       }
     },
+    MuiIconButton: {
+      root: {
+        transition: 'none'
+      }
+    },
     MuiFormGroup: {
       root: {
         padding: 10

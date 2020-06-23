@@ -7,7 +7,6 @@ import {
   FormControlLabel,
   FormHelperText,
   Grid,
-  Link,
   TextField,
   ThemeProvider,
   Typography
@@ -41,7 +40,7 @@ const AddressForm = (props) => {
       addresses: [
         ...addresses,
         {
-          address: address,
+          address: address.description,
           house: values.house,
           apartment: values.apartment,
           postalCode: values.postalCode
