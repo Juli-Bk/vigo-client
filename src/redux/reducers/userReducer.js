@@ -5,9 +5,8 @@ const userReducer = (state = {}, action) => {
     return action.payload;
   }
   if (action.type === Actions.SET_USER_DELIVERY_ADDRESS) {
-    const user = state.user;
     return {
-      ...user,
+      ...state,
       deliveryAddress: action.payload
     };
   }
