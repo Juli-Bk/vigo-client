@@ -14,8 +14,8 @@ import {toggleModalSize} from '../../redux/actions/actions';
 import {getProductsQuantity} from '../../redux/actions/Quantity';
 import { getChosenSizeId, getProductStockData, getSizesArray, mapArrayToOptions } from '../../helpers/helpers';
 import { colors } from '../../styles/colorKit';
-import {button} from '../Product/ProductPageView/ProductPageViewStyles';
 import theme from './ModalSelectTheme';
+import formStyles from '../../styles/formStyle/formStyle';
 
 const useStyles = makeStyles(theme => ({
   select: {
@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     padding: '.4rem 0 .4rem .3rem',
     borderColor: colors.fontFourth,
     color: colors.paginationActive,
-    fontSize: '1rem',
+    fontSize: '1.2rem',
     [theme.breakpoints.up('sm')]: {
       width: 150,
       marginBottom: 0
@@ -32,25 +32,13 @@ const useStyles = makeStyles(theme => ({
   },
   form: {
     textAlign: 'center'
-  },
-  button: {
-    ...button
-  },
-  cancel: {
-    ...button,
-    color: colors.noticeColor,
-    background: colors.fontOncard,
-    '&:hover': {
-      color: colors.fontOncard,
-      background: colors.noticeColor,
-      borderColor: colors.noticeColor
-    }
   }
 }));
 
 const ModalSize = (props) => {
   const {open, setOpen, productsQuantity, getProductsQuantity, currentProduct} = props;
   const classes = useStyles();
+  const formClasses = formStyles();
 
   const [chosenSize, setChosenSize] = useState('');
   const [productQuantity, setProductQuantity] = useState([]);
@@ -80,7 +68,7 @@ const ModalSize = (props) => {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">Please, choose size</DialogTitle>
+      <DialogTitle id="alert-dialog-title" className={formClasses.header}>Please, choose size</DialogTitle>
       <DialogContent>
         <SelectSimple value={chosenSize}
           classes={classes}
@@ -89,8 +77,8 @@ const ModalSize = (props) => {
       </DialogContent>
       <ThemeProvider theme={theme}>
         <DialogActions disableSpacing={true}>
-          <Button onClick={handleClose} className={classes.cancel}>Cancel</Button>
-          <ActionButtons classes={classes} product={currentProduct} isModal={true} sizeId={sizeId}/>
+          <Button onClick={handleClose} className={formClasses.button}>Cancel</Button>
+          <ActionButtons classes={formClasses} product={currentProduct} isModal={true} sizeId={sizeId}/>
         </DialogActions>
       </ThemeProvider>
     </Dialog>
