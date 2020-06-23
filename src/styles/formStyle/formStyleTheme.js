@@ -16,10 +16,8 @@ const theme = createMuiTheme({
     },
     MuiFormHelperText: {
       root: {
-        '&$error': {
-          color: colors.noticeColor,
-          textTransform: 'capitalize'
-        }
+        color: colors.noticeColor,
+        textTransform: 'capitalize'
       }
     },
     MuiTypography: {
@@ -32,6 +30,11 @@ const theme = createMuiTheme({
       root: {
         fontFamily: fonts.f4,
         color: colors.phPrimary
+      }
+    },
+    MuiIconButton: {
+      root: {
+        transition: 'none'
       }
     },
     MuiFormGroup: {
@@ -115,5 +118,4 @@ const theme = createMuiTheme({
     }
   }
 });
-
 export default theme;

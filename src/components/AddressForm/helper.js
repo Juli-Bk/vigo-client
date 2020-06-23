@@ -9,7 +9,7 @@ export const validateObject = Yup.object().shape({
   apartment: Yup.string()
     .min(1, 'Enter correct apartment number'),
   postalCode: Yup.string()
-    .matches(config.postalCode, 'Please, use XXXX format')
+    .matches(config.postalCode, 'Please, use XXXXX format')
     .required('Required'),
   confirmation: Yup.boolean()
     .oneOf([true], 'Please, accept privacy policy')

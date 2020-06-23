@@ -40,7 +40,7 @@ const AddressForm = (props) => {
       addresses: [
         ...addresses,
         {
-          address: address,
+          address: address.description,
           house: values.house,
           apartment: values.apartment,
           postalCode: values.postalCode
@@ -83,12 +83,12 @@ const AddressForm = (props) => {
               handleChange,
               handleBlur,
               handleSubmit,
+              setFieldValue,
               values,
               errors,
               touched
             }) => (
               <form>
-
                 <AutocompleteComponent
                   autoComplete='on'
                   className={classes.input}
