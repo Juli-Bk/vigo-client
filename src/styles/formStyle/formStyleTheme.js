@@ -1,9 +1,19 @@
 import {createMuiTheme} from '@material-ui/core';
-import { colors } from '../../styles/colorKit';
+import { colors } from '../colorKit';
 import { fonts } from '../fonts/fontsKit';
 
 const theme = createMuiTheme({
   overrides: {
+    MuiSvgIcon: {
+      root: {
+        color: colors.black
+      }
+    },
+    MuiCardActions: {
+      root: {
+        padding: '10px 0'
+      }
+    },
     MuiFormHelperText: {
       root: {
         '&$error': {
@@ -18,6 +28,10 @@ const theme = createMuiTheme({
         '@media  (max-width: 400px)': {
           fontSize: '0.7rem'
         }
+      },
+      root: {
+        fontFamily: fonts.f4,
+        color: colors.phPrimary
       }
     },
     MuiFormGroup: {
@@ -71,6 +85,32 @@ const theme = createMuiTheme({
         '&:hover': {
           color: colors.noticeColor
         }
+      }
+    },
+    MuiDialogActions: {
+      root: {
+        border: '.125rem solid black',
+        borderRadius: 4,
+        padding: 3,
+        position: 'absolute',
+        fontFamily: fonts.f3,
+        maxWidth: 'fit-content',
+        right: 30,
+        bottom: 16
+      }
+    },
+    MuiListItem: {
+      root: {
+        paddingTop: 0,
+        paddingBottom: 0
+      },
+      gutters: {
+        paddingLeft: 0
+      }
+    },
+    MuiBox: {
+      root: {
+        padding: '8px 0'
       }
     }
   }

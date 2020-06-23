@@ -1,5 +1,5 @@
 import React from 'react';
-import {getUserIdFromCookie } from '../ajax/common/helper';
+import {getUserIdFromCookie} from '../ajax/common/helper';
 import AjaxUtils from '../ajax';
 import globalConfig from '../globalConfig';
 
@@ -103,18 +103,34 @@ export const changeOrder = (arrayOfId, arrayOfObjects) => {
 };
 
 export const getStorageData = (key) => {
-  return JSON.parse(localStorage.getItem(key)) || [];
+  const defaultUserValue = (key === 'user') ? {} : [];
+  return JSON.parse(localStorage.getItem(key)) || defaultUserValue;
 };
 
 export const setStorageData = (key, data) => {
   localStorage.setItem(key, JSON.stringify(data));
 };
 
-export const integrateData = (remoteWishList, localWishList) => {
+export const saveWishListToLS = (remoteWishList) => {
+  const localWishList = getStorageData('wishList');
   remoteWishList.forEach(product => {
-    if (!localWishList.includes(product._id)) localWishList.push(product._id);
+    if (!localWishList.includes(product._id)) {
+      localWishList.push(product._id);
+    }
   });
   setStorageData('wishList', localWishList);
+};
+
+export const saveShopCartToLS = (remoteCart) => {
+  const localCart = getStorageData('shoppingCart');
+  remoteCart.forEach(item => {
+    if (localCart) {
+      if (!localCart.includes(item.productId)) {
+        localCart.push(item.productId);
+      }
+    }
+  });
+  setStorageData('shoppingCart', localCart || []);
 };
 
 export const toggleWishItems = (productId) => {
@@ -122,7 +138,8 @@ export const toggleWishItems = (productId) => {
   const wishListLocal = getStorageData('wishList');
 
   if (wishListLocal.includes(productId)) {
-    setStorageData('wishList', wishListLocal.filter(item => item !== productId));
+    const ws = wishListLocal.filter(item => item !== productId);
+    setStorageData('wishList', ws);
 
     if (userId) {
       AjaxUtils.WishLists.deleteProductFromWishlist(productId)
@@ -131,11 +148,11 @@ export const toggleWishItems = (productId) => {
             // todo nice popup
             alert(globalConfig.userMessages.NOT_AUTHORIZED);
           }
-          console.log(result);
         });
     }
   } else {
-    setStorageData('wishList', [...wishListLocal, productId]);
+    const ws = [...wishListLocal, productId];
+    setStorageData('wishList', ws);
 
     if (userId) {
       AjaxUtils.WishLists.addProductToWishList(productId, userId)
@@ -143,7 +160,6 @@ export const toggleWishItems = (productId) => {
           if (result.status) {
             alert(globalConfig.userMessages.NOT_AUTHORIZED);
           }
-          console.log(result);
         });
     }
   }

@@ -1,4 +1,5 @@
-import { setCategoryId, toggleMenuOpen } from '../../redux/actions/actions';
+import { toggleMenuOpen } from '../../redux/actions/actions';
+import { setCategoryId } from '../../redux/actions/categories';
 import {connect} from 'react-redux';
 import React, {useCallback} from 'react';
 import Tab from '@material-ui/core/Tab';

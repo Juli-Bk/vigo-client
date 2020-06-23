@@ -15,6 +15,7 @@ import {IconButton, Typography} from '@material-ui/core';
 import RegisterForm from '../RegisterForm/RegisterForm';
 import {connect} from 'react-redux';
 import {setLoginModalOpenState} from '../../redux/actions/actions';
+import {withRouter} from 'react-router';
 
 function a11yProps (index) {
   return {
@@ -43,7 +44,8 @@ function TabPanel (props) {
   );
 }
 
-const ModalLogin = ({isLoginModalOpen, setLoginModalOpenState}) => {
+const ModalLogin = (props) => {
+  const {isLoginModalOpen, setLoginModalOpenState, history, location} = props;
   const classes = useStyles();
   const commonClasses = useCommonStyles();
   const [message, setMessage] = useState('');
@@ -55,6 +57,9 @@ const ModalLogin = ({isLoginModalOpen, setLoginModalOpenState}) => {
   };
 
   const handleClose = () => {
+    if (location.pathname === '/account') {
+      history.go(0);
+    }
     setLoginModalOpenState(false);
   };
 
@@ -75,8 +80,7 @@ const ModalLogin = ({isLoginModalOpen, setLoginModalOpenState}) => {
   </DialogContent>;
 
   return (
-    <ThemeProvider theme={theme}>
-
+    <>
       <IconButton
         variant="outlined" color="primary"
         aria-label="personIcon"
@@ -84,60 +88,61 @@ const ModalLogin = ({isLoginModalOpen, setLoginModalOpenState}) => {
         className={classes.personIcon}>
         <PersonIcon/>
       </IconButton>
+      <ThemeProvider theme={theme}>
+        <Dialog
+          open={isLoginModalOpen}
+          onClose={handleClose}
+          aria-labelledby="alert-dialog-title"
+          aria-describedby="alert-dialog-description"
+        >
+          <DialogContent className={commonClasses.modalWindow}>
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              variant="fullWidth"
+              aria-label="login or register"
+            >
+              <Tab label="Login" {...a11yProps(0)} />
+              <Tab label="Register" {...a11yProps(1)} />
+            </Tabs>
 
-      <Dialog
-        open={isLoginModalOpen}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogContent className={commonClasses.modalWindow}>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            variant="fullWidth"
-            aria-label="login or register"
-          >
-            <Tab label="Login" {...a11yProps(0)} />
-            <Tab label="Register" {...a11yProps(1)} />
-          </Tabs>
+            <SwipeableViews
+              axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
+              index={value}
+              onChangeIndex={handleChangeIndex}
+            >
 
-          <SwipeableViews
-            axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
-            index={value}
-            onChangeIndex={handleChangeIndex}
-          >
+              <TabPanel value={value} index={0} dir={theme.direction}>
+                <LoginForm submitLoginHandler={(result) => {
+                  if (result && result.status === 400) {
+                    setMessage(result.message);
+                    setIsMessageHidden(true);
+                  } else {
+                    isMessageHidden && setIsMessageHidden(false);
+                    handleClose();
+                    // todo change avatar
+                  }
+                }}/>
+              </TabPanel>
 
-            <TabPanel value={value} index={0} dir={theme.direction}>
-              <LoginForm submitLoginHandler={(result) => {
-                if (result.status === 400) {
-                  setMessage(result.message);
-                  setIsMessageHidden(true);
-                } else {
-                  isMessageHidden && setIsMessageHidden(false);
-                  handleClose();
-                  // todo change avatar
-                }
-              }}/>
-            </TabPanel>
-
-            <TabPanel value={value} index={1} dir={theme.direction}>
-              <RegisterForm submitRegisterHandler={(result) => {
-                if (result.status === 400) {
-                  setMessage(result.message);
-                  setIsMessageHidden(true);
-                } else {
-                  isMessageHidden && setIsMessageHidden(false);
-                  handleClose();
-                  // todo go to user cabinet?? on
-                }
-              }}/>
-            </TabPanel>
-          </SwipeableViews>
-          {isMessageHidden && messageTag}
-        </DialogContent>
-      </Dialog>
-    </ThemeProvider>
+              <TabPanel value={value} index={1} dir={theme.direction}>
+                <RegisterForm submitRegisterHandler={(result) => {
+                  if (result && result.status === 400) {
+                    setMessage(result.message);
+                    setIsMessageHidden(true);
+                  } else {
+                    isMessageHidden && setIsMessageHidden(false);
+                    handleClose();
+                    // todo go to user cabinet?? on
+                  }
+                }}/>
+              </TabPanel>
+            </SwipeableViews>
+            {isMessageHidden && messageTag}
+          </DialogContent>
+        </Dialog>
+      </ThemeProvider>
+    </>
   );
 };
 
@@ -153,4 +158,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStoreToProps, mapDispatchToProps)(React.memo(ModalLogin));
+export default connect(mapStoreToProps, mapDispatchToProps)(React.memo(withRouter(ModalLogin)));

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import {Box, Container, Grid, IconButton, Toolbar} from '@material-ui/core';
 import {ThemeProvider} from '@material-ui/core/styles';
@@ -15,9 +15,24 @@ import SideMenu from '../../components/SideMenu/SideMenu';
 import ModalLogin from '../../components/ModalLogin/ModalLogin';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {useTheme} from '@material-ui/styles';
+import {getUserWishList} from '../../redux/actions/wishlist';
+import {getUserShopCart} from '../../redux/actions/shopCart';
+import {connect} from 'react-redux';
 
-const Header = () => {
+const Header = (props) => {
+  const {getUserShopCart, getUserWishList} = props;
   const classes = useStyles();
+
+  useEffect(() => {
+    let isCanceled = false;
+    if (!isCanceled) {
+      getUserWishList();
+      getUserShopCart();
+    }
+    return () => {
+      isCanceled = true;
+    };
+  }, [getUserShopCart, getUserWishList]);
 
   const isMobile = useMediaQuery(useTheme().breakpoints.between(0, 724), {
     defaultMatches: true
@@ -61,4 +76,11 @@ const Header = () => {
   );
 };
 
-export default React.memo(Header);
+const mapDispatchToProps = dispatch => {
+  return {
+    getUserWishList: () => dispatch(getUserWishList()),
+    getUserShopCart: () => dispatch(getUserShopCart())
+  };
+};
+
+export default connect(null, mapDispatchToProps)(Header);

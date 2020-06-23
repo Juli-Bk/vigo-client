@@ -41,6 +41,7 @@ const Products = (props) => {
     } else {
       filtersArray.push(makeFilterItem(searchString));
     }
+
     if (!isCanceled) {
       AjaxUtils.Products.getMaxPrice()
         .then(result => {

@@ -3,12 +3,7 @@ import methods from '../common/methods';
 import {
   checkId,
   getAuthHeader,
-  getQueryString,
-  putJWTtoCookie,
-  putJWTtoRedux,
-  putUserIdToCookie,
-  putUserToRedux,
-  putUserToStorage
+  getQueryString
 } from '../common/helper';
 
 export default {
@@ -58,10 +53,11 @@ export default {
     return fetch(pathTo.customer, requestOptions)
       .then(async (response) => {
         const respData = await response.json();
-        return Object.assign({
+        return {
           status: response.status,
-          statusText: response.statusText
-        }, respData);
+          statusText: response.statusText,
+          user: respData.user
+        };
       })
       .catch(error => console.log('getUser error', error.message));
   },
@@ -113,7 +109,13 @@ export default {
     };
 
     return fetch(pathTo.users, requestOptions)
-      .then(response => response.json())
+      .then(async (response) => {
+        const respData = await response.json();
+        return Object.assign({
+          status: response.status,
+          statusText: response.statusText
+        }, respData);
+      })
       .catch(error => console.log('updateUserInfoById error', error.message));
   },
   /**
@@ -136,7 +138,13 @@ export default {
     };
 
     return fetch(pathTo.password, requestOptions)
-      .then(response => response.json())
+      .then(async (response) => {
+        const respData = await response.json();
+        return Object.assign({
+          status: response.status,
+          statusText: response.statusText
+        }, respData);
+      })
       .catch(error => console.log('updatePassword error', error.message));
   },
   /**
@@ -193,18 +201,6 @@ export default {
           status: response.status,
           statusText: response.statusText
         }, respData);
-      })
-      .then((result) => {
-        if (result.token) {
-          putJWTtoCookie(result.token);
-          putJWTtoRedux(result.token);
-        }
-        if (result.user) {
-          putUserIdToCookie(result);
-          putUserToRedux(result.user);
-          putUserToStorage(result.user);
-        }
-        return result;
       })
       .catch(error => console.log('login error', error.message));
   }

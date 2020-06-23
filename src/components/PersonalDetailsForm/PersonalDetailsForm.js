@@ -1,65 +1,61 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Formik } from 'formik';
+import {connect} from 'react-redux';
+import {Formik} from 'formik';
 import * as Yup from 'yup';
 import {
-  Typography,
-  TextField,
   Button,
   CardActions,
+  Checkbox,
+  FormControlLabel,
+  FormHelperText,
   Grid,
-  ThemeProvider, FormHelperText, Checkbox, FormControlLabel
+  TextField,
+  ThemeProvider,
+  Typography
 } from '@material-ui/core';
-import PropTypes from 'prop-types';
-import useStyles from './PersonalDetailsFormStyle';
+import useStyles from '../../styles/formStyle/formStyle';
 import FormGroup from '@material-ui/core/FormGroup/FormGroup';
-import theme from './PersonalDetailsTheme';
+import theme from '../../styles/formStyle/formStyleTheme';
 import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
 import IconLabel from '../IconLabel/IconLabel';
 import PersonIcon from '@material-ui/icons/Person';
 import EmailIcon from '@material-ui/icons/Email';
 import AjaxUtils from '../../ajax';
-import { setUser } from '../../redux/actions/actions';
+import {saveUserData} from '../../redux/actions/user';
 import {validateObject} from './helper';
 
 const PersonalDetailsForm = (props) => {
-  const {user, setUser, submitPersDetailsHandler} = props;
+  const {user, saveUserData, saveUserAddressesHandler} = props;
   const {firstName, lastName, email, phoneNumber} = user;
 
   const handleCancel = () => {
-    submitPersDetailsHandler(null);
+    saveUserAddressesHandler(null);
   };
 
   const submitPersonalDetailsData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
 
-    if (user._id) {
-      const data = {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        phoneNumber: values.phoneNumber,
-        email: values.email
-      };
+    const data = {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      phoneNumber: values.phoneNumber,
+      email: values.email
+    };
 
-      AjaxUtils.Users.updateUserInfoById(user._id, data)
-        .then(result => {
-          setSubmitting(false);
-          if (result.status !== 400) {
-            resetForm();
-            submitPersDetailsHandler(result);
-          } else {
-            submitPersDetailsHandler(result);
-            setUser(result);
-          }
-        })
-        .catch(error => {
-          console.log(error);
-          setSubmitting(false);
-          submitPersDetailsHandler(values, error);
-        });
-    }
+    saveUserData(data, (result) => {
+      setSubmitting(false);
+      if (result && result.status !== 400) {
+        resetForm();
+      }
+      saveUserAddressesHandler(result);
+    });
+
     if (values.subscribe === true) {
-      AjaxUtils.Subscribers.subscribe(values.email);
+      AjaxUtils.Subscribers.subscribe(values.email)
+        .then(result => {
+          console.log(result);
+          // todo nice popup : You are subscribed
+        });
     }
   };
 
@@ -75,12 +71,12 @@ const PersonalDetailsForm = (props) => {
     saveMyData: true
   };
 
-  const styles = useStyles();
+  const classes = useStyles();
 
   return (
     <Grid container>
       <Grid item xs={12}>
-        <Typography className={styles.header} variant='h6' gutterBottom>your personal details</Typography>
+        <Typography className={classes.header} variant='h6' gutterBottom>your personal details</Typography>
         <Formik
           initialValues={initFormValues}
           validationSchema={Yup.object().shape(validateObject)}
@@ -100,7 +96,7 @@ const PersonalDetailsForm = (props) => {
                   autoComplete='on'
                   name='firstName'
                   label={<IconLabel label='Enter your Name' Component={PersonIcon}/>}
-                  className={styles.input}
+                  className={classes.input}
                   value={values.firstName || ''}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -114,7 +110,7 @@ const PersonalDetailsForm = (props) => {
                   autoComplete='on'
                   name='lastName'
                   label={<IconLabel label='Enter your Surname' Component={PersonIcon}/>}
-                  className={styles.input}
+                  className={classes.input}
                   value={values.lastName || ''}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -128,7 +124,7 @@ const PersonalDetailsForm = (props) => {
                   autoComplete='on'
                   name='email'
                   label={<IconLabel label='Enter your e-mail' Component={EmailIcon}/>}
-                  className={styles.input}
+                  className={classes.input}
                   value={values.email || ''}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -142,7 +138,7 @@ const PersonalDetailsForm = (props) => {
                   autoComplete='on'
                   name='phoneNumber'
                   label={<IconLabel label='Enter your phone number' Component={PhoneAndroidIcon}/>}
-                  className={styles.input}
+                  className={classes.input}
                   value={values.phoneNumber || ''}
                   onChange={handleChange}
                   onBlur={handleBlur}
@@ -179,14 +175,14 @@ const PersonalDetailsForm = (props) => {
               <CardActions>
                 <Button
                   type='button'
-                  className={styles.button}
+                  className={classes.button}
                   onClick={handleCancel}
                   size='large'
                   variant='outlined'>cancel
                 </Button>
                 <Button
                   type='submit'
-                  className={styles.button}
+                  className={classes.button}
                   onClick={handleSubmit}
                   disabled={isSubmitting}
                   size='large'
@@ -202,8 +198,8 @@ const PersonalDetailsForm = (props) => {
   );
 };
 
-PersonalDetailsForm.propTypes = {
-  submitPersDetailsHandler: PropTypes.func.isRequired
+PersonalDetailsForm.defaultProps = {
+  saveUserAddressesHandler: () => {}
 };
 
 const mapStateToProps = store => {
@@ -214,7 +210,7 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setUser: data => dispatch(setUser(data))
+    saveUserData: (data, callback) => dispatch(saveUserData(data, callback))
   };
 };
 

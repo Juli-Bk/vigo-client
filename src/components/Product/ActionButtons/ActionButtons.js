@@ -37,12 +37,13 @@ const ActionButtons = (props) => {
   };
 
   const addToCompare = (productId) => {
+    // todo implementation
     console.log(`product with id ${productId} added to compare`);
   };
 
   const toggleWishList = (productId) => {
     toggleWishItems(productId);
-    changeWishList(getStorageData('wishList'));
+    changeWishList();
   };
 
   const defineLabel = (width, isProductPage, label) => {

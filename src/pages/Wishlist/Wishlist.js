@@ -54,7 +54,7 @@ Wishlist.propTypes = {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeWishList: data => dispatch(changeWishList(data))
+    changeWishList: () => dispatch(changeWishList())
   };
 };
 

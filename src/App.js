@@ -9,6 +9,8 @@ import {StylesProvider, ThemeProvider} from '@material-ui/styles';
 import './App.scss';
 import theme from './mainTheme';
 import Footer from './containers/Footer/Footer';
+import { getCategories} from './redux/actions/categories';
+import {getUserData} from './redux/actions/user';
 import AjaxUtils from './ajax';
 import {changeWishList, setUser, changeShoppingCart} from './redux/actions/actions';
 import {getStorageData, integrateData} from './helpers/helpers';
@@ -17,38 +19,22 @@ import {getUserIdFromCookie} from './ajax/common/helper';
 import ModalSize from './components/ModalSelectSize/ModalSelectSize';
 
 function App (props) {
+  const {
+    getUserData,
+    getCategories
+  } = props;
   const {changeWishList, token, setUser, changeShoppingCart, isModalSizeOpen} = props;
 
   useEffect(() => {
     let isCanceled = false;
     if (!isCanceled) {
-      AjaxUtils.Categories.getAllCategories();
-
-      const userId = getUserIdFromCookie();
-      if (userId) {
-        AjaxUtils.WishLists.getUserWishList(userId)
-          .then(result => {
-            const wishes = result.userWishList[0];
-            integrateData(wishes ? wishes.products : [], getStorageData('wishList'));
-            changeWishList(getStorageData('wishList'));
-          });
-        AjaxUtils.ShopCart.getUserShopCart(userId)
-          .then(result => {
-            if (!result.message) {
-              integrateCart(result.products, getStorageData('shoppingCart'));
-              changeShoppingCart(getStorageData('shoppingCart'));
-            }
-          });
-      }
-
-      setUser(getStorageData('user'));
-      changeWishList(getStorageData('wishList'));
-      changeShoppingCart(getStorageData('shoppingCart'));
+      getCategories();
+      getUserData();
     }
     return () => {
       isCanceled = true;
     };
-  }, [changeWishList, setUser, changeShoppingCart, token]);
+  }, [getCategories, getUserData]);
 
   return (
     <BrowserRouter>
@@ -64,6 +50,7 @@ function App (props) {
 }
 
 App.propTypes = {
+  getUserData: PropTypes.func.isRequired
   token: PropTypes.string,
   changeWishList: PropTypes.func.isRequired,
   setUser: PropTypes.func.isRequired
@@ -78,9 +65,8 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeWishList: data => dispatch(changeWishList(data)),
-    setUser: user => dispatch(setUser(user)),
-    changeShoppingCart: data => dispatch(changeShoppingCart(data))
+    getUserData: () => dispatch(getUserData()),
+    getCategories: () => dispatch(getCategories())
   };
 };
 

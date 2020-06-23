@@ -25,6 +25,12 @@ const useStyles = makeStyles(theme => (
         fontSize: '2.2rem'
       }
     },
+    subtitle: {
+      color: colors.fontSecondary,
+      paddingBottom: 8,
+      fontWeight: 700,
+      textAlign: 'justify'
+    },
 
     button: {
       marginTop: '1.25rem',
@@ -41,24 +47,38 @@ const useStyles = makeStyles(theme => (
     },
     text: {
       color: colors.phPrimary,
+      margin: '6px 0',
       [theme.breakpoints.up(724)]: {
-        margin: '6 auto',
         fontSize: '0.9rem'
       },
+      [theme.breakpoints.up(964)]: {
+        fontSize: '0.95rem',
+        margin: '5px 0'
+      },
       [theme.breakpoints.up(1024)]: {
-        fontSize: '0.97rem'
+        fontSize: '0.95rem',
+        margin: '11px 0'
       },
       [theme.breakpoints.up(1080)]: {
-        margin: '5 auto',
-        fontSize: '1.05em'
+        fontSize: '1.05em',
+        margin: '10px 0'
       }
     },
-
     input: {
       marginTop: '1.6rem',
       marginBottom: 7,
       fonFamily: fonts.f2,
       textTransform: 'uppercase'
+    },
+    inputSmall: {
+      textAlign: 'center',
+      width: '25%',
+      marginRight: 10,
+      textTransform: 'uppercase'
+    },
+    checkbox: {
+      paddingTop: 10,
+      display: 'block'
     }
   }
 ));

@@ -1,122 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { makeStyles, ThemeProvider, useTheme } from '@material-ui/core/styles';
-import AppBar from '@material-ui/core/AppBar';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
-import Typography from '@material-ui/core/Typography';
+import React, {useEffect} from 'react';
 import Box from '@material-ui/core/Box';
-import themeMui from './MyAccTabsTheme';
-import PersonalDetailsForm from '../PersonalDetailsForm/PersonalDetailsForm';
-import AddressForm from '../AddressForm/AddressForm';
-import Wishlist from '../../pages/Wishlist/Wishlist';
-import { useMediaQuery } from '@material-ui/core';
-import AjaxUtils from '../../ajax';
-
-const TabPanel = (props) => {
-  const { user, children, value, index, ...other } = props;
-
-  return (
-    <Box
-      role='tabpanel'
-      hidden={value !== index}
-      id={`full-width-tabpanel-${index}`}
-      aria-labelledby={`full-width-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box p={3}>
-          <Typography component='span'>{children}</Typography>
-        </Box>
-      )}
-    </Box>
-  );
-};
-
-function a11yProps (index) {
-  return {
-    id: `full-width-tab-${index}`,
-    'aria-controls': `full-width-tabpanel-${index}`
-  };
-}
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.paper,
-    width: '100%'
-  }
-}));
+import {connect} from 'react-redux';
+import useStyles from './MyAccTabsStyle';
+import {getUserData} from '../../redux/actions/user';
+import UserTabs from './UserTabs';
 
 const MyAccTabs = (props) => {
-  const isMobile = useMediaQuery('(max-width: 400px)');
+  const { user, getUserData } = props;
   const classes = useStyles();
-  const theme = useTheme();
-  const [value, setValue] = useState(0);
-  const [user, setUser] = useState(null);
 
-  useEffect(() => {
-    AjaxUtils.Users.getUser()
-      .then(result => {
-        setUser(result);
-        console.log(result);
-      });
-  }, []);
-
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
-
-  const orientation = isMobile ? 'vertical' : 'horizontal';
+  useEffect(getUserData, []);
 
   return (
     <Box className={classes.root}>
-      <ThemeProvider theme={themeMui}>
-        <AppBar position='static' color='default'>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            orientation={orientation}
-            indicatorColor='primary'
-            textColor='primary'
-            variant='fullWidth'
-            aria-label='full width tabs'
-          >
-            <Tab component='span' label='Contact info' {...a11yProps(0)} />
-            <Tab component='span' label='Address' {...a11yProps(1)} />
-            <Tab component='span' label='Wishlist' {...a11yProps(2)} />
-            <Tab component='span' label='Orders' {...a11yProps(3)} />
-          </Tabs>
-        </AppBar>
-
-        <TabPanel value={value} index={0} dir={theme.direction}>
-          {
-            user._id
-              ? <PersonalDetailsForm submitPersonalDetailsHandler={() => {
-                handleChange(null, value);
-              }}/> : null}
-        </TabPanel>
-        <TabPanel value={value} index={1} dir={theme.direction}>
-          <AddressForm submitAddressHandler={(submit) => {
-            handleChange(null, value);
-          }} />
-        </TabPanel>
-        <TabPanel value={value} index={2} dir={theme.direction}>
-          <Wishlist />
-        </TabPanel>
-        <TabPanel value={value} index={3} dir={theme.direction}>
-          {/* todo orders list. if order list is empty, show to user link to products */}
-         your orders list
-        </TabPanel>
-      </ThemeProvider>
+      <UserTabs user={user}/>
     </Box>
   );
-};
-
-TabPanel.propTypes = {
-  children: PropTypes.node,
-  index: PropTypes.any.isRequired,
-  value: PropTypes.any.isRequired
 };
 
 const mapStateToProps = store => {
@@ -125,4 +24,10 @@ const mapStateToProps = store => {
   };
 };
 
-export default React.memo(connect(mapStateToProps)(MyAccTabs));
+const mapDispatchToProps = dispatch => {
+  return {
+    getUserData: isOpen => dispatch(getUserData(isOpen))
+  };
+};
+
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(MyAccTabs));
