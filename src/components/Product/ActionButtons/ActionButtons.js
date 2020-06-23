@@ -9,11 +9,11 @@ import globalConfig from '../../../globalConfig';
 import { getStorageData, toggleWishItems } from '../../../helpers/helpers';
 import { addToCart } from '../../../pages/ShoppingCart/cartHelpers';
 import {
-  changeShoppingCart,
-  changeWishList,
   setCurrentProduct,
   toggleModalSize
 } from '../../../redux/actions/actions';
+import {changeShoppingCart} from '../../../redux/actions/shopCart';
+import {changeWishList} from '../../../redux/actions/wishlist';
 
 const ActionButtons = (props) => {
   const {
@@ -96,7 +96,7 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeWishList: data => dispatch(changeWishList(data)),
+    changeWishList: () => dispatch(changeWishList()),
     changeShoppingCart: data => dispatch(changeShoppingCart(data)),
     toggleModalSize: flag => dispatch(toggleModalSize(flag)),
     setCurrentProduct: product => dispatch(setCurrentProduct(product))

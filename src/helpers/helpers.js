@@ -121,25 +121,13 @@ export const saveWishListToLS = (remoteWishList) => {
   setStorageData('wishList', localWishList);
 };
 
-export const saveShopCartToLS = (remoteCart) => {
-  const localCart = getStorageData('shoppingCart');
-  remoteCart.forEach(item => {
-    if (localCart) {
-      if (!localCart.includes(item.productId)) {
-        localCart.push(item.productId);
-      }
-    }
-  });
-  setStorageData('shoppingCart', localCart || []);
-};
-
 export const toggleWishItems = (productId) => {
   const userId = getUserIdFromCookie();
   const wishListLocal = getStorageData('wishList');
 
   if (wishListLocal.includes(productId)) {
-    const ws = wishListLocal.filter(item => item !== productId);
-    setStorageData('wishList', ws);
+    const wishList = wishListLocal.filter(item => item !== productId);
+    setStorageData('wishList', wishList);
 
     if (userId) {
       AjaxUtils.WishLists.deleteProductFromWishlist(productId)
@@ -151,13 +139,14 @@ export const toggleWishItems = (productId) => {
         });
     }
   } else {
-    const ws = [...wishListLocal, productId];
-    setStorageData('wishList', ws);
+    const wishList = [...wishListLocal, productId];
+    setStorageData('wishList', wishList);
 
     if (userId) {
       AjaxUtils.WishLists.addProductToWishList(productId, userId)
         .then(result => {
-          if (result.status) {
+          if (result.status !== 200) {
+            // todo nice popup
             alert(globalConfig.userMessages.NOT_AUTHORIZED);
           }
         });

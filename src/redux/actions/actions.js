@@ -37,14 +37,6 @@ export const setChosenSize = (size) => {
   return {type: Actions.SET_CHOSEN_SIZE, payload: size};
 };
 
-export const setChosenQuantity = (quantity) => {
-  return {type: Actions.SET_CHOSEN_QUANTITY, payload: quantity};
-};
-
-export const changeWishList = (data) => {
-  return {type: Actions.CHANGE_WISH_LIST, payload: data};
-};
-
 export const setUser = (userData) => {
   return {type: Actions.SET_USER, payload: userData};
 };

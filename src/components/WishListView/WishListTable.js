@@ -11,7 +11,7 @@ import {
 import CloseIcon from '@material-ui/icons/Close';
 
 import {capitalize, formPriceString, getStorageData, toggleWishItems} from '../../helpers/helpers';
-import { changeWishList } from '../../redux/actions/actions';
+import { changeWishList } from '../../redux/actions/wishlist';
 import SaleInfoBox from '../Product/SaleInfoBox/SaleInfoBox';
 import SalePrice from '../Product/SalePrice/SalePrice';
 import Price from '../Product/Price/Price';

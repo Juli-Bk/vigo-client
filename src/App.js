@@ -9,32 +9,36 @@ import {StylesProvider, ThemeProvider} from '@material-ui/styles';
 import './App.scss';
 import theme from './mainTheme';
 import Footer from './containers/Footer/Footer';
-import { getCategories} from './redux/actions/categories';
+import {getCategories} from './redux/actions/categories';
 import {getUserData} from './redux/actions/user';
-import AjaxUtils from './ajax';
-import {changeWishList, setUser, changeShoppingCart} from './redux/actions/actions';
-import {getStorageData, integrateData} from './helpers/helpers';
-import {integrateCart} from './pages/ShoppingCart/cartHelpers';
-import {getUserIdFromCookie} from './ajax/common/helper';
+import { changeShoppingCart, getUserShopCart } from './redux/actions/shopCart';
 import ModalSize from './components/ModalSelectSize/ModalSelectSize';
+import { getStorageData } from './helpers/helpers';
+import { changeWishList } from './redux/actions/wishlist';
 
 function App (props) {
   const {
     getUserData,
-    getCategories
+    getCategories,
+    getUserShopCart,
+    isModalSizeOpen,
+    changeShoppingCart,
+    changeWishList
   } = props;
-  const {changeWishList, token, setUser, changeShoppingCart, isModalSizeOpen} = props;
 
   useEffect(() => {
     let isCanceled = false;
     if (!isCanceled) {
       getCategories();
       getUserData();
+      getUserShopCart();
+      changeShoppingCart(getStorageData('shoppingCart'));
+      changeWishList();
     }
     return () => {
       isCanceled = true;
     };
-  }, [getCategories, getUserData]);
+  }, [changeShoppingCart, getCategories, getUserData, getUserShopCart, changeWishList]);
 
   return (
     <BrowserRouter>
@@ -50,15 +54,13 @@ function App (props) {
 }
 
 App.propTypes = {
-  getUserData: PropTypes.func.isRequired
-  token: PropTypes.string,
-  changeWishList: PropTypes.func.isRequired,
-  setUser: PropTypes.func.isRequired
+  getUserData: PropTypes.func.isRequired,
+  getCategories: PropTypes.func.isRequired,
+  isModalSizeOpen: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = store => {
   return {
-    token: store.token,
     isModalSizeOpen: store.isModalSizeOpen
   };
 };
@@ -66,7 +68,10 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
   return {
     getUserData: () => dispatch(getUserData()),
-    getCategories: () => dispatch(getCategories())
+    getCategories: () => dispatch(getCategories()),
+    getUserShopCart: () => dispatch(getUserShopCart()),
+    changeShoppingCart: data => dispatch(changeShoppingCart(data)),
+    changeWishList: () => dispatch(changeWishList())
   };
 };
 

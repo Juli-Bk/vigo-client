@@ -128,7 +128,7 @@ export const deleteFromCart = (productId) => {
   }
 };
 
-export const integrateCart = (remoteCart) => {
+export const integrateCarts = (remoteCart) => {
   const localCart = getStorageData('shoppingCart');
   if (localCart) {
     remoteCart.forEach(remoteItem => {

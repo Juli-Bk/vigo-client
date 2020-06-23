@@ -46,8 +46,7 @@ export const rootReducer = combineReducers({
   guestData,
   isModalSizeOpen,
   productsByFilters,
-  currentProduct
-  guestData,
+  currentProduct,
   isAddressModalOpen,
   isLoading
 });

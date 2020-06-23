@@ -7,7 +7,7 @@ import WishListView from '../../components/WishListView/WishListTable';
 import EmptyState from '../../components/EmptyState/EmptyState';
 import globalConfig from '../../globalConfig';
 import AjaxUtils from '../../ajax';
-import { changeWishList } from '../../redux/actions/actions';
+import { changeWishList } from '../../redux/actions/wishlist';
 
 const Wishlist = (props) => {
   const {wishList} = props;
