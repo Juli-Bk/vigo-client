@@ -21,16 +21,7 @@ const FilterColors = (props) => {
         className={classes.label}
         key={color.name + color.hex}
         label={color.name}
-        control={
-          <Checkbox
-            onChange={handleChange}
-            name={color.name}
-            color="primary"
-            style={{
-              color: color.hex.toLowerCase() === '#ffffff' ? '#f9f9f9' : color.hex
-            }}
-          />
-        }/>;
+        control={<Checkbox onChange={handleChange} name={color.name} color='default'/>}/>;
     });
   };
 
