@@ -106,3 +106,13 @@ export const saveUserData = (data, callback) => {
     }
   };
 };
+
+// todo add logout handler for UI click logout link/button
+export const logout = () => {
+  return (dispatch) => {
+    dispatch(setUser({}));
+    dispatch(setJWTtoken(''));
+    deleteJWTcookie();
+    // todo add push link to /login
+  };
+};
