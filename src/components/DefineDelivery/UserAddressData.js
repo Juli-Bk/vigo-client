@@ -16,7 +16,14 @@ const UserAddressData = (props) => {
   const isEmptyUserData = Object.keys(user).length <= 0;
   const hasSavedAddresses = user && Array.isArray(user.addresses) && user.addresses.length > 0;
 
-  const adr = hasSavedAddresses ? <AddressRadioGroup addresses={ user.addresses} /> : null;
+  const {deliveryAddress} = user;
+
+  let adr = null;
+  if (deliveryAddress) {
+    adr = <Typography>{deliveryAddress}</Typography>;
+  } else if (hasSavedAddresses) {
+    adr = <AddressRadioGroup addresses={user.addresses}/>;
+  }
 
   const labels = !isEmptyUserData && !hasSavedAddresses
     ? <Typography className={styles.subtitle}>

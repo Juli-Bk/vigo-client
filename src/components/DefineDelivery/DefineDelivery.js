@@ -21,7 +21,8 @@ const DefineDelivery = (props) => {
   const styles = useStyles();
   let children = null;
 
-  const fields = user._id
+  const filledUserData = Object.entries(user).length > 0;
+  const fields = filledUserData
     ? <UserAddressData user={user}/>
     : <GuestAddressData guestData={guestData}/>;
 
