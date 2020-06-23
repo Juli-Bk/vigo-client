@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Container, Grid, useMediaQuery } from '@material-ui/core';
 
-import WishListView from '../../components/WishListView/WishListTable';
+import WishListView from '../../components/WishListView/WishListView';
 import EmptyState from '../../components/EmptyState/EmptyState';
 import globalConfig from '../../globalConfig';
 import AjaxUtils from '../../ajax';
