@@ -42,9 +42,11 @@ const ProductPageView = (props) => {
 
   useEffect(() => {
     getProductsQuantity([_id]);
-    setProductQuantity(getProductStockData(productsQuantity, _id));
+    if (productQuantity) {
+      setProductQuantity(getProductStockData(productsQuantity, _id));
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chosenSize, productsQuantity, productData]);
+  }, [chosenSize, productsQuantity, productData, getProductsQuantity, getProductStockData]);
 
   const handleSetSize = (event) => {
     if (event.target.value !== globalConfig.defaultSizeOption) {

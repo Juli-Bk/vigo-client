@@ -24,11 +24,8 @@ const ActionButtons = (props) => {
 
   const addToShopCart = (productId, quantity, sizeId) => {
     setCurrentProduct(product);
-    if (isProductPage && !sizeId) {
-      setDisplayHelper(true);
-    }
     if (!sizeId) {
-      toggleModalSize(true);
+      isProductPage ? setDisplayHelper(true) : toggleModalSize(true);
     } else {
       addToCart(productId, quantity, sizeId);
       changeShoppingCart(getStorageData('shoppingCart'));
