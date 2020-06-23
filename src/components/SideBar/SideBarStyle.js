@@ -18,7 +18,7 @@ const iconsBpMd = {
 
 const useStyles = makeStyles(theme => ({
   drawer: {
-    width: 300
+    width: 200
   },
   menuIcon: {
     display: 'block',

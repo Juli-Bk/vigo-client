@@ -1,11 +1,12 @@
 import React, {useCallback, useState} from 'react';
-import {IconButton} from '@material-ui/core';
+import {IconButton, ThemeProvider} from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import useStyles from '../SideBar/SideBarStyle';
 import FiltersTree from '../FiltersTree/FiltersTree';
 import {useTheme} from '@material-ui/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import customTheme from './SideBarTheme';
 
 const anchor = 'right';
 
@@ -30,7 +31,7 @@ const SideBar = () => {
     <>
       {
         isMobile
-          ? <>
+          ? <ThemeProvider theme={customTheme}>
             <IconButton
               className={classes.menuIcon}
               onClick={toggleDrawer(anchor, true)}>
@@ -44,7 +45,7 @@ const SideBar = () => {
               onOpen={toggleDrawer(anchor, true)}>
               <FiltersTree/>
             </SwipeableDrawer>
-          </>
+          </ThemeProvider>
           : <FiltersTree/>
       }
     </>
