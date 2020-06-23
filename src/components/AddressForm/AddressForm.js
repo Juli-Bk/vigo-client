@@ -97,7 +97,6 @@ const AddressForm = (props) => {
                   onBlur={handleBlur}
                   touched={touched}
                   value={values.autocomplete}
-                  // onChange={(event, value) => { setFieldValue('autocomplete', values.autocomplete); }}
                   onChange={handleChange}
                   error={errors}
                   fullWidth
@@ -175,7 +174,6 @@ const AddressForm = (props) => {
                     disabled={isSubmitting}
                     variant='outlined'>submit
                   </Button>
-
                 </CardActions>
               </form>
             )}
