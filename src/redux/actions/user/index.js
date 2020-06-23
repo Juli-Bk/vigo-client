@@ -22,6 +22,13 @@ export const setUser = (userData) => {
   };
 };
 
+export const setUserDeliveryAddress = (deliveryAdr) => {
+  return {
+    type: Actions.SET_USER_DELIVERY_ADDRESS,
+    payload: deliveryAdr
+  };
+};
+
 export const getUserTokenAndData = (email, password, callback) => {
   return (dispatch) => {
     const json = JSON.stringify({

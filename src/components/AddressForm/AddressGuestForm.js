@@ -34,7 +34,7 @@ const AddressGuestForm = (props) => {
 
   const saveGuestData = (values, {resetForm}) => {
     const deliveryAddress = {
-      address: address,
+      address: address.description,
       house: values.house,
       apartment: values.apartment,
       postalCode: values.postalCode

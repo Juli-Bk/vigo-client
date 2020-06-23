@@ -93,7 +93,7 @@ const AutocompleteComponent = (props) => {
   return (
     <ThemeProvider theme={theme}>
       <Autocomplete
-        id="googleMap"
+        id='googleMap'
         getOptionLabel={(option) => (typeof option === 'string' ? option : option.description)}
         filterOptions={(x) => x}
         options={options}
@@ -106,7 +106,7 @@ const AutocompleteComponent = (props) => {
         onChange={(event, newValue) => {
           setOptions(newValue ? [newValue, ...options] : options);
           setValue(newValue);
-        // setAddress(newValue);
+          setAddress(newValue);
         }}
 
         onInputChange={(event, newInputValue) => {
@@ -118,7 +118,7 @@ const AutocompleteComponent = (props) => {
             <TextField {...params}
               name={name}
               label={<IconLabel label='city and street name' Component={PublicIcon}/>}
-              variant="outlined"
+              variant='outlined'
               value={value}
               onBlur={onBlur}
               helperText={touched.autocomplete ? error.autocomplete : ''}
@@ -133,7 +133,7 @@ const AutocompleteComponent = (props) => {
             matches.map((match) => [match.offset, match.offset + match.length])
           );
           return (
-            <Grid container alignItems="center">
+            <Grid container alignItems='center'>
               <Grid item>
                 <LocationOnIcon className={classes.icon} />
               </Grid>
@@ -144,7 +144,7 @@ const AutocompleteComponent = (props) => {
                   </span>
                 ))}
 
-                <Typography variant="body2" color="textSecondary">
+                <Typography variant='body2' color='textSecondary'>
                   {option.structured_formatting.secondary_text}
                 </Typography>
               </Grid>

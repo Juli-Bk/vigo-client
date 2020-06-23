@@ -79,6 +79,9 @@ const useStyles = makeStyles(theme => (
     checkbox: {
       paddingTop: 10,
       display: 'block'
+    },
+    radioButton1: {
+      marginBottom: 30
     }
   }
 ));
