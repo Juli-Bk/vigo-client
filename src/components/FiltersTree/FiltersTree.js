@@ -8,14 +8,12 @@ import StyledTreeItem from '../StyledTreeItem/StyledTreeItem';
 import FilterColorsTreeItem from './FilterColors/FilterColorsTreeItem';
 import FilterSizesTreeItem from './FilterSizes/FilterSizesTreeItem';
 import {setCategoryId} from '../../redux/actions/categories';
-import theme from './FiltersTreeTheme';
 
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
 import FilterColors from './FilterColors/FilterColors';
 import FilterSizes from './FilterSizes/FilterSizes';
 import FilterCategory from './FilterCategory/FilterCategory';
-import { ThemeProvider } from '@material-ui/core';
 
 const FiltersTree = (props) => {
   const {categories} = props;
@@ -30,36 +28,34 @@ const FiltersTree = (props) => {
   }, [categories]);
 
   const tree = elementsToExpand.length > 1
-    ? <ThemeProvider theme={theme} >
-      <TreeView
-        className={classes.root}
-        defaultExpanded={elementsToExpand}
-        defaultCollapseIcon={<RemoveIcon className={classes.iconHover}/>}
-        defaultExpandIcon={<AddIcon className={classes.iconHover}/>}
-      >
-        <StyledTreeItem
-          key={'categoriesRoot'}
-          nodeId={'categoriesRoot'}
-          className={classes['0']}
-          label={'Categories'}>
-          <FilterCategory/>
-        </StyledTreeItem>
-        <FilterColorsTreeItem
-          key={'colorsRoot'}
-          nodeId={'colorsRoot'}
-          className={classes['0']}
-          label={'Color Filter'}>
-          <FilterColors/>
-        </FilterColorsTreeItem>
-        <FilterSizesTreeItem
-          key={'sizesRoot'}
-          nodeId={'sizesRoot'}
-          className={classes['0']}
-          label={'Size Filter'}>
-          <FilterSizes categories={categories}/>
-        </FilterSizesTreeItem>
-      </TreeView>
-    </ThemeProvider>
+    ? <TreeView
+      className={classes.root}
+      defaultExpanded={elementsToExpand}
+      defaultCollapseIcon={<RemoveIcon className={classes.iconHover}/>}
+      defaultExpandIcon={<AddIcon className={classes.iconHover}/>}
+    >
+      <StyledTreeItem
+        key={'categoriesRoot'}
+        nodeId={'categoriesRoot'}
+        className={classes['0']}
+        label={'Categories'}>
+        <FilterCategory/>
+      </StyledTreeItem>
+      <FilterColorsTreeItem
+        key={'colorsRoot'}
+        nodeId={'colorsRoot'}
+        className={classes['0']}
+        label={'Color Filter'}>
+        <FilterColors/>
+      </FilterColorsTreeItem>
+      <FilterSizesTreeItem
+        key={'sizesRoot'}
+        nodeId={'sizesRoot'}
+        className={classes['0']}
+        label={'Size Filter'}>
+        <FilterSizes categories={categories}/>
+      </FilterSizesTreeItem>
+    </TreeView>
     : <></>;
 
   return (
