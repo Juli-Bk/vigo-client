@@ -30,7 +30,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const FilterPrice = (props) => {
-  const { maxProductsPrice, priceRange, setPriceRange } = props;
+  const { maxPrice, priceRange, setPriceRange } = props;
   const classes = useStyles(theme);
 
   const handleChange = (event, values) => {
@@ -44,7 +44,7 @@ const FilterPrice = (props) => {
         <CustomSlider
           value={priceRange}
           min={0}
-          max={maxProductsPrice}
+          max={maxPrice}
           onChangeCommitted={handleChange}
           getAriaLabel={(value) => `$${value}`}
           valueLabelDisplay="on"
@@ -56,14 +56,15 @@ const FilterPrice = (props) => {
 };
 
 FilterPrice.propTypes = {
-  maxProductsPrice: PropTypes.number.isRequired,
   priceRange: PropTypes.array.isRequired,
-  setPriceRange: PropTypes.func.isRequired
+  setPriceRange: PropTypes.func.isRequired,
+  maxPrice: PropTypes.number.isRequired
 };
 
 const mapStateToProps = store => {
   return {
-    priceRange: store.priceRange
+    priceRange: store.priceRange,
+    maxPrice: store.maxPrice
   };
 };
 

@@ -26,14 +26,14 @@ const ShoppingCart = (props) => {
       isCanceled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shoppingCart]);
+  }, [shoppingCart, getProductsByFilters]);
 
   return (
     <Container>
       <Grid container>
-        {shoppingCart.length && products.length
+        {shoppingCart.length && products && products.data
           ? <ShopCartView
-            products={products}
+            products={products.data}
             isMobile={isMobile}/>
           : <EmptyState text={globalConfig.emptyCart}/>}
       </Grid>
@@ -44,7 +44,7 @@ const ShoppingCart = (props) => {
 const mapStateToProps = store => {
   return {
     shoppingCart: store.shoppingCart,
-    products: store.productsByFilters
+    products: store.products
   };
 };
 
@@ -56,7 +56,7 @@ const mapDispatchToProps = dispatch => {
 
 ShoppingCart.propTypes = {
   shoppingCart: PropTypes.array,
-  products: PropTypes.array,
+  products: PropTypes.object,
   getProductsByFilters: PropTypes.func.isRequired
 };
 

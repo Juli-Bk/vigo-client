@@ -1,13 +1,11 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {Container, Grid, useMediaQuery} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
-import AjaxUtils from '../../ajax';
 import useStyles from './ProductsStyles';
 import globalConfig from '../../globalConfig';
 import {defineSortData, makeFilterItem} from '../../helpers/helpers';
-// import { getFilterString } from '../../ajax/common/helper';
 
 import ProductGrid from '../../containers/ProductsGrid/ProductsGrid';
 import ProductsList from '../../containers/ProductsList/ProductsList';
@@ -18,42 +16,56 @@ import Sort from '../../components/Sort/Sort';
 import FilterPrice from '../../components/FilterPrice/FilterPrice';
 import ViewAs from '../../components/ViewAs/ViewAs';
 import EmptyState from '../../components/EmptyState/EmptyState';
+import {getAllColors} from '../../redux/actions/colors';
+import {getMaxPrice, getProductsByFilters} from '../../redux/actions/Products';
+import {getAllSizes} from '../../redux/actions/sizes';
 
 const Products = (props) => {
-  const {currentPage, categoryId, perPage, sortingOption, priceRange, view, colors, size, location} = props;
+  const {
+    currentPage,
+    categoryId,
+    perPage,
+    sortingOption,
+    priceRange,
+    view,
+    colors,
+    size,
+    location,
+    getAllColors,
+    getMaxPrice,
+    getProductsByFilters,
+    getAllSizes,
+    products
+  } = props;
   const isSmScreen = useMediaQuery('(max-width: 723px)');
   const classes = useStyles();
-  const [products, setProducts] = useState([]);
-  const [total, setTotal] = useState(0);
-  const [maxProductsPrice, setMaxProductsPrice] = useState(0);
-  const filtersArray = [{minPrice: priceRange[0]}, {maxPrice: priceRange[1]}, {color: colors}, {size: size}];
+  const filtersArray = [
+    {minPrice: priceRange[0]},
+    {maxPrice: priceRange[1]},
+    {color: colors},
+    {size: size}
+  ];
 
   const searchString = location.search.split('?')[1];
+
+  if (searchString && searchString.includes('&')) {
+    const filterStrings = searchString.split('&');
+    filterStrings.forEach(string => {
+      filtersArray.push(makeFilterItem(string));
+    });
+  } else {
+    filtersArray.push(makeFilterItem(searchString));
+  }
 
   useEffect(() => {
     let isCanceled = false;
 
-    if (searchString && searchString.includes('&')) {
-      const filterStrings = searchString.split('&');
-      filterStrings.forEach(string => {
-        filtersArray.push(makeFilterItem(string));
-      });
-    } else {
-      filtersArray.push(makeFilterItem(searchString));
-    }
-
     if (!isCanceled) {
-      AjaxUtils.Products.getMaxPrice()
-        .then(result => {
-          setMaxProductsPrice(result.maxSalePrice);
-        });
-      AjaxUtils.Products.getProductsByFilters(filtersArray, currentPage, perPage, `${defineSortData(sortingOption)}`)
-        .then(result => {
-          if (result) {
-            setProducts(result.products);
-            setTotal(result.totalCount);
-          }
-        });
+      getAllColors();
+      getAllSizes();
+      getMaxPrice();
+      const sort = defineSortData(sortingOption);
+      getProductsByFilters(filtersArray, currentPage, perPage, sort);
       // todo url string with all filters
       // history.replace(`/products/filter?categoryId=${categoryId}&${getFilterString(filtersArray, defineSortData(sortingOption))}`);
     }
@@ -61,7 +73,7 @@ const Products = (props) => {
       isCanceled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categoryId, currentPage, perPage, sortingOption, priceRange, colors, size]);
+  }, [categoryId, currentPage, perPage, sortingOption, priceRange, colors, size, getMaxPrice]);
 
   return (
     <Container>
@@ -77,7 +89,7 @@ const Products = (props) => {
                   : null
                 }
                 <Grid item xl={6} lg={6} md={7} sm={6} xs={12} className={classes.filterPrice}>
-                  <FilterPrice maxProductsPrice={maxProductsPrice}/>
+                  <FilterPrice/>
                 </Grid>
               </Grid>
               {isSmScreen ? <Grid container item sm={6} xs={12} className={classes.sortSelect}>
@@ -89,17 +101,17 @@ const Products = (props) => {
                   <ViewAs label={true}/>
                 </Grid>
                 <Grid item xl={3} lg={3} md={3} sm={6} xs={6} className={classes.showBy}>
-                  {total > globalConfig.step ? <ShowBy step={globalConfig.step}/> : null}
+                  {products.totalCount > globalConfig.step ? <ShowBy step={globalConfig.step}/> : null}
                 </Grid>
                 <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
-                  <PaginationRounded perPage={perPage} total={total}/>
+                  {products.totalCount && <PaginationRounded perPage={perPage} total={products.totalCount}/>}
                 </Grid>
               </Grid>
             </Grid>
             <Grid item container className={classes.products} xl={12} lg={12} md={12} sm={12} xs={12}>
-              {products.length
-                ? (view === 'module' ? <ProductGrid products={products}/>
-                  : <ProductsList products={products}/>)
+              {products.data && products.data.length
+                ? (view === 'module' ? <ProductGrid products={products.data}/>
+                  : <ProductsList products={products.data}/>)
                 : <EmptyState text={globalConfig.userMessages.EMPTY_RESULT}/>}
             </Grid>
           </Container>
@@ -108,7 +120,7 @@ const Products = (props) => {
           <SideBar/>
         </Grid>
         <Grid item xl={12} lg={12} md={12} sm={12} xs={12} className={classes.paginationBottom}>
-          <PaginationRounded perPage={perPage} total={total}/>
+          {products.totalCount && <PaginationRounded perPage={perPage} total={products.totalCount}/>}
         </Grid>
       </Grid>
     </Container>
@@ -121,8 +133,13 @@ Products.propTypes = {
   sortingOption: PropTypes.string.isRequired,
   priceRange: PropTypes.array.isRequired,
   view: PropTypes.string.isRequired,
-  colors: PropTypes.array,
-  categoryId: PropTypes.string
+  colors: PropTypes.array.isRequired,
+  size: PropTypes.array.isRequired,
+  categoryId: PropTypes.string,
+  getMaxPrice: PropTypes.func.isRequired,
+  getAllColors: PropTypes.func.isRequired,
+  getProductsByFilters: PropTypes.func.isRequired,
+  getAllSizes: PropTypes.func.isRequired
 };
 
 const mapStateToProps = store => {
@@ -134,8 +151,19 @@ const mapStateToProps = store => {
     view: store.view,
     colors: store.colors,
     categoryId: store.categoryId,
-    size: store.size
+    size: store.size,
+    maxPrice: store.maxPrice,
+    products: store.products
   };
 };
 
-export default React.memo(connect(mapStateToProps)(withRouter(Products)));
+const mapDispatchToProps = dispatch => {
+  return {
+    getAllColors: () => dispatch(getAllColors()),
+    getMaxPrice: () => dispatch(getMaxPrice()),
+    getProductsByFilters: filters => dispatch(getProductsByFilters(filters)),
+    getAllSizes: () => dispatch(getAllSizes())
+  };
+};
+
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(withRouter(Products)));

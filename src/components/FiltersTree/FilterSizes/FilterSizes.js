@@ -1,61 +1,38 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { ThemeProvider, Checkbox, FormControlLabel } from '@material-ui/core';
-import AjaxUtils from '../../../ajax';
 import theme from '../FilterColors/FilterColorsTheme';
-import { setChosenSize } from '../../../redux/actions/actions';
+import { setChosenSize } from '../../../redux/actions/sizes';
 import globalConfig from '../../../globalConfig';
 
 const FilterSizes = (props) => {
-  const { categories, location, setChosenSize } = props;
+  const { categories, location, setChosenSize, allSizes } = props;
   const [state, setState] = useState({});
-  const [sizes, setSizes] = useState([]);
-  const [sizeNames, setSizeNames] = useState([]);
   let renderOption = globalConfig.sizeRenderOptions.ALL;
-
-  useEffect(() => {
-    let isCanceled = false;
-    if (!isCanceled) {
-      AjaxUtils.Sizes.getAllSizes()
-        .then(result => {
-          setSizes(result.items);
-
-          const namesSet = new Set();
-          result.items.forEach(size => {
-            namesSet.add(size.name);
-          });
-          setSizeNames(Array.from(namesSet));
-        });
-    }
-    return () => {
-      isCanceled = true;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const getLabelNames = useCallback((renderOption) => {
     const labelNames = new Set();
     if (renderOption !== globalConfig.sizeRenderOptions.ALL) {
       if (renderOption === globalConfig.sizeRenderOptions.ACCESSORIES) {
         const accessories = categories.plainList && categories.plainList.filter(category => category.parentId && category.parentId.name === renderOption);
-        sizes.forEach(size => {
+        allSizes.items.forEach(size => {
           if (accessories.find(object => object.name === size.sizeType)) labelNames.add(size.name);
         });
         labelNames.add('one size');
       } else {
-        sizes.forEach(size => {
+        allSizes.items.forEach(size => {
           if (size.sizeType === renderOption) labelNames.add(size.name);
         });
       }
     } else {
-      sizeNames.sort((a, b) => {
+      allSizes.names.sort((a, b) => {
         return a - b;
       }).forEach(name => labelNames.add(name));
     }
     return labelNames;
-  }, [sizes, sizeNames, categories]);
+  }, [allSizes, categories]);
 
   const searchString = location.search.split('?')[1];
 
@@ -97,13 +74,15 @@ const FilterSizes = (props) => {
 FilterSizes.propTypes = {
   categories: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
-  setChosenSize: PropTypes.func.isRequired
+  setChosenSize: PropTypes.func.isRequired,
+  allSizes: PropTypes.object.isRequired
 };
 
 const mapStateToProps = store => {
   return {
     categories: store.categories,
-    categoryId: store.categoryId
+    categoryId: store.categoryId,
+    allSizes: store.allSizes
   };
 };
 

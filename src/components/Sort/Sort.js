@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import SelectSimple from '../Select/SelectBox';
+import SelectBox from '../SelectBox/SelectBox';
 import { setSortingOption } from '../../redux/actions/actions';
-import useStyles from '../Select/SelectBoxStyles';
+import useStyles from '../SelectBox/SelectBoxStyles';
 
 const Sort = (props) => {
   const { sortingOption, setSortingOption, values } = props;
@@ -18,7 +18,7 @@ const Sort = (props) => {
   });
 
   return (
-    <SelectSimple value={sortingOption}
+    <SelectBox value={sortingOption}
       classes={classes}
       handleChange={handleChange}
       options={options}

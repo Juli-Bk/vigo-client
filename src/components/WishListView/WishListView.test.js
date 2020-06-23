@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
-import WishListTable from './WishListView';
+import WishListView from './WishListView';
 
 const mockStore = configureStore([]);
 const products = [
@@ -66,7 +66,7 @@ describe('products table testing', () => {
     render(
       <BrowserRouter>
         <Provider store={store}>
-          <WishListTable
+          <WishListView
             products={products}
             isMobile={false}
             changeWishList={changeWishList}
@@ -83,7 +83,7 @@ describe('products table testing', () => {
     render(
       <BrowserRouter>
         <Provider store={store}>
-          <WishListTable
+          <WishListView
             products={products}
             isMobile={true}
             changeWishList={changeWishList}
@@ -100,7 +100,7 @@ describe('products table testing', () => {
     render(
       <BrowserRouter>
         <Provider store={store}>
-          <WishListTable
+          <WishListView
             products={products}
             isMobile={false}
             wishlist={wishList}
@@ -116,7 +116,7 @@ describe('products table testing', () => {
     const table = render(
       <BrowserRouter>
         <Provider store={store}>
-          <WishListTable
+          <WishListView
             products={products}
             isMobile={false}
             changeWishList={changeWishList}

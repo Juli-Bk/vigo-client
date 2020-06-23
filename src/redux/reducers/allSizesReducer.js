@@ -1,8 +1,8 @@
 import Actions from '../constants/constants';
 
 const reducer = (state = {}, action) => {
-  if (action.type === Actions.GET_PRODUCTS_BY_FILTERS) {
-    return {data: action.products, totalCount: action.totalCount};
+  if (action.type === Actions.GET_ALL_SIZES) {
+    return {items: action.items, names: action.names};
   }
   return state;
 };

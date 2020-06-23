@@ -15,6 +15,7 @@ const useStyles = makeStyles(theme => ({
     borderColor: colors.paginationActive,
     color: colors.paginationActive,
     background: colors.fontOncard,
+    marginBottom: '1rem',
     '&:focus': {
       outline: 'none',
       background: colors.fontOncard

@@ -8,7 +8,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 import ActionButtons from '../Product/ActionButtons/ActionButtons';
-import SelectSimple from '../Select/SelectBox';
+import SelectBox from '../SelectBox/SelectBox';
 import globalConfig from '../../globalConfig';
 import {toggleModalSize} from '../../redux/actions/actions';
 import {getProductsQuantity} from '../../redux/actions/Quantity';
@@ -70,7 +70,7 @@ const ModalSize = (props) => {
     >
       <DialogTitle id="alert-dialog-title" className={formClasses.header}>Please, choose size</DialogTitle>
       <DialogContent>
-        <SelectSimple value={chosenSize}
+        <SelectBox value={chosenSize}
           classes={classes}
           handleChange={handleSetSize}
           options={mapArrayToOptions(sizesArray)}/>

@@ -21,7 +21,7 @@ import ActionButtons from '../ActionButtons/ActionButtons';
 import ProductRating from '../ProductRating/ProductRating';
 import SalePrice from '../SalePrice/SalePrice';
 import Price from '../Price/Price';
-import SelectSimple from '../../Select/SelectBox';
+import SelectBox from '../../SelectBox/SelectBox';
 import Quantity from '../Quantity/Quantity';
 
 const ProductPageView = (props) => {
@@ -95,7 +95,7 @@ const ProductPageView = (props) => {
           </Typography>
           : null}
         <Box className={classes.selectBox}>
-          <SelectSimple value={chosenSize}
+          <SelectBox value={chosenSize}
             classes={classes}
             handleChange={handleSetSize}
             options={mapArrayToOptions(sizesArray)}/>
