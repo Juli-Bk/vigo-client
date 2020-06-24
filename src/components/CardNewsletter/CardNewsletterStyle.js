@@ -26,7 +26,9 @@ const useStyles = makeStyles(theme => ({
       fontSize: '2rem'
     }
   },
-
+  typography: {
+    padding: theme.spacing(2)
+  },
   title: {
     position: 'relative',
     fontFamily: fonts.f4,
