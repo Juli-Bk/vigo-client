@@ -15,10 +15,10 @@ const SnackbarMessage = () => {
   };
 
   const handleClose = (event, reason) => {
-
     if (reason === 'clickaway') {
       return;
     }
+    setSnack(false);
     setOpen(false);
   };
 
