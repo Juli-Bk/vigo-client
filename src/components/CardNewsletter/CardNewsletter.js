@@ -12,20 +12,23 @@ import { setPopoverOpenState } from '../../redux/actions/actions';
 import PopoverMessage from '../PopoverMessage/PopoverMessage';
 import { connect } from 'react-redux';
 
-const popoverContent = 'You are subscribed!';
+const popoverContent = 'You are subscribed now!';
 
 const CardNewsletter = (props) => {
   const {saveEmail, setPopoverOpen, id} = props;
+  const anchor = document.querySelector('#subscribe');
+
   const handleSubmit = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
-    setPopoverOpen(true);
 
     saveEmail(values.email)
       .then(result => {
+        setPopoverOpen(true);
+
         // todo show to user some nice popup or something
-        alert(JSON.stringify(result));
+        // alert(JSON.stringify(result));
         setSubmitting(false);
-        setPopoverOpen(false);
+        // setPopoverOpen(false, null);
         resetForm();
       });
   };
@@ -80,14 +83,14 @@ const CardNewsletter = (props) => {
               <CardActions>
                 <Button
                   type='submit'
-                  aria-describedby={id}
+                  id='subscribe'
                   className={styles.signUpButton}
                   disabled={isSubmitting}
                   onClick={handleSubmit}
                   size='large'
                   variant='outlined'>Subscribe
                 </Button>
-                <PopoverMessage id={id} popoverContent={popoverContent} buttonContent='text'/>
+                <PopoverMessage id={id} popoverContent={popoverContent} buttonContent='text' anchorEl={anchor}/>
               </CardActions>
             </form>
           )}
@@ -104,13 +107,13 @@ CardNewsletter.propTypes = {
 
 const mapStateToProps = store => {
   return {
-    isPopoverOpen: store.isPopoverOpen
+    popover: store.popover
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    setPopoverOpen: flag => dispatch(setPopoverOpenState(flag))
+    setPopoverOpen: data => dispatch(setPopoverOpenState(data))
   };
 };
 export default React.memo(connect(mapStateToProps, mapDispatchToProps)(CardNewsletter));

@@ -20,7 +20,7 @@ import isLoading from './isLoadingReducer';
 import shoppingCart from './shoppingCartReducer';
 import categoryId from './categoryIdReducer';
 import guestData from './guestReducer';
-import isPopoverOpen from './isPopoverOpenReducer';
+import popover from './isPopoverOpenReducer';
 
 export const rootReducer = combineReducers({
   currentPage,
@@ -44,5 +44,5 @@ export const rootReducer = combineReducers({
   guestData,
   isAddressModalOpen,
   isLoading,
-  isPopoverOpen
+  popover
 });

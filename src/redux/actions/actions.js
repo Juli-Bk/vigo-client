@@ -58,7 +58,7 @@ export const setGuestData = (data) => {
 };
 
 export const setPopoverOpenState = (isOpen) => {
-  return {type: Actions.IS_POPOVER_OPEN, payload: isOpen};
+  return {type: Actions.SET_POPOVER_OPEN, isOpen: isOpen};
 };
 
 export const setLoading = (isLoading) => {

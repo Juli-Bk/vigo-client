@@ -1,38 +1,53 @@
 import React from 'react';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Button from '@material-ui/core/Button';
 import Popover from '@material-ui/core/Popover';
-import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state';
+import {connect} from 'react-redux';
+import {setPopoverOpenState} from '../../redux/actions/actions';
 
 const PopoverMessage = (props) => {
-  const {popoverContent, buttonContent} = props;
+  const {popover, setPopover, anchorEl, popoverContent} = props;
+
+  const handleClose = () => {
+    setPopover(false);
+  };
+
+  const id = popover.isOpen ? 'simple-popover' : undefined;
+
   return (
-    <PopupState variant='popover' popupId='demo-popup-popover'>
-      {(popupState) => (
-        <Box>
-          <Button {...bindTrigger(popupState)}>
-            {buttonContent}
-          </Button>
-          <Popover
-            id='popupMessage'
-            {...bindPopover(popupState)}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'center'
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'center'
-            }}
-          >
-            <Box p={2}>
-              <Typography>{popoverContent}</Typography>
-            </Box>
-          </Popover>
+    <div>
+      <Popover
+        id={id}
+        open={popover.isOpen}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'center'
+        }}
+        transformOrigin={{
+          vertical: 'top',
+          horizontal: 'center'
+        }}
+      >
+        <Box p={2}>
+          <Typography>{popoverContent}</Typography>
         </Box>
-      )}
-    </PopupState>
+      </Popover>
+    </div>
   );
 };
-export default React.memo(PopoverMessage);
+
+const mapStateToProps = store => {
+  return {
+    popover: store.popover
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setPopover: data => dispatch(setPopoverOpenState(data))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(PopoverMessage);
