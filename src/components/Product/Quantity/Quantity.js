@@ -30,4 +30,4 @@ const Quantity = (props) => {
   );
 };
 
-export default React.memo(Quantity);
+export default Quantity;
