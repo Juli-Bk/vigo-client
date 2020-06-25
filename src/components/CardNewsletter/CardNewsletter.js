@@ -12,7 +12,7 @@ import { setPopoverOpenState } from '../../redux/actions/actions';
 import PopoverMessage from '../PopoverMessage/PopoverMessage';
 import { connect } from 'react-redux';
 
-const {popoverContent} = 'You are subscribed!';
+const popoverContent = 'You are subscribed!';
 
 const CardNewsletter = (props) => {
   const {saveEmail, setPopoverOpen, id} = props;
@@ -84,11 +84,10 @@ const CardNewsletter = (props) => {
                   className={styles.signUpButton}
                   disabled={isSubmitting}
                   onClick={handleSubmit}
-                  buttonContent='Subscribe'
                   size='large'
                   variant='outlined'>Subscribe
                 </Button>
-                <PopoverMessage id={id} popoverContent={popoverContent}/>
+                <PopoverMessage id={id} popoverContent={popoverContent} buttonContent='text'/>
               </CardActions>
             </form>
           )}
@@ -111,7 +110,7 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setPopoverOpen: data => dispatch(setPopoverOpenState(data))
+    setPopoverOpen: flag => dispatch(setPopoverOpenState(flag))
   };
 };
 export default React.memo(connect(mapStateToProps, mapDispatchToProps)(CardNewsletter));
