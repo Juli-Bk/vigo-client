@@ -12,16 +12,22 @@ export const getAuthHeader = () => {
 };
 
 export const putJWTtoCookie = (loginResponse) => {
-  const exp = moment(Date.now()).add(1
-    // loginResponse.expiresInMinutes
-    ,
-    'm').toDate();
-  document.cookie = `token=${loginResponse.token};expires=${exp}`;
+  deleteJWTcookie();
+  const exp = moment(Date.now())
+    .add(2,
+      // loginResponse.expiresInMinutes,
+      // todo delete this after refresh testing
+      'm').toDate();
+  document.cookie = `token=${loginResponse.token};expires=${exp};SameSite=Strict`;
 };
 
 export const putUserIdToCookie = (loginResponse) => {
-  const exp = moment(Date.now()).add(loginResponse.expiresInMinutes, 'm').toDate();
-  document.cookie = `userId=${loginResponse.user._id};expires=${exp}`;
+  const exp = moment(Date.now())
+    .add(2,
+      // todo delete this after refresh testing
+      // loginResponse.expiresInMinutes,
+      'm').toDate();
+  document.cookie = `userId=${loginResponse.user._id};expires=${exp};SameSite=Strict`;
 };
 
 const getCookie = () => {
@@ -39,7 +45,6 @@ export const getJWTfromCookie = () => {
 };
 
 export const getUserIdFromCookie = () => {
-  // todo это вечные куки.. удалять?
   const user = getCookie() && getCookie().filter(item => item.includes('userId'));
   const userData = user && user[0] ? user[0].split('=') : [];
   if (userData[0] === 'userId') {
@@ -48,7 +53,6 @@ export const getUserIdFromCookie = () => {
 };
 
 export const deleteJWTcookie = () => {
-  // todo use this method when sign out
   let exp = new Date(Date.now() - 1000);
   exp = exp.toUTCString();
   const token = getJWTfromCookie();

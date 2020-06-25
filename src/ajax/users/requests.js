@@ -1,10 +1,6 @@
 import pathTo from '../common/paths';
 import methods from '../common/methods';
-import {
-  checkId,
-  getAuthHeader,
-  getQueryString
-} from '../common/helper';
+import {checkId, getAuthHeader, getQueryString} from '../common/helper';
 
 export default {
   /**
@@ -203,5 +199,16 @@ export default {
         }, respData);
       })
       .catch(error => console.log('login error', error.message));
+  },
+  refreshLogin: () => {
+    return fetch(pathTo.loginRefresh, methods.POST)
+      .then(async (response) => {
+        const respData = await response.json();
+        return Object.assign({
+          status: response.status,
+          statusText: response.statusText
+        }, respData);
+      })
+      .catch(error => console.log('refreshLogin error', error.message));
   }
 };
