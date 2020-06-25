@@ -11,11 +11,10 @@ import IconLabel from '../IconLabel/IconLabel';
 import { setPopoverOpenState } from '../../redux/actions/actions';
 import PopoverMessage from '../PopoverMessage/PopoverMessage';
 import { connect } from 'react-redux';
-
-const popoverContent = 'You are subscribed now!';
+import globalConfig from '../../globalConfig';
 
 const CardNewsletter = (props) => {
-  const {saveEmail, setPopoverOpen, id} = props;
+  const {saveEmail, setPopoverOpen} = props;
   const anchor = document.querySelector('#subscribe');
 
   const handleSubmit = (values, {resetForm, setSubmitting}) => {
@@ -24,11 +23,7 @@ const CardNewsletter = (props) => {
     saveEmail(values.email)
       .then(result => {
         setPopoverOpen(true);
-
-        // todo show to user some nice popup or something
-        // alert(JSON.stringify(result));
         setSubmitting(false);
-        // setPopoverOpen(false, null);
         resetForm();
       });
   };
@@ -88,9 +83,12 @@ const CardNewsletter = (props) => {
                   disabled={isSubmitting}
                   onClick={handleSubmit}
                   size='large'
-                  variant='outlined'>Subscribe
+                  variant='outlined'>
+                  Subscribe
                 </Button>
-                <PopoverMessage id={id} popoverContent={popoverContent} buttonContent='text' anchorEl={anchor}/>
+                <PopoverMessage
+                  popoverContent={globalConfig.userMessages.SUBSCRIBED}
+                  anchorEl={anchor}/>
               </CardActions>
             </form>
           )}
@@ -107,13 +105,13 @@ CardNewsletter.propTypes = {
 
 const mapStateToProps = store => {
   return {
-    popover: store.popover
+    isPopoverOpen: store.isPopoverOpen
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    setPopoverOpen: data => dispatch(setPopoverOpenState(data))
+    setPopoverOpen: flag => dispatch(setPopoverOpenState(flag))
   };
 };
 export default React.memo(connect(mapStateToProps, mapDispatchToProps)(CardNewsletter));

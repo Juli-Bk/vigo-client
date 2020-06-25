@@ -6,19 +6,19 @@ import {connect} from 'react-redux';
 import {setPopoverOpenState} from '../../redux/actions/actions';
 
 const PopoverMessage = (props) => {
-  const {popover, setPopover, anchorEl, popoverContent} = props;
+  const {isPopoverOpen, setPopover, anchorEl, popoverContent} = props;
 
   const handleClose = () => {
     setPopover(false);
   };
 
-  const id = popover.isOpen ? 'simple-popover' : undefined;
+  const id = isPopoverOpen ? 'simple-popover' : undefined;
 
   return (
     <div>
       <Popover
         id={id}
-        open={popover.isOpen}
+        open={isPopoverOpen}
         anchorEl={anchorEl}
         onClose={handleClose}
         anchorOrigin={{
@@ -40,13 +40,13 @@ const PopoverMessage = (props) => {
 
 const mapStateToProps = store => {
   return {
-    popover: store.popover
+    isPopoverOpen: store.isPopoverOpen
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    setPopover: data => dispatch(setPopoverOpenState(data))
+    setPopover: flag => dispatch(setPopoverOpenState(flag))
   };
 };
 

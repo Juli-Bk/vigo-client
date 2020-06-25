@@ -1,10 +1,8 @@
 import Actions from '../constants/constants';
-const initialState = {
-  isOpen: false
-};
-const reducer = (state = initialState, action) => {
+
+const reducer = (state = false, action) => {
   if (action.type === Actions.SET_POPOVER_OPEN) {
-    return {isOpen: action.isOpen};
+    return action.payload;
   }
   return state;
 };
