@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
@@ -8,7 +8,7 @@ import {setSnackMessageState} from '../../redux/actions/actions';
 const snackMessage = 'You are subscribed now!';
 
 const SnackbarMessage = () => {
-  const [open, setOpen, setSnack] = React.useState(false);
+  const [open, setOpen, setSnack] = useState(false);
 
   const handleClick = (event) => {
     setOpen(true);
@@ -18,12 +18,11 @@ const SnackbarMessage = () => {
     if (reason === 'clickaway') {
       return;
     }
-
     setOpen(false);
   };
 
   function Alert (props) {
-    return <MuiAlert elevation={6} variant="filled" {...props} />;
+    return <MuiAlert elevation={6} variant='filled' {...props} />;
   }
 
   return (
@@ -32,10 +31,11 @@ const SnackbarMessage = () => {
         Subscribe
       </Button>
       <Snackbar
+        id='snack'
         open={open}
         autoHideDuration={2000}
         onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success">
+        <Alert onClose={handleClose} severity='success'>
           {snackMessage}
         </Alert>
       </Snackbar>

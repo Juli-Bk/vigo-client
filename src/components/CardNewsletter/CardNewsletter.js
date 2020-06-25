@@ -88,7 +88,7 @@ const CardNewsletter = (props) => {
                   size='large'
                   variant='outlined'>Subscribe
                 </Button>
-                <SnackbarMessage/>
+                <SnackbarMessage id={id}/>
                 <PopoverMessage id={id} popoverContent={popoverContent} anchorEl={anchor}/>
               </CardActions>
             </form>
