@@ -62,15 +62,8 @@ const globalConfig = {
   defaultQuantity: 1,
   userMessages: {
     NOT_AUTHORIZED: 'You are not authorized. Login, please',
-    EMPTY_RESULT: 'Any results matching your search'
-  },
-  types: {
-    // eslint-disable-next-line
-    ELECTRON: '/^(4026|417500|4405|4508|4844|4913|4917)\d+$/',
-    // eslint-disable-next-line
-    MAESTRO: '/^(5018|5020|5038|5612|5893|6304|6759|6761|6762|6763|0604|6390)\d+$/',
-    VISA: '/^4[0-9]{12}(?:[0-9]{3})?$/',
-    MASTERCARD: '/^5[1-5][0-9]{14}$/'
+    EMPTY_RESULT: 'Any results matching your search',
+    SUBSCRIBED: 'You are successfully subscribed to our news letters!'
   },
   minDefaultPrice: 0,
   maxDefaultPrice: 3000,

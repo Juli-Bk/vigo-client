@@ -20,8 +20,8 @@ import isLoading from './isLoadingReducer';
 import shoppingCart from './shoppingCartReducer';
 import categoryId from './categoryIdReducer';
 import guestData from './guestReducer';
-import popover from './isPopoverOpenReducer';
-import snack from './snackMessageOpenReducer';
+import isPopoverOpen from './isPopoverOpenReducer';
+import isSnackMessageOpen from './isSnackMessageOpenReducer';
 
 export const rootReducer = combineReducers({
   currentPage,
@@ -45,6 +45,6 @@ export const rootReducer = combineReducers({
   guestData,
   isAddressModalOpen,
   isLoading,
-  popover,
-  snack
+  isPopoverOpen,
+  isSnackMessageOpen
 });

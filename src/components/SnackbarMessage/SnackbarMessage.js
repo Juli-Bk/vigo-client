@@ -5,10 +5,8 @@ import MuiAlert from '@material-ui/lab/Alert';
 import {connect} from 'react-redux';
 import {setSnackMessageState} from '../../redux/actions/actions';
 
-const snackMessage = 'You are subscribed now!';
-
 const SnackbarMessage = () => {
-  const [open, setOpen, setSnack] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const handleClick = (event) => {
     setOpen(true);
@@ -18,10 +16,8 @@ const SnackbarMessage = () => {
     if (reason === 'clickaway') {
       return;
     }
-    setSnack(false);
     setOpen(false);
   };
-
   function Alert (props) {
     return <MuiAlert elevation={6} variant='filled' {...props} />;
   }
@@ -29,31 +25,27 @@ const SnackbarMessage = () => {
   return (
     <>
       <Button onClick={handleClick}>
-        Subscribe
+        for trial
       </Button>
       <Snackbar
         id='snack'
         open={open}
         autoHideDuration={2000}
         onClose={handleClose}>
-        <Alert onClose={handleClose} severity='success'>
-          {snackMessage}
+        <Alert
+          onClose={handleClose}
+          severity='success'>
+          Any success message!
         </Alert>
       </Snackbar>
     </>
   );
 };
 
-const mapStateToProps = store => {
-  return {
-    snack: store.snack
-  };
-};
-
 const mapDispatchToProps = dispatch => {
   return {
-    setSnack: data => dispatch(setSnackMessageState(data))
+    setSnack: flag => dispatch(setSnackMessageState(flag))
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(SnackbarMessage);
+export default connect(null, mapDispatchToProps)(SnackbarMessage);
