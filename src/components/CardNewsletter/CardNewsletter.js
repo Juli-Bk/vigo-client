@@ -12,7 +12,6 @@ import { setPopoverOpenState } from '../../redux/actions/actions';
 import PopoverMessage from '../PopoverMessage/PopoverMessage';
 import { connect } from 'react-redux';
 import globalConfig from '../../globalConfig';
-import SnackbarMessage from '../SnackbarMessage/SnackbarMessage';
 
 const CardNewsletter = (props) => {
   const {saveEmail, setPopoverOpen} = props;
