@@ -128,7 +128,7 @@ const doesHttpOnlyCookieExist = (cookieName) => {
   return document.cookie.indexOf(cookieName + '=') === -1;
 };
 
-export const date = (data, callback) => {
+export const saveUserData = (data, callback) => {
   return (dispatch) => {
     const userId = getUserIdFromCookie() || data.id;
     if (userId) {
