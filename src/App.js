@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useCallback} from 'react';
 import {BrowserRouter} from 'react-router-dom';
 import AppRoutes from './routes/AppRoutes';
 
@@ -18,16 +18,20 @@ function App (props) {
     getCategories
   } = props;
 
+  const getData = useCallback(() => {
+    getCategories();
+    getUserData();
+  }, [getCategories, getUserData]);
+
   useEffect(() => {
     let isCanceled = false;
     if (!isCanceled) {
-      getCategories();
-      getUserData();
+      getData();
     }
     return () => {
       isCanceled = true;
     };
-  }, [getCategories, getUserData]);
+  }, [getData]);
 
   return (
     <BrowserRouter>
