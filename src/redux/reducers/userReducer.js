@@ -2,7 +2,10 @@ import Actions from '../constants/constants';
 
 const userReducer = (state = {}, action) => {
   if (action.type === Actions.SET_USER) {
-    return action.payload;
+    return {
+      ...state,
+      ...action.payload
+    };
   }
   if (action.type === Actions.SET_USER_DELIVERY_ADDRESS) {
     return {
