@@ -24,11 +24,8 @@ const CardNewsletter = (props) => {
     saveEmail(values.email)
       .then(result => {
         setPopoverOpen(true);
-
         // todo show to user some nice popup or something
-        // alert(JSON.stringify(result));
         setSubmitting(false);
-        // setPopoverOpen(false, null);
         resetForm();
       });
   };
@@ -90,7 +87,7 @@ const CardNewsletter = (props) => {
                   size='large'
                   variant='outlined'>Subscribe
                 </Button>
-                <PopoverMessage id={id} popoverContent={popoverContent} buttonContent='text' anchorEl={anchor}/>
+                <PopoverMessage id={id} popoverContent={popoverContent} anchorEl={anchor}/>
               </CardActions>
             </form>
           )}
