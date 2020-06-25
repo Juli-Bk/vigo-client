@@ -8,17 +8,21 @@ import PropTypes from 'prop-types';
 import {ThemeProvider} from '@material-ui/core/styles';
 import EmailIcon from '@material-ui/icons/Email';
 import IconLabel from '../IconLabel/IconLabel';
+import { setPopoverOpenState } from '../../redux/actions/actions';
+import PopoverMessage from '../PopoverMessage/PopoverMessage';
+import { connect } from 'react-redux';
+import globalConfig from '../../globalConfig';
 
 const CardNewsletter = (props) => {
-  const {saveEmail} = props;
+  const {saveEmail, setPopoverOpen} = props;
+  const anchor = document.querySelector('#subscribe');
+
   const handleSubmit = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
 
     saveEmail(values.email)
       .then(result => {
-        // todo show to user some nice popup or something
-        alert(JSON.stringify(result));
-        // todo set flag for buttons setSubmitting(false/true) in all forms to block button when submiting performs
+        setPopoverOpen(true);
         setSubmitting(false);
         resetForm();
       });
@@ -47,8 +51,16 @@ const CardNewsletter = (props) => {
           validationSchema={validateObject}
           validateOnBlur={true}
           onSubmit={handleSubmit}>
-          {({values, handleChange, handleSubmit, handleBlur, errors, touched, isSubmitting }) => (
-            <form id="subscribe-form" className={styles.form} autoComplete='off'>
+          {({
+            values,
+            handleChange,
+            handleSubmit,
+            handleBlur,
+            errors,
+            touched,
+            isSubmitting
+          }) => (
+            <form id='subscribe-form' className={styles.form} autoComplete='off'>
               <ThemeProvider theme={theme}>
                 <TextField
                   name='email'
@@ -66,12 +78,17 @@ const CardNewsletter = (props) => {
               <CardActions>
                 <Button
                   type='submit'
+                  id='subscribe'
                   className={styles.signUpButton}
                   disabled={isSubmitting}
                   onClick={handleSubmit}
                   size='large'
-                  variant='outlined'>subscribe
+                  variant='outlined'>
+                  Subscribe
                 </Button>
+                <PopoverMessage
+                  popoverContent={globalConfig.userMessages.SUBSCRIBED}
+                  anchorEl={anchor}/>
               </CardActions>
             </form>
           )}
@@ -86,4 +103,15 @@ CardNewsletter.propTypes = {
   saveEmail: PropTypes.func.isRequired
 };
 
-export default React.memo(CardNewsletter);
+const mapStateToProps = store => {
+  return {
+    isPopoverOpen: store.isPopoverOpen
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setPopoverOpen: flag => dispatch(setPopoverOpenState(flag))
+  };
+};
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(CardNewsletter));
