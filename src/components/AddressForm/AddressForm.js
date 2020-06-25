@@ -37,6 +37,7 @@ const AddressForm = (props) => {
     setSubmitting(true);
 
     const newAddressesList = {
+      id: user._id,
       addresses: [
         ...addresses,
         {

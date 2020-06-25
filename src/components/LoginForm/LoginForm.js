@@ -8,7 +8,7 @@ import theme from '../../styles/formStyle/formStyleTheme';
 import EmailIcon from '@material-ui/icons/Email';
 import LockIcon from '@material-ui/icons/Lock';
 import IconLabel from '../IconLabel/IconLabel';
-import {getUserTokenAndData} from '../../redux/actions/user';
+import {loginUser} from '../../redux/actions/user';
 import {connect} from 'react-redux';
 
 const LoginForm = (props) => {
@@ -129,7 +129,7 @@ LoginForm.propTypes = {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getUser: (email, password, callback) => dispatch(getUserTokenAndData(email, password, callback))
+    getUser: (email, password, callback) => dispatch(loginUser(email, password, callback))
   };
 };
 

@@ -29,6 +29,9 @@ describe('ajax paths config', () => {
     it('login', () => {
       expect(requestPaths.login).toEqual(`${baseUrl}/users/login`);
     });
+    it('loginRefresh', () => {
+      expect(requestPaths.loginRefresh).toEqual(`${baseUrl}/users/login/refresh`);
+    });
   });
 
   describe('returns right path for subscribers requests', () => {
