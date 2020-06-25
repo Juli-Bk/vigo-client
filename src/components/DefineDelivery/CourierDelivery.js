@@ -2,11 +2,11 @@ import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import theme from '../../styles/formStyle/formStyleTheme';
 import { ListItem, ThemeProvider } from '@material-ui/core';
-import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import ModalAddress from '../ModalAddress/ModalAddress';
 import useStyles from '../../styles/formStyle/formStyle';
+import AddressRadioGroup from './AddressRadioGroup';
 
 const CourierDelivery = (props) => {
   const { user} = props;
@@ -27,9 +27,7 @@ const CourierDelivery = (props) => {
       <Typography className={styles.subtitle}>
         VIGO Courier will deliver the order to the following address:
       </Typography>
-      <Box>
-        {adr}
-      </Box>
+      <AddressRadioGroup value={adr} />
     </>
     : <Typography className={styles.subtitle}>
       Let`s add delivery address:

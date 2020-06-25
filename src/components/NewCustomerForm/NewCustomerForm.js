@@ -33,7 +33,8 @@ const NewCustomerForm = (props) => {
     radioGroup: ''
   };
   const validateObject = Yup.object({
-    radioGroup: Yup.string().required('Please, choose one of these options')
+    radioGroup: Yup.string()
+      .required('Please, choose one of these options')
   });
 
   const styles = useStyles();
@@ -50,9 +51,22 @@ const NewCustomerForm = (props) => {
               <Form autoComplete='off' id='newCustomerForm'>
                 <FormControl>
                   <Typography variant='subtitle2' className={styles.text}>How do you want to continue?</Typography>
-                  <RadioGroup id='radioGroup' aria-label='newCustomer' value={values.radioGroup} name='formNew' onChange={handleChange}>
-                    <FormControlLabel value='asGuest' name='radioGroup' id='radioOption1' color='default' control={<Radio />} label='Checkout as a guest' />
-                    <FormControlLabel value='iWillRegister' name='radioGroup' id='radioOption2' color='default' control={<Radio />} label='Login/Register' />
+                  <RadioGroup id='radioGroup'
+                    aria-label='newCustomer'
+                    value={values.radioGroup}
+                    name='formNew'
+                    onChange={handleChange}>
+
+                    <FormControlLabel value='asGuest'
+                      name='radioGroup' id='radioOption1'
+                      color='default' control={<Radio />}
+                      label='Checkout as a guest' />
+
+                    <FormControlLabel value='iWillRegister'
+                      name='radioGroup' id='radioOption2'
+                      color='default' control={<Radio />}
+                      label='Login/Register' />
+
                   </RadioGroup>
                   <FormHelperText>{errors.radioGroup}</FormHelperText>
                   <Typography className={styles.text} variant='subtitle1' gutterBottom>By creating an account with our store,

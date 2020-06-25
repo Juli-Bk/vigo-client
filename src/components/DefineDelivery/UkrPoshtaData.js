@@ -7,9 +7,10 @@ import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import ModalAddress from '../ModalAddress/ModalAddress';
 import useStyles from '../../styles/formStyle/formStyle';
+import AddressRadioGroup from './AddressRadioGroup';
 
 const UkrPoshtaData = (props) => {
-  const { user} = props;
+  const {user} = props;
   const styles = useStyles();
 
   const isEmptyUserData = Object.keys(user).length > 0;
@@ -27,6 +28,7 @@ const UkrPoshtaData = (props) => {
       <Typography className={styles.subtitle}>
         We will send your order to the following address:
       </Typography>
+      <AddressRadioGroup value={adr} />
       <Box p={1}>
         {adr}
       </Box>
