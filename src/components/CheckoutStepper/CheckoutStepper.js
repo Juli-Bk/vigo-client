@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 const steps = ['Personal data', 'Delivery Info', 'Payment Info', 'Complete your order'];
 
 const CheckoutStepper = (props) => {
-  const {setLoginModalOpenState, setPersDetailsOpenState, token} = props;
+  const {setLoginModalOpenState, setPersDetailsOpenState, user} = props;
   const classes = useStyles();
   const commonClasses = useCommonStyles();
   const [activeStep, setActiveStep] = useState(0);
@@ -55,7 +55,6 @@ const CheckoutStepper = (props) => {
       setPersDetailsOpenState(true);
     }
     setGuest({radioGroup: values.radioGroup});
-    console.log(guest);
   };
 
   const getStepContent = (stepIndex) => {
@@ -63,7 +62,7 @@ const CheckoutStepper = (props) => {
     const asAGuest = guest.radioGroup && guest.radioGroup === 'asGuest';
     switch (stepIndex) {
       case 0:
-        if (token || asAGuest) {
+        if (Object.keys(user).length > 0 || asAGuest) {
           fields = <ModalPersDetails/>;
         } else {
           fields = <NewCustomerForm submitNewCustomerHandler={onSubmitCallback}/>;
@@ -153,7 +152,7 @@ const CheckoutStepper = (props) => {
 
 const mapStateToProps = store => {
   return {
-    token: store.token
+    user: store.user
   };
 };
 

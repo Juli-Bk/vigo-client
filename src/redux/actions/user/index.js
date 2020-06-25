@@ -7,6 +7,7 @@ import {
   putUserIdToCookie
 } from '../../../ajax/common/helper';
 import Actions from '../../constants/constants';
+import {setLoginModalOpenState} from '../actions';
 
 export const setJWTtoken = (token) => {
   return {
@@ -29,7 +30,7 @@ export const setUserDeliveryAddress = (deliveryAdr) => {
   };
 };
 
-export const getUserTokenAndData = (email, password, callback) => {
+export const loginUser = (email, password, callback) => {
   return (dispatch) => {
     const json = JSON.stringify({
       login: email,
@@ -62,35 +63,74 @@ export const getUserTokenAndData = (email, password, callback) => {
 
 export const getUserData = () => {
   return (dispatch) => {
-    const clear = () => {
-      dispatch(setUser({}));
-      deleteJWTcookie();
+    const getData = () => {
+      AjaxUtils.Users.getUser()
+        .then(result => {
+          if (result) {
+            dispatch(setUser(result.user));
+          } else {
+            dispatch(setUser({}));
+          }
+        })
+        .catch(() => {
+          dispatch(logout());
+        });
     };
 
     const token = getJWTfromCookie();
     if (token) {
-      AjaxUtils.Users.getUser()
-        .then(result => {
-          dispatch(setUser(result.user));
-        })
-        .catch(() => {
-          clear();
-        });
+      getData();
     } else {
-      clear();
+      dispatch(refreshToken(() => {
+        const token = getJWTfromCookie();
+        if (token) {
+          getData();
+        }
+      }));
     }
   };
 };
 
+export const refreshToken = (callback) => {
+  return (dispatch) => {
+    const refToken = doesHttpOnlyCookieExist('refreshToken');
+
+    // do not delete, if refToken is empty next request falls
+    if (!refToken) {
+      return;
+    }
+
+    AjaxUtils.Users.refreshLogin()
+      .then(newToken => {
+        if (newToken) {
+          putJWTtoCookie(newToken);
+          console.log(newToken);
+          dispatch(setJWTtoken(newToken.token));
+        } else {
+          dispatch(logout());
+        }
+        callback && callback();
+      })
+      .catch(() => {
+        dispatch(logout());
+        dispatch(setLoginModalOpenState(true));
+      });
+  };
+};
+
+// huck check http only cookie exists
+const doesHttpOnlyCookieExist = (cookieName) => {
+  const date = new Date();
+  date.setTime(date.getTime() + (1000));
+  const expires = 'expires=' + date.toUTCString();
+
+  document.cookie = cookieName + '=new_value;path=/;' + expires;
+  return document.cookie.indexOf(cookieName + '=') === -1;
+};
+
 export const saveUserData = (data, callback) => {
   return (dispatch) => {
-    const clear = () => {
-      dispatch(setUser({}));
-      dispatch(setJWTtoken(''));
-      deleteJWTcookie();
-    };
-
-    const userId = getUserIdFromCookie();
+    const userId = getUserIdFromCookie() || data.id;
     if (userId) {
       AjaxUtils.Users.updateUserInfoById(userId, data)
         .then(newUserData => {
@@ -102,7 +142,7 @@ export const saveUserData = (data, callback) => {
           callback();
         });
     } else {
-      clear();
+      dispatch(logout());
     }
   };
 };
@@ -113,6 +153,6 @@ export const logout = () => {
     dispatch(setUser({}));
     dispatch(setJWTtoken(''));
     deleteJWTcookie();
-    // todo add push link to /login
+    // todo add push link to /login???
   };
 };

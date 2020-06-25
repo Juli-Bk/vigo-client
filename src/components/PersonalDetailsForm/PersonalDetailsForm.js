@@ -36,6 +36,7 @@ const PersonalDetailsForm = (props) => {
     setSubmitting(true);
 
     const data = {
+      id: user._id,
       firstName: values.firstName,
       lastName: values.lastName,
       phoneNumber: values.phoneNumber,
