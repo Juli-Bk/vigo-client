@@ -120,15 +120,15 @@ export const refreshToken = (callback) => {
 
 // huck check http only cookie exists
 const doesHttpOnlyCookieExist = (cookieName) => {
-  const d = new Date();
-  d.setTime(d.getTime() + (1000));
-  const expires = 'expires=' + d.toUTCString();
+  const date = new Date();
+  date.setTime(date.getTime() + (1000));
+  const expires = 'expires=' + date.toUTCString();
 
   document.cookie = cookieName + '=new_value;path=/;' + expires;
   return document.cookie.indexOf(cookieName + '=') === -1;
 };
 
-export const saveUserData = (data, callback) => {
+export const date = (data, callback) => {
   return (dispatch) => {
     const userId = getUserIdFromCookie() || data.id;
     if (userId) {
