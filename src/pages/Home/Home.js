@@ -24,7 +24,8 @@ const Home = () => {
           <AboutUsBlock title="About Vigo Shop"/>
         </Grid>
         <Grid item xl={4} lg={4} md={4} sm={4} xs={12}>
-          {token ? <CardNewsletter saveEmail={AjaxUtils.Subscribers.subscribe}/> : null}
+          {/* /!*{token ? <CardNewsletter saveEmail={AjaxUtils.Subscribers.subscribe}/> : null} */}
+          <CardNewsletter saveEmail={AjaxUtils.Subscribers.subscribe}/>
         </Grid>
       </Grid>
       <ScrollToTop/>

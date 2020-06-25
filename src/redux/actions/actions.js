@@ -61,6 +61,10 @@ export const setPopoverOpenState = (isOpen) => {
   return {type: Actions.SET_POPOVER_OPEN, isOpen: isOpen};
 };
 
+export const setSnackMessageState = (isOpen) => {
+  return {type: Actions.SET_SNACK_MESSAGE_OPEN, isOpen: isOpen};
+};
+
 export const setLoading = (isLoading) => {
   // todo use this action for Loader/spinner
   return {type: Actions.SET_LOADING_PROCESS, payload: isLoading};

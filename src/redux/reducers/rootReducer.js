@@ -21,6 +21,7 @@ import shoppingCart from './shoppingCartReducer';
 import categoryId from './categoryIdReducer';
 import guestData from './guestReducer';
 import popover from './isPopoverOpenReducer';
+import snack from './snackMessageOpenReducer';
 
 export const rootReducer = combineReducers({
   currentPage,
@@ -44,5 +45,6 @@ export const rootReducer = combineReducers({
   guestData,
   isAddressModalOpen,
   isLoading,
-  popover
+  popover,
+  snack
 });

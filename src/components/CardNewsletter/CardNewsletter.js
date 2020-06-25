@@ -11,6 +11,7 @@ import IconLabel from '../IconLabel/IconLabel';
 import { setPopoverOpenState } from '../../redux/actions/actions';
 import PopoverMessage from '../PopoverMessage/PopoverMessage';
 import { connect } from 'react-redux';
+import SnackbarMessage from '../SnackbarMessage/SnackbarMessage';
 
 const popoverContent = 'You are subscribed now!';
 
@@ -87,6 +88,7 @@ const CardNewsletter = (props) => {
                   size='large'
                   variant='outlined'>Subscribe
                 </Button>
+                <SnackbarMessage/>
                 <PopoverMessage id={id} popoverContent={popoverContent} anchorEl={anchor}/>
               </CardActions>
             </form>
