@@ -15,6 +15,7 @@ const PopoverMessage = (props) => {
             {buttonContent}
           </Button>
           <Popover
+            id='popupMessage'
             {...bindPopover(popupState)}
             anchorOrigin={{
               vertical: 'bottom',

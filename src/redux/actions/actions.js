@@ -57,6 +57,10 @@ export const setGuestData = (data) => {
   return {type: Actions.SET_GUEST_DATA, payload: data};
 };
 
+export const setPopoverOpenState = (isOpen) => {
+  return {type: Actions.IS_POPOVER_OPEN, payload: isOpen};
+};
+
 export const setLoading = (isLoading) => {
   // todo use this action for Loader/spinner
   return {type: Actions.SET_LOADING_PROCESS, payload: isLoading};

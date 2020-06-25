@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Button, Card, CardActions, CardContent, TextField, Typography} from '@material-ui/core';
 import theme from './CardNewsletterTheme';
 import useStyles from './CardNewsletterStyle';
@@ -7,39 +7,28 @@ import * as Yup from 'yup';
 import PropTypes from 'prop-types';
 import {ThemeProvider} from '@material-ui/core/styles';
 import EmailIcon from '@material-ui/icons/Email';
-import Popover from '@material-ui/core/Popover';
 import IconLabel from '../IconLabel/IconLabel';
-// import PopoverMessage from '../PopoverMessage/PopoverMessage';
+import { setPopoverOpenState } from '../../redux/actions/actions';
+import PopoverMessage from '../PopoverMessage/PopoverMessage';
+import { connect } from 'react-redux';
 
-// const popoverContent = 'You are subscribed!';
-// const buttonContent = 'Subscribe';
+const {popoverContent} = 'You are subscribed!';
+
 const CardNewsletter = (props) => {
-  const {saveEmail} = props;
-  const [anchorEl, setAnchorEl] = useState(null);
-  const handleSubmit = (values, {resetForm, setSubmitting}, event) => {
+  const {saveEmail, setPopoverOpen, id} = props;
+  const handleSubmit = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
-    setAnchorEl(event.currentTarget);
+    setPopoverOpen(true);
 
     saveEmail(values.email)
       .then(result => {
-        { /* <PopoverMessage */ }
-        { /*  popoverContent={popoverContent} */ }
-        { /*  buttonContent={buttonContent} />; */ }
         // todo show to user some nice popup or something
         alert(JSON.stringify(result));
-        // todo set flag for buttons setSubmitting(false/true) in all forms to block button when submiting performs
-        handleClose();
         setSubmitting(false);
+        setPopoverOpen(false);
         resetForm();
       });
   };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
 
   const initFormValues = {
     email: '',
@@ -57,16 +46,23 @@ const CardNewsletter = (props) => {
     <Card className={styles.newsletter} variant='outlined'>
       <CardContent>
         <Typography className={styles.title} variant='h4'>newsletter</Typography>
-        <Typography className={styles.text} variant='body2' component='p'>
-          subscribe to get exclusive offers from your
+        <Typography className={styles.text} variant='body2' component='p'>subscribe to get exclusive offers from your
           favorite brands.</Typography>
         <Formik
           initialValues={initFormValues}
           validationSchema={validateObject}
           validateOnBlur={true}
           onSubmit={handleSubmit}>
-          {({values, handleChange, handleSubmit, handleBlur, errors, touched, handleClose, isSubmitting }) => (
-            <form id="subscribe-form" className={styles.form} autoComplete='off'>
+          {({
+            values,
+            handleChange,
+            handleSubmit,
+            handleBlur,
+            errors,
+            touched,
+            isSubmitting
+          }) => (
+            <form id='subscribe-form' className={styles.form} autoComplete='off'>
               <ThemeProvider theme={theme}>
                 <TextField
                   name='email'
@@ -83,30 +79,16 @@ const CardNewsletter = (props) => {
               </ThemeProvider>
               <CardActions>
                 <Button
-                  aria-describedby={id}
                   type='submit'
+                  aria-describedby={id}
                   className={styles.signUpButton}
                   disabled={isSubmitting}
                   onClick={handleSubmit}
+                  buttonContent='Subscribe'
                   size='large'
-                  variant='outlined'>subscribe
+                  variant='outlined'>Subscribe
                 </Button>
-                <Popover
-                  id={id}
-                  open={open}
-                  anchorEl={anchorEl}
-                  onClose={handleClose}
-                  anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'center'
-                  }}
-                  transformOrigin={{
-                    vertical: 'top',
-                    horizontal: 'center'
-                  }}
-                >
-                  <Typography className={styles.typography}>You are subscribed now!</Typography>
-                </Popover>
+                <PopoverMessage id={id} popoverContent={popoverContent}/>
               </CardActions>
             </form>
           )}
@@ -121,4 +103,15 @@ CardNewsletter.propTypes = {
   saveEmail: PropTypes.func.isRequired
 };
 
-export default React.memo(CardNewsletter);
+const mapStateToProps = store => {
+  return {
+    isPopoverOpen: store.isPopoverOpen
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setPopoverOpen: data => dispatch(setPopoverOpenState(data))
+  };
+};
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(CardNewsletter));
