@@ -21,6 +21,7 @@ import {theme} from '../WishListView/WishListViewTheme';
 import useStyles from '../WishListView/WishListViewStyles';
 import TableMobileView from './Tables/TableMobileView';
 import TableDesktopView from './Tables/TableDesktopView';
+import TotalSum from './TotalSum';
 
 const ShopCartView = (props) => {
   const {isMobile, products, changeShoppingCart, shoppingCart, productsQuantity, getProductsQuantity} = props;
@@ -79,6 +80,7 @@ const ShopCartView = (props) => {
   return (
     <ThemeProvider theme={theme}>
       {shoppingCart.length && products.length &&
+              <>
                 <TableContainer component={Box}>
                   { isMobile
                     ? <TableMobileView
@@ -97,6 +99,11 @@ const ShopCartView = (props) => {
                       deleteFromShopCart={deleteFromShopCart}
                     />}
                 </TableContainer>
+
+                <TableContainer component={Box} style={{width: '30%', margin: '3rem auto'}}>
+                  <TotalSum subtotal={100} tax={0} shipping={0}/>
+                </TableContainer>
+              </>
       }
     </ThemeProvider>
   );

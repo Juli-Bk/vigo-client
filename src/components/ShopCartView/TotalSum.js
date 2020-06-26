@@ -1,6 +1,8 @@
 import React from 'react';
-import {Box, makeStyles, Typography, Button} from '@material-ui/core';
+import {Box, makeStyles, Button, TableRow, Table, TableBody, TableCell} from '@material-ui/core';
 import {Link} from 'react-router-dom';
+import tableStyles from '../WishListView/WishListViewStyles';
+import {colors} from '../../styles/colorKit';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -12,25 +14,56 @@ const useStyles = makeStyles(theme => ({
   total: {
 
   },
-  text: {
-
+  headCell: {
+    borderRight: `1px solid ${colors.thinLine}`
   }
 }));
 
 const TotalSum = (props) => {
   const {subtotal, tax, shipping} = props;
   const classes = useStyles();
+  const tableClasses = tableStyles();
 
   const total = subtotal + shipping + tax;
-  // todo table
+
   return (
     <Box>
-      <Box className={classes.text}>
-        <Typography className={classes.subtotal}>Subtotal: {subtotal}</Typography>
-        <Typography className={classes.subtotal}>Shipping (0%): {shipping}</Typography>
-        <Typography className={classes.subtotal}>Tax (0%): {tax}</Typography>
-        <Typography className={classes.total}>Total: {total}</Typography>
-      </Box>
+      <Table>
+        <TableBody>
+          <TableRow className={tableClasses.tableRow}>
+            <TableCell className={classes.headCell}>
+                Subtotal:
+            </TableCell>
+            <TableCell>
+                ${subtotal}
+            </TableCell>
+          </TableRow>
+          <TableRow className={tableClasses.tableRow}>
+            <TableCell className={classes.headCell}>
+              Shipping (0%):
+            </TableCell>
+            <TableCell>
+              ${shipping}
+            </TableCell>
+          </TableRow>
+          <TableRow className={tableClasses.tableRow}>
+            <TableCell className={classes.headCell}>
+              Tax (0%):
+            </TableCell>
+            <TableCell>
+              ${tax}
+            </TableCell>
+          </TableRow>
+          <TableRow className={tableClasses.tableRow}>
+            <TableCell className={classes.headCell}>
+             Total:
+            </TableCell>
+            <TableCell>
+              ${total}
+            </TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>
       <Button><Link to={'/checkout'}>Checkout</Link></Button>
     </Box>
   );
