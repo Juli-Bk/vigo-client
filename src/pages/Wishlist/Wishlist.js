@@ -52,7 +52,9 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
   return {
     changeWishList: () => dispatch(changeWishList()),
-    getProductsByFilters: filters => dispatch(getProductsByFilters(filters))
+    getProductsByFilters: (filters, startPage, perPage, sort) => {
+      dispatch(getProductsByFilters(filters, startPage, perPage, sort));
+    }
   };
 };
 

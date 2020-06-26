@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import useStyles from './ProductsStyles';
 import globalConfig from '../../globalConfig';
-import {defineSortData, makeFilterItem} from '../../helpers/helpers';
+import {defineSortData, getFiltersArray} from '../../helpers/helpers';
 
 import ProductGrid from '../../containers/ProductsGrid/ProductsGrid';
 import ProductsList from '../../containers/ProductsList/ProductsList';
@@ -27,17 +27,10 @@ const Products = (props) => {
     location,
     getProductsByFilters,
     products,
-    filtersArray
+    filters
   } = props;
   const isSmScreen = useMediaQuery('(max-width: 723px)');
   const classes = useStyles();
-  // debugger;
-  // const filtersArray = [
-  //   {minPrice: priceRange[0]},
-  //   {maxPrice: priceRange[1]},
-  //   {color: chosenColors},
-  //   {size: size}
-  // ];
 
   const searchString = location.search.split('?')[1];
 
@@ -54,22 +47,25 @@ const Products = (props) => {
 
   const getFilteredData = useCallback(() => {
     const sort = defineSortData(sortingOption);
+    const filtersArray = getFiltersArray(filters);
     getProductsByFilters(filtersArray, currentPage, perPage, sort);
-  }, [currentPage, filtersArray, getProductsByFilters, perPage, sortingOption]);
+  }, [currentPage, filters, getProductsByFilters, perPage, sortingOption]);
 
   useEffect(() => {
     let isCanceled = false;
 
     if (!isCanceled) {
       getFilteredData();
+
       // todo url string with all filters
       // history.replace(`/products/filter?categoryId=${categoryId}&${getFilterString(filtersArray, defineSortData(sortingOption))}`);
     }
     return () => {
       isCanceled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [currentPage, perPage, sortingOption, filtersArray]);
+  }, [currentPage, perPage, sortingOption, filters, getFilteredData]);
+
+  console.log(products);
 
   return (
     <Container>
@@ -100,7 +96,9 @@ const Products = (props) => {
                   {products.totalCount > globalConfig.step ? <ShowBy step={globalConfig.step}/> : null}
                 </Grid>
                 <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
-                  {products.totalCount && <PaginationRounded perPage={perPage} total={products.totalCount}/>}
+                  {products.totalCount > 0
+                    ? <PaginationRounded perPage={perPage} total={products.totalCount}/>
+                    : null}
                 </Grid>
               </Grid>
             </Grid>
@@ -116,7 +114,9 @@ const Products = (props) => {
           <SideBar/>
         </Grid>
         <Grid item xl={12} lg={12} md={12} sm={12} xs={12} className={classes.paginationBottom}>
-          {products.totalCount && <PaginationRounded perPage={perPage} total={products.totalCount}/>}
+          {products.totalCount > 0
+            ? <PaginationRounded perPage={perPage} total={products.totalCount}/>
+            : null}
         </Grid>
       </Grid>
     </Container>
@@ -128,7 +128,9 @@ Products.propTypes = {
   perPage: PropTypes.number.isRequired,
   sortingOption: PropTypes.string.isRequired,
   view: PropTypes.string.isRequired,
-  getProductsByFilters: PropTypes.func.isRequired
+  getProductsByFilters: PropTypes.func.isRequired,
+  filters: PropTypes.object.isRequired,
+  products: PropTypes.object.isRequired
 };
 
 const mapStateToProps = store => {
@@ -138,13 +140,15 @@ const mapStateToProps = store => {
     sortingOption: store.sortingOption,
     view: store.view,
     products: store.products,
-    filtersArray: store.filters
+    filters: store.filters
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    getProductsByFilters: filters => dispatch(getProductsByFilters(filters))
+    getProductsByFilters: (filters, startPage, perPage, sort) => {
+      dispatch(getProductsByFilters(filters, startPage, perPage, sort));
+    }
   };
 };
 

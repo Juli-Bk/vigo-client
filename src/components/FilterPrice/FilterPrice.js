@@ -7,7 +7,6 @@ import CustomSlider from './CustomSlider';
 import { setPriceRange } from '../../redux/actions/actions';
 import {getMaxPrice} from '../../redux/actions/products';
 import { theme } from './FilterPriceTheme';
-import {has} from '../../helpers/helpers';
 
 const useStyles = makeStyles(theme => ({
   margin: {
@@ -50,21 +49,12 @@ const FilterPrice = (props) => {
     setPriceRange(values);
   }, [setPriceRange]);
 
-  const values = [];
-
-  values[0] = filters.find(item => {
-    return has(item, 'minPrice');
-  }).minPrice;
-  values[1] = filters.find(item => {
-    return has(item, 'maxPrice');
-  }).maxPrice;
-
   return (
     <ThemeProvider theme={theme}>
       <Box className={classes.filterPrice}>
         <Typography className={classes.label}>Price Filter: </Typography>
         {maxPrice && <CustomSlider
-          value={[filters[0].minPrice, filters[1].maxPrice]}
+          value={[filters.minPrice, filters.maxPrice]}
           min={0}
           max={maxPrice}
           onChangeCommitted={handleChange}
@@ -78,7 +68,7 @@ const FilterPrice = (props) => {
 };
 
 FilterPrice.propTypes = {
-  filters: PropTypes.array.isRequired,
+  filters: PropTypes.object.isRequired,
   setPriceRange: PropTypes.func.isRequired,
   maxPrice: PropTypes.number.isRequired,
   getMaxPrice: PropTypes.func.isRequired

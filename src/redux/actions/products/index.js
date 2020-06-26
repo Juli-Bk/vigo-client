@@ -5,7 +5,7 @@ export const getProductsByFilters = (filterArray, startPage, perPage, sort) => d
   if (filterArray && filterArray.length) {
     AjaxUtils.Products.getProductsByFilters(filterArray, startPage, perPage, sort)
       .then(result => {
-        if (result && result.products && result.totalCount) {
+        if (result) {
           dispatch({
             type: Actions.GET_PRODUCTS_BY_FILTERS,
             products: result.products,
@@ -25,9 +25,9 @@ export const getMaxPrice = () => dispatch => {
     });
 };
 
-export const changeFilters = (filterObj) => {
+export const addFilters = (filtersObj) => {
   return {
-    type: Actions.CHANGE_FILTERS,
-    payload: filterObj
+    type: Actions.ADD_FILTERS,
+    payload: filtersObj
   };
 };

@@ -1,76 +1,46 @@
 import Actions from '../constants/constants';
 import globalConfig from '../../globalConfig';
-import {has} from '../../helpers/helpers';
 
-const initialState = [
-  {minPrice: globalConfig.minDefaultPrice},
-  {maxPrice: globalConfig.maxDefaultPrice},
-  {color: []},
-  {size: []},
-  {categoryId: ''}
-];
-
-const reducer = (state = initialState, action) => {
-  if (action.type === Actions.SET_PRICE_RANGE) {
-    const newState = [
-      ...state,
-      {minPrice: action.payload[0]},
-      {maxPrice: action.payload[1]}
-    ];
-
-    return newState;
-  }
-
-  if (action.type === Actions.SET_CHOSEN_COLOR) {
-    const color = state.find(item => {
-      return has(item, 'color');
-    }).color;
-
-    let newColors = [];
-    if (color.includes(action.payload)) {
-      newColors = color.filter(item => item !== action.payload);
-    } else {
-      newColors = [...color, action.payload];
-    }
-    const updatedState = state.filter(item => !has(item, 'color'));
-    const newState = [
-      ...updatedState,
-      {color: [...newColors]}
-    ];
-
-    return newState;
-  }
-  if (action.type === Actions.SET_CHOSEN_SIZE) {
-    const size = state.find(item => {
-      return has(item, 'size');
-    }).size;
-
-    let newSizes = [];
-    if (size.includes(action.payload)) {
-      newSizes = size.filter(item => item !== action.payload);
-    } else {
-      newSizes = [...size, action.payload];
-    }
-
-    const updatedState = state.filter(item => !has(item, 'size'));
-    const newState = [
-      ...updatedState,
-      {size: [...newSizes]}
-    ];
-
-    return newState;
-  }
-
-  if (action.type === Actions.SET_CATEGORY_ID) {
-    const updatedState = state.filter(item => !has(item, 'categoryId'));
-    const newState = [
-      ...updatedState,
-      {categoryId: action.payload}
-    ];
-    return newState;
-  }
-
-  return state;
+const initialState = {
+  minPrice: globalConfig.minDefaultPrice,
+  maxPrice: globalConfig.maxDefaultPrice,
+  color: [],
+  size: [],
+  categoryId: ''
 };
 
+const reducer = (state = initialState, action) => {
+  const { color, size } = state;
+  let newArray = [];
+
+  switch (action.type) {
+    case Actions.SET_PRICE_RANGE:
+      return { ...state, minPrice: action.payload[0], maxPrice: action.payload[1] };
+
+    case Actions.SET_CHOSEN_COLOR:
+      if (color.includes(action.payload)) {
+        newArray = color.filter(item => item !== action.payload);
+      } else {
+        newArray = [...color, action.payload];
+      }
+      return { ...state, color: newArray };
+
+    case Actions.SET_CHOSEN_SIZE:
+      if (size.includes(action.payload)) {
+        newArray = size.filter(item => item !== action.payload);
+      } else {
+        newArray = [...size, action.payload];
+      }
+      return { ...state, size: newArray };
+
+    case Actions.SET_CATEGORY_ID:
+      return {...state, categoryId: action.payload};
+
+    case Actions.ADD_FILTERS:
+      return Object.assign({}, state, action.payload);
+
+    default:
+      return state;
+  }
+};
 export default reducer;

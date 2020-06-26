@@ -221,3 +221,12 @@ export const getSizesArray = (productQuantity) => {
 export const has = (object, key) => {
   return object ? hasOwnProperty.call(object, key) : false;
 };
+
+export const getFiltersArray = (filtersObject) => {
+  const array = Object.entries(filtersObject);
+  const arrayOfObj = [];
+  array.forEach(item => {
+    arrayOfObj.push({[item[0]]: item[1]});
+  });
+  return arrayOfObj || [];
+};
