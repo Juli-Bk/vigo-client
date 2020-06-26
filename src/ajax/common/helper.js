@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 export const getAuthHeader = () => {
   const token = getJWTfromCookie();
 
@@ -13,20 +11,12 @@ export const getAuthHeader = () => {
 
 export const putJWTtoCookie = (loginResponse) => {
   deleteJWTcookie();
-  const exp = moment(Date.now())
-    .add(2,
-      // loginResponse.expiresInMinutes,
-      // todo delete this after refresh testing
-      'm').toDate();
+  const exp = new Date(loginResponse.expires);
   document.cookie = `token=${loginResponse.token};expires=${exp};SameSite=Strict`;
 };
 
 export const putUserIdToCookie = (loginResponse) => {
-  const exp = moment(Date.now())
-    .add(2,
-      // todo delete this after refresh testing
-      // loginResponse.expiresInMinutes,
-      'm').toDate();
+  const exp = new Date(loginResponse.token.expires);
   document.cookie = `userId=${loginResponse.user._id};expires=${exp};SameSite=Strict`;
 };
 

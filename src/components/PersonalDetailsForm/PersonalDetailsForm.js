@@ -25,7 +25,7 @@ import {saveUserData} from '../../redux/actions/user';
 import {validateObject} from './helper';
 
 const PersonalDetailsForm = (props) => {
-  const {user, saveUserData, saveUserAddressesHandler} = props;
+  const {user, savePersonalUserData, saveUserAddressesHandler} = props;
   const {firstName, lastName, email, phoneNumber} = user;
 
   const handleCancel = () => {
@@ -43,7 +43,7 @@ const PersonalDetailsForm = (props) => {
       email: values.email
     };
 
-    saveUserData(data, (result) => {
+    savePersonalUserData(data, (result) => {
       setSubmitting(false);
       if (result && result.status !== 400) {
         resetForm();
@@ -211,7 +211,7 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    saveUserData: (data, callback) => dispatch(saveUserData(data, callback))
+    savePersonalUserData: (data, callback) => dispatch(saveUserData(data, callback))
   };
 };
 
