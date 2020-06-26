@@ -230,3 +230,17 @@ export const getFiltersArray = (filtersObject) => {
   });
   return arrayOfObj || [];
 };
+
+export const getCategoryId = (searchString) => {
+  let categoryId = '';
+  if (searchString && searchString.includes('categoryId')) {
+    const stringPart = searchString.split('categoryId=')[1];
+
+    if (stringPart.includes('&')) {
+      categoryId = stringPart.split('&')[0];
+    } else {
+      categoryId = stringPart;
+    }
+  }
+  return categoryId;
+};
