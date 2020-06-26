@@ -5,7 +5,8 @@ import MuiAlert from '@material-ui/lab/Alert';
 import {connect} from 'react-redux';
 import {setSnackMessageState} from '../../redux/actions/actions';
 
-const SnackbarMessage = () => {
+const SnackbarMessage = (props) => {
+  const {message} = props;
   const [open, setOpen] = useState(false);
 
   const handleClick = (event) => {
@@ -21,7 +22,6 @@ const SnackbarMessage = () => {
   function Alert (props) {
     return <MuiAlert elevation={6} variant='filled' {...props} />;
   }
-
   return (
     <>
       <Button onClick={handleClick}>
@@ -35,7 +35,7 @@ const SnackbarMessage = () => {
         <Alert
           onClose={handleClose}
           severity='success'>
-          Any success message!
+          {message}
         </Alert>
       </Snackbar>
     </>
