@@ -26,6 +26,7 @@ import currentProduct from './currentProductIdReducer';
 import allColors from './allColorsReducer';
 import maxPrice from './maxPriceReducer';
 import allSizes from './allSizesReducer';
+import isPopoverOpen from './isPopoverOpenReducer';
 
 export const rootReducer = combineReducers({
   currentPage,
@@ -51,8 +52,9 @@ export const rootReducer = combineReducers({
   products,
   currentProduct,
   isAddressModalOpen,
-  isLoading,
   allColors,
   maxPrice,
-  allSizes
+  allSizes,
+  isLoading,
+  isPopoverOpen
 });

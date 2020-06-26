@@ -18,7 +18,11 @@ const theme = createMuiTheme({
         margin: '10px 0',
         '&:hover': {
           backgroundColor: 'none !important'
-        }
+        },
+        width: 'calc(100% - 30px)'
+      },
+      content: {
+        justifyContent: 'space-between'
       }
     },
     MuiTypography: {
