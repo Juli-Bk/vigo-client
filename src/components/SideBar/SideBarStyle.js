@@ -11,9 +11,9 @@ const iconStyles = {
   }
 };
 const iconsBpMd = {
-  width: 45,
+  width: 40,
   height: 45,
-  padding: 12
+  padding: '10px 0 10px 12px'
 };
 
 const useStyles = makeStyles(theme => ({
@@ -25,8 +25,9 @@ const useStyles = makeStyles(theme => ({
     position: 'fixed',
     right: 0,
     top: '30%',
-    backgroundColor: 'rgba(0, 0, 0, 0.12)',
+    backgroundColor: colors.thinLine,
     color: colors.fontSecondary,
+    border: `1px solid ${colors.borderLight}`,
     borderRadius: '5px 0 0 5px',
     ...iconStyles,
     [theme.breakpoints.between(0, 1025)]: {
@@ -36,7 +37,8 @@ const useStyles = makeStyles(theme => ({
       display: 'none'
     },
     '&:hover': {
-      color: colors.fontPrimary
+      color: colors.fontPrimary,
+      backgroundColor: colors.thinLine
     }
 
   }
