@@ -24,3 +24,10 @@ export const getMaxPrice = () => dispatch => {
       }
     });
 };
+
+export const changeFilters = (filterObj) => {
+  return {
+    type: Actions.CHANGE_FILTERS,
+    payload: filterObj
+  };
+};

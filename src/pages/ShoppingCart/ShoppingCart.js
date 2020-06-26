@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Container, Grid, useMediaQuery } from '@material-ui/core';
 import globalConfig from '../../globalConfig';
 import { getProductsId } from './cartHelpers';
-import { getProductsByFilters } from '../../redux/actions/Products';
+import { getProductsByFilters } from '../../redux/actions/products';
 import ShopCartView from '../../components/ShopCartView/ShopCartView';
 import EmptyState from '../../components/EmptyState/EmptyState';
 

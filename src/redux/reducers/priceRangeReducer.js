@@ -1,7 +1,9 @@
 import Actions from '../constants/constants';
 import globalConfig from '../../globalConfig';
 
-const priceRange = (state = [globalConfig.minDefaultPrice, globalConfig.maxDefaultPrice], action) => {
+const initValue = [globalConfig.minDefaultPrice, globalConfig.maxDefaultPrice];
+
+const priceRange = (state = initValue, action) => {
   if (action.type === Actions.SET_PRICE_RANGE) {
     return action.payload;
   }

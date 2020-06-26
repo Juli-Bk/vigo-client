@@ -50,12 +50,6 @@ App.propTypes = {
   getCategories: PropTypes.func.isRequired
 };
 
-const mapStateToProps = store => {
-  return {
-    isModalSizeOpen: store.isModalSizeOpen
-  };
-};
-
 const mapDispatchToProps = dispatch => {
   return {
     getUserData: () => dispatch(getUserData()),
@@ -63,4 +57,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default connect(null, mapDispatchToProps)(App);

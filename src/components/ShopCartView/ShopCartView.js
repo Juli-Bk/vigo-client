@@ -16,7 +16,7 @@ import {
 } from '../../pages/ShoppingCart/cartHelpers';
 
 import {changeShoppingCart} from '../../redux/actions/shopCart';
-import {getProductsQuantity} from '../../redux/actions/Quantity';
+import {getProductsQuantity} from '../../redux/actions/quantity';
 import {theme} from '../WishListView/WishListViewTheme';
 import useStyles from '../WishListView/WishListViewStyles';
 import TableMobileView from './Tables/TableMobileView';

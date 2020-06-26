@@ -11,7 +11,7 @@ import ActionButtons from '../Product/ActionButtons/ActionButtons';
 import SelectBox from '../SelectBox/SelectBox';
 import globalConfig from '../../globalConfig';
 import {toggleModalSize} from '../../redux/actions/actions';
-import {getProductsQuantity} from '../../redux/actions/Quantity';
+import {getProductsQuantity} from '../../redux/actions/quantity';
 import { getChosenSizeId, getProductStockData, getSizesArray, mapArrayToOptions } from '../../helpers/helpers';
 import { colors } from '../../styles/colorKit';
 import theme from './ModalSelectTheme';

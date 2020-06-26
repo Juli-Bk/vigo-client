@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useCallback} from 'react';
 import {Container, Grid, useMediaQuery} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
@@ -16,56 +16,52 @@ import Sort from '../../components/Sort/Sort';
 import FilterPrice from '../../components/FilterPrice/FilterPrice';
 import ViewAs from '../../components/ViewAs/ViewAs';
 import EmptyState from '../../components/EmptyState/EmptyState';
-import {getAllColors} from '../../redux/actions/colors';
-import {getMaxPrice, getProductsByFilters} from '../../redux/actions/Products';
-import {getAllSizes} from '../../redux/actions/sizes';
+import {getProductsByFilters} from '../../redux/actions/products';
 
 const Products = (props) => {
   const {
     currentPage,
-    categoryId,
     perPage,
     sortingOption,
-    priceRange,
     view,
-    colors,
-    size,
     location,
-    getAllColors,
-    getMaxPrice,
     getProductsByFilters,
-    getAllSizes,
-    products
+    products,
+    filtersArray
   } = props;
   const isSmScreen = useMediaQuery('(max-width: 723px)');
   const classes = useStyles();
-  const filtersArray = [
-    {minPrice: priceRange[0]},
-    {maxPrice: priceRange[1]},
-    {color: colors},
-    {size: size}
-  ];
+  // debugger;
+  // const filtersArray = [
+  //   {minPrice: priceRange[0]},
+  //   {maxPrice: priceRange[1]},
+  //   {color: chosenColors},
+  //   {size: size}
+  // ];
 
   const searchString = location.search.split('?')[1];
 
-  if (searchString && searchString.includes('&')) {
-    const filterStrings = searchString.split('&');
-    filterStrings.forEach(string => {
-      filtersArray.push(makeFilterItem(string));
-    });
-  } else {
-    filtersArray.push(makeFilterItem(searchString));
-  }
+  // if (searchString && searchString.includes('&')) {
+  //   const filterStrings = searchString.split('&');
+  //   debugger;
+  //   filterStrings.forEach(string => {
+  //     filtersArray.push(makeFilterItem(string));
+  //   });
+  // } else {
+  //   debugger;
+  //   filtersArray.push(makeFilterItem(searchString));
+  // }
+
+  const getFilteredData = useCallback(() => {
+    const sort = defineSortData(sortingOption);
+    getProductsByFilters(filtersArray, currentPage, perPage, sort);
+  }, [currentPage, filtersArray, getProductsByFilters, perPage, sortingOption]);
 
   useEffect(() => {
     let isCanceled = false;
 
     if (!isCanceled) {
-      getAllColors();
-      getAllSizes();
-      getMaxPrice();
-      const sort = defineSortData(sortingOption);
-      getProductsByFilters(filtersArray, currentPage, perPage, sort);
+      getFilteredData();
       // todo url string with all filters
       // history.replace(`/products/filter?categoryId=${categoryId}&${getFilterString(filtersArray, defineSortData(sortingOption))}`);
     }
@@ -73,7 +69,7 @@ const Products = (props) => {
       isCanceled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [categoryId, currentPage, perPage, sortingOption, priceRange, colors, size, getMaxPrice]);
+  }, [currentPage, perPage, sortingOption, filtersArray]);
 
   return (
     <Container>
@@ -131,15 +127,8 @@ Products.propTypes = {
   currentPage: PropTypes.number.isRequired,
   perPage: PropTypes.number.isRequired,
   sortingOption: PropTypes.string.isRequired,
-  priceRange: PropTypes.array.isRequired,
   view: PropTypes.string.isRequired,
-  colors: PropTypes.array.isRequired,
-  size: PropTypes.array.isRequired,
-  categoryId: PropTypes.string,
-  getMaxPrice: PropTypes.func.isRequired,
-  getAllColors: PropTypes.func.isRequired,
-  getProductsByFilters: PropTypes.func.isRequired,
-  getAllSizes: PropTypes.func.isRequired
+  getProductsByFilters: PropTypes.func.isRequired
 };
 
 const mapStateToProps = store => {
@@ -147,22 +136,15 @@ const mapStateToProps = store => {
     currentPage: store.currentPage,
     perPage: store.productsPerPage,
     sortingOption: store.sortingOption,
-    priceRange: store.priceRange,
     view: store.view,
-    colors: store.colors,
-    categoryId: store.categoryId,
-    size: store.size,
-    maxPrice: store.maxPrice,
-    products: store.products
+    products: store.products,
+    filtersArray: store.filters
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    getAllColors: () => dispatch(getAllColors()),
-    getMaxPrice: () => dispatch(getMaxPrice()),
-    getProductsByFilters: filters => dispatch(getProductsByFilters(filters)),
-    getAllSizes: () => dispatch(getAllSizes())
+    getProductsByFilters: filters => dispatch(getProductsByFilters(filters))
   };
 };
 

@@ -12,7 +12,7 @@ import {
   getChosenSizeId,
   getSizesArray
 } from '../../../helpers/helpers';
-import {getProductsQuantity} from '../../../redux/actions/Quantity';
+import {getProductsQuantity} from '../../../redux/actions/quantity';
 import {useStyles} from './ProductPageViewStyles';
 import {theme} from './ProductPageViewTheme';
 import {colors} from '../../../styles/colorKit';

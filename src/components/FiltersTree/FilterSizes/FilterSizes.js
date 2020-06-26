@@ -1,16 +1,27 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import { ThemeProvider, Checkbox, FormControlLabel } from '@material-ui/core';
 import theme from '../FilterColors/FilterColorsTheme';
-import { setChosenSize } from '../../../redux/actions/sizes';
+import { setChosenSize, getAllSizes } from '../../../redux/actions/sizes';
 import globalConfig from '../../../globalConfig';
 
 const FilterSizes = (props) => {
-  const { categories, location, setChosenSize, allSizes } = props;
+  const { categories, location, setChosenSize, allSizes, getAllSizes } = props;
   const [state, setState] = useState({});
   let renderOption = globalConfig.sizeRenderOptions.ALL;
+
+  useEffect(() => {
+    let isCanceled = false;
+
+    if (!isCanceled) {
+      getAllSizes();
+    }
+    return () => {
+      isCanceled = true;
+    };
+  }, [getAllSizes]);
 
   const getLabelNames = useCallback((renderOption) => {
     const labelNames = new Set();
@@ -53,7 +64,7 @@ const FilterSizes = (props) => {
     setChosenSize(event.target.name);
   };
 
-  const checkboxes = () => {
+  const getCheckboxes = () => {
     const labelNames = Array.from(getLabelNames(renderOption));
     return labelNames.map(name => {
       return <FormControlLabel
@@ -67,7 +78,7 @@ const FilterSizes = (props) => {
   };
 
   return (<ThemeProvider theme={theme}>
-    {checkboxes()}
+    {Object.keys(allSizes).length > 0 && getCheckboxes()}
   </ThemeProvider>);
 };
 
@@ -81,14 +92,14 @@ FilterSizes.propTypes = {
 const mapStateToProps = store => {
   return {
     categories: store.categories,
-    categoryId: store.categoryId,
     allSizes: store.allSizes
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    setChosenSize: size => dispatch(setChosenSize(size))
+    setChosenSize: size => dispatch(setChosenSize(size)),
+    getAllSizes: () => dispatch(getAllSizes())
   };
 };
 

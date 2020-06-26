@@ -217,3 +217,7 @@ export const getSizesArray = (productQuantity) => {
   }
   return sizesArray;
 };
+
+export const has = (object, key) => {
+  return object ? hasOwnProperty.call(object, key) : false;
+};

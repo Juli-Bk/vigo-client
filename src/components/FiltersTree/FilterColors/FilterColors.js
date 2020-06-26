@@ -1,20 +1,38 @@
-import React, {useEffect, useState} from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {ThemeProvider} from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import { setChosenColor } from '../../../redux/actions/colors';
+import { setChosenColor, getAllColors } from '../../../redux/actions/colors';
 import theme from './FilterColorsTheme';
 import useStyles from './FilterColorsStyles';
 
 const FilterColors = (props) => {
-  const {setChosenColor, colors, allColors} = props;
+  const {setChosenColor, allColors, getAllColors} = props;
   const [state, setState] = useState({});
-  const [uniqColorNames, setUniqColorNames] = useState([]);
   const classes = useStyles();
 
-  const createCheckboxes = (namesArray) => {
+  useEffect(() => {
+    let isCanceled = false;
+
+    if (!isCanceled) {
+      getAllColors();
+    }
+    return () => {
+      isCanceled = true;
+    };
+  }, [getAllColors]);
+
+  const handleChange = useCallback((event) => {
+    setState({
+      ...state,
+      [event.target.name]: event.target.checked
+    });
+    setChosenColor(event.target.name);
+  }, [setChosenColor, state]);
+
+  const createCheckboxes = useCallback((namesArray) => {
     return namesArray.map(color => {
       return <FormControlLabel
         className={classes.label}
@@ -24,56 +42,34 @@ const FilterColors = (props) => {
           <Checkbox
             onChange={handleChange}
             name={color.name}
-            color="primary"
-            style={{
-              color: color.hex.toLowerCase() === '#ffffff' ? '#f9f9f9' : color.hex
-            }}
+            color="default"
           />
         }/>;
     });
-  };
-  // todo replace request by all colors to products page
-  useEffect(() => {
-    let isCanceled = false;
-    if (!isCanceled) {
-      setUniqColorNames(allColors);
-    }
-    return () => {
-      isCanceled = true;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state, colors, setChosenColor, allColors]);
-
-  const handleChange = (event) => {
-    setState({
-      ...state,
-      [event.target.name]: event.target.checked
-    });
-    setChosenColor(event.target.name);
-  };
+  }, [classes.label, handleChange]);
 
   return (
     <ThemeProvider theme={theme}>
-      {allColors && allColors.length && createCheckboxes(uniqColorNames)}
+      {allColors && allColors.length && createCheckboxes(allColors)}
     </ThemeProvider>
   );
 };
 
 FilterColors.propTypes = {
-  colorsInStorage: PropTypes.array,
-  setChosenColor: PropTypes.func.isRequired
+  setChosenColor: PropTypes.func.isRequired,
+  allColors: PropTypes.array.isRequired
 };
 
 const mapStateToProps = store => {
   return {
-    colors: store.colors,
     allColors: store.allColors
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    setChosenColor: color => dispatch(setChosenColor(color))
+    setChosenColor: color => dispatch(setChosenColor(color)),
+    getAllColors: () => dispatch(getAllColors())
   };
 };
 

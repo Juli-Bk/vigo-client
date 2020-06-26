@@ -7,7 +7,7 @@ import WishListView from '../../components/WishListView/WishListView';
 import EmptyState from '../../components/EmptyState/EmptyState';
 import globalConfig from '../../globalConfig';
 import { changeWishList } from '../../redux/actions/wishlist';
-import { getProductsByFilters } from '../../redux/actions/Products';
+import { getProductsByFilters } from '../../redux/actions/products';
 
 const Wishlist = (props) => {
   const {wishList, getProductsByFilters, products} = props;
