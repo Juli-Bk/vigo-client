@@ -129,6 +129,7 @@ const doesHttpOnlyCookieExist = (cookieName) => {
   document.cookie = cookieName + '=new_value;path=/;' + expires;
   const isExist = document.cookie.indexOf(cookieName + '=') === -1;
 
+  // todo clear 'new_value' if error with old cookie occure
   return isExist;
 };
 

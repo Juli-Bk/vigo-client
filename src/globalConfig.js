@@ -62,7 +62,8 @@ const globalConfig = {
   defaultQuantity: 1,
   userMessages: {
     NOT_AUTHORIZED: 'You are not authorized. Login, please',
-    EMPTY_RESULT: 'Any results matching your search'
+    EMPTY_RESULT: 'Any results matching your search',
+    SUBSCRIBED: 'You are successfully subscribed to our news letters!'
   },
   types: {
     // eslint-disable-next-line

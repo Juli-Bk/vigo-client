@@ -18,6 +18,7 @@ import {useTheme} from '@material-ui/styles';
 import {getUserWishList} from '../../redux/actions/wishlist';
 import {getUserShopCart} from '../../redux/actions/shopCart';
 import {connect} from 'react-redux';
+import ProfileMenu from '../../components/ProfileMenu/ProfileMenu';
 
 const Header = (props) => {
   const {getUserShopCart, getUserWishList} = props;
@@ -64,6 +65,7 @@ const Header = (props) => {
                       <LocalMallOutlinedIcon/>
                     </IconButton>
                   </Link>
+                  <ProfileMenu/>
                   <ModalLogin/>
                 </Box>
               </Toolbar>
