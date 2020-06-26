@@ -64,9 +64,7 @@ const Products = (props) => {
       isCanceled = true;
     };
   }, [currentPage, perPage, sortingOption, filters, getFilteredData]);
-
-  console.log(products);
-
+  
   return (
     <Container>
       <Grid container>
