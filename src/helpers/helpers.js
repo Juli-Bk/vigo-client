@@ -244,3 +244,14 @@ export const getCategoryId = (searchString) => {
   }
   return categoryId;
 };
+
+export const getFiltersFromUrl = (searchString, callBack) => {
+  if (searchString && searchString.includes('&')) {
+    const filterStrings = searchString.split('&');
+    filterStrings.forEach(string => {
+      callBack(makeFilterItem(string));
+    });
+  } else {
+    callBack(makeFilterItem(searchString));
+  }
+};
