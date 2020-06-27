@@ -32,9 +32,11 @@ export const setUserDeliveryAddress = (deliveryAdr) => {
 
 export const loginUser = (email, password, callback) => {
   return (dispatch) => {
+    const fingerprint = window.navigator.userAgent;
     const json = JSON.stringify({
       login: email,
-      password
+      password,
+      fingerprint
     });
 
     AjaxUtils.Users.login(json)
@@ -125,7 +127,10 @@ const doesHttpOnlyCookieExist = (cookieName) => {
   const expires = 'expires=' + date.toUTCString();
 
   document.cookie = cookieName + '=new_value;path=/;' + expires;
-  return document.cookie.indexOf(cookieName + '=') === -1;
+  const isExist = document.cookie.indexOf(cookieName + '=') === -1;
+
+  // todo clear 'new_value' if error with old cookie occure
+  return isExist;
 };
 
 export const saveUserData = (data, callback) => {
