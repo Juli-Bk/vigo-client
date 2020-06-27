@@ -49,6 +49,13 @@ export const deleteJWTcookie = () => {
   document.cookie = `token=${token};expires=${exp}`;
 };
 
+export const deleteUserIdCookie = () => {
+  let exp = new Date(Date.now() - 1000);
+  exp = exp.toUTCString();
+  const userId = getUserIdFromCookie();
+  document.cookie = `userId=${userId};expires=${exp}`;
+};
+
 export const isGuid = (value) => {
   const checkForHexRegExp = new RegExp('^[0-9a-fA-F]{24}$');
   return checkForHexRegExp.test(value);

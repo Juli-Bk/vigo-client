@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import {connect} from 'react-redux';
-import { Box, Typography, Menu, MenuItem, Avatar, makeStyles, useMediaQuery } from '@material-ui/core';
+import {Avatar, Box, makeStyles, Menu, MenuItem, Typography, useMediaQuery} from '@material-ui/core';
 import {Link} from 'react-router-dom';
 import {colors} from '../../styles/colorKit';
-import { logout } from '../../redux/actions/user';
+import {logout} from '../../redux/actions/user';
+import {withRouter} from 'react-router';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -31,23 +32,24 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const ProfileMenu = (props) => {
+  const {user, logout, history} = props;
   const classes = useStyles();
   const isMobile = useMediaQuery('(max-width: 723px)');
-  const {user, logout} = props;
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleClick = (event) => {
+  const handleClick = useCallback((event) => {
     setAnchorEl(event.currentTarget);
-  };
+  }, []);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setAnchorEl(null);
-  };
+  }, []);
 
-  const handleLogOut = () => {
+  const handleLogOut = useCallback(() => {
     logout();
     handleClose();
-  };
+    history.push('/');
+  }, [handleClose, history, logout]);
 
   return (
     <Box className={classes.container}>
@@ -56,11 +58,13 @@ const ProfileMenu = (props) => {
         aria-controls='profile-menu'
         aria-haspopup='true'
         onClick={handleClick}/>
-      {!isMobile
-        ? <Typography variant='caption'>
-          {user.firstName} {user.lastName}
-        </Typography>
-        : null}
+      {
+        !isMobile
+          ? <Typography variant='caption'>
+            {user.firstName} {user.lastName}
+          </Typography>
+          : null
+      }
       <Menu
         className={classes.menu}
         id='profile-menu'
@@ -79,7 +83,9 @@ const ProfileMenu = (props) => {
 };
 
 const mapStateToProps = store => {
-  return {user: store.user};
+  return {
+    user: store.user
+  };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -88,4 +94,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default React.memo(connect(mapStateToProps, mapDispatchToProps)(ProfileMenu));
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(withRouter(ProfileMenu)));

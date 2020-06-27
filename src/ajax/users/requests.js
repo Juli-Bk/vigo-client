@@ -210,5 +210,16 @@ export default {
         }, respData);
       })
       .catch(error => console.log('refreshLogin error', error.message));
+  },
+  logOut: () => {
+    return fetch(pathTo.logout, methods.POST)
+      .then(async (response) => {
+        const respData = await response.json();
+        return Object.assign({
+          status: response.status,
+          statusText: response.statusText
+        }, respData);
+      })
+      .catch(error => console.log('logOut error', error.message));
   }
 };

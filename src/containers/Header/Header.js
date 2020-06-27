@@ -21,7 +21,7 @@ import {connect} from 'react-redux';
 import ProfileMenu from '../../components/ProfileMenu/ProfileMenu';
 
 const Header = (props) => {
-  const {getUserShopCart, getUserWishList} = props;
+  const {getUserShopCart, getUserWishList, userIsLoggedIn} = props;
   const classes = useStyles();
 
   useEffect(() => {
@@ -65,7 +65,7 @@ const Header = (props) => {
                       <LocalMallOutlinedIcon/>
                     </IconButton>
                   </Link>
-                  <ProfileMenu/>
+                  {userIsLoggedIn && <ProfileMenu/>}
                   <ModalLogin/>
                 </Box>
               </Toolbar>
@@ -78,6 +78,12 @@ const Header = (props) => {
   );
 };
 
+const mapStoreToProps = store => {
+  return {
+    userIsLoggedIn: store.userIsLoggedIn
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     getUserWishList: () => dispatch(getUserWishList()),
@@ -85,4 +91,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(Header);
+export default connect(mapStoreToProps, mapDispatchToProps)(Header);
