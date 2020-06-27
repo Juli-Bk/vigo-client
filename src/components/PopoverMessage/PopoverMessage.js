@@ -15,7 +15,7 @@ const PopoverMessage = (props) => {
   const id = isPopoverOpen ? 'simple-popover' : undefined;
 
   return (
-    <div>
+    <Box>
       <Popover
         id={id}
         open={isPopoverOpen}
@@ -34,7 +34,7 @@ const PopoverMessage = (props) => {
           <Typography>{popoverContent}</Typography>
         </Box>
       </Popover>
-    </div>
+    </Box>
   );
 };
 

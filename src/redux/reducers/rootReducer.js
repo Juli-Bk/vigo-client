@@ -23,6 +23,7 @@ import allColors from './allColorsReducer';
 import maxPrice from './maxPriceReducer';
 import allSizes from './allSizesReducer';
 import isPopoverOpen from './isPopoverOpenReducer';
+import isSnackMessageOpen from './isSnackMessageOpenReducer';
 import filters from './filtersReducer';
 
 export const rootReducer = combineReducers({
@@ -50,5 +51,6 @@ export const rootReducer = combineReducers({
   allSizes,
   isLoading,
   isPopoverOpen,
-  filters
+  filters,
+  isSnackMessageOpen
 });

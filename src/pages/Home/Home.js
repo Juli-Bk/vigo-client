@@ -29,6 +29,7 @@ const Home = () => {
       </Grid>
       <ScrollToTop/>
     </Container>
+
   );
 };
 
