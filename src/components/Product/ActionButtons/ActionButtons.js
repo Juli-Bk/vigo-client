@@ -6,15 +6,31 @@ import ButtonAddToCart from './ButtonAddToCart/AddToCartButton';
 import FavoriteIcon from './FavoriteIcon/FavoriteIcon';
 import ButtonCompare from './ButtonCompare/ButtonCompare';
 import globalConfig from '../../../globalConfig';
-import {toggleWishItems, cartHandler } from '../../../helpers/helpers';
-import { changeShoppingCart} from '../../../redux/actions/shopCart';
-import { changeWishList } from '../../../redux/actions/wishlist';
+import { toggleWishItems } from '../../../helpers/helpers';
+import { addToCart } from '../../../pages/ShoppingCart/cartHelpers';
+import {
+  setCurrentProduct,
+  toggleModalSize
+} from '../../../redux/actions/actions';
+import {changeShoppingCart} from '../../../redux/actions/shopCart';
+import {changeWishList} from '../../../redux/actions/wishlist';
 
 const ActionButtons = (props) => {
-  const { classes, product, width, disabledSpacing, isProductPage, changeWishList, changeShoppingCart } = props;
-  const toggleInCart = (productId) => {
-    cartHandler(productId);
-    changeShoppingCart();
+  const {
+    classes, product, width, disabledSpacing,
+    isProductPage, changeWishList, changeShoppingCart,
+    sizeId, quantity, toggleModalSize, setDisplayHelper, isModal, setCurrentProduct
+  } = props;
+
+  const addToShopCart = (productId, quantity, sizeId) => {
+    setCurrentProduct(product);
+    if (!sizeId) {
+      isProductPage ? setDisplayHelper(true) : toggleModalSize(true);
+    } else {
+      addToCart(productId, quantity, sizeId);
+      changeShoppingCart();
+      toggleModalSize(false);
+    }
   };
 
   const addToCompare = (productId) => {
@@ -34,15 +50,24 @@ const ActionButtons = (props) => {
 
   return (
     <CardActions disableSpacing={disabledSpacing}>
-      <ButtonAddToCart classes={classes.button} id={product._id} addToCart={toggleInCart}/>
-      <FavoriteIcon classes={classes}
+      <ButtonAddToCart classes={classes.button}
         id={product._id}
-        addToWishList={toggleWishList}
-        label={defineLabel(width, isProductPage, globalConfig.iconsLabels.ADD_TO_WISHLIST)}/>
-      <ButtonCompare classes={classes}
-        id={product._id}
-        addToCompare={addToCompare}
-        label={defineLabel(width, isProductPage, globalConfig.iconsLabels.ADD_TO_COMPARE)}/>
+        addToCart={addToShopCart}
+        quantity={quantity}
+        product={product}
+        sizeId={sizeId}/>
+      {!isModal
+        ? <>
+          <FavoriteIcon classes={classes}
+            id={product._id}
+            addToWishList={toggleWishList}
+            label={defineLabel(width, isProductPage, globalConfig.iconsLabels.ADD_TO_WISHLIST)}/>
+          <ButtonCompare classes={classes}
+            id={product._id}
+            addToCompare={addToCompare}
+            label={defineLabel(width, isProductPage, globalConfig.iconsLabels.ADD_TO_COMPARE)}/>
+        </>
+        : null}
     </CardActions>
   );
 };
@@ -56,7 +81,8 @@ ActionButtons.propTypes = {
   isProductPage: PropTypes.bool,
   token: PropTypes.string,
   changeWishList: PropTypes.func.isRequired,
-  changeShoppingCart: PropTypes.func.isRequired
+  changeShoppingCart: PropTypes.func.isRequired,
+  toggleModalSize: PropTypes.func.isRequired
 };
 
 const mapStateToProps = store => {
@@ -68,7 +94,9 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
   return {
     changeWishList: () => dispatch(changeWishList()),
-    changeShoppingCart: () => dispatch(changeShoppingCart())
+    changeShoppingCart: () => dispatch(changeShoppingCart()),
+    toggleModalSize: flag => dispatch(toggleModalSize(flag)),
+    setCurrentProduct: product => dispatch(setCurrentProduct(product))
   };
 };
 

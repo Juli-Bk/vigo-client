@@ -99,7 +99,9 @@ const globalConfig = {
   sizeRenderOptions: {
     ALL: 'all',
     ACCESSORIES: 'accessories'
-  }
+  },
+  defaultSizeOption: 'Select size',
+  defaultQuantityOption: 1
 };
 
 export default globalConfig;
