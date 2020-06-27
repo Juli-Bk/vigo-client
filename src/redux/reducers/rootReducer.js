@@ -51,7 +51,6 @@ export const rootReducer = combineReducers({
   allSizes,
   isLoading,
   isPopoverOpen,
-  filters
-  isPopoverOpen,
+  filters,
   isSnackMessageOpen
 });
