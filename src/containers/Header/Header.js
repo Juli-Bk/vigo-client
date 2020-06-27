@@ -15,13 +15,21 @@ import SideMenu from '../../components/SideMenu/SideMenu';
 import ModalLogin from '../../components/ModalLogin/ModalLogin';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {useTheme} from '@material-ui/styles';
-import {getUserWishList} from '../../redux/actions/wishlist';
-import {getUserShopCart} from '../../redux/actions/shopCart';
+import { changeWishList, getUserWishList } from '../../redux/actions/wishlist';
+import { changeShoppingCart, getUserShopCart } from '../../redux/actions/shopCart';
 import {connect} from 'react-redux';
 import ProfileMenu from '../../components/ProfileMenu/ProfileMenu';
+import ModalSize from '../../components/ModalSelectSize/ModalSelectSize';
 
 const Header = (props) => {
-  const {getUserShopCart, getUserWishList, userIsLoggedIn} = props;
+  const {
+    getUserShopCart,
+    getUserWishList,
+    isModalSizeOpen,
+    changeShoppingCart,
+    changeWishList,
+    userIsLoggedIn
+  } = props;
   const classes = useStyles();
 
   useEffect(() => {
@@ -29,11 +37,13 @@ const Header = (props) => {
     if (!isCanceled) {
       getUserWishList();
       getUserShopCart();
+      changeShoppingCart();
+      changeWishList();
     }
     return () => {
       isCanceled = true;
     };
-  }, [getUserShopCart, getUserWishList]);
+  }, [changeShoppingCart, changeWishList, getUserShopCart, getUserWishList]);
 
   const isMobile = useMediaQuery(useTheme().breakpoints.between(0, 724), {
     defaultMatches: true
@@ -73,6 +83,7 @@ const Header = (props) => {
           </AppBar>
         </Grid>
         {!isMobile && <NestedMenu/>}
+        {isModalSizeOpen && <ModalSize/>}
       </Grid>
     </ThemeProvider>
   );
@@ -80,14 +91,17 @@ const Header = (props) => {
 
 const mapStoreToProps = store => {
   return {
-    userIsLoggedIn: store.userIsLoggedIn
+    userIsLoggedIn: store.userIsLoggedIn,
+    isModalSizeOpen: store.isModalSizeOpen
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     getUserWishList: () => dispatch(getUserWishList()),
-    getUserShopCart: () => dispatch(getUserShopCart())
+    getUserShopCart: () => dispatch(getUserShopCart()),
+    changeShoppingCart: () => dispatch(changeShoppingCart()),
+    changeWishList: () => dispatch(changeWishList())
   };
 };
 

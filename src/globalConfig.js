@@ -65,14 +65,6 @@ const globalConfig = {
     EMPTY_RESULT: 'Any results matching your search',
     SUBSCRIBED: 'You are successfully subscribed to our news letters!'
   },
-  types: {
-    // eslint-disable-next-line
-    ELECTRON: '/^(4026|417500|4405|4508|4844|4913|4917)\d+$/',
-    // eslint-disable-next-line
-    MAESTRO: '/^(5018|5020|5038|5612|5893|6304|6759|6761|6762|6763|0604|6390)\d+$/',
-    VISA: '/^4[0-9]{12}(?:[0-9]{3})?$/',
-    MASTERCARD: '/^5[1-5][0-9]{14}$/'
-  },
   minDefaultPrice: 0,
   maxDefaultPrice: 3000,
   topSliderData: {
@@ -99,7 +91,9 @@ const globalConfig = {
   sizeRenderOptions: {
     ALL: 'all',
     ACCESSORIES: 'accessories'
-  }
+  },
+  defaultSizeOption: 'Select size',
+  defaultQuantityOption: 1
 };
 
 export default globalConfig;

@@ -121,25 +121,13 @@ export const saveWishListToLS = (remoteWishList) => {
   setStorageData('wishList', localWishList);
 };
 
-export const saveShopCartToLS = (remoteCart) => {
-  const localCart = getStorageData('shoppingCart');
-  remoteCart.forEach(item => {
-    if (localCart) {
-      if (!localCart.includes(item.productId)) {
-        localCart.push(item.productId);
-      }
-    }
-  });
-  setStorageData('shoppingCart', localCart || []);
-};
-
 export const toggleWishItems = (productId) => {
   const userId = getUserIdFromCookie();
   const wishListLocal = getStorageData('wishList');
 
   if (wishListLocal.includes(productId)) {
-    const ws = wishListLocal.filter(item => item !== productId);
-    setStorageData('wishList', ws);
+    const wishList = wishListLocal.filter(item => item !== productId);
+    setStorageData('wishList', wishList);
 
     if (userId) {
       AjaxUtils.WishLists.deleteProductFromWishlist(productId)
@@ -151,69 +139,18 @@ export const toggleWishItems = (productId) => {
         });
     }
   } else {
-    const ws = [...wishListLocal, productId];
-    setStorageData('wishList', ws);
+    const wishList = [...wishListLocal, productId];
+    setStorageData('wishList', wishList);
 
     if (userId) {
       AjaxUtils.WishLists.addProductToWishList(productId, userId)
         .then(result => {
-          if (result.status) {
+          if (result.status !== 200) {
+            // todo nice popup
             alert(globalConfig.userMessages.NOT_AUTHORIZED);
           }
         });
     }
-  }
-};
-
-export const cartHandler = (productId, quantity = 1) => {
-  const userId = getUserIdFromCookie();
-  const shopCartLocal = getStorageData('shoppingCart');
-  const cartId = JSON.parse(localStorage.getItem('cartId'));
-
-  const products = shopCartLocal.map(() => {
-    return {
-      productId,
-      cartQuantity: quantity
-    };
-  });
-
-  if (shopCartLocal.includes(productId)) {
-    setStorageData('shoppingCart', shopCartLocal.filter(item => item !== productId));
-  } else {
-    setStorageData('shoppingCart', [...shopCartLocal, productId]);
-  }
-  if (userId && !cartId) {
-    AjaxUtils.ShopCart.getUserShopCart(userId)
-      .then(result => {
-        if (result.message) {
-          AjaxUtils.ShopCart.createShopCart(userId, products)
-            .then(result => {
-              // todo nice popup
-              console.log(result);
-              setStorageData('cartId', result._id);
-            });
-        } else {
-          AjaxUtils.ShopCart.updateShopCartById(result._id, products, result.userId)
-            .then(result => {
-              // todo nice popup
-              console.log(result);
-              setStorageData('cartId', result._id);
-            });
-        }
-      });
-  } else if (!userId && cartId) {
-    AjaxUtils.ShopCart.updateShopCartById(cartId, products)
-      .then(result => {
-        // todo nice popup
-        console.log(result);
-      });
-  } else {
-    AjaxUtils.ShopCart.createShopCart(null, products)
-      .then(result => {
-        // todo nice popup
-        console.log(result);
-        setStorageData('cartId', result._id);
-      });
   }
 };
 
@@ -235,4 +172,86 @@ export const makeFilterItem = (string) => {
   const key = filterString[0];
   const value = filterString[1];
   return {[key]: value};
+};
+
+export const getMaxQuantity = (productQuantity, size) => {
+  if (productQuantity && productQuantity.length) {
+    if (size && size !== globalConfig.defaultSizeOption) {
+      const product = productQuantity.find(item => item.sizeId.name === size);
+      if (product && product.quantity) return product.quantity || 0;
+    }
+  }
+};
+
+export const getProductStockData = (quantityArray, productId) => {
+  if (quantityArray && quantityArray.length) {
+    const productQuantity = quantityArray.find(item => item.productId === productId);
+    if (productQuantity && productQuantity.inStock.length) {
+      return productQuantity.inStock || [];
+    }
+  }
+};
+
+export const getColorName = (quantityArray) => {
+  if (quantityArray && quantityArray.length) {
+    return capitalize(quantityArray[0] && quantityArray[0].colorId.name) || '';
+  }
+};
+
+export const getChosenSizeId = (productQuantity, chosenSize) => {
+  if (productQuantity && chosenSize) {
+    const item = productQuantity.find(item => item.sizeId.name === chosenSize);
+    if (item && item.sizeId) {
+      return item.sizeId._id || '';
+    }
+  }
+};
+
+export const getSizesArray = (productQuantity) => {
+  const sizesArray = [];
+  if (productQuantity && productQuantity.length) {
+    productQuantity.forEach(item => {
+      sizesArray.push(item.sizeId.name);
+    });
+    sizesArray.unshift(globalConfig.defaultSizeOption);
+  }
+  return sizesArray;
+};
+
+export const has = (object, key) => {
+  return object ? hasOwnProperty.call(object, key) : false;
+};
+
+export const getFiltersArray = (filtersObject) => {
+  const array = Object.entries(filtersObject);
+  const arrayOfObj = [];
+  array.forEach(item => {
+    arrayOfObj.push({[item[0]]: item[1]});
+  });
+  return arrayOfObj || [];
+};
+
+export const getCategoryId = (searchString) => {
+  let categoryId = '';
+  if (searchString && searchString.includes('categoryId')) {
+    const stringPart = searchString.split('categoryId=')[1];
+
+    if (stringPart.includes('&')) {
+      categoryId = stringPart.split('&')[0];
+    } else {
+      categoryId = stringPart;
+    }
+  }
+  return categoryId;
+};
+
+export const getFiltersFromUrl = (searchString, callBack) => {
+  if (searchString && searchString.includes('&')) {
+    const filterStrings = searchString.split('&');
+    filterStrings.forEach(string => {
+      callBack(makeFilterItem(string));
+    });
+  } else {
+    callBack(makeFilterItem(searchString));
+  }
 };

@@ -9,7 +9,7 @@ import {StylesProvider, ThemeProvider} from '@material-ui/styles';
 import './App.scss';
 import theme from './mainTheme';
 import Footer from './containers/Footer/Footer';
-import { getCategories} from './redux/actions/categories';
+import {getCategories} from './redux/actions/categories';
 import {getUserData} from './redux/actions/user';
 
 function App (props) {
@@ -46,7 +46,8 @@ function App (props) {
 }
 
 App.propTypes = {
-  getUserData: PropTypes.func.isRequired
+  getUserData: PropTypes.func.isRequired,
+  getCategories: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => {

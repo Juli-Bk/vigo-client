@@ -18,7 +18,24 @@ const labelStyles = {
   fontWeight: 'bold'
 };
 
-const useStyles = makeStyles(theme => ({
+export const button = {
+  padding: '.15rem .3rem',
+  color: colors.fontOncard,
+  background: colors.noticeColor,
+  fontFamily: fonts.f3,
+  fontWeight: 'bold',
+  fontSize: '.9em',
+  border: `2px solid ${colors.noticeColor}`,
+  transition: 'all .15s ease',
+  marginBottom: '.5rem',
+  '&:hover': {
+    color: colors.noticeColor,
+    background: colors.fontOncard,
+    borderColor: colors.noticeColor
+  }
+};
+
+export const useStyles = makeStyles(theme => ({
   card: {
     margin: '0 auto 1.5rem auto',
     borderRadius: 0,
@@ -40,20 +57,7 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 'bold'
   },
   button: {
-    padding: '.15rem .3rem',
-    color: colors.fontOncard,
-    background: colors.noticeColor,
-    fontFamily: fonts.f3,
-    fontWeight: 'bold',
-    fontSize: '.9em',
-    border: `2px solid ${colors.noticeColor}`,
-    transition: 'all .15s ease',
-    marginBottom: '.5rem',
-    '&:hover': {
-      color: colors.noticeColor,
-      background: colors.fontOncard,
-      borderColor: colors.noticeColor
-    },
+    ...button,
     [theme.breakpoints.up(440)]: {
       marginBottom: 0
     },
@@ -202,7 +206,36 @@ const useStyles = makeStyles(theme => ({
       marginRight: '2rem'
     }
   },
-  form: {}
+  form: {},
+  quantityBox: {
+    minWidth: 100,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    border: `1px solid ${colors.fontFourth}`,
+    lineHeight: '1.5rem'
+  },
+  btn: {
+    color: colors.fontFourth,
+    cursor: 'pointer',
+    lineHeight: '1.2rem',
+    verticalAlign: 'middle',
+    '&:hover': {
+      color: colors.noticeColor,
+      transition: 'all .5s ease'
+    }
+  },
+  borderRight: {
+    borderRight: `1px solid  ${colors.fontFourth}`,
+    lineHeight: '2rem'
+  },
+  borderLeft: {
+    borderLeft: `1px solid  ${colors.fontFourth}`,
+    lineHeight: '2rem'
+  },
+  active: {
+    fontSize: '1.2rem',
+    fontWeight: 'bold',
+    lineHeight: 'unset'
+  }
 }));
-
-export default useStyles;

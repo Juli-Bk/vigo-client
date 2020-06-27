@@ -1,42 +1,72 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState, useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
-import {Box, Divider, Link, ThemeProvider, Typography, withWidth} from '@material-ui/core';
 import {connect} from 'react-redux';
+import {Box, Divider, ThemeProvider, Typography, withWidth} from '@material-ui/core';
+import MuiLink from '@material-ui/core/Link';
+import {Link} from 'react-router-dom';
 
-import useStyles from './ProductPageViewStyles';
+import {
+  capitalize,
+  mapArrayToOptions,
+  getMaxQuantity,
+  getProductStockData,
+  getColorName,
+  getChosenSizeId,
+  getSizesArray
+} from '../../../helpers/helpers';
+import {getProductsQuantity} from '../../../redux/actions/quantity';
+import {useStyles} from './ProductPageViewStyles';
 import {theme} from './ProductPageViewTheme';
-import {capitalize, makeNumbersArray, mapArrayToOptions} from '../../../helpers/helpers';
+import {colors} from '../../../styles/colorKit';
+import globalConfig from '../../../globalConfig';
 import ActionButtons from '../ActionButtons/ActionButtons';
 import ProductRating from '../ProductRating/ProductRating';
 import SalePrice from '../SalePrice/SalePrice';
 import Price from '../Price/Price';
-import SelectSimple from '../../Select/SelectSimple';
-import { setChosenQuantity, setChosenSize } from '../../../redux/actions/actions';
+import SelectBox from '../../SelectBox/SelectBox';
+import Quantity from '../Quantity/Quantity';
 
 const ProductPageView = (props) => {
   const classes = useStyles();
-  const {productData, width, productQuantity} = props;
-  const {name, description, price, rating, brandId, salePrice, productId, isOnSale} = productData;
+
+  const {productData, width, productsQuantity, getProductsQuantity} = props;
+  const {name, description, price, rating, brandId, salePrice, productId, isOnSale, _id} = productData;
+
   const [chosenSize, setChosenSize] = useState('');
-  const [chosenQuantity, setChosenQuantity] = useState(1);
-  const [quantityOfCurrentSize, setQuantityOfCurrentSize] = useState(1);
-  const sizesArray = [];
-  const color = capitalize(productQuantity.length && productQuantity[0].colorId.name);
-  const quantityOptions = mapArrayToOptions(makeNumbersArray(quantityOfCurrentSize));
+  const [quantity, setQuantity] = useState(globalConfig.defaultQuantityOption);
+  const [displayHelper, setDisplayHelper] = useState(false);
+  const [productQuantity, setProductQuantity] = useState([]);
 
-  productQuantity.length && productQuantity.forEach(item => {
-    sizesArray.push(item.sizeId.name);
-  });
-  sizesArray.unshift('Select Size');
+  const color = useMemo(() => getColorName(productQuantity), [productQuantity]);
+  const maxQuantity = useMemo(() => {
+    getMaxQuantity(productQuantity, chosenSize);
+  }, [chosenSize, productQuantity]);
+  const sizesArray = useMemo(() => getSizesArray(productQuantity), [productQuantity]);
+  const sizeId = getChosenSizeId(productQuantity, chosenSize);
 
-  const handleSetQuantity = (event) => {
-    setChosenQuantity(Number(event.target.value));
-  };
+  useEffect(() => {
+    getProductsQuantity([_id]);
+    const quantityOfCurrentProduct = getProductStockData(productsQuantity, _id);
+    setProductQuantity(quantityOfCurrentProduct);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chosenSize, productsQuantity, productData, getProductsQuantity, getProductStockData]);
 
-  const handleSetSize = (event) => {
-    setChosenSize(event.target.value);
-    setQuantityOfCurrentSize(productQuantity.find(item => item.sizeId.name === event.target.value).quantity);
-  };
+  const handleSetSize = useCallback((event) => {
+    if (event.target.value !== globalConfig.defaultSizeOption) {
+      setChosenSize(event.target.value);
+      setDisplayHelper(false);
+    }
+  }, [setChosenSize]);
+
+  const handleQuantity = useCallback((id, number) => {
+    if (!chosenSize || chosenSize === globalConfig.defaultSizeOption) {
+      setDisplayHelper(true);
+      setQuantity(globalConfig.defaultQuantityOption);
+    } else {
+      setDisplayHelper(false);
+      setQuantity(number);
+    }
+  }, [chosenSize, setQuantity]);
 
   // todo product rating
   // todo search by brand on click by brand
@@ -51,33 +81,42 @@ const ProductPageView = (props) => {
         <SalePrice value={salePrice}/>
       </Box>
       <Box className={classes.productInfo}>
-        <Typography variant='body2' gutterBottom>Brand: <span
-          className={classes.brand}>{brandId.name}</span></Typography>
+        <Link to={`/products/filter?brandId=${brandId._id}`} className={classes.link}>
+          <Typography variant='body2' gutterBottom>Brand: <span
+            className={classes.brand}>{brandId.name}</span></Typography>
+        </Link>
         <Typography variant='body2' gutterBottom>Product code: {productId}</Typography>
       </Box>
       <Typography variant='caption' component='p' className={classes.description}>{description}</Typography>
       <Box className={classes.colorBox}>
         <Typography variant='body2'>Color: <span className={classes.colorName}>{color}</span></Typography>
-        <Link variant='body2' className={classes.link}>View sizes guide</Link>
+        <MuiLink variant='body2' className={classes.link}>View sizes guide</MuiLink>
       </Box>
       <Box>
+        {displayHelper
+          ? <Typography
+            variant='subtitle1'
+            style={{color: colors.noticeColor}}>
+                  Please, choose size
+          </Typography>
+          : null}
         <Box className={classes.selectBox}>
-          <SelectSimple value={chosenSize}
+          <SelectBox value={chosenSize}
             classes={classes}
             handleChange={handleSetSize}
             options={mapArrayToOptions(sizesArray)}/>
-          <SelectSimple value={chosenQuantity}
-            classes={classes}
-            handleChange={handleSetQuantity}
-            options={quantityOptions}/>
+          <Quantity quantity={quantity} id={productData._id} classes={classes} max={maxQuantity || 5} handleQuantity={handleQuantity}/>
         </Box>
         <Box className={classes.actionBox}>
           <ThemeProvider theme={theme}>
             <ActionButtons classes={classes}
               product={productData}
+              quantity={quantity}
+              sizeId={sizeId}
               width={width}
               disabledSpacing={true}
               isProductPage={true}
+              setDisplayHelper={setDisplayHelper}
             />
           </ThemeProvider>
         </Box>
@@ -88,20 +127,20 @@ const ProductPageView = (props) => {
 
 ProductPageView.propTypes = {
   productData: PropTypes.object.isRequired,
-  width: PropTypes.string.isRequired
+  width: PropTypes.string.isRequired,
+  productsQuantity: PropTypes.array.isRequired,
+  getProductsQuantity: PropTypes.func.isRequired
 };
 
-const mapStateToProps = store => {
+const mapStateToProps = (store) => {
   return {
-    size: store.size,
-    quantity: store.quantity
+    productsQuantity: store.quantity
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    setSize: value => dispatch(setChosenSize(value)),
-    setQuantity: value => dispatch(setChosenQuantity(value))
+    getProductsQuantity: data => dispatch(getProductsQuantity(data))
   };
 };
 
