@@ -1,7 +1,9 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import {Box, Divider, Link, ThemeProvider, Typography, withWidth} from '@material-ui/core';
+import {Box, Divider, ThemeProvider, Typography, withWidth} from '@material-ui/core';
+import MuiLink from '@material-ui/core/Link';
+import {Link} from 'react-router-dom';
 
 import {
   capitalize,
@@ -35,10 +37,12 @@ const ProductPageView = (props) => {
   const [displayHelper, setDisplayHelper] = useState(false);
   const [productQuantity, setProductQuantity] = useState([]);
 
-  const color = getColorName(productQuantity);
-  const maxQuantity = getMaxQuantity(productQuantity, chosenSize);
+  const color = useMemo(() => getColorName(productQuantity), [productQuantity]);
+  const maxQuantity = useMemo(() => {
+    getMaxQuantity(productQuantity, chosenSize);
+  }, [chosenSize, productQuantity]);
+  const sizesArray = useMemo(() => getSizesArray(productQuantity), [productQuantity]);
   const sizeId = getChosenSizeId(productQuantity, chosenSize);
-  const sizesArray = getSizesArray(productQuantity);
 
   useEffect(() => {
     getProductsQuantity([_id]);
@@ -47,14 +51,14 @@ const ProductPageView = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chosenSize, productsQuantity, productData, getProductsQuantity, getProductStockData]);
 
-  const handleSetSize = (event) => {
+  const handleSetSize = useCallback((event) => {
     if (event.target.value !== globalConfig.defaultSizeOption) {
       setChosenSize(event.target.value);
       setDisplayHelper(false);
     }
-  };
+  }, [setChosenSize]);
 
-  const handleQuantity = (id, number) => {
+  const handleQuantity = useCallback((id, number) => {
     if (!chosenSize || chosenSize === globalConfig.defaultSizeOption) {
       setDisplayHelper(true);
       setQuantity(globalConfig.defaultQuantityOption);
@@ -62,7 +66,7 @@ const ProductPageView = (props) => {
       setDisplayHelper(false);
       setQuantity(number);
     }
-  };
+  }, [chosenSize, setQuantity]);
 
   // todo product rating
   // todo search by brand on click by brand
@@ -77,21 +81,23 @@ const ProductPageView = (props) => {
         <SalePrice value={salePrice}/>
       </Box>
       <Box className={classes.productInfo}>
-        <Typography variant='body2' gutterBottom>Brand: <span
-          className={classes.brand}>{brandId.name}</span></Typography>
+        <Link to={`/products/filter?brandId=${brandId._id}`} className={classes.link}>
+          <Typography variant='body2' gutterBottom>Brand: <span
+            className={classes.brand}>{brandId.name}</span></Typography>
+        </Link>
         <Typography variant='body2' gutterBottom>Product code: {productId}</Typography>
       </Box>
       <Typography variant='caption' component='p' className={classes.description}>{description}</Typography>
       <Box className={classes.colorBox}>
         <Typography variant='body2'>Color: <span className={classes.colorName}>{color}</span></Typography>
-        <Link variant='body2' className={classes.link}>View sizes guide</Link>
+        <MuiLink variant='body2' className={classes.link}>View sizes guide</MuiLink>
       </Box>
       <Box>
         {displayHelper
           ? <Typography
             variant='subtitle1'
             style={{color: colors.noticeColor}}>
-                  Please, chose size
+                  Please, choose size
           </Typography>
           : null}
         <Box className={classes.selectBox}>

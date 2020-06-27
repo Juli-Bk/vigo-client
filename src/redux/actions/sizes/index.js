@@ -4,7 +4,7 @@ import AjaxUtils from '../../../ajax';
 export const getAllSizes = () => dispatch => {
   AjaxUtils.Sizes.getAllSizes()
     .then(result => {
-      if (result.items) {
+      if (result && result.items) {
         const namesSet = new Set();
         result.items.forEach(size => {
           namesSet.add(size.name);

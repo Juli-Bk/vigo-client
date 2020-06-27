@@ -62,17 +62,17 @@ const Products = (props) => {
   return (
     <Container>
       <Grid container>
-        <Grid item container lg={8} xl={8} md={8} sm={8} xs={12} className={classes.grid}>
+        <Grid item container sm={8} xs={12}>
           <Container>
-            <Grid item xl={12} lg={12} md={12} sm={12} xs={12} className={classes.topFiltersLine}>
-              <Grid item container lg={12} className={classes.upperLine}>
+            <Grid item xs={12} className={classes.topFiltersLine}>
+              <Grid item container xs={12} className={classes.upperLine}>
                 {!isSmScreen
-                  ? <Grid container item xl={6} lg={6} md={5} sm={6} xs={12} className={classes.sortSelect}>
+                  ? <Grid container item lg={6} md={5} sm={6} xs={12} className={classes.sortSelect}>
                     <Sort values={globalConfig.sortOptions}/>
                   </Grid>
                   : null
                 }
-                <Grid item xl={6} lg={6} md={7} sm={6} xs={12} className={classes.filterPrice}>
+                <Grid item lg={6} md={7} sm={6} xs={12} className={classes.filterPrice}>
                   <FilterPrice/>
                 </Grid>
               </Grid>
@@ -81,20 +81,20 @@ const Products = (props) => {
               </Grid>
                 : null}
               <Grid item container lg={12} spacing={0}>
-                <Grid item xl={3} lg={3} md={3} sm={6} xs={6} className={classes.viewBox}>
+                <Grid item md={3} xs={6} className={classes.viewBox}>
                   <ViewAs label={true}/>
                 </Grid>
-                <Grid item xl={3} lg={3} md={3} sm={6} xs={6} className={classes.showBy}>
+                <Grid item md={3} xs={6} className={classes.showBy}>
                   {products.totalCount > globalConfig.step ? <ShowBy step={globalConfig.step}/> : null}
                 </Grid>
-                <Grid item xl={6} lg={6} md={6} sm={12} xs={12}>
+                <Grid item md={6} xs={12}>
                   {products.totalCount > 0
                     ? <PaginationRounded perPage={perPage} total={products.totalCount}/>
                     : null}
                 </Grid>
               </Grid>
             </Grid>
-            <Grid item container className={classes.products} xl={12} lg={12} md={12} sm={12} xs={12}>
+            <Grid item container className={classes.products} xs={12}>
               {products.data && products.data.length
                 ? (view === 'module' ? <ProductGrid products={products.data}/>
                   : <ProductsList products={products.data}/>)
@@ -102,10 +102,10 @@ const Products = (props) => {
             </Grid>
           </Container>
         </Grid>
-        <Grid item lg={4} xl={4} md={4} sm={4}>
+        <Grid item sm={4}>
           <SideBar/>
         </Grid>
-        <Grid item xl={12} lg={12} md={12} sm={12} xs={12} className={classes.paginationBottom}>
+        <Grid item xs={12} className={classes.paginationBottom}>
           {products.totalCount > 0
             ? <PaginationRounded perPage={perPage} total={products.totalCount}/>
             : null}

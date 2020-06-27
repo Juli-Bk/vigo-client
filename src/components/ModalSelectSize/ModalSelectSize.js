@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import {connect} from 'react-redux';
 import Button from '@material-ui/core/Button';
 import {makeStyles, ThemeProvider} from '@material-ui/core';
@@ -45,11 +45,11 @@ const ModalSize = (props) => {
   const sizeId = getChosenSizeId(productQuantity, chosenSize);
   const sizesArray = getSizesArray(productQuantity);
 
-  const handleSetSize = (event) => {
+  const handleSetSize = useCallback((event) => {
     if (event.target.value !== globalConfig.defaultSizeOption) {
       setChosenSize(event.target.value);
     }
-  };
+  }, []);
 
   useEffect(() => {
     getProductsQuantity([currentProduct._id]);
@@ -100,4 +100,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ModalSize);
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(ModalSize));

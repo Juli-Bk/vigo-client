@@ -15,7 +15,7 @@ export const getUserShopCart = () => {
     if (userId) {
       AjaxUtils.ShopCart.getUserShopCart(userId)
         .then(result => {
-          if (result.status !== 400) {
+          if (result && result.status !== 400) {
             integrateCarts(result.products || []);
             dispatch(changeShoppingCart());
           }

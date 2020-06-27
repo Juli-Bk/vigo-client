@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import currentPage from './paginationReducer';
+import currentPage from './currentPageReducer';
 import token from './tokenReducer';
 import productsPerPage from './productsPerPageReducer';
 import sortingOption from './sortReducer';
@@ -18,7 +18,7 @@ import shoppingCart from './shoppingCartReducer';
 import guestData from './guestReducer';
 import isModalSizeOpen from './modalSizeReducer';
 import products from './productsByFiltersReducer';
-import currentProduct from './currentProductIdReducer';
+import currentProduct from './currentProductReducer';
 import allColors from './allColorsReducer';
 import maxPrice from './maxPriceReducer';
 import allSizes from './allSizesReducer';

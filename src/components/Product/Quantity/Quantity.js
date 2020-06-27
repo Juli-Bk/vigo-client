@@ -1,18 +1,19 @@
-import React from 'react';
-import { Box, Typography} from '@material-ui/core';
+import React, { useCallback } from 'react';
+import PropTypes from 'prop-types';
+import {Box, Typography} from '@material-ui/core';
 import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 
 const Quantity = (props) => {
   const {quantity, id, classes, handleQuantity, max} = props;
 
-  const handleMinus = () => {
+  const handleMinus = useCallback(() => {
     if (quantity > 1) handleQuantity(id, quantity - 1);
-  };
+  }, [handleQuantity, id, quantity]);
 
-  const handlePlus = () => {
+  const handlePlus = useCallback(() => {
     if (quantity < max) handleQuantity(id, quantity + 1);
-  };
+  }, [handleQuantity, id, max, quantity]);
 
   return (
     <Box className={classes.quantityBox}>
@@ -30,4 +31,12 @@ const Quantity = (props) => {
   );
 };
 
-export default Quantity;
+Quantity.propTypes = {
+  quantity: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
+  classes: PropTypes.object.isRequired,
+  handleQuantity: PropTypes.func.isRequired,
+  max: PropTypes.number
+};
+
+export default React.memo(Quantity);
