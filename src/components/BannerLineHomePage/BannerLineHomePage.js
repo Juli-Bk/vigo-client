@@ -5,9 +5,10 @@ import useStyles from './BannerLineHomePageStyle';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import config from '../../globalConfig';
+import {setCategoryId} from '../../redux/actions/categories';
 
 const BannerLineHomePage = props => {
-  const {categories} = props;
+  const {categories, setCategoryId} = props;
   const [menLink, setMenLink] = useState('/products');
   const [girlsLink, setGirlsLink] = useState('');
   const styles = useStyles();
@@ -16,13 +17,15 @@ const BannerLineHomePage = props => {
     if (categories) {
       categories.forEach(item => {
         if (item.name === 'women') {
+          setCategoryId(item.id);
           setGirlsLink(`/products/filter?categoryId=${item.id}`);
         } else if (item.name === 'men') {
+          setCategoryId(item.id);
           setMenLink(`/products/filter?categoryId=${item.id}&new=true`);
         }
       });
     }
-  }, [categories]);
+  }, [categories, setCategoryId]);
 
   return (
     <Grid data-testid='bannerContainer' className={styles.bannersCover} container spacing={4}>
@@ -63,4 +66,10 @@ const mapStateToProps = store => {
   };
 };
 
-export default React.memo(connect(mapStateToProps)(BannerLineHomePage));
+const mapDispatchToProps = dispatch => {
+  return {
+    setCategoryId: id => dispatch(setCategoryId(id))
+  };
+};
+
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(BannerLineHomePage));

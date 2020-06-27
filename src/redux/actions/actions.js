@@ -21,24 +21,12 @@ export const setPriceRange = (values) => {
   return {type: Actions.SET_PRICE_RANGE, payload: values};
 };
 
-export const setChosenColor = (color) => {
-  return {type: Actions.SET_CHOSEN_COLOR, payload: color};
-};
-
 export const toggleMenuOpen = (isOpen) => {
   return {type: Actions.TOGGLE_MENU_OPEN, payload: isOpen};
 };
 
 export const toggleSearchBarOpen = (isOpen) => {
   return {type: Actions.TOGGLE_SEARCH_BAR_OPEN, payload: isOpen};
-};
-
-export const setChosenSize = (size) => {
-  return {type: Actions.SET_CHOSEN_SIZE, payload: size};
-};
-
-export const setChosenQuantity = (quantity) => {
-  return {type: Actions.SET_CHOSEN_QUANTITY, payload: quantity};
 };
 
 export const setLoginModalOpenState = (isOpen) => {
@@ -68,4 +56,12 @@ export const setSnackMessageState = (isOpen) => {
 export const setLoading = (isLoading) => {
   // todo use this action for Loader/spinner
   return {type: Actions.SET_LOADING_PROCESS, payload: isLoading};
+};
+
+export const toggleModalSize = (flag) => {
+  return {type: Actions.IS_MODAL_SIZE_OPEN, payload: flag};
+};
+
+export const setCurrentProduct = (product) => {
+  return {type: Actions.SET_CURRENT_PRODUCT, payload: product};
 };

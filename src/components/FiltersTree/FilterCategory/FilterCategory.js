@@ -7,10 +7,11 @@ import StyledTreeItem from '../../StyledTreeItem/StyledTreeItem';
 import {setCategoryId} from '../../../redux/actions/categories';
 
 import theme from '../FilterColors/FilterColorsTheme';
-import { ThemeProvider } from '@material-ui/core';
+import {ThemeProvider} from '@material-ui/core';
+import {setCurrentPage} from '../../../redux/actions/actions';
 
 const FiltersCategory = (props) => {
-  const {categories, history, setCategoryId} = props;
+  const {categories, history, setCategoryId, setCurrentPage} = props;
   const classes = useStyles();
 
   const getStyledTreeItem = useCallback((category) => {
@@ -30,12 +31,13 @@ const FiltersCategory = (props) => {
       onLabelClick={(event) => {
         history.push(`/products/filter?categoryId=${category.id}`);
         setCategoryId(category.id);
+        setCurrentPage(1);
       }}
     >
       {categoryChildren}
     </StyledTreeItem>;
   },
-  [classes, history, setCategoryId]);
+  [classes, history, setCategoryId, setCurrentPage]);
 
   const categoriesTree = useMemo(() => categories.map(category => {
     return getStyledTreeItem(category);
@@ -61,7 +63,8 @@ const mapStoreToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setCategoryId: id => dispatch(setCategoryId(id))
+    setCategoryId: id => dispatch(setCategoryId(id)),
+    setCurrentPage: number => dispatch(setCurrentPage(number))
   };
 };
 

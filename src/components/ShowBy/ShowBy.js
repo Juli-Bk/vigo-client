@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setProductsPerPage } from '../../redux/actions/actions';
-import SelectSimple from '../Select/SelectSimple';
-import useStyles from '../Select/SelectSimpleStyles';
+import SelectBox from '../SelectBox/SelectBox';
+import useStyles from '../SelectBox/SelectBoxStyles';
 
 const ShowBy = (props) => {
   const { productsPerPage, setProductsPerPage, step } = props;
@@ -19,7 +19,7 @@ const ShowBy = (props) => {
   };
 
   return (
-    <SelectSimple value={productsPerPage}
+    <SelectBox value={productsPerPage}
       handleChange={handleChange}
       options={options}
       classes={classes}

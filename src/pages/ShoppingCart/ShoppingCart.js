@@ -1,44 +1,39 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Container, Grid, useMediaQuery } from '@material-ui/core';
-import AjaxUtils from '../../ajax';
 import globalConfig from '../../globalConfig';
-
-import ProductsTable from '../../containers/ProductsTable/ProductsTable';
+import { getProductsId } from './cartHelpers';
+import { getProductsByFilters } from '../../redux/actions/products';
+import ShopCartView from '../../components/ShopCartView/ShopCartView';
 import EmptyState from '../../components/EmptyState/EmptyState';
 
+// todo render items, if sizes are different, but product id is the same
+
 const ShoppingCart = (props) => {
-  const {shoppingCart} = props;
-  const [products, setProducts] = useState([]);
+  const {shoppingCart, getProductsByFilters, products} = props;
+
   const isMobile = useMediaQuery('(max-width: 550px)');
-  const filterArray = (shoppingCart.length && [{_id: shoppingCart}]) || [];
+  const productsId = getProductsId(shoppingCart);
+  const filterArray = (productsId.length && [{_id: productsId}]) || [];
 
   useEffect(() => {
-    // eslint-disable-next-line
     let isCanceled = false;
-
-    if (filterArray.length) {
-      AjaxUtils.Products.getProductsByFilters(filterArray, 1, 15, '')
-        .then(result => {
-          if (result && !result.message) {
-            setProducts(result.products);
-          }
-        });
+    if (!isCanceled) {
+      getProductsByFilters(filterArray, 1, 15, '');
     }
     return () => {
       isCanceled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shoppingCart]);
+  }, [shoppingCart, getProductsByFilters]);
 
   return (
     <Container>
       <Grid container>
-        {shoppingCart.length && products.length
-          ? <ProductsTable
-            products={products}
-            isShoppingCart={true}
+        {shoppingCart.length && products && products.data
+          ? <ShopCartView
+            products={products.data}
             isMobile={isMobile}/>
           : <EmptyState text={globalConfig.emptyCart}/>}
       </Grid>
@@ -48,12 +43,23 @@ const ShoppingCart = (props) => {
 
 const mapStateToProps = store => {
   return {
-    shoppingCart: store.shoppingCart
+    shoppingCart: store.shoppingCart,
+    products: store.products
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getProductsByFilters: (filters, startPage, perPage, sort) => {
+      dispatch(getProductsByFilters(filters, startPage, perPage, sort));
+    }
   };
 };
 
 ShoppingCart.propTypes = {
-  shoppingCart: PropTypes.array
+  shoppingCart: PropTypes.array,
+  products: PropTypes.object,
+  getProductsByFilters: PropTypes.func.isRequired
 };
 
-export default connect(mapStateToProps)(React.memo(ShoppingCart));
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(ShoppingCart));

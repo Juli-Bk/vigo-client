@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react';
-import SelectSimple from './SelectSimple';
+import SelectBox from './SelectBox';
 
 const handler = jest.fn();
 const testLabel = 'label';
@@ -17,7 +17,7 @@ describe('select testing', () => {
 
   it('should render proper label', function () {
     render(
-      <SelectSimple
+      <SelectBox
         options={[1, 2, 3]}
         value={1}
         handleChange={handler}
@@ -29,7 +29,7 @@ describe('select testing', () => {
   });
   it('should render proper options amount', function () {
     render(
-      <SelectSimple
+      <SelectBox
         options={array}
         value={1}
         handleChange={handler}
@@ -42,7 +42,7 @@ describe('select testing', () => {
 
   it('should call handler on select change', function () {
     render(
-      <SelectSimple
+      <SelectBox
         options={array}
         value={1}
         handleChange={handler}

@@ -1,7 +1,8 @@
 import Actions from '../../constants/constants';
 import {getUserIdFromCookie} from '../../../ajax/common/helper';
 import AjaxUtils from '../../../ajax';
-import {getStorageData, saveShopCartToLS} from '../../../helpers/helpers';
+import {integrateCarts} from '../../../pages/ShoppingCart/cartHelpers';
+import { getStorageData } from '../../../helpers/helpers';
 
 export const changeShoppingCart = () => {
   const data = getStorageData('shoppingCart');
@@ -14,8 +15,8 @@ export const getUserShopCart = () => {
     if (userId) {
       AjaxUtils.ShopCart.getUserShopCart(userId)
         .then(result => {
-          if (result.status !== 400) {
-            saveShopCartToLS(result.products || []);
+          if (result && result.status !== 400) {
+            integrateCarts(result.products || []);
             dispatch(changeShoppingCart());
           }
         })
