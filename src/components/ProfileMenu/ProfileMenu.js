@@ -15,6 +15,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'space-between',
     alignItems: 'center',
     maxWidth: 100,
+    marginLeft: 10,
     [theme.breakpoints.up(760)]: {
       maxWidth: 150
     }
@@ -35,10 +36,11 @@ const useStyles = makeStyles(theme => ({
   link: {
     color: 'inherit'
   },
-  menu: {
+  profileMenu: {
     boxShadow: 'none'
   },
   menuItem: {
+    marginLeft: 10,
     '&:hover': {
       color: colors.noticeColor
     }
@@ -86,7 +88,7 @@ const ProfileMenu = (props) => {
             : null
         }
         <Menu
-          className={classes.menu}
+          className={classes.profileMenu}
           id='profile-menu'
           anchorEl={anchorEl}
           keepMounted

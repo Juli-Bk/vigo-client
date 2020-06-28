@@ -15,7 +15,7 @@ const LoginForm = (props) => {
   const {submitLoginHandler, login} = props;
 
   const handleCancel = () => {
-    submitLoginHandler({});
+    submitLoginHandler(null);
   };
 
   const submitLoginData = (values, {resetForm, setSubmitting}) => {
