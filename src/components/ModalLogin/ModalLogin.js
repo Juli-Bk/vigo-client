@@ -145,6 +145,12 @@ const ModalLogin = (props) => {
                           setIsMessageHidden(true);
                         } else {
                           isMessageHidden && setIsMessageHidden(false);
+                          // todo handleClose(true) does setUserIsLoggedIn(true) dispatch perform
+                          // but actually it doest mean user is logged in
+                          // because tokens are not sent from server this time
+                          // need to set false?? but the icon will not change then
+                          // if the email check aka letter after registration will redirect to the page
+                          // and then the user might to perform login
                           handleClose(true);
                           history.push('/account');
                         }
