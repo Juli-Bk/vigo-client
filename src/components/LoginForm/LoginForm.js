@@ -12,7 +12,7 @@ import {loginUser} from '../../redux/actions/user';
 import {connect} from 'react-redux';
 
 const LoginForm = (props) => {
-  const {submitLoginHandler, getUser} = props;
+  const {submitLoginHandler, login} = props;
 
   const handleCancel = () => {
     submitLoginHandler({});
@@ -20,12 +20,12 @@ const LoginForm = (props) => {
 
   const submitLoginData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
-    getUser(values.email, values.password, (result) => {
+    login(values.email, values.password, (result) => {
       if (result && result.status !== 400) {
         resetForm();
       }
-      submitLoginHandler(result);
       setSubmitting(false);
+      submitLoginHandler(result);
     });
   };
   const initFormValues = {
@@ -129,7 +129,7 @@ LoginForm.propTypes = {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getUser: (email, password, callback) => dispatch(loginUser(email, password, callback))
+    login: (email, password, callback) => dispatch(loginUser(email, password, callback))
   };
 };
 

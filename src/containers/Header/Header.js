@@ -27,7 +27,8 @@ const Header = (props) => {
     getUserWishList,
     isModalSizeOpen,
     changeShoppingCart,
-    changeWishList
+    changeWishList,
+    userIsLoggedIn
   } = props;
   const classes = useStyles();
 
@@ -74,7 +75,7 @@ const Header = (props) => {
                       <LocalMallOutlinedIcon/>
                     </IconButton>
                   </Link>
-                  <ProfileMenu/>
+                  {userIsLoggedIn && <ProfileMenu/>}
                   <ModalLogin/>
                 </Box>
               </Toolbar>
@@ -88,8 +89,9 @@ const Header = (props) => {
   );
 };
 
-const mapStateToProps = store => {
+const mapStoreToProps = store => {
   return {
+    userIsLoggedIn: store.userIsLoggedIn,
     isModalSizeOpen: store.isModalSizeOpen
   };
 };
@@ -103,4 +105,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStoreToProps, mapDispatchToProps)(Header);

@@ -1,6 +1,7 @@
 import AjaxUtils from '../../../ajax';
 import {
   deleteJWTcookie,
+  deleteUserIdCookie,
   getJWTfromCookie,
   getUserIdFromCookie,
   putJWTtoCookie,
@@ -23,6 +24,13 @@ export const setUser = (userData) => {
   };
 };
 
+export const setUserIsLoggedIn = (flag) => {
+  return {
+    type: Actions.IS_USER_LOGGED,
+    payload: flag
+  };
+};
+
 export const setUserDeliveryAddress = (deliveryAdr) => {
   return {
     type: Actions.SET_USER_DELIVERY_ADDRESS,
@@ -41,23 +49,22 @@ export const loginUser = (email, password, callback) => {
 
     AjaxUtils.Users.login(json)
       .then(result => {
-        const token = result.token;
-        if (token) {
-          putJWTtoCookie(token);
-          dispatch(setJWTtoken(token.token));
-        }
+        if (result) {
+          const token = result.token;
+          if (token) {
+            putJWTtoCookie(token);
+            dispatch(setJWTtoken(token.token));
+          }
 
-        if (result.user) {
-          putUserIdToCookie(result);
-          dispatch(setUser(result.user));
+          if (result.user) {
+            putUserIdToCookie(result);
+            dispatch(setUser(result.user));
+          }
         }
-
         callback(result);
       })
       .catch(() => {
-        dispatch(setUser({}));
-        dispatch(setJWTtoken(''));
-        deleteJWTcookie();
+        dispatch(logout());
         callback();
       });
   };
@@ -70,6 +77,7 @@ export const getUserData = () => {
         .then(result => {
           if (result) {
             dispatch(setUser(result.user));
+            dispatch(setUserIsLoggedIn(true));
           } else {
             dispatch(setUser({}));
           }
@@ -129,7 +137,7 @@ const doesHttpOnlyCookieExist = (cookieName) => {
   document.cookie = cookieName + '=new_value;path=/;' + expires;
   const isExist = document.cookie.indexOf(cookieName + '=') === -1;
 
-  // todo clear 'new_value' if error with old cookie occure
+  // todo clear 'new_value' if error with old cookie occurs
   return isExist;
 };
 
@@ -152,12 +160,20 @@ export const saveUserData = (data, callback) => {
   };
 };
 
-// todo add logout handler for UI click logout link/button
 export const logout = () => {
   return (dispatch) => {
+    AjaxUtils.Users.logOut()
+      .then(() => {
+        console.log('logged out successfully');
+      })
+      .catch((err) => {
+        console.log('logged out error: ', err);
+      });
+
     dispatch(setUser({}));
     dispatch(setJWTtoken(''));
+    dispatch(setUserIsLoggedIn(false));
     deleteJWTcookie();
-    // todo add push link to /login???
+    deleteUserIdCookie();
   };
 };

@@ -13,6 +13,7 @@ const RequestsConfig = {
   customer: `${baseUrl}/users/customer`,
   register: `${baseUrl}/users/register`,
   password: `${baseUrl}/users/password`,
+  logout: `${baseUrl}/users/logout`,
   unsubscribe: `${baseUrl}/subscribers/unsubscribe`,
   subscribers: `${baseUrl}/subscribers`,
   subscribe: `${baseUrl}/subscribers/subscribe`,

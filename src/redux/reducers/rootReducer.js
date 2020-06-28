@@ -24,6 +24,7 @@ import maxPrice from './maxPriceReducer';
 import allSizes from './allSizesReducer';
 import isPopoverOpen from './isPopoverOpenReducer';
 import isSnackMessageOpen from './isSnackMessageOpenReducer';
+import userIsLoggedIn from './isLoggedReducer';
 import filters from './filtersReducer';
 
 export const rootReducer = combineReducers({
@@ -52,5 +53,6 @@ export const rootReducer = combineReducers({
   isLoading,
   isPopoverOpen,
   filters,
-  isSnackMessageOpen
+  isSnackMessageOpen,
+  userIsLoggedIn
 });
