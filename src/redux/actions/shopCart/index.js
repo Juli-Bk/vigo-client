@@ -26,3 +26,7 @@ export const getUserShopCart = () => {
     }
   };
 };
+
+export const setTotalSum = (totalSum) => {
+  return {type: Actions.SET_TOTAL_SUM, payload: totalSum};
+};
