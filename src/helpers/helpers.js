@@ -79,6 +79,7 @@ export const mapArrayToOptions = (array) => {
   });
 };
 
+// todo need this?
 export const makeNumbersArray = (number) => {
   const array = [];
   for (let i = 1; i <= Number(number); i++) {
@@ -245,6 +246,7 @@ export const getCategoryId = (searchString) => {
   return categoryId;
 };
 
+// todo need this?
 export const getFiltersFromUrl = (searchString, callBack) => {
   if (searchString && searchString.includes('&')) {
     const filterStrings = searchString.split('&');
