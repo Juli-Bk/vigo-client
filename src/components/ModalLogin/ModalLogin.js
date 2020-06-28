@@ -146,7 +146,7 @@ const ModalLogin = (props) => {
                         } else {
                           isMessageHidden && setIsMessageHidden(false);
                           handleClose(true);
-                          // todo go to user cabinet?? on
+                          history.push('/account');
                         }
                       } else {
                         isMessageHidden && setIsMessageHidden(false);
