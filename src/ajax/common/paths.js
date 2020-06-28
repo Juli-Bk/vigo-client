@@ -1,5 +1,5 @@
-// export const baseUrl = 'https://vigo-server.herokuapp.com';
-export const baseUrl = 'http://localhost:9229';
+export const baseUrl = 'https://vigo-server.herokuapp.com';
+// export const baseUrl = 'http://localhost:9229';
 
 const RequestsConfig = {
   categories: `${baseUrl}/categories`,
