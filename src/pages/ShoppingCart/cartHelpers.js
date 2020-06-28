@@ -1,6 +1,6 @@
-import { getUserIdFromCookie } from '../../ajax/common/helper';
+import {getUserIdFromCookie} from '../../ajax/common/helper';
 import AjaxUtils from '../../ajax';
-import { getStorageData, setStorageData } from '../../helpers/helpers';
+import {getStorageData, setStorageData} from '../../helpers/helpers';
 
 export const getProductsId = (shoppingCart) => {
   const array = [];
@@ -59,33 +59,59 @@ const cartHandler = (products) => {
         if (result.message) {
           AjaxUtils.ShopCart.createShopCart(userId, products)
             .then(result => {
-              // todo nice popup
-              if (result && result._id) {
-                setStorageData('cartId', result._id);
+              if (result && result.status === 400) {
+                console.log(result.message);
+              } else {
+                // todo nice popup
+                if (result && result._id) {
+                  setStorageData('cartId', result._id);
+                }
               }
+            }).catch(err => {
+              console.log('cartHelper createShopCart error: ', err);
             });
         } else {
           AjaxUtils.ShopCart.updateShopCartById(result._id, products, result.userId)
             .then(result => {
-              // todo nice popup
-              if (result && result._id) {
-                setStorageData('cartId', result._id);
+              if (result && result.status === 400) {
+                console.log(result.message);
+              } else {
+                // todo nice popup
+                if (result && result._id) {
+                  setStorageData('cartId', result._id);
+                }
               }
+            }).catch(err => {
+              console.log('cartHelper updateShopCartById error: ', err);
             });
         }
       });
   } else if (!userId && cartId.length) {
     AjaxUtils.ShopCart.updateShopCartById(cartId, products)
       .then(result => {
-        // todo nice popup
-        console.log('updating for unregistered user', result);
+        if (result && result.status === 400) {
+          console.log(result.message);
+        } else {
+          // todo nice popup
+          console.log('updating for unregistered user', result);
+        }
+      }).catch(err => {
+        console.log('cartHelper updateShopCartById error: ', err);
       });
   } else {
     AjaxUtils.ShopCart.createShopCart(null, products)
       .then(result => {
-        // todo nice popup
-        console.log(result);
-        if (result && result.cart) setStorageData('cartId', result.cart._id);
+        if (result && result.status === 400) {
+          console.log(result.message);
+        } else {
+          // todo nice popup
+          console.log(result);
+          if (result && result.cart) {
+            setStorageData('cartId', result.cart._id);
+          }
+        }
+      }).catch(err => {
+        console.log('cartHelper createShopCart error: ', err);
       });
   }
 };

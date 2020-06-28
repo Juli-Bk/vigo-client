@@ -5,14 +5,28 @@ import {Link} from 'react-router-dom';
 import {colors} from '../../styles/colorKit';
 import {logout} from '../../redux/actions/user';
 import {withRouter} from 'react-router';
+import {ThemeProvider} from '@material-ui/styles';
+import theme from '../../styles/formStyle/formStyleTheme';
+import {fade} from '@material-ui/core/styles/colorManipulator';
 
 const useStyles = makeStyles(theme => ({
   container: {
     display: 'flex',
     justifyContent: 'space-between',
     alignItems: 'center',
-    [theme.breakpoints.up('sm')]: {
-      width: 150
+    maxWidth: 100,
+    [theme.breakpoints.up(760)]: {
+      maxWidth: 150
+    }
+  },
+  userName: {
+    color: colors.fontOncard,
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
+    '&:hover': {
+      overflow: 'visible',
+      color: fade(colors.fontHover, 0.9)
     }
   },
   avatarBtn: {
@@ -51,34 +65,41 @@ const ProfileMenu = (props) => {
     history.push('/');
   }, [handleClose, history, logout]);
 
+  const isOpen = !!anchorEl;
   return (
-    <Box className={classes.container}>
-      <Avatar
-        className={classes.avatarBtn}
-        aria-controls='profile-menu'
-        aria-haspopup='true'
-        onClick={handleClick}/>
-      {
-        !isMobile
-          ? <Typography variant='caption'>
-            {user.firstName} {user.lastName}
-          </Typography>
-          : null
-      }
-      <Menu
-        className={classes.menu}
-        id='profile-menu'
-        anchorEl={anchorEl}
-        keepMounted
-        open={!!anchorEl}
-        onClose={handleClose}
-      >
-        <MenuItem className={classes.menuItem}>
-          <Link to='/account' className={classes.link}>My account</Link>
-        </MenuItem>
-        <MenuItem className={classes.menuItem} onClick={handleLogOut}>Logout</MenuItem>
-      </Menu>
-    </Box>
+    <ThemeProvider theme={theme}>
+      <Box className={classes.container}>
+        <Avatar
+          className={classes.avatarBtn}
+          aria-controls='profile-menu'
+          aria-haspopup='true'
+          onClick={handleClick}/>
+        {
+          !isMobile
+            ? <Typography
+              className={classes.userName}
+              variant='caption'
+              onClick={handleClick}
+            >
+              {user.firstName || user.login}
+            </Typography>
+            : null
+        }
+        <Menu
+          className={classes.menu}
+          id='profile-menu'
+          anchorEl={anchorEl}
+          keepMounted
+          open={isOpen}
+          onClose={handleClose}
+        >
+          <MenuItem className={classes.menuItem} onClick={handleClose}>
+            <Link to='/account' className={classes.link}>My account</Link>
+          </MenuItem>
+          <MenuItem className={classes.menuItem} onClick={handleLogOut}>Logout</MenuItem>
+        </Menu>
+      </Box>
+    </ThemeProvider>
   );
 };
 

@@ -93,7 +93,7 @@ export default {
     checkId(id);
 
     const data = {products};
-    if (userId && checkId(id)) {
+    if (userId && checkId(userId)) {
       data.userId = userId;
     }
 

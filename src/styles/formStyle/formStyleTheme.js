@@ -1,9 +1,23 @@
 import {createMuiTheme} from '@material-ui/core';
 import { colors } from '../colorKit';
 import { fonts } from '../fonts/fontsKit';
+import {fade} from '@material-ui/core/styles/colorManipulator';
 
 const theme = createMuiTheme({
   overrides: {
+    MuiAvatar: {
+      root: {
+        width: 25,
+        height: 25,
+        marginRight: 10
+      },
+      colorDefault: {
+        backgroundColor: colors.fontOncard,
+        '&:hover': {
+          backgroundColor: fade(colors.fontHover, 0.9)
+        }
+      }
+    },
     MuiSvgIcon: {
       root: {
         color: colors.black
