@@ -64,7 +64,7 @@ export const loginUser = (email, password, callback) => {
         callback(result);
       })
       .catch(() => {
-        dispatch(logout());
+        dispatch(clear());
         callback();
       });
   };
@@ -83,7 +83,7 @@ export const getUserData = () => {
           }
         })
         .catch(() => {
-          dispatch(logout());
+          dispatch(clear());
         });
     };
 
@@ -117,12 +117,12 @@ export const refreshToken = (callback) => {
           console.log(newToken);
           dispatch(setJWTtoken(newToken.token));
         } else {
-          dispatch(logout());
+          dispatch(clear());
         }
         callback && callback();
       })
       .catch(() => {
-        dispatch(logout());
+        dispatch(clear());
         dispatch(setLoginModalOpenState(true));
       });
   };
@@ -155,7 +155,7 @@ export const saveUserData = (data, callback) => {
           callback();
         });
     } else {
-      dispatch(logout());
+      dispatch(clear());
     }
   };
 };
@@ -170,6 +170,12 @@ export const logout = () => {
         console.log('logged out error: ', err);
       });
 
+    dispatch(clear());
+  };
+};
+
+export const clear = () => {
+  return (dispatch) => {
     dispatch(setUser({}));
     dispatch(setJWTtoken(''));
     dispatch(setUserIsLoggedIn(false));

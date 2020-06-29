@@ -57,12 +57,14 @@ const ModalLogin = (props) => {
     setOpen(true);
   }, [setOpen]);
 
-  const handleClose = useCallback(() => {
+  const handleClose = useCallback((flag) => {
     if (location.pathname === '/account') {
       history.go(0);
     }
     setOpen(false);
-    setUserIsLoggedIn(true);
+    if (flag) {
+      setUserIsLoggedIn(true);
+    }
   }, [history, location.pathname, setOpen, setUserIsLoggedIn]);
 
   const handleChange = useCallback((event, newValue) => {
@@ -95,7 +97,9 @@ const ModalLogin = (props) => {
           <ThemeProvider theme={theme}>
             <Dialog
               open={open}
-              onClose={handleClose}
+              onClose={() => {
+                handleClose(false);
+              }}
               aria-labelledby="alert-dialog-title"
               aria-describedby="alert-dialog-description"
             >
@@ -118,25 +122,41 @@ const ModalLogin = (props) => {
 
                   <TabPanel value={value} index={0} dir={theme.direction}>
                     <LoginForm submitLoginHandler={(result) => {
-                      if (result && result.status === 400) {
-                        setMessage(result.message);
-                        setIsMessageHidden(true);
+                      if (result) {
+                        if (result && result.status === 400) {
+                          setMessage(result.message);
+                          setIsMessageHidden(true);
+                        } else {
+                          isMessageHidden && setIsMessageHidden(false);
+                          handleClose(true);
+                        }
                       } else {
                         isMessageHidden && setIsMessageHidden(false);
-                        handleClose();
+                        handleClose(false);
                       }
                     }}/>
                   </TabPanel>
 
                   <TabPanel value={value} index={1} dir={theme.direction}>
                     <RegisterForm submitRegisterHandler={(result) => {
-                      if (result && result.status === 400) {
-                        setMessage(result.message);
-                        setIsMessageHidden(true);
+                      if (result) {
+                        if (result && result.status === 400) {
+                          setMessage(result.message);
+                          setIsMessageHidden(true);
+                        } else {
+                          isMessageHidden && setIsMessageHidden(false);
+                          // todo handleClose(true) does setUserIsLoggedIn(true) dispatch perform
+                          // but actually it doest mean user is logged in
+                          // because tokens are not sent from server this time
+                          // need to set false?? but the icon will not change then
+                          // if the email check aka letter after registration will redirect to the page
+                          // and then the user might to perform login
+                          handleClose(true);
+                          history.push('/account');
+                        }
                       } else {
                         isMessageHidden && setIsMessageHidden(false);
-                        handleClose();
-                        // todo go to user cabinet?? on
+                        handleClose(false);
                       }
                     }}/>
                   </TabPanel>
