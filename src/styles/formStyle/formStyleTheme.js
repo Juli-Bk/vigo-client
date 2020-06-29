@@ -1,6 +1,6 @@
 import {createMuiTheme} from '@material-ui/core';
-import { colors } from '../colorKit';
-import { fonts } from '../fonts/fontsKit';
+import {colors} from '../colorKit';
+import {fonts} from '../fonts/fontsKit';
 import {fade} from '@material-ui/core/styles/colorManipulator';
 
 const theme = createMuiTheme({
@@ -123,6 +123,11 @@ const theme = createMuiTheme({
       },
       gutters: {
         paddingLeft: 0
+      },
+      button: {
+        '&:hover': {
+          backgroundColor: 'none'
+        }
       }
     },
     MuiBox: {
