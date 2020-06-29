@@ -63,7 +63,7 @@ const globalConfig = {
   cartMessages: {
     CREATED: 'Shopping cart created for you',
     UPDATED: 'Your shopping cart updated successfully',
-    ERROR: 'Shopping cart error happened. We`ll resolve this question. Try again, please'
+    ERROR: 'Shopping cart error happened. Try again, please'
   },
   userMessages: {
     NOT_AUTHORIZED: 'You are not authorized. Login, please',

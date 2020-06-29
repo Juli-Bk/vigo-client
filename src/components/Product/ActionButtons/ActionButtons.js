@@ -19,12 +19,9 @@ const ActionButtons = (props) => {
   const {
     classes, product, width, disabledSpacing,
     isProductPage, changeWishList, changeShoppingCart,
-    sizeId, quantity, toggleModalSize, isModal, setCurrentProduct, setPopoverOpen
-    sizeId, colorId, quantity, toggleModalSize, setDisplayHelper, isModal, setCurrentProduct
+    setPopoverOpen, sizeId, colorId, quantity,
+    toggleModalSize, isModal, setCurrentProduct
   } = props;
-
-  const addToShopCart = (productId, quantity, sizeId, colorId) => {
-  // const select = document.querySelector('select');
 
   const addToShopCart = (productId, quantity, sizeId) => {
     setCurrentProduct(product);
