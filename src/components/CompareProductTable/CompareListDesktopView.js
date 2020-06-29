@@ -7,24 +7,38 @@ import Price from '../Product/Price/Price';
 import SalePrice from '../Product/SalePrice/SalePrice';
 import CloseIcon from '@material-ui/icons/Close';
 
-const WishlistDesktopView = (props) => {
-  const {rows, classes, deleteFromWishList} = props;
+const CompareListDesktopView = (props) => {
+  const {rows, classes, deleteFromCompareList} = props;
 
   return (
-    <Table aria-label="products table">
-      <TableHead>
-        <TableRow>
-          <TableCell align="center" className={classes.tableHead}>Product name</TableCell>
-          <TableCell align="center" className={classes.tableHead}>Product code</TableCell>
-          <TableCell align="center" className={classes.tableHead}>Price</TableCell>
-          <TableCell align="center" className={classes.tableHead}>Sale price</TableCell>
-          <TableCell align="center" className={classes.tableHead}>Delete</TableCell>
-        </TableRow>
-      </TableHead>
+
+    <Table aria-label='compare-table'>
+      <TableBody>
+        {rows.map((row) => (
+          <TableRow key={row.name}>
+            <TableCell component='th' scope='row'>
+              {row.name}
+            </TableCell>
+            <TableCell align='right' key={row.id} className={classes.tableRow}>{row.id}</TableCell>
+            <TableCell align='right'>{}</TableCell>
+            <TableCell align='right'>{}</TableCell>
+            <TableCell align='right'>{}</TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+      {/* <TableHead> */}
+      {/*  <TableRow> */}
+      {/*    <TableCell align='center' className={classes.tableHead}>Product name</TableCell> */}
+      {/*    <TableCell align='center' className={classes.tableHead}>Product code</TableCell> */}
+      {/*    <TableCell align='center' className={classes.tableHead}>Price</TableCell> */}
+      {/*    <TableCell align='center' className={classes.tableHead}>Sale price</TableCell> */}
+      {/*    <TableCell align='center' className={classes.tableHead}>Delete</TableCell> */}
+      {/*  </TableRow> */}
+      {/* </TableHead> */}
       <TableBody>
         {rows.map(row => (
           <TableRow key={row.id} className={classes.tableRow}>
-            <TableCell component="th" scope="row" className={classes.firstCell}>
+            <TableCell component='th' scope='row' className={classes.firstCell}>
               <Link to={`/products/${row.id}`} className={classes.linkBox}>
                 <CardMedia image={row.imgUrl} className={classes.img}/>
                 {row.isOnSale
@@ -35,18 +49,18 @@ const WishlistDesktopView = (props) => {
                   className={classes.name}>{capitalize(row.mainData.name)}</Link>
               </Box>
             </TableCell>
-            <TableCell align="center" className={classes.code}>{row.productCode}</TableCell>
-            <TableCell align="center" className={classes.code}>
+            <TableCell align='center' className={classes.code}>{row.productCode}</TableCell>
+            <TableCell align='center' className={classes.code}>
               <Price value={row.price}/>
             </TableCell>
-            <TableCell align="center" className={classes.code}>
+            <TableCell align='center' className={classes.code}>
               <SalePrice value={row.salePrice}/>
             </TableCell>
-            <TableCell align="center">
+            <TableCell align='center'>
               <CloseIcon data-testid='deleteIcon'
                 className={classes.closeIcon}
                 onClick={() => {
-                  deleteFromWishList(row.id);
+                  deleteFromCompareList(row.id);
                 }}/>
             </TableCell>
           </TableRow>
@@ -56,4 +70,4 @@ const WishlistDesktopView = (props) => {
   );
 };
 
-export default WishlistDesktopView;
+export default React.memo(CompareListDesktopView);

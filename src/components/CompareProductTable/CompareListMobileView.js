@@ -14,15 +14,15 @@ import { Link } from 'react-router-dom';
 import { capitalize, formPriceString } from '../../helpers/helpers';
 import globalConfig from '../../globalConfig';
 
-const WishListMobileView = (props) => {
-  const {rows, classes, productsLength, deleteFromWishList} = props;
+const CompareListMobileView = (props) => {
+  const {rows, classes, productsLength, deleteFromCompareList} = props;
 
   return (
     <Table aria-label="products table">
       <TableHead>
         <TableRow>
           <TableCell align="center" className={classes.tableHead}>
-            {productsLength} products in your Wishlist
+            {productsLength} products in your Comparelist
           </TableCell>
         </TableRow>
       </TableHead>
@@ -35,7 +35,7 @@ const WishListMobileView = (props) => {
                 <CloseIcon data-testid='deleteIcon'
                   className={classes.closeIcon}
                   onClick={() => {
-                    deleteFromWishList(row.id);
+                    deleteFromCompareList(row.id);
                   }}/>
               </Box>
               <Box className={classes.textBox}>
@@ -65,4 +65,4 @@ const WishListMobileView = (props) => {
   ;
 };
 
-export default WishListMobileView;
+export default CompareListMobileView;
