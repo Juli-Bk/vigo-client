@@ -3,6 +3,7 @@ import AjaxUtils from '../../../ajax';
 import { changeOrder, getStorageData, setStorageData } from '../../../helpers/helpers';
 
 export const getProductsByFilters = (filterArray, startPage, perPage, sort) => dispatch => {
+  dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
   if (filterArray && filterArray.length) {
     AjaxUtils.Products.getProductsByFilters(filterArray, startPage, perPage, sort)
       .then(result => {
@@ -12,6 +13,7 @@ export const getProductsByFilters = (filterArray, startPage, perPage, sort) => d
             products: result.products,
             totalCount: result.totalCount
           });
+          dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
         }
       });
   }
@@ -34,6 +36,7 @@ export const addFilters = (filtersObj) => {
 };
 
 export const getFeatured = () => dispatch => {
+  dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
   AjaxUtils.Products.getProductsByFilters([{featured: true}], 1, 15, '')
     .then(result => {
       if (result && result.products) {
@@ -42,6 +45,7 @@ export const getFeatured = () => dispatch => {
           data: result.products,
           name: 'featured'
         });
+        dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
       }
     });
 };
@@ -73,6 +77,7 @@ export const getNewArrivals = () => dispatch => {
 };
 
 export const getBestsellers = (perPage) => dispatch => {
+  dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
   AjaxUtils.Products.getProductsByFilters([{bestseller: true}], 1, perPage, '')
     .then(result => {
       if (result && result.products) {
@@ -80,6 +85,7 @@ export const getBestsellers = (perPage) => dispatch => {
           type: Actions.GET_BESTSELLERS,
           payload: result.products
         });
+        dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
       }
     });
 };
@@ -89,6 +95,7 @@ export const getRecentlyViewed = (productId) => dispatch => {
   const filterArray = dataFromStorage.length ? [{_id: dataFromStorage}] : [];
 
   if (filterArray.length) {
+    dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
     AjaxUtils.Products.getProductsByFilters(filterArray, 1, 8, '')
       .then(result => {
         if ((result.products && result.products.length) < dataFromStorage.length) {
@@ -116,5 +123,6 @@ export const getRecentlyViewed = (productId) => dispatch => {
           setStorageData('recentlyViewed', [...dataFromStorage.filter(item => item !== wrongId)]);
         }
       });
+    dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
   }
 };

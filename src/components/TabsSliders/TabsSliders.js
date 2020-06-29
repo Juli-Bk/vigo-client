@@ -38,6 +38,7 @@ const TabsSliders = (props) => {
   const classes = useStyles();
   const {width, featured, special, newArrivals, getFeatured, getSpecial, getNewArrivals} = props;
   const [value, setValue] = useState(0);
+  const slidersArray = [featured, special, newArrivals].filter(item => item.data && item.data.length > 0);
 
   useEffect(() => {
     let isCanceled = false;
@@ -55,9 +56,8 @@ const TabsSliders = (props) => {
     setValue(newValue);
   }, []);
 
-  const getSliders = useCallback((array) => {
-    const newArray = array.filter(item => item.data && item.data.length > 0);
-    return newArray.map((item, index) => {
+  const getSliders = useCallback(array => {
+    return array.map((item, index) => {
       return (
         <TabPanel value={value} index={index} key={index} width={width}>
           <TabSlider data={item.data} width={width}/>
@@ -66,16 +66,16 @@ const TabsSliders = (props) => {
     });
   }, [value, width]);
 
-  const getTabLabels = (array) => {
-    const newArray = array.filter(item => item.data && item.data.length > 0);
-    return newArray.map((item, index) => {
+  const getTabLabels = useCallback(array => {
+    return array.map((item, index) => {
       return <Tab label={globalConfig.tabsSliderNames[item.name]}
         {...a11yProps(index)}
         key={index}
         disableRipple={true}
         className={classes.tab}/>;
     });
-  };
+  }, [classes.tab]);
+
   const orientation = useMemo(() => width === 'xs' ? 'vertical' : 'horizontal', [width]);
 
   return (
@@ -86,10 +86,10 @@ const TabsSliders = (props) => {
             orientation={orientation}
             onChange={handleChange}
             aria-label="tabs-for-sliders">
-            {featured || newArrivals || special ? getTabLabels([newArrivals, featured, special]) : null}
+            {featured || newArrivals || special ? getTabLabels(slidersArray) : null}
           </Tabs>
         </Box>
-        {featured || newArrivals || special ? getSliders([newArrivals, featured, special]) : null}
+        {featured || newArrivals || special ? getSliders(slidersArray) : null}
       </div>
     </ThemeProvider>
   );
