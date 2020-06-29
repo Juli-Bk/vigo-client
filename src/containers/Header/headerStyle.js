@@ -154,6 +154,25 @@ const useStyles = makeStyles(theme => ({
   },
   [theme.breakpoints.up('md')]: {
     fontSize: 35
+  },
+  link: {
+    position: 'relative'
+  },
+  digit: {
+    position: 'absolute',
+    top: 0,
+    right: '.1rem',
+    fontSize: '1.1rem',
+    fontWeight: 'bold',
+    color: colors.noticeColor,
+    background: colors.bgSecondary,
+    '&:hover': {
+      color: fade(colors.fontHover, 0.9)
+    },
+    [theme.breakpoints.up('sm')]: {
+      top: '.45rem',
+      right: '.4rem'
+    }
   }
 }));
 

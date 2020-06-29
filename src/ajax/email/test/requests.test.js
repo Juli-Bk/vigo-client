@@ -1,6 +1,5 @@
 import emailRequests from '../requests';
 import '@testing-library/jest-dom/extend-expect';
-import Cookie from 'js-cookie';
 
 describe('emailRequests has methods for all operations', () => {
   it('sendEmail', () => {

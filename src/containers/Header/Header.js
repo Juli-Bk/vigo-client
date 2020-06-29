@@ -28,7 +28,9 @@ const Header = (props) => {
     isModalSizeOpen,
     changeShoppingCart,
     changeWishList,
-    userIsLoggedIn
+    userIsLoggedIn,
+    shoppingCart,
+    wishList
   } = props;
   const classes = useStyles();
 
@@ -64,16 +66,18 @@ const Header = (props) => {
                 </Box>
                 <Box className={classes.headerIconsBlock}>
                   <SearchBar/>
-                  <Link to='/wishlist'>
+                  <Link to='/wishlist' className={classes.link}>
                     <IconButton aria-label="starIcon" className={classes.starIcon}>
                       <FavoriteBorderIcon/>
                     </IconButton>
+                    <span className={classes.digit}>{wishList.length}</span>
                   </Link>
 
-                  <Link to='/cart'>
+                  <Link to='/cart' className={classes.link}>
                     <IconButton aria-label="shoppingBag" className={classes.shoppingBag}>
                       <LocalMallOutlinedIcon/>
                     </IconButton>
+                    <span className={classes.digit}>{shoppingCart.length}</span>
                   </Link>
                   {userIsLoggedIn && <ProfileMenu/>}
                   <ModalLogin/>
@@ -92,7 +96,9 @@ const Header = (props) => {
 const mapStoreToProps = store => {
   return {
     userIsLoggedIn: store.userIsLoggedIn,
-    isModalSizeOpen: store.isModalSizeOpen
+    isModalSizeOpen: store.isModalSizeOpen,
+    shoppingCart: store.shoppingCart,
+    wishList: store.wishList
   };
 };
 

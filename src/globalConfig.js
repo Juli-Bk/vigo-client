@@ -93,7 +93,9 @@ const globalConfig = {
     ACCESSORIES: 'accessories'
   },
   defaultSizeOption: 'Select size',
-  defaultQuantityOption: 1
+  defaultQuantityOption: 1,
+  defaultShipping: 0,
+  defaultTax: 0
 };
 
 export default globalConfig;

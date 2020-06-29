@@ -12,6 +12,14 @@ export const theme = createMuiTheme({
       root: {
         border: `2px solid ${colors.fontOncard}`
       }
+    },
+    MuiTypography: {
+      h2: {
+        marginBottom: '3rem'
+      },
+      h6: {
+        marginBottom: '2rem'
+      }
     }
   }
 });

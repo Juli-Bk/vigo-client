@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { colors } from '../../styles/colorKit';
-import { fonts } from '../../styles/fonts/fontsKit';
+import { colors } from '../colorKit';
+import { fonts } from '../fonts/fontsKit';
 
 const useStyles = makeStyles(theme => (
   {
