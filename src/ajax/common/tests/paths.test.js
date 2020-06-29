@@ -91,4 +91,9 @@ describe('ajax paths config', () => {
       expect(requestPaths.cancelOrder).toEqual(`${baseUrl}/orders/cancel`);
     });
   });
+  describe('returns right path for sendEmail requests', () => {
+    it('plain', () => {
+      expect(requestPaths.sendEmail).toEqual(`${baseUrl}/mail`);
+    });
+  });
 });
