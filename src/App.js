@@ -11,6 +11,7 @@ import theme from './mainTheme';
 import Footer from './containers/Footer/Footer';
 import {getCategories} from './redux/actions/categories';
 import {getUserData} from './redux/actions/user';
+import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner';
 
 function App (props) {
   const {
@@ -38,6 +39,7 @@ function App (props) {
       <StylesProvider injectFirst>
         <ThemeProvider theme={theme}>
           <AppRoutes/>
+          <LoadingSpinner />
           <Footer/>
         </ThemeProvider>
       </StylesProvider>
