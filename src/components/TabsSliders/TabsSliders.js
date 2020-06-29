@@ -86,10 +86,10 @@ const TabsSliders = (props) => {
             orientation={orientation}
             onChange={handleChange}
             aria-label="tabs-for-sliders">
-            {featured || newArrivals || special ? getTabLabels(slidersArray) : null}
+            {slidersArray.length ? getTabLabels(slidersArray) : null}
           </Tabs>
         </Box>
-        {featured || newArrivals || special ? getSliders(slidersArray) : null}
+        {slidersArray.length ? getSliders(slidersArray) : null}
       </div>
     </ThemeProvider>
   );

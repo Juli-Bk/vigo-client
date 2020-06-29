@@ -15,6 +15,8 @@ export const getProductsByFilters = (filterArray, startPage, perPage, sort) => d
           });
           dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
         }
+      }).catch(err => {
+        console.log('get products by filters request failed', err);
       });
   }
 };
@@ -25,6 +27,8 @@ export const getMaxPrice = () => dispatch => {
       if (result.maxSalePrice) {
         dispatch({type: Actions.GET_MAX_PRICE, payload: result.maxSalePrice});
       }
+    }).catch(err => {
+      console.log('get max price request failed', err);
     });
 };
 
@@ -47,6 +51,8 @@ export const getFeatured = () => dispatch => {
         });
         dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
       }
+    }).catch(err => {
+      console.log('get featured products request failed', err);
     });
 };
 
@@ -60,6 +66,8 @@ export const getSpecial = () => dispatch => {
           name: 'special'
         });
       }
+    }).catch(err => {
+      console.log('get special products request failed', err);
     });
 };
 
@@ -73,6 +81,8 @@ export const getNewArrivals = () => dispatch => {
           name: 'newArrivals'
         });
       }
+    }).catch(err => {
+      console.log('get new products request failed', err);
     });
 };
 
@@ -87,6 +97,8 @@ export const getBestsellers = (perPage) => dispatch => {
         });
         dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
       }
+    }).catch(err => {
+      console.log('get best sellers request failed', err);
     });
 };
 
@@ -122,6 +134,8 @@ export const getRecentlyViewed = (productId) => dispatch => {
           }
           setStorageData('recentlyViewed', [...dataFromStorage.filter(item => item !== wrongId)]);
         }
+      }).catch(err => {
+        console.log('get recently viewed products request failed', err);
       });
     dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
   }
