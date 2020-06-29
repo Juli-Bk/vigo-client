@@ -39,7 +39,8 @@ export const getFeatured = () => dispatch => {
       if (result && result.products) {
         dispatch({
           type: Actions.GET_FEATURED,
-          payload: result.products
+          data: result.products,
+          name: 'featured'
         });
       }
     });
@@ -51,7 +52,8 @@ export const getSpecial = () => dispatch => {
       if (result && result.products) {
         dispatch({
           type: Actions.GET_SPECIAL,
-          payload: result.products
+          data: result.products,
+          name: 'special'
         });
       }
     });
@@ -63,7 +65,8 @@ export const getNewArrivals = () => dispatch => {
       if (result && result.products) {
         dispatch({
           type: Actions.GET_NEW_ARRIVALS,
-          payload: result.products
+          data: result.products,
+          name: 'newArrivals'
         });
       }
     });

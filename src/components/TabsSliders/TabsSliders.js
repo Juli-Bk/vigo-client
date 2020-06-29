@@ -7,6 +7,7 @@ import TabSlider from './TabSlider';
 import theme from './TabsSlidersTheme';
 import {colors} from '../../styles/colorKit';
 import { getFeatured, getNewArrivals, getSpecial } from '../../redux/actions/products';
+import globalConfig from '../../globalConfig';
 
 function a11yProps (index) {
   return {
@@ -54,6 +55,27 @@ const TabsSliders = (props) => {
     setValue(newValue);
   }, []);
 
+  const getSliders = useCallback((array) => {
+    const newArray = array.filter(item => item.data && item.data.length > 0);
+    return newArray.map((item, index) => {
+      return (
+        <TabPanel value={value} index={index} key={index} width={width}>
+          <TabSlider data={item.data} width={width}/>
+        </TabPanel>
+      );
+    });
+  }, [value, width]);
+
+  const getTabLabels = (array) => {
+    const newArray = array.filter(item => item.data && item.data.length > 0);
+    return newArray.map((item, index) => {
+      return <Tab label={globalConfig.tabsSliderNames[item.name]}
+        {...a11yProps(index)}
+        key={index}
+        disableRipple={true}
+        className={classes.tab}/>;
+    });
+  };
   const orientation = useMemo(() => width === 'xs' ? 'vertical' : 'horizontal', [width]);
 
   return (
@@ -64,32 +86,10 @@ const TabsSliders = (props) => {
             orientation={orientation}
             onChange={handleChange}
             aria-label="tabs-for-sliders">
-            {newArrivals.length > 0 ? <Tab label='New Arrivals'
-              {...a11yProps(0)}
-              key='New Arrivals'
-              disableRipple={true}
-              className={classes.tab}/> : null}
-            <Tab label='Featured'
-              {...a11yProps(newArrivals.length ? 1 : 0)}
-              key='Featured'
-              disableRipple={true}
-              className={classes.tab}/>
-            <Tab label='Special'
-              {...a11yProps(newArrivals.length ? 2 : 1)}
-              key='Special' disableRipple={true}
-              className={classes.tab}/>
+            {featured || newArrivals || special ? getTabLabels([newArrivals, featured, special]) : null}
           </Tabs>
         </Box>
-        {newArrivals.length
-          ? <TabPanel value={value} index={0} key='NewArrivals' width={width}>
-            <TabSlider data={newArrivals} width={width}/>
-          </TabPanel> : null}
-        <TabPanel value={value} index={newArrivals.length ? 1 : 0} key='featured' width={width}>
-          <TabSlider data={featured} width={width}/>
-        </TabPanel>
-        <TabPanel value={value} index={newArrivals.length ? 2 : 1} key='special' width={width}>
-          <TabSlider data={special} width={width}/>
-        </TabPanel>
+        {featured || newArrivals || special ? getSliders([newArrivals, featured, special]) : null}
       </div>
     </ThemeProvider>
   );
@@ -97,9 +97,9 @@ const TabsSliders = (props) => {
 
 TabsSliders.propTypes = {
   width: PropTypes.string.isRequired,
-  featured: PropTypes.array.isRequired,
-  special: PropTypes.array.isRequired,
-  newArrivals: PropTypes.array.isRequired,
+  featured: PropTypes.object.isRequired,
+  special: PropTypes.object.isRequired,
+  newArrivals: PropTypes.object.isRequired,
   getFeatured: PropTypes.func.isRequired,
   getSpecial: PropTypes.func.isRequired,
   getNewArrivals: PropTypes.func.isRequired

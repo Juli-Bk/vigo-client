@@ -88,7 +88,11 @@ const globalConfig = {
       original: 'https://vigo-shop-aws-bucket.s3.eu-central-1.amazonaws.com/img/top-slider/top_slider_3.jpg'
     }
   ],
-  tabsSliderNames: ['new arrivals', 'featured', 'special'],
+  tabsSliderNames: {
+    newArrivals: 'new arrivals',
+    featured: 'featured',
+    special: 'special'
+  },
   viewOptions: {
     module: 'module',
     list: 'list'
