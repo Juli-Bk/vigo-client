@@ -109,3 +109,13 @@ export const integrateCarts = (remoteCart) => {
   }
   setStorageData('shoppingCart', localCart);
 };
+
+export const getTotalSum = (allProductsInCart) => {
+  let subTotalSum = 0;
+  allProductsInCart.forEach(row => {
+    if (row.salePrice && row.quantity) {
+      subTotalSum += row.salePrice * row.quantity;
+    }
+  });
+  return subTotalSum;
+};

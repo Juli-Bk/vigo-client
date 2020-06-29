@@ -28,6 +28,10 @@ export const getUserShopCart = () => {
   };
 };
 
+export const setTotalSum = (sum) => {
+  return {type: Actions.SET_TOTAL_SUM, payload: sum};
+};
+
 export const handleCart = (products) => dispatch => {
   const userId = getUserIdFromCookie();
   const cartId = getStorageData('cartId');

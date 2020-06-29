@@ -26,16 +26,7 @@ const theme = createMuiTheme({
       gutters: {
         paddingLeft: 0
       }
-    },
-    MuiTypography: {
-      root: {
-        '&$selected': {
-          textDecoration: 'none'
-        }
-
-      }
     }
-
   }
 }
 );

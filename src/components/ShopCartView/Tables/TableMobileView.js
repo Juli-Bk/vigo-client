@@ -69,4 +69,4 @@ const TableMobileView = (props) => {
   );
 };
 
-export default TableMobileView;
+export default React.memo(TableMobileView);

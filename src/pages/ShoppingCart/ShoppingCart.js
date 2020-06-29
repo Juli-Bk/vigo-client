@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Container, Grid, useMediaQuery } from '@material-ui/core';
+import { Container, useMediaQuery } from '@material-ui/core';
 import globalConfig from '../../globalConfig';
 import { getProductsId } from './cartHelpers';
 import { getProductsByFilters } from '../../redux/actions/products';
@@ -30,13 +30,11 @@ const ShoppingCart = (props) => {
 
   return (
     <Container>
-      <Grid container>
-        {shoppingCart.length && products && products.data
-          ? <ShopCartView
-            products={products.data}
-            isMobile={isMobile}/>
-          : <EmptyState text={globalConfig.emptyCart}/>}
-      </Grid>
+      {shoppingCart.length && products && products.data
+        ? <ShopCartView
+          products={products.data}
+          isMobile={isMobile}/>
+        : <EmptyState text={globalConfig.emptyCart}/>}
     </Container>
   );
 };

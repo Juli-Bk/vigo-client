@@ -21,7 +21,8 @@ const Quantity = (props) => {
         <RemoveIcon className={classes.btn}/>
       </Box>
       <Typography variant='caption'
-        className={classes.active}>
+        className={classes.active}
+        id='quantity'>
         {quantity}
       </Typography>
       <Box className={classes.borderLeft} onClick={handlePlus}>

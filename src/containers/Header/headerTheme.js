@@ -1,7 +1,16 @@
 import { createMuiTheme } from '@material-ui/core/styles';
+import { colors } from '../../styles/colorKit';
 
 const theme = createMuiTheme({
   overrides: {
+    MuiAppBar: {
+      colorPrimary: {
+        backgroundColor: colors.bgSecondary
+      },
+      root: {
+        backgroundColor: colors.bgSecondary
+      }
+    },
     MuiTabs: {
       indicator: {
         display: 'none'

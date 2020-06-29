@@ -17,7 +17,6 @@ import {
 import {getProductsQuantity} from '../../../redux/actions/quantity';
 import {useStyles} from './ProductPageViewStyles';
 import {theme} from './ProductPageViewTheme';
-import {colors} from '../../../styles/colorKit';
 import globalConfig from '../../../globalConfig';
 import ActionButtons from '../ActionButtons/ActionButtons';
 import ProductRating from '../ProductRating/ProductRating';
@@ -25,16 +24,17 @@ import SalePrice from '../SalePrice/SalePrice';
 import Price from '../Price/Price';
 import SelectBox from '../../SelectBox/SelectBox';
 import Quantity from '../Quantity/Quantity';
+import { setPopoverOpenState } from '../../../redux/actions/actions';
+import PopoverMessage from '../../PopoverMessage/PopoverMessage';
 
 const ProductPageView = (props) => {
   const classes = useStyles();
 
-  const {productData, width, productsQuantity, getProductsQuantity} = props;
+  const {productData, width, productsQuantity, getProductsQuantity, setPopoverOpen} = props;
   const {name, description, price, rating, brandId, salePrice, productId, isOnSale, _id} = productData;
 
   const [chosenSize, setChosenSize] = useState('');
   const [quantity, setQuantity] = useState(globalConfig.defaultQuantityOption);
-  const [displayHelper, setDisplayHelper] = useState(false);
   const [productQuantity, setProductQuantity] = useState([]);
 
   const color = useMemo(() => getColorData(productQuantity), [productQuantity]);
@@ -54,19 +54,17 @@ const ProductPageView = (props) => {
   const handleSetSize = useCallback((event) => {
     if (event.target.value !== globalConfig.defaultSizeOption) {
       setChosenSize(event.target.value);
-      setDisplayHelper(false);
     }
   }, [setChosenSize]);
 
   const handleQuantity = useCallback((id, number) => {
     if (!chosenSize || chosenSize === globalConfig.defaultSizeOption) {
-      setDisplayHelper(true);
+      setPopoverOpen(true);
       setQuantity(globalConfig.defaultQuantityOption);
     } else {
-      setDisplayHelper(false);
       setQuantity(number);
     }
-  }, [chosenSize, setQuantity]);
+  }, [chosenSize, setPopoverOpen]);
 
   // todo product rating
   // todo search by brand on click by brand
@@ -74,7 +72,7 @@ const ProductPageView = (props) => {
     <Box className={classes.card}>
       <Typography className={classes.name}>{capitalize(name)}</Typography>
       <Divider orientation='horizontal' className={classes.divider}/>
-      <ProductRating value={rating || 4} classes={classes.rating}/>
+      <ProductRating value={rating || 4}/>
       <Divider orientation='horizontal' className={classes.divider}/>
       <Box className={classes.pricesBox}>
         {isOnSale ? <Price value={price}/> : null}
@@ -93,13 +91,6 @@ const ProductPageView = (props) => {
         <MuiLink variant='body2' className={classes.link}>View sizes guide</MuiLink>
       </Box>
       <Box>
-        {displayHelper
-          ? <Typography
-            variant='subtitle1'
-            style={{color: colors.noticeColor}}>
-                  Please, choose size
-          </Typography>
-          : null}
         <Box className={classes.selectBox}>
           <SelectBox value={chosenSize}
             classes={classes}
@@ -107,6 +98,9 @@ const ProductPageView = (props) => {
             options={mapArrayToOptions(sizesArray)}/>
           <Quantity quantity={quantity} id={productData._id} classes={classes} max={maxQuantity || 5} handleQuantity={handleQuantity}/>
         </Box>
+        <PopoverMessage
+          anchorEl={document.querySelector('select')}
+          popoverContent='Please, choose size'/>
         <Box className={classes.actionBox}>
           <ThemeProvider theme={theme}>
             <ActionButtons classes={classes}
@@ -117,7 +111,6 @@ const ProductPageView = (props) => {
               width={width}
               disabledSpacing={true}
               isProductPage={true}
-              setDisplayHelper={setDisplayHelper}
             />
           </ThemeProvider>
         </Box>
@@ -130,7 +123,8 @@ ProductPageView.propTypes = {
   productData: PropTypes.object.isRequired,
   width: PropTypes.string.isRequired,
   productsQuantity: PropTypes.array.isRequired,
-  getProductsQuantity: PropTypes.func.isRequired
+  getProductsQuantity: PropTypes.func.isRequired,
+  setPopoverOpen: PropTypes.func.isRequired
 };
 
 const mapStateToProps = (store) => {
@@ -141,7 +135,8 @@ const mapStateToProps = (store) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    getProductsQuantity: data => dispatch(getProductsQuantity(data))
+    getProductsQuantity: data => dispatch(getProductsQuantity(data)),
+    setPopoverOpen: flag => dispatch(setPopoverOpenState(flag))
   };
 };
 

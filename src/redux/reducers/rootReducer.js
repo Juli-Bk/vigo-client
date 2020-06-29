@@ -26,6 +26,7 @@ import isPopoverOpen from './isPopoverOpenReducer';
 import snackMessage from './isSnackMessageOpenReducer';
 import userIsLoggedIn from './isLoggedReducer';
 import filters from './filtersReducer';
+import totalSum from './totalSumReducer';
 
 export const rootReducer = combineReducers({
   currentPage,
@@ -54,5 +55,6 @@ export const rootReducer = combineReducers({
   isPopoverOpen,
   filters,
   snackMessage,
-  userIsLoggedIn
+  userIsLoggedIn,
+  totalSum
 });
