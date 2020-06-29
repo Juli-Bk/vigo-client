@@ -60,6 +60,11 @@ const globalConfig = {
   },
   step: 15,
   defaultQuantity: 1,
+  cartMessages: {
+    CREATED: 'Shopping cart created for you',
+    UPDATED: 'Your shopping cart updated successfully',
+    ERROR: 'Shopping cart error happened. We`ll resolve this question. Try again, please'
+  },
   userMessages: {
     NOT_AUTHORIZED: 'You are not authorized. Login, please',
     EMPTY_RESULT: 'Any results matching your search',
@@ -83,7 +88,11 @@ const globalConfig = {
       original: 'https://vigo-shop-aws-bucket.s3.eu-central-1.amazonaws.com/img/top-slider/top_slider_3.jpg'
     }
   ],
-  tabsSliderNames: ['new arrivals', 'featured', 'special'],
+  tabsSliderNames: {
+    newArrivals: 'new arrivals',
+    featured: 'featured',
+    special: 'special'
+  },
   viewOptions: {
     module: 'module',
     list: 'list'
@@ -94,6 +103,10 @@ const globalConfig = {
   },
   defaultSizeOption: 'Select size',
   defaultQuantityOption: 1,
+  snackSeverity: {
+    SUCCESS: 'success',
+    ERROR: 'error'
+  },
   defaultShipping: 0,
   defaultTax: 0
 };

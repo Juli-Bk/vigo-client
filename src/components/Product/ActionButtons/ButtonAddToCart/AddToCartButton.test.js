@@ -13,7 +13,8 @@ describe('Button Add testing', () => {
       id={testId}
       addToCart={handler}
       quantity={testQuantity}
-      sizeId={testId}/>);
+      sizeId={testId}
+      colorId={testId}/>);
     expect(document.querySelector('button[type="button"]')).toHaveClass(testClasses);
   });
   it('on button click handler is called', () => {
@@ -21,11 +22,12 @@ describe('Button Add testing', () => {
       id={testId}
       addToCart={handler}
       quantity={testQuantity}
-      sizeId={testId}/>);
+      sizeId={testId}
+      colorId={testId}/>);
     const btn = document.querySelector('button[type="button"]');
     fireEvent.click(btn);
     expect(handler).toHaveBeenCalled();
     expect(handler).toHaveBeenCalledTimes(1);
-    expect(handler).toHaveBeenCalledWith(testId, testQuantity, testId);
+    expect(handler).toHaveBeenCalledWith(testId, testQuantity, testId, testId);
   });
 });

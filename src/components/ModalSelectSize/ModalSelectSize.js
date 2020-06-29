@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import {connect} from 'react-redux';
 import Button from '@material-ui/core/Button';
 import {makeStyles, ThemeProvider} from '@material-ui/core';
@@ -12,7 +12,13 @@ import SelectBox from '../SelectBox/SelectBox';
 import globalConfig from '../../globalConfig';
 import {toggleModalSize} from '../../redux/actions/actions';
 import {getProductsQuantity} from '../../redux/actions/quantity';
-import { getChosenSizeId, getProductStockData, getSizesArray, mapArrayToOptions } from '../../helpers/helpers';
+import {
+  getChosenSizeId,
+  getColorData,
+  getProductStockData,
+  getSizesArray,
+  mapArrayToOptions
+} from '../../helpers/helpers';
 import { colors } from '../../styles/colorKit';
 import theme from './ModalSelectTheme';
 import formStyles from '../../styles/formStyle/formStyle';
@@ -43,7 +49,8 @@ const ModalSize = (props) => {
   const [chosenSize, setChosenSize] = useState('');
   const [productQuantity, setProductQuantity] = useState([]);
   const sizeId = getChosenSizeId(productQuantity, chosenSize);
-  const sizesArray = getSizesArray(productQuantity);
+  const sizesArray = useMemo(() => getSizesArray(productQuantity), [productQuantity]);
+  const color = useMemo(() => getColorData(productQuantity), [productQuantity]);
 
   const handleSetSize = useCallback((event) => {
     if (event.target.value !== globalConfig.defaultSizeOption) {
@@ -78,7 +85,12 @@ const ModalSize = (props) => {
       <ThemeProvider theme={theme}>
         <DialogActions disableSpacing={true}>
           <Button onClick={handleClose} className={formClasses.button}>Cancel</Button>
-          <ActionButtons classes={formClasses} product={currentProduct} isModal={true} sizeId={sizeId}/>
+          <ActionButtons classes={formClasses}
+            product={currentProduct}
+            isModal={true}
+            sizeId={sizeId}
+            colorId={color.id}
+          />
         </DialogActions>
       </ThemeProvider>
     </Dialog>

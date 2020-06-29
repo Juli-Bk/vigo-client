@@ -193,9 +193,17 @@ export const getProductStockData = (quantityArray, productId) => {
   }
 };
 
-export const getColorName = (quantityArray) => {
+export const getColorData = (quantityArray) => {
   if (quantityArray && quantityArray.length) {
-    return capitalize(quantityArray[0] && quantityArray[0].colorId.name) || '';
+    return {
+      name: capitalize(quantityArray[0] && quantityArray[0].colorId.name),
+      id: quantityArray[0].colorId._id
+    };
+  } else {
+    return {
+      name: '',
+      id: ''
+    };
   }
 };
 

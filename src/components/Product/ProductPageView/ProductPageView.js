@@ -10,7 +10,7 @@ import {
   mapArrayToOptions,
   getMaxQuantity,
   getProductStockData,
-  getColorName,
+  getColorData,
   getChosenSizeId,
   getSizesArray
 } from '../../../helpers/helpers';
@@ -37,7 +37,7 @@ const ProductPageView = (props) => {
   const [quantity, setQuantity] = useState(globalConfig.defaultQuantityOption);
   const [productQuantity, setProductQuantity] = useState([]);
 
-  const color = useMemo(() => getColorName(productQuantity), [productQuantity]);
+  const color = useMemo(() => getColorData(productQuantity), [productQuantity]);
   const maxQuantity = useMemo(() => {
     getMaxQuantity(productQuantity, chosenSize);
   }, [chosenSize, productQuantity]);
@@ -87,7 +87,7 @@ const ProductPageView = (props) => {
       </Box>
       <Typography variant='caption' component='p' className={classes.description}>{description}</Typography>
       <Box className={classes.colorBox}>
-        <Typography variant='body2'>Color: <span className={classes.colorName}>{color}</span></Typography>
+        <Typography variant='body2'>Color: <span className={classes.colorName}>{color.name}</span></Typography>
         <MuiLink variant='body2' className={classes.link}>View sizes guide</MuiLink>
       </Box>
       <Box>
@@ -107,6 +107,7 @@ const ProductPageView = (props) => {
               product={productData}
               quantity={quantity}
               sizeId={sizeId}
+              colorId={color.id}
               width={width}
               disabledSpacing={true}
               isProductPage={true}

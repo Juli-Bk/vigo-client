@@ -20,6 +20,7 @@ import { changeShoppingCart, getUserShopCart } from '../../redux/actions/shopCar
 import {connect} from 'react-redux';
 import ProfileMenu from '../../components/ProfileMenu/ProfileMenu';
 import ModalSize from '../../components/ModalSelectSize/ModalSelectSize';
+import SnackbarMessage from '../../components/SnackbarMessage/SnackbarMessage';
 
 const Header = (props) => {
   const {
@@ -28,9 +29,10 @@ const Header = (props) => {
     isModalSizeOpen,
     changeShoppingCart,
     changeWishList,
-    userIsLoggedIn,
     shoppingCart,
-    wishList
+    wishList,
+    userIsLoggedIn,
+    snackMessage
   } = props;
   const classes = useStyles();
 
@@ -88,6 +90,7 @@ const Header = (props) => {
         </Grid>
         {!isMobile && <NestedMenu/>}
         {isModalSizeOpen && <ModalSize/>}
+        {snackMessage.isOpen && <SnackbarMessage/>}
       </Grid>
     </ThemeProvider>
   );
@@ -98,7 +101,8 @@ const mapStoreToProps = store => {
     userIsLoggedIn: store.userIsLoggedIn,
     isModalSizeOpen: store.isModalSizeOpen,
     shoppingCart: store.shoppingCart,
-    wishList: store.wishList
+    wishList: store.wishList,
+    snackMessage: store.snackMessage
   };
 };
 

@@ -1,6 +1,6 @@
-import {getUserIdFromCookie} from '../../ajax/common/helper';
-import AjaxUtils from '../../ajax';
 import {getStorageData, setStorageData} from '../../helpers/helpers';
+import {handleCart} from '../../redux/actions/shopCart';
+import store from '../../redux/store';
 
 export const getProductsId = (shoppingCart) => {
   const array = [];
@@ -50,72 +50,6 @@ export const getSubtotal = (price, quantity) => {
   return quantity ? price * quantity : price;
 };
 
-const cartHandler = (products) => {
-  const userId = getUserIdFromCookie();
-  const cartId = getStorageData('cartId');
-  if (userId) {
-    AjaxUtils.ShopCart.getUserShopCart(userId)
-      .then(result => {
-        if (result.message) {
-          AjaxUtils.ShopCart.createShopCart(userId, products)
-            .then(result => {
-              if (result && result.status === 400) {
-                console.log(result.message);
-              } else {
-                // todo nice popup
-                if (result && result._id) {
-                  setStorageData('cartId', result._id);
-                }
-              }
-            }).catch(err => {
-              console.log('cartHelper createShopCart error: ', err);
-            });
-        } else {
-          AjaxUtils.ShopCart.updateShopCartById(result._id, products, result.userId)
-            .then(result => {
-              if (result && result.status === 400) {
-                console.log(result.message);
-              } else {
-                // todo nice popup
-                if (result && result._id) {
-                  setStorageData('cartId', result._id);
-                }
-              }
-            }).catch(err => {
-              console.log('cartHelper updateShopCartById error: ', err);
-            });
-        }
-      });
-  } else if (!userId && cartId.length) {
-    AjaxUtils.ShopCart.updateShopCartById(cartId, products)
-      .then(result => {
-        if (result && result.status === 400) {
-          console.log(result.message);
-        } else {
-          // todo nice popup
-          console.log('updating for unregistered user', result);
-        }
-      }).catch(err => {
-        console.log('cartHelper updateShopCartById error: ', err);
-      });
-  } else {
-    AjaxUtils.ShopCart.createShopCart(null, products)
-      .then(result => {
-        if (result && result.status === 400) {
-          console.log(result.message);
-        } else {
-          // todo nice popup
-          console.log(result);
-          if (result && result.cart) {
-            setStorageData('cartId', result.cart._id);
-          }
-        }
-      }).catch(err => {
-        console.log('cartHelper createShopCart error: ', err);
-      });
-  }
-};
-
 export const addToCart = (productId, cartQuantity = 1, sizeId = '', colorId = '') => {
   const shopCartLocal = getStorageData('shoppingCart');
   const product = {
@@ -145,7 +79,7 @@ export const addToCart = (productId, cartQuantity = 1, sizeId = '', colorId = ''
     setStorageData('shoppingCart', [...shopCartLocal, product]);
   }
 
-  cartHandler(getStorageData('shoppingCart'));
+  store.dispatch(handleCart(getStorageData('shoppingCart')));
 };
 
 export const deleteFromCart = (productId) => {
@@ -153,7 +87,7 @@ export const deleteFromCart = (productId) => {
   if (shopCartLocal && shopCartLocal.length) {
     const products = shopCartLocal.filter(item => item.productId !== productId);
     setStorageData('shoppingCart', products);
-    cartHandler(products);
+    store.dispatch(handleCart(products));
   }
 };
 
@@ -169,7 +103,7 @@ export const integrateCarts = (remoteCart) => {
     localCart.forEach(localItem => {
       const itemInRemoteCart = remoteCart.find(remoteItem => remoteItem.productId === localItem.productId);
       if (!itemInRemoteCart) {
-        cartHandler([localItem]);
+        store.dispatch(handleCart([localItem]));
       }
     });
   }
