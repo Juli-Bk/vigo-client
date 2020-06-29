@@ -19,15 +19,15 @@ const ActionButtons = (props) => {
   const {
     classes, product, width, disabledSpacing,
     isProductPage, changeWishList, changeShoppingCart,
-    sizeId, quantity, toggleModalSize, setDisplayHelper, isModal, setCurrentProduct
+    sizeId, colorId, quantity, toggleModalSize, setDisplayHelper, isModal, setCurrentProduct
   } = props;
 
-  const addToShopCart = (productId, quantity, sizeId) => {
+  const addToShopCart = (productId, quantity, sizeId, colorId) => {
     setCurrentProduct(product);
     if (!sizeId) {
       isProductPage ? setDisplayHelper(true) : toggleModalSize(true);
     } else {
-      addToCart(productId, quantity, sizeId);
+      addToCart(productId, quantity, sizeId, colorId);
       changeShoppingCart();
       toggleModalSize(false);
     }
@@ -55,7 +55,8 @@ const ActionButtons = (props) => {
         addToCart={addToShopCart}
         quantity={quantity}
         product={product}
-        sizeId={sizeId}/>
+        sizeId={sizeId}
+        colorId={colorId}/>
       {!isModal
         ? <>
           <FavoriteIcon classes={classes}
@@ -82,7 +83,9 @@ ActionButtons.propTypes = {
   token: PropTypes.string,
   changeWishList: PropTypes.func.isRequired,
   changeShoppingCart: PropTypes.func.isRequired,
-  toggleModalSize: PropTypes.func.isRequired
+  toggleModalSize: PropTypes.func.isRequired,
+  sizeId: PropTypes.string,
+  colorId: PropTypes.string
 };
 
 const mapStateToProps = store => {

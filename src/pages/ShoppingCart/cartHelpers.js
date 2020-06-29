@@ -116,12 +116,13 @@ const cartHandler = (products) => {
   }
 };
 
-export const addToCart = (productId, cartQuantity = 1, sizeId = '') => {
+export const addToCart = (productId, cartQuantity = 1, sizeId = '', colorId = '') => {
   const shopCartLocal = getStorageData('shoppingCart');
   const product = {
     productId,
     cartQuantity,
-    sizeId
+    sizeId,
+    colorId
   };
 
   const itemInCart = shopCartLocal.find(item => item.productId === productId);
@@ -130,7 +131,8 @@ export const addToCart = (productId, cartQuantity = 1, sizeId = '') => {
       const newItem = {
         productId,
         cartQuantity,
-        sizeId
+        sizeId,
+        colorId
       };
       setStorageData('shoppingCart', [...shopCartLocal, newItem]);
     }
