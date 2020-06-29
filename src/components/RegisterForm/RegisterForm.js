@@ -15,7 +15,7 @@ import AjaxUtils from '../../ajax';
 const RegisterForm = (props) => {
   const {submitRegisterHandler} = props;
   const handleCancel = () => {
-    submitRegisterHandler({});
+    submitRegisterHandler(null);
   };
   const submitRegisterData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
