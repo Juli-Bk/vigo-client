@@ -60,6 +60,11 @@ const globalConfig = {
   },
   step: 15,
   defaultQuantity: 1,
+  cartMessages: {
+    CREATED: 'Shopping cart created for you',
+    UPDATED: 'Your shopping cart updated successfully',
+    ERROR: 'Shopping cart error happened. We`ll resolve this question. Try again, please'
+  },
   userMessages: {
     NOT_AUTHORIZED: 'You are not authorized. Login, please',
     EMPTY_RESULT: 'Any results matching your search',
@@ -93,7 +98,11 @@ const globalConfig = {
     ACCESSORIES: 'accessories'
   },
   defaultSizeOption: 'Select size',
-  defaultQuantityOption: 1
+  defaultQuantityOption: 1,
+  snackSeverity: {
+    SUCCESS: 'success',
+    ERROR: 'error'
+  }
 };
 
 export default globalConfig;

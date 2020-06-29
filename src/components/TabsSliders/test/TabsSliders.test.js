@@ -20,7 +20,7 @@ describe('tabs with sliders testing', () => {
       <Provider store={store}>
         <TabsSliders tabsNames={tabsNames} width='lg'/>
       </Provider>);
-    const textContainer = tabsSliders.getByText(tabsNames[0]);
+    const textContainer = tabsSliders.getByText(/featured/i);
     expect(textContainer).toBeInTheDocument();
   });
 

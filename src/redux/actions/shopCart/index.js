@@ -2,7 +2,8 @@ import Actions from '../../constants/constants';
 import {getUserIdFromCookie} from '../../../ajax/common/helper';
 import AjaxUtils from '../../../ajax';
 import {integrateCarts} from '../../../pages/ShoppingCart/cartHelpers';
-import { getStorageData, setStorageData } from '../../../helpers/helpers';
+import {getStorageData, setStorageData} from '../../../helpers/helpers';
+import globalConfig from '../../../globalConfig';
 
 export const changeShoppingCart = () => {
   const data = getStorageData('shoppingCart');
@@ -27,70 +28,134 @@ export const getUserShopCart = () => {
   };
 };
 
-export const handleCart = (products) => {
-  return (dispatch) => {
-    const userId = getUserIdFromCookie();
-    const cartId = getStorageData('cartId');
-    if (userId) {
-      AjaxUtils.ShopCart.getUserShopCart(userId)
-        .then(result => {
-          if (result.message) {
-            AjaxUtils.ShopCart.createShopCart(userId, products)
-              .then(result => {
-                if (result && result.status === 400) {
-                  console.log(result.message);
-                } else {
-                  // todo nice popup
-                  if (result && result._id) {
-                    setStorageData('cartId', result._id);
-                  }
+export const handleCart = (products) => dispatch => {
+  const userId = getUserIdFromCookie();
+  const cartId = getStorageData('cartId');
+  if (userId) {
+    AjaxUtils.ShopCart.getUserShopCart(userId)
+      .then(result => {
+        if (result.message) {
+          AjaxUtils.ShopCart.createShopCart(userId, products)
+            .then(result => {
+              if (result && result.status === 400) {
+                dispatch({
+                  type: Actions.SET_SNACK_MESSAGE_OPEN,
+                  payload: true,
+                  message: globalConfig.cartMessages.ERROR,
+                  severity: globalConfig.snackSeverity.ERROR
+                });
+                console.log(result.message);
+              } else {
+                if (result && result._id) {
+                  dispatch({
+                    type: Actions.SET_SNACK_MESSAGE_OPEN,
+                    payload: true,
+                    message: globalConfig.cartMessages.CREATED,
+                    severity: globalConfig.snackSeverity.SUCCESS
+                  });
+                  setStorageData('cartId', result._id);
                 }
-              }).catch(err => {
-                console.log('cartHelper createShopCart error: ', err);
+              }
+            }).catch(err => {
+              dispatch({
+                type: Actions.SET_SNACK_MESSAGE_OPEN,
+                payload: true,
+                message: globalConfig.cartMessages.ERROR,
+                severity: globalConfig.snackSeverity.ERROR
               });
-          } else {
-            AjaxUtils.ShopCart.updateShopCartById(result._id, products, result.userId)
-              .then(result => {
-                if (result && result.status === 400) {
-                  console.log(result.message);
-                } else {
-                  // todo nice popup
-                  if (result && result._id) {
-                    setStorageData('cartId', result._id);
-                  }
+              console.log('cartHelper createShopCart error: ', err);
+            });
+        } else {
+          AjaxUtils.ShopCart.updateShopCartById(result._id, products, result.userId)
+            .then(result => {
+              if (result && result.status === 400) {
+                dispatch({
+                  type: Actions.SET_SNACK_MESSAGE_OPEN,
+                  payload: true,
+                  message: globalConfig.cartMessages.ERROR,
+                  severity: globalConfig.snackSeverity.ERROR
+                });
+                console.log(result.message);
+              } else {
+                if (result && result._id) {
+                  dispatch({
+                    type: Actions.SET_SNACK_MESSAGE_OPEN,
+                    payload: true,
+                    message: globalConfig.cartMessages.UPDATED,
+                    severity: globalConfig.snackSeverity.SUCCESS
+                  });
+                  setStorageData('cartId', result._id);
                 }
-              }).catch(err => {
-                console.log('cartHelper updateShopCartById error: ', err);
+              }
+            }).catch(err => {
+              dispatch({
+                type: Actions.SET_SNACK_MESSAGE_OPEN,
+                payload: true,
+                message: globalConfig.cartMessages.ERROR,
+                severity: globalConfig.snackSeverity.ERROR
               });
-          }
+              console.log('cartHelper updateShopCartById error: ', err);
+            });
+        }
+      });
+  } else if (!userId && cartId.length) {
+    AjaxUtils.ShopCart.updateShopCartById(cartId, products)
+      .then(result => {
+        if (result && result.status === 400) {
+          dispatch({
+            type: Actions.SET_SNACK_MESSAGE_OPEN,
+            payload: true,
+            message: globalConfig.cartMessages.ERROR,
+            severity: globalConfig.snackSeverity.ERROR
+          });
+          console.log(result.message);
+        } else {
+          dispatch({
+            type: Actions.SET_SNACK_MESSAGE_OPEN,
+            payload: true,
+            message: globalConfig.cartMessages.UPDATED,
+            severity: globalConfig.snackSeverity.SUCCESS
+          });
+        }
+      }).catch(err => {
+        dispatch({
+          type: Actions.SET_SNACK_MESSAGE_OPEN,
+          payload: true,
+          message: globalConfig.cartMessages.ERROR,
+          severity: globalConfig.snackSeverity.ERROR
         });
-    } else if (!userId && cartId.length) {
-      AjaxUtils.ShopCart.updateShopCartById(cartId, products)
-        .then(result => {
-          if (result && result.status === 400) {
-            console.log(result.message);
-          } else {
-            // todo nice popup
-            console.log('updating for unregistered user', result);
+        console.log('cartHelper updateShopCartById error: ', err);
+      });
+  } else {
+    AjaxUtils.ShopCart.createShopCart(null, products)
+      .then(result => {
+        if (result && result.status === 400) {
+          dispatch({
+            type: Actions.SET_SNACK_MESSAGE_OPEN,
+            payload: true,
+            message: globalConfig.cartMessages.ERROR,
+            severity: globalConfig.snackSeverity.ERROR
+          });
+          console.log(result.message);
+        } else {
+          dispatch({
+            type: Actions.SET_SNACK_MESSAGE_OPEN,
+            payload: true,
+            message: globalConfig.cartMessages.CREATED,
+            severity: globalConfig.snackSeverity.SUCCESS
+          });
+          if (result && result.cart) {
+            setStorageData('cartId', result.cart._id);
           }
-        }).catch(err => {
-          console.log('cartHelper updateShopCartById error: ', err);
+        }
+      }).catch(err => {
+        dispatch({
+          type: Actions.SET_SNACK_MESSAGE_OPEN,
+          payload: true,
+          message: globalConfig.cartMessages.ERROR,
+          severity: globalConfig.snackSeverity.ERROR
         });
-    } else {
-      AjaxUtils.ShopCart.createShopCart(null, products)
-        .then(result => {
-          if (result && result.status === 400) {
-            console.log(result.message);
-          } else {
-            // todo nice popup
-            console.log(result);
-            if (result && result.cart) {
-              setStorageData('cartId', result.cart._id);
-            }
-          }
-        }).catch(err => {
-          console.log('cartHelper createShopCart error: ', err);
-        });
-    }
-  };
+        console.log('cartHelper createShopCart error: ', err);
+      });
+  }
 };

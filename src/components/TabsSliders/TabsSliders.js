@@ -6,7 +6,6 @@ import TabPanel from './TabPanel';
 import TabSlider from './TabSlider';
 import theme from './TabsSlidersTheme';
 import {colors} from '../../styles/colorKit';
-import globalConfig from '../../globalConfig';
 import { getFeatured, getNewArrivals, getSpecial } from '../../redux/actions/products';
 
 function a11yProps (index) {
@@ -65,18 +64,30 @@ const TabsSliders = (props) => {
             orientation={orientation}
             onChange={handleChange}
             aria-label="tabs-for-sliders">
-            {globalConfig.tabsSliderNames.map((name, index) => {
-              return (<Tab label={name} {...a11yProps(index)} key={index} disableRipple={true} className={classes.tab}/>);
-            })}
+            {newArrivals.length > 0 ? <Tab label='New Arrivals'
+              {...a11yProps(0)}
+              key='New Arrivals'
+              disableRipple={true}
+              className={classes.tab}/> : null}
+            <Tab label='Featured'
+              {...a11yProps(newArrivals.length ? 1 : 0)}
+              key='Featured'
+              disableRipple={true}
+              className={classes.tab}/>
+            <Tab label='Special'
+              {...a11yProps(newArrivals.length ? 2 : 1)}
+              key='Special' disableRipple={true}
+              className={classes.tab}/>
           </Tabs>
         </Box>
-        <TabPanel value={value} index={0} key={0} width={width}>
-          <TabSlider data={newArrivals} width={width}/>
-        </TabPanel>
-        <TabPanel value={value} index={1} key={1} width={width}>
+        {newArrivals.length
+          ? <TabPanel value={value} index={0} key='NewArrivals' width={width}>
+            <TabSlider data={newArrivals} width={width}/>
+          </TabPanel> : null}
+        <TabPanel value={value} index={newArrivals.length ? 1 : 0} key='featured' width={width}>
           <TabSlider data={featured} width={width}/>
         </TabPanel>
-        <TabPanel value={value} index={2} key={2} width={width}>
+        <TabPanel value={value} index={newArrivals.length ? 2 : 1} key='special' width={width}>
           <TabSlider data={special} width={width}/>
         </TabPanel>
       </div>
