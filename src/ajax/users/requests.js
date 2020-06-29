@@ -200,6 +200,10 @@ export default {
       })
       .catch(error => console.log('login error', error.message));
   },
+  /**
+   * performs token refresh if needed cookie exists
+   * @returns {Promise<Response | void>} returns Promise. Use then method on it to get response result
+   */
   refreshLogin: () => {
     return fetch(pathTo.loginRefresh, methods.POST)
       .then(async (response) => {
@@ -211,6 +215,10 @@ export default {
       })
       .catch(error => console.log('refreshLogin error', error.message));
   },
+  /**
+   * Performs logout on server. Deletes both tokens from httpOnly cookie
+   * @returns {Promise<Response | void>} returns Promise. Use then method on it to get response result
+   */
   logOut: () => {
     return fetch(pathTo.logout, methods.POST)
       .then(async (response) => {

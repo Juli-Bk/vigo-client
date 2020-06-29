@@ -24,7 +24,8 @@ const RequestsConfig = {
   quantity: `${baseUrl}/quantity`,
   cart: `${baseUrl}/cart`,
   orders: `${baseUrl}/orders`,
-  cancelOrder: `${baseUrl}/orders/cancel`
+  cancelOrder: `${baseUrl}/orders/cancel`,
+  sendEmail: `${baseUrl}/mail`
 };
 
 export default RequestsConfig;
