@@ -32,7 +32,7 @@ const Quantity = (props) => {
 };
 
 Quantity.propTypes = {
-  quantity: PropTypes.number.isRequired,
+  quantity: PropTypes.number,
   id: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired,
   handleQuantity: PropTypes.func.isRequired,

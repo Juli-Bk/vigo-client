@@ -49,8 +49,13 @@ export const setPopoverOpenState = (isOpen) => {
   return {type: Actions.SET_POPOVER_OPEN, payload: isOpen};
 };
 
-export const setSnackMessageState = (isOpen) => {
-  return {type: Actions.SET_SNACK_MESSAGE_OPEN, payload: isOpen};
+export const setSnackMessage = (isOpen, message, severity) => {
+  return {
+    type: Actions.SET_SNACK_MESSAGE_OPEN,
+    payload: isOpen,
+    message,
+    severity
+  };
 };
 
 export const setLoading = (isLoading) => {
