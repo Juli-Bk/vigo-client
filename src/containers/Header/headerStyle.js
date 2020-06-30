@@ -170,8 +170,8 @@ const useStyles = makeStyles(theme => ({
       color: fade(colors.fontHover, 0.9)
     },
     [theme.breakpoints.up('sm')]: {
-      top: '.45rem',
-      right: '.4rem'
+      top: '.2rem',
+      right: '.3rem'
     }
   }
 }));

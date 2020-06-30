@@ -1,6 +1,8 @@
 import {getStorageData, setStorageData} from '../../helpers/helpers';
 import {handleCart} from '../../redux/actions/shopCart';
 import store from '../../redux/store';
+import Actions from '../../redux/constants/constants';
+import globalConfig from '../../globalConfig';
 
 export const getProductsId = (shoppingCart) => {
   const array = [];
@@ -50,6 +52,22 @@ export const getSubtotal = (price, quantity) => {
   return quantity ? price * quantity : price;
 };
 
+const getItemInCart = (shopCart, productId, sizeId) => {
+  shopCart.forEach(item => {
+    if (item.productId === productId && item.sizeId === sizeId) {
+      store.dispatch({
+        type: Actions.SET_SNACK_MESSAGE_OPEN,
+        payload: true,
+        message: globalConfig.cartMessages.IN_CART,
+        severity: globalConfig.snackSeverity.INFO
+      });
+    }
+    if (item.productId === productId && item.sizeId !== sizeId) {
+      return item;
+    }
+  });
+};
+
 export const addToCart = (productId, cartQuantity = 1, sizeId = '', colorId = '') => {
   const shopCartLocal = getStorageData('shoppingCart');
   const product = {
@@ -59,7 +77,9 @@ export const addToCart = (productId, cartQuantity = 1, sizeId = '', colorId = ''
     colorId
   };
 
-  const itemInCart = shopCartLocal.find(item => item.productId === productId);
+  let itemInCart;
+  getItemInCart(shopCartLocal, productId, sizeId);
+
   if (itemInCart) {
     if (sizeId !== itemInCart.sizeId) {
       const newItem = {

@@ -79,15 +79,6 @@ export const mapArrayToOptions = (array) => {
   });
 };
 
-// todo need this?
-export const makeNumbersArray = (number) => {
-  const array = [];
-  for (let i = 1; i <= Number(number); i++) {
-    array.push(i);
-  }
-  return array;
-};
-
 export const changeOrder = (arrayOfId, arrayOfObjects) => {
   const newObjectsArray = [];
   if (arrayOfObjects) {
