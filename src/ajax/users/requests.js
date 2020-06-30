@@ -229,5 +229,18 @@ export default {
         }, respData);
       })
       .catch(error => console.log('logOut error', error.message));
+  },
+  confirmMyEmail: (email) => {
+    if (!email) throw new TypeError('specify email address');
+
+    return fetch(`${pathTo.emailConfirmation}?email=${email}`, methods.POST)
+      .then(async (response) => {
+        const respData = await response.json();
+        return Object.assign({
+          status: response.status,
+          statusText: response.statusText
+        }, respData);
+      })
+      .catch(error => console.log('logOut error', error.message));
   }
 };
