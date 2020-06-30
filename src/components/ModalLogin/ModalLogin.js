@@ -59,7 +59,8 @@ const ModalLogin = (props) => {
 
   const handleClose = useCallback((flag) => {
     if (location.pathname === '/account') {
-      history.go(0);
+      // history.go(0);
+      history.push('/');
     }
     setOpen(false);
     if (flag) {

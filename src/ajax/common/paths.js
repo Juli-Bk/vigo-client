@@ -1,5 +1,5 @@
-export const baseUrl = 'https://vigo-server.herokuapp.com';
-// export const baseUrl = 'http://localhost:9229';
+// export const baseUrl = 'https://vigo-server.herokuapp.com';
+export const baseUrl = 'http://localhost:9229';
 
 const RequestsConfig = {
   categories: `${baseUrl}/categories`,
@@ -7,6 +7,7 @@ const RequestsConfig = {
   productsFilter: `${baseUrl}/products/filter?`,
   productsSearch: `${baseUrl}/products/search`,
   maxPrice: `${baseUrl}/products/max`,
+
   users: `${baseUrl}/users`,
   login: `${baseUrl}/users/login`,
   loginRefresh: `${baseUrl}/users/login/refresh`,
@@ -14,6 +15,8 @@ const RequestsConfig = {
   register: `${baseUrl}/users/register`,
   password: `${baseUrl}/users/password`,
   logout: `${baseUrl}/users/logout`,
+  emailConfirmation: `${baseUrl}/users/email-confirmation`,
+
   unsubscribe: `${baseUrl}/subscribers/unsubscribe`,
   subscribers: `${baseUrl}/subscribers`,
   subscribe: `${baseUrl}/subscribers/subscribe`,

@@ -161,17 +161,16 @@ const useStyles = makeStyles(theme => ({
   digit: {
     position: 'absolute',
     top: 0,
-    right: '.1rem',
-    fontSize: '1.1rem',
+    right: 0,
+    fontSize: '0.8rem',
     fontWeight: 'bold',
     color: colors.noticeColor,
-    background: colors.bgSecondary,
     '&:hover': {
       color: fade(colors.fontHover, 0.9)
     },
     [theme.breakpoints.up('sm')]: {
-      top: '.45rem',
-      right: '.4rem'
+      top: 0,
+      right: 0
     }
   }
 }));
