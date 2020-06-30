@@ -191,9 +191,11 @@ export const confirmMyEmail = (email, callback) => {
       .then((rez) => {
         if (rez && rez.status !== 400) {
           dispatch(setUser(rez.user));
-          dispatch(setSnackMessage(true, 'Your email is confirmed'));
+          dispatch(setSnackMessage(true,
+            'Your email is confirmed',
+            'success'));
         } else {
-          dispatch(setSnackMessage(true, rez.message));
+          dispatch(setSnackMessage(true, rez.message, 'error'));
         }
         dispatch(setLoading(false));
         callback && callback();
