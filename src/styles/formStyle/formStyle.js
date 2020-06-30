@@ -31,6 +31,19 @@ const useStyles = makeStyles(theme => (
       fontWeight: 700,
       textAlign: 'justify'
     },
+    linkButton: {
+      marginTop: '1.25rem',
+      color: colors.fontSecondary,
+      fontWeight: 300,
+      fontFamily: fonts.f3,
+      border: 'none',
+      fonFamily: fonts.f2,
+      textTransform: 'capitalize',
+      '&:hover': {
+        backgroundColor: 'none',
+        color: colors.noticeColor
+      }
+    },
 
     button: {
       marginTop: '1.25rem',

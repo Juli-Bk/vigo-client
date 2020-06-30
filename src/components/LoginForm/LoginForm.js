@@ -94,7 +94,6 @@ const LoginForm = (props) => {
                   error={touched.password && Boolean(errors.password)}
                   size='small'
                 />
-                {/* todo save user data for quick login */}
                 <CardActions>
                   <Button
                     type='button'

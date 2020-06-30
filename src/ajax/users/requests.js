@@ -230,6 +230,11 @@ export default {
       })
       .catch(error => console.log('logOut error', error.message));
   },
+  /**
+   * Confirms user email
+   * @param email {String} user email address
+   * @returns {Promise<Response | void>} returns Promise. Use then method on it to get response result
+   */
   confirmMyEmail: (email) => {
     if (!email) throw new TypeError('specify email address');
 
@@ -241,6 +246,53 @@ export default {
           statusText: response.statusText
         }, respData);
       })
-      .catch(error => console.log('logOut error', error.message));
+      .catch(error => console.log('confirmMyEmail error', error.message));
+  },
+  /**
+   * Sends email with link by clicking on it user can proceed to new password setting
+   * @param email {String} user email
+   * @returns {Promise<Response | void>} returns Promise. Use then method on it to get response result
+   */
+  restorePasswordLetter: (email) => {
+    if (!email) throw new TypeError('specify email address');
+
+    const fingerprint = window.navigator.userAgent;
+    return fetch(`${pathTo.restorePassword}?email=${email}&fingerprint=${fingerprint}`, methods.POST)
+      .then(async (response) => {
+        const respData = await response.json();
+        return Object.assign({
+          status: response.status,
+          statusText: response.statusText
+        }, respData);
+      })
+      .catch(error => console.log('restorePasswordLetter error', error.message));
+  },
+  /**
+   * Updates user password with new value
+   * @param formData {Object} contains user email and newPassword
+   *      example: {newPassword: "password", email: "user@email.com"}
+   * @param token {String} jwt token
+   * @returns {Promise<Response | void>} returns Promise. Use then method on it to get response result
+   */
+  confirmPasswordRecover: (formData, token) => {
+    if (!formData) throw new TypeError('empty form data');
+    if (!token) throw new TypeError('empty token to restore password');
+
+    const requestOptions = {
+      body: JSON.stringify(formData),
+      ...methods.POST,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    return fetch(`${pathTo.restore}?token=${token}`, requestOptions)
+      .then(async (response) => {
+        const respData = await response.json();
+        return Object.assign({
+          status: response.status,
+          statusText: response.statusText
+        }, respData);
+      })
+      .catch(error => console.log('confirmPasswordRecover error', error.message));
   }
 };

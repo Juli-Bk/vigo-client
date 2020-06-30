@@ -24,6 +24,7 @@ import maxPrice from './maxPriceReducer';
 import allSizes from './allSizesReducer';
 import isPopoverOpen from './isPopoverOpenReducer';
 import snackMessage from './isSnackMessageOpenReducer';
+import isRestorePswdModalOpen from './isRestorePswdModalOpen';
 import userIsLoggedIn from './isLoggedReducer';
 import filters from './filtersReducer';
 import totalSum from './totalSumReducer';
@@ -56,5 +57,6 @@ export const rootReducer = combineReducers({
   filters,
   snackMessage,
   userIsLoggedIn,
-  totalSum
+  totalSum,
+  isRestorePswdModalOpen
 });
