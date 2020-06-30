@@ -16,6 +16,8 @@ const RequestsConfig = {
   password: `${baseUrl}/users/password`,
   logout: `${baseUrl}/users/logout`,
   emailConfirmation: `${baseUrl}/users/email-confirmation`,
+  restorePassword: `${baseUrl}/users/recovery`,
+  restore: `${baseUrl}/users/password-recovery`,
 
   unsubscribe: `${baseUrl}/subscribers/unsubscribe`,
   subscribers: `${baseUrl}/subscribers`,

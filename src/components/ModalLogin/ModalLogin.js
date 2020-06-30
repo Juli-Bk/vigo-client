@@ -11,10 +11,10 @@ import LoginForm from '../LoginForm/LoginForm';
 import RegisterForm from '../RegisterForm/RegisterForm';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import {IconButton, Typography} from '@material-ui/core';
+import {Button, IconButton, Typography} from '@material-ui/core';
 import {ThemeProvider} from '@material-ui/styles';
 import {connect} from 'react-redux';
-import {setLoginModalOpenState} from '../../redux/actions/actions';
+import {setLoginModalOpenState, setRestorePswdModalOpen} from '../../redux/actions/actions';
 import {setUserIsLoggedIn} from '../../redux/actions/user';
 import {withRouter} from 'react-router';
 
@@ -46,7 +46,10 @@ const TabPanel = (props) => {
 };
 
 const ModalLogin = (props) => {
-  const {open, setOpen, history, location, userIsLoggedIn, setUserIsLoggedIn} = props;
+  const {
+    open, setOpen, history, location, userIsLoggedIn,
+    setUserIsLoggedIn, setPswdModalOpen
+  } = props;
   const classes = useStyles();
   const commonClasses = useCommonStyles();
   const [message, setMessage] = useState('');
@@ -56,6 +59,11 @@ const ModalLogin = (props) => {
   const handleClickOpen = useCallback(() => {
     setOpen(true);
   }, [setOpen]);
+
+  const handleRecoverPswd = useCallback(() => {
+    setOpen(false);
+    setPswdModalOpen(true);
+  }, [setOpen, setPswdModalOpen]);
 
   const handleClose = useCallback((flag) => {
     if (location.pathname === '/account') {
@@ -136,6 +144,13 @@ const ModalLogin = (props) => {
                         handleClose(false);
                       }
                     }}/>
+                    <Button
+                      type='button'
+                      size='small'
+                      className={commonClasses.linkButton}
+                      onClick={handleRecoverPswd}>
+                      I forgot my password
+                    </Button>
                   </TabPanel>
 
                   <TabPanel value={value} index={1} dir={theme.direction}>
@@ -182,7 +197,8 @@ const mapStoreToProps = store => {
 const mapDispatchToProps = dispatch => {
   return {
     setOpen: isOpen => dispatch(setLoginModalOpenState(isOpen)),
-    setUserIsLoggedIn: flag => dispatch(setUserIsLoggedIn(flag))
+    setUserIsLoggedIn: flag => dispatch(setUserIsLoggedIn(flag)),
+    setPswdModalOpen: flag => dispatch(setRestorePswdModalOpen(flag))
   };
 };
 

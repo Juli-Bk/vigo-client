@@ -206,3 +206,53 @@ export const confirmMyEmail = (email, callback) => {
       });
   };
 };
+
+export const sendRecoverPasswordLetter = (email, callback) => {
+  return (dispatch) => {
+    AjaxUtils.Users.restorePasswordLetter(email)
+      .then((result) => {
+        if (result && result.status !== 400) {
+          dispatch(setSnackMessage(true,
+            result.message,
+            'success'));
+        } else {
+          dispatch(setSnackMessage(true,
+            result.message,
+            'error'));
+        }
+        dispatch(setLoading(false));
+        callback && callback(result);
+      })
+      .catch(error => {
+        console.log(error);
+        dispatch(setLoading(false));
+      });
+  };
+};
+
+export const saveRecoverPassword = (formData, token, callback) => {
+  return (dispatch) => {
+    AjaxUtils.Users.confirmPasswordRecover(formData, token)
+      .then((result) => {
+        if (result && result.status !== 400) {
+          dispatch(setSnackMessage(true,
+            result.message,
+            'success'));
+        } else {
+          dispatch(setSnackMessage(true,
+            result.message,
+            'error'));
+        }
+        dispatch(setLoading(false));
+        callback && callback(result);
+      })
+      .catch(error => {
+        console.log(error);
+        dispatch(setSnackMessage(true,
+          'error occurs on server',
+          'error'));
+        dispatch(setLoading(false));
+        callback && callback(null);
+      });
+  };
+};

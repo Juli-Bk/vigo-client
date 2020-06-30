@@ -21,6 +21,7 @@ import {connect} from 'react-redux';
 import ProfileMenu from '../../components/ProfileMenu/ProfileMenu';
 import ModalSize from '../../components/ModalSelectSize/ModalSelectSize';
 import SnackbarMessage from '../../components/SnackbarMessage/SnackbarMessage';
+import ModalRestorePassword from '../../components/ModalRestorePassword/ModalRestorePassword';
 
 const Header = (props) => {
   const {
@@ -83,6 +84,7 @@ const Header = (props) => {
                   </Link>
                   {userIsLoggedIn && <ProfileMenu/>}
                   <ModalLogin/>
+                  <ModalRestorePassword/>
                 </Box>
               </Toolbar>
             </Container>
