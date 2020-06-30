@@ -37,7 +37,6 @@
     "react": "^16.13.1",
     "react-css-modules": "^4.7.11",
     "react-dom": "^16.13.1",
-    "react-draggable": "^4.4.3",
     "react-image-gallery": "^1.0.7",
     "react-places-autocomplete": "^7.2.1",
     "react-recaptcha": "^2.3.10",
