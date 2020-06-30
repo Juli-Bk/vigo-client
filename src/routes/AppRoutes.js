@@ -41,6 +41,7 @@ const AppRoutes = () => {
           <Route exact path='/privacyPolicy' component={PrivacyPolicy}/>
           <Route exact path='/returns' component={Returns}/>
           <Route exact path='/shipping' component={Shipping}/>
+          <Route exact path='/confirmation' component={EmailConfirmationDialog}/>
 
           <Route exact path='/confirmation' component={EmailConfirmationDialog}/>
           <Route exact path='/recovery' component={RestorePswrdForm}/>
