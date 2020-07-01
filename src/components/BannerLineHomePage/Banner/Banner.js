@@ -34,7 +34,9 @@ Banner.propTypes = {
   alert: PropTypes.bool.isRequired,
   subtitle: PropTypes.string,
   link: PropTypes.string.isRequired,
-  linkText: PropTypes.string
+  linkText: PropTypes.string,
+  filter: PropTypes.object,
+  addFilters: PropTypes.func.isRequired
 };
 
 const mapDispatchToProps = dispatch => {

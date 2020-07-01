@@ -39,6 +39,10 @@ export const addFilters = (filtersObj) => {
   };
 };
 
+export const clearFilters = () => {
+  return {type: Actions.CLEAR_FILTERS};
+};
+
 export const getFeatured = () => dispatch => {
   dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
   AjaxUtils.Products.getProductsByFilters([{featured: true}], 1, 15, '')

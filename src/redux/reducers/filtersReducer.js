@@ -45,6 +45,12 @@ const reducer = (state = initialState, action) => {
         }
       });
       return newState;
+    case Actions.CLEAR_FILTERS:
+      if (state.categoryId) {
+        return {...initialState, categoryId: state.categoryId };
+      } else {
+        return initialState;
+      }
     default:
       return state;
   }
