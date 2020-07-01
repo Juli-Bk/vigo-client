@@ -16,6 +16,7 @@ import useStyles from '../../styles/formStyle/formStyle';
 import theme from '../../styles/formStyle/formStyleTheme';
 import { connect} from 'react-redux';
 import {setUserDeliveryAddress} from '../../redux/actions/user';
+import CloseIcon from '@material-ui/icons/Close';
 
 const AddressRadioGroup = (props) => {
   const {addresses, setUserDeliveryAddress} = props;
@@ -36,7 +37,6 @@ const AddressRadioGroup = (props) => {
     radioGroup: Yup.string()
       .required('Please, choose one of these options')
   });
-
   const styles = useStyles();
 
   const adrList = addresses.map((address) => {
@@ -50,6 +50,18 @@ const AddressRadioGroup = (props) => {
     tags.push(str);
     return tags;
   });
+  const deleteAddress = (tags, tag) => {
+    for (let i = tags.length; i--;) {
+      if (tags[i] === tag) {
+        tags.splice(i, 1);
+      }
+    }
+  };
+
+  // или
+  // const removeAddress = (tags, tag) => {
+  //   return tags.filter(function (el) { return el !== tag; });
+  // };
 
   const radioBtns = adrList.map((tag, index) => {
     return <FormControlLabel
@@ -59,7 +71,10 @@ const AddressRadioGroup = (props) => {
       name='radioGroup'
       id='radioOption1'
       control={<Radio/>}
-      label={ <Typography className={styles.text} key={index}>{tag} </Typography>}
+      label={ <Typography className={styles.text} key={index}>{tag}
+        <CloseIcon data-testid='deleteIcon'
+          className={styles.closeIconAddress}
+          onClick={deleteAddress}/> </Typography>}
     />;
   });
 

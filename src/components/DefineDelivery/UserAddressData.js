@@ -36,6 +36,7 @@ const UserAddressData = (props) => {
 
       <Box p={1}>
         {adr}
+
       </Box>
     </>;
 

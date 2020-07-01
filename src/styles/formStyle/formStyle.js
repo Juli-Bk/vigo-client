@@ -45,6 +45,22 @@ const useStyles = makeStyles(theme => (
       color: colors.borderLight,
       marginBottom: 15
     },
+    closeIconAddress: {
+      position: 'absolute',
+      right: 0,
+      fill: `2px solid ${colors.borderLight}`,
+      '&:hover': {
+        borderRadius: 6,
+        border: `2px solid ${colors.fontFourth}`,
+        cursor: 'pointer'
+      },
+      [theme.breakpoints.down(550)]: {
+        position: 'absolute',
+        top: '5px',
+        right: '1rem',
+        fontSize: '2rem'
+      }
+    },
     text: {
       color: colors.phPrimary,
       margin: '6px 0',
