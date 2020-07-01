@@ -33,6 +33,10 @@ export const setLoginModalOpenState = (isOpen) => {
   return {type: Actions.IS_LOGIN_MODAL_OPEN, payload: isOpen};
 };
 
+export const setRestorePswdModalOpen = (isOpen) => {
+  return {type: Actions.IS_RESTORE_MODAL_OPEN, payload: isOpen};
+};
+
 export const setAddressModalOpenState = (isOpen) => {
   return {type: Actions.IS_ADDRESS_MODAL_OPEN, payload: isOpen};
 };
@@ -49,8 +53,13 @@ export const setPopoverOpenState = (isOpen) => {
   return {type: Actions.SET_POPOVER_OPEN, payload: isOpen};
 };
 
-export const setSnackMessageState = (isOpen) => {
-  return {type: Actions.SET_SNACK_MESSAGE_OPEN, payload: isOpen};
+export const setSnackMessage = (isOpen, message, severity) => {
+  return {
+    type: Actions.SET_SNACK_MESSAGE_OPEN,
+    payload: isOpen,
+    message,
+    severity
+  };
 };
 
 export const setLoading = (isLoading) => {

@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { Box, ThemeProvider, TableContainer } from '@material-ui/core';
+import { Box, ThemeProvider, TableContainer, Grid } from '@material-ui/core';
 
 import { setStorageData } from '../../helpers/helpers';
 import {
@@ -12,7 +12,7 @@ import {
   updateCartData,
   updateProductQuantity,
   addToCart,
-  deleteFromCart
+  deleteFromCart, getTotalSum
 } from '../../pages/ShoppingCart/cartHelpers';
 
 import {changeShoppingCart} from '../../redux/actions/shopCart';
@@ -21,7 +21,7 @@ import {theme} from '../WishListView/WishListViewTheme';
 import useStyles from '../WishListView/WishListViewStyles';
 import TableMobileView from './Tables/TableMobileView';
 import TableDesktopView from './Tables/TableDesktopView';
-import TotalSum from './TotalSum';
+import TotalSum from './TotalSum/TotalSum';
 
 const ShopCartView = (props) => {
   const {isMobile, products, changeShoppingCart, shoppingCart, productsQuantity, getProductsQuantity} = props;
@@ -77,33 +77,38 @@ const ShopCartView = (props) => {
     };
   });
 
+  const subTotal = useMemo(() => getTotalSum(rows), [rows]);
+
   return (
     <ThemeProvider theme={theme}>
       {shoppingCart.length && products.length &&
-              <>
-                <TableContainer component={Box}>
-                  { isMobile
-                    ? <TableMobileView
-                      classes={classes}
-                      handleQuantity={handleQuantity}
-                      getCartData={getCartData}
-                      rows={rows}
-                      deleteFromShopCart={deleteFromShopCart}
-                      productsAmount={products.length}
-                    />
-                    : <TableDesktopView
-                      classes={classes}
-                      handleQuantity={handleQuantity}
-                      getCartData={getCartData}
-                      rows={rows}
-                      deleteFromShopCart={deleteFromShopCart}
-                    />}
-                </TableContainer>
-
-                <TableContainer component={Box} style={{width: '30%', margin: '3rem auto'}}>
-                  <TotalSum subtotal={100} tax={0} shipping={0}/>
-                </TableContainer>
-              </>
+              <Grid container direction='column' justify='center'>
+                <Grid item>
+                  <TableContainer component={Box}>
+                    { isMobile
+                      ? <TableMobileView
+                        classes={classes}
+                        handleQuantity={handleQuantity}
+                        getCartData={getCartData}
+                        rows={rows}
+                        deleteFromShopCart={deleteFromShopCart}
+                        productsAmount={products.length}
+                      />
+                      : <TableDesktopView
+                        classes={classes}
+                        handleQuantity={handleQuantity}
+                        getCartData={getCartData}
+                        rows={rows}
+                        deleteFromShopCart={deleteFromShopCart}
+                      />}
+                  </TableContainer>
+                </Grid>
+                <Grid item>
+                  <TableContainer component={Box}>
+                    <TotalSum subtotal={subTotal}/>
+                  </TableContainer>
+                </Grid>
+              </Grid>
       }
     </ThemeProvider>
   );

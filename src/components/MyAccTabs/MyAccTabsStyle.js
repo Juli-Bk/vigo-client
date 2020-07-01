@@ -6,6 +6,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: theme.palette.background.paper,
     flexGrow: 1
   },
+  selected: {},
   tab: {
     position: 'relative',
     '&::before': {

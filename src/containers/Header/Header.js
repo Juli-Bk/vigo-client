@@ -20,6 +20,8 @@ import { changeShoppingCart, getUserShopCart } from '../../redux/actions/shopCar
 import {connect} from 'react-redux';
 import ProfileMenu from '../../components/ProfileMenu/ProfileMenu';
 import ModalSize from '../../components/ModalSelectSize/ModalSelectSize';
+import SnackbarMessage from '../../components/SnackbarMessage/SnackbarMessage';
+import ModalRestorePassword from '../../components/ModalRestorePassword/ModalRestorePassword';
 
 const Header = (props) => {
   const {
@@ -28,7 +30,10 @@ const Header = (props) => {
     isModalSizeOpen,
     changeShoppingCart,
     changeWishList,
-    userIsLoggedIn
+    shoppingCart,
+    wishList,
+    userIsLoggedIn,
+    snackMessage
   } = props;
   const classes = useStyles();
 
@@ -64,19 +69,22 @@ const Header = (props) => {
                 </Box>
                 <Box className={classes.headerIconsBlock}>
                   <SearchBar/>
-                  <Link to='/wishlist'>
+                  <Link to='/wishlist' className={classes.link}>
                     <IconButton aria-label="starIcon" className={classes.starIcon}>
                       <FavoriteBorderIcon/>
                     </IconButton>
+                    <span className={classes.digit}>{wishList.length}</span>
                   </Link>
 
-                  <Link to='/cart'>
+                  <Link to='/cart' className={classes.link}>
                     <IconButton aria-label="shoppingBag" className={classes.shoppingBag}>
                       <LocalMallOutlinedIcon/>
                     </IconButton>
+                    <span className={classes.digit}>{shoppingCart.length}</span>
                   </Link>
                   {userIsLoggedIn && <ProfileMenu/>}
                   <ModalLogin/>
+                  <ModalRestorePassword/>
                 </Box>
               </Toolbar>
             </Container>
@@ -84,6 +92,7 @@ const Header = (props) => {
         </Grid>
         {!isMobile && <NestedMenu/>}
         {isModalSizeOpen && <ModalSize/>}
+        {snackMessage.isOpen && <SnackbarMessage/>}
       </Grid>
     </ThemeProvider>
   );
@@ -92,7 +101,10 @@ const Header = (props) => {
 const mapStoreToProps = store => {
   return {
     userIsLoggedIn: store.userIsLoggedIn,
-    isModalSizeOpen: store.isModalSizeOpen
+    isModalSizeOpen: store.isModalSizeOpen,
+    shoppingCart: store.shoppingCart,
+    wishList: store.wishList,
+    snackMessage: store.snackMessage
   };
 };
 

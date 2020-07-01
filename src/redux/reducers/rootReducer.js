@@ -23,9 +23,11 @@ import allColors from './allColorsReducer';
 import maxPrice from './maxPriceReducer';
 import allSizes from './allSizesReducer';
 import isPopoverOpen from './isPopoverOpenReducer';
-import isSnackMessageOpen from './isSnackMessageOpenReducer';
+import snackMessage from './isSnackMessageOpenReducer';
+import isRestorePswdModalOpen from './isRestorePswdModalOpen';
 import userIsLoggedIn from './isLoggedReducer';
 import filters from './filtersReducer';
+import totalSum from './totalSumReducer';
 
 export const rootReducer = combineReducers({
   currentPage,
@@ -53,6 +55,8 @@ export const rootReducer = combineReducers({
   isLoading,
   isPopoverOpen,
   filters,
-  isSnackMessageOpen,
-  userIsLoggedIn
+  snackMessage,
+  userIsLoggedIn,
+  totalSum,
+  isRestorePswdModalOpen
 });

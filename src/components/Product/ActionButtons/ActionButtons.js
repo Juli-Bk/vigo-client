@@ -9,7 +9,7 @@ import globalConfig from '../../../globalConfig';
 import { toggleWishItems } from '../../../helpers/helpers';
 import { addToCart } from '../../../pages/ShoppingCart/cartHelpers';
 import {
-  setCurrentProduct,
+  setCurrentProduct, setPopoverOpenState,
   toggleModalSize
 } from '../../../redux/actions/actions';
 import {changeShoppingCart} from '../../../redux/actions/shopCart';
@@ -19,15 +19,16 @@ const ActionButtons = (props) => {
   const {
     classes, product, width, disabledSpacing,
     isProductPage, changeWishList, changeShoppingCart,
-    sizeId, quantity, toggleModalSize, setDisplayHelper, isModal, setCurrentProduct
+    setPopoverOpen, sizeId, colorId, quantity,
+    toggleModalSize, isModal, setCurrentProduct
   } = props;
 
   const addToShopCart = (productId, quantity, sizeId) => {
     setCurrentProduct(product);
     if (!sizeId) {
-      isProductPage ? setDisplayHelper(true) : toggleModalSize(true);
+      isProductPage ? setPopoverOpen(true) : toggleModalSize(true);
     } else {
-      addToCart(productId, quantity, sizeId);
+      addToCart(productId, quantity, sizeId, colorId);
       changeShoppingCart();
       toggleModalSize(false);
     }
@@ -55,7 +56,8 @@ const ActionButtons = (props) => {
         addToCart={addToShopCart}
         quantity={quantity}
         product={product}
-        sizeId={sizeId}/>
+        sizeId={sizeId}
+        colorId={colorId}/>
       {!isModal
         ? <>
           <FavoriteIcon classes={classes}
@@ -82,7 +84,9 @@ ActionButtons.propTypes = {
   token: PropTypes.string,
   changeWishList: PropTypes.func.isRequired,
   changeShoppingCart: PropTypes.func.isRequired,
-  toggleModalSize: PropTypes.func.isRequired
+  toggleModalSize: PropTypes.func.isRequired,
+  sizeId: PropTypes.string,
+  colorId: PropTypes.string
 };
 
 const mapStateToProps = store => {
@@ -96,7 +100,8 @@ const mapDispatchToProps = dispatch => {
     changeWishList: () => dispatch(changeWishList()),
     changeShoppingCart: () => dispatch(changeShoppingCart()),
     toggleModalSize: flag => dispatch(toggleModalSize(flag)),
-    setCurrentProduct: product => dispatch(setCurrentProduct(product))
+    setCurrentProduct: product => dispatch(setCurrentProduct(product)),
+    setPopoverOpen: flag => dispatch(setPopoverOpenState(flag))
   };
 };
 

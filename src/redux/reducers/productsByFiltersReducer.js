@@ -3,9 +3,9 @@ import Actions from '../constants/constants';
 const initialState = {
   data: [],
   totalCount: 0,
-  featured: [],
-  special: [],
-  newArrivals: [],
+  featured: {},
+  special: {},
+  newArrivals: {},
   bestSellers: []
 };
 
@@ -14,11 +14,11 @@ const reducer = (state = initialState, action) => {
     case Actions.GET_PRODUCTS_BY_FILTERS:
       return {...state, data: action.products, totalCount: action.totalCount };
     case Actions.GET_FEATURED:
-      return {...state, featured: action.payload};
+      return {...state, featured: {data: action.data, name: action.name}};
     case Actions.GET_SPECIAL:
-      return {...state, special: action.payload};
+      return {...state, special: {data: action.data, name: action.name}};
     case Actions.GET_NEW_ARRIVALS:
-      return {...state, newArrivals: action.payload};
+      return {...state, newArrivals: {data: action.data, name: action.name}};
     case Actions.GET_BESTSELLERS:
       return {...state, bestSellers: action.payload};
     case Actions.GET_RECENTLY_VIEWED:

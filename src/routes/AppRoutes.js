@@ -18,6 +18,8 @@ import Shipping from '../pages/Shipping/Shipping';
 import store from './../redux/store';
 import {setLoginModalOpenState} from '../redux/actions/actions';
 import AutoScrollTop from '../components/AutoScrollTop/AutoScrollTop';
+import EmailConfirmationDialog from '../components/EmailConfirmationDialog/EmailConfirmationDialog';
+import RestorePswrdForm from '../components/RestorePswrdForm/RestorePswrdForm';
 
 const AppRoutes = () => {
   return (
@@ -39,6 +41,10 @@ const AppRoutes = () => {
           <Route exact path='/privacyPolicy' component={PrivacyPolicy}/>
           <Route exact path='/returns' component={Returns}/>
           <Route exact path='/shipping' component={Shipping}/>
+          <Route exact path='/confirmation' component={EmailConfirmationDialog}/>
+
+          <Route exact path='/confirmation' component={EmailConfirmationDialog}/>
+          <Route exact path='/recovery' component={RestorePswrdForm}/>
 
           <ProtectedRoute
             authenticated={!!getJWTfromCookie()}
@@ -51,8 +57,22 @@ const AppRoutes = () => {
   );
 };
 
-const ProtectedRoute = ({authenticated, ...props}) => authenticated
-  ? <Route {...props} />
-  : store.dispatch(setLoginModalOpenState(true));
+const ProtectedRoute = (props) => {
+  const {component: Component, authenticated, render, ...rest} = props;
+
+  return (
+    <Route {...rest} render={(renderProps) => {
+      if (authenticated) {
+        if (render) {
+          return render(renderProps);
+        } else {
+          return <Component {...renderProps} />;
+        }
+      }
+      store.dispatch(setLoginModalOpenState(true));
+    }}
+    />
+  );
+};
 
 export default AppRoutes;

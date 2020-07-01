@@ -3,8 +3,12 @@ import { Button } from '@material-ui/core';
 import PropTypes from 'prop-types';
 
 const AddToCartButton = (props) => {
-  const {classes, addToCart, id, quantity, sizeId} = props;
-  return <Button className={classes} onClick={() => addToCart(id, quantity, sizeId)}>Add to bag</Button>;
+  const {classes, addToCart, id, quantity, sizeId, colorId} = props;
+  return (
+    <Button className={classes}
+      onClick={() => addToCart(id, quantity, sizeId, colorId)}>
+    Add to bag
+    </Button>);
 };
 
 AddToCartButton.propTypes = {

@@ -3,6 +3,7 @@ import AjaxUtils from '../../../ajax';
 import { changeOrder, getStorageData, setStorageData } from '../../../helpers/helpers';
 
 export const getProductsByFilters = (filterArray, startPage, perPage, sort) => dispatch => {
+  dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
   if (filterArray && filterArray.length) {
     AjaxUtils.Products.getProductsByFilters(filterArray, startPage, perPage, sort)
       .then(result => {
@@ -12,7 +13,10 @@ export const getProductsByFilters = (filterArray, startPage, perPage, sort) => d
             products: result.products,
             totalCount: result.totalCount
           });
+          dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
         }
+      }).catch(err => {
+        console.log('get products by filters request failed', err);
       });
   }
 };
@@ -23,6 +27,8 @@ export const getMaxPrice = () => dispatch => {
       if (result.maxSalePrice) {
         dispatch({type: Actions.GET_MAX_PRICE, payload: result.maxSalePrice});
       }
+    }).catch(err => {
+      console.log('get max price request failed', err);
     });
 };
 
@@ -34,14 +40,19 @@ export const addFilters = (filtersObj) => {
 };
 
 export const getFeatured = () => dispatch => {
+  dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
   AjaxUtils.Products.getProductsByFilters([{featured: true}], 1, 15, '')
     .then(result => {
       if (result && result.products) {
         dispatch({
           type: Actions.GET_FEATURED,
-          payload: result.products
+          data: result.products,
+          name: 'featured'
         });
+        dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
       }
+    }).catch(err => {
+      console.log('get featured products request failed', err);
     });
 };
 
@@ -51,9 +62,12 @@ export const getSpecial = () => dispatch => {
       if (result && result.products) {
         dispatch({
           type: Actions.GET_SPECIAL,
-          payload: result.products
+          data: result.products,
+          name: 'special'
         });
       }
+    }).catch(err => {
+      console.log('get special products request failed', err);
     });
 };
 
@@ -63,13 +77,17 @@ export const getNewArrivals = () => dispatch => {
       if (result && result.products) {
         dispatch({
           type: Actions.GET_NEW_ARRIVALS,
-          payload: result.products
+          data: result.products,
+          name: 'newArrivals'
         });
       }
+    }).catch(err => {
+      console.log('get new products request failed', err);
     });
 };
 
 export const getBestsellers = (perPage) => dispatch => {
+  dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
   AjaxUtils.Products.getProductsByFilters([{bestseller: true}], 1, perPage, '')
     .then(result => {
       if (result && result.products) {
@@ -77,7 +95,10 @@ export const getBestsellers = (perPage) => dispatch => {
           type: Actions.GET_BESTSELLERS,
           payload: result.products
         });
+        dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
       }
+    }).catch(err => {
+      console.log('get best sellers request failed', err);
     });
 };
 
@@ -86,6 +107,7 @@ export const getRecentlyViewed = (productId) => dispatch => {
   const filterArray = dataFromStorage.length ? [{_id: dataFromStorage}] : [];
 
   if (filterArray.length) {
+    dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
     AjaxUtils.Products.getProductsByFilters(filterArray, 1, 8, '')
       .then(result => {
         if ((result.products && result.products.length) < dataFromStorage.length) {
@@ -112,6 +134,9 @@ export const getRecentlyViewed = (productId) => dispatch => {
           }
           setStorageData('recentlyViewed', [...dataFromStorage.filter(item => item !== wrongId)]);
         }
+      }).catch(err => {
+        console.log('get recently viewed products request failed', err);
       });
+    dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
   }
 };

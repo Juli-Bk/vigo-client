@@ -1,6 +1,6 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { colors } from '../../styles/colorKit';
-import { fonts } from '../../styles/fonts/fontsKit';
+import { colors } from '../colorKit';
+import { fonts } from '../fonts/fontsKit';
 
 const useStyles = makeStyles(theme => (
   {
@@ -30,6 +30,19 @@ const useStyles = makeStyles(theme => (
       paddingBottom: 8,
       fontWeight: 700,
       textAlign: 'justify'
+    },
+    linkButton: {
+      marginTop: '1.25rem',
+      color: colors.fontSecondary,
+      fontWeight: 300,
+      fontFamily: fonts.f3,
+      border: 'none',
+      fonFamily: fonts.f2,
+      textTransform: 'capitalize',
+      '&:hover': {
+        backgroundColor: 'none',
+        color: colors.noticeColor
+      }
     },
 
     button: {
