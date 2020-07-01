@@ -23,6 +23,7 @@ import AutocompleteComponent from '../Autocomplete/Autocomplete';
 import {connect} from 'react-redux';
 import {validateObject} from './helper';
 import {saveUserData} from '../../redux/actions/user';
+import PrivacyPolicyModal from '../VigoPrivacyPolicy/PrivacyPolicyModal';
 
 const AddressForm = (props) => {
   const {submitAddressHandler, user, saveUserData} = props;
@@ -159,6 +160,7 @@ const AddressForm = (props) => {
                     {errors.confirmation}
                   </FormHelperText>}
                 </FormGroup>
+                <PrivacyPolicyModal/>
                 <CardActions>
                   <Button
                     type='button'

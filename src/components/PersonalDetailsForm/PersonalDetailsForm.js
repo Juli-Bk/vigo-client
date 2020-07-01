@@ -23,6 +23,7 @@ import EmailIcon from '@material-ui/icons/Email';
 import AjaxUtils from '../../ajax';
 import {saveUserData} from '../../redux/actions/user';
 import {validateObject} from './helper';
+import PrivacyPolicyModal from '../VigoPrivacyPolicy/PrivacyPolicyModal';
 
 const PersonalDetailsForm = (props) => {
   const {user, savePersonalUserData, saveUserAddressesHandler} = props;
@@ -138,7 +139,7 @@ const PersonalDetailsForm = (props) => {
                 <TextField
                   autoComplete='on'
                   name='phoneNumber'
-                  label={<IconLabel label='Enter your phone number' Component={PhoneAndroidIcon}/>}
+                  label={<IconLabel label='Enter phone number' Component={PhoneAndroidIcon}/>}
                   className={classes.input}
                   value={values.phoneNumber || ''}
                   onChange={handleChange}
@@ -166,6 +167,7 @@ const PersonalDetailsForm = (props) => {
                       color='default'/>}
                     label='I have read and agree to the Privacy Policy'
                   />
+                  <PrivacyPolicyModal/>
                   {touched.confirmation && errors.confirmation &&
                   <FormHelperText
                     error={touched.confirmation && !!errors.confirmation}>

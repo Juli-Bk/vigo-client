@@ -69,6 +69,11 @@ const theme = createMuiTheme({
             borderColor: 'colors.noticeColor !important'
           }
         }
+      },
+      input: {
+        '@media  (max-width: 538px)': {
+          fontSize: 'small'
+        }
       }
     },
     MuiFormLabel: {
