@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Box } from '@material-ui/core';
 
 const SelectBox = (props) => {
-  const { value, handleChange, options, label, classes } = props;
+  const { value, handleChange, options, label, classes} = props;
 
   return (
     <Box>

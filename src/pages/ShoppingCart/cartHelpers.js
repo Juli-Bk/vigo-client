@@ -1,8 +1,6 @@
 import {getStorageData, setStorageData} from '../../helpers/helpers';
 import {handleCart} from '../../redux/actions/shopCart';
 import store from '../../redux/store';
-import Actions from '../../redux/constants/constants';
-import globalConfig from '../../globalConfig';
 
 export const getProductsId = (shoppingCart) => {
   const array = [];
@@ -14,10 +12,14 @@ export const getProductsId = (shoppingCart) => {
   return array;
 };
 
-export const findItemInCart = (productId, shoppingCart) => {
+export const findItemsInCart = (productId, shoppingCart) => {
+  const items = [];
   if (shoppingCart && shoppingCart.length) {
-    return shoppingCart.find(item => item.productId === productId);
+    shoppingCart.forEach(item => {
+      if (item.productId === productId) items.push(item);
+    });
   }
+  return items;
 };
 
 export const getItemStockData = (productsQuantity, productId) => {
@@ -27,10 +29,17 @@ export const getItemStockData = (productsQuantity, productId) => {
   }
 };
 
-export const getChosenProductData = (itemStockData, itemInCart) => {
-  if (itemStockData && itemInCart) {
-    return itemStockData.find(item => item.sizeId._id === itemInCart.sizeId);
+export const getChosenProductData = (itemStockData, itemsInCart) => {
+  const data = [];
+  if (itemStockData && itemsInCart.length) {
+    itemsInCart.forEach(item => {
+      if (itemStockData.find(stockItem => stockItem.sizeId._id === item.sizeId)) {
+        const itemInStock = itemStockData.find(stockItem => stockItem.sizeId._id === item.sizeId);
+        data.push(itemInStock);
+      }
+    });
   }
+  return data;
 };
 
 export const updateProductQuantity = (productId, newQuantity, shoppingCart) => {
@@ -52,22 +61,6 @@ export const getSubtotal = (price, quantity) => {
   return quantity ? price * quantity : price;
 };
 
-const getItemInCart = (shopCart, productId, sizeId) => {
-  shopCart.forEach(item => {
-    if (item.productId === productId && item.sizeId === sizeId) {
-      store.dispatch({
-        type: Actions.SET_SNACK_MESSAGE_OPEN,
-        payload: true,
-        message: globalConfig.cartMessages.IN_CART,
-        severity: globalConfig.snackSeverity.INFO
-      });
-    }
-    if (item.productId === productId && item.sizeId !== sizeId) {
-      return item;
-    }
-  });
-};
-
 export const addToCart = (productId, cartQuantity = 1, sizeId = '', colorId = '') => {
   const shopCartLocal = getStorageData('shoppingCart');
   const product = {
@@ -77,28 +70,36 @@ export const addToCart = (productId, cartQuantity = 1, sizeId = '', colorId = ''
     colorId
   };
 
-  let itemInCart;
-  getItemInCart(shopCartLocal, productId, sizeId);
+  const itemsInCart = [];
 
-  if (itemInCart) {
-    if (sizeId !== itemInCart.sizeId) {
-      const newItem = {
-        productId,
-        cartQuantity,
-        sizeId,
-        colorId
-      };
-      setStorageData('shoppingCart', [...shopCartLocal, newItem]);
+  shopCartLocal.forEach(item => {
+    if (item.productId === productId) {
+      itemsInCart.push(item);
     }
-    if (cartQuantity !== itemInCart.cartQuantity) {
-      const updatedItem = updateProductQuantity(productId, cartQuantity, shopCartLocal);
-      const updatedCart = updateCartData(shopCartLocal, productId, updatedItem);
-      setStorageData('shoppingCart', updatedCart);
-    }
+  });
+  if (itemsInCart.length) {
+    itemsInCart.forEach(item => {
+      if (sizeId !== item.sizeId) {
+        const newItem = {
+          productId,
+          cartQuantity,
+          sizeId,
+          colorId
+        };
+        setStorageData('shoppingCart', [...shopCartLocal, newItem]);
+      } else {
+        let newQuantity = cartQuantity;
+        if (cartQuantity === 1) {
+          newQuantity = item.cartQuantity + 1;
+        }
+        const updatedItem = updateProductQuantity(productId, newQuantity, shopCartLocal);
+        const updatedCart = updateCartData(shopCartLocal, productId, updatedItem);
+        setStorageData('shoppingCart', updatedCart);
+      }
+    });
   } else {
     setStorageData('shoppingCart', [...shopCartLocal, product]);
   }
-
   store.dispatch(handleCart(getStorageData('shoppingCart')));
 };
 

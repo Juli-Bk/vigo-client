@@ -1,7 +1,7 @@
 import Actions from '../../constants/constants';
 import {getUserIdFromCookie} from '../../../ajax/common/helper';
 import AjaxUtils from '../../../ajax';
-import {integrateCarts} from '../../../pages/ShoppingCart/cartHelpers';
+import { integrateCarts } from '../../../pages/ShoppingCart/cartHelpers';
 import {getStorageData, setStorageData} from '../../../helpers/helpers';
 import globalConfig from '../../../globalConfig';
 
@@ -161,5 +161,26 @@ export const handleCart = (products) => dispatch => {
         });
         console.log('cartHelper createShopCart error: ', err);
       });
+  }
+};
+
+export const getProductsInCart = (idArray) => dispatch => {
+  if (idArray.length) {
+    dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
+    const arrayOfProducts = [];
+    const promisesArr = [];
+    idArray.forEach(id => {
+      promisesArr.push(AjaxUtils.Products.getProductById(id)
+        .then(result => {
+          if (result) {
+            arrayOfProducts.push(result);
+          }
+        })
+      );
+    });
+    Promise.all(promisesArr).then(() => {
+      dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
+      dispatch({type: Actions.SET_CART_PRODUCTS, payload: arrayOfProducts});
+    });
   }
 };

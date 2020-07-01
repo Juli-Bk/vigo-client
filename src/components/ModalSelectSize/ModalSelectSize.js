@@ -10,7 +10,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import ActionButtons from '../Product/ActionButtons/ActionButtons';
 import SelectBox from '../SelectBox/SelectBox';
 import globalConfig from '../../globalConfig';
-import {toggleModalSize} from '../../redux/actions/actions';
+import { setPopoverOpenState, setSnackMessage, toggleModalSize } from '../../redux/actions/actions';
 import {getProductsQuantity} from '../../redux/actions/quantity';
 import {
   getChosenSizeId,
@@ -22,6 +22,7 @@ import {
 import { colors } from '../../styles/colorKit';
 import theme from './ModalSelectTheme';
 import formStyles from '../../styles/formStyle/formStyle';
+import PopoverMessage from '../PopoverMessage/PopoverMessage';
 
 const useStyles = makeStyles(theme => ({
   select: {
@@ -86,6 +87,7 @@ const ModalSize = (props) => {
         <DialogActions disableSpacing={true}>
           <Button onClick={handleClose} className={formClasses.button}>Cancel</Button>
           <ActionButtons classes={formClasses}
+            isModalSize={true}
             product={currentProduct}
             isModal={true}
             sizeId={sizeId}
@@ -108,7 +110,8 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
   return {
     setOpen: flag => dispatch(toggleModalSize(flag)),
-    getProductsQuantity: (idArray) => dispatch(getProductsQuantity(idArray))
+    getProductsQuantity: (idArray) => dispatch(getProductsQuantity(idArray)),
+    setPopoverOpen: flag => dispatch(setPopoverOpenState(flag))
   };
 };
 

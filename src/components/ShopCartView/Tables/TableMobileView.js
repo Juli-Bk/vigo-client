@@ -20,7 +20,7 @@ const TableMobileView = (props) => {
       </TableHead>
       <TableBody>
         {rows.map(row => (
-          <TableRow key={row.id} className={classes.tableRow}>
+          <TableRow key={row.id + row.size} className={classes.tableRow}>
             <TableCell component="th" scope="row" className={classes.firstCell}>
               <Box className={classes.linkBox}>
                 <CardMedia image={row.imgUrl} className={classes.img}/>

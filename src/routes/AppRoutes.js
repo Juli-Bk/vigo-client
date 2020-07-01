@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, Switch} from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Home from '../pages/Home/Home';
 import Product from '../pages/Product/Product';
 import Products from '../pages/Products/Products';
@@ -23,10 +23,9 @@ const AppRoutes = () => {
   return (
     <>
       <Route path='/:page?' component={Header}/>
-      <AutoScrollTop >
+      <AutoScrollTop>
         <Switch>
           <Route exact path='/' component={Home}/>
-
           <Route exact path='/products/filter' component={Products}/>
           <Route exact path='/products/:id' component={Product}/>
           <Route exact path='/products' component={Products}/>
@@ -51,8 +50,22 @@ const AppRoutes = () => {
   );
 };
 
-const ProtectedRoute = ({authenticated, ...props}) => authenticated
-  ? <Route {...props} />
-  : store.dispatch(setLoginModalOpenState(true));
+const ProtectedRoute = (props) => {
+  const {component: Component, authenticated, render, ...rest} = props;
+
+  return (
+    <Route {...rest} render={(renderProps) => {
+      if (authenticated) {
+        if (render) {
+          return render(renderProps);
+        } else {
+          return <Component {...renderProps} />;
+        }
+      }
+      store.dispatch(setLoginModalOpenState(true));
+    }}
+    />
+  );
+};
 
 export default AppRoutes;

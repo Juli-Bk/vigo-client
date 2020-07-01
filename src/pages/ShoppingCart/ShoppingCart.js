@@ -4,35 +4,30 @@ import { connect } from 'react-redux';
 import { Container, useMediaQuery } from '@material-ui/core';
 import globalConfig from '../../globalConfig';
 import { getProductsId } from './cartHelpers';
-import { getProductsByFilters } from '../../redux/actions/products';
 import ShopCartView from '../../components/ShopCartView/ShopCartView';
 import EmptyState from '../../components/EmptyState/EmptyState';
-
-// todo render items, if sizes are different, but product id is the same
+import { getProductsInCart } from '../../redux/actions/shopCart';
 
 const ShoppingCart = (props) => {
-  const {shoppingCart, getProductsByFilters, products} = props;
-
+  const {shoppingCart, cartProducts, getProductsInCart} = props;
   const isMobile = useMediaQuery('(max-width: 550px)');
-  const productsId = getProductsId(shoppingCart);
-  const filterArray = (productsId.length && [{_id: productsId}]) || [];
 
   useEffect(() => {
     let isCanceled = false;
     if (!isCanceled) {
-      getProductsByFilters(filterArray, 1, 15, '');
+      const productsId = getProductsId(shoppingCart);
+      if (productsId.length) getProductsInCart(productsId);
     }
     return () => {
       isCanceled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shoppingCart, getProductsByFilters]);
+  }, [shoppingCart, getProductsInCart]);
 
   return (
     <Container>
-      {shoppingCart.length && products && products.data
+      { cartProducts && cartProducts.length
         ? <ShopCartView
-          products={products.data}
+          products={cartProducts}
           isMobile={isMobile}/>
         : <EmptyState text={globalConfig.emptyCart}/>}
     </Container>
@@ -42,22 +37,20 @@ const ShoppingCart = (props) => {
 const mapStateToProps = store => {
   return {
     shoppingCart: store.shoppingCart,
-    products: store.products
+    products: store.products,
+    cartProducts: store.cartProducts
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    getProductsByFilters: (filters, startPage, perPage, sort) => {
-      dispatch(getProductsByFilters(filters, startPage, perPage, sort));
-    }
+    getProductsInCart: idArray => dispatch(getProductsInCart(idArray))
   };
 };
 
 ShoppingCart.propTypes = {
   shoppingCart: PropTypes.array,
-  products: PropTypes.object,
-  getProductsByFilters: PropTypes.func.isRequired
+  getProductsInCart: PropTypes.func.isRequired
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(React.memo(ShoppingCart));

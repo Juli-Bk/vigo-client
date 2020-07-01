@@ -6,7 +6,7 @@ import { Box, ThemeProvider, TableContainer, Grid } from '@material-ui/core';
 
 import { setStorageData } from '../../helpers/helpers';
 import {
-  findItemInCart,
+  findItemsInCart,
   getChosenProductData,
   getItemStockData,
   updateCartData,
@@ -49,39 +49,52 @@ const ShopCartView = (props) => {
     addToCart(id, number, updatedProduct.sizeId);
   };
 
-  const getCartData = useCallback((productId) => {
-    const itemInCart = findItemInCart(productId, shoppingCart);
-    const itemStockData = getItemStockData(productsQuantity, productId);
-    const item = getChosenProductData(itemStockData, itemInCart);
+  const getCartData = useCallback((product) => {
+    const itemsInCart = findItemsInCart(product._id, shoppingCart);
+    console.log('itemsInCart', itemsInCart);
+    const itemStockData = getItemStockData(productsQuantity, product._id);
+    console.log('itemStockData', itemStockData);
+    const items = getChosenProductData(itemStockData, itemsInCart);
+    console.log('items', items);
 
-    return {
-      size: item && item.sizeId.name,
-      quantity: itemInCart && itemInCart.cartQuantity,
-      color: item && item.colorId.name,
-      totalQuantity: item && item.quantity
-    };
+    const productsData = [];
+    items.forEach((item, index) => {
+      productsData.push({
+        imgUrl: product.imageUrls[0],
+        name: product.name,
+        size: item && item.sizeId.name,
+        color: item && item.colorId.name,
+        productCode: product.productId,
+        price: product.price,
+        id: product._id,
+        salePrice: product.salePrice,
+        isOnSale: product.isOnSale,
+        quantity: itemsInCart[index] && itemsInCart[index].cartQuantity,
+        totalQuantity: item && item.quantity
+      });
+    });
+    return productsData;
   }, [shoppingCart, productsQuantity]);
 
-  const rows = products.map(product => {
-    return {
-      imgUrl: product.imageUrls[0],
-      name: product.name,
-      color: getCartData(product._id).color,
-      size: getCartData(product._id).size,
-      productCode: product.productId,
-      price: product.price,
-      id: product._id,
-      salePrice: product.salePrice,
-      isOnSale: product.isOnSale,
-      quantity: getCartData(product._id).quantity
-    };
-  });
+  const getRows = useCallback((products) => {
+    const rows = [];
+    if (products.length && productsQuantity.length) {
+      products.forEach(product => {
+        const productData = getCartData(product);
+        rows.push(productData);
+      });
+    }
+    console.log(rows);
+    return rows;
+  }, [getCartData, productsQuantity.length]);
 
-  const subTotal = useMemo(() => getTotalSum(rows), [rows]);
+  const rows = getRows(products);
+
+  const subTotal = getTotalSum(rows);
 
   return (
     <ThemeProvider theme={theme}>
-      {shoppingCart.length && products.length &&
+      {shoppingCart.length && productsQuantity.length && products.length &&
               <Grid container direction='column' justify='center'>
                 <Grid item>
                   <TableContainer component={Box}>

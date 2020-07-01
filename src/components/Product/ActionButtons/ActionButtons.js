@@ -9,7 +9,7 @@ import globalConfig from '../../../globalConfig';
 import { toggleWishItems } from '../../../helpers/helpers';
 import { addToCart } from '../../../pages/ShoppingCart/cartHelpers';
 import {
-  setCurrentProduct, setPopoverOpenState,
+  setCurrentProduct, setPopoverOpenState, setSnackMessage,
   toggleModalSize
 } from '../../../redux/actions/actions';
 import {changeShoppingCart} from '../../../redux/actions/shopCart';
@@ -20,13 +20,15 @@ const ActionButtons = (props) => {
     classes, product, width, disabledSpacing,
     isProductPage, changeWishList, changeShoppingCart,
     setPopoverOpen, sizeId, colorId, quantity,
-    toggleModalSize, isModal, setCurrentProduct
+    toggleModalSize, isModal, setCurrentProduct,
+    isModalSize, setSnackMessage
   } = props;
 
-  const addToShopCart = (productId, quantity, sizeId) => {
+  const addToShopCart = (productId, quantity, sizeId, colorId) => {
     setCurrentProduct(product);
     if (!sizeId) {
-      isProductPage ? setPopoverOpen(true) : toggleModalSize(true);
+      isModalSize && setSnackMessage(true, 'Please, choose size', globalConfig.snackSeverity.ERROR);
+      isProductPage && !isModalSize ? setPopoverOpen(true) : toggleModalSize(true);
     } else {
       addToCart(productId, quantity, sizeId, colorId);
       changeShoppingCart();
@@ -101,7 +103,8 @@ const mapDispatchToProps = dispatch => {
     changeShoppingCart: () => dispatch(changeShoppingCart()),
     toggleModalSize: flag => dispatch(toggleModalSize(flag)),
     setCurrentProduct: product => dispatch(setCurrentProduct(product)),
-    setPopoverOpen: flag => dispatch(setPopoverOpenState(flag))
+    setPopoverOpen: flag => dispatch(setPopoverOpenState(flag)),
+    setSnackMessage: (isOpen, message, severity) => dispatch(setSnackMessage(isOpen, message, severity))
   };
 };
 
