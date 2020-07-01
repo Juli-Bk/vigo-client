@@ -13,7 +13,7 @@ import {useMediaQuery} from '@material-ui/core';
 import useStyles from '../../containers/Header/headerStyle';
 
 const TabPanel = (props) => {
-  const {user, children, value, index, ...other} = props;
+  const {user, children, value, adrList, index, ...other} = props;
 
   return (
     <Box
@@ -81,8 +81,6 @@ const UserTabs = (props) => {
       </TabPanel>
 
       <TabPanel value={value} index={1} dir={theme.direction}>
-        {/* <AddressRadioGroup radioBtns={radioBtns}/> */}
-        {/* {FormControlLabel} */}
         <AddressForm submitAddressHandler={(submit) => {
           handleChange(null, value);
         }}/>
