@@ -80,14 +80,14 @@ const ShopCartView = (props) => {
 
   const getRows = useCallback((products) => {
     const rows = [];
-    if (products.length && productsQuantity.length === products.length) {
+    if (products.length && productsQuantity.length && shoppingCart.length) {
       products.forEach(product => {
         const productData = getCartData(product);
         rows.push(...productData);
       });
     }
     return rows;
-  }, [getCartData, productsQuantity.length]);
+  }, [getCartData, productsQuantity.length, shoppingCart.length]);
 
   const rows = useMemo(() => getRows(products), [getRows, products]);
 

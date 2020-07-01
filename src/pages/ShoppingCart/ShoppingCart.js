@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Container, useMediaQuery } from '@material-ui/core';
@@ -11,6 +11,7 @@ import {getProductsByFilters} from '../../redux/actions/products';
 const ShoppingCart = (props) => {
   const {shoppingCart, products, getProductsByFilters} = props;
   const isMobile = useMediaQuery('(max-width: 550px)');
+  const flag = useMemo(() => shoppingCart.length && products.data && products.data.length, [products.data, shoppingCart.length]);
 
   useEffect(() => {
     let isCanceled = false;
@@ -26,7 +27,7 @@ const ShoppingCart = (props) => {
 
   return (
     <Container>
-      { products && products.data && products.data.length
+      { flag
         ? <ShopCartView
           products={products.data}
           isMobile={isMobile}/>

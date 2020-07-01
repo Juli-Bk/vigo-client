@@ -27,7 +27,6 @@ import snackMessage from './isSnackMessageOpenReducer';
 import userIsLoggedIn from './isLoggedReducer';
 import filters from './filtersReducer';
 import totalSum from './totalSumReducer';
-import cartProducts from './cartProductsReducer';
 
 export const rootReducer = combineReducers({
   currentPage,
@@ -57,6 +56,5 @@ export const rootReducer = combineReducers({
   filters,
   snackMessage,
   userIsLoggedIn,
-  totalSum,
-  cartProducts
+  totalSum
 });
