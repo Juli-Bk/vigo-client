@@ -63,7 +63,7 @@ const TableDesktopView = (props) => {
               <CloseIcon data-testid='deleteIcon'
                 className={classes.closeIcon}
                 onClick={() => {
-                  deleteFromShopCart(row.id);
+                  deleteFromShopCart(row.id, row.sizeId);
                 }}/>
             </TableCell>
           </TableRow>

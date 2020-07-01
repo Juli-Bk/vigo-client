@@ -28,7 +28,7 @@ const TableMobileView = (props) => {
                   data-testid='deleteIcon'
                   className={classes.closeIcon}
                   onClick={() => {
-                    deleteFromShopCart(row.id);
+                    deleteFromShopCart(row.id, row.sizeId);
                   }}/>
               </Box>
               <Box className={classes.textBox}>

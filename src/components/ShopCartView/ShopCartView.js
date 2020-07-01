@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect} from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
@@ -42,8 +42,8 @@ const ShopCartView = (props) => {
     getProductsQuantity(idArray);
   }, [getProductsQuantity, products]);
 
-  const deleteFromShopCart = (id) => {
-    deleteFromCart(id);
+  const deleteFromShopCart = (productId, sizeId) => {
+    deleteFromCart(productId, sizeId);
     changeShoppingCart();
   };
 
@@ -67,6 +67,7 @@ const ShopCartView = (props) => {
         imgUrl: product.imageUrls[0],
         name: product.name,
         size: item && item.sizeId.name,
+        sizeId: item && item.sizeId._id,
         color: item && item.colorId.name,
         productCode: product.productId,
         price: product.price,
@@ -91,9 +92,9 @@ const ShopCartView = (props) => {
     return rows;
   }, [getCartData, productsQuantity.length]);
 
-  const rows = getRows(products);
+  const rows = useMemo(() => getRows(products), [getRows, products]);
 
-  const subTotal = getTotalSum(rows);
+  const subTotal = useMemo(() => getTotalSum(rows), [rows]);
 
   return (
     <ThemeProvider theme={theme}>

@@ -105,12 +105,16 @@ export const addToCart = (productId, cartQuantity = 1, sizeId = '', colorId = ''
   store.dispatch(handleCart(getStorageData('shoppingCart')));
 };
 
-export const deleteFromCart = (productId) => {
+export const deleteFromCart = (productId, sizeId) => {
   const shopCartLocal = getStorageData('shoppingCart');
   if (shopCartLocal && shopCartLocal.length) {
-    const products = shopCartLocal.filter(item => item.productId !== productId);
-    setStorageData('shoppingCart', products);
-    store.dispatch(handleCart(products));
+    shopCartLocal.forEach((item, index) => {
+      if (item.productId === productId && item.sizeId === sizeId) {
+        shopCartLocal.splice(index, 1);
+        setStorageData('shoppingCart', shopCartLocal);
+        store.dispatch(handleCart(shopCartLocal));
+      }
+    });
   }
 };
 
