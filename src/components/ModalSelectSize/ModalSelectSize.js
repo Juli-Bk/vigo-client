@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import {makeStyles, ThemeProvider} from '@material-ui/core';
 import Dialog from '@material-ui/core/Dialog';
@@ -10,7 +11,7 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import ActionButtons from '../Product/ActionButtons/ActionButtons';
 import SelectBox from '../SelectBox/SelectBox';
 import globalConfig from '../../globalConfig';
-import { setPopoverOpenState, setSnackMessage, toggleModalSize } from '../../redux/actions/actions';
+import { toggleModalSize } from '../../redux/actions/actions';
 import {getProductsQuantity} from '../../redux/actions/quantity';
 import {
   getChosenSizeId,
@@ -22,7 +23,6 @@ import {
 import { colors } from '../../styles/colorKit';
 import theme from './ModalSelectTheme';
 import formStyles from '../../styles/formStyle/formStyle';
-import PopoverMessage from '../PopoverMessage/PopoverMessage';
 
 const useStyles = makeStyles(theme => ({
   select: {
@@ -76,9 +76,14 @@ const ModalSize = (props) => {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title" className={formClasses.header}>Please, choose size</DialogTitle>
+      <DialogTitle
+        id="alert-dialog-title"
+        className={formClasses.header}>
+        Please, choose size
+      </DialogTitle>
       <DialogContent>
-        <SelectBox value={chosenSize}
+        <SelectBox
+          value={chosenSize}
           classes={classes}
           handleChange={handleSetSize}
           options={mapArrayToOptions(sizesArray)}/>
@@ -86,7 +91,8 @@ const ModalSize = (props) => {
       <ThemeProvider theme={theme}>
         <DialogActions disableSpacing={true}>
           <Button onClick={handleClose} className={formClasses.button}>Cancel</Button>
-          <ActionButtons classes={formClasses}
+          <ActionButtons
+            classes={formClasses}
             isModalSize={true}
             product={currentProduct}
             isModal={true}
@@ -97,6 +103,14 @@ const ModalSize = (props) => {
       </ThemeProvider>
     </Dialog>
   );
+};
+
+ModalSize.propTypes = {
+  open: PropTypes.bool.isRequired,
+  setOpen: PropTypes.func.isRequired,
+  getProductsQuantity: PropTypes.func.isRequired,
+  productsQuantity: PropTypes.array.isRequired,
+  currentProduct: PropTypes.object.isRequired
 };
 
 const mapStateToProps = store => {
@@ -110,8 +124,7 @@ const mapStateToProps = store => {
 const mapDispatchToProps = dispatch => {
   return {
     setOpen: flag => dispatch(toggleModalSize(flag)),
-    getProductsQuantity: (idArray) => dispatch(getProductsQuantity(idArray)),
-    setPopoverOpen: flag => dispatch(setPopoverOpenState(flag))
+    getProductsQuantity: (idArray) => dispatch(getProductsQuantity(idArray))
   };
 };
 

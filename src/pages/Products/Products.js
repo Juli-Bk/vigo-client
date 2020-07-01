@@ -1,6 +1,7 @@
 import React, {useEffect, useCallback} from 'react';
 import {Container, Grid, useMediaQuery} from '@material-ui/core';
 import PropTypes from 'prop-types';
+import queryString from 'query-string';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import useStyles from './ProductsStyles';
