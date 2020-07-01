@@ -5,13 +5,13 @@ const initialState = {
   minPrice: globalConfig.minDefaultPrice,
   maxPrice: globalConfig.maxDefaultPrice,
   color: [],
-  size: [],
-  categoryId: ''
+  size: []
 };
 
 const reducer = (state = initialState, action) => {
   const { color, size } = state;
   let newArray = [];
+  let newState = {};
 
   switch (action.type) {
     case Actions.SET_PRICE_RANGE:
@@ -37,8 +37,14 @@ const reducer = (state = initialState, action) => {
       return {...state, categoryId: action.payload};
 
     case Actions.ADD_FILTERS:
-      return Object.assign({}, state, action.payload);
-
+      Object.keys(action.payload).forEach(key => {
+        if (Object.keys(state).includes(key)) {
+          newState = {...state, [key]: action.payload[key]};
+        } else {
+          newState = Object.assign({}, state, action.payload);
+        }
+      });
+      return newState;
     default:
       return state;
   }
