@@ -8,7 +8,7 @@ import globalConfig from '../../../globalConfig';
 import Quantity from '../../Product/Quantity/Quantity';
 
 const TableMobileView = (props) => {
-  const {rows, classes, getCartData, handleQuantity, productsAmount, deleteFromShopCart} = props;
+  const {rows, classes, handleQuantity, productsAmount, deleteFromShopCart} = props;
   return (
     <Table aria-label="products table">
       <TableHead>
@@ -50,7 +50,7 @@ const TableMobileView = (props) => {
                 </Typography>
                 <Quantity
                   quantity={row.quantity}
-                  max={getCartData(row.id).totalQuantity}
+                  max={row.totalQuantity}
                   id={row.id}
                   classes={classes}
                   handleQuantity={handleQuantity}

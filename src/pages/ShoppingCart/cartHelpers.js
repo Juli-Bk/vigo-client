@@ -25,7 +25,9 @@ export const findItemsInCart = (productId, shoppingCart) => {
 export const getItemStockData = (productsQuantity, productId) => {
   if (productsQuantity && productsQuantity.length) {
     const itemInStock = productsQuantity.find(item => item.productId === productId);
-    if (itemInStock && itemInStock.inStock) return itemInStock.inStock;
+    if (itemInStock && itemInStock.inStock) {
+      return itemInStock.inStock;
+    } else return [];
   }
 };
 

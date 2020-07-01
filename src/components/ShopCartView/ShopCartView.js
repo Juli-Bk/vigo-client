@@ -1,10 +1,10 @@
-import React, { useCallback, useEffect, useMemo } from 'react';
+import React, {useCallback, useEffect} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { Box, ThemeProvider, TableContainer, Grid } from '@material-ui/core';
+import {Box, ThemeProvider, TableContainer, Grid} from '@material-ui/core';
 
-import { setStorageData } from '../../helpers/helpers';
+import {setStorageData} from '../../helpers/helpers';
 import {
   findItemsInCart,
   getChosenProductData,
@@ -24,7 +24,14 @@ import TableDesktopView from './Tables/TableDesktopView';
 import TotalSum from './TotalSum/TotalSum';
 
 const ShopCartView = (props) => {
-  const {isMobile, products, changeShoppingCart, shoppingCart, productsQuantity, getProductsQuantity} = props;
+  const {
+    isMobile,
+    products,
+    changeShoppingCart,
+    shoppingCart,
+    productsQuantity,
+    getProductsQuantity
+  } = props;
   const classes = useStyles();
 
   useEffect(() => {
@@ -49,13 +56,10 @@ const ShopCartView = (props) => {
     addToCart(id, number, updatedProduct.sizeId);
   };
 
-  const getCartData = useCallback((product) => {
+  const getCartData = useCallback(product => {
     const itemsInCart = findItemsInCart(product._id, shoppingCart);
-    console.log('itemsInCart', itemsInCart);
     const itemStockData = getItemStockData(productsQuantity, product._id);
-    console.log('itemStockData', itemStockData);
     const items = getChosenProductData(itemStockData, itemsInCart);
-    console.log('items', items);
 
     const productsData = [];
     items.forEach((item, index) => {
@@ -78,13 +82,12 @@ const ShopCartView = (props) => {
 
   const getRows = useCallback((products) => {
     const rows = [];
-    if (products.length && productsQuantity.length) {
+    if (products.length && productsQuantity.length === products.length) {
       products.forEach(product => {
         const productData = getCartData(product);
-        rows.push(productData);
+        rows.push(...productData);
       });
     }
-    console.log(rows);
     return rows;
   }, [getCartData, productsQuantity.length]);
 
@@ -102,7 +105,6 @@ const ShopCartView = (props) => {
                       ? <TableMobileView
                         classes={classes}
                         handleQuantity={handleQuantity}
-                        getCartData={getCartData}
                         rows={rows}
                         deleteFromShopCart={deleteFromShopCart}
                         productsAmount={products.length}
@@ -110,7 +112,6 @@ const ShopCartView = (props) => {
                       : <TableDesktopView
                         classes={classes}
                         handleQuantity={handleQuantity}
-                        getCartData={getCartData}
                         rows={rows}
                         deleteFromShopCart={deleteFromShopCart}
                       />}

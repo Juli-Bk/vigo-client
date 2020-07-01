@@ -9,7 +9,7 @@ import SaleInfoBox from '../../Product/SaleInfoBox/SaleInfoBox';
 import SalePrice from '../../Product/SalePrice/SalePrice';
 
 const TableDesktopView = (props) => {
-  const { rows, classes, getCartData, handleQuantity, deleteFromShopCart } = props;
+  const { rows, classes, handleQuantity, deleteFromShopCart } = props;
 
   return (
     <Table aria-label="products table">
@@ -50,7 +50,7 @@ const TableDesktopView = (props) => {
             <TableCell align="center" className={classes.code}>
               <Quantity
                 quantity={row.quantity}
-                max={getCartData(row.id).totalQuantity}
+                max={row.totalQuantity}
                 id={row.id}
                 classes={classes}
                 handleQuantity={handleQuantity}
