@@ -59,7 +59,7 @@ export const updateCartData = (shoppingCart, productId, updatedProduct, sizeId) 
         shoppingCart.splice(index, 1);
       }
     });
-    return [...shoppingCart, updatedProduct];
+    setStorageData('shoppingCart', [...shoppingCart, updatedProduct]);
   }
 };
 
@@ -99,8 +99,7 @@ export const addToCart = (productId, cartQuantity = 1, sizeId = '', colorId = ''
           newQuantity = item.cartQuantity + 1;
         }
         const updatedItem = updateProductQuantity(productId, newQuantity, shopCartLocal, sizeId);
-        const updatedCart = updateCartData(shopCartLocal, productId, updatedItem, sizeId);
-        setStorageData('shoppingCart', updatedCart);
+        updateCartData(shopCartLocal, productId, updatedItem, sizeId);
       }
     });
   } else {

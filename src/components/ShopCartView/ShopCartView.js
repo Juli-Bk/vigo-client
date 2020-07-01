@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 
 import {Box, ThemeProvider, TableContainer, Grid} from '@material-ui/core';
 
-import {setStorageData} from '../../helpers/helpers';
 import {
   findItemsInCart,
   getChosenProductData,
@@ -49,9 +48,7 @@ const ShopCartView = (props) => {
 
   const handleQuantity = (productId, number, sizeId) => {
     const updatedProduct = updateProductQuantity(productId, number, shoppingCart, sizeId);
-    const updatedCart = updateCartData(shoppingCart, productId, updatedProduct, sizeId);
-
-    setStorageData('shoppingCart', updatedCart);
+    updateCartData(shoppingCart, productId, updatedProduct, sizeId);
     changeShoppingCart();
     addToCart(productId, number, updatedProduct.sizeId, updatedProduct.colorId);
   };
