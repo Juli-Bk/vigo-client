@@ -162,10 +162,9 @@ const useStyles = makeStyles(theme => ({
     position: 'absolute',
     top: 0,
     right: '.1rem',
-    fontSize: '1.1rem',
+    fontSize: '0.8rem',
     fontWeight: 'bold',
     color: colors.noticeColor,
-    background: colors.bgSecondary,
     '&:hover': {
       color: fade(colors.fontHover, 0.9)
     },

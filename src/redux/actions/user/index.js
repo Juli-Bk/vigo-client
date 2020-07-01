@@ -8,7 +8,7 @@ import {
   putUserIdToCookie
 } from '../../../ajax/common/helper';
 import Actions from '../../constants/constants';
-import {setLoginModalOpenState} from '../actions';
+import {setLoading, setLoginModalOpenState, setSnackMessage} from '../actions';
 
 export const setJWTtoken = (token) => {
   return {
@@ -181,5 +181,78 @@ export const clear = () => {
     dispatch(setUserIsLoggedIn(false));
     deleteJWTcookie();
     deleteUserIdCookie();
+  };
+};
+
+export const confirmMyEmail = (email, callback) => {
+  return (dispatch) => {
+    dispatch(setLoading(true));
+    AjaxUtils.Users.confirmMyEmail(email)
+      .then((rez) => {
+        if (rez && rez.status !== 400) {
+          dispatch(setUser(rez.user));
+          dispatch(setSnackMessage(true,
+            'Your email is confirmed',
+            'success'));
+        } else {
+          dispatch(setSnackMessage(true, rez.message, 'error'));
+        }
+        dispatch(setLoading(false));
+        callback && callback();
+      })
+      .catch(error => {
+        console.log(error);
+        dispatch(setLoading(false));
+      });
+  };
+};
+
+export const sendRecoverPasswordLetter = (email, callback) => {
+  return (dispatch) => {
+    AjaxUtils.Users.restorePasswordLetter(email)
+      .then((result) => {
+        if (result && result.status !== 400) {
+          dispatch(setSnackMessage(true,
+            result.message,
+            'success'));
+        } else {
+          dispatch(setSnackMessage(true,
+            result.message,
+            'error'));
+        }
+        dispatch(setLoading(false));
+        callback && callback(result);
+      })
+      .catch(error => {
+        console.log(error);
+        dispatch(setLoading(false));
+      });
+  };
+};
+
+export const saveRecoverPassword = (formData, token, callback) => {
+  return (dispatch) => {
+    AjaxUtils.Users.confirmPasswordRecover(formData, token)
+      .then((result) => {
+        if (result && result.status !== 400) {
+          dispatch(setSnackMessage(true,
+            result.message,
+            'success'));
+        } else {
+          dispatch(setSnackMessage(true,
+            result.message,
+            'error'));
+        }
+        dispatch(setLoading(false));
+        callback && callback(result);
+      })
+      .catch(error => {
+        console.log(error);
+        dispatch(setSnackMessage(true,
+          'error occurs on server',
+          'error'));
+        dispatch(setLoading(false));
+        callback && callback(null);
+      });
   };
 };

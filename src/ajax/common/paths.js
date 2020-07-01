@@ -7,6 +7,7 @@ const RequestsConfig = {
   productsFilter: `${baseUrl}/products/filter?`,
   productsSearch: `${baseUrl}/products/search`,
   maxPrice: `${baseUrl}/products/max`,
+
   users: `${baseUrl}/users`,
   login: `${baseUrl}/users/login`,
   loginRefresh: `${baseUrl}/users/login/refresh`,
@@ -14,6 +15,10 @@ const RequestsConfig = {
   register: `${baseUrl}/users/register`,
   password: `${baseUrl}/users/password`,
   logout: `${baseUrl}/users/logout`,
+  emailConfirmation: `${baseUrl}/users/email-confirmation`,
+  restorePassword: `${baseUrl}/users/recovery`,
+  restore: `${baseUrl}/users/password-recovery`,
+
   unsubscribe: `${baseUrl}/subscribers/unsubscribe`,
   subscribers: `${baseUrl}/subscribers`,
   subscribe: `${baseUrl}/subscribers/subscribe`,

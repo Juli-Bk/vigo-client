@@ -18,6 +18,8 @@ import Shipping from '../pages/Shipping/Shipping';
 import store from './../redux/store';
 import {setLoginModalOpenState} from '../redux/actions/actions';
 import AutoScrollTop from '../components/AutoScrollTop/AutoScrollTop';
+import EmailConfirmationDialog from '../components/EmailConfirmationDialog/EmailConfirmationDialog';
+import RestorePswrdForm from '../components/RestorePswrdForm/RestorePswrdForm';
 
 const AppRoutes = () => {
   return (
@@ -38,6 +40,10 @@ const AppRoutes = () => {
           <Route exact path='/privacyPolicy' component={PrivacyPolicy}/>
           <Route exact path='/returns' component={Returns}/>
           <Route exact path='/shipping' component={Shipping}/>
+          <Route exact path='/confirmation' component={EmailConfirmationDialog}/>
+
+          <Route exact path='/confirmation' component={EmailConfirmationDialog}/>
+          <Route exact path='/recovery' component={RestorePswrdForm}/>
 
           <ProtectedRoute
             authenticated={!!getJWTfromCookie()}
