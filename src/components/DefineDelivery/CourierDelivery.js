@@ -9,7 +9,7 @@ import useStyles from '../../styles/formStyle/formStyle';
 import AddressRadioGroup from './AddressRadioGroup';
 
 const CourierDelivery = (props) => {
-  const { user} = props;
+  const { user } = props;
   const styles = useStyles();
 
   const isEmptyUserData = Object.keys(user).length > 0;
