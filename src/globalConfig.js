@@ -47,8 +47,6 @@ const globalConfig = {
     ZYTOMYR: 'Zhytomyr, Zhytomyr region'
   },
   maxRecentlyViewed: 8,
-  emptyWishList: 'You don`t have any items in your Wishlist',
-  emptyCart: 'You don`t have any items in your Shopping Cart',
   iconsLabels: {
     ADD_TO_WISHLIST: 'ADD TO WISHLIST',
     ADD_TO_COMPARE: 'ADD TO COMPARE'
@@ -60,11 +58,16 @@ const globalConfig = {
   },
   step: 15,
   defaultQuantity: 1,
+  wishListMessages: {
+    UPDATED: 'Your wishlist is updated',
+    EMPTY: 'You don`t have any items in your Wishlist'
+  },
   cartMessages: {
     CREATED: 'Shopping cart created for you',
     UPDATED: 'Your shopping cart updated successfully',
     ERROR: 'Shopping cart error happened. Try again, please',
-    IN_CART: 'This item is in your cart already'
+    IN_CART: 'This item is in your cart already',
+    EMPTY: 'You don`t have any items in your Shopping Cart'
   },
   userMessages: {
     NOT_AUTHORIZED: 'You are not authorized. Login, please',

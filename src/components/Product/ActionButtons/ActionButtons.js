@@ -6,14 +6,13 @@ import ButtonAddToCart from './ButtonAddToCart/AddToCartButton';
 import FavoriteIcon from './FavoriteIcon/FavoriteIcon';
 import ButtonCompare from './ButtonCompare/ButtonCompare';
 import globalConfig from '../../../globalConfig';
-import { toggleWishItems } from '../../../helpers/helpers';
 import { addToCart } from '../../../pages/ShoppingCart/cartHelpers';
 import {
   setCurrentProduct, setPopoverOpenState, setSnackMessage,
   toggleModalSize
 } from '../../../redux/actions/actions';
 import {changeShoppingCart} from '../../../redux/actions/shopCart';
-import {changeWishList} from '../../../redux/actions/wishlist';
+import {changeWishList, toggleWishItems} from '../../../redux/actions/wishlist';
 
 const ActionButtons = (props) => {
   const {
@@ -21,7 +20,7 @@ const ActionButtons = (props) => {
     isProductPage, changeWishList, changeShoppingCart,
     setPopoverOpen, sizeId, colorId, quantity,
     toggleModalSize, isModal, setCurrentProduct,
-    isModalSize, setSnackMessage
+    isModalSize, setSnackMessage, toggleWishItems
   } = props;
 
   const addToShopCart = (productId, quantity, sizeId, colorId) => {
@@ -104,7 +103,8 @@ const mapDispatchToProps = dispatch => {
     toggleModalSize: flag => dispatch(toggleModalSize(flag)),
     setCurrentProduct: product => dispatch(setCurrentProduct(product)),
     setPopoverOpen: flag => dispatch(setPopoverOpenState(flag)),
-    setSnackMessage: (isOpen, message, severity) => dispatch(setSnackMessage(isOpen, message, severity))
+    setSnackMessage: (isOpen, message, severity) => dispatch(setSnackMessage(isOpen, message, severity)),
+    toggleWishItems: id => dispatch(toggleWishItems(id))
   };
 };
 

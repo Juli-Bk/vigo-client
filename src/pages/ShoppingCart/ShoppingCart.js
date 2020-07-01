@@ -31,7 +31,7 @@ const ShoppingCart = (props) => {
         ? <ShopCartView
           products={products.data}
           isMobile={isMobile}/>
-        : <EmptyState text={globalConfig.emptyCart}/>}
+        : <EmptyState text={globalConfig.cartMessages.EMPTY}/>}
     </Container>
   );
 };

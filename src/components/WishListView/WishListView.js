@@ -4,15 +4,14 @@ import PropTypes from 'prop-types';
 
 import {Box, ThemeProvider, TableContainer} from '@material-ui/core';
 
-import {toggleWishItems} from '../../helpers/helpers';
-import {changeWishList} from '../../redux/actions/wishlist';
+import {changeWishList, toggleWishItems} from '../../redux/actions/wishlist';
 import {theme} from './WishListViewTheme';
 import useStyles from './WishListViewStyles';
 import WishListMobileView from './WishListMobileView';
 import WishlistDesktopView from './WishListDesktopView';
 
 const WishListView = (props) => {
-  const {isMobile, products, wishList, changeWishList} = props;
+  const {isMobile, products, wishList, changeWishList, toggleWishItems} = props;
   const classes = useStyles();
 
   const deleteFromWishList = (id) => {
@@ -69,7 +68,8 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeWishList: () => dispatch(changeWishList())
+    changeWishList: () => dispatch(changeWishList()),
+    toggleWishItems: id => dispatch(toggleWishItems(id))
   };
 };
 

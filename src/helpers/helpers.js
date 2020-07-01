@@ -1,6 +1,4 @@
 import React from 'react';
-import {getUserIdFromCookie} from '../ajax/common/helper';
-import AjaxUtils from '../ajax';
 import globalConfig from '../globalConfig';
 
 export const formPriceString = (price, priceToCeil) => {
@@ -111,39 +109,6 @@ export const saveWishListToLS = (remoteWishList) => {
     }
   });
   setStorageData('wishList', localWishList);
-};
-
-export const toggleWishItems = (productId) => {
-  const userId = getUserIdFromCookie();
-  const wishListLocal = getStorageData('wishList');
-
-  if (wishListLocal.includes(productId)) {
-    const wishList = wishListLocal.filter(item => item !== productId);
-    setStorageData('wishList', wishList);
-
-    if (userId) {
-      AjaxUtils.WishLists.deleteProductFromWishlist(productId)
-        .then(result => {
-          if (result.status) {
-            // todo nice popup
-            alert(globalConfig.userMessages.NOT_AUTHORIZED);
-          }
-        });
-    }
-  } else {
-    const wishList = [...wishListLocal, productId];
-    setStorageData('wishList', wishList);
-
-    if (userId) {
-      AjaxUtils.WishLists.addProductToWishList(productId, userId)
-        .then(result => {
-          if (result.status !== 200) {
-            // todo nice popup
-            alert(globalConfig.userMessages.NOT_AUTHORIZED);
-          }
-        });
-    }
-  }
 };
 
 export const defineSortData = (option) => {

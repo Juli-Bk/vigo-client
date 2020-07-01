@@ -1,7 +1,8 @@
 import Actions from '../../constants/constants';
-import {getStorageData, saveWishListToLS} from '../../../helpers/helpers';
+import { getStorageData, saveWishListToLS, setStorageData } from '../../../helpers/helpers';
 import {getUserIdFromCookie} from '../../../ajax/common/helper';
 import AjaxUtils from '../../../ajax';
+import globalConfig from '../../../globalConfig';
 
 export const changeWishList = () => {
   const data = getStorageData('wishList');
@@ -25,4 +26,59 @@ export const getUserWishList = () => {
         });
     }
   };
+};
+
+export const toggleWishItems = (productId) => dispatch => {
+  const userId = getUserIdFromCookie();
+  const wishListLocal = getStorageData('wishList');
+
+  if (wishListLocal.includes(productId)) {
+    const wishList = wishListLocal.filter(item => item !== productId);
+    setStorageData('wishList', wishList);
+
+    if (userId) {
+      AjaxUtils.WishLists.deleteProductFromWishlist(productId)
+        .then(result => {
+          if (result.status) {
+            dispatch({
+              type: Actions.SET_SNACK_MESSAGE_OPEN,
+              payload: true,
+              message: globalConfig.userMessages.NOT_AUTHORIZED,
+              severity: globalConfig.snackSeverity.ERROR
+            });
+          } else {
+            dispatch({
+              type: Actions.SET_SNACK_MESSAGE_OPEN,
+              payload: true,
+              message: globalConfig.wishListMessages.UPDATED,
+              severity: globalConfig.snackSeverity.SUCCESS
+            });
+          }
+        });
+    }
+  } else {
+    const wishList = [...wishListLocal, productId];
+    setStorageData('wishList', wishList);
+
+    if (userId) {
+      AjaxUtils.WishLists.addProductToWishList(productId, userId)
+        .then(result => {
+          if (result.status !== 200) {
+            dispatch({
+              type: Actions.SET_SNACK_MESSAGE_OPEN,
+              payload: true,
+              message: globalConfig.userMessages.NOT_AUTHORIZED,
+              severity: globalConfig.snackSeverity.ERROR
+            });
+          } else {
+            dispatch({
+              type: Actions.SET_SNACK_MESSAGE_OPEN,
+              payload: true,
+              message: globalConfig.wishListMessages.UPDATED,
+              severity: globalConfig.snackSeverity.SUCCESS
+            });
+          }
+        });
+    }
+  }
 };
