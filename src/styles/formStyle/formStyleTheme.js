@@ -20,7 +20,10 @@ const theme = createMuiTheme({
     },
     MuiSvgIcon: {
       root: {
-        color: colors.black
+        color: colors.fontFourth,
+        '@media  (max-width: 734px)': {
+          fontSize: 15
+        }
       }
     },
     MuiCardActions: {
@@ -37,13 +40,15 @@ const theme = createMuiTheme({
     MuiTypography: {
       body1: {
         fontSize: '1rem',
+        paddingRight: 30,
         '@media  (max-width: 400px)': {
           fontSize: '0.7rem'
         }
       },
       root: {
         fontFamily: fonts.f4,
-        color: colors.phPrimary
+        color: colors.phPrimary,
+        position: 'relative'
       }
     },
     MuiIconButton: {
@@ -98,7 +103,7 @@ const theme = createMuiTheme({
     MuiTab: {
       wrapper: {
         fontFamily: fonts.f2,
-        fontSize: '1.5rem',
+        fontSize: '1.3rem',
         '&:hover': {
           color: colors.noticeColor
         }
@@ -133,6 +138,16 @@ const theme = createMuiTheme({
     MuiBox: {
       root: {
         padding: '8px 0'
+      }
+    },
+    PrivateRadioButtonIcon: {
+      root: {
+        position: 'absolute',
+        paddingRight: 20,
+        color: colors.fontFourth,
+        '@media  (max-width: 734px)': {
+          paddingRight: 10
+        }
       }
     }
   }

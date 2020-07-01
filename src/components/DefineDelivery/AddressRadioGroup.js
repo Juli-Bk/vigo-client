@@ -15,10 +15,13 @@ import {
 import useStyles from '../../styles/formStyle/formStyle';
 import theme from '../../styles/formStyle/formStyleTheme';
 import { connect} from 'react-redux';
-import {setUserDeliveryAddress} from '../../redux/actions/user';
+import { saveUserData, setUserDeliveryAddress } from '../../redux/actions/user';
+import CloseIcon from '@material-ui/icons/Close';
+import { setSnackMessage } from '../../redux/actions/actions';
+import globalConfig from '../../globalConfig';
 
 const AddressRadioGroup = (props) => {
-  const {addresses, setUserDeliveryAddress} = props;
+  const {addresses, setUserDeliveryAddress, user, saveUserData, setSnackMessage} = props;
 
   const submitRadioGroupData = (values, { resetForm, setSubmitting }) => {
     setSubmitting(true);
@@ -36,20 +39,34 @@ const AddressRadioGroup = (props) => {
     radioGroup: Yup.string()
       .required('Please, choose one of these options')
   });
-
   const styles = useStyles();
 
   const adrList = addresses.map((address) => {
-    const tags = [];
     let str = '';
     for (const [key, value] of Object.entries(address)) {
       if (key !== '_id') {
         str += `${key}: ${value}, `;
       }
     }
-    tags.push(str);
-    return tags;
+    return str;
   });
+
+  const removeAddress = (addresses, index) => {
+    const newAddresses = addresses.filter((el, i) => i !== index);
+    console.log(index);
+    console.log(newAddresses);
+
+    const data = {
+      id: user._id,
+      addresses: newAddresses
+    };
+
+    saveUserData(data, (result) => {
+      if (result && result.status !== 400) {
+        setSnackMessage(true, 'Your addresses are updated', globalConfig.snackSeverity.SUCCESS);
+      }
+    });
+  };
 
   const radioBtns = adrList.map((tag, index) => {
     return <FormControlLabel
@@ -59,7 +76,10 @@ const AddressRadioGroup = (props) => {
       name='radioGroup'
       id='radioOption1'
       control={<Radio/>}
-      label={ <Typography className={styles.text} key={index}>{tag} </Typography>}
+      label={ <Typography className={styles.text} key={index}>{tag}
+        <CloseIcon data-testid='deleteIcon'
+          className={styles.closeIconAddress}
+          onClick={() => removeAddress(addresses, index)}/> </Typography>}
     />;
   });
 
@@ -97,10 +117,18 @@ const AddressRadioGroup = (props) => {
   );
 };
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = store => {
   return {
-    setUserDeliveryAddress: data => dispatch(setUserDeliveryAddress(data))
+    user: store.user
   };
 };
 
-export default React.memo(connect(null, mapDispatchToProps)(AddressRadioGroup));
+const mapDispatchToProps = dispatch => {
+  return {
+    setUserDeliveryAddress: data => dispatch(setUserDeliveryAddress(data)),
+    saveUserData: (data, callback) => dispatch(saveUserData(data, callback)),
+    setSnackMessage: (open, message, severity) => dispatch(setSnackMessage(open, message, severity))
+  };
+};
+
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(AddressRadioGroup));

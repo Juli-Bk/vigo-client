@@ -17,7 +17,8 @@ const themeMui = createMuiTheme({
         backgroundColor: colors.fontOncard
       },
       indicator: {
-        backgroundColor: colors.black,
+        backgroundColor: colors.fontFourth,
+        bottom: '0%',
         height: '1px !important',
         left: 0,
         width: '42%',
@@ -27,47 +28,41 @@ const themeMui = createMuiTheme({
         '@media (min-width: 550px)': {
           width: '23%'
         },
-        '@media (min-width: 724px)': {
-          backgroundColor: colors.black,
-          height: 1,
-          bottom: '98%'
-        }
-      },
-      flexContainer: {
-        position: 'relative',
-        '@media (min-width: 724px)': {
-          '&::before': {
-            position: 'absolute',
-            content: '""',
-            height: 1,
-            width: '100%',
-            background: colors.thinLine,
-            bottom: 0,
-            left: 0
-          }
+        '@media (max-width: 430px)': {
         }
       },
       flexContainerVertical: {
         alignItems: 'flex-start'
       }
     },
+    MuiPaper: {
+      root: colors.borderDark
+    },
+    '&:hover': {
+      color: colors.noticeColor
+    },
     MuiTab: {
+      textColorInherit: {
+        color: 'inherit'
+      },
       textColorPrimary: {
+        textAlign: 'center',
+        color: colors.fontFourth,
         '&$selected': {
-          color: colors.noticeColor
+          color: colors.borderDark,
+          '&:hover': {
+            color: colors.noticeColor
+          }
         }
       },
       root: {
         color: colors.fontPrimary,
         textTransform: 'uppercase',
         fontSize: '1rem',
-        fontWeight: 500,
-        fontFamily: fonts.f4,
+        fontFamily: fonts.f2,
         padding: '.5rem 0',
-        textAlign: 'left',
         '&$selected': {
-          color: colors.bgSecondary,
-          fontWeight: 800
+          color: colors.bgSecondary
         },
         '@media (max-width: 723px)': {
           minWidth: 0,
@@ -79,7 +74,10 @@ const themeMui = createMuiTheme({
         }
       },
       wrapper: {
-        alignItems: 'flex-start'
+        alignItems: 'flex-start',
+        '&:hover': {
+          color: colors.noticeColor
+        }
       }
     }
   }

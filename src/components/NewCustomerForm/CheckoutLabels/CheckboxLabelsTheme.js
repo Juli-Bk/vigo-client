@@ -12,7 +12,7 @@ const theme = createMuiTheme({
     },
     MuiSvgIcon: {
       root: {
-        color: colors.black
+        color: colors.paginationColor
       }
     },
     MuiFormHelperText: {

@@ -10,10 +10,10 @@ import PersonalDetailsForm from '../PersonalDetailsForm/PersonalDetailsForm';
 import AddressForm from '../AddressForm/AddressForm';
 import Wishlist from '../../pages/Wishlist/Wishlist';
 import {useMediaQuery} from '@material-ui/core';
-import useStyles from './MyAccTabsStyle';
+import useStyles from '../../containers/Header/headerStyle';
 
 const TabPanel = (props) => {
-  const {user, children, value, index, ...other} = props;
+  const {user, children, value, adrList, index, ...other} = props;
 
   return (
     <Box
@@ -40,7 +40,7 @@ function a11yProps (index) {
 }
 
 const UserTabs = (props) => {
-  const {user } = props;
+  const {user} = props;
   const isMobile = useMediaQuery('(max-width: 500px)');
   const classes = useStyles();
   const theme = useTheme();
@@ -79,14 +79,17 @@ const UserTabs = (props) => {
               handleChange(null, value);
             }}/> : null}
       </TabPanel>
+
       <TabPanel value={value} index={1} dir={theme.direction}>
         <AddressForm submitAddressHandler={(submit) => {
           handleChange(null, value);
         }}/>
       </TabPanel>
+
       <TabPanel value={value} index={2} dir={theme.direction}>
         <Wishlist/>
       </TabPanel>
+
       <TabPanel value={value} index={3} dir={theme.direction}>
         {/* todo orders list. if order list is empty, show to user link to products */}
           your orders list
