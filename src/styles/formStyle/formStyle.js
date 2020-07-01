@@ -61,6 +61,7 @@ const useStyles = makeStyles(theme => (
     closeIconAddress: {
       position: 'absolute',
       right: 0,
+      top: 0,
       fill: `2px solid ${colors.borderLight}`,
       '&:hover': {
         borderRadius: 6,
@@ -70,8 +71,8 @@ const useStyles = makeStyles(theme => (
       [theme.breakpoints.down(550)]: {
         position: 'absolute',
         top: '5px',
-        right: '1rem',
-        fontSize: '2rem'
+        right: '1rem'
+        // fontSize: '2rem'
       }
     },
     text: {
