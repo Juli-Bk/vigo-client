@@ -6,11 +6,10 @@ import globalConfig from '../../globalConfig';
 import { getProductsId } from './cartHelpers';
 import ShopCartView from '../../components/ShopCartView/ShopCartView';
 import EmptyState from '../../components/EmptyState/EmptyState';
-import { getProductsInCart } from '../../redux/actions/shopCart';
 import {getProductsByFilters} from '../../redux/actions/products';
 
 const ShoppingCart = (props) => {
-  const {shoppingCart, products, getProductsInCart, getProductsByFilters} = props;
+  const {shoppingCart, products, getProductsByFilters} = props;
   const isMobile = useMediaQuery('(max-width: 550px)');
 
   useEffect(() => {
@@ -19,12 +18,11 @@ const ShoppingCart = (props) => {
       const productsId = getProductsId(shoppingCart);
       const filterArray = (productsId.length && [{_id: productsId}]) || [];
       getProductsByFilters(filterArray, 1, 15, '');
-      // if (productsId.length) getProductsInCart(productsId);
     }
     return () => {
       isCanceled = true;
     };
-  }, [shoppingCart, getProductsInCart, getProductsByFilters]);
+  }, [shoppingCart, getProductsByFilters]);
 
   return (
     <Container>
@@ -39,20 +37,19 @@ const ShoppingCart = (props) => {
 
 ShoppingCart.propTypes = {
   shoppingCart: PropTypes.array,
-  getProductsInCart: PropTypes.func.isRequired
+  products: PropTypes.object,
+  getProductsByFilters: PropTypes.func.isRequired
 };
 
 const mapStateToProps = store => {
   return {
     shoppingCart: store.shoppingCart,
-    products: store.products,
-    cartProducts: store.cartProducts
+    products: store.products
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    getProductsInCart: idArray => dispatch(getProductsInCart(idArray)),
     getProductsByFilters: (filters, startPage, perPage, sort) => {
       dispatch(getProductsByFilters(filters, startPage, perPage, sort));
     }

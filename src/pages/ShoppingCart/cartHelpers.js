@@ -44,18 +44,22 @@ export const getChosenProductData = (itemStockData, itemsInCart) => {
   return data;
 };
 
-export const updateProductQuantity = (productId, newQuantity, shoppingCart) => {
-  const productToChange = shoppingCart.find(item => item.productId === productId);
+export const updateProductQuantity = (productId, newQuantity, shoppingCart, sizeId) => {
+  const productToChange = shoppingCart.find(item => item.productId === productId && item.sizeId === sizeId);
   if (productToChange) {
     productToChange.cartQuantity = newQuantity;
     return productToChange;
   }
 };
 
-export const updateCartData = (shoppingCart, productId, updatedProduct) => {
-  if (shoppingCart.find(item => item.productId === productId)) {
-    const updatedCart = shoppingCart.filter(item => item.productId !== productId);
-    return [...updatedCart, updatedProduct];
+export const updateCartData = (shoppingCart, productId, updatedProduct, sizeId) => {
+  if (shoppingCart.find(item => item.productId === productId && item.sizeId === sizeId)) {
+    shoppingCart.forEach((item, index) => {
+      if (item.productId === productId && item.sizeId === sizeId) {
+        shoppingCart.splice(index, 1);
+      }
+    });
+    return [...shoppingCart, updatedProduct];
   }
 };
 
@@ -94,8 +98,8 @@ export const addToCart = (productId, cartQuantity = 1, sizeId = '', colorId = ''
         if (cartQuantity === 1) {
           newQuantity = item.cartQuantity + 1;
         }
-        const updatedItem = updateProductQuantity(productId, newQuantity, shopCartLocal);
-        const updatedCart = updateCartData(shopCartLocal, productId, updatedItem);
+        const updatedItem = updateProductQuantity(productId, newQuantity, shopCartLocal, sizeId);
+        const updatedCart = updateCartData(shopCartLocal, productId, updatedItem, sizeId);
         setStorageData('shoppingCart', updatedCart);
       }
     });

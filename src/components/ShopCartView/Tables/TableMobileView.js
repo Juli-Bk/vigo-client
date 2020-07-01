@@ -51,6 +51,7 @@ const TableMobileView = (props) => {
                 <Quantity
                   quantity={row.quantity}
                   max={row.totalQuantity}
+                  sizeId={row.sizeId}
                   id={row.id}
                   classes={classes}
                   handleQuantity={handleQuantity}

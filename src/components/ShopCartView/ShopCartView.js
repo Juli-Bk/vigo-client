@@ -47,13 +47,13 @@ const ShopCartView = (props) => {
     changeShoppingCart();
   };
 
-  const handleQuantity = (id, number) => {
-    const updatedProduct = updateProductQuantity(id, number, shoppingCart);
-    const updatedCart = updateCartData(shoppingCart, id, updatedProduct);
+  const handleQuantity = (productId, number, sizeId) => {
+    const updatedProduct = updateProductQuantity(productId, number, shoppingCart, sizeId);
+    const updatedCart = updateCartData(shoppingCart, productId, updatedProduct, sizeId);
 
     setStorageData('shoppingCart', updatedCart);
     changeShoppingCart();
-    addToCart(id, number, updatedProduct.sizeId);
+    addToCart(productId, number, updatedProduct.sizeId, updatedProduct.colorId);
   };
 
   const getCartData = useCallback(product => {
