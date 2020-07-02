@@ -18,6 +18,7 @@ const useStyles = makeStyles(theme => (
       fontFamily: fonts.f4,
       fonFamily: fonts.f2,
       textTransform: 'uppercase',
+      fontSize: 'large',
       [theme.breakpoints.up(724)]: {
         fontSize: '1.6rem'
       },
@@ -72,7 +73,6 @@ const useStyles = makeStyles(theme => (
         position: 'absolute',
         top: '5px',
         right: '1rem'
-        // fontSize: '2rem'
       }
     },
     text: {
@@ -98,7 +98,10 @@ const useStyles = makeStyles(theme => (
       marginTop: '1.6rem',
       marginBottom: 7,
       fonFamily: fonts.f2,
-      textTransform: 'uppercase'
+      textTransform: 'uppercase',
+      [theme.breakpoints.down(420)]: {
+        fontSize: 'inherit'
+      }
     },
     inputSmall: {
       textAlign: 'center',
