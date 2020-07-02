@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
 import queryString from 'query-string';
-import { ThemeProvider, Checkbox, FormControlLabel } from '@material-ui/core';
+import { ThemeProvider, Checkbox, FormControlLabel, Box } from '@material-ui/core';
 import theme from '../FilterColors/FilterColorsTheme';
-import { setChosenSize, getAllSizes } from '../../../redux/actions/sizes';
+import { getAllSizes } from '../../../redux/actions/sizes';
 import globalConfig from '../../../globalConfig';
 import { getFilterString, getSizesState, getUrlData } from '../../../helpers/helpers';
 
@@ -54,11 +54,9 @@ const FilterSizes = (props) => {
     return labelNames;
   }, [allSizes, categories]);
 
-  const searchString = location.search.split('?')[1];
-
-  if (searchString.includes('categoryId')) {
-    const id = searchString.split('categoryId=')[1].split('&')[0];
-    const category = categories.plainList.find(category => category._id === id);
+  if (parsed.categoryId) {
+    const id = parsed.categoryId;
+    const category = categories.plainList && categories.plainList.find(category => category._id === id);
     if (category.level > 1) {
       if (category.level === 2 || category.name === globalConfig.sizeRenderOptions.ACCESSORIES) {
         renderOption = category.name;
@@ -87,17 +85,19 @@ const FilterSizes = (props) => {
           color='default'/>}/>;
     });
   };
-
-  return (<ThemeProvider theme={theme}>
-    {allSizes.names && allSizes.names.length > 0 && getCheckboxes()}
-  </ThemeProvider>);
+  // hack to avoid material-ui warning with empty ThemeProvider children
+  return (
+    <ThemeProvider theme={theme}>
+      {allSizes.names && allSizes.names.length > 0 ? getCheckboxes() : <Box/>}
+    </ThemeProvider>);
 };
 
 FilterSizes.propTypes = {
   categories: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
-  setChosenSize: PropTypes.func.isRequired,
-  allSizes: PropTypes.object.isRequired
+  getAllSizes: PropTypes.func.isRequired,
+  allSizes: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 const mapStateToProps = store => {
@@ -109,7 +109,6 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setChosenSize: size => dispatch(setChosenSize(size)),
     getAllSizes: () => dispatch(getAllSizes())
   };
 };

@@ -18,9 +18,12 @@ import FilterPrice from '../../components/FilterPrice/FilterPrice';
 import ViewAs from '../../components/ViewAs/ViewAs';
 import EmptyState from '../../components/EmptyState/EmptyState';
 import {getProductsByFilters} from '../../redux/actions/products';
+import { setCurrentPage } from '../../redux/actions/actions';
 
 const Products = (props) => {
   const {
+    currentPage,
+    setCurrentPage,
     perPage,
     view,
     location,
@@ -32,25 +35,26 @@ const Products = (props) => {
   const isSmScreen = useMediaQuery('(max-width: 723px)');
   const filters = useMemo(() => queryString.parse(location.search), [location.search]);
   const sort = filters.sort || defineSortData(globalConfig.sortOptions.New_In);
-  const startPage = filters.startPage || 1;
-  const searchString = location.search.split('?')[1];
 
   const getFilteredData = useCallback(() => {
+    if (filters.startPage) {
+      setCurrentPage(Number(filters.startPage));
+    }
     const updatedFilters = deleteProps(filters, ['sort', 'startPage', 'perPage']);
     const filtersArray = getFiltersArray(updatedFilters);
-    getProductsByFilters(filtersArray, startPage, perPage, sort);
-  }, [filters, getProductsByFilters, perPage, sort, startPage]);
+
+    getProductsByFilters(filtersArray, currentPage, perPage, sort);
+  }, [currentPage, filters, getProductsByFilters, perPage, setCurrentPage, sort]);
 
   useEffect(() => {
     let isCanceled = false;
-
     if (!isCanceled) {
       getFilteredData();
     }
     return () => {
       isCanceled = true;
     };
-  }, [getFilteredData, searchString]);
+  }, [getFilteredData]);
 
   return (
     <Container>
@@ -120,7 +124,8 @@ const mapStateToProps = store => {
     perPage: store.productsPerPage,
     view: store.view,
     products: store.products,
-    filters: store.filters
+    filters: store.filters,
+    currentPage: store.currentPage
   };
 };
 
@@ -128,7 +133,8 @@ const mapDispatchToProps = dispatch => {
   return {
     getProductsByFilters: (filters, startPage, perPage, sort) => {
       dispatch(getProductsByFilters(filters, startPage, perPage, sort));
-    }
+    },
+    setCurrentPage: number => dispatch(setCurrentPage(number))
   };
 };
 
