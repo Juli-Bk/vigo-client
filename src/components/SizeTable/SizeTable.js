@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import useStyles from './SizeTableStyle';
+import PropTypes from 'prop-types';
 import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
 import requests from '../../ajax/sizeTables/requests';
@@ -32,66 +33,6 @@ const SizeTable = (props) => {
   const [data, setData] = useState([]);
   const styles = useStyles();
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const data = getSizeTableByProductId(id);
-  //     const array = await data;
-  //     if (array[1].sizeId.sizeType === 'shoes') {
-  //       setData(array.map(el => ({
-  //         size: el.sizeId.name,
-  //         sizeMeasures: [{
-  //           'Foot length': `${el.footLength.cm}cm/${el.footLength.inches}in`
-  //         }]
-  //       })));
-  //     };
-  //     if (array[1].sizeId.sizeType === 'belts') {
-  //       setData(array.map(el => ({
-  //         size: el.sizeId.name,
-  //         sizeMeasures: [{
-  //           Length: `${el.length.cm}cm/${el.length.inches}in`
-  //         }]
-  //       })));
-  //     };
-  //     if (array[1].sizeId.sizeType === 'clothing') {
-  //       setData(array.map(el => ({
-  //         size: el.sizeId.name,
-  //         sizeMeasures: [{
-  //           Bust: `${el.bust.cm}cm/${el.bust.inches}in`
-  //         }, {
-  //           Waist: `${el.waist.cm}cm/${el.waist.inches}in`
-  //         }, {
-  //           Hips: `${el.hips.cm}cm/${el.hips.inches}in`
-  //         }]
-  //       })));
-  //     };
-  //     if (array[1].sizeId.sizeType === 'hats') {
-  //       setData(array.map(el => ({
-  //         size: el.sizeId.name,
-  //         sizeMeasures: [{
-  //           'Head size': `${el.headSize.cm}cm/${el.headSize.inches}in`
-  //         }]
-  //       })));
-  //     };
-  //     if (array[1].sizeId.sizeType === 'scarves') {
-  //       setData(array.map(el => ({
-  //         size: el.sizeId.name,
-  //         sizeMeasures: [{
-  //           Length: `${el.length.cm}cm/${el.length.inches}in`
-  //         }]
-  //       })));
-  //     };
-  //     if (array[1].sizeId.sizeType === 'one size') {
-  //       setData(array.map(el => ({
-  //         size: el.sizeId.name,
-  //         sizeMeasures: [{
-  //           Length: `${el.length.cm}cm/${el.length.inches}in`
-  //         }]
-  //       })));
-  //     };
-  //   };
-  //   fetchData();
-  // }, [id]);
-  
   useEffect(() => {
     const fetchData = async () => {
       const data = getSizeTableByProductId(id);
@@ -99,102 +40,82 @@ const SizeTable = (props) => {
       if (array[1].sizeId.sizeType === 'shoes') {
         setData(array.map(el => ({
           size: el.sizeId.name,
-          sizeMeasures: {
-            'Foot length': `${el.footLength.cm}cm/${el.footLength.inches}in`
-          }
+          measurementArea: ['Foot length'],
+          measurements: [`${el.footLength.cm}cm/${el.footLength.inches}"`]
         })));
       };
       if (array[1].sizeId.sizeType === 'belts') {
         setData(array.map(el => ({
           size: el.sizeId.name,
-          sizeMeasures: {
-            Length: `${el.length.cm}cm/${el.length.inches}in`
-          }
+          measurementArea: ['Length'],
+          measurements: [`${el.length.cm}cm/${el.length.inches}"`]
         })));
       };
       if (array[1].sizeId.sizeType === 'clothing') {
         setData(array.map(el => ({
           size: el.sizeId.name,
-          sizeMeasures: {
-            Bust: `${el.bust.cm}cm/${el.bust.inches}in`,
-            Waist: `${el.waist.cm}cm/${el.waist.inches}in`,
-            Hips: `${el.hips.cm}cm/${el.hips.inches}in`
-          }
+          measurementArea: ['Bust', 'Waist', 'Hips'],
+          measurements: [`${el.bust.cm}cm/${el.bust.inches}"`, `${el.waist.cm}cm/${el.waist.inches}"`, `${el.hips.cm}cm/${el.hips.inches}"`]
         })));
       };
       if (array[1].sizeId.sizeType === 'hats') {
         setData(array.map(el => ({
           size: el.sizeId.name,
-          sizeMeasures: {
-            'Head size': `${el.headSize.cm}cm/${el.headSize.inches}in`
-          }
+          measurementArea: ['Head size'],
+          measurements: [`${el.headSize.cm}cm/${el.headSize.inches}"`]
         })));
       };
       if (array[1].sizeId.sizeType === 'scarves') {
         setData(array.map(el => ({
           size: el.sizeId.name,
-          sizeMeasures: {
-            Length: `${el.length.cm}cm/${el.length.inches}in`
-          }
+          measurementArea: ['Length'],
+          measurements: [`${el.length.cm}cm/${el.length.inches}"`]
         })));
       };
       if (array[1].sizeId.sizeType === 'one size') {
         setData(array.map(el => ({
           size: el.sizeId.name,
-          sizeMeasures: {
-            Length: `${el.length.cm}cm/${el.length.inches}in`
-          }
+          measurementArea: ['Length'],
+          measurements: [`${el.length.cm}cm/${el.length.inches}"`]
         })));
       };
     };
     fetchData();
   }, [id]);
 
-  function createData (size, sizeType, smLenghth, inchesLength) {
-    return { size, sizeType, smLenghth, inchesLength };
-  }
-
-  const rows = [
-    createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-    createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-    createData('Eclair', 262, 16.0, 24, 6.0),
-    createData('Cupcake', 305, 3.7, 67, 4.3),
-    createData('Gingerbread', 356, 16.0, 49, 3.9)
-  ];
-
-  // function createData (size, data) {
-  //   return { size, arrayData: data };
-  // }
-
-  // const rows = data.map(el => createData(el.size, el.sizeMeasures));
-
-  return (
-    <TableContainer component={Paper}>
-      <Table className={styles.table} aria-label="simple table">
-        <TableHead>
-          <StyledTableRow>
-            <StyledTableCell>Size type</StyledTableCell>
-            {/* <StyledTableCell>cm</StyledTableCell>
-            <StyledTableCell>inches</StyledTableCell>
-            <StyledTableCell>inches</StyledTableCell> */}
-            {/* {rows[0].arrayData} */}
-          </StyledTableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.size}>
-              <StyledTableCell component="th" scope="row">
-                {row.size}
-              </StyledTableCell>
-              <StyledTableCell align="center">{row.calories}</StyledTableCell>
-              <StyledTableCell align="center">{row.fat}</StyledTableCell>
-              <StyledTableCell align="center">{row.fat}</StyledTableCell>
+  if (data.length > 0) {
+    console.log(data);
+    return (
+      <TableContainer data-testid='sizeTable' component={Paper}>
+        <Table className={styles.table} aria-label="simple table">
+          <TableHead>
+            <StyledTableRow>
+              <StyledTableCell className={styles.cell} align="center">Size type</StyledTableCell>
+              {data[0].measurementArea.map((el, id) => (
+                <StyledTableCell className={styles.cell} align="center" key={id}>{el}</StyledTableCell>
+              ))}
             </StyledTableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-  );
+          </TableHead>
+          <TableBody>
+            {data.map((el, id) => (
+              <StyledTableRow key={id}>
+                <StyledTableCell align="center" className={styles.cell} component="th" scope="row">
+                  {el.size}
+                </StyledTableCell>
+                {el.measurements.map((el, id) => (
+                  <StyledTableCell className={styles.cell} align="center" key={id}>{el}</StyledTableCell>
+                ))}
+              </StyledTableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+    );
+  }
+};
+
+SizeTable.propTypes = {
+  id: PropTypes.string.isRequired
 };
 
 export default React.memo(SizeTable);
