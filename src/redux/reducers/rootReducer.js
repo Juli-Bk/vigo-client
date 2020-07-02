@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import currentPage from './currentPageReducer';
 import token from './tokenReducer';
-import productsPerPage from './productsPerPageReducer';
 import sortingOption from './sortReducer';
 import view from './viewAsReducer';
 import categories from './categoriesReducer';
@@ -26,13 +25,11 @@ import isPopoverOpen from './isPopoverOpenReducer';
 import snackMessage from './isSnackMessageOpenReducer';
 import isRestorePswdModalOpen from './isRestorePswdModalOpen';
 import userIsLoggedIn from './isLoggedReducer';
-import filters from './filtersReducer';
 import totalSum from './totalSumReducer';
 
 export const rootReducer = combineReducers({
   currentPage,
   sortingOption,
-  productsPerPage,
   view,
   token,
   categories,
@@ -54,7 +51,6 @@ export const rootReducer = combineReducers({
   allSizes,
   isLoading,
   isPopoverOpen,
-  filters,
   snackMessage,
   userIsLoggedIn,
   totalSum,

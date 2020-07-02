@@ -161,7 +161,7 @@ const useStyles = makeStyles(theme => ({
   digit: {
     position: 'absolute',
     top: 0,
-    right: 0,
+    right: '.1rem',
     fontSize: '0.8rem',
     fontWeight: 'bold',
     color: colors.noticeColor,
@@ -169,8 +169,8 @@ const useStyles = makeStyles(theme => ({
       color: fade(colors.fontHover, 0.9)
     },
     [theme.breakpoints.up('sm')]: {
-      top: 0,
-      right: 0
+      top: '.2rem',
+      right: '.3rem'
     }
   }
 }));

@@ -38,7 +38,6 @@ const PrivacyPolicyModal = () => {
             <IconButton edge="start" onClick={handleClose} aria-label="close">
               <CloseIcon />
             </IconButton>
-
           </Toolbar>
         </AppBar>
         <VigoPrivacyPolicy />
