@@ -32,6 +32,66 @@ const SizeTable = (props) => {
   const [data, setData] = useState([]);
   const styles = useStyles();
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const data = getSizeTableByProductId(id);
+  //     const array = await data;
+  //     if (array[1].sizeId.sizeType === 'shoes') {
+  //       setData(array.map(el => ({
+  //         size: el.sizeId.name,
+  //         sizeMeasures: [{
+  //           'Foot length': `${el.footLength.cm}cm/${el.footLength.inches}in`
+  //         }]
+  //       })));
+  //     };
+  //     if (array[1].sizeId.sizeType === 'belts') {
+  //       setData(array.map(el => ({
+  //         size: el.sizeId.name,
+  //         sizeMeasures: [{
+  //           Length: `${el.length.cm}cm/${el.length.inches}in`
+  //         }]
+  //       })));
+  //     };
+  //     if (array[1].sizeId.sizeType === 'clothing') {
+  //       setData(array.map(el => ({
+  //         size: el.sizeId.name,
+  //         sizeMeasures: [{
+  //           Bust: `${el.bust.cm}cm/${el.bust.inches}in`
+  //         }, {
+  //           Waist: `${el.waist.cm}cm/${el.waist.inches}in`
+  //         }, {
+  //           Hips: `${el.hips.cm}cm/${el.hips.inches}in`
+  //         }]
+  //       })));
+  //     };
+  //     if (array[1].sizeId.sizeType === 'hats') {
+  //       setData(array.map(el => ({
+  //         size: el.sizeId.name,
+  //         sizeMeasures: [{
+  //           'Head size': `${el.headSize.cm}cm/${el.headSize.inches}in`
+  //         }]
+  //       })));
+  //     };
+  //     if (array[1].sizeId.sizeType === 'scarves') {
+  //       setData(array.map(el => ({
+  //         size: el.sizeId.name,
+  //         sizeMeasures: [{
+  //           Length: `${el.length.cm}cm/${el.length.inches}in`
+  //         }]
+  //       })));
+  //     };
+  //     if (array[1].sizeId.sizeType === 'one size') {
+  //       setData(array.map(el => ({
+  //         size: el.sizeId.name,
+  //         sizeMeasures: [{
+  //           Length: `${el.length.cm}cm/${el.length.inches}in`
+  //         }]
+  //       })));
+  //     };
+  //   };
+  //   fetchData();
+  // }, [id]);
+  
   useEffect(() => {
     const fetchData = async () => {
       const data = getSizeTableByProductId(id);
@@ -39,59 +99,57 @@ const SizeTable = (props) => {
       if (array[1].sizeId.sizeType === 'shoes') {
         setData(array.map(el => ({
           size: el.sizeId.name,
-          sizeMeasures: [{
+          sizeMeasures: {
             'Foot length': `${el.footLength.cm}cm/${el.footLength.inches}in`
-          }]
+          }
         })));
       };
       if (array[1].sizeId.sizeType === 'belts') {
         setData(array.map(el => ({
           size: el.sizeId.name,
-          sizeMeasures: [{
+          sizeMeasures: {
             Length: `${el.length.cm}cm/${el.length.inches}in`
-          }]
+          }
         })));
       };
       if (array[1].sizeId.sizeType === 'clothing') {
         setData(array.map(el => ({
           size: el.sizeId.name,
-          sizeMeasures: [{
-            Bust: `${el.bust.cm}cm/${el.bust.inches}in`
-          }, {
-            Waist: `${el.waist.cm}cm/${el.waist.inches}in`
-          }, {
+          sizeMeasures: {
+            Bust: `${el.bust.cm}cm/${el.bust.inches}in`,
+            Waist: `${el.waist.cm}cm/${el.waist.inches}in`,
             Hips: `${el.hips.cm}cm/${el.hips.inches}in`
-          }]
+          }
         })));
       };
       if (array[1].sizeId.sizeType === 'hats') {
         setData(array.map(el => ({
           size: el.sizeId.name,
-          sizeMeasures: [{
+          sizeMeasures: {
             'Head size': `${el.headSize.cm}cm/${el.headSize.inches}in`
-          }]
+          }
         })));
       };
       if (array[1].sizeId.sizeType === 'scarves') {
         setData(array.map(el => ({
           size: el.sizeId.name,
-          sizeMeasures: [{
+          sizeMeasures: {
             Length: `${el.length.cm}cm/${el.length.inches}in`
-          }]
+          }
         })));
       };
       if (array[1].sizeId.sizeType === 'one size') {
         setData(array.map(el => ({
           size: el.sizeId.name,
-          sizeMeasures: [{
+          sizeMeasures: {
             Length: `${el.length.cm}cm/${el.length.inches}in`
-          }]
+          }
         })));
       };
     };
     fetchData();
   }, [id]);
-  
+
   function createData (size, sizeType, smLenghth, inchesLength) {
     return { size, sizeType, smLenghth, inchesLength };
   }
@@ -104,13 +162,11 @@ const SizeTable = (props) => {
     createData('Gingerbread', 356, 16.0, 49, 3.9)
   ];
 
-  // function createData (size, array) {
-  //   return { size, arrayData: array };
+  // function createData (size, data) {
+  //   return { size, arrayData: data };
   // }
 
-  // const rows = data.map(el => {
-  //   createData(el.size, el.sizeMeasures)
-  // });
+  // const rows = data.map(el => createData(el.size, el.sizeMeasures));
 
   return (
     <TableContainer component={Paper}>
@@ -118,9 +174,10 @@ const SizeTable = (props) => {
         <TableHead>
           <StyledTableRow>
             <StyledTableCell>Size type</StyledTableCell>
-            <StyledTableCell>cm</StyledTableCell>
+            {/* <StyledTableCell>cm</StyledTableCell>
             <StyledTableCell>inches</StyledTableCell>
-            <StyledTableCell>inches</StyledTableCell>
+            <StyledTableCell>inches</StyledTableCell> */}
+            {/* {rows[0].arrayData} */}
           </StyledTableRow>
         </TableHead>
         <TableBody>
