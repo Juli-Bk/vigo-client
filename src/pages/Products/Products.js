@@ -62,24 +62,22 @@ const Products = (props) => {
           <Container>
             <Grid item xs={12} className={classes.topFiltersLine}>
               <Grid item container xs={12} className={classes.upperLine}>
-                {!isSmScreen
-                  ? <Grid container item lg={6} md={5} sm={6} xs={12} className={classes.sortSelect}>
-                    <Sort values={globalConfig.sortOptions}/>
-                  </Grid>
-                  : null
-                }
-              </Grid>
-              {isSmScreen ? <Grid container item sm={6} xs={12} className={classes.sortSelect}>
-                <Sort values={globalConfig.sortOptions}/>
-              </Grid>
-                : null}
-              <Grid item container lg={12} spacing={0}>
-                <Grid item md={3} xs={6} className={classes.viewBox}>
-                  <ViewAs label={true}/>
+                <Grid item md={6} xs={8} className={classes.sortSelect}>
+                  <Sort values={globalConfig.sortOptions}/>
                 </Grid>
-                <Grid item md={3} xs={6} className={classes.showBy}>
+                {!isSmScreen ? <Grid item md={3} className={classes.viewBox}>
+                  <ViewAs label={true}/>
+                </Grid> : null}
+                <Grid item md={3} xs={4} className={classes.showBy}>
                   {products.totalCount > globalConfig.step ? <ShowBy step={globalConfig.step}/> : null}
                 </Grid>
+              </Grid>
+              <Grid item container spacing={0} justify='center' alignItems='center'>
+                {isSmScreen
+                  ? <Grid item xs={12} className={classes.viewBox}>
+                    <ViewAs label={true}/>
+                  </Grid> : null
+                }
                 <Grid item md={6} xs={12}>
                   {products.totalCount > 0
                     ? <PaginationRounded perPage={perPage} total={products.totalCount}/>
@@ -93,15 +91,15 @@ const Products = (props) => {
                   : <ProductsList products={products.data}/>)
                 : <EmptyState text={globalConfig.userMessages.EMPTY_RESULT}/>}
             </Grid>
+            <Grid item xs={12} className={classes.paginationBottom}>
+              {products.totalCount > 0
+                ? <PaginationRounded perPage={perPage} total={products.totalCount}/>
+                : null}
+            </Grid>
           </Container>
         </Grid>
         <Grid item sm={4}>
           <SideBar/>
-        </Grid>
-        <Grid item xs={12} className={classes.paginationBottom}>
-          {products.totalCount > 0
-            ? <PaginationRounded perPage={perPage} total={products.totalCount}/>
-            : null}
         </Grid>
       </Grid>
     </Container>

@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { setProductsPerPage } from '../../redux/actions/actions';
 import SelectBox from '../SelectBox/SelectBox';
-import useStyles from '../SelectBox/SelectBoxStyles';
+import useStyles from '../Sort/SortStyles';
 import queryString from 'query-string';
 
 const ShowBy = (props) => {

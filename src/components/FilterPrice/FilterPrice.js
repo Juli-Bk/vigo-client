@@ -9,6 +9,7 @@ import CustomSlider from './CustomSlider';
 import {getMaxPrice} from '../../redux/actions/products';
 import { theme } from './FilterPriceTheme';
 import globalConfig from '../../globalConfig';
+import { colors } from '../../styles/colorKit';
 
 const useStyles = makeStyles(theme => ({
   margin: {
@@ -21,14 +22,9 @@ const useStyles = makeStyles(theme => ({
     paddingTop: '.5rem'
   },
   label: {
-    fontSize: '.8rem',
-    display: 'none',
-    [theme.breakpoints.up(500)]: {
-      display: 'block'
-    },
-    [theme.breakpoints.up(1280)]: {
-      fontSize: '1rem'
-    }
+    fontSize: '1.3rem',
+    marginRight: '.5rem',
+    color: colors.paginationColor
   }
 }));
 
@@ -62,7 +58,7 @@ const FilterPrice = (props) => {
   return (
     <ThemeProvider theme={theme}>
       <Box className={classes.filterPrice}>
-        <Typography className={classes.label}>Price Filter: </Typography>
+        <Typography className={classes.label}>Price: </Typography>
         {maxPrice && <CustomSlider
           value={values}
           min={0}

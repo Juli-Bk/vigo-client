@@ -5,8 +5,8 @@ import queryString from 'query-string';
 import { connect } from 'react-redux';
 import SelectBox from '../SelectBox/SelectBox';
 import { setSortingOption } from '../../redux/actions/actions';
-import useStyles from '../SelectBox/SelectBoxStyles';
 import { defineSortData } from '../../helpers/helpers';
+import useStyles from './SortStyles';
 
 const Sort = (props) => {
   const { sortingOption, setSortingOption, values, history, location } = props;
