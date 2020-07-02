@@ -51,6 +51,7 @@ const FilterPrice = (props) => {
   const handleChange = useCallback((event, values) => {
     parsed.minPrice = values[0];
     parsed.maxPrice = values[1];
+    parsed.startPage = 1;
     const updatedSearch = queryString.stringify(parsed);
     history.push(`/products/filter?${updatedSearch}`);
   }, [history, parsed]);

@@ -18,7 +18,6 @@ const ShowBy = (props) => {
 
   const handleChange = (event) => {
     setProductsPerPage(Number(event.target.value));
-    // todo delete redux
     const parsed = queryString.parse(location.search);
     parsed.perPage = event.target.value;
     const updatedSearch = queryString.stringify(parsed);

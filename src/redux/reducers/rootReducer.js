@@ -26,7 +26,6 @@ import isPopoverOpen from './isPopoverOpenReducer';
 import snackMessage from './isSnackMessageOpenReducer';
 import isRestorePswdModalOpen from './isRestorePswdModalOpen';
 import userIsLoggedIn from './isLoggedReducer';
-import filters from './filtersReducer';
 import totalSum from './totalSumReducer';
 
 export const rootReducer = combineReducers({
@@ -54,7 +53,6 @@ export const rootReducer = combineReducers({
   allSizes,
   isLoading,
   isPopoverOpen,
-  filters,
   snackMessage,
   userIsLoggedIn,
   totalSum,

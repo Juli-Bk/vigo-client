@@ -1,5 +1,5 @@
 import React, {useCallback, useState} from 'react';
-import {IconButton, ThemeProvider} from '@material-ui/core';
+import { IconButton, ThemeProvider } from '@material-ui/core';
 import ArrowBackIosIcon from '@material-ui/icons/ArrowBackIos';
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer';
 import useStyles from '../SideBar/SideBarStyle';
@@ -7,6 +7,8 @@ import FiltersTree from '../FiltersTree/FiltersTree';
 import {useTheme} from '@material-ui/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import customTheme from './SideBarTheme';
+import FilterPrice from '../FilterPrice/FilterPrice';
+import CancelButton from '../CancelButton/CancelButton';
 
 const anchor = 'right';
 
@@ -43,10 +45,16 @@ const SideBar = () => {
               open={state[anchor]}
               onClose={toggleDrawer(anchor, false)}
               onOpen={toggleDrawer(anchor, true)}>
+              <CancelButton/>
+              <FilterPrice/>
               <FiltersTree/>
             </SwipeableDrawer>
           </ThemeProvider>
-          : <FiltersTree/>
+          : <>
+            <CancelButton/>
+            <FilterPrice/>
+            <FiltersTree/>
+          </>
       }
     </>
 

@@ -14,7 +14,6 @@ import PaginationRounded from '../../components/Pagination/Pagination';
 import SideBar from '../../components/SideBar/SideBar';
 import ShowBy from '../../components/ShowBy/ShowBy';
 import Sort from '../../components/Sort/Sort';
-import FilterPrice from '../../components/FilterPrice/FilterPrice';
 import ViewAs from '../../components/ViewAs/ViewAs';
 import EmptyState from '../../components/EmptyState/EmptyState';
 import {getProductsByFilters} from '../../redux/actions/products';
@@ -34,7 +33,8 @@ const Products = (props) => {
   const classes = useStyles();
   const isSmScreen = useMediaQuery('(max-width: 723px)');
   const filters = useMemo(() => queryString.parse(location.search), [location.search]);
-  const sort = filters.sort || defineSortData(globalConfig.sortOptions.New_In);
+  const sort = useMemo(() => filters.sort ||
+          defineSortData(globalConfig.sortOptions.New_In), [filters.sort]);
 
   const getFilteredData = useCallback(() => {
     if (filters.startPage) {
@@ -42,7 +42,6 @@ const Products = (props) => {
     }
     const updatedFilters = deleteProps(filters, ['sort', 'startPage', 'perPage']);
     const filtersArray = getFiltersArray(updatedFilters);
-
     getProductsByFilters(filtersArray, currentPage, perPage, sort);
   }, [currentPage, filters, getProductsByFilters, perPage, setCurrentPage, sort]);
 
@@ -69,9 +68,6 @@ const Products = (props) => {
                   </Grid>
                   : null
                 }
-                <Grid item lg={6} md={7} sm={6} xs={12} className={classes.filterPrice}>
-                  <FilterPrice/>
-                </Grid>
               </Grid>
               {isSmScreen ? <Grid container item sm={6} xs={12} className={classes.sortSelect}>
                 <Sort values={globalConfig.sortOptions}/>
@@ -115,7 +111,6 @@ const Products = (props) => {
 Products.propTypes = {
   view: PropTypes.string.isRequired,
   getProductsByFilters: PropTypes.func.isRequired,
-  filters: PropTypes.object.isRequired,
   products: PropTypes.object.isRequired
 };
 
@@ -124,7 +119,6 @@ const mapStateToProps = store => {
     perPage: store.productsPerPage,
     view: store.view,
     products: store.products,
-    filters: store.filters,
     currentPage: store.currentPage
   };
 };

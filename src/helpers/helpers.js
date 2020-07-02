@@ -207,6 +207,7 @@ export const getFilterString = (parsed, field, target) => {
   } else {
     parsed[field] = target;
   }
+  parsed.startPage = 1;
   return parsed;
 };
 
@@ -238,10 +239,11 @@ export const getSizesState = (allSizes, dataFromSearchString) => {
 };
 
 export const deleteProps = (object, props) => {
+  const newObj = Object.assign({}, object);
   props.forEach(prop => {
-    if (object[prop]) {
-      delete object[prop];
+    if (newObj[prop]) {
+      delete newObj[prop];
     }
   });
-  return object;
+  return newObj;
 };

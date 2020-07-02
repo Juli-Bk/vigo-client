@@ -17,10 +17,6 @@ export const setSortingOption = (option) => {
   return {type: Actions.SET_SORTING_OPTION, payload: option};
 };
 
-export const setPriceRange = (values) => {
-  return {type: Actions.SET_PRICE_RANGE, payload: values};
-};
-
 export const toggleMenuOpen = (isOpen) => {
   return {type: Actions.TOGGLE_MENU_OPEN, payload: isOpen};
 };
