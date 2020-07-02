@@ -23,7 +23,6 @@ const Products = (props) => {
   const {
     currentPage,
     setCurrentPage,
-    perPage,
     view,
     location,
     getProductsByFilters,
@@ -35,6 +34,7 @@ const Products = (props) => {
   const filters = useMemo(() => queryString.parse(location.search), [location.search]);
   const sort = useMemo(() => filters.sort ||
           defineSortData(globalConfig.sortOptions.New_In), [filters.sort]);
+  const perPage = useMemo(() => Number(filters.perPage) || globalConfig.step, [filters.perPage]);
 
   const getFilteredData = useCallback(() => {
     if (filters.startPage) {
@@ -114,7 +114,6 @@ Products.propTypes = {
 
 const mapStateToProps = store => {
   return {
-    perPage: store.productsPerPage,
     view: store.view,
     products: store.products,
     currentPage: store.currentPage

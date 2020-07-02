@@ -4,10 +4,6 @@ export const setCurrentPage = (pageNumber) => {
   return {type: Actions.SET_CURRENT_PAGE, payload: pageNumber};
 };
 
-export const setProductsPerPage = (amount) => {
-  return {type: Actions.SET_PRODUCTS_PER_PAGE, payload: amount};
-};
-
 export const setChosenView = (view) => ({
   type: Actions.SET_CHOSEN_VIEW,
   payload: view

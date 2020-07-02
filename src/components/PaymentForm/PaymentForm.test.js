@@ -7,6 +7,7 @@ import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import store from '../../redux/store';
 import Sort from '../Sort/Sort';
+import { BrowserRouter } from 'react-router-dom';
 
 configure({adapter: new Adapter()});
 
@@ -22,7 +23,7 @@ describe('PaymentForm with all expected props', () => {
   });
 
   it('switch function renders proper paymentOptions', () => {
-    render(<Provider store={store}><Sort values={paymentOptions}/></Provider>);
+    render(<BrowserRouter><Provider store={store}><Sort values={paymentOptions}/></Provider></BrowserRouter>);
     const options = document.querySelectorAll('option');
     expect(options.length).toBe(Object.values(paymentOptions).length);
     expect(options[0].value).toBe(paymentOptions.BY_CASH);

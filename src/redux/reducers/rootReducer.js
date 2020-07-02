@@ -1,7 +1,6 @@
 import { combineReducers } from 'redux';
 import currentPage from './currentPageReducer';
 import token from './tokenReducer';
-import productsPerPage from './productsPerPageReducer';
 import sortingOption from './sortReducer';
 import view from './viewAsReducer';
 import categories from './categoriesReducer';
@@ -31,7 +30,6 @@ import totalSum from './totalSumReducer';
 export const rootReducer = combineReducers({
   currentPage,
   sortingOption,
-  productsPerPage,
   view,
   token,
   categories,

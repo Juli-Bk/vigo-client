@@ -2,6 +2,7 @@ import { configure, mount } from 'enzyme';
 import React from 'react';
 import expect from 'expect';
 import PostOfficeForm from './PostOfficeForm';
+import {BrowserRouter} from 'react-router-dom';
 import Adapter from 'enzyme-adapter-react-16';
 import { render, wait } from '@testing-library/react';
 import { Provider } from 'react-redux';
@@ -93,7 +94,7 @@ describe('PostOffice Form with all expected props', () => {
   });
 
   it('switch function renders proper regions by index', () => {
-    render(<Provider store={store}><Sort values={regions}/></Provider>);
+    render(<BrowserRouter><Provider store={store}><Sort values={regions}/></Provider></BrowserRouter>);
     const options = document.querySelectorAll('option');
     expect(options.length).toBe(Object.values(regions).length);
     expect(options[0].value).toBe(regions.KYIV);
