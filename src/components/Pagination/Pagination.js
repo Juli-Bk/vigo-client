@@ -1,18 +1,24 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {withRouter} from 'react-router-dom';
 import { connect } from 'react-redux';
+import queryString from 'query-string';
 import { ThemeProvider } from '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
 import { theme } from './PaginationTheme';
 import { setCurrentPage } from '../../redux/actions/actions';
 
 const PaginationRounded = (props) => {
-  const { perPage, total, currentPage, setCurrentPage } = props;
+  const { perPage, total, currentPage, setCurrentPage, history, location } = props;
   const totalPagesAmount = total / perPage;
   const count = totalPagesAmount > 1 ? Math.ceil(totalPagesAmount) : 0;
 
   const handleChange = (event, value) => {
     setCurrentPage(Number(value));
+    const parsed = queryString.parse(location.search);
+    parsed.startPage = Number(value);
+    const updatedSearch = queryString.stringify(parsed);
+    history.push(`/products/filter?${updatedSearch}`);
   };
 
   return (
@@ -47,4 +53,4 @@ PaginationRounded.propTypes = {
   setCurrentPage: PropTypes.func.isRequired
 };
 
-export default React.memo(connect(mapStateToProps, mapDispatchToProps)(PaginationRounded));
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(withRouter(PaginationRounded)));

@@ -1,12 +1,13 @@
 import React from 'react';
 import { Typography } from '@material-ui/core';
 import useStyles from './VigoPrivacyPolicyStyle';
+import List from '@material-ui/core/List';
 
 const VigoPrivacyPolicy = () => {
   const styles = useStyles();
 
   return (
-    <>
+    <List className={styles.bigText}>
       <Typography className={styles.title} variant='h1'>Our PRIVACY POLICY</Typography>
       <Typography className={styles.text} variant='body1'>
         This policy describes how we handle your data when you use our service.
@@ -29,7 +30,7 @@ const VigoPrivacyPolicy = () => {
       <Typography className={styles.text} variant='body1'>
       To process payments or donations, we collect and use your payment information. This can include your name, your address, your telephone number, your email address, your credit or debit card information and any other relevant information.
       </Typography>
-    </>
+    </List>
   );
 };
 

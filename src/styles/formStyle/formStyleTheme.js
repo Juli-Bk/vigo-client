@@ -1,23 +1,59 @@
 import {createMuiTheme} from '@material-ui/core';
-import { colors } from '../../styles/colorKit';
-import { fonts } from '../fonts/fontsKit';
+import {colors} from '../colorKit';
+import {fonts} from '../fonts/fontsKit';
+import {fade} from '@material-ui/core/styles/colorManipulator';
 
 const theme = createMuiTheme({
   overrides: {
+    MuiAvatar: {
+      root: {
+        width: 25,
+        height: 25,
+        marginRight: 10
+      },
+      colorDefault: {
+        backgroundColor: colors.fontOncard,
+        '&:hover': {
+          backgroundColor: fade(colors.fontHover, 0.9)
+        }
+      }
+    },
+    MuiSvgIcon: {
+      root: {
+        color: colors.fontFourth,
+        '@media  (max-width: 734px)': {
+          fontSize: 15
+        }
+      }
+    },
+    MuiCardActions: {
+      root: {
+        padding: '10px 0'
+      }
+    },
     MuiFormHelperText: {
       root: {
-        '&$error': {
-          color: colors.noticeColor,
-          textTransform: 'capitalize'
-        }
+        color: colors.noticeColor,
+        textTransform: 'capitalize'
       }
     },
     MuiTypography: {
       body1: {
         fontSize: '1rem',
+        paddingRight: 30,
         '@media  (max-width: 400px)': {
           fontSize: '0.7rem'
         }
+      },
+      root: {
+        fontFamily: fonts.f4,
+        color: colors.phPrimary,
+        position: 'relative'
+      }
+    },
+    MuiIconButton: {
+      root: {
+        transition: 'none'
       }
     },
     MuiFormGroup: {
@@ -32,6 +68,11 @@ const theme = createMuiTheme({
             color: colors.noticeColor,
             borderColor: 'colors.noticeColor !important'
           }
+        }
+      },
+      input: {
+        '@media  (max-width: 538px)': {
+          fontSize: 'small'
         }
       }
     },
@@ -67,13 +108,53 @@ const theme = createMuiTheme({
     MuiTab: {
       wrapper: {
         fontFamily: fonts.f2,
-        fontSize: '1.5rem',
+        fontSize: '1.3rem',
         '&:hover': {
           color: colors.noticeColor
+        }
+      }
+    },
+    MuiDialogActions: {
+      root: {
+        border: '.125rem solid black',
+        borderRadius: 4,
+        padding: 3,
+        position: 'absolute',
+        fontFamily: fonts.f3,
+        maxWidth: 'fit-content',
+        right: 30,
+        bottom: 16
+      }
+    },
+    MuiListItem: {
+      root: {
+        paddingTop: 0,
+        paddingBottom: 0
+      },
+      gutters: {
+        paddingLeft: 0
+      },
+      button: {
+        '&:hover': {
+          backgroundColor: 'none'
+        }
+      }
+    },
+    MuiBox: {
+      root: {
+        padding: '8px 0'
+      }
+    },
+    PrivateRadioButtonIcon: {
+      root: {
+        position: 'absolute',
+        paddingRight: 20,
+        color: colors.fontFourth,
+        '@media  (max-width: 734px)': {
+          paddingRight: 10
         }
       }
     }
   }
 });
-
 export default theme;

@@ -8,31 +8,25 @@ import theme from '../../styles/formStyle/formStyleTheme';
 import EmailIcon from '@material-ui/icons/Email';
 import LockIcon from '@material-ui/icons/Lock';
 import IconLabel from '../IconLabel/IconLabel';
-import AjaxUtils from '../../ajax';
+import {loginUser} from '../../redux/actions/user';
+import {connect} from 'react-redux';
 
 const LoginForm = (props) => {
-  const {submitLoginHandler} = props;
+  const {submitLoginHandler, login} = props;
 
   const handleCancel = () => {
-    submitLoginHandler({});
+    submitLoginHandler(null);
   };
 
   const submitLoginData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
-
-    const json = JSON.stringify({
-      login: values.email,
-      password: values.password
+    login(values.email, values.password, (result) => {
+      if (result && result.status !== 400) {
+        resetForm();
+      }
+      setSubmitting(false);
+      submitLoginHandler(result);
     });
-
-    AjaxUtils.Users.login(json)
-      .then(result => {
-        setSubmitting(false);
-        if (result.status !== 400) {
-          resetForm();
-        }
-        submitLoginHandler(result);
-      });
   };
   const initFormValues = {
     email: '',
@@ -54,19 +48,25 @@ const LoginForm = (props) => {
   const styles = useStyles();
 
   return (
-    <Card id="login-form">
-      <CardContent>
-        {/* <Typography className={styles.header} variant='h4' gutterBottom>registered customer</Typography> */}
-        <Typography className={styles.text} variant='caption' gutterBottom>
+    <ThemeProvider theme={theme}>
+      <Card id="login-form">
+        <CardContent>
+          <Typography className={styles.text} variant='caption' gutterBottom>
           If you have an account, please log in
-        </Typography>
-        <Formik
-          initialValues={initFormValues}
-          validationSchema={validateObject}
-          onSubmit={submitLoginData}>
-          {({values, handleChange, handleSubmit, handleBlur, isSubmitting, errors, touched, onChange}) => (
-            <form autoComplete='off'>
-              <ThemeProvider theme={theme}>
+          </Typography>
+          <Formik
+            initialValues={initFormValues}
+            validationSchema={validateObject}
+            onSubmit={submitLoginData}>
+            {({
+              values,
+              handleChange,
+              handleSubmit, handleBlur,
+              isSubmitting, errors,
+              touched
+            }) => (
+              <form autoComplete='off'>
+
                 <TextField
                   name='email'
                   autoComplete='off'
@@ -94,30 +94,31 @@ const LoginForm = (props) => {
                   error={touched.password && Boolean(errors.password)}
                   size='small'
                 />
-              </ThemeProvider>
-              {/* todo save user data for quick login */}
-              <CardActions>
-                <Button
-                  type='button'
-                  className={styles.button}
-                  onClick={handleCancel}
-                  size='large'
-                  variant='outlined'>cancel
-                </Button>
-                <Button
-                  type='submit'
-                  className={styles.button}
-                  onClick={handleSubmit}
-                  disabled={isSubmitting}
-                  size='large'
-                  variant='outlined'>login
-                </Button>
-              </CardActions>
-            </form>
-          )}
-        </Formik>
-      </CardContent>
-    </Card>
+                <CardActions>
+                  <Button
+                    type='button'
+                    className={styles.button}
+                    onClick={handleCancel}
+                    size='large'
+                    variant='outlined'>
+                    cancel
+                  </Button>
+                  <Button
+                    type='submit'
+                    className={styles.button}
+                    onClick={handleSubmit}
+                    disabled={isSubmitting}
+                    size='large'
+                    variant='outlined'>
+                    login
+                  </Button>
+                </CardActions>
+              </form>
+            )}
+          </Formik>
+        </CardContent>
+      </Card>
+    </ThemeProvider>
   );
 };
 
@@ -125,4 +126,10 @@ LoginForm.propTypes = {
   submitLoginHandler: PropTypes.func.isRequired
 };
 
-export default React.memo(LoginForm);
+const mapDispatchToProps = dispatch => {
+  return {
+    login: (email, password, callback) => dispatch(loginUser(email, password, callback))
+  };
+};
+
+export default React.memo(connect(null, mapDispatchToProps)(LoginForm));

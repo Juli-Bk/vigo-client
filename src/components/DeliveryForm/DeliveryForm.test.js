@@ -7,6 +7,7 @@ import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import store from '../../redux/store';
 import Sort from '../Sort/Sort';
+import { BrowserRouter } from 'react-router-dom';
 
 configure({adapter: new Adapter()});
 const deliveryOptions = {
@@ -15,27 +16,18 @@ const deliveryOptions = {
   UKRPOSHTA: 'UKRPOSHTA',
   PICKUP: 'PICKUP'
 };
-const updateField = (name, value) => {
-  updateField.simulate('change', {
-    persist: () => {
-    },
-    target: {
-      name,
-      value
-    }
-  });
-};
+
 describe('DeliveryForm with all expected props', () => {
-  const updateField = mount(<Provider store={store}><DeliveryForm /></Provider>);
+  const form = mount(<Provider store={store}><DeliveryForm /></Provider>);
   afterEach(() => {
   });
 
   it('Should display autocomplete form field', () => {
-    expect(updateField.find('input[name="delivery"]')).toBeTruthy();
+    expect(form.find('input[name="delivery"]')).toBeTruthy();
   });
 
-  it('switch function renders proper deliveryOptions', () => {
-    render(<Provider store={store}><Sort values={deliveryOptions}/></Provider>);
+  it('switch function renders properly deliveryOptions', () => {
+    render(<BrowserRouter><Provider store={store}><Sort values={deliveryOptions}/></Provider></BrowserRouter>);
     const options = document.querySelectorAll('option');
     expect(options.length).toBe(Object.values(deliveryOptions).length);
     expect(options[0].value).toBe(deliveryOptions.VIGO_COURIER_SERVICE);

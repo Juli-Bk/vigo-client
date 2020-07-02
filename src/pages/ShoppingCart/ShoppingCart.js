@@ -1,59 +1,60 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Container, Grid, useMediaQuery } from '@material-ui/core';
-import AjaxUtils from '../../ajax';
+import { Container, useMediaQuery } from '@material-ui/core';
 import globalConfig from '../../globalConfig';
-
-import ProductsTable from '../../containers/ProductsTable/ProductsTable';
+import { getProductsId } from './cartHelpers';
+import ShopCartView from '../../components/ShopCartView/ShopCartView';
 import EmptyState from '../../components/EmptyState/EmptyState';
+import {getProductsByFilters} from '../../redux/actions/products';
 
 const ShoppingCart = (props) => {
-  const {shoppingCart} = props;
-  const [products, setProducts] = useState([]);
+  const {shoppingCart, products, getProductsByFilters} = props;
   const isMobile = useMediaQuery('(max-width: 550px)');
-  const filterArray = (shoppingCart.length && [{_id: shoppingCart}]) || [];
+  const flag = useMemo(() => shoppingCart.length && products.data && products.data.length, [products.data, shoppingCart.length]);
 
   useEffect(() => {
-    // eslint-disable-next-line
     let isCanceled = false;
-
-    if (filterArray.length) {
-      AjaxUtils.Products.getProductsByFilters(filterArray, 1, 15, '')
-        .then(result => {
-          if (result && !result.message) {
-            setProducts(result.products);
-          }
-        });
+    if (!isCanceled) {
+      const productsId = getProductsId(shoppingCart);
+      const filterArray = (productsId.length && [{_id: productsId}]) || [];
+      getProductsByFilters(filterArray, 1, 15, '');
     }
     return () => {
       isCanceled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [shoppingCart]);
+  }, [shoppingCart, getProductsByFilters]);
 
   return (
     <Container>
-      <Grid container>
-        {shoppingCart.length && products.length
-          ? <ProductsTable
-            products={products}
-            isShoppingCart={true}
-            isMobile={isMobile}/>
-          : <EmptyState text={globalConfig.emptyCart}/>}
-      </Grid>
+      { flag
+        ? <ShopCartView
+          products={products.data}
+          isMobile={isMobile}/>
+        : <EmptyState text={globalConfig.cartMessages.EMPTY}/>}
     </Container>
   );
 };
 
+ShoppingCart.propTypes = {
+  shoppingCart: PropTypes.array,
+  products: PropTypes.object,
+  getProductsByFilters: PropTypes.func.isRequired
+};
+
 const mapStateToProps = store => {
   return {
-    shoppingCart: store.shoppingCart
+    shoppingCart: store.shoppingCart,
+    products: store.products
   };
 };
 
-ShoppingCart.propTypes = {
-  shoppingCart: PropTypes.array
+const mapDispatchToProps = dispatch => {
+  return {
+    getProductsByFilters: (filters, startPage, perPage, sort) => {
+      dispatch(getProductsByFilters(filters, startPage, perPage, sort));
+    }
+  };
 };
 
-export default connect(mapStateToProps)(React.memo(ShoppingCart));
+export default connect(mapStateToProps, mapDispatchToProps)(React.memo(ShoppingCart));

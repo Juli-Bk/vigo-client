@@ -1,6 +1,7 @@
 const globalConfig = {
   baseImgUrl: 'https://vigo-shop-aws-bucket.s3.eu-central-1.amazonaws.com',
   phoneNumberRegExp: /^\+?3?8?(0\d{9})$/,
+  postalCode: /\b\d{5}\b/g,
   priceIsInteger: true,
   contacts: {
     landline: ['0203 980 1479', '0203 478 1296'],
@@ -46,8 +47,6 @@ const globalConfig = {
     ZYTOMYR: 'Zhytomyr, Zhytomyr region'
   },
   maxRecentlyViewed: 8,
-  emptyWishList: 'You don`t have any items in your Wishlist',
-  emptyCart: 'You don`t have any items in your Shopping Cart',
   iconsLabels: {
     ADD_TO_WISHLIST: 'ADD TO WISHLIST',
     ADD_TO_COMPARE: 'ADD TO COMPARE'
@@ -59,17 +58,21 @@ const globalConfig = {
   },
   step: 15,
   defaultQuantity: 1,
+  wishListMessages: {
+    UPDATED: 'Your wishlist is updated',
+    EMPTY: 'You don`t have any items in your Wishlist'
+  },
+  cartMessages: {
+    CREATED: 'Shopping cart created for you',
+    UPDATED: 'Your shopping cart updated successfully',
+    ERROR: 'Shopping cart error happened. Try again, please',
+    IN_CART: 'This item is in your cart already',
+    EMPTY: 'You don`t have any items in your Shopping Cart'
+  },
   userMessages: {
     NOT_AUTHORIZED: 'You are not authorized. Login, please',
-    EMPTY_RESULT: 'Any results matching your search'
-  },
-  types: {
-    // eslint-disable-next-line
-    ELECTRON: '/^(4026|417500|4405|4508|4844|4913|4917)\d+$/',
-    // eslint-disable-next-line
-    MAESTRO: '/^(5018|5020|5038|5612|5893|6304|6759|6761|6762|6763|0604|6390)\d+$/',
-    VISA: '/^4[0-9]{12}(?:[0-9]{3})?$/',
-    MASTERCARD: '/^5[1-5][0-9]{14}$/'
+    EMPTY_RESULT: 'Any results matching your search',
+    SUBSCRIBED: 'You are successfully subscribed to our news letters!'
   },
   minDefaultPrice: 0,
   maxDefaultPrice: 3000,
@@ -89,7 +92,11 @@ const globalConfig = {
       original: 'https://vigo-shop-aws-bucket.s3.eu-central-1.amazonaws.com/img/top-slider/top_slider_3.jpg'
     }
   ],
-  tabsSliderNames: ['new arrivals', 'featured', 'special'],
+  tabsSliderNames: {
+    newArrivals: 'new arrivals',
+    featured: 'featured',
+    special: 'special'
+  },
   viewOptions: {
     module: 'module',
     list: 'list'
@@ -97,7 +104,16 @@ const globalConfig = {
   sizeRenderOptions: {
     ALL: 'all',
     ACCESSORIES: 'accessories'
-  }
+  },
+  defaultSizeOption: 'Select size',
+  defaultQuantityOption: 1,
+  snackSeverity: {
+    SUCCESS: 'success',
+    ERROR: 'error',
+    INFO: 'info'
+  },
+  defaultShipping: 0,
+  defaultTax: 0
 };
 
 export default globalConfig;

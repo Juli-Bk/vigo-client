@@ -10,7 +10,8 @@ const Banner = (props) => {
 
   return (
     <Link className={styles.link} to={link}>
-      <Box className={styles.banner} style={{backgroundImage: `url(${imageLink})`}}>
+      <Box className={styles.banner}
+        style={{backgroundImage: `url(${imageLink})`}}>
         {subtitle &&
         <Typography className={styles.subtitle} variant='h2'>
           {subtitle}

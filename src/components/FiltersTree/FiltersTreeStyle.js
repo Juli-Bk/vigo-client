@@ -7,7 +7,6 @@ const useStyles = makeStyles((theme) => {
     root: {
       flexGrow: 1,
       [theme.breakpoints.between(0, 724)]: {
-        padding: 25,
         width: 300
       }
     },

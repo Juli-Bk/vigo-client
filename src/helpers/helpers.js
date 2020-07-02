@@ -1,6 +1,4 @@
 import React from 'react';
-import { getQueryString, getUserIdFromCookie } from '../ajax/common/helper';
-import AjaxUtils from '../ajax';
 import globalConfig from '../globalConfig';
 
 export const formPriceString = (price, priceToCeil) => {
@@ -79,14 +77,6 @@ export const mapArrayToOptions = (array) => {
   });
 };
 
-export const makeNumbersArray = (number) => {
-  const array = [];
-  for (let i = 1; i <= Number(number); i++) {
-    array.push(i);
-  }
-  return array;
-};
-
 export const changeOrder = (arrayOfId, arrayOfObjects) => {
   const newObjectsArray = [];
   if (arrayOfObjects) {
@@ -103,109 +93,22 @@ export const changeOrder = (arrayOfId, arrayOfObjects) => {
 };
 
 export const getStorageData = (key) => {
-  return JSON.parse(localStorage.getItem(key)) || [];
+  const defaultUserValue = (key === 'user') ? {} : [];
+  return JSON.parse(localStorage.getItem(key)) || defaultUserValue;
 };
 
 export const setStorageData = (key, data) => {
   localStorage.setItem(key, JSON.stringify(data));
 };
 
-export const integrateData = (remoteWishList, localWishList) => {
+export const saveWishListToLS = (remoteWishList) => {
+  const localWishList = getStorageData('wishList');
   remoteWishList.forEach(product => {
-    if (!localWishList.includes(product._id)) localWishList.push(product._id);
+    if (!localWishList.includes(product._id)) {
+      localWishList.push(product._id);
+    }
   });
   setStorageData('wishList', localWishList);
-};
-
-export const integrateCart = (remoteCart, localCart) => {
-  remoteCart.forEach(item => {
-    if (!localCart.includes(item.productId)) localCart.push(item.productId);
-  });
-  setStorageData('shoppingCart', localCart);
-};
-
-export const toggleWishItems = (productId) => {
-  const userId = getUserIdFromCookie();
-  const wishListLocal = getStorageData('wishList');
-
-  if (wishListLocal.includes(productId)) {
-    setStorageData('wishList', wishListLocal.filter(item => item !== productId));
-
-    if (userId) {
-      AjaxUtils.WishLists.deleteProductFromWishlist(productId)
-        .then(result => {
-          if (result.status) {
-            // todo nice popup
-            alert(globalConfig.userMessages.NOT_AUTHORIZED);
-          }
-          console.log(result);
-        });
-    }
-  } else {
-    setStorageData('wishList', [...wishListLocal, productId]);
-
-    if (userId) {
-      AjaxUtils.WishLists.addProductToWishList(productId, userId)
-        .then(result => {
-          if (result.status) {
-            alert(globalConfig.userMessages.NOT_AUTHORIZED);
-          }
-          console.log(result);
-        });
-    }
-  }
-};
-
-export const cartHandler = (productId, quantity = 1) => {
-  const userId = getUserIdFromCookie();
-  const shopCartLocal = getStorageData('shoppingCart');
-  const cartId = JSON.parse(localStorage.getItem('cartId'));
-
-  const products = shopCartLocal.map(() => {
-    return {
-      productId,
-      cartQuantity: quantity
-    };
-  });
-
-  if (shopCartLocal.includes(productId)) {
-    setStorageData('shoppingCart', shopCartLocal.filter(item => item !== productId));
-  } else {
-    setStorageData('shoppingCart', [...shopCartLocal, productId]);
-  }
-  if (userId && !cartId) {
-    AjaxUtils.ShopCart.getUserShopCart(userId)
-      .then(result => {
-        if (result.message) {
-          AjaxUtils.ShopCart.createShopCart(userId, products)
-            .then(result => {
-              // todo nice popup
-              console.log(result);
-              setStorageData('cartId', result._id);
-            });
-        } else {
-          AjaxUtils.ShopCart.updateShopCartById(result._id, products, result.userId)
-            .then(result => {
-              // todo nice popup
-              console.log(result);
-              setStorageData('cartId', result._id);
-            });
-        }
-      });
-  } else if (!userId && cartId) {
-    AjaxUtils.ShopCart.updateShopCartById(cartId, products)
-      .then(result => {
-        // todo nice popup
-        console.log(result);
-      });
-  } else {
-    AjaxUtils.ShopCart.createShopCart(null, products)
-      .then(result => {
-        // todo nice popup
-        console.log(result);
-        setStorageData('cartId', result._id);
-      });
-  }
 };
 
 export const defineSortData = (option) => {
@@ -226,4 +129,121 @@ export const makeFilterItem = (string) => {
   const key = filterString[0];
   const value = filterString[1];
   return {[key]: value};
+};
+
+export const getMaxQuantity = (productQuantity, size) => {
+  if (productQuantity && productQuantity.length) {
+    if (size && size !== globalConfig.defaultSizeOption) {
+      const product = productQuantity.find(item => item.sizeId.name === size);
+      if (product && product.quantity) return product.quantity || 0;
+    }
+  }
+};
+
+export const getProductStockData = (quantityArray, productId) => {
+  if (quantityArray && quantityArray.length) {
+    const productQuantity = quantityArray.find(item => item.productId === productId);
+    if (productQuantity && productQuantity.inStock.length) {
+      return productQuantity.inStock || [];
+    }
+  }
+};
+
+export const getColorData = (quantityArray) => {
+  if (quantityArray && quantityArray.length) {
+    return {
+      name: capitalize(quantityArray[0] && quantityArray[0].colorId.name),
+      id: quantityArray[0].colorId._id
+    };
+  } else {
+    return {
+      name: '',
+      id: ''
+    };
+  }
+};
+
+export const getChosenSizeId = (productQuantity, chosenSize) => {
+  if (productQuantity && chosenSize) {
+    const item = productQuantity.find(item => item.sizeId.name === chosenSize);
+    if (item && item.sizeId) {
+      return item.sizeId._id || '';
+    }
+  }
+};
+
+export const getSizesArray = (productQuantity) => {
+  const sizesArray = [];
+  if (productQuantity && productQuantity.length) {
+    productQuantity.forEach(item => {
+      sizesArray.push(item.sizeId.name);
+    });
+    sizesArray.unshift(globalConfig.defaultSizeOption);
+  }
+  return sizesArray;
+};
+
+export const has = (object, key) => {
+  return object ? hasOwnProperty.call(object, key) : false;
+};
+
+export const getFiltersArray = (filtersObject) => {
+  const array = Object.entries(filtersObject);
+  const arrayOfObj = [];
+  array.forEach(item => {
+    arrayOfObj.push({[item[0]]: item[1]});
+  });
+  return arrayOfObj || [];
+};
+
+export const getFilterString = (parsed, field, target) => {
+  if (parsed[field]) {
+    if (!parsed[field].includes(target)) {
+      parsed[field] += `,${target}`;
+    } else {
+      const array = parsed[field].split(',');
+      parsed[field] = array.filter(el => el !== target).join(',');
+    }
+  } else {
+    parsed[field] = target;
+  }
+  parsed.startPage = 1;
+  return parsed;
+};
+
+export const getUrlData = (parsed, prop) => {
+  const initialState = {};
+  if (parsed[prop]) {
+    const colorsArray = parsed[prop].split(',');
+    colorsArray.forEach(name => {
+      initialState[name] = true;
+    });
+  }
+  return initialState;
+};
+
+export const getColorsState = (allColors, dataFromSearchString) => {
+  let state = {};
+  allColors.forEach(item => {
+    state = {...state, [item.name]: false};
+  });
+  return Object.assign({}, state, dataFromSearchString);
+};
+
+export const getSizesState = (allSizes, dataFromSearchString) => {
+  let state = {};
+  allSizes.forEach(name => {
+    state = {...state, [name]: false};
+  });
+  return Object.assign({}, state, dataFromSearchString);
+};
+
+export const deleteProps = (object, props) => {
+  const newObj = Object.assign({}, object);
+  props.forEach(prop => {
+    if (newObj[prop]) {
+      delete newObj[prop];
+    }
+  });
+  return newObj;
 };

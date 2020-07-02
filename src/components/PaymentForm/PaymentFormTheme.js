@@ -18,25 +18,15 @@ const theme = createMuiTheme({
         }
       }
     },
-    MuiTypography: {
-      colorPrimary: {
-        color: 'transparent'
-      },
-      root: {
-        marginBottom: 20
-      }
-    },
     MuiListItem: {
       root: {
         paddingTop: 0,
-        paddingBottom: 0,
-        fontSize: 12
+        paddingBottom: 5
       },
       gutters: {
         paddingLeft: 0
       }
     }
-
   }
 }
 );

@@ -1,6 +1,6 @@
-import { configure, mount } from 'enzyme';
+import {configure, mount} from 'enzyme';
 import React from 'react';
-import { Provider } from 'react-redux';
+import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
 import expect from 'expect';
 import {wait} from '@testing-library/react';
@@ -17,7 +17,7 @@ const invalidFirstName = 'nn';
 const validLastNameValue = 'someLastName';
 const invalidLastNameValue = 'test';
 
-const validPhoneValue = '+38(098)1112233';
+const validPhoneValue = '+380507978622';
 
 const validEmail = 'testEm';
 
@@ -44,19 +44,38 @@ describe('PersonalDetailsForm with all expected props', () => {
   };
 
   const store = mockStore({
-    setUser: jest.fn()
+    setUser: jest.fn(),
+    user: {
+      isAdmin: true,
+      enabled: true,
+      _id: '5ece726eef69850025d7f1ca',
+      login: 'anna.lypovenko@gmail.com',
+      email: 'anna.lypovenko@gmail.com',
+      password: '$2a$10$x.lYjl3BhyRV6X2b4jd3luJTS8jJadck64aluOLkQ67z72Lf9517i',
+      createdDate: '2020-05-27T14:00:14.746Z',
+      __v: 1,
+      lastLoginDate: '2020-06-20T06:57:51.967Z',
+      avatarUrl: null,
+      firstName: 'Анна',
+      lastName: 'Липовенко1',
+      phoneNumber: '+380507978622',
+      updatedDate: '2020-06-19T00:00:00.000Z',
+      addresses: []
+    }
   });
 
   beforeEach(async () => {
     onSubmitCallback = jest.fn();
 
     await wait(() => {
-      wrapper = mount(<Provider store={store}><PersonalDetailsForm user={user} submitPersonalDetailsHandler={onSubmitCallback}/></Provider>);
+      wrapper = mount(<Provider store={store}>
+        <PersonalDetailsForm user={user} saveUserAddressesHandler={onSubmitCallback}/>
+      </Provider>);
     });
   });
 
   afterEach(() => {
-    wrapper.unmount();
+    wrapper && wrapper.unmount();
   });
 
   it('Should display New customer header', () => {

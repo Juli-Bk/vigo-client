@@ -1,11 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Box, makeStyles, Tab, Tabs, ThemeProvider, withWidth} from '@material-ui/core';
 import TabPanel from './TabPanel';
 import TabSlider from './TabSlider';
 import theme from './TabsSlidersTheme';
 import {colors} from '../../styles/colorKit';
-import AjaxUtils from '../../ajax';
+import { getFeatured, getNewArrivals, getSpecial } from '../../redux/actions/products';
 import globalConfig from '../../globalConfig';
 
 function a11yProps (index) {
@@ -35,45 +36,47 @@ const useStyles = makeStyles(() => ({
 
 const TabsSliders = (props) => {
   const classes = useStyles();
-  const {width} = props;
-
-  const [newArrivals, setNewArrivals] = useState([]);
-  const [featured, setFeatured] = useState([]);
-  const [special, setSpecial] = useState([]);
+  const {width, featured, special, newArrivals, getFeatured, getSpecial, getNewArrivals} = props;
   const [value, setValue] = useState(0);
+  const slidersArray = [featured, special, newArrivals].filter(item => item.data && item.data.length > 0);
 
   useEffect(() => {
     let isCanceled = false;
     if (!isCanceled) {
-      AjaxUtils.Products
-        .getProductsByFilters([{new: true}], 1, 15, '')
-        .then(result => {
-          const newIn = result && result.products ? result.products : [];
-          setNewArrivals(newIn);
-        });
-      AjaxUtils.Products
-        .getProductsByFilters([{featured: true}], 1, 15, '')
-        .then(result => {
-          const featured = result && result.products ? result.products : [];
-          setFeatured(featured);
-        });
-      AjaxUtils.Products
-        .getProductsByFilters([{special: true}], 1, 15, '')
-        .then(result => {
-          const specials = result && result.products ? result.products : [];
-          setSpecial(specials);
-        });
+      getFeatured();
+      getSpecial();
+      getNewArrivals();
     }
     return () => {
       isCanceled = true;
     };
+  }, [getFeatured, getNewArrivals, getSpecial]);
+
+  const handleChange = useCallback((event, newValue) => {
+    setValue(newValue);
   }, []);
 
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-  };
+  const getSliders = useCallback(array => {
+    return array.map((item, index) => {
+      return (
+        <TabPanel value={value} index={index} key={index} width={width}>
+          <TabSlider data={item.data} width={width}/>
+        </TabPanel>
+      );
+    });
+  }, [value, width]);
 
-  const orientation = width === 'xs' ? 'vertical' : 'horizontal';
+  const getTabLabels = useCallback(array => {
+    return array.map((item, index) => {
+      return <Tab label={globalConfig.tabsSliderNames[item.name]}
+        {...a11yProps(index)}
+        key={index}
+        disableRipple={true}
+        className={classes.tab}/>;
+    });
+  }, [classes.tab]);
+
+  const orientation = useMemo(() => width === 'xs' ? 'vertical' : 'horizontal', [width]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -83,27 +86,39 @@ const TabsSliders = (props) => {
             orientation={orientation}
             onChange={handleChange}
             aria-label="tabs-for-sliders">
-            {globalConfig.tabsSliderNames.map((name, index) => {
-              return (<Tab label={name} {...a11yProps(index)} key={index} disableRipple={true} className={classes.tab}/>);
-            })}
+            {slidersArray.length ? getTabLabels(slidersArray) : null}
           </Tabs>
         </Box>
-        <TabPanel value={value} index={0} key={0} width={width}>
-          <TabSlider data={newArrivals} width={width}/>
-        </TabPanel>
-        <TabPanel value={value} index={1} key={1} width={width}>
-          <TabSlider data={featured} width={width}/>
-        </TabPanel>
-        <TabPanel value={value} index={2} key={2} width={width}>
-          <TabSlider data={special} width={width}/>
-        </TabPanel>
+        {slidersArray.length ? getSliders(slidersArray) : null}
       </div>
     </ThemeProvider>
   );
 };
 
 TabsSliders.propTypes = {
-  width: PropTypes.string.isRequired
+  width: PropTypes.string.isRequired,
+  featured: PropTypes.object.isRequired,
+  special: PropTypes.object.isRequired,
+  newArrivals: PropTypes.object.isRequired,
+  getFeatured: PropTypes.func.isRequired,
+  getSpecial: PropTypes.func.isRequired,
+  getNewArrivals: PropTypes.func.isRequired
 };
 
-export default React.memo(withWidth()(TabsSliders));
+const mapStateToProps = store => {
+  return {
+    featured: store.products.featured,
+    special: store.products.special,
+    newArrivals: store.products.newArrivals
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getFeatured: () => dispatch(getFeatured()),
+    getSpecial: () => dispatch(getSpecial()),
+    getNewArrivals: () => dispatch(getNewArrivals())
+  };
+};
+
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(withWidth()(TabsSliders)));

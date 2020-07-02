@@ -1,92 +1,84 @@
-import React, {useEffect, useState} from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
+import queryString from 'query-string';
 import {ThemeProvider} from '@material-ui/core';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import AjaxUtils from '../../../ajax';
-import { setChosenColor } from '../../../redux/actions/actions';
+import { getAllColors } from '../../../redux/actions/colors';
 import theme from './FilterColorsTheme';
 import useStyles from './FilterColorsStyles';
+import { getFilterString, getUrlData, getColorsState } from '../../../helpers/helpers';
 
 const FilterColors = (props) => {
-  const {setChosenColor, colorsInStorage} = props;
-  const [state, setState] = useState({});
-  const [uniqColorNames, setUniqColorNames] = useState([]);
+  const {allColors, getAllColors, history, location} = props;
   const classes = useStyles();
+  const parsed = useMemo(() => queryString.parse(location.search), [location.search]);
+  const dataFromSearchString = useMemo(() => getUrlData(parsed, 'color'), [parsed]);
 
-  const createCheckboxes = (namesArray) => {
+  const state = useMemo(() =>
+    getColorsState(allColors, dataFromSearchString),
+  [allColors, dataFromSearchString]);
+
+  useEffect(() => {
+    let isCanceled = false;
+
+    if (!isCanceled) {
+      getAllColors();
+    }
+    return () => {
+      isCanceled = true;
+    };
+  }, [getAllColors]);
+
+  const handleChange = useCallback((event) => {
+    const updatedParsed = getFilterString(parsed, 'color', event.target.name);
+    const updatedSearch = queryString.stringify(updatedParsed);
+    history.push(`/products/filter?${updatedSearch}`);
+  }, [history, parsed]);
+
+  const createCheckboxes = useCallback((namesArray) => {
     return namesArray.map(color => {
       return <FormControlLabel
         className={classes.label}
+        checked={state[color.name]}
         key={color.name + color.hex}
         label={color.name}
         control={
           <Checkbox
             onChange={handleChange}
             name={color.name}
-            color="primary"
-            style={{
-              color: color.hex.toLowerCase() === '#ffffff' ? '#f9f9f9' : color.hex
-            }}
+            color="default"
           />
         }/>;
     });
-  };
-
-  useEffect(() => {
-    let isCanceled = false;
-    if (!isCanceled) {
-      AjaxUtils.Colors.getAllColors()
-        .then(result => {
-          const colorsSet = new Map();
-          result.colors.forEach(color => {
-            colorsSet.set(color.baseColorName, {
-              name: color.baseColorName,
-              hex: color.hex
-            });
-          });
-  
-          const colors = Array.from(colorsSet).map(item => item[1]);
-          setUniqColorNames(colors);
-        });
-    }
-    return () => {
-      isCanceled = true;
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [state, colorsInStorage, setChosenColor]);
-
-  const handleChange = (event) => {
-    setState({
-      ...state,
-      [event.target.name]: event.target.checked
-    });
-    setChosenColor(event.target.name);
-  };
+  }, [classes.label, handleChange, state]);
 
   return (
     <ThemeProvider theme={theme}>
-      {uniqColorNames.length && createCheckboxes(uniqColorNames)}
+      {allColors && allColors.length && createCheckboxes(allColors)}
     </ThemeProvider>
   );
 };
 
 FilterColors.propTypes = {
-  colorsInStorage: PropTypes.array,
-  setChosenColor: PropTypes.func.isRequired
+  getAllColors: PropTypes.func.isRequired,
+  allColors: PropTypes.array.isRequired,
+  history: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired
 };
 
 const mapStateToProps = store => {
   return {
-    colorsInStorage: store.colors
+    allColors: store.allColors
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    setChosenColor: color => dispatch(setChosenColor(color))
+    getAllColors: () => dispatch(getAllColors())
   };
 };
 
-export default React.memo(connect(mapStateToProps, mapDispatchToProps)(FilterColors));
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(withRouter(FilterColors)));

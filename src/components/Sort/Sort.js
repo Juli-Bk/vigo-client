@@ -1,24 +1,29 @@
-import React from 'react';
+import React, { useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import {withRouter} from 'react-router';
+import queryString from 'query-string';
 import { connect } from 'react-redux';
-import SelectSimple from '../Select/SelectSimple';
+import SelectBox from '../SelectBox/SelectBox';
 import { setSortingOption } from '../../redux/actions/actions';
-import useStyles from '../Select/SelectSimpleStyles';
+import useStyles from './SortStyles';
 
 const Sort = (props) => {
-  const { sortingOption, setSortingOption, values } = props;
+  const { sortingOption, setSortingOption, values, history, location } = props;
+  const parsed = useMemo(() => queryString.parse(location.search), [location.search]);
   const classes = useStyles();
 
-  const handleChange = (event) => {
+  const handleChange = useCallback((event) => {
     setSortingOption(event.target.value);
-  };
+    const updatedSearch = queryString.stringify(parsed);
+    history.push(`/products/filter?${updatedSearch}`);
+  }, [history, parsed, setSortingOption]);
 
   const options = Object.values(values).map(value => {
     return <option value={value} key={value}>{value}</option>;
   });
 
   return (
-    <SelectSimple value={sortingOption}
+    <SelectBox value={sortingOption}
       classes={classes}
       handleChange={handleChange}
       options={options}
@@ -41,7 +46,9 @@ const mapDispatchToProps = dispatch => {
 Sort.propTypes = {
   sortingOption: PropTypes.string.isRequired,
   setSortingOption: PropTypes.func.isRequired,
-  values: PropTypes.object.isRequired
+  values: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired,
+  location: PropTypes.object.isRequired
 };
 
-export default React.memo(connect(mapStateToProps, mapDispatchToProps)(Sort));
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(withRouter(Sort)));

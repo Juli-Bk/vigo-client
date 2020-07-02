@@ -9,9 +9,9 @@ import {
   Grid
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import useStyles from '../CardForm/CardFormStyle';
+import useStyles from '../../styles/formStyle/formStyle';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import theme from '../CardForm/CardFormTheme';
+import theme from '../../styles/formStyle/formStyleTheme';
 import globalConfig from '../../globalConfig';
 
 const {regions} = globalConfig;
@@ -19,17 +19,7 @@ const {regions} = globalConfig;
 const NovaPoshtaCity = (props) => {
   const {submitNovaPoshtaHandler} = props;
 
-  // todo get values from BD to render them in checkout
-  const submitNovaPoshtaData = (values, {resetForm, setSubmitting}) => {
-    setSubmitting(true);
-    console.log('novaposhta', values);
-    submitNovaPoshtaHandler(values, () => {
-      setSubmitting(false);
-      resetForm();
-    });
-  };
   const options = Object.values(regions);
-  // const [value, setValue] = useState(regions[0]);
   const [inputValue, setInputValue] = useState('');
 
   const styles = useStyles();
@@ -45,7 +35,6 @@ const NovaPoshtaCity = (props) => {
       .required(),
     city: Yup.string()
       .label('Delivery City')
-      .required()
   });
 
   return (
@@ -55,7 +44,7 @@ const NovaPoshtaCity = (props) => {
           <Formik
             initialValues={initFormValues}
             validationSchema={validateObject}
-            onSubmit={submitNovaPoshtaData}>
+            onSubmit={submitNovaPoshtaHandler}>
             {({
               isSubmitting,
               handleChange,
@@ -63,21 +52,17 @@ const NovaPoshtaCity = (props) => {
               handleSubmit,
               values,
               errors,
-              touched
+              touched,
+              onChange
             }) => (
               <form>
                 <Autocomplete
                   id='open-on-focus'
                   name='city'
-                  // defaultValue={value}
-                  // onChange={(event, newValue) => {
-                  //   console.log('newvalue', newValue);
-                  //   setValue(newValue);
-                  // }}
+                  onChange={(event, newValue) => {
+                  }}
                   inputValue={inputValue}
                   onInputChange={(event, newInputValue) => {
-                    console.log('newinput', newInputValue);
-                    console.log('newinput', typeof newInputValue);
                     setInputValue(newInputValue);
                   }}
                   options={options}
@@ -89,22 +74,27 @@ const NovaPoshtaCity = (props) => {
                       className={styles.input}
                       value=""
                       onBlur={handleBlur}
+                      onChange={handleChange}
                       helperText={(errors.city && touched.city) && errors.city}
                       error={touched.city && Boolean(errors.city)}
                       label='Choose the city to deliver'
-                      variant='outlined' />}
+                      variant='outlined'
+                      size='small'
+                    />}
                 />
                 <TextField
                   name='npOffice'
                   autoComplete='on'
                   className={styles.input}
-                  defaultValue={values.npOffice}
-                  onBlur={handleBlur}
+                  type='npOffice'
                   label='choose nova poshta post office №'
-                  onChange={handleChange('npOffice')}
-                  helperText={touched.npOffice ? errors.npOffice : ''}
-                  error={touched.npOffice && Boolean(errors.npOffice)}
+                  value={values.npOffice}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  helperText={(errors.npOffice && touched.npOffice) && errors.npOffice}
+                  error={errors.npOffice && touched.npOffice}
                   variant='outlined'
+                  size='small'
                   fullWidth
                 />
                 <CardActions>
@@ -121,7 +111,6 @@ const NovaPoshtaCity = (props) => {
             )}
           </Formik>
         </Grid>
-
       </Grid>
     </ThemeProvider>
   );

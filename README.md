@@ -38,7 +38,6 @@ To build the app for production to the `build` folder:
 ### Students
 
 * [Yuliia Bozhek](https://gitlab.com/Juli-Bk) 
-* [Victor Yalinich](https://gitlab.com/yalinichv)
 * [Larysa Chepurna](https://gitlab.com/alisa444.86)
 * [Stan Bondar](https://gitlab.com/StanBondar)
 * [Anna Lypovenko](https://gitlab.com/AnnaLypovenko)

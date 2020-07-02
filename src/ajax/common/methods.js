@@ -1,18 +1,26 @@
 export default {
   GET: {
     method: 'GET',
-    redirect: 'follow'
+    redirect: 'follow',
+    withCredentials: true,
+    credentials: 'include'
   },
   PUT: {
     method: 'PUT',
-    redirect: 'follow'
+    redirect: 'follow',
+    withCredentials: true,
+    credentials: 'include'
   },
   POST: {
     method: 'POST',
-    redirect: 'follow'
+    redirect: 'follow',
+    withCredentials: true,
+    credentials: 'include'
   },
   DELETE: {
     method: 'DELETE',
-    redirect: 'follow'
+    redirect: 'follow',
+    withCredentials: true,
+    credentials: 'include'
   }
 };
