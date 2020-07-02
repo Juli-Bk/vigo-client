@@ -14,12 +14,27 @@ const testData = {
 
 describe('banner testing', () => {
   it('banner renders title properly', () => {
-    const card = render(<BrowserRouter><Banner imageLink={testData.imageLink} title={testData.title} alert={testData.alert} link={testData.link} linkText={testData.linkText} /></BrowserRouter>);
+    const card = render(
+      <BrowserRouter>
+        <Banner imageLink={testData.imageLink}
+          title={testData.title}
+          alert={testData.alert}
+          link={testData.link}
+          linkText={testData.linkText} />
+      </BrowserRouter>);
     const title = card.getByText(testData.title);
     expect(title).toBeInTheDocument();
   });
   it('banner renders subtitle properly', () => {
-    const card = render(<BrowserRouter><Banner subtitle={testData.subtitle} imageLink={testData.imageLink} title={testData.title} alert={testData.alert} link={testData.link} linkText={testData.linkText} /></BrowserRouter>);
+    const card = render(
+      <BrowserRouter>
+        <Banner subtitle={testData.subtitle}
+          imageLink={testData.imageLink}
+          title={testData.title}
+          alert={testData.alert}
+          link={testData.link}
+          linkText={testData.linkText} />
+      </BrowserRouter>);
     const subtitle = card.getByText(testData.subtitle);
     expect(subtitle).toBeInTheDocument();
   });

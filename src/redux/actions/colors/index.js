@@ -1,10 +1,6 @@
 import Actions from '../../constants/constants';
 import AjaxUtils from '../../../ajax';
 
-export const setChosenColor = (color) => {
-  return {type: Actions.SET_CHOSEN_COLOR, payload: color};
-};
-
 export const getAllColors = () => dispatch => {
   AjaxUtils.Colors.getAllColors()
     .then(result => {

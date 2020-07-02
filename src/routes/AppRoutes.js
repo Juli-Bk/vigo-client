@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, Switch} from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Home from '../pages/Home/Home';
 import Product from '../pages/Product/Product';
 import Products from '../pages/Products/Products';
@@ -25,10 +25,9 @@ const AppRoutes = () => {
   return (
     <>
       <Route path='/:page?' component={Header}/>
-      <AutoScrollTop >
+      <AutoScrollTop>
         <Switch>
           <Route exact path='/' component={Home}/>
-
           <Route exact path='/products/filter' component={Products}/>
           <Route exact path='/products/:id' component={Product}/>
           <Route exact path='/products' component={Products}/>
@@ -47,7 +46,7 @@ const AppRoutes = () => {
           <Route exact path='/recovery' component={RestorePswrdForm}/>
 
           <ProtectedRoute
-            authenticated={!!getJWTfromCookie()}
+            authenticated={getJWTfromCookie()}
             exact path='/account'
             component={MyAccount}/>
           <Route path='*' component={Page404}/>

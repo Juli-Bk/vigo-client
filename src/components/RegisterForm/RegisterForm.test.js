@@ -5,7 +5,8 @@ import {wait} from '@testing-library/react';
 import Typography from '@material-ui/core/Typography';
 import RegisterForm from './RegisterForm';
 import Adapter from 'enzyme-adapter-react-16';
-
+import {Provider} from 'react-redux';
+import store from '../../redux/store';
 configure({adapter: new Adapter()});
 
 const validEmailValue = 'test@test.test';
@@ -30,7 +31,7 @@ describe('RegisterForm with all expected props', () => {
     onSubmitCallback = jest.fn();
 
     await wait(() => {
-      wrapper = mount(<RegisterForm submitRegisterHandler={onSubmitCallback}/>);
+      wrapper = mount(<Provider store={store}><RegisterForm submitRegisterHandler={onSubmitCallback}/></Provider>);
     });
   });
 

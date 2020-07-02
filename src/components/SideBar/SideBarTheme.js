@@ -2,7 +2,7 @@ import { createMuiTheme } from '@material-ui/core/styles';
 
 const theme = createMuiTheme({
   overrides: {
-    MuiTreeView: {
+    MuiPaper: {
       root: {
         padding: '15px !important'
       }

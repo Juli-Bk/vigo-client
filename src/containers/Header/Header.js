@@ -73,14 +73,17 @@ const Header = (props) => {
                     <IconButton aria-label="starIcon" className={classes.starIcon}>
                       <FavoriteBorderIcon/>
                     </IconButton>
-                    <span className={classes.digit}>{wishList.length}</span>
+                    {wishList.length
+                      ? <span className={classes.digit}>{wishList.length}</span>
+                      : null}
                   </Link>
-
                   <Link to='/cart' className={classes.link}>
                     <IconButton aria-label="shoppingBag" className={classes.shoppingBag}>
                       <LocalMallOutlinedIcon/>
                     </IconButton>
-                    <span className={classes.digit}>{shoppingCart.length}</span>
+                    {shoppingCart.length
+                      ? <span className={classes.digit}>{shoppingCart.length}</span>
+                      : null}
                   </Link>
                   {userIsLoggedIn && <ProfileMenu/>}
                   <ModalLogin/>

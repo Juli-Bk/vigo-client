@@ -2,11 +2,10 @@ import React, { useCallback, useEffect, useMemo } from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 
-import { Box, ThemeProvider, TableContainer, Grid } from '@material-ui/core';
+import {Box, ThemeProvider, TableContainer, Grid} from '@material-ui/core';
 
-import { setStorageData } from '../../helpers/helpers';
 import {
-  findItemInCart,
+  findItemsInCart,
   getChosenProductData,
   getItemStockData,
   updateCartData,
@@ -24,7 +23,14 @@ import TableDesktopView from './Tables/TableDesktopView';
 import TotalSum from './TotalSum/TotalSum';
 
 const ShopCartView = (props) => {
-  const {isMobile, products, changeShoppingCart, shoppingCart, productsQuantity, getProductsQuantity} = props;
+  const {
+    isMobile,
+    products,
+    changeShoppingCart,
+    shoppingCart,
+    productsQuantity,
+    getProductsQuantity
+  } = props;
   const classes = useStyles();
 
   useEffect(() => {
@@ -35,53 +41,61 @@ const ShopCartView = (props) => {
     getProductsQuantity(idArray);
   }, [getProductsQuantity, products]);
 
-  const deleteFromShopCart = (id) => {
-    deleteFromCart(id);
+  const deleteFromShopCart = (productId, sizeId) => {
+    deleteFromCart(productId, sizeId);
     changeShoppingCart();
   };
 
-  const handleQuantity = (id, number) => {
-    const updatedProduct = updateProductQuantity(id, number, shoppingCart);
-    const updatedCart = updateCartData(shoppingCart, id, updatedProduct);
-
-    setStorageData('shoppingCart', updatedCart);
+  const handleQuantity = (productId, number, sizeId) => {
+    const updatedProduct = updateProductQuantity(productId, number, shoppingCart, sizeId);
+    updateCartData(shoppingCart, productId, updatedProduct, sizeId);
     changeShoppingCart();
-    addToCart(id, number, updatedProduct.sizeId);
+    addToCart(productId, number, updatedProduct.sizeId, updatedProduct.colorId);
   };
 
-  const getCartData = useCallback((productId) => {
-    const itemInCart = findItemInCart(productId, shoppingCart);
-    const itemStockData = getItemStockData(productsQuantity, productId);
-    const item = getChosenProductData(itemStockData, itemInCart);
+  const getCartData = useCallback(product => {
+    const itemsInCart = findItemsInCart(product._id, shoppingCart);
+    const itemStockData = getItemStockData(productsQuantity, product._id);
+    const items = getChosenProductData(itemStockData, itemsInCart);
 
-    return {
-      size: item && item.sizeId.name,
-      quantity: itemInCart && itemInCart.cartQuantity,
-      color: item && item.colorId.name,
-      totalQuantity: item && item.quantity
-    };
+    const productsData = [];
+    items.forEach((item, index) => {
+      productsData.push({
+        imgUrl: product.imageUrls[0],
+        name: product.name,
+        size: item && item.sizeId.name,
+        sizeId: item && item.sizeId._id,
+        color: item && item.colorId.name,
+        productCode: product.productId,
+        price: product.price,
+        id: product._id,
+        salePrice: product.salePrice,
+        isOnSale: product.isOnSale,
+        quantity: itemsInCart[index] && itemsInCart[index].cartQuantity,
+        totalQuantity: item && item.quantity
+      });
+    });
+    return productsData;
   }, [shoppingCart, productsQuantity]);
 
-  const rows = products.map(product => {
-    return {
-      imgUrl: product.imageUrls[0],
-      name: product.name,
-      color: getCartData(product._id).color,
-      size: getCartData(product._id).size,
-      productCode: product.productId,
-      price: product.price,
-      id: product._id,
-      salePrice: product.salePrice,
-      isOnSale: product.isOnSale,
-      quantity: getCartData(product._id).quantity
-    };
-  });
+  const getRows = useCallback((products) => {
+    const rows = [];
+    if (products.length && productsQuantity.length && shoppingCart.length) {
+      products.forEach(product => {
+        const productData = getCartData(product);
+        rows.push(...productData);
+      });
+    }
+    return rows;
+  }, [getCartData, productsQuantity.length, shoppingCart.length]);
+
+  const rows = useMemo(() => getRows(products), [getRows, products]);
 
   const subTotal = useMemo(() => getTotalSum(rows), [rows]);
 
   return (
     <ThemeProvider theme={theme}>
-      {shoppingCart.length && products.length &&
+      {shoppingCart.length && productsQuantity.length && products.length &&
               <Grid container direction='column' justify='center'>
                 <Grid item>
                   <TableContainer component={Box}>
@@ -89,7 +103,6 @@ const ShopCartView = (props) => {
                       ? <TableMobileView
                         classes={classes}
                         handleQuantity={handleQuantity}
-                        getCartData={getCartData}
                         rows={rows}
                         deleteFromShopCart={deleteFromShopCart}
                         productsAmount={products.length}
@@ -97,7 +110,6 @@ const ShopCartView = (props) => {
                       : <TableDesktopView
                         classes={classes}
                         handleQuantity={handleQuantity}
-                        getCartData={getCartData}
                         rows={rows}
                         deleteFromShopCart={deleteFromShopCart}
                       />}
