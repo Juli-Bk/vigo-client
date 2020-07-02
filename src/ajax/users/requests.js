@@ -268,6 +268,24 @@ export default {
       .catch(error => console.log('restorePasswordLetter error', error.message));
   },
   /**
+   * Sends confirmation letter for new email address
+   * @param email {String} - email address to confirm
+   * @returns {Promise<Response | void>} returns Promise. Use then method on it to get response resultl
+   */
+  sendConfirmLetter: (email) => {
+    if (!email) throw new TypeError('specify email address');
+
+    return fetch(`${pathTo.confirmation}?email=${email}`, methods.POST)
+      .then(async (response) => {
+        const respData = await response.json();
+        return Object.assign({
+          status: response.status,
+          statusText: response.statusText
+        }, respData);
+      })
+      .catch(error => console.log('sendConfirmLetter error', error.message));
+  },
+  /**
    * Updates user password with new value
    * @param formData {Object} contains user email and newPassword
    *      example: {newPassword: "password", email: "user@email.com"}

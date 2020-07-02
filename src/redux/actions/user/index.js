@@ -8,7 +8,7 @@ import {
   putUserIdToCookie
 } from '../../../ajax/common/helper';
 import Actions from '../../constants/constants';
-import {setLoading, setLoginModalOpenState, setSnackMessage} from '../actions';
+import {setLoading, setSnackMessage} from '../actions';
 
 export const setJWTtoken = (token) => {
   return {
@@ -38,6 +38,34 @@ export const setUserDeliveryAddress = (deliveryAdr) => {
   };
 };
 
+export const registerUser = (userData, callback) => {
+  return (dispatch) => {
+    AjaxUtils.Users.createUser(userData)
+      .then(result => {
+        if (result && result.status !== 400) {
+          const token = result.token;
+          if (token) {
+            putJWTtoCookie(token);
+            dispatch(setJWTtoken(token.token));
+          }
+
+          if (result.user) {
+            putUserIdToCookie(result);
+            dispatch(setUser(result.user));
+            dispatch(sendConfirmLetter(result.user.email));
+          }
+          setUserIsLoggedIn(true);
+        }
+        callback && callback(result);
+      })
+      .catch((error) => {
+        console.log(error);
+        dispatch(clear());
+        callback && callback();
+      });
+  };
+};
+
 export const loginUser = (email, password, callback) => {
   return (dispatch) => {
     const fingerprint = window.navigator.userAgent;
@@ -60,6 +88,7 @@ export const loginUser = (email, password, callback) => {
             putUserIdToCookie(result);
             dispatch(setUser(result.user));
           }
+          setUserIsLoggedIn(true);
         }
         callback(result);
       })
@@ -114,7 +143,6 @@ export const refreshToken = (callback) => {
       .then(newToken => {
         if (newToken) {
           putJWTtoCookie(newToken);
-          console.log(newToken);
           dispatch(setJWTtoken(newToken.token));
         } else {
           dispatch(clear());
@@ -123,7 +151,6 @@ export const refreshToken = (callback) => {
       })
       .catch(() => {
         dispatch(clear());
-        dispatch(setLoginModalOpenState(true));
       });
   };
 };
@@ -210,6 +237,29 @@ export const confirmMyEmail = (email, callback) => {
 export const sendRecoverPasswordLetter = (email, callback) => {
   return (dispatch) => {
     AjaxUtils.Users.restorePasswordLetter(email)
+      .then((result) => {
+        if (result && result.status !== 400) {
+          dispatch(setSnackMessage(true,
+            result.message,
+            'success'));
+        } else {
+          dispatch(setSnackMessage(true,
+            result.message,
+            'error'));
+        }
+        dispatch(setLoading(false));
+        callback && callback(result);
+      })
+      .catch(error => {
+        console.log(error);
+        dispatch(setLoading(false));
+      });
+  };
+};
+
+export const sendConfirmLetter = (email, callback) => {
+  return (dispatch) => {
+    AjaxUtils.Users.sendConfirmLetter(email)
       .then((result) => {
         if (result && result.status !== 400) {
           dispatch(setSnackMessage(true,

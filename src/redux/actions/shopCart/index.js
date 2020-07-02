@@ -1,5 +1,5 @@
 import Actions from '../../constants/constants';
-import { getUserIdFromCookie, isGuid } from '../../../ajax/common/helper';
+import {getUserIdFromCookie, isGuid} from '../../../ajax/common/helper';
 import AjaxUtils from '../../../ajax';
 import { integrateCarts } from '../../../pages/ShoppingCart/cartHelpers';
 import {getStorageData, setStorageData} from '../../../helpers/helpers';
