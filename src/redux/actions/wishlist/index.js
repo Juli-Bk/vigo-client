@@ -1,6 +1,6 @@
 import Actions from '../../constants/constants';
 import { getStorageData, saveWishListToLS, setStorageData } from '../../../helpers/helpers';
-import {getUserIdFromCookie} from '../../../ajax/common/helper';
+import { getUserIdFromCookie, isGuid } from '../../../ajax/common/helper';
 import AjaxUtils from '../../../ajax';
 import globalConfig from '../../../globalConfig';
 
@@ -12,7 +12,7 @@ export const changeWishList = () => {
 export const getUserWishList = () => {
   return (dispatch) => {
     const userId = getUserIdFromCookie();
-    if (userId) {
+    if (userId && isGuid(userId)) {
       AjaxUtils.WishLists.getUserWishList(userId)
         .then(result => {
           const wishes = result.userWishList[0];
@@ -36,7 +36,7 @@ export const toggleWishItems = (productId) => dispatch => {
     const wishList = wishListLocal.filter(item => item !== productId);
     setStorageData('wishList', wishList);
 
-    if (userId) {
+    if (userId && isGuid(userId)) {
       AjaxUtils.WishLists.deleteProductFromWishlist(productId)
         .then(result => {
           if (result.status) {
@@ -60,7 +60,7 @@ export const toggleWishItems = (productId) => dispatch => {
     const wishList = [...wishListLocal, productId];
     setStorageData('wishList', wishList);
 
-    if (userId) {
+    if (userId && isGuid(userId)) {
       AjaxUtils.WishLists.addProductToWishList(productId, userId)
         .then(result => {
           if (result.status !== 200) {

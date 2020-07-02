@@ -21,7 +21,6 @@ const MenuLink = (props) => {
         event.preventDefault();
         if (event.isSimulated !== undefined) {
           history.push(href);
-          console.log('setted');
           setCategoryId(categoryId);
           setCurrentPage(1);
           toggleMenuOpen(false);
