@@ -1,5 +1,5 @@
 import Actions from '../../constants/constants';
-import {getUserIdFromCookie} from '../../../ajax/common/helper';
+import {getUserIdFromCookie, isGuid} from '../../../ajax/common/helper';
 import AjaxUtils from '../../../ajax';
 import {integrateCarts} from '../../../pages/ShoppingCart/cartHelpers';
 import {getStorageData, setStorageData} from '../../../helpers/helpers';
@@ -13,7 +13,7 @@ export const changeShoppingCart = () => {
 export const getUserShopCart = () => {
   return (dispatch) => {
     const userId = getUserIdFromCookie();
-    if (userId) {
+    if (userId && isGuid(userId)) {
       AjaxUtils.ShopCart.getUserShopCart(userId)
         .then(result => {
           if (result && result.status !== 400) {

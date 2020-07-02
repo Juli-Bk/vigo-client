@@ -47,7 +47,7 @@ const AppRoutes = () => {
           <Route exact path='/recovery' component={RestorePswrdForm}/>
 
           <ProtectedRoute
-            authenticated={!!getJWTfromCookie()}
+            authenticated={getJWTfromCookie()}
             exact path='/account'
             component={MyAccount}/>
           <Route path='*' component={Page404}/>
