@@ -1,15 +1,24 @@
-import React, { useCallback, useState, useEffect } from 'react';
+import React, { useCallback, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
+import queryString from 'query-string';
 import { ThemeProvider, Checkbox, FormControlLabel } from '@material-ui/core';
 import theme from '../FilterColors/FilterColorsTheme';
 import { setChosenSize, getAllSizes } from '../../../redux/actions/sizes';
 import globalConfig from '../../../globalConfig';
+import { getFilterString, getSizesState, getUrlData } from '../../../helpers/helpers';
 
 const FilterSizes = (props) => {
-  const { categories, location, setChosenSize, allSizes, getAllSizes } = props;
-  const [state, setState] = useState({});
+  const { categories, location, allSizes, getAllSizes, history } = props;
+  const parsed = useMemo(() => queryString.parse(location.search), [location.search]);
+  const dataFromSearchString = useMemo(() => getUrlData(parsed, 'size'), [parsed]);
+  const state = useCallback(() => {
+    if (allSizes.names && allSizes.names.length) {
+      getSizesState(allSizes.names, dataFromSearchString);
+    }
+  }, [dataFromSearchString, allSizes.names]);
+
   let renderOption = globalConfig.sizeRenderOptions.ALL;
 
   useEffect(() => {
@@ -60,8 +69,9 @@ const FilterSizes = (props) => {
   }
 
   const handleChange = (event) => {
-    setState({...state, [event.target.name]: event.target.checked});
-    setChosenSize(event.target.name);
+    const updatedParsed = getFilterString(parsed, 'size', event.target.name);
+    const updatedSearch = queryString.stringify(updatedParsed);
+    history.push(`/products/filter?${updatedSearch}`);
   };
 
   const getCheckboxes = () => {
@@ -70,6 +80,7 @@ const FilterSizes = (props) => {
       return <FormControlLabel
         key={name}
         label={name}
+        checked={state[name]}
         control={<Checkbox
           onChange={handleChange}
           name={name}
@@ -78,7 +89,7 @@ const FilterSizes = (props) => {
   };
 
   return (<ThemeProvider theme={theme}>
-    {Object.keys(allSizes).length > 0 && getCheckboxes()}
+    {allSizes.names && allSizes.names.length > 0 && getCheckboxes()}
   </ThemeProvider>);
 };
 

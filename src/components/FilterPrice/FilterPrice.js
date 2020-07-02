@@ -1,6 +1,8 @@
 import React, {useEffect, useCallback} from 'react';
 import PropTypes from 'prop-types';
+import {withRouter} from 'react-router';
 import { Box, makeStyles, ThemeProvider } from '@material-ui/core';
+import queryString from 'query-string';
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux';
 import CustomSlider from './CustomSlider';
@@ -31,7 +33,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const FilterPrice = (props) => {
-  const { maxPrice, filters, setPriceRange, getMaxPrice } = props;
+  const { maxPrice, filters, setPriceRange, getMaxPrice, location, history } = props;
   const classes = useStyles(theme);
 
   useEffect(() => {
@@ -47,7 +49,13 @@ const FilterPrice = (props) => {
 
   const handleChange = useCallback((event, values) => {
     setPriceRange(values);
-  }, [setPriceRange]);
+    // todo delete redux
+    const parsed = queryString.parse(location.search);
+    parsed.minPrice = values[0];
+    parsed.maxPrice = values[1];
+    const updatedSearch = queryString.stringify(parsed);
+    history.push(`/products/filter?${updatedSearch}`);
+  }, [history, location.search, setPriceRange]);
 
   return (
     <ThemeProvider theme={theme}>
@@ -88,4 +96,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default React.memo(connect(mapStateToProps, mapDispatchToProps)(FilterPrice));
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(withRouter(FilterPrice)));

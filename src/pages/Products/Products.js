@@ -1,11 +1,12 @@
-import React, {useEffect, useCallback} from 'react';
+import React, { useEffect, useCallback, useMemo } from 'react';
 import {Container, Grid, useMediaQuery} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import useStyles from './ProductsStyles';
 import globalConfig from '../../globalConfig';
-import {defineSortData, getFiltersArray} from '../../helpers/helpers';
+import {defineSortData, getFiltersArray, deleteProps} from '../../helpers/helpers';
+import queryString from 'query-string';
 
 import ProductGrid from '../../containers/ProductsGrid/ProductsGrid';
 import ProductsList from '../../containers/ProductsList/ProductsList';
@@ -20,33 +21,31 @@ import {getProductsByFilters} from '../../redux/actions/products';
 
 const Products = (props) => {
   const {
-    currentPage,
     perPage,
-    sortingOption,
     view,
     location,
     getProductsByFilters,
-    products,
-    filters
+    products
   } = props;
-  const isSmScreen = useMediaQuery('(max-width: 723px)');
+
   const classes = useStyles();
+  const isSmScreen = useMediaQuery('(max-width: 723px)');
+  const filters = useMemo(() => queryString.parse(location.search), [location.search]);
+  const sort = filters.sort || defineSortData(globalConfig.sortOptions.New_In);
+  const startPage = filters.startPage || 1;
   const searchString = location.search.split('?')[1];
 
   const getFilteredData = useCallback(() => {
-    const sort = defineSortData(sortingOption);
-    const filtersArray = getFiltersArray(filters);
-    getProductsByFilters(filtersArray, currentPage, perPage, sort);
-  }, [currentPage, filters, getProductsByFilters, perPage, sortingOption]);
+    const updatedFilters = deleteProps(filters, ['sort', 'startPage', 'perPage']);
+    const filtersArray = getFiltersArray(updatedFilters);
+    getProductsByFilters(filtersArray, startPage, perPage, sort);
+  }, [filters, getProductsByFilters, perPage, sort, startPage]);
 
   useEffect(() => {
     let isCanceled = false;
 
     if (!isCanceled) {
       getFilteredData();
-
-      // todo url string with all filters
-      // history.replace(`/products/filter?categoryId=${categoryId}&${getFilterString(filtersArray, defineSortData(sortingOption))}`);
     }
     return () => {
       isCanceled = true;
@@ -110,9 +109,6 @@ const Products = (props) => {
 };
 
 Products.propTypes = {
-  currentPage: PropTypes.number.isRequired,
-  perPage: PropTypes.number.isRequired,
-  sortingOption: PropTypes.string.isRequired,
   view: PropTypes.string.isRequired,
   getProductsByFilters: PropTypes.func.isRequired,
   filters: PropTypes.object.isRequired,
@@ -121,9 +117,7 @@ Products.propTypes = {
 
 const mapStateToProps = store => {
   return {
-    currentPage: store.currentPage,
     perPage: store.productsPerPage,
-    sortingOption: store.sortingOption,
     view: store.view,
     products: store.products,
     filters: store.filters

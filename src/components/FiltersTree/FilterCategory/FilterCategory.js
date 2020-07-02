@@ -5,13 +5,14 @@ import {withRouter} from 'react-router';
 import useStyles from '../FiltersTreeStyle';
 import StyledTreeItem from '../../StyledTreeItem/StyledTreeItem';
 import {setCategoryId} from '../../../redux/actions/categories';
+import queryString from 'query-string';
 
 import theme from '../FilterColors/FilterColorsTheme';
 import {ThemeProvider} from '@material-ui/core';
 import {setCurrentPage} from '../../../redux/actions/actions';
 
 const FiltersCategory = (props) => {
-  const {categories, history, setCategoryId, setCurrentPage} = props;
+  const {categories, history, setCategoryId, setCurrentPage, location} = props;
   const classes = useStyles();
 
   const getStyledTreeItem = useCallback((category) => {
@@ -29,7 +30,8 @@ const FiltersCategory = (props) => {
       className={classes[level.toString()]}
       label={`${name}`}
       onLabelClick={(event) => {
-        history.push(`/products/filter?categoryId=${category.id}`);
+        const searchString = queryString.stringify({categoryId: category.id});
+        history.push(`/products/filter?${searchString}`);
         setCategoryId(category.id);
         setCurrentPage(1);
       }}

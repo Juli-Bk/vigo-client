@@ -1,16 +1,22 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {withRouter} from 'react-router';
+import queryString from 'query-string';
 import { connect } from 'react-redux';
 import SelectBox from '../SelectBox/SelectBox';
 import { setSortingOption } from '../../redux/actions/actions';
 import useStyles from '../SelectBox/SelectBoxStyles';
+import { defineSortData } from '../../helpers/helpers';
 
 const Sort = (props) => {
-  const { sortingOption, setSortingOption, values } = props;
+  const { sortingOption, setSortingOption, values, history, location } = props;
   const classes = useStyles();
-
   const handleChange = (event) => {
     setSortingOption(event.target.value);
+    const parsed = queryString.parse(location.search);
+    parsed.sort = defineSortData(event.target.value);
+    const updatedSearch = queryString.stringify(parsed);
+    history.push(`/products/filter?${updatedSearch}`);
   };
 
   const options = Object.values(values).map(value => {
@@ -44,4 +50,4 @@ Sort.propTypes = {
   values: PropTypes.object.isRequired
 };
 
-export default React.memo(connect(mapStateToProps, mapDispatchToProps)(Sort));
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(withRouter(Sort)));
