@@ -9,7 +9,6 @@ import CustomSlider from './CustomSlider';
 import {getMaxPrice} from '../../redux/actions/products';
 import { theme } from './FilterPriceTheme';
 import globalConfig from '../../globalConfig';
-import { colors } from '../../styles/colorKit';
 
 const useStyles = makeStyles(theme => ({
   margin: {
@@ -18,13 +17,13 @@ const useStyles = makeStyles(theme => ({
   filterPrice: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'space-around',
-    paddingTop: '.5rem'
+    paddingTop: '.5rem',
+    paddingLeft: 4
   },
   label: {
     fontSize: '1.3rem',
     marginRight: '.5rem',
-    color: colors.paginationColor
+    color: 'rgba(0,0,0,0.54)'
   }
 }));
 
