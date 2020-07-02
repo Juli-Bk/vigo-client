@@ -4,6 +4,7 @@ import {fonts} from '../../styles/fonts/fontsKit';
 
 const useStyles = makeStyles(theme => ({
   title: {
+    padding: 20,
     fontSize: '1.25rem',
     fontWeight: '700',
     fontFamily: fonts.f2,
@@ -16,6 +17,9 @@ const useStyles = makeStyles(theme => ({
     fontFamily: fonts.f2,
     color: colors.fontPrimary,
     marginBottom: '.63rem'
+  },
+  bigText: {
+    padding: 30
   }
 }));
 

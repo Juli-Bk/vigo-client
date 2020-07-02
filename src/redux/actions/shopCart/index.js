@@ -1,7 +1,7 @@
 import Actions from '../../constants/constants';
 import {getUserIdFromCookie, isGuid} from '../../../ajax/common/helper';
 import AjaxUtils from '../../../ajax';
-import {integrateCarts} from '../../../pages/ShoppingCart/cartHelpers';
+import { integrateCarts } from '../../../pages/ShoppingCart/cartHelpers';
 import {getStorageData, setStorageData} from '../../../helpers/helpers';
 import globalConfig from '../../../globalConfig';
 
@@ -35,7 +35,7 @@ export const setTotalSum = (sum) => {
 export const handleCart = (products) => dispatch => {
   const userId = getUserIdFromCookie();
   const cartId = getStorageData('cartId');
-  if (userId) {
+  if (userId && isGuid(userId)) {
     AjaxUtils.ShopCart.getUserShopCart(userId)
       .then(result => {
         if (result.message) {

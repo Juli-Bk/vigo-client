@@ -13,7 +13,3 @@ export const getAllSizes = () => dispatch => {
       }
     });
 };
-
-export const setChosenSize = (size) => {
-  return {type: Actions.SET_CHOSEN_SIZE, payload: size};
-};

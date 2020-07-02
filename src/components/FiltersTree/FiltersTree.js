@@ -7,7 +7,6 @@ import useStyles from './FiltersTreeStyle';
 import StyledTreeItem from '../StyledTreeItem/StyledTreeItem';
 import FilterColorsTreeItem from './FilterColors/FilterColorsTreeItem';
 import FilterSizesTreeItem from './FilterSizes/FilterSizesTreeItem';
-import {setCategoryId} from '../../redux/actions/categories';
 
 import RemoveIcon from '@material-ui/icons/Remove';
 import AddIcon from '@material-ui/icons/Add';
@@ -74,10 +73,4 @@ const mapStoreToProps = store => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setCategoryId: categoryId => dispatch(setCategoryId(categoryId))
-  };
-};
-
-export default connect(mapStoreToProps, mapDispatchToProps)(React.memo(withRouter(FiltersTree)));
+export default connect(mapStoreToProps)(React.memo(withRouter(FiltersTree)));

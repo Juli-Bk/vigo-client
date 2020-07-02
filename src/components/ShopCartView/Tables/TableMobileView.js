@@ -8,7 +8,7 @@ import globalConfig from '../../../globalConfig';
 import Quantity from '../../Product/Quantity/Quantity';
 
 const TableMobileView = (props) => {
-  const {rows, classes, getCartData, handleQuantity, productsAmount, deleteFromShopCart} = props;
+  const {rows, classes, handleQuantity, productsAmount, deleteFromShopCart} = props;
   return (
     <Table aria-label="products table">
       <TableHead>
@@ -20,7 +20,7 @@ const TableMobileView = (props) => {
       </TableHead>
       <TableBody>
         {rows.map(row => (
-          <TableRow key={row.id} className={classes.tableRow}>
+          <TableRow key={row.id + row.size} className={classes.tableRow}>
             <TableCell component="th" scope="row" className={classes.firstCell}>
               <Box className={classes.linkBox}>
                 <CardMedia image={row.imgUrl} className={classes.img}/>
@@ -28,7 +28,7 @@ const TableMobileView = (props) => {
                   data-testid='deleteIcon'
                   className={classes.closeIcon}
                   onClick={() => {
-                    deleteFromShopCart(row.id);
+                    deleteFromShopCart(row.id, row.sizeId);
                   }}/>
               </Box>
               <Box className={classes.textBox}>
@@ -50,7 +50,8 @@ const TableMobileView = (props) => {
                 </Typography>
                 <Quantity
                   quantity={row.quantity}
-                  max={getCartData(row.id).totalQuantity}
+                  max={row.totalQuantity}
+                  sizeId={row.sizeId}
                   id={row.id}
                   classes={classes}
                   handleQuantity={handleQuantity}

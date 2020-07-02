@@ -18,6 +18,7 @@ const useStyles = makeStyles(theme => (
       fontFamily: fonts.f4,
       fonFamily: fonts.f2,
       textTransform: 'uppercase',
+      fontSize: 'large',
       [theme.breakpoints.up(724)]: {
         fontSize: '1.6rem'
       },
@@ -58,6 +59,22 @@ const useStyles = makeStyles(theme => (
       color: colors.borderLight,
       marginBottom: 15
     },
+    closeIconAddress: {
+      position: 'absolute',
+      right: 0,
+      top: 0,
+      fill: `2px solid ${colors.borderLight}`,
+      '&:hover': {
+        borderRadius: 6,
+        border: `2px solid ${colors.fontFourth}`,
+        cursor: 'pointer'
+      },
+      [theme.breakpoints.down(550)]: {
+        position: 'absolute',
+        top: '5px',
+        right: '1rem'
+      }
+    },
     text: {
       color: colors.phPrimary,
       margin: '6px 0',
@@ -81,7 +98,10 @@ const useStyles = makeStyles(theme => (
       marginTop: '1.6rem',
       marginBottom: 7,
       fonFamily: fonts.f2,
-      textTransform: 'uppercase'
+      textTransform: 'uppercase',
+      [theme.breakpoints.down(420)]: {
+        fontSize: 'inherit'
+      }
     },
     inputSmall: {
       textAlign: 'center',

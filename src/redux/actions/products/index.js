@@ -3,8 +3,8 @@ import AjaxUtils from '../../../ajax';
 import { changeOrder, getStorageData, setStorageData } from '../../../helpers/helpers';
 
 export const getProductsByFilters = (filterArray, startPage, perPage, sort) => dispatch => {
-  dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
   if (filterArray && filterArray.length) {
+    dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
     AjaxUtils.Products.getProductsByFilters(filterArray, startPage, perPage, sort)
       .then(result => {
         if (result) {
@@ -30,13 +30,6 @@ export const getMaxPrice = () => dispatch => {
     }).catch(err => {
       console.log('get max price request failed', err);
     });
-};
-
-export const addFilters = (filtersObj) => {
-  return {
-    type: Actions.ADD_FILTERS,
-    payload: filtersObj
-  };
 };
 
 export const getFeatured = () => dispatch => {

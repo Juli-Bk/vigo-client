@@ -1,6 +1,4 @@
 import React from 'react';
-import {getUserIdFromCookie} from '../ajax/common/helper';
-import AjaxUtils from '../ajax';
 import globalConfig from '../globalConfig';
 
 export const formPriceString = (price, priceToCeil) => {
@@ -79,15 +77,6 @@ export const mapArrayToOptions = (array) => {
   });
 };
 
-// todo need this?
-export const makeNumbersArray = (number) => {
-  const array = [];
-  for (let i = 1; i <= Number(number); i++) {
-    array.push(i);
-  }
-  return array;
-};
-
 export const changeOrder = (arrayOfId, arrayOfObjects) => {
   const newObjectsArray = [];
   if (arrayOfObjects) {
@@ -120,39 +109,6 @@ export const saveWishListToLS = (remoteWishList) => {
     }
   });
   setStorageData('wishList', localWishList);
-};
-
-export const toggleWishItems = (productId) => {
-  const userId = getUserIdFromCookie();
-  const wishListLocal = getStorageData('wishList');
-
-  if (wishListLocal.includes(productId)) {
-    const wishList = wishListLocal.filter(item => item !== productId);
-    setStorageData('wishList', wishList);
-
-    if (userId) {
-      AjaxUtils.WishLists.deleteProductFromWishlist(productId)
-        .then(result => {
-          if (result.status) {
-            // todo nice popup
-            alert(globalConfig.userMessages.NOT_AUTHORIZED);
-          }
-        });
-    }
-  } else {
-    const wishList = [...wishListLocal, productId];
-    setStorageData('wishList', wishList);
-
-    if (userId) {
-      AjaxUtils.WishLists.addProductToWishList(productId, userId)
-        .then(result => {
-          if (result.status !== 200) {
-            // todo nice popup
-            alert(globalConfig.userMessages.NOT_AUTHORIZED);
-          }
-        });
-    }
-  }
 };
 
 export const defineSortData = (option) => {
@@ -240,28 +196,54 @@ export const getFiltersArray = (filtersObject) => {
   return arrayOfObj || [];
 };
 
-export const getCategoryId = (searchString) => {
-  let categoryId = '';
-  if (searchString && searchString.includes('categoryId')) {
-    const stringPart = searchString.split('categoryId=')[1];
-
-    if (stringPart.includes('&')) {
-      categoryId = stringPart.split('&')[0];
+export const getFilterString = (parsed, field, target) => {
+  if (parsed[field]) {
+    if (!parsed[field].includes(target)) {
+      parsed[field] += `,${target}`;
     } else {
-      categoryId = stringPart;
+      const array = parsed[field].split(',');
+      parsed[field] = array.filter(el => el !== target).join(',');
     }
+  } else {
+    parsed[field] = target;
   }
-  return categoryId;
+  parsed.startPage = 1;
+  return parsed;
 };
 
-// todo need this?
-export const getFiltersFromUrl = (searchString, callBack) => {
-  if (searchString && searchString.includes('&')) {
-    const filterStrings = searchString.split('&');
-    filterStrings.forEach(string => {
-      callBack(makeFilterItem(string));
+export const getUrlData = (parsed, prop) => {
+  const initialState = {};
+  if (parsed[prop]) {
+    const colorsArray = parsed[prop].split(',');
+    colorsArray.forEach(name => {
+      initialState[name] = true;
     });
-  } else {
-    callBack(makeFilterItem(searchString));
   }
+  return initialState;
+};
+
+export const getColorsState = (allColors, dataFromSearchString) => {
+  let state = {};
+  allColors.forEach(item => {
+    state = {...state, [item.name]: false};
+  });
+  return Object.assign({}, state, dataFromSearchString);
+};
+
+export const getSizesState = (allSizes, dataFromSearchString) => {
+  let state = {};
+  allSizes.forEach(name => {
+    state = {...state, [name]: false};
+  });
+  return Object.assign({}, state, dataFromSearchString);
+};
+
+export const deleteProps = (object, props) => {
+  const newObj = Object.assign({}, object);
+  props.forEach(prop => {
+    if (newObj[prop]) {
+      delete newObj[prop];
+    }
+  });
+  return newObj;
 };
