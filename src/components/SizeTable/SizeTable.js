@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 import useStyles from './SizeTableStyle';
 import { TableContainer, Table, TableHead, TableRow, TableCell, TableBody, Paper } from '@material-ui/core';
 import { withStyles } from '@material-ui/styles';
@@ -7,6 +7,7 @@ import requests from '../../ajax/sizeTables/requests';
 const { getSizeTableByProductId } = requests;
 
 const StyledTableCell = withStyles((theme) => ({
+
   head: {
     backgroundColor: theme.palette.common.black,
     color: theme.palette.common.white,
@@ -28,23 +29,73 @@ const StyledTableRow = withStyles((theme) => ({
 
 const SizeTable = (props) => {
   const { id } = props;
+  const [data, setData] = useState([]);
   const styles = useStyles();
 
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = getSizeTableByProductId(id);
+      const array = await data;
+      if (array[1].sizeId.sizeType === 'shoes') {
+        setData(array.map(el => ({
+          size: el.sizeId.name,
+          sizeMeasures: [{
+            'Foot length': `${el.footLength.cm}cm/${el.footLength.inches}in`
+          }]
+        })));
+      };
+      if (array[1].sizeId.sizeType === 'belts') {
+        setData(array.map(el => ({
+          size: el.sizeId.name,
+          sizeMeasures: [{
+            Length: `${el.length.cm}cm/${el.length.inches}in`
+          }]
+        })));
+      };
+      if (array[1].sizeId.sizeType === 'clothing') {
+        setData(array.map(el => ({
+          size: el.sizeId.name,
+          sizeMeasures: [{
+            Bust: `${el.bust.cm}cm/${el.bust.inches}in`
+          }, {
+            Waist: `${el.waist.cm}cm/${el.waist.inches}in`
+          }, {
+            Hips: `${el.hips.cm}cm/${el.hips.inches}in`
+          }]
+        })));
+      };
+      if (array[1].sizeId.sizeType === 'hats') {
+        setData(array.map(el => ({
+          size: el.sizeId.name,
+          sizeMeasures: [{
+            'Head size': `${el.headSize.cm}cm/${el.headSize.inches}in`
+          }]
+        })));
+      };
+      if (array[1].sizeId.sizeType === 'scarves') {
+        setData(array.map(el => ({
+          size: el.sizeId.name,
+          sizeMeasures: [{
+            Length: `${el.length.cm}cm/${el.length.inches}in`
+          }]
+        })));
+      };
+      if (array[1].sizeId.sizeType === 'one size') {
+        setData(array.map(el => ({
+          size: el.sizeId.name,
+          sizeMeasures: [{
+            Length: `${el.length.cm}cm/${el.length.inches}in`
+          }]
+        })));
+      };
+    };
+    fetchData();
+  }, [id]);
+  
   function createData (size, sizeType, smLenghth, inchesLength) {
     return { size, sizeType, smLenghth, inchesLength };
   }
 
-  const fetchData = async () => {
-    const data = getSizeTableByProductId(id);
-    const array = await data;
-    if (array[1].sizeId.sizeType === 'shoes') {
-      console.log('It is shoes');
-    };
-    return array;
-  };
-
-  const data = fetchData();
-  
   const rows = [
     createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
     createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
@@ -52,6 +103,14 @@ const SizeTable = (props) => {
     createData('Cupcake', 305, 3.7, 67, 4.3),
     createData('Gingerbread', 356, 16.0, 49, 3.9)
   ];
+
+  // function createData (size, array) {
+  //   return { size, arrayData: array };
+  // }
+
+  // const rows = data.map(el => {
+  //   createData(el.size, el.sizeMeasures)
+  // });
 
   return (
     <TableContainer component={Paper}>
@@ -81,4 +140,4 @@ const SizeTable = (props) => {
   );
 };
 
-export default SizeTable;
+export default React.memo(SizeTable);

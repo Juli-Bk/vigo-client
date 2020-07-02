@@ -16,7 +16,7 @@ const Contacts = () => {
         {/* <ContactForm /> */}
         {/* <ContactDetails /> */}
       </Grid>
-      <SizeTable id="5ee4ebcb87ae95ab81b85ff7"/>
+      <SizeTable id="5ee4ebc187ae95ab81b85fcf"/>
     </Container>
   );
 };
