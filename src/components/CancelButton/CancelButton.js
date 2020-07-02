@@ -1,21 +1,50 @@
-import React from 'react';
-import useStyles from '../../styles/formStyle/formStyle';
+import React, { useCallback } from 'react';
+import { Button, makeStyles, Box } from '@material-ui/core';
+import { colors } from '../../styles/colorKit';
+import { fonts } from '../../styles/fonts/fontsKit';
+import {withRouter} from 'react-router';
+import queryString from 'query-string';
+import { deleteProps } from '../../helpers/helpers';
 
-import Button from '@material-ui/core/Button';
+const useStyles = makeStyles(() => ({
+  container: {
+    display: 'flex',
+    justifyContent: 'center'
+  },
+  button: {
+    color: colors.paginationColor,
+    fontWeight: 700,
+    fontFamily: fonts.f3,
+    border: `.125rem solid ${colors.paginationActive}`,
+    fonFamily: fonts.f2,
+    textTransform: 'uppercase',
+    marginBottom: '1rem'
+  }
+}));
 
 const CancelButton = (props) => {
-  const {handleSubmit} = props;
   const classes = useStyles();
+  const {location, history} = props;
+
+  const clearFilters = useCallback(() => {
+    const parsed = queryString.parse(location.search);
+    const props = ['sort', 'minPrice', 'maxPrice', 'color', 'size', 'perPage', 'startPage'];
+    const cleared = deleteProps(parsed, props);
+    const updatedSearch = queryString.stringify(cleared);
+    history.push(`/products/filter?${updatedSearch}`);
+  }, [history, location.search]);
 
   return (
-    <Button
-      className={classes.button}
-      type='submit'
-      onClick={handleSubmit}
-      size='large'
-      variant='outlined'>
-        Cancel
-    </Button>
+    <Box className={classes.container}>
+      <Button
+        className={classes.button}
+        type='submit'
+        onClick={clearFilters}
+        size='large'
+        variant='outlined'>
+        Clear All Filters
+      </Button>
+    </Box>
   );
 };
-export default React.memo(CancelButton);
+export default React.memo(withRouter(CancelButton));

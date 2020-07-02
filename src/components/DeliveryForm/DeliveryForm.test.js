@@ -7,6 +7,7 @@ import { render } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import store from '../../redux/store';
 import Sort from '../Sort/Sort';
+import { BrowserRouter } from 'react-router-dom';
 
 configure({adapter: new Adapter()});
 const deliveryOptions = {
@@ -26,7 +27,7 @@ describe('DeliveryForm with all expected props', () => {
   });
 
   it('switch function renders properly deliveryOptions', () => {
-    render(<Provider store={store}><Sort values={deliveryOptions}/></Provider>);
+    render(<BrowserRouter><Provider store={store}><Sort values={deliveryOptions}/></Provider></BrowserRouter>);
     const options = document.querySelectorAll('option');
     expect(options.length).toBe(Object.values(deliveryOptions).length);
     expect(options[0].value).toBe(deliveryOptions.VIGO_COURIER_SERVICE);

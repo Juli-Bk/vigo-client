@@ -5,13 +5,10 @@ import useStyles from './BannerLineHomePageStyle';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import config from '../../globalConfig';
-import {setCategoryId} from '../../redux/actions/categories';
 
 const BannerLineHomePage = props => {
   const {categories, setCategoryId} = props;
   const [menLink, setMenLink] = useState('/products');
-  const [menCategory, setMenCategory] = useState('');
-  const [girlsCategory, setGirlsCategory] = useState('');
   const [girlsLink, setGirlsLink] = useState('');
   const styles = useStyles();
 
@@ -20,10 +17,8 @@ const BannerLineHomePage = props => {
       categories.forEach(item => {
         if (item.name === 'women') {
           setGirlsLink(`/products/filter?categoryId=${item.id}`);
-          setGirlsCategory(item.id);
         } else if (item.name === 'men') {
           setMenLink(`/products/filter?categoryId=${item.id}&new=true`);
-          setMenCategory(item.id);
         }
       });
     }
@@ -35,7 +30,6 @@ const BannerLineHomePage = props => {
         <Banner title='New men collection'
           alert={false}
           link={menLink}
-          filter={{ categoryId: menCategory, new: true }}
           linkText='buy it now &gt;'
           imageLink={config.baseImgUrl + '/img/banners/newMenCollection.jpg'}/>
       </Grid>
@@ -43,7 +37,6 @@ const BannerLineHomePage = props => {
         <Banner title='Our new arrivals'
           alert={false}
           link={'/products/filter?new=true'}
-          filter={{new: true}}
           linkText='shop new in &gt;'
           imageLink={config.baseImgUrl + '/img/banners/newArrivals.jpg'}/>
       </Grid>
@@ -53,14 +46,12 @@ const BannerLineHomePage = props => {
             alert={true}
             subtitle='the half price summer'
             link='/products/filter?isOnSale=true'
-            filter={{isOnSale: true}}
             imageLink={config.baseImgUrl + '/img/banners/sale.jpg'}/>
         </Box>
         <Box className={styles.halfSize}>
           <Banner title='girls'
             alert={false}
             link={girlsLink}
-            filter={{ categoryId: girlsCategory }}
             imageLink={config.baseImgUrl + '/img/banners/girls.jpg'}/>
         </Box>
       </Grid>
@@ -78,10 +69,4 @@ const mapStateToProps = store => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setCategoryId: id => dispatch(setCategoryId(id))
-  };
-};
-
-export default React.memo(connect(mapStateToProps, mapDispatchToProps)(BannerLineHomePage));
+export default React.memo(connect(mapStateToProps)(BannerLineHomePage));

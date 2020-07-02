@@ -44,7 +44,6 @@ const CustomSlider = withStyles({
       left: '50%'
     }
   },
-  // material ui needs this empty rule
   active: {},
   track: {
     width: '90%',
@@ -55,7 +54,7 @@ const CustomSlider = withStyles({
     width: '90%',
     height: 3,
     opacity: 1,
-    color: colors.fontOncard
+    color: colors.thinLine
   }
 })(Slider);
 

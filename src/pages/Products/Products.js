@@ -1,11 +1,12 @@
-import React, {useEffect, useCallback} from 'react';
+import React, { useEffect, useCallback, useMemo } from 'react';
 import {Container, Grid, useMediaQuery} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import useStyles from './ProductsStyles';
 import globalConfig from '../../globalConfig';
-import {defineSortData, getFiltersArray} from '../../helpers/helpers';
+import {defineSortData, getFiltersArray, deleteProps} from '../../helpers/helpers';
+import queryString from 'query-string';
 
 import ProductGrid from '../../containers/ProductsGrid/ProductsGrid';
 import ProductsList from '../../containers/ProductsList/ProductsList';
@@ -13,45 +14,46 @@ import PaginationRounded from '../../components/Pagination/Pagination';
 import SideBar from '../../components/SideBar/SideBar';
 import ShowBy from '../../components/ShowBy/ShowBy';
 import Sort from '../../components/Sort/Sort';
-import FilterPrice from '../../components/FilterPrice/FilterPrice';
 import ViewAs from '../../components/ViewAs/ViewAs';
 import EmptyState from '../../components/EmptyState/EmptyState';
 import {getProductsByFilters} from '../../redux/actions/products';
+import { setCurrentPage } from '../../redux/actions/actions';
 
 const Products = (props) => {
   const {
     currentPage,
-    perPage,
-    sortingOption,
+    setCurrentPage,
     view,
     location,
     getProductsByFilters,
-    products,
-    filters
+    products
   } = props;
-  const isSmScreen = useMediaQuery('(max-width: 723px)');
+
   const classes = useStyles();
-  const searchString = location.search.split('?')[1];
+  const isSmScreen = useMediaQuery('(max-width: 723px)');
+  const filters = useMemo(() => queryString.parse(location.search), [location.search]);
+  const sort = useMemo(() => filters.sort ||
+          defineSortData(globalConfig.sortOptions.New_In), [filters.sort]);
+  const perPage = useMemo(() => Number(filters.perPage) || globalConfig.step, [filters.perPage]);
 
   const getFilteredData = useCallback(() => {
-    const sort = defineSortData(sortingOption);
-    const filtersArray = getFiltersArray(filters);
+    if (filters.startPage) {
+      setCurrentPage(Number(filters.startPage));
+    }
+    const updatedFilters = deleteProps(filters, ['sort', 'startPage', 'perPage']);
+    const filtersArray = getFiltersArray(updatedFilters);
     getProductsByFilters(filtersArray, currentPage, perPage, sort);
-  }, [currentPage, filters, getProductsByFilters, perPage, sortingOption]);
+  }, [currentPage, filters, getProductsByFilters, perPage, setCurrentPage, sort]);
 
   useEffect(() => {
     let isCanceled = false;
-
     if (!isCanceled) {
       getFilteredData();
-
-      // todo url string with all filters
-      // history.replace(`/products/filter?categoryId=${categoryId}&${getFilterString(filtersArray, defineSortData(sortingOption))}`);
     }
     return () => {
       isCanceled = true;
     };
-  }, [getFilteredData, searchString]);
+  }, [getFilteredData]);
 
   return (
     <Container>
@@ -60,27 +62,22 @@ const Products = (props) => {
           <Container>
             <Grid item xs={12} className={classes.topFiltersLine}>
               <Grid item container xs={12} className={classes.upperLine}>
-                {!isSmScreen
-                  ? <Grid container item lg={6} md={5} sm={6} xs={12} className={classes.sortSelect}>
-                    <Sort values={globalConfig.sortOptions}/>
-                  </Grid>
-                  : null
-                }
-                <Grid item lg={6} md={7} sm={6} xs={12} className={classes.filterPrice}>
-                  <FilterPrice/>
+                <Grid item md={6} xs={8} className={classes.sortSelect}>
+                  <Sort values={globalConfig.sortOptions}/>
                 </Grid>
-              </Grid>
-              {isSmScreen ? <Grid container item sm={6} xs={12} className={classes.sortSelect}>
-                <Sort values={globalConfig.sortOptions}/>
-              </Grid>
-                : null}
-              <Grid item container lg={12} spacing={0}>
-                <Grid item md={3} xs={6} className={classes.viewBox}>
+                {!isSmScreen ? <Grid item md={3} className={classes.viewBox}>
                   <ViewAs label={true}/>
-                </Grid>
-                <Grid item md={3} xs={6} className={classes.showBy}>
+                </Grid> : null}
+                <Grid item md={3} xs={4} className={classes.showBy}>
                   {products.totalCount > globalConfig.step ? <ShowBy step={globalConfig.step}/> : null}
                 </Grid>
+              </Grid>
+              <Grid item container spacing={0} justify='center' alignItems='center'>
+                {isSmScreen
+                  ? <Grid item xs={12} className={classes.viewBox}>
+                    <ViewAs label={true}/>
+                  </Grid> : null
+                }
                 <Grid item md={6} xs={12}>
                   {products.totalCount > 0
                     ? <PaginationRounded perPage={perPage} total={products.totalCount}/>
@@ -94,15 +91,15 @@ const Products = (props) => {
                   : <ProductsList products={products.data}/>)
                 : <EmptyState text={globalConfig.userMessages.EMPTY_RESULT}/>}
             </Grid>
+            <Grid item xs={12} className={classes.paginationBottom}>
+              {products.totalCount > 0
+                ? <PaginationRounded perPage={perPage} total={products.totalCount}/>
+                : null}
+            </Grid>
           </Container>
         </Grid>
         <Grid item sm={4}>
           <SideBar/>
-        </Grid>
-        <Grid item xs={12} className={classes.paginationBottom}>
-          {products.totalCount > 0
-            ? <PaginationRounded perPage={perPage} total={products.totalCount}/>
-            : null}
         </Grid>
       </Grid>
     </Container>
@@ -110,23 +107,16 @@ const Products = (props) => {
 };
 
 Products.propTypes = {
-  currentPage: PropTypes.number.isRequired,
-  perPage: PropTypes.number.isRequired,
-  sortingOption: PropTypes.string.isRequired,
   view: PropTypes.string.isRequired,
   getProductsByFilters: PropTypes.func.isRequired,
-  filters: PropTypes.object.isRequired,
   products: PropTypes.object.isRequired
 };
 
 const mapStateToProps = store => {
   return {
-    currentPage: store.currentPage,
-    perPage: store.productsPerPage,
-    sortingOption: store.sortingOption,
     view: store.view,
     products: store.products,
-    filters: store.filters
+    currentPage: store.currentPage
   };
 };
 
@@ -134,7 +124,8 @@ const mapDispatchToProps = dispatch => {
   return {
     getProductsByFilters: (filters, startPage, perPage, sort) => {
       dispatch(getProductsByFilters(filters, startPage, perPage, sort));
-    }
+    },
+    setCurrentPage: number => dispatch(setCurrentPage(number))
   };
 };
 

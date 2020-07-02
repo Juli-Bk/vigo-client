@@ -196,28 +196,54 @@ export const getFiltersArray = (filtersObject) => {
   return arrayOfObj || [];
 };
 
-export const getCategoryId = (searchString) => {
-  let categoryId = '';
-  if (searchString && searchString.includes('categoryId')) {
-    const stringPart = searchString.split('categoryId=')[1];
-
-    if (stringPart.includes('&')) {
-      categoryId = stringPart.split('&')[0];
+export const getFilterString = (parsed, field, target) => {
+  if (parsed[field]) {
+    if (!parsed[field].includes(target)) {
+      parsed[field] += `,${target}`;
     } else {
-      categoryId = stringPart;
+      const array = parsed[field].split(',');
+      parsed[field] = array.filter(el => el !== target).join(',');
     }
+  } else {
+    parsed[field] = target;
   }
-  return categoryId;
+  parsed.startPage = 1;
+  return parsed;
 };
 
-// todo need this?
-export const getFiltersFromUrl = (searchString, callBack) => {
-  if (searchString && searchString.includes('&')) {
-    const filterStrings = searchString.split('&');
-    filterStrings.forEach(string => {
-      callBack(makeFilterItem(string));
+export const getUrlData = (parsed, prop) => {
+  const initialState = {};
+  if (parsed[prop]) {
+    const colorsArray = parsed[prop].split(',');
+    colorsArray.forEach(name => {
+      initialState[name] = true;
     });
-  } else {
-    callBack(makeFilterItem(searchString));
   }
+  return initialState;
+};
+
+export const getColorsState = (allColors, dataFromSearchString) => {
+  let state = {};
+  allColors.forEach(item => {
+    state = {...state, [item.name]: false};
+  });
+  return Object.assign({}, state, dataFromSearchString);
+};
+
+export const getSizesState = (allSizes, dataFromSearchString) => {
+  let state = {};
+  allSizes.forEach(name => {
+    state = {...state, [name]: false};
+  });
+  return Object.assign({}, state, dataFromSearchString);
+};
+
+export const deleteProps = (object, props) => {
+  const newObj = Object.assign({}, object);
+  props.forEach(prop => {
+    if (newObj[prop]) {
+      delete newObj[prop];
+    }
+  });
+  return newObj;
 };
