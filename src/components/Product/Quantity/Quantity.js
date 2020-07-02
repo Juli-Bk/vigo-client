@@ -5,15 +5,15 @@ import AddIcon from '@material-ui/icons/Add';
 import RemoveIcon from '@material-ui/icons/Remove';
 
 const Quantity = (props) => {
-  const {quantity, id, classes, handleQuantity, max} = props;
+  const {quantity, id, classes, handleQuantity, max, sizeId} = props;
 
   const handleMinus = useCallback(() => {
-    if (quantity > 1) handleQuantity(id, quantity - 1);
-  }, [handleQuantity, id, quantity]);
+    if (quantity > 1) handleQuantity(id, quantity - 1, sizeId);
+  }, [handleQuantity, id, quantity, sizeId]);
 
   const handlePlus = useCallback(() => {
-    if (quantity < max) handleQuantity(id, quantity + 1);
-  }, [handleQuantity, id, max, quantity]);
+    if (quantity < max) handleQuantity(id, quantity + 1, sizeId);
+  }, [handleQuantity, id, max, quantity, sizeId]);
 
   return (
     <Box className={classes.quantityBox}>

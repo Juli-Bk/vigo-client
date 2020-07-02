@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import useStyles from './ProductsStyles';
 import globalConfig from '../../globalConfig';
-import {defineSortData, getFiltersArray, getCategoryId} from '../../helpers/helpers';
+import {defineSortData, getFiltersArray} from '../../helpers/helpers';
 
 import ProductGrid from '../../containers/ProductsGrid/ProductsGrid';
 import ProductsList from '../../containers/ProductsList/ProductsList';
@@ -17,7 +17,6 @@ import FilterPrice from '../../components/FilterPrice/FilterPrice';
 import ViewAs from '../../components/ViewAs/ViewAs';
 import EmptyState from '../../components/EmptyState/EmptyState';
 import {getProductsByFilters} from '../../redux/actions/products';
-import { setCategoryId } from '../../redux/actions/categories';
 
 const Products = (props) => {
   const {
@@ -28,8 +27,7 @@ const Products = (props) => {
     location,
     getProductsByFilters,
     products,
-    filters,
-    setCategoryId
+    filters
   } = props;
   const isSmScreen = useMediaQuery('(max-width: 723px)');
   const classes = useStyles();
@@ -45,10 +43,6 @@ const Products = (props) => {
     let isCanceled = false;
 
     if (!isCanceled) {
-      if (!filters.categoryId.length) {
-        const categoryId = getCategoryId(searchString);
-        setCategoryId(categoryId);
-      }
       getFilteredData();
 
       // todo url string with all filters
@@ -57,7 +51,7 @@ const Products = (props) => {
     return () => {
       isCanceled = true;
     };
-  }, [currentPage, perPage, sortingOption, filters, getFilteredData, searchString, setCategoryId]);
+  }, [getFilteredData, searchString]);
 
   return (
     <Container>
@@ -140,8 +134,7 @@ const mapDispatchToProps = dispatch => {
   return {
     getProductsByFilters: (filters, startPage, perPage, sort) => {
       dispatch(getProductsByFilters(filters, startPage, perPage, sort));
-    },
-    setCategoryId: id => dispatch(setCategoryId(id))
+    }
   };
 };
 

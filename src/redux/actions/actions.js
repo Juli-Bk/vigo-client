@@ -63,7 +63,6 @@ export const setSnackMessage = (isOpen, message, severity) => {
 };
 
 export const setLoading = (isLoading) => {
-  // todo use this action for Loader/spinner
   return {type: Actions.SET_LOADING_PROCESS, payload: isLoading};
 };
 

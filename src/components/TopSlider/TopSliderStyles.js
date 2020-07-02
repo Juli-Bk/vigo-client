@@ -109,7 +109,7 @@ const useStyles = makeStyles(theme => ({
   text: {
     display: 'none',
     [theme.breakpoints.up('sm')]: {
-      fontSize: '.7rem',
+      fontSize: '.8rem',
       display: 'block',
       width: '50%',
       marginBottom: '3rem',
@@ -125,7 +125,7 @@ const useStyles = makeStyles(theme => ({
       fontSize: '1.2rem'
     },
     [theme.breakpoints.up('lg')]: {
-      fontSize: '1.5rem',
+      fontSize: '1.4rem',
       marginBottom: '4rem'
     }
   },

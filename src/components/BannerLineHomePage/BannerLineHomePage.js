@@ -10,6 +10,8 @@ import {setCategoryId} from '../../redux/actions/categories';
 const BannerLineHomePage = props => {
   const {categories, setCategoryId} = props;
   const [menLink, setMenLink] = useState('/products');
+  const [menCategory, setMenCategory] = useState('');
+  const [girlsCategory, setGirlsCategory] = useState('');
   const [girlsLink, setGirlsLink] = useState('');
   const styles = useStyles();
 
@@ -17,11 +19,11 @@ const BannerLineHomePage = props => {
     if (categories) {
       categories.forEach(item => {
         if (item.name === 'women') {
-          setCategoryId(item.id);
           setGirlsLink(`/products/filter?categoryId=${item.id}`);
+          setGirlsCategory(item.id);
         } else if (item.name === 'men') {
-          setCategoryId(item.id);
           setMenLink(`/products/filter?categoryId=${item.id}&new=true`);
+          setMenCategory(item.id);
         }
       });
     }
@@ -30,25 +32,35 @@ const BannerLineHomePage = props => {
   return (
     <Grid data-testid='bannerContainer' className={styles.bannersCover} container spacing={4}>
       <Grid className={styles.fullSize} xs={12} sm={4} item>
-        <Banner title='New men collection' alert={false}
-          link={menLink} linkText='buy it now &gt;'
+        <Banner title='New men collection'
+          alert={false}
+          link={menLink}
+          filter={{ categoryId: menCategory, new: true }}
+          linkText='buy it now &gt;'
           imageLink={config.baseImgUrl + '/img/banners/newMenCollection.jpg'}/>
       </Grid>
       <Grid className={styles.fullSize} xs={12} sm={4} item>
-        <Banner title='Our new arrivals' alert={false}
+        <Banner title='Our new arrivals'
+          alert={false}
           link={'/products/filter?new=true'}
+          filter={{new: true}}
           linkText='shop new in &gt;'
           imageLink={config.baseImgUrl + '/img/banners/newArrivals.jpg'}/>
       </Grid>
       <Grid className={`${styles.fullSize} ${styles.bannerColumn}`} xs={12} sm={4} item>
         <Box className={styles.halfSize}>
-          <Banner title='SALE' alert={true}
+          <Banner title='SALE'
+            alert={true}
             subtitle='the half price summer'
             link='/products/filter?isOnSale=true'
+            filter={{isOnSale: true}}
             imageLink={config.baseImgUrl + '/img/banners/sale.jpg'}/>
         </Box>
         <Box className={styles.halfSize}>
-          <Banner title='girls' alert={false} link={girlsLink}
+          <Banner title='girls'
+            alert={false}
+            link={girlsLink}
+            filter={{ categoryId: girlsCategory }}
             imageLink={config.baseImgUrl + '/img/banners/girls.jpg'}/>
         </Box>
       </Grid>

@@ -9,7 +9,8 @@ import SaleInfoBox from '../../Product/SaleInfoBox/SaleInfoBox';
 import SalePrice from '../../Product/SalePrice/SalePrice';
 
 const TableDesktopView = (props) => {
-  const { rows, classes, getCartData, handleQuantity, deleteFromShopCart } = props;
+  const { rows, classes, handleQuantity, deleteFromShopCart } = props;
+
   return (
     <Table aria-label="products table">
       <TableHead style={{verticalAlign: 'middle'}}>
@@ -23,7 +24,7 @@ const TableDesktopView = (props) => {
       </TableHead>
       <TableBody>
         {rows.map(row => (
-          <TableRow key={row.id} className={classes.tableRow}>
+          <TableRow key={row.id + row.size} className={classes.tableRow}>
             <TableCell component="th" scope="row" className={classes.firstCell}>
               <Link to={`/products/${row.id}`} className={classes.linkBox}>
                 <CardMedia image={row.imgUrl} className={classes.img}/>
@@ -49,7 +50,8 @@ const TableDesktopView = (props) => {
             <TableCell align="center" className={classes.code}>
               <Quantity
                 quantity={row.quantity}
-                max={getCartData(row.id).totalQuantity}
+                max={row.totalQuantity}
+                sizeId={row.sizeId}
                 id={row.id}
                 classes={classes}
                 handleQuantity={handleQuantity}
@@ -62,7 +64,7 @@ const TableDesktopView = (props) => {
               <CloseIcon data-testid='deleteIcon'
                 className={classes.closeIcon}
                 onClick={() => {
-                  deleteFromShopCart(row.id);
+                  deleteFromShopCart(row.id, row.sizeId);
                 }}/>
             </TableCell>
           </TableRow>
