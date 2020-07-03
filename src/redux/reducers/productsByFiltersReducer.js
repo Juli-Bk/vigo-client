@@ -11,6 +11,8 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case Actions.SEARCH_PRODUCTS:
+      return {...state, data: action.products, totalCount: action.totalCount };
     case Actions.GET_PRODUCTS_BY_FILTERS:
       return {...state, data: action.products, totalCount: action.totalCount };
     case Actions.GET_FEATURED:
