@@ -39,15 +39,30 @@ const useStyles = makeStyles(theme => (
       fontFamily: fonts.f3,
       border: 'none',
       fonFamily: fonts.f2,
+      textDecoration: 'underline',
       textTransform: 'capitalize',
       '&:hover': {
         backgroundColor: 'none',
         color: colors.noticeColor
       }
     },
-
+    appBar: {
+      position: 'relative',
+      backgroundColor: 'black'
+    },
     button: {
       marginTop: '1.25rem',
+      color: colors.fontSecondary,
+      fontWeight: 700,
+      fontFamily: fonts.f3,
+      border: `.125rem solid ${colors.fontSecondary}`,
+      fonFamily: fonts.f2,
+      textTransform: 'uppercase'
+    },
+    buttonOk: {
+      marginTop: '1.25rem',
+      width: 'fit-content',
+      marginLeft: 30,
       color: colors.fontSecondary,
       fontWeight: 700,
       fontFamily: fonts.f3,
