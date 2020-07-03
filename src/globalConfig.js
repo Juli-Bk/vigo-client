@@ -113,7 +113,8 @@ const globalConfig = {
     INFO: 'info'
   },
   defaultShipping: 0,
-  defaultTax: 0
+  defaultTax: 0,
+  defaultCurrency: 'USD'
 };
 
 export default globalConfig;
