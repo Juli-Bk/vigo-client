@@ -5,9 +5,7 @@ import Grid from '@material-ui/core/Grid';
 import globalConfig from '../../globalConfig';
 import { ThemeProvider } from '@material-ui/styles';
 import theme from './PaymentFormTheme';
-import { Button, Link } from '@material-ui/core';
 import VigoAddress from '../../components/DefineDelivery/VigoAddress';
-import {liqPay} from '../../keysConfig';
 import Typography from '@material-ui/core/Typography';
 import useStyles from '../../styles/formStyle/formStyle';
 
@@ -17,13 +15,7 @@ function definePayment (inputValue, styles) {
     case paymentOptions.BY_CASH:
       return <VigoAddress/>;
     case paymentOptions.LIQ_PAY:
-      return (
-        <ThemeProvider theme={theme}>
-          <Link href={liqPay.link} target="_blank">
-            <Button size='large'>Pay</Button>
-          </Link>
-        </ThemeProvider>
-      );
+      return null;
     default:
       return <Typography variant='subtitle2' className={styles.text}>
         Please, select payment option

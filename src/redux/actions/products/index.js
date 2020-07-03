@@ -140,7 +140,6 @@ export const searchProducts = (searchString) => dispatch => {
   AjaxUtils.Products.searchProducts(searchString)
     .then(result => {
       dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
-      console.log(result);
       if (result) {
         dispatch({
           type: Actions.SEARCH_PRODUCTS,

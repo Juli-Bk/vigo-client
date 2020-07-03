@@ -1,5 +1,6 @@
 import { getStorageData } from './helpers/helpers';
 import globalConfig from './globalConfig';
+import sha1 from 'sha1';
 
 const paymentOptions = {
   amount: getStorageData('totalSum'),
@@ -13,14 +14,11 @@ const paymentOptions = {
 };
 
 const json = JSON.stringify(paymentOptions);
-console.log(json);
-// todo pass data to keysLiqpay.data
 
+// todo pass data and hash signature to keysLiqpay.data
 const data = btoa(json);
-// eslint-disable-next-line no-unused-vars
 const signature = paymentOptions.private_key + data + paymentOptions.private_key;
-// todo hash signature with SHA1
-console.log(signature);
+const hashed = sha1(signature);
 
 export const keysLiqpay = {
   data: 'eyJhY3Rpb24iOiJwYXkiLCJhbW91bnQiOiIxIiwiY3VycmVuY3kiOiJVU0QiLCJkZXNjcmlwdGlvbiI6ImRlc2NyaXB0aW9uIHRleHQiLCJvcmRlcl9pZCI6Im9yZGVyX2lkXzEiLCJ2ZXJzaW9uIjoiMyJ9',

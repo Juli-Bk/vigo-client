@@ -17,6 +17,7 @@ import { setUser} from '../../redux/actions/user';
 import ModalPersDetails from '../ModalPersDetails/ModalPersDetails';
 import NewCustomerForm from '../../components/NewCustomerForm/NewCustomerForm';
 import useCommonStyles from '../../styles/formStyle/formStyle';
+import OrderSummary from './OrderSummary/OrderSummary';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,7 +38,7 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-const steps = ['Personal data', 'Delivery Info', 'Payment Info', 'Complete your order'];
+const steps = ['Personal data', 'Delivery', 'Payment', 'Order'];
 
 const CheckoutStepper = (props) => {
   const {setLoginModalOpenState, setPersDetailsOpenState, user} = props;
@@ -72,15 +73,11 @@ const CheckoutStepper = (props) => {
           fields
         );
       case 1:
-        return (
-          <DeliveryForm/>
-        );
+        return <DeliveryForm/>;
       case 2:
-        return (
-          <PaymentForm/>
-        );
+        return <PaymentForm/>;
       case 3:
-        return 'Review of order: order summary';
+        return <OrderSummary/>;
       default:
         return 'Unknown stepIndex';
     }

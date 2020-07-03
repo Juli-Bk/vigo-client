@@ -4,8 +4,9 @@ import {Box, Button, TableRow, Table, TableBody, TableCell} from '@material-ui/c
 import {Link} from 'react-router-dom';
 import formStyles from '../../../styles/formStyle/formStyle';
 import globalConfig from '../../../globalConfig';
-import {setTotalSum} from '../../../redux/actions/shopCart';
 import useStyles from './TotalSumStyles';
+import {setTotalSum} from '../../../redux/actions/shopCart';
+import {setStorageData} from '../../../helpers/helpers';
 
 const TotalSum = (props) => {
   const {subtotal, setTotalSum} = props;
@@ -16,6 +17,7 @@ const TotalSum = (props) => {
 
   useEffect(() => {
     setTotalSum(total);
+    setStorageData('totalSum', total);
   }, [setTotalSum, total]);
 
   return (
@@ -56,9 +58,17 @@ const TotalSum = (props) => {
           </TableRow>
         </TableBody>
       </Table>
-      <Button className={formClasses.button}><Link to={'/checkout'} className={classes.link}>Checkout</Link></Button>
+      <Button className={formClasses.button}>
+        <Link to={'/checkout'} className={classes.link}>Checkout</Link>
+      </Button>
     </Box>
   );
+};
+
+const mapStateToProps = store => {
+  return {
+    user: store.user
+  };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -67,4 +77,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default React.memo(connect(null, mapDispatchToProps)(TotalSum));
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(TotalSum));
