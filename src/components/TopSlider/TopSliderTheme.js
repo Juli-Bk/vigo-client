@@ -14,6 +14,9 @@ export const theme = createMuiTheme({
       }
     },
     MuiTypography: {
+      root: {
+        marginBottom: '2.5rem'
+      },
       h2: {
         marginBottom: '3rem'
       },
