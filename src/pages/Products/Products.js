@@ -33,10 +33,11 @@ const Products = (props) => {
   const classes = useStyles();
   const isSmScreen = useMediaQuery('(max-width: 723px)');
   const filters = useMemo(() => queryString.parse(location.search), [location.search]);
-  const sort = useMemo(() => filters.sort ||
-          defineSortData(globalConfig.sortOptions.New_In), [filters.sort]);
-  const perPage = useMemo(() => Number(filters.perPage) || globalConfig.step, [filters.perPage]);
-  // todo filter by brand
+  const sort = useMemo(() => filters.sort || defineSortData(globalConfig.sortOptions.New_In),
+    [filters.sort]);
+  const perPage = useMemo(() => Number(filters.perPage) || globalConfig.step,
+    [filters.perPage]);
+
   const getFilteredData = useCallback(() => {
     if (filters.startPage) {
       setCurrentPage(Number(filters.startPage));
@@ -46,18 +47,15 @@ const Products = (props) => {
     getProductsByFilters(filtersArray, currentPage, perPage, sort);
   }, [currentPage, filters, getProductsByFilters, perPage, setCurrentPage, sort]);
 
-  const getSearchResult = useCallback((pathName) => {
-    const searchStr = pathName[pathName.indexOf('search') + 1];
-    console.log(searchStr);
-    getProductsBySearch(searchStr);
-  }, [getProductsBySearch]);
-
   useEffect(() => {
     let isCanceled = false;
     if (!isCanceled) {
       const pathName = location.pathname.split('/');
+
       if (pathName.includes('search')) {
-        getSearchResult(pathName);
+        const indexOfSearchStr = pathName.indexOf('search') + 1;
+        const searchStr = pathName[indexOfSearchStr];
+        getProductsBySearch(searchStr);
       } else {
         getFilteredData();
       }
@@ -65,7 +63,7 @@ const Products = (props) => {
     return () => {
       isCanceled = true;
     };
-  }, [filters, getFilteredData, getSearchResult, location.pathname]);
+  }, [filters, getFilteredData, getProductsBySearch, location.pathname]);
 
   return (
     <Container>

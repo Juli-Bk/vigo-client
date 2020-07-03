@@ -139,6 +139,7 @@ export const searchProducts = (searchString) => dispatch => {
   dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
   AjaxUtils.Products.searchProducts(searchString)
     .then(result => {
+      dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
       console.log(result);
       if (result) {
         dispatch({
@@ -146,7 +147,6 @@ export const searchProducts = (searchString) => dispatch => {
           products: result.products,
           totalCount: result.totalCount
         });
-        dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
       }
     }).catch(err => {
       dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
