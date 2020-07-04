@@ -1,7 +1,6 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Grid, TextField, Typography, Button } from '@material-ui/core';
-import { Formik } from 'formik';
+import React, {useCallback} from 'react';
+import {Button, Grid, TextField, Typography} from '@material-ui/core';
+import {Formik} from 'formik';
 import * as Yup from 'yup';
 import useStyles from './ContactFormStyle';
 import IconLabel from '../IconLabel/IconLabel';
@@ -10,54 +9,60 @@ import InsertDriveFileIcon from '@material-ui/icons/InsertDriveFile';
 import CreateIcon from '@material-ui/icons/Create';
 import MailIcon from '@material-ui/icons/Mail';
 import theme from './ContactFormTheme';
-import { ThemeProvider } from '@material-ui/core/styles';
+import {ThemeProvider} from '@material-ui/core/styles';
 import Recaptcha from 'react-recaptcha';
+import AjaxUtils from '../../ajax';
+import {setSnackMessage} from '../../redux/actions/actions';
+import {connect} from 'react-redux';
+import {withRouter} from 'react-router';
 
-const ContactForm = (props) => {
-  const { submitHandler } = props;
+const initFormValues = {
+  name: '',
+  email: '',
+  subject: '',
+  message: '',
+  recaptcha: ''
+};
 
+const validationSample = Yup.object({
+  name: Yup.string()
+    .required('Please, enter your name')
+    .min(1, 'Name too short'),
+  email: Yup.string()
+    .email('Incorrect email')
+    .required('Please, enter valid email'),
+  recaptcha: Yup.string()
+    .required('Recaptcha required')
+});
+
+const ContactForm = ({setSnackMessage}) => {
   const styles = useStyles();
 
-  const submitData = (values, { resetForm, setSubmitting }) => {
+  const submitData = useCallback((values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
 
-    const json = JSON.stringify({
-      name: values.name,
-      email: values.email,
-      topic: values.topic,
-      message: values.message,
-      recaptcha: values.recaptcha
-    });
+    if (!values.recaptcha) {
+      return;
+    }
 
-    submitHandler(json)
+    const data = {
+      subject: `From: ${values.name}: ${values.subject}`,
+      text: values.message,
+      to: 'vigo.shop.official@gmail.com',
+      from: values.email
+    };
+
+    AjaxUtils.Email.sendEmail(data)
       .then(result => {
+        if (result && result.status === 400) {
+          setSnackMessage(true, 'Error occurs during message sending', 'error');
+        } else {
+          setSnackMessage(true, 'Your email sent', 'success');
+        }
         setSubmitting(false);
         resetForm();
       });
-  };
-
-  const initFormValues = {
-    name: '',
-    email: '',
-    subject: '',
-    message: '',
-    recaptcha: ''
-  };
-
-  const validationSample = Yup.object({
-    name: Yup.string()
-      .required('Please, enter your name')
-      .min(1, 'Name too short'),
-    email: Yup.string()
-      .email('Incorrect email')
-      .required('Please, enter valid email'),
-    recaptcha: Yup.string()
-      .required('Recaptcha required')
-  });
-
-  // const handleSubscribe = () => {
-
-  // };
+  }, [setSnackMessage]);
 
   return (
     <Grid className={styles.form} item container xs={12} sm={8}>
@@ -69,10 +74,13 @@ const ContactForm = (props) => {
           onSubmit={submitData}
         >
           {({
-            values, handleChange,
-            handleSubmit, handleBlur,
-            isSubmitting, errors,
-            touched, setFieldValue
+            handleChange,
+            handleSubmit,
+            handleBlur,
+            isSubmitting,
+            errors,
+            touched,
+            setFieldValue
           }) => (
             <ThemeProvider theme={theme}>
               <form autoComplete='off'>
@@ -83,7 +91,7 @@ const ContactForm = (props) => {
                         name='name'
                         className={styles.input}
                         type='text'
-                        label={<IconLabel label='ENTER YOUR NAME' Component={PersonIcon} />}
+                        label={<IconLabel label='ENTER YOUR NAME' Component={PersonIcon}/>}
                         variant='outlined'
                         error={errors.name && touched.name}
                         onBlur={handleBlur}
@@ -96,7 +104,8 @@ const ContactForm = (props) => {
                         type='email'
                         className={styles.input}
                         variant='outlined'
-                        label={<IconLabel label='ENTER YOUR E-MAIL' Component={MailIcon} />}
+                        autoComplete='on'
+                        label={<IconLabel label='ENTER YOUR E-MAIL' Component={MailIcon}/>}
                         error={errors.email && touched.email}
                         onBlur={handleBlur}
                         onChange={handleChange}
@@ -105,12 +114,14 @@ const ContactForm = (props) => {
                     </Grid>
                     <Grid item xs={12} md={5} lg={12}>
                       <TextField
-                        name='topic'
+                        name='subject'
                         type='text'
                         className={styles.input}
                         variant='outlined'
                         autoComplete='off'
-                        label={<IconLabel label='ENTER YOUR SUBJECT' Component={InsertDriveFileIcon} />}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        label={<IconLabel label='ENTER YOUR SUBJECT' Component={InsertDriveFileIcon}/>}
                       />
 
                       <Typography variant='subtitle2' className={styles.infoMsg}>
@@ -129,14 +140,19 @@ const ContactForm = (props) => {
                       className={styles.textArea}
                       variant='outlined'
                       autoComplete='off'
-                      label={<IconLabel label='ENTER YOUR MESSAGE' Component={CreateIcon} />}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      label={<IconLabel label='ENTER YOUR MESSAGE' Component={CreateIcon}/>}
                     />
                     {errors.recaptcha &&
-                  touched.recaptcha && (<Typography className={styles.captchaErr} variant='subtitle2'>{errors.recaptcha}</Typography>)}
+                    touched.recaptcha && (
+                      <Typography className={styles.captchaErr} variant='subtitle2'>{errors.recaptcha}</Typography>)}
                     <Recaptcha
                       className={styles.captcha}
                       sitekey='6LdBUAAVAAAAAJU2FSLbOf7w9rDJiOOR1bLhhzWF'
-                      verifyCallback={(response) => { setFieldValue('recaptcha', response); }}
+                      verifyCallback={(response) => {
+                        setFieldValue('recaptcha', response);
+                      }}
                     />
                     <Button
                       type='submit'
@@ -156,8 +172,10 @@ const ContactForm = (props) => {
   );
 };
 
-ContactForm.propTypes = {
-  submitHandler: PropTypes.func
+const mapDispatchToProps = dispatch => {
+  return {
+    setSnackMessage: (isOpen, message, severity) => dispatch(setSnackMessage(isOpen, message, severity))
+  };
 };
 
-export default React.memo(ContactForm);
+export default connect(null, mapDispatchToProps)(React.memo(withRouter(ContactForm)));

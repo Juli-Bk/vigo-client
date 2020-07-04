@@ -54,7 +54,7 @@ export const registerUser = (userData, callback) => {
             dispatch(setUser(result.user));
             dispatch(sendConfirmLetter(result.user.email));
           }
-          setUserIsLoggedIn(true);
+          dispatch(setUserIsLoggedIn(true));
         }
         callback && callback(result);
       })
@@ -88,7 +88,7 @@ export const loginUser = (email, password, callback) => {
             putUserIdToCookie(result);
             dispatch(setUser(result.user));
           }
-          setUserIsLoggedIn(true);
+          dispatch(setUserIsLoggedIn(true));
         }
         callback(result);
       })
