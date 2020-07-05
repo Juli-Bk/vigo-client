@@ -85,7 +85,7 @@ const ContactForm = ({setSnackMessage}) => {
             <ThemeProvider theme={theme}>
               <form autoComplete='off'>
                 <Grid container spacing={2}>
-                  <Grid item container justify='space-between' xs={12} lg={6}>
+                  <Grid item container justify='space-between' xs={12} lg={6} className={styles.leftColumn}>
                     <Grid item xs={12} md={6} lg={12}>
                       <TextField
                         name='name'
