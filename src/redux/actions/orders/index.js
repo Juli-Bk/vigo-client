@@ -2,6 +2,7 @@ import Actions from '../../constants/constants';
 import AjaxUtils from '../../../ajax';
 import globalConfig from '../../../globalConfig';
 import { setStorageData } from '../../../helpers/helpers';
+import { handleCart } from '../shopCart';
 
 export const placeOrder = (userId, products, orderData) => dispatch => {
   dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
@@ -24,7 +25,7 @@ export const placeOrder = (userId, products, orderData) => dispatch => {
         setStorageData('wishList', []);
         dispatch({type: Actions.CHANGE_SHOPPING_CART, payload: []});
         dispatch({type: Actions.CHANGE_WISH_LIST, payload: []});
-        dispatch({type: Actions.HANDLE_CART, payload: []});
+        dispatch(handleCart([]));
       }
     });
 };
