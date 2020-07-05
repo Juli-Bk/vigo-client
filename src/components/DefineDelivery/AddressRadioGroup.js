@@ -20,8 +20,19 @@ import CloseIcon from '@material-ui/icons/Close';
 import { setSnackMessage } from '../../redux/actions/actions';
 import globalConfig from '../../globalConfig';
 
+const initFormValues = {
+  radioGroup: ''
+};
+const validateObject = Yup.object({
+  radioGroup: Yup.string()
+    .required('Please, choose one of these options')
+});
+
 const AddressRadioGroup = (props) => {
-  const {addresses, setUserDeliveryAddress, user, saveUserData, setSnackMessage, isAccount} = props;
+  const {
+    addresses, setUserDeliveryAddress, user,
+    saveUserData, setSnackMessage, isAccount
+  } = props;
 
   const submitRadioGroupData = (values, { resetForm, setSubmitting }) => {
     setSubmitting(true);
@@ -32,13 +43,6 @@ const AddressRadioGroup = (props) => {
     });
   };
 
-  const initFormValues = {
-    radioGroup: ''
-  };
-  const validateObject = Yup.object({
-    radioGroup: Yup.string()
-      .required('Please, choose one of these options')
-  });
   const styles = useStyles();
 
   const adrList = addresses.map((address) => {
@@ -48,13 +52,11 @@ const AddressRadioGroup = (props) => {
         str += `${key}: ${value}, `;
       }
     }
-    return str;
+    return str.slice(0, -2);
   });
 
   const removeAddress = (addresses, index) => {
     const newAddresses = addresses.filter((el, i) => i !== index);
-    console.log(index);
-    console.log(newAddresses);
 
     const data = {
       id: user._id,

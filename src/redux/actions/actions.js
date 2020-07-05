@@ -65,3 +65,11 @@ export const toggleModalSize = (flag) => {
 export const setCurrentProduct = (product) => {
   return {type: Actions.SET_CURRENT_PRODUCT, payload: product};
 };
+
+export const setShipping = (shipping) => {
+  return {type: Actions.SET_SHIPPING, payload: shipping};
+};
+
+export const setPaymentMethod = (paymentMethod) => {
+  return {type: Actions.SET_PAYMENT_METHOD, payload: paymentMethod};
+};

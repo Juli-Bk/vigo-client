@@ -16,7 +16,7 @@ import isLoading from './isLoadingReducer';
 import shoppingCart from './shoppingCartReducer';
 import guestData from './guestReducer';
 import isModalSizeOpen from './modalSizeReducer';
-import products from './productsByFiltersReducer';
+import products from './productsReducer';
 import currentProduct from './currentProductReducer';
 import allColors from './allColorsReducer';
 import maxPrice from './maxPriceReducer';
@@ -26,6 +26,7 @@ import snackMessage from './isSnackMessageOpenReducer';
 import isRestorePswdModalOpen from './isRestorePswdModalOpen';
 import userIsLoggedIn from './isLoggedReducer';
 import totalSum from './totalSumReducer';
+import orderDetails from './orderReducer';
 
 export const rootReducer = combineReducers({
   currentPage,
@@ -54,5 +55,6 @@ export const rootReducer = combineReducers({
   snackMessage,
   userIsLoggedIn,
   totalSum,
-  isRestorePswdModalOpen
+  isRestorePswdModalOpen,
+  orderDetails
 });
