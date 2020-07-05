@@ -51,12 +51,6 @@ export const handleCart = (products) => dispatch => {
                 console.log(result.message);
               } else {
                 if (result && result._id) {
-                  dispatch({
-                    type: Actions.SET_SNACK_MESSAGE_OPEN,
-                    payload: true,
-                    message: globalConfig.cartMessages.CREATED,
-                    severity: globalConfig.snackSeverity.SUCCESS
-                  });
                   setStorageData('cartId', result._id);
                 }
               }
@@ -142,12 +136,6 @@ export const handleCart = (products) => dispatch => {
           });
           console.log(result.message);
         } else {
-          dispatch({
-            type: Actions.SET_SNACK_MESSAGE_OPEN,
-            payload: true,
-            message: globalConfig.cartMessages.CREATED,
-            severity: globalConfig.snackSeverity.SUCCESS
-          });
           if (result && result.cart) {
             setStorageData('cartId', result.cart._id);
           }

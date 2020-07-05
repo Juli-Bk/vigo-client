@@ -21,7 +21,7 @@ import { setSnackMessage } from '../../redux/actions/actions';
 import globalConfig from '../../globalConfig';
 
 const AddressRadioGroup = (props) => {
-  const {addresses, setUserDeliveryAddress, user, saveUserData, setSnackMessage} = props;
+  const {addresses, setUserDeliveryAddress, user, saveUserData, setSnackMessage, isAccount} = props;
 
   const submitRadioGroupData = (values, { resetForm, setSubmitting }) => {
     setSubmitting(true);
@@ -100,14 +100,16 @@ const AddressRadioGroup = (props) => {
               </RadioGroup>
               <FormHelperText>{errors.radioGroup}</FormHelperText>
               <CardActions>
-                <Button
-                  type='submit'
-                  className={styles.button}
-                  size='small'
-                  onClick={handleSubmit}
-                  disabled={isSubmitting}
-                  variant='outlined'>Save
-                </Button>
+                {isAccount
+                  ? null
+                  : <Button
+                    type='submit'
+                    className={styles.button}
+                    size='small'
+                    onClick={handleSubmit}
+                    disabled={isSubmitting}
+                    variant='outlined'>Confirm your choice
+                  </Button>}
               </CardActions>
             </FormControl>
           </Form>
