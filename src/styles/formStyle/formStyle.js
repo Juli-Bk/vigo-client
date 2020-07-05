@@ -32,7 +32,6 @@ const useStyles = makeStyles(theme => (
       textAlign: 'justify'
     },
     linkButton: {
-      marginTop: '1.25rem',
       color: colors.fontSecondary,
       fontWeight: 300,
       border: 'none',

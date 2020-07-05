@@ -20,6 +20,13 @@ const theme = createMuiTheme({
         }
       }
     },
+    MuiTypography: {
+      colorPrimary: {
+        '&:hover': {
+          color: 'transparent'
+        }
+      }
+    },
     MuiListItem: {
       root: {
         paddingTop: 0,
