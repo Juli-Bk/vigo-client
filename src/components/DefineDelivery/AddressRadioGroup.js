@@ -52,7 +52,7 @@ const AddressRadioGroup = (props) => {
         str += `${key}: ${value}, `;
       }
     }
-    return str;
+    return str.slice(0, -2);
   });
 
   const removeAddress = (addresses, index) => {

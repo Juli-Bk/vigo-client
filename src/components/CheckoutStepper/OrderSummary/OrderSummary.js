@@ -1,33 +1,16 @@
 import React, { useEffect} from 'react';
-import {Container, makeStyles, Typography, Grid} from '@material-ui/core';
+import { Container, Typography, Grid, useMediaQuery } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import { getProductsByFilters } from '../../../redux/actions/products';
 import { getProductsId } from '../../../pages/ShoppingCart/cartHelpers';
 import { getProductsQuantity } from '../../../redux/actions/quantity';
-import { getProductData, renderGuestAddress, renderUserAddress} from './helper';
+import { getProductData, renderGuestAddress, renderUserAddress} from '../helper';
 import ClientPersData from './ClientPersData';
-import ProductsList from './ProductsTable';
-import { colors } from '../../../styles/colorKit';
-import { fonts } from '../../../styles/fonts/fontsKit';
-
-const useStyles = makeStyles(() => ({
-  data: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignContent: 'center'
-  },
-  title: {
-    color: colors.phPrimary,
-    fontFamily: fonts.f3,
-    fontSize: '1.2rem',
-    fontWeight: 600
-  },
-  text: {
-    color: colors.fontThird,
-    fontSize: '1rem'
-  }
-}));
+import ProductsTableDesktop from './ProductsTableDesktop';
+import { getStorageData } from '../../../helpers/helpers';
+import useStyles from './OrderSummaryStyles';
+import ProductsTableMobile from './ProductsTableMobile';
 
 const OrderSummary = (props) => {
   const classes = useStyles();
@@ -35,6 +18,7 @@ const OrderSummary = (props) => {
     user, totalSum, shoppingCart, getProductsByFilters,
     guestData, products, productsQuantity, getProductsQuantity
   } = props;
+  const isMobile = useMediaQuery('(max-width: 550px)');
 
   useEffect(() => {
     let isCanceled = false;
@@ -49,26 +33,46 @@ const OrderSummary = (props) => {
   }, [getProductsByFilters, getProductsQuantity, shoppingCart]);
 
   const productsData = getProductData(products, shoppingCart, productsQuantity);
+  const guestInfo = guestData || getStorageData('guestData');
+  const total = totalSum || getStorageData('totalSum');
 
   return (
     <Container>
       <Grid container>
         <Grid item container xs={12}>
-          {productsData && <ProductsList productsData={productsData}/>}
+          {productsData
+            ? isMobile ? <ProductsTableMobile productsData={productsData}/>
+              : <ProductsTableDesktop productsData={productsData}/>
+            : null
+          }
+        </Grid>
+        <Grid item xs={12} className={classes.total}>
+          <Typography className={classes.totalTitle}>Total sum:
+            <span className={classes.totalPrice}> ${total}</span>
+          </Typography>
         </Grid>
         <Grid item xs={12} sm={6} className={classes.data}>
           <Typography className={classes.title}>Personal Data: </Typography>
-          {user ? <ClientPersData classes={classes} client={user}/>
-            : <ClientPersData classes={classes} client={guestData}/>}
+          {user && Object.keys(user).length > 0 ? <ClientPersData classes={classes} client={user}/>
+            : Object.keys(guestInfo).length > 0 ? <ClientPersData classes={classes} client={guestData}/> : null}
         </Grid>
         <Grid item xs={12} sm={6}>
           <Typography className={classes.title}>Delivery Address: </Typography>
-          {user ? renderUserAddress(user, classes) : renderGuestAddress(guestData, classes)}
+          {user && Object.keys(user).length > 0 ? renderUserAddress(user, classes)
+            : guestInfo && Object.keys(guestInfo).length > 0 ? renderGuestAddress(guestData, classes) : null}
         </Grid>
-        <Grid item xs={6}><Typography>Total sum: ${totalSum}</Typography></Grid>
       </Grid>
     </Container>
   );
+};
+
+OrderSummary.propTypes = {
+  user: PropTypes.object,
+  guestData: PropTypes.object,
+  totalSum: PropTypes.number.isRequired,
+  shoppingCart: PropTypes.array.isRequired,
+  products: PropTypes.object.isRequired,
+  productsQuantity: PropTypes.array.isRequired
 };
 
 const mapStateToProps = store => {

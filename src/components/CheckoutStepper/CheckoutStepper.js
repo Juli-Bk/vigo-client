@@ -18,6 +18,8 @@ import ModalPersDetails from '../ModalPersDetails/ModalPersDetails';
 import NewCustomerForm from '../../components/NewCustomerForm/NewCustomerForm';
 import useCommonStyles from '../../styles/formStyle/formStyle';
 import OrderSummary from './OrderSummary/OrderSummary';
+import { placeOrder } from '../../redux/actions/orders';
+import {setOrder} from './helper';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -41,7 +43,10 @@ const useStyles = makeStyles((theme) => ({
 const steps = ['Personal data', 'Delivery', 'Payment', 'Order'];
 
 const CheckoutStepper = (props) => {
-  const {setLoginModalOpenState, setPersDetailsOpenState, user} = props;
+  const {
+    setLoginModalOpenState, setPersDetailsOpenState, user,
+    placeOrder, shoppingCart, guestData, totalSum, orderDetails
+  } = props;
   const classes = useStyles();
   const commonClasses = useCommonStyles();
   const [activeStep, setActiveStep] = useState(0);
@@ -83,19 +88,20 @@ const CheckoutStepper = (props) => {
     }
   };
 
-  const handleNext = useCallback(() => {
+  const orderHandler = useCallback(() => {
+    setOrder(user, guestData, totalSum, orderDetails, shoppingCart, placeOrder);
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  }, []);
+  }, [guestData, orderDetails, placeOrder, shoppingCart, totalSum, user]);
+
+  const handleNext = useCallback(() => {
+    activeStep === steps.length - 1
+      ? orderHandler()
+      : setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  }, [activeStep, orderHandler]);
 
   const handleBack = useCallback(() => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   }, []);
-
-  const handleReset = useCallback(() => {
-    setActiveStep(0);
-  }, []);
-
-  // todo - add order numbers instead of #2001539 in Typography
 
   return (
     <ThemeProvider theme={theme}>
@@ -111,10 +117,10 @@ const CheckoutStepper = (props) => {
           {activeStep === steps.length ? (
             <Box>
               <Typography variant='h6' className={classes.instructions}>Thank you for your order.</Typography>
-              <Typography variant='body2' className={classes.instructions}>Your order number is #2001539.
+              {orderDetails && orderDetails.orderNumber &&
+              <Typography variant='body2' className={classes.instructions}>Your order number is {orderDetails.orderNumber}.
                 We have emailed your order confirmation, and will send you an update when your order has shipped.
-                Thank you for your order.</Typography>
-              <Button onClick={handleReset}>Reset</Button>
+                Thank you for your order.</Typography>}
             </Box>
 
           ) : (
@@ -135,7 +141,7 @@ const CheckoutStepper = (props) => {
                   </Button>
                   <Button className={commonClasses.button}
                     onClick={handleNext}>
-                    {activeStep === steps.length - 1 ? 'Place order' : '>'}
+                    {activeStep === steps.length - 1 ? 'Confirm' : '>'}
                   </Button>
                 </Box>
               </Box>
@@ -149,7 +155,10 @@ const CheckoutStepper = (props) => {
 
 const mapStateToProps = store => {
   return {
-    user: store.user
+    user: store.user,
+    shoppingCart: store.shoppingCart,
+    guestData: store.guestData,
+    orderDetails: store.orderDetails
   };
 };
 
@@ -157,7 +166,8 @@ const mapDispatchToProps = dispatch => {
   return {
     setUser: data => dispatch(setUser(data)),
     setLoginModalOpenState: isOpen => dispatch(setLoginModalOpenState(isOpen)),
-    setPersDetailsOpenState: isOpen => dispatch(setPersDetailsOpenState(isOpen))
+    setPersDetailsOpenState: isOpen => dispatch(setPersDetailsOpenState(isOpen)),
+    placeOrder: (userId, products, orderData) => dispatch(placeOrder(userId, products, orderData))
   };
 };
 

@@ -1,15 +1,14 @@
 import React from 'react';
-import ListItem from '@material-ui/core/ListItem';
-import List from '@material-ui/core/List';
+import {Box, Typography} from '@material-ui/core';
 
 const ClientPersData = (props) => {
   const { client, classes } = props;
   return (
-    <List>
-      <ListItem className={classes.text}>{client.firstName} {client.lastName}</ListItem>
-      <ListItem className={classes.text}>Phone: {client.phoneNumber}</ListItem>
-      <ListItem className={classes.text}>Email: {client.email}</ListItem>
-    </List>
+    <Box>
+      <Typography className={classes.text}>{client.firstName} {client.lastName}</Typography>
+      <Typography className={classes.text}>Phone: {client.phoneNumber}</Typography>
+      <Typography className={classes.text}>Email: {client.email}</Typography>
+    </Box>
   );
 };
 

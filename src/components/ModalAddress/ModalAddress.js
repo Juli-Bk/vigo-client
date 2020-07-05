@@ -13,6 +13,7 @@ import { connect} from 'react-redux';
 import { Typography } from '@material-ui/core';
 import useCommonStyles from '../../styles/formStyle/formStyle';
 import AddressGuestForm from '../../components/AddressForm/AddressGuestForm';
+import { setStorageData } from '../../helpers/helpers';
 
 const ModalAddress = (props) => {
   const {
@@ -57,10 +58,9 @@ const ModalAddress = (props) => {
   const guestForm = <AddressGuestForm component='span'
     saveGuestDataHandler={(deliveryAddress) => {
       if (deliveryAddress) {
-        setGuestData({
-          ...guestData,
-          deliveryAddress
-        });
+        const data = {...guestData, deliveryAddress};
+        setGuestData(data);
+        setStorageData('guestData', data);
       }
       handleClose();
     }

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import {connect} from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
@@ -8,6 +9,7 @@ import theme from './PaymentFormTheme';
 import VigoAddress from '../../components/DefineDelivery/VigoAddress';
 import Typography from '@material-ui/core/Typography';
 import useStyles from '../../styles/formStyle/formStyle';
+import {setPaymentMethod} from '../../redux/actions/actions';
 
 const {paymentOptions} = globalConfig;
 function definePayment (inputValue, styles) {
@@ -22,8 +24,9 @@ function definePayment (inputValue, styles) {
       </Typography>;
   }
 }
-const PaymentForm = () => {
+const PaymentForm = (props) => {
   const styles = useStyles();
+  const {setPaymentMethod} = props;
   const options = Object.values(paymentOptions);
   const [value, setValue] = useState(options[0]);
   const [inputValue, setInputValue] = useState('');
@@ -40,6 +43,7 @@ const PaymentForm = () => {
             inputValue={inputValue}
             onInputChange={(event, newInputValue) => {
               setInputValue(newInputValue);
+              setPaymentMethod(newInputValue);
             }}
             id='controllable-states-demo'
             options={options}
@@ -58,4 +62,10 @@ const PaymentForm = () => {
     </ThemeProvider>
   );
 };
-export default React.memo(PaymentForm);
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setPaymentMethod: method => dispatch(setPaymentMethod(method))
+  };
+};
+export default React.memo(connect(null, mapDispatchToProps)(PaymentForm));
