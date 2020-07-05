@@ -1,15 +1,15 @@
 import React, { useState } from 'react';
+import {connect} from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 import globalConfig from '../../globalConfig';
 import { ThemeProvider } from '@material-ui/styles';
 import theme from './PaymentFormTheme';
-import { Button, Link } from '@material-ui/core';
 import VigoAddress from '../../components/DefineDelivery/VigoAddress';
-import {liqPay} from '../../keysConfig';
 import Typography from '@material-ui/core/Typography';
 import useStyles from '../../styles/formStyle/formStyle';
+import {setPaymentMethod} from '../../redux/actions/actions';
 
 const {paymentOptions} = globalConfig;
 function definePayment (inputValue, styles) {
@@ -17,21 +17,16 @@ function definePayment (inputValue, styles) {
     case paymentOptions.BY_CASH:
       return <VigoAddress/>;
     case paymentOptions.LIQ_PAY:
-      return (
-        <ThemeProvider theme={theme}>
-          <Link href={liqPay.link} target="_blank">
-            <Button size='large'>Pay</Button>
-          </Link>
-        </ThemeProvider>
-      );
+      return null;
     default:
       return <Typography variant='subtitle2' className={styles.text}>
         Please, select payment option
       </Typography>;
   }
 }
-const PaymentForm = () => {
+const PaymentForm = (props) => {
   const styles = useStyles();
+  const {setPaymentMethod} = props;
   const options = Object.values(paymentOptions);
   const [value, setValue] = useState(options[0]);
   const [inputValue, setInputValue] = useState('');
@@ -48,6 +43,7 @@ const PaymentForm = () => {
             inputValue={inputValue}
             onInputChange={(event, newInputValue) => {
               setInputValue(newInputValue);
+              setPaymentMethod(newInputValue);
             }}
             id='controllable-states-demo'
             options={options}
@@ -66,4 +62,10 @@ const PaymentForm = () => {
     </ThemeProvider>
   );
 };
-export default React.memo(PaymentForm);
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setPaymentMethod: method => dispatch(setPaymentMethod(method))
+  };
+};
+export default React.memo(connect(null, mapDispatchToProps)(PaymentForm));

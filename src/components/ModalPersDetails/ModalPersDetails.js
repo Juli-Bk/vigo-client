@@ -13,6 +13,7 @@ import {ThemeProvider} from '@material-ui/styles';
 import {setGuestData, setPersDetailsOpenState} from '../../redux/actions/actions';
 import {connect} from 'react-redux';
 import PersonalDetailsGuestForm from '../PersonalDetailsForm/PersonalDetailsGuestForm';
+import { setStorageData } from '../../helpers/helpers';
 
 const ModalPersDetails = (props) => {
   const {
@@ -105,10 +106,12 @@ const ModalPersDetails = (props) => {
                     saveGuestDataHandler={(result) => {
                       if (result) {
                         const userName = `${result.firstName} ${result.lastName}`;
-                        setGuestData({
+                        const data = {
                           ...result,
                           userName
-                        });
+                        };
+                        setGuestData(data);
+                        setStorageData('guestData', data);
                       }
                       handleClose();
                     }

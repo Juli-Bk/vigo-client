@@ -86,10 +86,10 @@ export default {
    */
   searchProducts: (searchString) => {
     if (!searchString) throw new TypeError('empty search string');
-
+    const json = JSON.stringify({query: searchString});
     const requestOptions = {
       ...methods.POST,
-      body: {query: searchString},
+      body: json,
       headers: {
         'Content-Type': 'application/json'
       }
