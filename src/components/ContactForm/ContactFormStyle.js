@@ -21,9 +21,12 @@ const useStyles = makeStyles(theme => ({
       marginBottom: '7.63rem'
     }
   },
+  leftColumn: {
+    height: 'fit-content'
+  },
   input: {
     width: '100%',
-    marginBottom: '0.94rem'
+    marginBottom: '1.5rem'
   },
   textArea: {
     width: '100%',
