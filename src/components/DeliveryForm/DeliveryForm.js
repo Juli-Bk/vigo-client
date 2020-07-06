@@ -14,7 +14,7 @@ import { getStorageData } from '../../helpers/helpers';
 const {deliveryOptions} = globalConfig;
 
 const DeliveryForm = (props) => {
-  const {setShipping, setCompleted, activeStep, guestData} = props;
+  const {setShipping, setCompleted, activeStep, guestData, user} = props;
   const options = Object.values(deliveryOptions);
   const [value, setValue] = useState(options[0]);
   const [inputValue, setInputValue] = useState('');
@@ -26,7 +26,8 @@ const DeliveryForm = (props) => {
   const handleInputChange = (event, newInputValue) => {
     setInputValue(newInputValue);
     setShipping(newInputValue);
-    if (newInputValue === deliveryOptions.PICKUP || guestInfo.deliveryAddress) {
+    if (newInputValue === deliveryOptions.PICKUP || (guestInfo.deliveryAddress && guestInfo.deliveryAddress.length === 1) ||
+            (user.deliveryAddress && user.deliveryAddress.length === 1)) {
       setCompleted(activeStep);
     }
   };
@@ -64,7 +65,8 @@ const DeliveryForm = (props) => {
 const mapStateToProps = store => {
   return {
     activeStep: store.checkoutSteps.active,
-    guestData: store.guestData
+    guestData: store.guestData,
+    user: store.user
   };
 };
 

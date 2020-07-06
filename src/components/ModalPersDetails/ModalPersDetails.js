@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -14,6 +14,7 @@ import { setCompletedSteps, setGuestData, setPersDetailsOpenState } from '../../
 import {connect} from 'react-redux';
 import PersonalDetailsGuestForm from '../PersonalDetailsForm/PersonalDetailsGuestForm';
 import { getStorageData, setStorageData } from '../../helpers/helpers';
+import { colors } from '../../styles/colorKit';
 
 const ModalPersDetails = (props) => {
   const {
@@ -26,6 +27,10 @@ const ModalPersDetails = (props) => {
   const [isMessageHidden, setIsMessageHidden] = useState(false);
 
   const guestInfo = useMemo(() => guestData.deliveryAddress ? guestData : getStorageData('guestData'), [guestData]);
+
+  useEffect(() => {
+    if (Object.keys(user) || Object.keys(guestInfo)) setCompleted(activeStep);
+  }, [activeStep, guestInfo, setCompleted, user]);
 
   const handleClickOpen = () => {
     setModalOpen(true);
@@ -41,40 +46,27 @@ const ModalPersDetails = (props) => {
     }}>{message}</Typography>
   </DialogContent>;
 
-  const savedGuestData = Object.keys(guestInfo).length > 0
-    ? <>
+  const renderSavedData = (client) => {
+    return (
       <Box component='ul' id="guest-data-list" style={{
         marginBottom: 10
       }}>
-        <ListItem className={commonClasses.text}>First Name: {guestInfo.firstName}</ListItem>
-        <ListItem className={commonClasses.text}>Last Name: {guestInfo.lastName}</ListItem>
-        <ListItem className={commonClasses.text}>Phone Number: {guestInfo.phoneNumber}</ListItem>
-        <ListItem className={commonClasses.text}>Email: {guestInfo.email}</ListItem>
+        <ListItem className={commonClasses.text}>First Name: {client.firstName}</ListItem>
+        <ListItem className={commonClasses.text}>Last Name: {client.lastName}</ListItem>
+        <ListItem className={commonClasses.text}>Phone Number: {client.phoneNumber}</ListItem>
+        <ListItem className={commonClasses.text}>Email: {client.email}</ListItem>
       </Box>
-    </>
-    : null;
-
-  const savedUserData = Object.keys(user).length > 0
-    ? <>
-      <Box component='ul' id="user-data-list" style={{
-        marginBottom: 10
-      }}>
-        <ListItem className={commonClasses.text}>First Name: {user.firstName}</ListItem>
-        <ListItem className={commonClasses.text}>Last Name: {user.lastName}</ListItem>
-        <ListItem className={commonClasses.text}>Phone Number: {user.phoneNumber}</ListItem>
-        <ListItem className={commonClasses.text}>Email: {user.email}</ListItem>
-      </Box>
-    </>
-    : null;
+    );
+  };
 
   return (
     <ThemeProvider theme={theme}>
       <Box>
-        {
-          savedGuestData
-        }
-        {
-          savedUserData
+        { Object.keys(user).length ? renderSavedData(user)
+          : Object.keys(guestInfo).length ? renderSavedData(guestInfo)
+            : <Typography style={{color: colors.noticeColor}}>
+                          You need to enter you personal data for next step
+            </Typography>
         }
         <Button className={commonClasses.button} onClick={handleClickOpen}>
           Change contact info

@@ -22,6 +22,7 @@ export const placeOrder = (userId, products, orderData) => dispatch => {
           severity: globalConfig.snackSeverity.SUCCESS
         });
         setStorageData('shoppingCart', []);
+        // todo filter wishList
         setStorageData('wishList', []);
         dispatch({type: Actions.CHANGE_SHOPPING_CART, payload: []});
         dispatch({type: Actions.CHANGE_WISH_LIST, payload: []});
