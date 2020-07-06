@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -14,7 +14,6 @@ import { setCompletedSteps, setGuestData, setPersDetailsOpenState } from '../../
 import {connect} from 'react-redux';
 import PersonalDetailsGuestForm from '../PersonalDetailsForm/PersonalDetailsGuestForm';
 import { getStorageData, setStorageData } from '../../helpers/helpers';
-import { colors } from '../../styles/colorKit';
 
 const ModalPersDetails = (props) => {
   const {
@@ -25,12 +24,14 @@ const ModalPersDetails = (props) => {
   const commonClasses = useCommonStyles();
   const [message, setMessage] = useState('');
   const [isMessageHidden, setIsMessageHidden] = useState(false);
-
-  const guestInfo = useMemo(() => guestData.deliveryAddress ? guestData : getStorageData('guestData'), [guestData]);
+  const guestInfo = guestData.deliveryAddress ? guestData : getStorageData('guestData');
 
   useEffect(() => {
-    if (Object.keys(user) || Object.keys(guestInfo)) setCompleted(activeStep);
-  }, [activeStep, guestInfo, setCompleted, user]);
+    if (Object.keys(user).length > 0 || Object.keys(guestInfo).length > 0) {
+      setCompleted(activeStep);
+    }
+    if (!Object.keys(user).length && !Object.keys(guestInfo).length) setModalOpen(true);
+  }, [activeStep, guestData, guestInfo, setCompleted, setModalOpen, user]);
 
   const handleClickOpen = () => {
     setModalOpen(true);
@@ -64,9 +65,7 @@ const ModalPersDetails = (props) => {
       <Box>
         { Object.keys(user).length ? renderSavedData(user)
           : Object.keys(guestInfo).length ? renderSavedData(guestInfo)
-            : <Typography style={{color: colors.noticeColor}}>
-                          You need to enter you personal data for next step
-            </Typography>
+            : null
         }
         <Button className={commonClasses.button} onClick={handleClickOpen}>
           Change contact info

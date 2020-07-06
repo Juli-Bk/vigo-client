@@ -1,7 +1,10 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 import {ThemeProvider} from '@material-ui/core/styles';
 import {Container, Box, Typography, Stepper, Step, StepLabel, Button} from '@material-ui/core';
+import NavigateNextIcon from '@material-ui/icons/NavigateNext';
+import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 
 import PaymentForm from '../PaymentForm/PaymentForm';
 import DeliveryForm from '../DeliveryForm/DeliveryForm';
@@ -59,7 +62,7 @@ const CheckoutStepper = (props) => {
     if (values.radioGroup === 'asGuest' && !guestInfo) {
       setPersDetailsOpenState(true);
     }
-    if (guestInfo) {
+    if (guestInfo && !Array.isArray(guestInfo)) {
       setCompleted(activeStep);
     }
     setGuest({radioGroup: values.radioGroup});
@@ -139,13 +142,13 @@ const CheckoutStepper = (props) => {
                   onClick={handleBack}
                   className={commonClasses.button}
                 >
-                  {'<'}
+                  <NavigateBeforeIcon/>
                 </Button>
                 <Button
                   disabled={!completed.includes(activeStep)}
                   className={commonClasses.button}
                   onClick={handleNext}>
-                  {activeStep === steps.length - 1 ? 'Confirm' : '>'}
+                  {activeStep === steps.length - 1 ? 'Confirm' : <NavigateNextIcon/>}
                 </Button>
               </Box>
             </Box>
@@ -154,6 +157,21 @@ const CheckoutStepper = (props) => {
       </Box>
     </ThemeProvider>
   );
+};
+
+CheckoutStepper.propTypes = {
+  user: PropTypes.object.isRequired,
+  shoppingCart: PropTypes.array.isRequired,
+  guestData: PropTypes.object.isRequired,
+  orderDetails: PropTypes.object.isRequired,
+  completed: PropTypes.array.isRequired,
+  activeStep: PropTypes.number.isRequired,
+  setLoginModalOpenState: PropTypes.func.isRequired,
+  setUser: PropTypes.func.isRequired,
+  setPersDetailsOpenState: PropTypes.func.isRequired,
+  placeOrder: PropTypes.func.isRequired,
+  setActiveStep: PropTypes.func.isRequired,
+  setCompleted: PropTypes.func.isRequired
 };
 
 const mapStateToProps = store => {

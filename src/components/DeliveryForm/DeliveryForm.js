@@ -26,7 +26,8 @@ const DeliveryForm = (props) => {
   const handleInputChange = (event, newInputValue) => {
     setInputValue(newInputValue);
     setShipping(newInputValue);
-    if (newInputValue === deliveryOptions.PICKUP || (guestInfo.deliveryAddress && guestInfo.deliveryAddress.length === 1) ||
+    if (newInputValue === deliveryOptions.PICKUP ||
+            (guestInfo.deliveryAddress && !Object.keys(user).length) ||
             (user.deliveryAddress && user.deliveryAddress.length === 1)) {
       setCompleted(activeStep);
     }
