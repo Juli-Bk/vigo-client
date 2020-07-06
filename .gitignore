@@ -30,4 +30,4 @@ yarn.lock
 .stylelintcache
 .stylelintcache;
 
-.env
+/.env
