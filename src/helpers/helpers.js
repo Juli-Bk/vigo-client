@@ -255,3 +255,11 @@ export const filterWishList = (productsInOrder) => {
   });
   setStorageData('wishList', updatedWishList);
 };
+
+export const updateCompareList = (productId) => {
+  const compareList = getStorageData('compareList') || [];
+  if (compareList.length && compareList.find(item => item === productId)) {
+    return compareList.filter(item => item !== productId);
+  }
+  return [...compareList, productId];
+};
