@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useMemo, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -13,7 +13,7 @@ import {ThemeProvider} from '@material-ui/styles';
 import { setCompletedSteps, setGuestData, setPersDetailsOpenState } from '../../redux/actions/actions';
 import {connect} from 'react-redux';
 import PersonalDetailsGuestForm from '../PersonalDetailsForm/PersonalDetailsGuestForm';
-import { setStorageData } from '../../helpers/helpers';
+import { getStorageData, setStorageData } from '../../helpers/helpers';
 
 const ModalPersDetails = (props) => {
   const {
@@ -24,6 +24,8 @@ const ModalPersDetails = (props) => {
   const commonClasses = useCommonStyles();
   const [message, setMessage] = useState('');
   const [isMessageHidden, setIsMessageHidden] = useState(false);
+
+  const guestInfo = useMemo(() => guestData.deliveryAddress ? guestData : getStorageData('guestData'), [guestData]);
 
   const handleClickOpen = () => {
     setModalOpen(true);
@@ -39,15 +41,15 @@ const ModalPersDetails = (props) => {
     }}>{message}</Typography>
   </DialogContent>;
 
-  const savedGuestData = Object.keys(guestData).length > 0
+  const savedGuestData = Object.keys(guestInfo).length > 0
     ? <>
       <Box component='ul' id="guest-data-list" style={{
         marginBottom: 10
       }}>
-        <ListItem className={commonClasses.text}>First Name: {guestData.firstName}</ListItem>
-        <ListItem className={commonClasses.text}>Last Name: {guestData.lastName}</ListItem>
-        <ListItem className={commonClasses.text}>Phone Number: {guestData.phoneNumber}</ListItem>
-        <ListItem className={commonClasses.text}>Email: {guestData.email}</ListItem>
+        <ListItem className={commonClasses.text}>First Name: {guestInfo.firstName}</ListItem>
+        <ListItem className={commonClasses.text}>Last Name: {guestInfo.lastName}</ListItem>
+        <ListItem className={commonClasses.text}>Phone Number: {guestInfo.phoneNumber}</ListItem>
+        <ListItem className={commonClasses.text}>Email: {guestInfo.email}</ListItem>
       </Box>
     </>
     : null;

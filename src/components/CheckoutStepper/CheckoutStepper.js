@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import {connect} from 'react-redux';
 import {ThemeProvider} from '@material-ui/core/styles';
 import {Container, Box, Typography, Stepper, Step, StepLabel, Button} from '@material-ui/core';
@@ -16,12 +16,12 @@ import theme from './CheckoutStepperTheme';
 import {
   setLoginModalOpenState,
   setPersDetailsOpenState,
-  setActiveStep
+  setActiveStep, setCompletedSteps
 } from '../../redux/actions/actions';
 import {setUser} from '../../redux/actions/user';
 import {placeOrder} from '../../redux/actions/orders';
 import {setOrder} from './helper';
-import {setStorageData} from '../../helpers/helpers';
+import { getStorageData, setStorageData } from '../../helpers/helpers';
 
 const steps = ['Personal data', 'Delivery', 'Payment', 'Order'];
 
@@ -29,11 +29,14 @@ const CheckoutStepper = (props) => {
   const {
     setLoginModalOpenState, setPersDetailsOpenState, user,
     placeOrder, shoppingCart, guestData, totalSum, orderDetails, completed,
-    setActiveStep, activeStep
+    setActiveStep, activeStep, setCompleted
   } = props;
   const classes = useStyles();
   const commonClasses = useCommonStyles();
   const [guest, setGuest] = useState({radioGroup: null});
+
+  const guestInfo = useMemo(() => guestData.deliveryAddress
+    ? guestData : getStorageData('guestData'), [guestData]);
 
   const resetSteps = useCallback(() => {
     localStorage.setItem('activeStep', JSON.stringify(0));
@@ -53,18 +56,21 @@ const CheckoutStepper = (props) => {
     if (values.radioGroup === 'iWillRegister') {
       setLoginModalOpenState(true);
     }
-    if (values.radioGroup === 'asGuest') {
+    if (values.radioGroup === 'asGuest' && !guestInfo) {
       setPersDetailsOpenState(true);
     }
+    if (guestInfo) {
+      setCompleted(activeStep);
+    }
     setGuest({radioGroup: values.radioGroup});
-  }, [setLoginModalOpenState, setPersDetailsOpenState, shoppingCart.length]);
+  }, [activeStep, guestInfo, setCompleted, setLoginModalOpenState, setPersDetailsOpenState, shoppingCart.length]);
 
   const getStepContent = useCallback((stepIndex) => {
     let fields = null;
     const asAGuest = guest.radioGroup && guest.radioGroup === 'asGuest';
     switch (stepIndex) {
       case 0:
-        if (Object.keys(user).length > 0 || asAGuest) {
+        if (Object.keys(user).length > 0 || (asAGuest)) {
           fields = <ModalPersDetails/>;
         } else {
           fields = <NewCustomerForm submitNewCustomerHandler={onSubmitCallback}/>;
@@ -167,7 +173,8 @@ const mapDispatchToProps = dispatch => {
     setLoginModalOpenState: isOpen => dispatch(setLoginModalOpenState(isOpen)),
     setPersDetailsOpenState: isOpen => dispatch(setPersDetailsOpenState(isOpen)),
     placeOrder: (userId, products, orderData) => dispatch(placeOrder(userId, products, orderData)),
-    setActiveStep: step => dispatch(setActiveStep(step))
+    setActiveStep: step => dispatch(setActiveStep(step)),
+    setCompleted: step => dispatch(setCompletedSteps(step))
   };
 };
 

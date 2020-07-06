@@ -12,13 +12,16 @@ import { getStorageData } from '../../../helpers/helpers';
 import useStyles from './OrderSummaryStyles';
 import ProductsTableMobile from './ProductsTableMobile';
 import { setCompletedSteps } from '../../../redux/actions/actions';
+import globalConfig from '../../../globalConfig';
+
+const {deliveryOptions} = globalConfig;
 
 const OrderSummary = (props) => {
   const classes = useStyles();
   const {
     user, totalSum, shoppingCart, getProductsByFilters,
     guestData, products, productsQuantity, getProductsQuantity,
-    setCompleted, activeStep
+    setCompleted, activeStep, orderDetails
   } = props;
   const isMobile = useMediaQuery('(max-width: 550px)');
 
@@ -59,12 +62,14 @@ const OrderSummary = (props) => {
           {user && Object.keys(user).length > 0 ? <ClientPersData classes={classes} client={user}/>
             : Object.keys(guestInfo).length > 0 ? <ClientPersData classes={classes} client={guestInfo}/> : null}
         </Grid>
-        <Grid item xs={12} sm={6}>
-          <Typography className={classes.title}>Delivery Address: </Typography>
-          {user && Object.keys(user).length > 0 ? renderUserAddress(user, classes)
-            : guestInfo.deliveryAddress && Object.keys(guestInfo.deliveryAddress).length > 0
-              ? renderGuestAddress(guestInfo, classes) : null}
-        </Grid>
+        { orderDetails.shipping !== deliveryOptions.PICKUP
+          ? <Grid item xs={12} sm={6}>
+            <Typography className={classes.title}>Delivery Address: </Typography>
+            {user && Object.keys(user).length > 0 ? renderUserAddress(user, classes)
+              : guestInfo.deliveryAddress && Object.keys(guestInfo.deliveryAddress).length > 0
+                ? renderGuestAddress(guestInfo, classes) : null}
+          </Grid>
+          : null}
       </Grid>
     </Container>
   );
@@ -87,7 +92,8 @@ const mapStateToProps = store => {
     shoppingCart: store.shoppingCart,
     products: store.products,
     productsQuantity: store.quantity,
-    activeStep: store.checkoutSteps.active
+    activeStep: store.checkoutSteps.active,
+    orderDetails: store.orderDetails
   };
 };
 
