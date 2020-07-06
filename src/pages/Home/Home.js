@@ -9,7 +9,6 @@ import BannerLineHomePage from '../../components/BannerLineHomePage/BannerLineHo
 import AjaxUtils from '../../ajax';
 import ScrollToTop from '../../components/ScrollToTop/ScrollToTop';
 import { getJWTfromCookie } from '../../ajax/common/helper';
-import CompareProductTable from '../../components/CompareProductTable/CompareProductTable';
 
 const Home = () => {
   const token = getJWTfromCookie();
@@ -28,8 +27,6 @@ const Home = () => {
           {token ? <CardNewsletter saveEmail={AjaxUtils.Subscribers.subscribe}/> : null}
         </Grid>
       </Grid>
-      <CompareProductTable/>
-
       <ScrollToTop/>
     </Container>
 
