@@ -9,7 +9,7 @@ import theme from './PaymentFormTheme';
 import VigoAddress from '../../components/DefineDelivery/VigoAddress';
 import Typography from '@material-ui/core/Typography';
 import useStyles from '../../styles/formStyle/formStyle';
-import {setPaymentMethod} from '../../redux/actions/actions';
+import { setCompletedSteps, setPaymentMethod } from '../../redux/actions/actions';
 
 const {paymentOptions} = globalConfig;
 function definePayment (inputValue, styles) {
@@ -26,7 +26,7 @@ function definePayment (inputValue, styles) {
 }
 const PaymentForm = (props) => {
   const styles = useStyles();
-  const {setPaymentMethod} = props;
+  const {setPaymentMethod, setCompleted, activeStep} = props;
   const options = Object.values(paymentOptions);
   const [value, setValue] = useState(options[0]);
   const [inputValue, setInputValue] = useState('');
@@ -44,6 +44,7 @@ const PaymentForm = (props) => {
             onInputChange={(event, newInputValue) => {
               setInputValue(newInputValue);
               setPaymentMethod(newInputValue);
+              setCompleted(activeStep);
             }}
             id='controllable-states-demo'
             options={options}
@@ -63,9 +64,16 @@ const PaymentForm = (props) => {
   );
 };
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = store => {
   return {
-    setPaymentMethod: method => dispatch(setPaymentMethod(method))
+    activeStep: store.checkoutSteps.active
   };
 };
-export default React.memo(connect(null, mapDispatchToProps)(PaymentForm));
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setPaymentMethod: method => dispatch(setPaymentMethod(method)),
+    setCompleted: step => dispatch(setCompletedSteps(step))
+  };
+};
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(PaymentForm));
