@@ -240,3 +240,11 @@ export const deleteProps = (object, props) => {
   });
   return newObj;
 };
+
+export const updateCompareList = (productId) => {
+  const compareList = getStorageData('compareList') || [];
+  if (compareList.length && compareList.find(item => item === productId)) {
+    return compareList.filter(item => item !== productId);
+  }
+  return [...compareList, productId];
+};
