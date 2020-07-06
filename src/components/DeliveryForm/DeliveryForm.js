@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
+import {connect} from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
@@ -7,16 +8,30 @@ import theme from '../../styles/formStyle/formStyleTheme';
 import useStyles from '../../styles/formStyle/formStyle';
 import { ThemeProvider } from '@material-ui/core';
 import DefineDelivery from '../DefineDelivery/DefineDelivery';
+import { setCompletedSteps, setShipping } from '../../redux/actions/actions';
+import { getStorageData } from '../../helpers/helpers';
 
 const {deliveryOptions} = globalConfig;
 
-const DeliveryForm = () => {
+const DeliveryForm = (props) => {
+  const {setShipping, setCompleted, activeStep, guestData, user} = props;
   const options = Object.values(deliveryOptions);
   const [value, setValue] = useState(options[0]);
   const [inputValue, setInputValue] = useState('');
-
   const classes = useStyles();
 
+  const guestInfo = useMemo(() => guestData.deliveryAddress
+    ? guestData : getStorageData('guestData'), [guestData]);
+
+  const handleInputChange = (event, newInputValue) => {
+    setInputValue(newInputValue);
+    setShipping(newInputValue);
+    if (newInputValue === deliveryOptions.PICKUP ||
+            (guestInfo.deliveryAddress && !Object.keys(user).length) ||
+            (user.deliveryAddress && user.deliveryAddress.length === 1)) {
+      setCompleted(activeStep);
+    }
+  };
   return (
     <ThemeProvider theme={theme}>
       <Grid container spacing={6}>
@@ -27,9 +42,7 @@ const DeliveryForm = () => {
               setValue(newValue);
             }}
             inputValue={inputValue}
-            onInputChange={(event, newInputValue) => {
-              setInputValue(newInputValue);
-            }}
+            onInputChange={handleInputChange}
             id='controllable-states-demo'
             options={options}
             style={{ width: '100%' }}
@@ -50,4 +63,19 @@ const DeliveryForm = () => {
   );
 };
 
-export default React.memo(DeliveryForm);
+const mapStateToProps = store => {
+  return {
+    activeStep: store.checkoutSteps.active,
+    guestData: store.guestData,
+    user: store.user
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setShipping: shipping => dispatch(setShipping(shipping)),
+    setCompleted: step => dispatch(setCompletedSteps(step))
+  };
+};
+
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(DeliveryForm));

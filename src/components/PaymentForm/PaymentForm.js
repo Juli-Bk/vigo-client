@@ -1,4 +1,5 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
+import {connect} from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
@@ -8,6 +9,7 @@ import theme from './PaymentFormTheme';
 import VigoAddress from '../../components/DefineDelivery/VigoAddress';
 import Typography from '@material-ui/core/Typography';
 import useStyles from '../../styles/formStyle/formStyle';
+import { setCompletedSteps, setPaymentMethod } from '../../redux/actions/actions';
 
 const {paymentOptions} = globalConfig;
 
@@ -29,9 +31,9 @@ function Payment (inputValue, styles) {
       </Typography>;
   }
 }
-
-const PaymentForm = () => {
+const PaymentForm = (props) => {
   const styles = useStyles();
+  const {setPaymentMethod, setCompleted, activeStep} = props;
   const options = Object.values(paymentOptions);
   const [value, setValue] = useState(options[0]);
   const [inputValue, setInputValue] = useState('');
@@ -48,6 +50,8 @@ const PaymentForm = () => {
             inputValue={inputValue}
             onInputChange={(event, newInputValue) => {
               setInputValue(newInputValue);
+              setPaymentMethod(newInputValue);
+              setCompleted(activeStep);
               // todo сохранять в редакс данные о выбранном типе оплаты
             }}
             id='controllable-states-demo'
@@ -67,4 +71,17 @@ const PaymentForm = () => {
     </ThemeProvider>
   );
 };
-export default React.memo(PaymentForm);
+
+const mapStateToProps = store => {
+  return {
+    activeStep: store.checkoutSteps.active
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setPaymentMethod: method => dispatch(setPaymentMethod(method)),
+    setCompleted: step => dispatch(setCompletedSteps(step))
+  };
+};
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(PaymentForm));

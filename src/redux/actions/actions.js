@@ -65,3 +65,21 @@ export const toggleModalSize = (flag) => {
 export const setCurrentProduct = (product) => {
   return {type: Actions.SET_CURRENT_PRODUCT, payload: product};
 };
+
+export const setShipping = (shipping) => {
+  return {type: Actions.SET_SHIPPING, payload: shipping};
+};
+
+export const setPaymentMethod = (paymentMethod) => {
+  return {type: Actions.SET_PAYMENT_METHOD, payload: paymentMethod};
+};
+
+export const setCompletedSteps = (step) => {
+  return {type: Actions.SET_COMPLETED_STEPS, payload: step};
+};
+
+export const setActiveStep = (step) => {
+  const data = JSON.stringify(step);
+  localStorage.setItem('activeStep', data);
+  return {type: Actions.SET_ACTIVE_STEP, payload: step};
+};

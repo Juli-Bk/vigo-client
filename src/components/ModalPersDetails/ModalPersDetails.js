@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -10,18 +10,28 @@ import useCommonStyles from '../../styles/formStyle/formStyle';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import {ThemeProvider} from '@material-ui/styles';
-import {setGuestData, setPersDetailsOpenState} from '../../redux/actions/actions';
+import { setCompletedSteps, setGuestData, setPersDetailsOpenState } from '../../redux/actions/actions';
 import {connect} from 'react-redux';
 import PersonalDetailsGuestForm from '../PersonalDetailsForm/PersonalDetailsGuestForm';
+import { getStorageData, setStorageData } from '../../helpers/helpers';
 
 const ModalPersDetails = (props) => {
   const {
     user, isModalOpen,
-    setModalOpen, setGuestData, guestData
+    setModalOpen, setGuestData, guestData,
+    activeStep, setCompleted
   } = props;
   const commonClasses = useCommonStyles();
   const [message, setMessage] = useState('');
   const [isMessageHidden, setIsMessageHidden] = useState(false);
+  const guestInfo = guestData.deliveryAddress ? guestData : getStorageData('guestData');
+
+  useEffect(() => {
+    if (Object.keys(user).length > 0 || Object.keys(guestInfo).length > 0) {
+      setCompleted(activeStep);
+    }
+    if (!Object.keys(user).length && !Object.keys(guestInfo).length) setModalOpen(true);
+  }, [activeStep, guestData, guestInfo, setCompleted, setModalOpen, user]);
 
   const handleClickOpen = () => {
     setModalOpen(true);
@@ -37,40 +47,25 @@ const ModalPersDetails = (props) => {
     }}>{message}</Typography>
   </DialogContent>;
 
-  const savedGuestData = Object.keys(guestData).length > 0
-    ? <>
+  const renderSavedData = (client) => {
+    return (
       <Box component='ul' id="guest-data-list" style={{
         marginBottom: 10
       }}>
-        <ListItem className={commonClasses.text}>First Name: {guestData.firstName}</ListItem>
-        <ListItem className={commonClasses.text}>Last Name: {guestData.lastName}</ListItem>
-        <ListItem className={commonClasses.text}>Phone Number: {guestData.phoneNumber}</ListItem>
-        <ListItem className={commonClasses.text}>Email: {guestData.email}</ListItem>
+        <ListItem className={commonClasses.text}>First Name: {client.firstName}</ListItem>
+        <ListItem className={commonClasses.text}>Last Name: {client.lastName}</ListItem>
+        <ListItem className={commonClasses.text}>Phone Number: {client.phoneNumber}</ListItem>
+        <ListItem className={commonClasses.text}>Email: {client.email}</ListItem>
       </Box>
-    </>
-    : null;
-
-  const savedUserData = Object.keys(user).length > 0
-    ? <>
-      <Box component='ul' id="user-data-list" style={{
-        marginBottom: 10
-      }}>
-        <ListItem className={commonClasses.text}>First Name: {user.firstName}</ListItem>
-        <ListItem className={commonClasses.text}>Last Name: {user.lastName}</ListItem>
-        <ListItem className={commonClasses.text}>Phone Number: {user.phoneNumber}</ListItem>
-        <ListItem className={commonClasses.text}>Email: {user.email}</ListItem>
-      </Box>
-    </>
-    : null;
+    );
+  };
 
   return (
     <ThemeProvider theme={theme}>
       <Box>
-        {
-          savedGuestData
-        }
-        {
-          savedUserData
+        { Object.keys(user).length ? renderSavedData(user)
+          : Object.keys(guestInfo).length ? renderSavedData(guestInfo)
+            : null
         }
         <Button className={commonClasses.button} onClick={handleClickOpen}>
           Change contact info
@@ -97,6 +92,7 @@ const ModalPersDetails = (props) => {
                         } else if (result.status === 200) {
                           isMessageHidden && setIsMessageHidden(false);
                           handleClose();
+                          setCompleted(activeStep);
                         }
                       }
                       handleClose();
@@ -105,10 +101,13 @@ const ModalPersDetails = (props) => {
                     saveGuestDataHandler={(result) => {
                       if (result) {
                         const userName = `${result.firstName} ${result.lastName}`;
-                        setGuestData({
+                        const data = {
                           ...result,
                           userName
-                        });
+                        };
+                        setGuestData(data);
+                        setStorageData('guestData', data);
+                        setCompleted(activeStep);
                       }
                       handleClose();
                     }
@@ -128,14 +127,16 @@ const mapStateToProps = store => {
   return {
     isModalOpen: store.isPersDetailsModalOpen,
     user: store.user,
-    guestData: store.guestData
+    guestData: store.guestData,
+    activeStep: store.checkoutSteps.active
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     setModalOpen: data => dispatch(setPersDetailsOpenState(data)),
-    setGuestData: data => dispatch(setGuestData(data))
+    setGuestData: data => dispatch(setGuestData(data)),
+    setCompleted: step => dispatch(setCompletedSteps(step))
   };
 };
 

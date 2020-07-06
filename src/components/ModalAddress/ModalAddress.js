@@ -8,17 +8,18 @@ import AddressForm from '../AddressForm/AddressForm';
 import useStyles from '../../containers/Header/headerStyle';
 import Box from '@material-ui/core/Box';
 import { ThemeProvider } from '@material-ui/styles';
-import { setAddressModalOpenState, setGuestData } from '../../redux/actions/actions';
+import { setAddressModalOpenState, setCompletedSteps, setGuestData } from '../../redux/actions/actions';
 import { connect} from 'react-redux';
 import { Typography } from '@material-ui/core';
 import useCommonStyles from '../../styles/formStyle/formStyle';
 import AddressGuestForm from '../../components/AddressForm/AddressGuestForm';
+import { getStorageData, setStorageData } from '../../helpers/helpers';
 
 const ModalAddress = (props) => {
   const {
     user, guestData,
     isAddressModalOpen, setModalOpen,
-    setGuestData
+    setGuestData, activeStep, setCompleted
   } = props;
   const [message, setMessage] = useState('');
   const [isMessageHidden, setIsMessageHidden] = useState(false);
@@ -48,6 +49,7 @@ const ModalAddress = (props) => {
           setIsMessageHidden(true);
         } else if (result.status === 200) {
           isAddressModalOpen && setIsMessageHidden(false);
+          setCompleted(activeStep);
           handleClose();
         }
       }
@@ -57,11 +59,12 @@ const ModalAddress = (props) => {
   const guestForm = <AddressGuestForm component='span'
     saveGuestDataHandler={(deliveryAddress) => {
       if (deliveryAddress) {
-        setGuestData({
-          ...guestData,
-          deliveryAddress
-        });
+        const data = {...guestData, deliveryAddress};
+        setGuestData(data);
+        const storageData = getStorageData('guestData');
+        setStorageData('guestData', {...storageData, deliveryAddress});
       }
+      setCompleted(activeStep);
       handleClose();
     }
     }/>;
@@ -99,14 +102,16 @@ const mapStateToProps = store => {
   return {
     isAddressModalOpen: store.isAddressModalOpen,
     user: store.user,
-    guestData: store.guestData
+    guestData: store.guestData,
+    activeStep: store.checkoutSteps.active
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     setModalOpen: isOpen => dispatch(setAddressModalOpenState(isOpen)),
-    setGuestData: data => dispatch(setGuestData(data))
+    setGuestData: data => dispatch(setGuestData(data)),
+    setCompleted: step => dispatch(setCompletedSteps(step))
   };
 };
 
