@@ -27,7 +27,13 @@ export default {
   getUserWishList: (id) => {
     checkId(id);
     return fetch(`${pathTo.wishlist}/${id}`, methods.GET)
-      .then(response => response.json())
+      .then(async (response) => {
+        const respData = await response.json();
+        return Object.assign({
+          status: response.status,
+          statusText: response.statusText
+        }, respData);
+      })
       .catch(error => console.log('getUserWishList error', error.message));
   },
   /**
@@ -52,7 +58,13 @@ export default {
     };
 
     return fetch(pathTo.wishlist, requestOptions)
-      .then(response => response.json())
+      .then(async (response) => {
+        const respData = await response.json();
+        return Object.assign({
+          status: response.status,
+          statusText: response.statusText
+        }, respData);
+      })
       .catch(error => console.log('addProductToWishList error', error.message));
   },
   /**

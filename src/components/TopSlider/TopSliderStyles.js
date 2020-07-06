@@ -59,25 +59,25 @@ const useStyles = makeStyles(theme => ({
   title: {
     position: 'relative',
     width: 'fit-content',
-    marginBottom: '1.4rem',
+    marginBottom: '1.4rem !important',
     color: colors.fontOncard,
     fontSize: '1.5rem',
     fontFamily: fonts.f1,
     textTransform: 'uppercase',
     [theme.breakpoints.up(420)]: {
-      marginBottom: '1.6rem',
+      marginBottom: '1.6rem !important',
       fontSize: '2rem'
     },
     [theme.breakpoints.up(568)]: {
-      marginBottom: '2.5rem',
+      marginBottom: '2.5rem !important',
       fontSize: '3rem'
     },
     [theme.breakpoints.up('md')]: {
-      marginBottom: '3rem',
+      marginBottom: '3rem !important',
       fontSize: '4rem'
     },
     [theme.breakpoints.up('lg')]: {
-      marginBottom: '4rem',
+      marginBottom: '4rem !important',
       fontSize: '4.5rem'
     },
 
@@ -109,10 +109,10 @@ const useStyles = makeStyles(theme => ({
   text: {
     display: 'none',
     [theme.breakpoints.up('sm')]: {
-      fontSize: '.7rem',
+      fontSize: '.8rem',
       display: 'block',
       width: '50%',
-      marginBottom: '3rem',
+      marginBottom: '3rem !important',
       color: colors.fontOncard,
       fontWeight: 500,
       fontFamily: fonts.f4,
@@ -125,8 +125,8 @@ const useStyles = makeStyles(theme => ({
       fontSize: '1.2rem'
     },
     [theme.breakpoints.up('lg')]: {
-      fontSize: '1.5rem',
-      marginBottom: '4rem'
+      fontSize: '1.4rem',
+      marginBottom: '4rem !important'
     }
   },
   button: {

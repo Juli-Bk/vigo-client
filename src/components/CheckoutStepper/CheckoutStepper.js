@@ -1,113 +1,107 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import {makeStyles, ThemeProvider} from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepLabel from '@material-ui/core/StepLabel';
+import {colors} from '../../styles/colorKit';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
-import Grid from '@material-ui/core/Grid';
-import theme from './CheckoutSteppereTheme';
+import theme from './CheckoutStepperTheme';
 import DeliveryForm from '../DeliveryForm/DeliveryForm';
 import {Container} from '@material-ui/core';
 import PaymentForm from '../PaymentForm/PaymentForm';
 import {connect} from 'react-redux';
-import AjaxUtils from '../../ajax/index';
-import {getJWTfromCookie} from '../../ajax/common/helper';
+import {setLoginModalOpenState, setPersDetailsOpenState} from '../../redux/actions/actions';
+import { setUser} from '../../redux/actions/user';
+import ModalPersDetails from '../ModalPersDetails/ModalPersDetails';
+import NewCustomerForm from '../../components/NewCustomerForm/NewCustomerForm';
+import useCommonStyles from '../../styles/formStyle/formStyle';
+import OrderSummary from './OrderSummary/OrderSummary';
+import { placeOrder } from '../../redux/actions/orders';
+import {setOrder} from './helper';
 
 const useStyles = makeStyles((theme) => ({
   root: {
     width: '100%'
   },
   backButton: {
-    marginRight: theme.spacing(1)
+    marginRight: theme.spacing(1),
+    backgroundColor: colors.borderLight,
+    color: colors.fontOncard
   },
   instructions: {
     padding: 20
+  },
+  buttonContainer: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   }
 }));
 
-const steps = ['Personal data', 'Delivery Info', 'Payment Info', 'Complete your order'];
-
-// todo get User data from BD and render as static info in 'case 0'
-// todo User Order data from BD and render in 'case  3'
-const getStepContent = (stepIndex, userData) => {
-  switch (stepIndex) {
-    case 0:
-      return (
-        <Grid item xs={12}>
-          `
-          ${userData.firstName} ${userData.lastName}
-          John Smith
-          1 Downing street
-          Somewhere,
-          City,
-          Country, 00222,
-          +380976662233
-          `
-        </Grid>
-      );
-    case 1:
-      return (
-        <DeliveryForm/>
-      );
-    case 2:
-      return (
-        <PaymentForm/>
-      );
-    case 3:
-      return 'Review of order: order summary';
-    default:
-      return 'Unknown stepIndex';
-  }
-};
+const steps = ['Personal data', 'Delivery', 'Payment', 'Order'];
 
 const CheckoutStepper = (props) => {
-  const {token} = props;
+  const {
+    setLoginModalOpenState, setPersDetailsOpenState, user,
+    placeOrder, shoppingCart, guestData, totalSum, orderDetails
+  } = props;
   const classes = useStyles();
+  const commonClasses = useCommonStyles();
   const [activeStep, setActiveStep] = useState(0);
-  const [userData, setUser] = useState(0);
+  const [guest, setGuest] = useState({radioGroup: null});
 
-  useEffect(() => {
-    let isCanceled = false;
-    if (!isCanceled && (token || getJWTfromCookie())) {
-      AjaxUtils.Users.getUser()
-        .then(result => {
-          if (result.status === 200) {
-            setUser(result.user);
-          }
-        })
-        .catch(error => {
-          console.log(error);
-          return (
-            <Button
-              href="#text-buttons"
-              color='default'
-              className={classes.link}>
-              Your session has expired. Please log in again.
-            </Button>
-          );
-          // todo open modal window to login again
-        });
+  const onSubmitCallback = (values, callback) => {
+    callback();
+    if (values.radioGroup === 'iWillRegister') {
+      setLoginModalOpenState(true);
     }
-    return () => {
-      isCanceled = true;
-    };
-  }, [classes.link, token]);
+    if (values.radioGroup === 'asGuest') {
+      setPersDetailsOpenState(true);
+    }
+    setGuest({radioGroup: values.radioGroup});
+  };
+
+  const getStepContent = (stepIndex) => {
+    let fields = null;
+    const asAGuest = guest.radioGroup && guest.radioGroup === 'asGuest';
+    switch (stepIndex) {
+      case 0:
+        if (Object.keys(user).length > 0 || asAGuest) {
+          fields = <ModalPersDetails/>;
+        } else {
+          fields = <NewCustomerForm submitNewCustomerHandler={onSubmitCallback}/>;
+        }
+
+        return (
+          fields
+        );
+      case 1:
+        return <DeliveryForm/>;
+      case 2:
+        return <PaymentForm/>;
+      case 3:
+        return <OrderSummary/>;
+      default:
+        return 'Unknown stepIndex';
+    }
+  };
+
+  const orderHandler = useCallback(() => {
+    setOrder(user, guestData, totalSum, orderDetails, shoppingCart, placeOrder);
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  }, [guestData, orderDetails, placeOrder, shoppingCart, totalSum, user]);
 
   const handleNext = useCallback(() => {
-    setActiveStep((prevActiveStep) => prevActiveStep + 1);
-  }, []);
+    activeStep === steps.length - 1
+      ? orderHandler()
+      : setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  }, [activeStep, orderHandler]);
 
   const handleBack = useCallback(() => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   }, []);
-
-  const handleReset = useCallback(() => {
-    setActiveStep(0);
-  }, []);
-
-  // todo - add order numbers instead of #2001539 in Typography
 
   return (
     <ThemeProvider theme={theme}>
@@ -123,10 +117,10 @@ const CheckoutStepper = (props) => {
           {activeStep === steps.length ? (
             <Box>
               <Typography variant='h6' className={classes.instructions}>Thank you for your order.</Typography>
-              <Typography variant='body2' className={classes.instructions}>Your order number is #2001539.
+              {orderDetails && orderDetails.orderNumber &&
+              <Typography variant='body2' className={classes.instructions}>Your order number is {orderDetails.orderNumber}.
                 We have emailed your order confirmation, and will send you an update when your order has shipped.
-                Thank you for your order.</Typography>
-              <Button onClick={handleReset}>Reset</Button>
+                Thank you for your order.</Typography>}
             </Box>
 
           ) : (
@@ -134,19 +128,20 @@ const CheckoutStepper = (props) => {
               <Box>
                 <Typography component='span' className={classes.instructions}>
                   {
-                    getStepContent(activeStep, userData)
+                    getStepContent(activeStep)
                   }
                 </Typography>
-                <Box>
+                <Box className={classes.buttonContainer}>
                   <Button
                     disabled={activeStep === 0}
                     onClick={handleBack}
-                    className={classes.backButton}
+                    className={commonClasses.button}
                   >
-                    Back
+                    {'<'}
                   </Button>
-                  <Button variant='contained' color='primary' onClick={handleNext}>
-                    {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
+                  <Button className={commonClasses.button}
+                    onClick={handleNext}>
+                    {activeStep === steps.length - 1 ? 'Confirm' : '>'}
                   </Button>
                 </Box>
               </Box>
@@ -158,11 +153,22 @@ const CheckoutStepper = (props) => {
   );
 };
 
-const mapStoreToProps = store => {
+const mapStateToProps = store => {
   return {
     user: store.user,
-    token: store.token
+    shoppingCart: store.shoppingCart,
+    guestData: store.guestData,
+    orderDetails: store.orderDetails
   };
 };
 
-export default connect(mapStoreToProps)(React.memo(CheckoutStepper));
+const mapDispatchToProps = dispatch => {
+  return {
+    setUser: data => dispatch(setUser(data)),
+    setLoginModalOpenState: isOpen => dispatch(setLoginModalOpenState(isOpen)),
+    setPersDetailsOpenState: isOpen => dispatch(setPersDetailsOpenState(isOpen)),
+    placeOrder: (userId, products, orderData) => dispatch(placeOrder(userId, products, orderData))
+  };
+};
+
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(CheckoutStepper));

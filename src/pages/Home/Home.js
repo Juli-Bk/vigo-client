@@ -6,14 +6,9 @@ import Bestsellers from '../../containers/Bestsellers/Bestsellers';
 import AboutUsBlock from '../../components/AboutVigoShop/AboutUsBlock/AboutUsBlock';
 import TabsSliders from '../../components/TabsSliders/TabsSliders';
 import BannerLineHomePage from '../../components/BannerLineHomePage/BannerLineHomePage';
-import NewCustomerForm from '../../components/NewCustomerForm/NewCustomerForm';
 import AjaxUtils from '../../ajax';
 import ScrollToTop from '../../components/ScrollToTop/ScrollToTop';
 import { getJWTfromCookie } from '../../ajax/common/helper';
-
-const onSubmitCallback = () => {
-  console.log('newCustomerForm');
-};
 
 const Home = () => {
   const token = getJWTfromCookie();
@@ -32,14 +27,9 @@ const Home = () => {
           {token ? <CardNewsletter saveEmail={AjaxUtils.Subscribers.subscribe}/> : null}
         </Grid>
       </Grid>
-
-      <Grid container spacing={2}>
-        <Grid item xs={12} sm={6} lg={6}>
-          <NewCustomerForm submitNewCustomerHandler={onSubmitCallback}/>
-        </Grid>
-      </Grid>
       <ScrollToTop/>
     </Container>
+
   );
 };
 

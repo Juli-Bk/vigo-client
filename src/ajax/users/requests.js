@@ -1,15 +1,6 @@
 import pathTo from '../common/paths';
 import methods from '../common/methods';
-import {
-  checkId,
-  getAuthHeader,
-  getQueryString,
-  putJWTtoCookie,
-  putJWTtoRedux,
-  putUserIdToCookie,
-  putUserToRedux,
-  putUserToStorage
-} from '../common/helper';
+import {checkId, getAuthHeader, getQueryString} from '../common/helper';
 
 export default {
   /**
@@ -58,10 +49,11 @@ export default {
     return fetch(pathTo.customer, requestOptions)
       .then(async (response) => {
         const respData = await response.json();
-        return Object.assign({
+        return {
           status: response.status,
-          statusText: response.statusText
-        }, respData);
+          statusText: response.statusText,
+          user: respData.user
+        };
       })
       .catch(error => console.log('getUser error', error.message));
   },
@@ -113,7 +105,13 @@ export default {
     };
 
     return fetch(pathTo.users, requestOptions)
-      .then(response => response.json())
+      .then(async (response) => {
+        const respData = await response.json();
+        return Object.assign({
+          status: response.status,
+          statusText: response.statusText
+        }, respData);
+      })
       .catch(error => console.log('updateUserInfoById error', error.message));
   },
   /**
@@ -136,7 +134,13 @@ export default {
     };
 
     return fetch(pathTo.password, requestOptions)
-      .then(response => response.json())
+      .then(async (response) => {
+        const respData = await response.json();
+        return Object.assign({
+          status: response.status,
+          statusText: response.statusText
+        }, respData);
+      })
       .catch(error => console.log('updatePassword error', error.message));
   },
   /**
@@ -194,18 +198,119 @@ export default {
           statusText: response.statusText
         }, respData);
       })
-      .then((result) => {
-        if (result.token) {
-          putJWTtoCookie(result.token);
-          putJWTtoRedux(result.token);
-        }
-        if (result.user) {
-          putUserIdToCookie(result);
-          putUserToRedux(result.user);
-          putUserToStorage(result.user);
-        }
-        return result;
-      })
       .catch(error => console.log('login error', error.message));
+  },
+  /**
+   * performs token refresh if needed cookie exists
+   * @returns {Promise<Response | void>} returns Promise. Use then method on it to get response result
+   */
+  refreshLogin: () => {
+    return fetch(pathTo.loginRefresh, methods.POST)
+      .then(async (response) => {
+        const respData = await response.json();
+        return Object.assign({
+          status: response.status,
+          statusText: response.statusText
+        }, respData);
+      })
+      .catch(error => console.log('refreshLogin error', error.message));
+  },
+  /**
+   * Performs logout on server. Deletes both tokens from httpOnly cookie
+   * @returns {Promise<Response | void>} returns Promise. Use then method on it to get response result
+   */
+  logOut: () => {
+    return fetch(pathTo.logout, methods.POST)
+      .then(async (response) => {
+        const respData = await response.json();
+        return Object.assign({
+          status: response.status,
+          statusText: response.statusText
+        }, respData);
+      })
+      .catch(error => console.log('logOut error', error.message));
+  },
+  /**
+   * Confirms user email
+   * @param email {String} user email address
+   * @returns {Promise<Response | void>} returns Promise. Use then method on it to get response result
+   */
+  confirmMyEmail: (email) => {
+    if (!email) throw new TypeError('specify email address');
+
+    return fetch(`${pathTo.emailConfirmation}?email=${email}`, methods.POST)
+      .then(async (response) => {
+        const respData = await response.json();
+        return Object.assign({
+          status: response.status,
+          statusText: response.statusText
+        }, respData);
+      })
+      .catch(error => console.log('confirmMyEmail error', error.message));
+  },
+  /**
+   * Sends email with link by clicking on it user can proceed to new password setting
+   * @param email {String} user email
+   * @returns {Promise<Response | void>} returns Promise. Use then method on it to get response result
+   */
+  restorePasswordLetter: (email) => {
+    if (!email) throw new TypeError('specify email address');
+
+    const fingerprint = window.navigator.userAgent;
+    return fetch(`${pathTo.restorePassword}?email=${email}&fingerprint=${fingerprint}`, methods.POST)
+      .then(async (response) => {
+        const respData = await response.json();
+        return Object.assign({
+          status: response.status,
+          statusText: response.statusText
+        }, respData);
+      })
+      .catch(error => console.log('restorePasswordLetter error', error.message));
+  },
+  /**
+   * Sends confirmation letter for new email address
+   * @param email {String} - email address to confirm
+   * @returns {Promise<Response | void>} returns Promise. Use then method on it to get response resultl
+   */
+  sendConfirmLetter: (email) => {
+    if (!email) throw new TypeError('specify email address');
+
+    return fetch(`${pathTo.confirmation}?email=${email}`, methods.POST)
+      .then(async (response) => {
+        const respData = await response.json();
+        return Object.assign({
+          status: response.status,
+          statusText: response.statusText
+        }, respData);
+      })
+      .catch(error => console.log('sendConfirmLetter error', error.message));
+  },
+  /**
+   * Updates user password with new value
+   * @param formData {Object} contains user email and newPassword
+   *      example: {newPassword: "password", email: "user@email.com"}
+   * @param token {String} jwt token
+   * @returns {Promise<Response | void>} returns Promise. Use then method on it to get response result
+   */
+  confirmPasswordRecover: (formData, token) => {
+    if (!formData) throw new TypeError('empty form data');
+    if (!token) throw new TypeError('empty token to restore password');
+
+    const requestOptions = {
+      body: JSON.stringify(formData),
+      ...methods.POST,
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    };
+    return fetch(`${pathTo.restore}?token=${token}`, requestOptions)
+      .then(async (response) => {
+        const respData = await response.json();
+        return Object.assign({
+          status: response.status,
+          statusText: response.statusText
+        }, respData);
+      })
+      .catch(error => console.log('confirmPasswordRecover error', error.message));
   }
 };

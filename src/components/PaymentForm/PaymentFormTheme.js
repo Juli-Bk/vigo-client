@@ -1,15 +1,17 @@
 import {createMuiTheme} from '@material-ui/core';
 import { colors } from '../../styles/colorKit';
+import { fonts } from '../../styles/fonts/fontsKit';
 
 const theme = createMuiTheme({
   overrides: {
     MuiButton: {
       root: {
-        backgroundColor: colors.payButtonColor,
-        color: colors.fontOncard,
-        '&:hover': {
-          backgroundColor: colors.payButtonColorHover
-        }
+        marginTop: '1.25rem',
+        color: colors.fontSecondary,
+        fontWeight: 700,
+        border: `.125rem solid ${colors.fontSecondary}`,
+        fontFamily: fonts.f2,
+        textTransform: 'uppercase'
       },
       containedPrimary: {
         backgroundColor: colors.borderDark,
@@ -20,23 +22,20 @@ const theme = createMuiTheme({
     },
     MuiTypography: {
       colorPrimary: {
-        color: 'transparent'
-      },
-      root: {
-        marginBottom: 20
+        '&:hover': {
+          color: 'transparent'
+        }
       }
     },
     MuiListItem: {
       root: {
         paddingTop: 0,
-        paddingBottom: 0,
-        fontSize: 12
+        paddingBottom: 5
       },
       gutters: {
         paddingLeft: 0
       }
     }
-
   }
 }
 );

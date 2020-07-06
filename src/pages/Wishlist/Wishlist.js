@@ -1,60 +1,60 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Container, Grid, useMediaQuery } from '@material-ui/core';
-import AjaxUtils from '../../ajax';
-import globalConfig from '../../globalConfig';
 
-import ProductsTable from '../../containers/ProductsTable/ProductsTable';
-import { changeWishList } from '../../redux/actions/actions';
+import WishListView from '../../components/WishListView/WishListView';
 import EmptyState from '../../components/EmptyState/EmptyState';
+import globalConfig from '../../globalConfig';
+import { changeWishList } from '../../redux/actions/wishlist';
+import { getProductsByFilters } from '../../redux/actions/products';
 
 const Wishlist = (props) => {
-  const {wishList} = props;
-  const [products, setProducts] = useState([]);
+  const {wishList, getProductsByFilters, products} = props;
   const isMobile = useMediaQuery('(max-width: 550px)');
   const filterArray = (wishList.length && [{_id: wishList}]) || [];
 
   useEffect(() => {
-    // eslint-disable-next-line
     let isCanceled = false;
-
-    if (filterArray.length) {
-      AjaxUtils.Products.getProductsByFilters(filterArray, 1, 8, '')
-        .then(result => {
-          setProducts(result.products);
-        });
+    if (!isCanceled) {
+      getProductsByFilters(filterArray, 1, 8, '');
     }
     return () => {
       isCanceled = true;
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [wishList]);
+  }, [wishList, getProductsByFilters]);
 
   return (
     <Container>
       <Grid container>
-        {wishList.length && products.length ? <ProductsTable products={products} isMobile={isMobile}/>
-          : <EmptyState text={globalConfig.emptyWishList}/>}
+        {wishList.length && products.data
+          ? <WishListView products={products.data} isMobile={isMobile}/>
+          : <EmptyState text={globalConfig.wishListMessages.EMPTY}/>}
       </Grid>
     </Container>
   );
 };
 
-const mapStateToProps = store => {
-  return {
-    wishList: store.wishList
-  };
-};
-
 Wishlist.propTypes = {
   wishlist: PropTypes.array,
-  isMyAccount: PropTypes.bool
+  isMyAccount: PropTypes.bool,
+  products: PropTypes.object.isRequired
+};
+
+const mapStateToProps = store => {
+  return {
+    wishList: store.wishList,
+    products: store.products
+  };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    changeWishList: data => dispatch(changeWishList(data))
+    changeWishList: () => dispatch(changeWishList()),
+    getProductsByFilters: (filters, startPage, perPage, sort) => {
+      dispatch(getProductsByFilters(filters, startPage, perPage, sort));
+    }
   };
 };
 

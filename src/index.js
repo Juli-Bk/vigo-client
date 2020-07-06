@@ -8,8 +8,7 @@ import keysLiqpay from '../src/keysConfig';
 import fetchInject from 'fetch-inject';
 
 fetchInject([
-  '//static.liqpay.ua/libjs/checkout.js',
-  'https://cdn.jsdelivr.net/momentjs/2.17.1/moment.min.js'
+  '//static.liqpay.ua/libjs/checkout.js'
 ]).then(() => {
   window.LiqPayCheckoutCallback = function (LiqPayCheckout) {
     LiqPayCheckout.init(keysLiqpay).on('liqpay.callback', function (data) {
@@ -17,6 +16,8 @@ fetchInject([
     }).on('liqpay.close', function (data) {
     });
   };
+}).catch(error => {
+  console.log(error);
 });
 
 ReactDOM.render(

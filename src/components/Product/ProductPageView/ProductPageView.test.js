@@ -1,5 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import {BrowserRouter} from 'react-router-dom';
 import '@testing-library/jest-dom/extend-expect';
 import ProductPageView from './ProductPageView';
 import { Provider } from 'react-redux';
@@ -7,7 +8,7 @@ import store from '../../../redux/store';
 jest.mock('../ActionButtons/ActionButtons');
 
 const testData2 = {
-  _id: 'aaa3342453786497',
+  _id: '5ee4ebb487ae95ab81b85fa0',
   id: 1,
   name: 'Orange dress',
   brandId: {
@@ -22,39 +23,66 @@ const testData2 = {
   date: Date.now()
 };
 
+const quantity = [
+  {
+    sizeId: {
+      name: 'm'
+    },
+    colorId: {
+      name: 'red'
+    }
+  },
+  {
+    sizeId: {
+      name: 's'
+    },
+    colorId: {
+      name: 'red'
+    }
+  }
+];
+
 const widthSm = 'sm';
 
 describe('product page view testing', () => {
   it('product page view renders salePrice when product has sale price', () => {
     const card = render(
-      <Provider store={store}>
-        <ProductPageView productData={testData2} width={widthSm}/>
-      </Provider>);
+      <BrowserRouter>
+        <Provider store={store}>
+          <ProductPageView productData={testData2} width={widthSm} productQuantity={quantity}/>
+        </Provider>
+      </BrowserRouter>);
     const salePrice = card.getByText(`$${testData2.salePrice}`);
     expect(salePrice).toBeInTheDocument();
   });
   it('product page view renders proper product description', () => {
     const card = render(
-      <Provider store={store}>
-        <ProductPageView productData={testData2} width={widthSm}/>
-      </Provider>);
+      <BrowserRouter>
+        <Provider store={store}>
+          <ProductPageView productData={testData2} width={widthSm} productQuantity={quantity}/>
+        </Provider>
+      </BrowserRouter>);
     const text = card.getByText(testData2.description);
     expect(text).toBeInTheDocument();
   });
   it('product page view renders proper product name', () => {
     const card = render(
-      <Provider store={store}>
-        <ProductPageView productData={testData2} width={widthSm}/>
-      </Provider>);
+      <BrowserRouter>
+        <Provider store={store}>
+          <ProductPageView productData={testData2} width={widthSm} productQuantity={quantity}/>
+        </Provider>
+      </BrowserRouter>);
     const text = card.getByText(testData2.name);
     expect(text).toBeInTheDocument();
   });
-  it('product page renders two select blocks', () => {
+  it('product page renders select block', () => {
     render(
-      <Provider store={store}>
-        <ProductPageView productData={testData2} width={widthSm}/>
-      </Provider>);
-    const selects = document.querySelectorAll('select');
-    expect(selects.length).toEqual(2);
+      <BrowserRouter>
+        <Provider store={store}>
+          <ProductPageView productData={testData2} width={widthSm} productQuantity={quantity}/>
+        </Provider>
+      </BrowserRouter>);
+    const select = document.querySelector('select');
+    expect(select).toBeInTheDocument();
   });
 });

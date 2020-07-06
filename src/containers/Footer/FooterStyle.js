@@ -4,6 +4,7 @@ import {fonts} from '../../styles/fonts/fontsKit';
 
 const useStyles = makeStyles(theme => ({
   footer: {
+    marginTop: '4rem',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

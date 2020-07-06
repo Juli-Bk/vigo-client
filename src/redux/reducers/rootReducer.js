@@ -1,34 +1,62 @@
 import { combineReducers } from 'redux';
-import currentPage from './paginationReducer';
+import currentPage from './currentPageReducer';
 import token from './tokenReducer';
-import productsPerPage from './productsPerPageReducer';
 import sortingOption from './sortReducer';
-import priceRange from './priceRangeReducer';
 import view from './viewAsReducer';
 import categories from './categoriesReducer';
 import isMenuOpen from './menuReducer';
 import isSearchBarOpen from './searchBarreducer';
-import size from './currentSizeReducer';
 import quantity from './quantityReducer';
 import wishList from './wishListReducer';
 import user from './userReducer';
-import colors from './colorReducer';
-import categoryId from './categoryIdReducer';
+import isLoginModalOpen from './isLoginModalOpenReducer';
+import isAddressModalOpen from './isAddressModalOpenReducer';
+import isPersDetailsModalOpen from './isPersDetailsModalOpenReducer';
+import isLoading from './isLoadingReducer';
+import shoppingCart from './shoppingCartReducer';
+import guestData from './guestReducer';
+import isModalSizeOpen from './modalSizeReducer';
+import products from './productsReducer';
+import currentProduct from './currentProductReducer';
+import allColors from './allColorsReducer';
+import maxPrice from './maxPriceReducer';
+import allSizes from './allSizesReducer';
+import isPopoverOpen from './isPopoverOpenReducer';
+import snackMessage from './isSnackMessageOpenReducer';
+import isRestorePswdModalOpen from './isRestorePswdModalOpen';
+import userIsLoggedIn from './isLoggedReducer';
+import totalSum from './totalSumReducer';
+import sizeTable from './sizeTableReducer';
+import orderDetails from './orderReducer';
 
 export const rootReducer = combineReducers({
   currentPage,
   sortingOption,
-  priceRange,
-  productsPerPage,
   view,
   token,
   categories,
   isMenuOpen,
-  size,
   quantity,
   isSearchBarOpen,
   wishList,
   user,
-  colors,
-  categoryId
+  isLoginModalOpen,
+  isPersDetailsModalOpen,
+  shoppingCart,
+  guestData,
+  isModalSizeOpen,
+  products,
+  currentProduct,
+  isAddressModalOpen,
+  allColors,
+  maxPrice,
+  allSizes,
+  isLoading,
+  isPopoverOpen,
+  snackMessage,
+  userIsLoggedIn,
+  totalSum,
+  isRestorePswdModalOpen,
+  sizeTable,
+  orderDetails
 });

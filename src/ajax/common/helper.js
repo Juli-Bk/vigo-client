@@ -1,11 +1,5 @@
-import moment from 'moment';
-import store from '../../redux/store';
-import {setJWTtoken, setUser} from '../../redux/actions/actions';
-import {setStorageData} from '../../helpers/helpers';
-
 export const getAuthHeader = () => {
-  const state = store.getState();
-  const token = state.token || getJWTfromCookie();
+  const token = getJWTfromCookie();
 
   if (!token) throw new Error('unauthorized');
 
@@ -16,17 +10,14 @@ export const getAuthHeader = () => {
 };
 
 export const putJWTtoCookie = (loginResponse) => {
-  const exp = moment(Date.now()).add(loginResponse.expiresInMinutes, 'm').toDate();
-  document.cookie = `token=${loginResponse.token};expires=${exp}`;
+  deleteJWTcookie();
+  const exp = new Date(loginResponse.expires);
+  document.cookie = `token=${loginResponse.token};expires=${exp};SameSite=Strict`;
 };
 
 export const putUserIdToCookie = (loginResponse) => {
-  const exp = moment(Date.now()).add(loginResponse.expiresInMinutes, 'm').toDate();
-  document.cookie = `userId=${loginResponse.user._id};expires=${exp}`;
-};
-
-export const putUserToStorage = (userData) => {
-  setStorageData('user', userData);
+  const exp = new Date(loginResponse.token.expires);
+  document.cookie = `userId=${loginResponse.user._id};expires=${exp};SameSite=Strict`;
 };
 
 const getCookie = () => {
@@ -35,9 +26,10 @@ const getCookie = () => {
 };
 
 export const getJWTfromCookie = () => {
-  const token = getCookie() && getCookie().filter(item => item.includes('token'));
-  const tokenData = token && token[0].split('=');
-  if (tokenData[0] === 'token') {
+  const cookie = getCookie();
+  const token = cookie && cookie.filter(item => item.includes('token'));
+  const tokenData = token && token[0] && token[0].split('=');
+  if (tokenData && tokenData[0] === 'token') {
     return tokenData[1];
   }
 };
@@ -51,19 +43,17 @@ export const getUserIdFromCookie = () => {
 };
 
 export const deleteJWTcookie = () => {
-  // todo use this method when sign out
   let exp = new Date(Date.now() - 1000);
   exp = exp.toUTCString();
   const token = getJWTfromCookie();
   document.cookie = `token=${token};expires=${exp}`;
 };
 
-export const putJWTtoRedux = (jwt) => {
-  jwt && store.dispatch(setJWTtoken(jwt.token));
-};
-
-export const putUserToRedux = (user) => {
-  user && store.dispatch(setUser(user));
+export const deleteUserIdCookie = () => {
+  let exp = new Date(Date.now() - 1000);
+  exp = exp.toUTCString();
+  const userId = getUserIdFromCookie();
+  document.cookie = `userId=${userId};expires=${exp}`;
 };
 
 export const isGuid = (value) => {

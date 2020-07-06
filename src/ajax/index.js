@@ -7,6 +7,9 @@ import colors from './colors/requests';
 import size from './size/requests';
 import sizeTables from './sizeTables/requests';
 import quantity from './quantity/requests';
+import shopCart from './shopCart/requests';
+import orders from './orders/requests';
+import email from './email/requests';
 
 const AjaxUtils = {
   Products: products,
@@ -17,7 +20,10 @@ const AjaxUtils = {
   Colors: colors,
   Sizes: size,
   SizeTables: sizeTables,
-  Quantity: quantity
+  Quantity: quantity,
+  ShopCart: shopCart,
+  Orders: orders,
+  Email: email
 };
 
 export default AjaxUtils;

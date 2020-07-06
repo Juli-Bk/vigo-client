@@ -8,6 +8,8 @@ import CardNewsletter from './CardNewsletter';
 import Adapter from 'enzyme-adapter-react-16';
 import AjaxUtils from '../../ajax';
 import Cookie from 'js-cookie';
+import store from '../../redux/store';
+import { Provider } from 'react-redux';
 
 configure({adapter: new Adapter()});
 
@@ -42,7 +44,7 @@ describe('CardNewsletter with all expected props', () => {
     onSubmitCallback = jest.fn(AjaxUtils.Subscribers.subscribe);
 
     await wait(() => {
-      wrapper = mount(<CardNewsletter saveEmail={onSubmitCallback}/>);
+      wrapper = mount(<Provider store={store}><CardNewsletter saveEmail={onSubmitCallback}/></Provider>);
     });
   });
 

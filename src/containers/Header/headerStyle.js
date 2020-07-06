@@ -28,12 +28,6 @@ const blockStyle = {
 };
 
 const useStyles = makeStyles(theme => ({
-  modalWindow: {
-    width: 500,
-    [theme.breakpoints.between(0, 500)]: {
-      width: '90%'
-    }
-  },
   gridContainer: {
     marginBottom: 30
   },
@@ -160,6 +154,24 @@ const useStyles = makeStyles(theme => ({
   },
   [theme.breakpoints.up('md')]: {
     fontSize: 35
+  },
+  link: {
+    position: 'relative'
+  },
+  digit: {
+    position: 'absolute',
+    top: 0,
+    right: '.1rem',
+    fontSize: '0.8rem',
+    fontWeight: 'bold',
+    color: colors.noticeColor,
+    '&:hover': {
+      color: fade(colors.fontHover, 0.9)
+    },
+    [theme.breakpoints.up('sm')]: {
+      top: '.2rem',
+      right: '.3rem'
+    }
   }
 }));
 

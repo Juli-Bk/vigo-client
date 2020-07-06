@@ -1,10 +1,9 @@
-import { configure, mount } from 'enzyme';
+import {configure, mount} from 'enzyme';
 import React from 'react';
-import { Provider } from 'react-redux';
+import {Provider} from 'react-redux';
 import configureStore from 'redux-mock-store';
 import expect from 'expect';
 import {wait} from '@testing-library/react';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import PersonalDetailsForm from './PersonalDetailsForm';
 import Adapter from 'enzyme-adapter-react-16';
@@ -18,17 +17,9 @@ const invalidFirstName = 'nn';
 const validLastNameValue = 'someLastName';
 const invalidLastNameValue = 'test';
 
-const validPhoneValue = '+38(098)1112233';
-const invalidPhoneValue = '1234567';
+const validPhoneValue = '+380507978622';
 
 const validEmail = 'testEm';
-const invalidEmail = '';
-
-const validPass = 'testPass';
-const invalidPass = 'testInvalidPass';
-
-const validConfPass = 'testPass';
-const invalidConfPass = 'testInvalidConfPass';
 
 const updateField = (wrapper, name, value) => {
   wrapper.simulate('change', {
@@ -53,19 +44,38 @@ describe('PersonalDetailsForm with all expected props', () => {
   };
 
   const store = mockStore({
-    setUser: jest.fn()
+    setUser: jest.fn(),
+    user: {
+      isAdmin: true,
+      enabled: true,
+      _id: '5ece726eef69850025d7f1ca',
+      login: 'anna.lypovenko@gmail.com',
+      email: 'anna.lypovenko@gmail.com',
+      password: '$2a$10$x.lYjl3BhyRV6X2b4jd3luJTS8jJadck64aluOLkQ67z72Lf9517i',
+      createdDate: '2020-05-27T14:00:14.746Z',
+      __v: 1,
+      lastLoginDate: '2020-06-20T06:57:51.967Z',
+      avatarUrl: null,
+      firstName: 'Анна',
+      lastName: 'Липовенко1',
+      phoneNumber: '+380507978622',
+      updatedDate: '2020-06-19T00:00:00.000Z',
+      addresses: []
+    }
   });
 
   beforeEach(async () => {
     onSubmitCallback = jest.fn();
 
     await wait(() => {
-      wrapper = mount(<Provider store={store}><PersonalDetailsForm user={user} submitPersonalDetailsHandler={onSubmitCallback}/></Provider>);
+      wrapper = mount(<Provider store={store}>
+        <PersonalDetailsForm user={user} saveUserAddressesHandler={onSubmitCallback}/>
+      </Provider>);
     });
   });
 
   afterEach(() => {
-    wrapper.unmount();
+    wrapper && wrapper.unmount();
   });
 
   it('Should display New customer header', () => {
@@ -77,8 +87,6 @@ describe('PersonalDetailsForm with all expected props', () => {
     expect(wrapper.find('input[name="lastName"]')).toBeTruthy();
     expect(wrapper.find('input[name="phone"]')).toBeTruthy();
     expect(wrapper.find('input[name="email"]')).toBeTruthy();
-    expect(wrapper.find('input[name="password"]')).toBeTruthy();
-    expect(wrapper.find('input[name="confirmPassword"]')).toBeTruthy();
   });
 
   it('Should update First Name input field on change', () => {
@@ -99,16 +107,6 @@ describe('PersonalDetailsForm with all expected props', () => {
   it('Should update email input field on change', () => {
     updateField(wrapper.find('input[name="email"]'), 'email', validEmail);
     expect(wrapper.find('input[name="email"]').props().value).toEqual(validEmail);
-  });
-
-  it('Should update password input field on change', () => {
-    updateField(wrapper.find('input[name="password"]'), 'password', validPass);
-    expect(wrapper.find('input[name="password"]').props().value).toEqual(validPass);
-  });
-
-  it('Should update confirmPassword input field on change', () => {
-    updateField(wrapper.find('input[name="confirmPassword"]'), 'confirmPassword', validConfPass);
-    expect(wrapper.find('input[name="confirmPassword"]').props().value).toEqual(validConfPass);
   });
 
   it('Should show error with invalid name input field on blur', async () => {
@@ -149,102 +147,5 @@ describe('PersonalDetailsForm with all expected props', () => {
     const updatedField = wrapper.find('input[name="lastName"]');
     expect(updatedField.props().value).toEqual(invalidLastNameValue);
     expect(updatedField.props()['aria-invalid']).toEqual(false);
-  });
-
-  it('Should trigger submit on submit clicked with valid form', async () => {
-    updateField(wrapper.find('input[name="firstName"]'), 'firstName', validFirstName);
-    updateField(wrapper.find('input[name="lastName"]'), 'lastName', validLastNameValue);
-    updateField(wrapper.find('input[name="phoneNumber"]'), 'phoneNumber', validPhoneValue);
-    updateField(wrapper.find('input[name="email"]'), 'email', validEmail);
-    updateField(wrapper.find('input[name="password"]'), 'password', validPass);
-    updateField(wrapper.find('input[name="confirmPassword"]'), 'confirmPassword', validConfPass);
-
-    const button = wrapper.find(Button);
-    expect(button.props().type).toEqual('submit');
-    await wait(() => {
-      button.simulate('click', {
-        preventDefault: () => {
-        }
-      });
-    });
-
-    wrapper.update();
-
-    setTimeout(() => {
-      expect(onSubmitCallback)
-        .toHaveBeenCalledWith({
-          firstName: validFirstName,
-          lastName: validLastNameValue,
-          phone: validPhoneValue,
-          saveMyData: false
-        }, expect.any(Function));
-    }, 3000);
-  });
-
-  it('Should not trigger submit on submit clicked with invalid phone number', async () => {
-    updateField(wrapper.find('input[name="phoneNumber"]'), 'phoneNumber', invalidPhoneValue);
-
-    const button = wrapper.find(Button);
-    expect(button.props().type).toEqual('submit');
-    button.simulate('click', {
-      preventDefault: () => {
-      }
-    });
-
-    wrapper.update();
-
-    setTimeout(() => {
-      expect(onSubmitCallback).not.toHaveBeenCalled();
-    }, 3000);
-  });
-  it('Should not trigger submit on submit clicked with invalid email', async () => {
-    updateField(wrapper.find('input[name="email"]'), 'email', invalidEmail);
-
-    const button = wrapper.find(Button);
-    expect(button.props().type).toEqual('submit');
-    button.simulate('click', {
-      preventDefault: () => {
-      }
-    });
-
-    wrapper.update();
-
-    setTimeout(() => {
-      expect(onSubmitCallback).not.toHaveBeenCalled();
-    }, 3000);
-  });
-
-  it('Should not trigger submit on submit clicked with invalid password', async () => {
-    updateField(wrapper.find('input[name="password"]'), 'password', invalidPass);
-
-    const button = wrapper.find(Button);
-    expect(button.props().type).toEqual('submit');
-    button.simulate('click', {
-      preventDefault: () => {
-      }
-    });
-
-    wrapper.update();
-
-    setTimeout(() => {
-      expect(onSubmitCallback).not.toHaveBeenCalled();
-    }, 3000);
-  });
-
-  it('Should not trigger submit on submit clicked with invalid password', async () => {
-    updateField(wrapper.find('input[name="password"]'), 'password', invalidConfPass);
-
-    const button = wrapper.find(Button);
-    expect(button.props().type).toEqual('submit');
-    button.simulate('click', {
-      preventDefault: () => {
-      }
-    });
-
-    wrapper.update();
-
-    setTimeout(() => {
-      expect(onSubmitCallback).not.toHaveBeenCalled();
-    }, 3000);
   });
 });

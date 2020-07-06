@@ -13,14 +13,11 @@ const useStyles = makeStyles(theme => ({
     background: colors.paginationActive
   },
   sortSelect: {
+    display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: '.5rem',
     [theme.breakpoints.up(724)]: {
-      justifyContent: 'flex-start',
-      padding: '0 .5rem',
-      marginBottom: 0,
-      paddingTop: '.5rem'
+      justifyContent: 'flex-start'
     }
   },
   filterPrice: {
@@ -28,6 +25,7 @@ const useStyles = makeStyles(theme => ({
   },
   upperLine: {
     marginBottom: '1rem',
+    padding: '.2rem',
     [theme.breakpoints.up(724)]: {
       background: colors.thinLine
     }
@@ -36,6 +34,15 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'flex-end'
+  },
+  viewBox: {
+    marginBottom: '.7rem',
+    display: 'flex',
+    justifyContent: 'center',
+    [theme.breakpoints.up(724)]: {
+      marginBottom: 0,
+      justifyContent: 'flex-start'
+    }
   },
   paginationBottom: {
     display: 'flex',

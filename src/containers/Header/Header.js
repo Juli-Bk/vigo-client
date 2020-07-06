@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import {Box, Container, Grid, IconButton, Toolbar} from '@material-ui/core';
 import {ThemeProvider} from '@material-ui/core/styles';
@@ -15,9 +15,40 @@ import SideMenu from '../../components/SideMenu/SideMenu';
 import ModalLogin from '../../components/ModalLogin/ModalLogin';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {useTheme} from '@material-ui/styles';
+import { changeWishList, getUserWishList } from '../../redux/actions/wishlist';
+import { changeShoppingCart, getUserShopCart } from '../../redux/actions/shopCart';
+import {connect} from 'react-redux';
+import ProfileMenu from '../../components/ProfileMenu/ProfileMenu';
+import ModalSize from '../../components/ModalSelectSize/ModalSelectSize';
+import SnackbarMessage from '../../components/SnackbarMessage/SnackbarMessage';
+import ModalRestorePassword from '../../components/ModalRestorePassword/ModalRestorePassword';
 
-const Header = () => {
+const Header = (props) => {
+  const {
+    getUserShopCart,
+    getUserWishList,
+    isModalSizeOpen,
+    changeShoppingCart,
+    changeWishList,
+    shoppingCart,
+    wishList,
+    userIsLoggedIn,
+    snackMessage
+  } = props;
   const classes = useStyles();
+
+  useEffect(() => {
+    let isCanceled = false;
+    if (!isCanceled) {
+      getUserWishList();
+      getUserShopCart();
+      changeShoppingCart();
+      changeWishList();
+    }
+    return () => {
+      isCanceled = true;
+    };
+  }, [changeShoppingCart, changeWishList, getUserShopCart, getUserWishList]);
 
   const isMobile = useMediaQuery(useTheme().breakpoints.between(0, 724), {
     defaultMatches: true
@@ -38,26 +69,55 @@ const Header = () => {
                 </Box>
                 <Box className={classes.headerIconsBlock}>
                   <SearchBar/>
-                  <Link to='/wishlist'>
+                  <Link to='/wishlist' className={classes.link}>
                     <IconButton aria-label="starIcon" className={classes.starIcon}>
                       <FavoriteBorderIcon/>
                     </IconButton>
+                    {wishList.length
+                      ? <span className={classes.digit}>{wishList.length}</span>
+                      : null}
                   </Link>
-
-                  <IconButton aria-label="shoppingBag" className={classes.shoppingBag}>
-                    {/* todo should open shopping card page */}
-                    <LocalMallOutlinedIcon/>
-                  </IconButton>
+                  <Link to='/cart' className={classes.link}>
+                    <IconButton aria-label="shoppingBag" className={classes.shoppingBag}>
+                      <LocalMallOutlinedIcon/>
+                    </IconButton>
+                    {shoppingCart.length
+                      ? <span className={classes.digit}>{shoppingCart.length}</span>
+                      : null}
+                  </Link>
+                  {userIsLoggedIn && <ProfileMenu/>}
                   <ModalLogin/>
+                  <ModalRestorePassword/>
                 </Box>
               </Toolbar>
             </Container>
           </AppBar>
         </Grid>
         {!isMobile && <NestedMenu/>}
+        {isModalSizeOpen && <ModalSize/>}
+        {snackMessage.isOpen && <SnackbarMessage/>}
       </Grid>
     </ThemeProvider>
   );
 };
 
-export default React.memo(Header);
+const mapStoreToProps = store => {
+  return {
+    userIsLoggedIn: store.userIsLoggedIn,
+    isModalSizeOpen: store.isModalSizeOpen,
+    shoppingCart: store.shoppingCart,
+    wishList: store.wishList,
+    snackMessage: store.snackMessage
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getUserWishList: () => dispatch(getUserWishList()),
+    getUserShopCart: () => dispatch(getUserShopCart()),
+    changeShoppingCart: () => dispatch(changeShoppingCart()),
+    changeWishList: () => dispatch(changeWishList())
+  };
+};
+
+export default connect(mapStoreToProps, mapDispatchToProps)(Header);

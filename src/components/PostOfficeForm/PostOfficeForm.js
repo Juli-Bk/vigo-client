@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Formik } from 'formik';
+import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import {ThemeProvider} from '@material-ui/core/styles';
 import {
@@ -9,32 +9,23 @@ import {
   Grid
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
-import useStyles from '../CardForm/CardFormStyle';
+import useStyles from '../../styles/formStyle/formStyle';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import theme from '../CardForm/CardFormTheme';
+import theme from '../../styles/formStyle/formStyleTheme';
 import globalConfig from '../../globalConfig';
 
 const {regions} = globalConfig;
 
 const NovaPoshtaCity = (props) => {
   const {submitNovaPoshtaHandler} = props;
-  // todo get values from BD to render them in checkout
-  const submitNovaPoshtaData = (values, {resetForm, setSubmitting}) => {
-    setSubmitting(true);
-    submitNovaPoshtaHandler(values, () => {
-      console.log('novaposhta', values);
-      setSubmitting(false);
-      resetForm();
-    });
-  };
+
   const options = Object.values(regions);
-  const [value, setValue] = useState(regions[0]);
   const [inputValue, setInputValue] = useState('');
 
   const styles = useStyles();
 
   const initFormValues = {
-    city: '',
+    city: inputValue,
     npOffice: ''
   };
 
@@ -54,7 +45,7 @@ const NovaPoshtaCity = (props) => {
           <Formik
             initialValues={initFormValues}
             validationSchema={validateObject}
-            onSubmit={submitNovaPoshtaData}>
+            onSubmit={submitNovaPoshtaHandler}>
             {({
               isSubmitting,
               handleChange,
@@ -62,16 +53,13 @@ const NovaPoshtaCity = (props) => {
               handleSubmit,
               values,
               errors,
-              touched,
-              onChange
+              touched
             }) => (
-              <form>
+              <Form>
                 <Autocomplete
                   id='open-on-focus'
-                  value={value}
-                  onChange={(event, newValue) => {
-                    setValue(newValue);
-                  }}
+                  name='city'
+                  onChange={handleChange}
                   inputValue={inputValue}
                   onInputChange={(event, newInputValue) => {
                     setInputValue(newInputValue);
@@ -80,25 +68,33 @@ const NovaPoshtaCity = (props) => {
                   style={{ width: '100%' }}
                   renderInput={(params) =>
                     <TextField {...params}
+                      autoComplete='false'
                       name='city'
                       className={styles.input}
+                      value={values.city}
                       onBlur={handleBlur}
+                      onChange={handleChange}
                       helperText={(errors.city && touched.city) && errors.city}
                       error={touched.city && Boolean(errors.city)}
                       label='Choose the city to deliver'
-                      variant='outlined' />}
+                      variant='outlined'
+                      size='small'
+                    />
+                  }
                 />
                 <TextField
                   name='npOffice'
                   autoComplete='on'
                   className={styles.input}
+                  type='npOffice'
+                  label='choose nova poshta post office №'
                   value={values.npOffice}
                   onBlur={handleBlur}
-                  label='choose nova poshta post office №'
-                  onChange={handleChange('npOffice')}
-                  helperText={touched.npOffice ? errors.npOffice : ''}
-                  error={touched.npOffice && Boolean(errors.npOffice)}
+                  onChange={handleChange}
+                  helperText={(errors.npOffice && touched.npOffice) && errors.npOffice}
+                  error={errors.npOffice && touched.npOffice}
                   variant='outlined'
+                  size='small'
                   fullWidth
                 />
                 <CardActions>
@@ -111,11 +107,10 @@ const NovaPoshtaCity = (props) => {
                     variant='outlined'>Confirm
                   </Button>
                 </CardActions>
-              </form>
+              </Form>
             )}
           </Formik>
         </Grid>
-
       </Grid>
     </ThemeProvider>
   );

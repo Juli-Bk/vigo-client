@@ -29,6 +29,9 @@ describe('ajax paths config', () => {
     it('login', () => {
       expect(requestPaths.login).toEqual(`${baseUrl}/users/login`);
     });
+    it('loginRefresh', () => {
+      expect(requestPaths.loginRefresh).toEqual(`${baseUrl}/users/login/refresh`);
+    });
   });
 
   describe('returns right path for subscribers requests', () => {
@@ -86,6 +89,11 @@ describe('ajax paths config', () => {
     });
     it('order cancellation', () => {
       expect(requestPaths.cancelOrder).toEqual(`${baseUrl}/orders/cancel`);
+    });
+  });
+  describe('returns right path for sendEmail requests', () => {
+    it('plain', () => {
+      expect(requestPaths.sendEmail).toEqual(`${baseUrl}/mail`);
     });
   });
 });

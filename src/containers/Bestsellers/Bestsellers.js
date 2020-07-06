@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
+import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import { Grid, withWidth, makeStyles } from '@material-ui/core';
+import {Grid, makeStyles, withWidth} from '@material-ui/core';
 import ProductGridView from '../../components/Product/ProductGridView/ProductGridView';
 import LowerTitle from '../../components/LowerTitle/LowerTitle';
 import DividerPlusBtn from '../../components/DividerAndPlusBtn/DividerAndPlusBtn';
-import AjaxUtils from '../../ajax';
-import { calculatePerPageParam } from '../../helpers/helpers';
+import {calculatePerPageParam} from '../../helpers/helpers';
+import {getBestsellers} from '../../redux/actions/products';
 
 const useStyles = makeStyles({
   container: {
@@ -15,31 +16,25 @@ const useStyles = makeStyles({
 
 const Bestsellers = (props) => {
   const classes = useStyles();
-  const {width} = props;
-  const [productsData, setProductsData] = useState([]);
+  const {width, bestSellers, getBestsellers} = props;
   const [perPage, setPerPage] = useState(calculatePerPageParam(width));
-
-  const startPage = 1;
 
   useEffect(() => {
     let isCanceled = false;
     if (!isCanceled) {
-      AjaxUtils.Products.getProductsByFilters([{bestseller: true}], startPage, perPage, '')
-        .then(result => {
-          setProductsData(result.products);
-        });
+      getBestsellers(perPage);
     }
     return () => {
       isCanceled = true;
     };
-  }, [perPage]);
+  }, [getBestsellers, perPage]);
 
-  const showMore = () => {
+  const showMore = useCallback(() => {
     setPerPage(perPage + calculatePerPageParam(width));
-  };
+  }, [perPage, width]);
 
-  const cards = productsData.map(product =>
-    (<Grid item lg={4} md={4} sm={6} xs={12} key={product._id}>
+  const cards = bestSellers.map(product =>
+    (<Grid item md={4} sm={6} xs={12} key={product._id}>
       <ProductGridView
         key={product._id}
         productData={product}/>
@@ -48,11 +43,11 @@ const Bestsellers = (props) => {
 
   return (
     <Grid container justify="center" spacing={2} className={classes.container}>
-      <Grid item xl={12} lg={12} md={12} sm={12} xs={12} >
+      <Grid item xs={12}>
         <LowerTitle data-testid='section-title' text='Bestsellers'/>
       </Grid>
       {cards}
-      <Grid item xl={12} lg={12} md={12} sm={12} xs={12}>
+      <Grid item xs={12}>
         <DividerPlusBtn handler={showMore}/>
       </Grid>
     </Grid>
@@ -60,7 +55,21 @@ const Bestsellers = (props) => {
 };
 
 Bestsellers.propTypes = {
-  width: PropTypes.string.isRequired
+  width: PropTypes.string.isRequired,
+  bestSellers: PropTypes.array.isRequired,
+  getBestsellers: PropTypes.func.isRequired
 };
 
-export default React.memo(withWidth()(Bestsellers));
+const mapStateToProps = store => {
+  return {
+    bestSellers: store.products.bestSellers
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getBestsellers: (perPage) => dispatch(getBestsellers(perPage))
+  };
+};
+
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(withWidth()(Bestsellers)));

@@ -1,67 +1,62 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useMemo, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router';
-import { ThemeProvider, Checkbox, FormControlLabel } from '@material-ui/core';
-import AjaxUtils from '../../../ajax';
+import queryString from 'query-string';
+import { ThemeProvider, Checkbox, FormControlLabel, Box } from '@material-ui/core';
 import theme from '../FilterColors/FilterColorsTheme';
-import { setChosenSize } from '../../../redux/actions/actions';
+import { getAllSizes } from '../../../redux/actions/sizes';
 import globalConfig from '../../../globalConfig';
+import { getFilterString, getSizesState, getUrlData } from '../../../helpers/helpers';
 
 const FilterSizes = (props) => {
-  const { categories, location, setChosenSize } = props;
-  const [state, setState] = useState({});
-  const [sizes, setSizes] = useState([]);
-  const [sizeNames, setSizeNames] = useState([]);
+  const { categories, location, allSizes, getAllSizes, history } = props;
+  const parsed = useMemo(() => queryString.parse(location.search), [location.search]);
+  const dataFromSearchString = useMemo(() => getUrlData(parsed, 'size'), [parsed]);
+  const state = useCallback(() => {
+    if (allSizes.names && allSizes.names.length) {
+      getSizesState(allSizes.names, dataFromSearchString);
+    }
+  }, [dataFromSearchString, allSizes.names]);
+
   let renderOption = globalConfig.sizeRenderOptions.ALL;
 
   useEffect(() => {
     let isCanceled = false;
-    if (!isCanceled) {
-      AjaxUtils.Sizes.getAllSizes()
-        .then(result => {
-          setSizes(result.items);
 
-          const namesSet = new Set();
-          result.items.forEach(size => {
-            namesSet.add(size.name);
-          });
-          setSizeNames(Array.from(namesSet));
-        });
+    if (!isCanceled) {
+      getAllSizes();
     }
     return () => {
       isCanceled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [getAllSizes]);
 
   const getLabelNames = useCallback((renderOption) => {
     const labelNames = new Set();
     if (renderOption !== globalConfig.sizeRenderOptions.ALL) {
       if (renderOption === globalConfig.sizeRenderOptions.ACCESSORIES) {
-        const accessories = categories.plainList.filter(category => category.parentId && category.parentId.name === renderOption);
-        sizes.forEach(size => {
+        const accessories = categories.plainList && categories.plainList.filter(category => category.parentId && category.parentId.name === renderOption);
+        allSizes.items.forEach(size => {
           if (accessories.find(object => object.name === size.sizeType)) labelNames.add(size.name);
         });
         labelNames.add('one size');
       } else {
-        sizes.forEach(size => {
+        allSizes.items.forEach(size => {
           if (size.sizeType === renderOption) labelNames.add(size.name);
         });
       }
     } else {
-      sizeNames.sort(function (a, b) {
+      allSizes.names.sort((a, b) => {
         return a - b;
       }).forEach(name => labelNames.add(name));
     }
     return labelNames;
-  }, [sizes, sizeNames, categories]);
+  }, [allSizes, categories]);
 
-  const searchString = location.search.split('?')[1];
-
-  if (searchString.includes('categoryId')) {
-    const id = searchString.split('categoryId=')[1].split('&')[0];
-    const category = categories.plainList.find(category => category._id === id);
+  if (parsed.categoryId) {
+    const id = parsed.categoryId;
+    const category = categories.plainList && categories.plainList.find(category => category._id === id);
     if (category.level > 1) {
       if (category.level === 2 || category.name === globalConfig.sizeRenderOptions.ACCESSORIES) {
         renderOption = category.name;
@@ -72,44 +67,49 @@ const FilterSizes = (props) => {
   }
 
   const handleChange = (event) => {
-    setState({...state, [event.target.name]: event.target.checked});
-    setChosenSize(event.target.name);
+    const updatedParsed = getFilterString(parsed, 'size', event.target.name);
+    const updatedSearch = queryString.stringify(updatedParsed);
+    history.push(`/products/filter?${updatedSearch}`);
   };
 
-  const checkboxes = () => {
+  const getCheckboxes = () => {
     const labelNames = Array.from(getLabelNames(renderOption));
     return labelNames.map(name => {
       return <FormControlLabel
         key={name}
         label={name}
+        checked={state[name]}
         control={<Checkbox
           onChange={handleChange}
           name={name}
           color='default'/>}/>;
     });
   };
-
-  return (<ThemeProvider theme={theme}>
-    {checkboxes()}
-  </ThemeProvider>);
+  // hack to avoid material-ui warning with empty ThemeProvider children
+  return (
+    <ThemeProvider theme={theme}>
+      {allSizes.names && allSizes.names.length > 0 ? getCheckboxes() : <Box/>}
+    </ThemeProvider>);
 };
 
 FilterSizes.propTypes = {
   categories: PropTypes.object.isRequired,
   location: PropTypes.object.isRequired,
-  setChosenSize: PropTypes.func.isRequired
+  getAllSizes: PropTypes.func.isRequired,
+  allSizes: PropTypes.object.isRequired,
+  history: PropTypes.object.isRequired
 };
 
 const mapStateToProps = store => {
   return {
     categories: store.categories,
-    categoryId: store.categoryId
+    allSizes: store.allSizes
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    setChosenSize: size => dispatch(setChosenSize(size))
+    getAllSizes: () => dispatch(getAllSizes())
   };
 };
 

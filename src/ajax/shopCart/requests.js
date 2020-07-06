@@ -22,7 +22,13 @@ export default {
   getUserShopCart: (userId) => {
     checkId(userId);
     return fetch(`${pathTo.cart}/${userId}`, methods.GET)
-      .then(response => response.json())
+      .then(async (response) => {
+        const respData = await response.json();
+        return Object.assign({
+          status: response.status,
+          statusText: response.statusText
+        }, respData);
+      })
       .catch(error => console.log('getUserShopCart error', error.message));
   },
   /**
@@ -45,11 +51,13 @@ export default {
    * @returns {Promise<any | void>} returns Promise. Use then method on it to get response result
    */
   createShopCart: (userId, products) => {
-    checkId(userId);
+    if (userId) checkId(userId);
     if (!products.length) throw new TypeError('empty products list in the cart');
 
     const requestOptions = {
-      headers: getAuthHeader(),
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify({
         userId,
         products
@@ -58,17 +66,14 @@ export default {
     };
 
     return fetch(pathTo.cart, requestOptions)
-      .then(response => response.json())
+      .then(async (response) => {
+        const respData = await response.json();
+        return Object.assign({
+          status: response.status,
+          statusText: response.statusText
+        }, respData);
+      })
       .catch(error => console.log('createShopCart error', error.message));
-    /**
-     * Updates shop cart data by id.
-     * @param id {GUID} required. shop cart id
-     * @param products {Array} product list in shop cart
-     * @param userId {GUID} user id - optional. might be changed
-     *                      if user decide to register,
-     *                      but shop cart was created for user before as anonymous
-     * @returns {Promise<any | void>} returns Promise. Use then method on it to get response result
-     */
   },
   /**
    * Updates shop cart data by id
@@ -88,18 +93,26 @@ export default {
     checkId(id);
 
     const data = {products};
-    if (userId && checkId(id)) {
+    if (userId && checkId(userId)) {
       data.userId = userId;
     }
 
     const requestOptions = {
-      headers: getAuthHeader(),
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: JSON.stringify(data),
       ...methods.POST
     };
 
     return fetch(`${pathTo.cart}/${id}`, requestOptions)
-      .then(response => response.json())
+      .then(async (response) => {
+        const respData = await response.json();
+        return Object.assign({
+          status: response.status,
+          statusText: response.statusText
+        }, respData);
+      })
       .catch(error => console.log('updateShopCartById error', error.message));
   },
   /**
