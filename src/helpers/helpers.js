@@ -134,13 +134,6 @@ export const defineSortData = (option) => {
   }
 };
 
-export const makeFilterItem = (string) => {
-  const filterString = string.split('=');
-  const key = filterString[0];
-  const value = filterString[1];
-  return {[key]: value};
-};
-
 export const getMaxQuantity = (productQuantity, size) => {
   if (productQuantity && productQuantity.length) {
     if (size && size !== globalConfig.defaultSizeOption) {
@@ -256,4 +249,12 @@ export const deleteProps = (object, props) => {
     }
   });
   return newObj;
+};
+
+export const updateCompareList = (productId) => {
+  const compareList = getStorageData('compareList') || [];
+  if (compareList.length && compareList.find(item => item === productId)) {
+    return compareList.filter(item => item !== productId);
+  }
+  return [...compareList, productId];
 };

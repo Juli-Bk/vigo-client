@@ -16,6 +16,7 @@ export const getProductsByFilters = (filterArray, startPage, perPage, sort) => d
           dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
         }
       }).catch(err => {
+        dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
         console.log('get products by filters request failed', err);
       });
   }
@@ -132,4 +133,22 @@ export const getRecentlyViewed = (productId) => dispatch => {
       });
     dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
   }
+};
+
+export const searchProducts = (searchString) => dispatch => {
+  dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
+  AjaxUtils.Products.searchProducts(searchString)
+    .then(result => {
+      dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
+      if (result) {
+        dispatch({
+          type: Actions.SEARCH_PRODUCTS,
+          products: result.products,
+          totalCount: result.totalCount
+        });
+      }
+    }).catch(err => {
+      dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
+      console.log('search products request failed', err);
+    });
 };

@@ -13,6 +13,7 @@ import {
 } from '../../../redux/actions/actions';
 import {changeShoppingCart} from '../../../redux/actions/shopCart';
 import {changeWishList, toggleWishItems} from '../../../redux/actions/wishlist';
+import { updateCompareList, setStorageData } from '../../../helpers/helpers';
 
 const ActionButtons = (props) => {
   const {
@@ -36,8 +37,8 @@ const ActionButtons = (props) => {
   };
 
   const addToCompare = (productId) => {
-    // todo implementation
-    console.log(`product with id ${productId} added to compare`);
+    const updatedList = updateCompareList(productId);
+    setStorageData('compareList', updatedList);
   };
 
   const toggleWishList = (productId) => {

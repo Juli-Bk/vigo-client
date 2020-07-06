@@ -21,9 +21,12 @@ const useStyles = makeStyles(theme => ({
       marginBottom: '7.63rem'
     }
   },
+  leftColumn: {
+    height: 'fit-content'
+  },
   input: {
     width: '100%',
-    marginBottom: '0.94rem'
+    marginBottom: '1.5rem'
   },
   textArea: {
     width: '100%',
@@ -38,10 +41,13 @@ const useStyles = makeStyles(theme => ({
   },
   captcha: {
     '&>div': {
-      maxWidth: '100% !important',
-      overflow: 'hidden'
+      maxWidth: '100% !important'
     },
-    marginBottom: '1.88rem'
+    marginBottom: '1.88rem',
+    '@media (max-width: 340px)': {
+      transform: 'scale(0.95)',
+      marginLeft: -7
+    }
   },
   captchaErr: {
     fontSize: '0.63rem',

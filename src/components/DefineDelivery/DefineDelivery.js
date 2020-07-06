@@ -14,6 +14,7 @@ import theme from '../../styles/formStyle/formStyleTheme';
 const {deliveryOptions} = globalConfig;
 
 const submitNovaPoshtaHandler = (values) => {
+  console.log(values);
 };
 
 const DefineDelivery = (props) => {
