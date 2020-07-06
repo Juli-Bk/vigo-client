@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useMemo, useState } from 'react';
+import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {ThemeProvider} from '@material-ui/core/styles';
-import {Container, Box, Typography, Stepper, Step, StepLabel, Button} from '@material-ui/core';
+import {Box, Button, Container, Step, StepLabel, Stepper, Typography} from '@material-ui/core';
 import NavigateNextIcon from '@material-ui/icons/NavigateNext';
 import NavigateBeforeIcon from '@material-ui/icons/NavigateBefore';
 
@@ -17,28 +17,29 @@ import useStyles from './CheckoutStepperStyles';
 import theme from './CheckoutStepperTheme';
 
 import {
+  setActiveStep,
+  setCompletedSteps,
   setLoginModalOpenState,
-  setPersDetailsOpenState,
-  setActiveStep, setCompletedSteps
+  setPersDetailsOpenState
 } from '../../redux/actions/actions';
 import {setUser} from '../../redux/actions/user';
 import {placeOrder} from '../../redux/actions/orders';
 import {setOrder} from './helper';
-import { getStorageData, setStorageData } from '../../helpers/helpers';
+import {getStorageData, setStorageData} from '../../helpers/helpers';
 
 import {LiqPayPay} from 'react-liqpay';
 import keysConfig from '../../keysConfig';
 
 const steps = ['Personal data', 'Delivery', 'Payment', 'Order'];
 
-    // todo delete this after checkout will be done
-    const orderData = {
-      totalSum: '1',
-      productCodes: '50, 56',
-      orderId: '5f034e611937506545b7baad',
-      paymentBtnDisabled: false,
-      sandbox: 1
-      };
+// todo delete this after checkout will be done
+const orderData = {
+  totalSum: '1',
+  productCodes: '50, 56',
+  orderId: '5f034e611937506545b7baad',
+  paymentBtnDisabled: false,
+  sandbox: 1
+};
 
 const CheckoutStepper = (props) => {
   const {
@@ -127,9 +128,9 @@ const CheckoutStepper = (props) => {
           <Box>
             <Typography variant='h6' className={classes.instructions}>Thank you for your order.</Typography>
             {orderDetails && orderDetails.orderNumber &&
-                  <Typography variant='body2' className={classes.instructions}>Your order number is {orderDetails.orderNumber}.
-                    We have emailed your order confirmation, and will send you an update when your order has shipped.
-                    Thank you for your order.</Typography>}
+            <Typography variant='body2' className={classes.instructions}>Your order number is {orderDetails.orderNumber}.
+              We have emailed your order confirmation, and will send you an update when your order has shipped.
+              Thank you for your order.</Typography>}
           </Box>
         );
       default:
