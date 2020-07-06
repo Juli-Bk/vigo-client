@@ -1,8 +1,9 @@
 import Actions from '../../constants/constants';
 import AjaxUtils from '../../../ajax';
 import globalConfig from '../../../globalConfig';
-import { setStorageData } from '../../../helpers/helpers';
+import { filterWishList, setStorageData } from '../../../helpers/helpers';
 import { handleCart } from '../shopCart';
+import { changeWishList } from '../wishlist';
 
 export const placeOrder = (userId, products, orderData) => dispatch => {
   dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
@@ -22,10 +23,9 @@ export const placeOrder = (userId, products, orderData) => dispatch => {
           severity: globalConfig.snackSeverity.SUCCESS
         });
         setStorageData('shoppingCart', []);
-        // todo filter wishList
-        setStorageData('wishList', []);
+        filterWishList(products);
         dispatch({type: Actions.CHANGE_SHOPPING_CART, payload: []});
-        dispatch({type: Actions.CHANGE_WISH_LIST, payload: []});
+        dispatch(changeWishList());
         dispatch(handleCart([]));
       }
     }).catch(err => {
