@@ -1,75 +1,69 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-
+import EmptyState from '../EmptyState/EmptyState';
 import {Box, ThemeProvider, TableContainer} from '@material-ui/core';
-
-import {toggleWishItems} from '../../helpers/helpers';
-import {changeCompareList} from '../../redux/actions/comparelist';
 import {theme} from '../WishListView/WishListViewTheme';
-import useStyles from '../WishListView/WishListViewStyles';
+import useStyles from '../CompareProductTable/CompareListViewStyles';
 import CompareListMobileView from './CompareListMobileView';
 import CompareListDesktopView from './CompareListDesktopView';
+import globalConfig from '../../globalConfig';
+import { setStorageData, updateCompareList } from '../../helpers/helpers';
 
 const CompareProductTable = (props) => {
-  const {isMobile, products, compareList, changeWishList} = props;
+  const {isMobile, products} = props;
   const classes = useStyles();
 
   const deleteFromCompareList = (id) => {
-    toggleWishItems(id);
-    changeWishList();
+    setStorageData('compareList', updateCompareList(id));
   };
 
-  const rows = products.map(product => {
+  const rows = products.data && products.data.map(product => {
     return {
       imgUrl: product.imageUrls[0],
-      mainData: {name: product.name, color: product.color, size: product.size},
+      name: product.name,
       productCode: product.productId,
       price: product.price,
       id: product._id,
-      salePrice: product.salePrice
+      salePrice: product.salePrice,
+      brand: product.brand,
+      isOnSale: product.isOnSale,
+      description: product.description
     };
   });
+  console.log(rows);
 
   return (
     <ThemeProvider theme={theme}>
-      {compareList.length && products.length &&
       <TableContainer component={Box}>
-        { isMobile
-          ? <CompareListMobileView
-            classes={classes}
-            productsLenght={products.length}
-            rows={rows}
-            deleteFromComparehList={deleteFromCompareList}
-          />
-          : <CompareListDesktopView
-            classes={classes}
-            rows={rows}
-            deleteFromCompareList={deleteFromCompareList}
-          /> }
+        {products.data && products.data.length
+          ? isMobile
+            ? <CompareListMobileView
+              classes={classes}
+              productsLenght={products.length}
+              rows={rows}
+              deleteFromComparehList={deleteFromCompareList}
+            />
+            : <CompareListDesktopView
+              classes={classes}
+              rows={rows}
+              deleteFromCompareList={deleteFromCompareList}
+            />
+          : <EmptyState text={globalConfig.compareMessages.EMPTY}/>}
       </TableContainer>
-      }
     </ThemeProvider>
   );
 };
 
 CompareProductTable.propTypes = {
-  products: PropTypes.array.isRequired,
-  comparelist: PropTypes.array,
-  changeWishList: PropTypes.func.isRequired,
+  products: PropTypes.object.isRequired,
   isMobile: PropTypes.bool.isRequired
 };
 
 const mapStateToProps = store => {
   return {
-    compareList: store.compareList
+    products: store.products
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    changeCompareList: () => dispatch(changeCompareList())
-  };
-};
-
-export default React.memo(connect(mapStateToProps, mapDispatchToProps)(CompareProductTable));
+export default React.memo(connect(mapStateToProps)(CompareProductTable));

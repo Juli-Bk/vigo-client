@@ -111,6 +111,16 @@ export const saveWishListToLS = (remoteWishList) => {
   setStorageData('wishList', localWishList);
 };
 
+export const saveCompareListToLS = (remoteCompareList) => {
+  const localCompareList = getStorageData('compareList');
+  remoteCompareList.forEach(product => {
+    if (!localCompareList.includes(product._id)) {
+      localCompareList.push(product._id);
+    }
+  });
+  setStorageData('compareList', localCompareList);
+};
+
 export const defineSortData = (option) => {
   switch (option) {
     case globalConfig.sortOptions.New_In:

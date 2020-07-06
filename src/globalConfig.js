@@ -68,6 +68,9 @@ const globalConfig = {
     IN_CART: 'This item is in your cart already',
     EMPTY: 'You don`t have any items in your Shopping Cart'
   },
+  compareMessages: {
+    EMPTY: 'You don`t have any items in Compare List'
+  },
   userMessages: {
     NOT_AUTHORIZED: 'You are not authorized. Login, please',
     EMPTY_RESULT: 'Any results matching your search',

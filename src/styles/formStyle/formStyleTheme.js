@@ -18,6 +18,11 @@ const theme = createMuiTheme({
         }
       }
     },
+    MuiRadio: {
+      root: {
+        margin: 11
+      }
+    },
     MuiSvgIcon: {
       root: {
         color: colors.fontFourth,
@@ -100,6 +105,11 @@ const theme = createMuiTheme({
         }
       }
     },
+    MuiFormControlLabel: {
+      root: {
+        marginLeft: 0
+      }
+    },
     PrivateTabIndicator: {
       colorSecondary: {
         backgroundColor: colors.fontFourth
@@ -148,7 +158,8 @@ const theme = createMuiTheme({
     PrivateRadioButtonIcon: {
       root: {
         position: 'absolute',
-        paddingRight: 20,
+        // paddingRight: 20,
+        marginRight: 20,
         color: colors.fontFourth,
         '@media  (max-width: 734px)': {
           paddingRight: 10
