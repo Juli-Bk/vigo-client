@@ -27,8 +27,8 @@ export const getItemStockData = (productsQuantity, productId) => {
     const itemInStock = productsQuantity.find(item => item.productId === productId);
     if (itemInStock && itemInStock.inStock) {
       return itemInStock.inStock;
-    } else return [];
-  }
+    }
+  } else return [];
 };
 
 export const getChosenProductData = (itemStockData, itemsInCart) => {
