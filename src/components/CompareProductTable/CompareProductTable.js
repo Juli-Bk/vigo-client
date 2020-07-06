@@ -1,22 +1,21 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import EmptyState from '../EmptyState/EmptyState';
 import {Box, ThemeProvider, TableContainer} from '@material-ui/core';
-import {changeCompareList} from '../../redux/actions/comparelist';
 import {theme} from '../WishListView/WishListViewTheme';
 import useStyles from '../CompareProductTable/CompareListViewStyles';
 import CompareListMobileView from './CompareListMobileView';
 import CompareListDesktopView from './CompareListDesktopView';
 import globalConfig from '../../globalConfig';
-import { updateCompareList } from '../../helpers/helpers';
+import { setStorageData, updateCompareList } from '../../helpers/helpers';
 
 const CompareProductTable = (props) => {
-  const {isMobile, products, compareList, changeCompareList} = props;
+  const {isMobile, products} = props;
   const classes = useStyles();
 
   const deleteFromCompareList = (id) => {
-    updateCompareList(id);
+    setStorageData('compareList', updateCompareList(id));
   };
 
   const rows = products.data && products.data.map(product => {

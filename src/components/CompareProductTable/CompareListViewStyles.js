@@ -3,7 +3,11 @@ import { colors } from '../../styles/colorKit';
 import { fonts } from '../../styles/fonts/fontsKit';
 
 const useStyles = makeStyles(theme => ({
-
+  compareTable: {
+    maxWidth: 1280,
+    margin: 'auto',
+    justifyContent: 'space-evenly'
+  },
   tableRowCompare: {
     width: 'min-content',
     display: 'inline-grid',
@@ -48,7 +52,7 @@ const useStyles = makeStyles(theme => ({
       marginBottom: 0
     },
     [theme.breakpoints.up(1200)]: {
-      width: 216,
+      width: 250,
       height: 260,
       cursor: 'pointer',
       marginBottom: 0
@@ -56,10 +60,8 @@ const useStyles = makeStyles(theme => ({
   },
   linkBox: {
     position: 'relative',
-    display: 'block',
-    [theme.breakpoints.up(500)]: {
-      marginRight: '2rem'
-    }
+    margin: '10px auto',
+    display: 'block'
   },
   textBox: {
     display: 'flex',
@@ -77,16 +79,14 @@ const useStyles = makeStyles(theme => ({
   },
   nameCompare: {
     display: 'block',
-    textAlign: 'justify',
+    textAlign: 'center',
     marginTop: 20,
     height: 70,
     color: colors.fontThird,
     textDecoration: 'none',
     cursor: 'pointer',
-    fontSize: '1.2rem',
-    [theme.breakpoints.down(500)]: {
-      textAlign: 'center'
-    }
+    margin: 'auto',
+    fontSize: '1.2rem'
   },
   details: {
     textTransform: 'uppercase',
@@ -97,10 +97,6 @@ const useStyles = makeStyles(theme => ({
   code: {
     fontSize: '1.3rem',
     marginTop: 30
-  },
-  closeBtn: {
-    fill: `2px solid ${colors.borderDark}`,
-    border: '2px solid transparent'
   },
   closeIcon: {
     marginTop: 30,
@@ -137,30 +133,6 @@ const useStyles = makeStyles(theme => ({
       letterSpacing: '.02em',
       marginTop: 30
     }
-  },
-  btn: {
-    color: colors.fontFourth,
-    cursor: 'pointer',
-    lineHeight: '1.2rem',
-    verticalAlign: 'middle',
-    '&:hover': {
-      color: colors.noticeColor,
-      transition: 'all .5s ease'
-    }
-  },
-  borderRight: {
-    borderRight: `1.5px solid  ${colors.thinLine}`
-  },
-  borderLeft: {
-    borderLeft: `1.5px solid  ${colors.thinLine}`
-  },
-  active: {
-    fontSize: '1.2rem',
-    fontWeight: 'bold',
-    lineHeight: 'unset'
-  },
-  boldText: {
-    fontWeight: 'bold'
   }
 }));
 

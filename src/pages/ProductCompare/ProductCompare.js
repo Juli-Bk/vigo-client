@@ -20,9 +20,8 @@ const ProductCompare = (props) => {
       isCanceled = true;
     };
   }, [filterArray, getProductsByFilters]);
-
   return (
-    <CompareProductTable orientation="vertical" isMobile={isMobile}/>
+    <CompareProductTable isMobile={isMobile} compareList={compareList}/>
   );
 };
 
