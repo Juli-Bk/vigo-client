@@ -13,10 +13,12 @@ import {Container} from '@material-ui/core';
 import PaymentForm from '../PaymentForm/PaymentForm';
 import {connect} from 'react-redux';
 import {setLoginModalOpenState, setPersDetailsOpenState} from '../../redux/actions/actions';
-import { setUser} from '../../redux/actions/user';
+import {setUser} from '../../redux/actions/user';
 import ModalPersDetails from '../ModalPersDetails/ModalPersDetails';
 import NewCustomerForm from '../../components/NewCustomerForm/NewCustomerForm';
 import useCommonStyles from '../../styles/formStyle/formStyle';
+import {LiqPayPay} from 'react-liqpay';
+import keysConfig from '../../keysConfig';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,8 +45,17 @@ const CheckoutStepper = (props) => {
   const {setLoginModalOpenState, setPersDetailsOpenState, user} = props;
   const classes = useStyles();
   const commonClasses = useCommonStyles();
-  const [activeStep, setActiveStep] = useState(0);
+  const [activeStep, setActiveStep] = useState(3);
   const [guest, setGuest] = useState({radioGroup: null});
+
+  // todo delete this after checkout will be done
+  const orderData = {
+    totalSum: '1',
+    productCodes: '50, 56',
+    orderId: '5f034e611937506545b7baad',
+    paymentBtnDisabled: false,
+    sandbox: 1
+  };
 
   const onSubmitCallback = (values, callback) => {
     callback();
@@ -80,7 +91,31 @@ const CheckoutStepper = (props) => {
           <PaymentForm/>
         );
       case 3:
-        return 'Review of order: order summary';
+
+        return (<>
+          'Review of order: order summary'
+          {/* todo сюда 💥 orderData передаем такие данные: */}
+          {/* сумма всего, список продуктов в чеке по номерам, */}
+          {/* id самого заказа и регулируем нажатие кнопки */}
+          <LiqPayPay
+            title='Pay: '
+            style={{margin: 8}}
+            publicKey={keysConfig.liqpay_public_key}
+            privateKey={keysConfig.liqpay_private_key}
+            currency={keysConfig.liqpay_currency}
+
+            result_url={`${keysConfig.clientAddress}/account`}
+            server_url={`${keysConfig.serverAddress}/orders/liqpay/order-payment`}
+
+            // order data: for what we pay, total amount AND order id
+            amount={orderData.totalSum}
+            description={`Payment for products: ${orderData.productCodes}`}
+            orderId={orderData.orderId}
+
+            // if we have full data from user for order, btn is enabled
+            disabled={orderData.paymentBtnDisabled}
+          />
+        </>);
       default:
         return 'Unknown stepIndex';
     }

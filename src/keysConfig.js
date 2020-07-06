@@ -1,12 +1,14 @@
-export const keysLiqpay = {
-  data: 'eyJhY3Rpb24iOiJwYXkiLCJhbW91bnQiOiIxIiwiY3VycmVuY3kiOiJVU0QiLCJkZXNjcmlwdGlvbiI6ImRlc2NyaXB0aW9uIHRleHQiLCJvcmRlcl9pZCI6Im9yZGVyX2lkXzEiLCJ2ZXJzaW9uIjoiMyJ9',
-  signature: '676htJyQmMkox9gAKkyYoI8ige8=',
-  embedTo: '#liqpay_checkout',
-  mode: 'embed'
-};
+export default {
+  liqpay_private_key: process.env.REACT_APP_LIQPAY_PRIVATE_KEY,
+  liqpay_public_key: process.env.REACT_APP_LIQPAY_PUBLIC_KEY,
 
-export const liqPay = {
-  link: 'https://www.liqpay.ua/api/3/checkout?data=eyJ2ZXJzaW9uIjozLCJhY3Rpb24iOiJwYXkiLCJwdWJsaWNfa2V5IjoiaTkzODkzMjAzNTY0IiwiYW1vdW50IjoiNSIsImN1cnJlbmN5IjoiVVNEIiwiZGVzY3JpcHRpb24iOiLQnNC%2B0Lkg0YLQvtCy0LDRgCIsInR5cGUiOiJidXkiLCJsYW5ndWFnZSI6ImVuIn0%3D&signature=qfXnJw%2BIj4LWZZdkhKf8CF7uJkw%3D'
-};
+  liqpay_currency: process.env.REACT_APP_ENVIRONMENT === 'development'
+    ? 'UAH'
+    : process.env.REACT_APP_CURRENCY,
 
-export default keysLiqpay;
+  clientAddress: process.env.REACT_APP_ENVIRONMENT === 'development'
+    ? 'http://localhost:3000'
+    : process.env.REACT_APP_CLIENT_BASE_ADDRESS,
+
+  serverAddress: process.env.REACT_APP_SERVER_BASE_ADDRESS
+};
