@@ -22,7 +22,7 @@ const CompareListMobileView = (props) => {
       <TableHead>
         <TableRow>
           <TableCell align="center" className={classes.tableHead}>
-            {productsLength} products in your Comparelist
+            {productsLength} products to compare
           </TableCell>
         </TableRow>
       </TableHead>
@@ -40,7 +40,7 @@ const CompareListMobileView = (props) => {
               </Box>
               <Box className={classes.textBox}>
                 <Link to={`/products/${row.id}`}
-                  className={classes.name}>{capitalize(row.mainData.name)}</Link>
+                  className={classes.name}>{capitalize(row.name)}</Link>
                 <Typography className={classes.details}>Color: {row.mainData.color}</Typography>
                 <Typography className={classes.details}>Size: {row.mainData.size}</Typography>
                 <Typography className={classes.details}>Product code: <span className={classes.codeSmall}>{row.productCode}</span>

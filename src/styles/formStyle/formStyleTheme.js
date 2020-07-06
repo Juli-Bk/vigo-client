@@ -100,6 +100,11 @@ const theme = createMuiTheme({
         }
       }
     },
+    MuiFormControlLabel: {
+      root: {
+        marginLeft: 0
+      }
+    },
     PrivateTabIndicator: {
       colorSecondary: {
         backgroundColor: colors.fontFourth
