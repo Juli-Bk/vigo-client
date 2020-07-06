@@ -5,7 +5,7 @@ import EmptyState from '../EmptyState/EmptyState';
 import {Box, ThemeProvider, TableContainer} from '@material-ui/core';
 import {changeCompareList} from '../../redux/actions/comparelist';
 import {theme} from '../WishListView/WishListViewTheme';
-import useStyles from '../WishListView/WishListViewStyles';
+import useStyles from '../CompareProductTable/CompareListViewStyles';
 import CompareListMobileView from './CompareListMobileView';
 import CompareListDesktopView from './CompareListDesktopView';
 import globalConfig from '../../globalConfig';

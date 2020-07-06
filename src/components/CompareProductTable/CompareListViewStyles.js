@@ -3,20 +3,8 @@ import { colors } from '../../styles/colorKit';
 import { fonts } from '../../styles/fonts/fontsKit';
 
 const useStyles = makeStyles(theme => ({
-  firstCell: {
-    display: 'flex !important',
-    flexDirection: 'column',
-    alignItems: 'center',
-    [theme.breakpoints.up(500)]: {
-      flexDirection: 'row',
-      alignItems: 'flex-start'
-    }
-  },
-  tableRow: {
-    borderBottom: `1px solid ${colors.thinLine} !important`
-  },
+
   tableRowCompare: {
-    borderBottom: `1px solid ${colors.thinLine} !important`,
     width: 'min-content',
     display: 'inline-grid',
     margin: 60
@@ -41,7 +29,7 @@ const useStyles = makeStyles(theme => ({
     position: 'relative',
     height: 300,
     width: 250,
-    marginBottom: '1rem',
+    margin: '0 auto',
     [theme.breakpoints.up(500)]: {
       width: 160,
       height: 200,
@@ -87,9 +75,11 @@ const useStyles = makeStyles(theme => ({
       fontSize: '1.2rem'
     }
   },
-  name: {
+  nameCompare: {
     display: 'block',
-    marginBottom: '1rem',
+    textAlign: 'justify',
+    marginTop: 20,
+    height: 70,
     color: colors.fontThird,
     textDecoration: 'none',
     cursor: 'pointer',
@@ -100,16 +90,20 @@ const useStyles = makeStyles(theme => ({
   },
   details: {
     textTransform: 'uppercase',
-    fontSize: '.85rem'
+    fontSize: '.85rem',
+    marginTop: 30,
+    height: 310
   },
   code: {
-    fontSize: '1.3rem'
+    fontSize: '1.3rem',
+    marginTop: 30
   },
   closeBtn: {
     fill: `2px solid ${colors.borderDark}`,
     border: '2px solid transparent'
   },
   closeIcon: {
+    marginTop: 30,
     fill: `2px solid ${colors.borderDark}`,
     '&:hover': {
       borderRadius: 6,
@@ -129,7 +123,8 @@ const useStyles = makeStyles(theme => ({
     fontSize: '1rem',
     [theme.breakpoints.up(1280)]: {
       fontSize: '1.2rem',
-      letterSpacing: '.02em'
+      letterSpacing: '.02em',
+      marginTop: 30
     }
   },
   price: {
@@ -139,30 +134,8 @@ const useStyles = makeStyles(theme => ({
     fontSize: '1rem',
     [theme.breakpoints.up(1280)]: {
       fontSize: '1.2rem',
-      letterSpacing: '.02em'
-    }
-  },
-  select: {
-    width: '80%',
-    marginBottom: '1rem',
-    padding: '.4rem 0 .4rem .3rem',
-    borderColor: colors.fontFourth,
-    color: colors.paginationActive,
-    fontSize: '1rem',
-    [theme.breakpoints.up('sm')]: {
-      marginBottom: 0
-    }
-  },
-  quantityBox: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderTop: `1.5px solid ${colors.borderLight}`,
-    borderBottom: `1.5px solid ${colors.borderLight}`,
-    lineHeight: '1.5rem',
-    margin: '10px 0',
-    [theme.breakpoints.down('sm')]: {
-      width: 100
+      letterSpacing: '.02em',
+      marginTop: 30
     }
   },
   btn: {

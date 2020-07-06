@@ -1,4 +1,4 @@
-import { Box, CardMedia, Table, TableBody, TableCell, TableRow, Typography } from '@material-ui/core';
+import { Box, CardMedia, Table, TableBody, TableCell, Grid, TableRow, Typography } from '@material-ui/core';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import SaleInfoBox from '../Product/SaleInfoBox/SaleInfoBox';
@@ -27,12 +27,15 @@ const CompareListDesktopView = (props) => {
     createData('Description')
   ];
   console.log(titles);
+
+  // TODO const addToCart = () => {};
+
   return (
-    <Table orientation="vertical" flexItem={true} aria-label='compare-table'>
-      <TableBody >
+    <Grid className={classes.gridContainer} container aria-label='compare-table'>
+      <Grid item >
         {rows.map((row) => (
-          <TableRow key={row.id} className={classes.tableRow}>
-            <TableCell component='th' scope='row'>
+          <Box key={row.id} className={classes.tableRowCompare}>
+            <Box >
               <Link to={`/products/${row.id}`} className={classes.linkBox}>
                 <CardMedia image={row.imgUrl} className={classes.img}/>
                 {row.isOnSale
@@ -40,58 +43,43 @@ const CompareListDesktopView = (props) => {
               </Link>
               <Box className={classes.textBox}>
                 <Link to={`/products/${row.id}`}
-                  className={classes.name}>{capitalize(row.name)}</Link>
+                  className={classes.nameCompare}>{capitalize(row.name)}</Link>
               </Box>
-            </TableCell>
-            <TableCell align='right'>{row.id}</TableCell>
+            </Box>
+            <Box className={classes.code} align='center'>{row.id}</Box>
 
-            <Divider orientation="vertical" flexItem />
+            <Box align='center' className={classes.code}><SalePrice value={row.salePrice}/>
+            </Box>
 
-            <TableCell align='right' className={classes.code}><SalePrice value={row.salePrice}/>
-            </TableCell>
+            <Box align='center' className={classes.code}>{row.brand}</Box>
+            <Box align='center' className={classes.code}>Available / Not available</Box>
 
-            <Divider orientation="vertical" flexItem />
-
-            <TableCell align='right'>{row.brand}</TableCell>
-
-            <Divider orientation="vertical" flexItem />
-
-            <TableCell align='right'>Available / Not available</TableCell>
-
-            <Divider orientation="vertical" flexItem />
-
-            <TableCell align='right'>
+            <Box align='center' className={classes.code}>
               <ProductRating value={rating || 4}/>
-            </TableCell>
+            </Box>
 
-            <Divider orientation="vertical" flexItem />
-
-            <TableCell align='right'>
+            <Box align='center'>
               <Typography
                 variant='caption'
                 component='p'
-                className={classes.description}>{row.description}</Typography>
-            </TableCell>
+                className={classes.details}>{row.description}</Typography>
+            </Box>
 
-            <Divider orientation="vertical" flexItem />
-
-            <TableCell>
+            <Box align='center'>
               <AddToCartButton addToCart={addToCart} classes={styles.button}/>
-            </TableCell>
+            </Box>
 
-            <Divider orientation="vertical" flexItem />
-
-            <TableCell align="center">
-              <CloseIcon data-testid='deleteIcon'
+            <Box align="center">
+              <CloseIcon align='center' data-testid='deleteIcon'
                 className={classes.closeIcon}
                 onClick={() => {
                   deleteFromCompareList(row.id);
                 }}/>
-            </TableCell>
-          </TableRow>
+            </Box>
+          </Box>
         ))}
-      </TableBody>
-    </Table>
+      </Grid>
+    </Grid>
   );
 };
 
@@ -103,25 +91,25 @@ const CompareListDesktopView = (props) => {
 //          <TableBody>
 //           <TableRow>
 //             <TableCell></TableCell>
-//             <TableCell align='right'>
+//             <TableCell align='center'>
 //             <Link to={`/products/${row.id}`} className={classes.linkBox}>
 //                 <CardMedia image={row.imgUrl} className={classes.img}/>
 //                 {row.isOnSale
 //                   ? <SaleInfoBox price={row.price} salePrice={row.salePrice}/> : null}
 //               </Link></TableCell>
-//             <TableCell align='right'>
+//             <TableCell align='center'>
 //             <Link to={`/products/${row.id}`} className={classes.linkBox}>
 //                 <CardMedia image={row.imgUrl} className={classes.img}/>
 //                 {row.isOnSale
 //                   ? <SaleInfoBox price={row.price} salePrice={row.salePrice}/> : null}
 //               </Link></TableCell>
-//             <TableCell align='right'>
+//             <TableCell align='center'>
 //             <Link to={`/products/${row.id}`} className={classes.linkBox}>
 //                 <CardMedia image={row.imgUrl} className={classes.img}/>
 //                 {row.isOnSale
 //                   ? <SaleInfoBox price={row.price} salePrice={row.salePrice}/> : null}
 //               </Link></TableCell>
-//             <TableCell align='right'>
+//             <TableCell align='center'>
 //             <Link to={`/products/${row.id}`} className={classes.linkBox}>
 //                 <CardMedia image={row.imgUrl} className={classes.img}/>
 //                 {row.isOnSale
@@ -131,19 +119,19 @@ const CompareListDesktopView = (props) => {
 //
 //           <TableRow>
 //             <TableCell>Name</TableCell>
-//             <TableCell align='right'><Box className={classes.textBox}>
+//             <TableCell align='center'><Box className={classes.textBox}>
 //                 <Link to={`/products/${row.id}`}
 //                   className={classes.name}>{capitalize(row.mainData.name)}</Link>
 //               </Box></TableCell>
-//             <TableCell align='right'><Box className={classes.textBox}>
+//             <TableCell align='center'><Box className={classes.textBox}>
 //                 <Link to={`/products/${row.id}`}
 //                   className={classes.name}>{capitalize(row.mainData.name)}</Link>
 //               </Box></TableCell>
-//             <TableCell align='right'><Box className={classes.textBox}>
+//             <TableCell align='center'><Box className={classes.textBox}>
 //                 <Link to={`/products/${row.id}`}
 //                   className={classes.name}>{capitalize(row.mainData.name)}</Link>
 //               </Box></TableCell>
-//             <TableCell align='right'><Box className={classes.textBox}>
+//             <TableCell align='center'><Box className={classes.textBox}>
 //                 <Link to={`/products/${row.id}`}
 //                   className={classes.name}>{capitalize(row.mainData.name)}</Link>
 //               </Box></TableCell>
@@ -151,47 +139,47 @@ const CompareListDesktopView = (props) => {
 //
 //         <TableRow>
 //           <TableCell>Price</TableCell>
-//           <TableCell align='right'><SalePrice value={row.salePrice}/></TableCell>
-//           <TableCell align='right'><SalePrice value={row.salePrice}/></TableCell>
-//           <TableCell align='right'><SalePrice value={row.salePrice}/></TableCell>
-//           <TableCell align='right'><SalePrice value={row.salePrice}/></TableCell>
+//           <TableCell align='center'><SalePrice value={row.salePrice}/></TableCell>
+//           <TableCell align='center'><SalePrice value={row.salePrice}/></TableCell>
+//           <TableCell align='center'><SalePrice value={row.salePrice}/></TableCell>
+//           <TableCell align='center'><SalePrice value={row.salePrice}/></TableCell>
 //         </TableRow>
 //
 //         <TableRow>
 //           <TableCell>Brand</TableCell>
-//           <TableCell align='right'>{row.brand}</TableCell>
-//           <TableCell align='right'>{row.brand}</TableCell>
-//           <TableCell align='right'>{row.brand}</TableCell>
-//           <TableCell align='right'>{row.brand}</TableCell>
+//           <TableCell align='center'>{row.brand}</TableCell>
+//           <TableCell align='center'>{row.brand}</TableCell>
+//           <TableCell align='center'>{row.brand}</TableCell>
+//           <TableCell align='center'>{row.brand}</TableCell>
 //         </TableRow>
 //
 //         <TableRow>
 //           <TableCell>Availability</TableCell>
-//           <TableCell align='right'>yes</TableCell>
-//           <TableCell align='right'>no</TableCell>
-//           <TableCell align='right'>no</TableCell>
-//           <TableCell align='right'>yes</TableCell>
+//           <TableCell align='center'>yes</TableCell>
+//           <TableCell align='center'>no</TableCell>
+//           <TableCell align='center'>no</TableCell>
+//           <TableCell align='center'>yes</TableCell>
 //         </TableRow>
 //
 //         <TableRow>
 //           <TableCell>Rating</TableCell>
-//           <TableCell align='right'>
+//           <TableCell align='center'>
 //           <ProductRating value={rating || 4}/>
 //           </TableCell>
-//           <TableCell align='right'>
+//           <TableCell align='center'>
 //           <ProductRating value={rating || 4}/>
 //           </TableCell>
-//           <TableCell align='right'>
+//           <TableCell align='center'>
 //           <ProductRating value={rating || 4}/>
 //           </TableCell>
-//           <TableCell align='right'>
+//           <TableCell align='center'>
 //           <ProductRating value={rating || 4}/>
 //           </TableCell>
 //         </TableRow>
 //
 //         <TableRow>
 //           <TableCell>Descritption</TableCell>
-//           <TableCell align='right'>
+//           <TableCell align='center'>
 //             <Typography
 //                 variant='caption'
 //                 component='p'
@@ -200,9 +188,9 @@ const CompareListDesktopView = (props) => {
 //             <Typography
 //                 variant='caption'
 //                 component='p'
-//                 className={classes.description}>{description}</Typography><TableCell align='right'>
+//                 className={classes.description}>{description}</Typography><TableCell align='center'>
 //           </TableCell>
-//           <TableCell align='right'>
+//           <TableCell align='center'>
 //             <Typography
 //                 variant='caption'
 //                 component='p'
@@ -211,7 +199,7 @@ const CompareListDesktopView = (props) => {
 //             <Typography
 //                 variant='caption'
 //                 component='p'
-//                 className={classes.description}>{description}</Typography><TableCell align='right'>
+//                 className={classes.description}>{description}</Typography><TableCell align='center'>
 //           </TableCell>
 //         </TableRow>
 //     </TableBody>
