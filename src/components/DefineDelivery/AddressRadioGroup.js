@@ -17,7 +17,7 @@ import theme from '../../styles/formStyle/formStyleTheme';
 import { connect} from 'react-redux';
 import { saveUserData, setUserDeliveryAddress } from '../../redux/actions/user';
 import CloseIcon from '@material-ui/icons/Close';
-import { setSnackMessage } from '../../redux/actions/actions';
+import { setCompletedSteps, setSnackMessage } from '../../redux/actions/actions';
 import globalConfig from '../../globalConfig';
 
 const initFormValues = {
@@ -31,12 +31,12 @@ const validateObject = Yup.object({
 const AddressRadioGroup = (props) => {
   const {
     addresses, setUserDeliveryAddress, user,
-    saveUserData, setSnackMessage, isAccount
+    saveUserData, setSnackMessage, isAccount, setCompleted, activeStep
   } = props;
 
   const submitRadioGroupData = (values, { resetForm, setSubmitting }) => {
     setSubmitting(true);
-
+    setCompleted(activeStep);
     setUserDeliveryAddress(values.radioGroup, () => {
       setSubmitting(false);
       resetForm();
@@ -123,7 +123,8 @@ const AddressRadioGroup = (props) => {
 
 const mapStateToProps = store => {
   return {
-    user: store.user
+    user: store.user,
+    activeStep: store.checkoutSteps.active
   };
 };
 
@@ -131,7 +132,8 @@ const mapDispatchToProps = dispatch => {
   return {
     setUserDeliveryAddress: data => dispatch(setUserDeliveryAddress(data)),
     saveUserData: (data, callback) => dispatch(saveUserData(data, callback)),
-    setSnackMessage: (open, message, severity) => dispatch(setSnackMessage(open, message, severity))
+    setSnackMessage: (open, message, severity) => dispatch(setSnackMessage(open, message, severity)),
+    setCompleted: step => dispatch(setCompletedSteps(step))
   };
 };
 

@@ -73,3 +73,13 @@ export const setShipping = (shipping) => {
 export const setPaymentMethod = (paymentMethod) => {
   return {type: Actions.SET_PAYMENT_METHOD, payload: paymentMethod};
 };
+
+export const setCompletedSteps = (step) => {
+  return {type: Actions.SET_COMPLETED_STEPS, payload: step};
+};
+
+export const setActiveStep = (step) => {
+  const data = JSON.stringify(step);
+  localStorage.setItem('activeStep', data);
+  return {type: Actions.SET_ACTIVE_STEP, payload: step};
+};

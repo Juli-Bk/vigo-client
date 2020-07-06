@@ -17,7 +17,6 @@
     "@mezhevykh/reset-styles": "^1.1.2",
     "autosuggest-highlight": "^3.1.1",
     "clsx": "^1.1.1",
-    "dotenv": "^8.2.0",
     "enzyme-adapter-react-15": "^1.4.1",
     "fetch-inject": "^2.0.4",
     "formik": "^2.1.4",
@@ -38,6 +37,7 @@
     "react-css-modules": "^4.7.11",
     "react-dom": "^16.13.1",
     "react-image-gallery": "^1.0.7",
+    "react-liqpay": "^1.3.0",
     "react-places-autocomplete": "^7.2.1",
     "react-recaptcha": "^2.3.10",
     "react-redux": "^7.2.0",
@@ -53,7 +53,8 @@
     "reset-css": "^5.0.1",
     "sha1": "^1.1.1",
     "yargs-parser": "^18.1.3",
-    "yup": "^0.28.5"
+    "yup": "^0.28.5",
+    "dotenv": "^8.2.0"
   },
   "scripts": {
     "start": "if-env NODE_ENV=production ?? npm run start:prod || npm run start:dev",

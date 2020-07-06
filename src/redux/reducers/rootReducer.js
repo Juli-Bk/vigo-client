@@ -28,6 +28,7 @@ import userIsLoggedIn from './isLoggedReducer';
 import totalSum from './totalSumReducer';
 import sizeTable from './sizeTableReducer';
 import orderDetails from './orderReducer';
+import checkoutSteps from './checkoutStepsReducer';
 
 export const rootReducer = combineReducers({
   currentPage,
@@ -58,5 +59,6 @@ export const rootReducer = combineReducers({
   totalSum,
   isRestorePswdModalOpen,
   sizeTable,
-  orderDetails
+  orderDetails,
+  checkoutSteps
 });

@@ -38,6 +38,7 @@ export const setOrder = (user, guestData, totalSum, orderDetails, shoppingCart, 
   const total = totalSum || getStorageData('totalSum');
   let orderData;
   let userId = null;
+  const orderNumber = Date.now() + shoppingCart[0].productId + total;
 
   const products = shoppingCart.map(item => {
     const quantity = item.cartQuantity;
@@ -58,7 +59,7 @@ export const setOrder = (user, guestData, totalSum, orderDetails, shoppingCart, 
       totalSum: total,
       shipping: orderDetails.shipping,
       paymentInfo: orderDetails.paymentMethod,
-      orderNo: Date.now() + shoppingCart.length + total
+      orderNo: orderNumber
     };
   } else {
     orderData = {
@@ -70,7 +71,7 @@ export const setOrder = (user, guestData, totalSum, orderDetails, shoppingCart, 
       totalSum: total,
       shipping: orderDetails.shipping,
       paymentInfo: orderDetails.paymentMethod,
-      orderNo: Date.now() + shoppingCart.length + total
+      orderNo: orderNumber
     };
   }
   callback(userId, products, orderData);

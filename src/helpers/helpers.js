@@ -241,6 +241,21 @@ export const deleteProps = (object, props) => {
   return newObj;
 };
 
+export const filterWishList = (productsInOrder) => {
+  const localWishList = getStorageData('wishList');
+  let updatedWishList = [];
+  const productsId = [];
+  productsInOrder.forEach(item => {
+    productsId.push(item.productId);
+  });
+  productsId.forEach(id => {
+    if (localWishList.filter(item => item === id)) {
+      updatedWishList = localWishList.filter(item => item !== id);
+    }
+  });
+  setStorageData('wishList', updatedWishList);
+};
+
 export const updateCompareList = (productId) => {
   const compareList = getStorageData('compareList') || [];
   if (compareList.length && compareList.find(item => item === productId)) {
