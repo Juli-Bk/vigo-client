@@ -18,7 +18,7 @@ import { setStorageData } from '../../helpers/helpers';
 const ModalPersDetails = (props) => {
   const {
     user, isModalOpen,
-    setModalOpen, setGuestData, guestData
+    setModalOpen, setGuestData, guestData, activeStep, setCompleted
   } = props;
   const commonClasses = useCommonStyles();
   const [message, setMessage] = useState('');
@@ -98,6 +98,7 @@ const ModalPersDetails = (props) => {
                         } else if (result.status === 200) {
                           isMessageHidden && setIsMessageHidden(false);
                           handleClose();
+                          setCompleted(activeStep);
                         }
                       }
                       handleClose();
@@ -112,6 +113,7 @@ const ModalPersDetails = (props) => {
                         };
                         setGuestData(data);
                         setStorageData('guestData', data);
+                        setCompleted(activeStep);
                       }
                       handleClose();
                     }

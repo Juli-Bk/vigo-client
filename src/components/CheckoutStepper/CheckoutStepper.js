@@ -1,44 +1,22 @@
 import React, {useCallback, useState} from 'react';
-import {makeStyles, ThemeProvider} from '@material-ui/core/styles';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
-import {colors} from '../../styles/colorKit';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
-import Box from '@material-ui/core/Box';
-import theme from './CheckoutStepperTheme';
-import DeliveryForm from '../DeliveryForm/DeliveryForm';
-import {Container} from '@material-ui/core';
-import PaymentForm from '../PaymentForm/PaymentForm';
 import {connect} from 'react-redux';
-import {setLoginModalOpenState, setPersDetailsOpenState} from '../../redux/actions/actions';
-import { setUser} from '../../redux/actions/user';
+import {ThemeProvider} from '@material-ui/core/styles';
+import {Container, Box, Typography, Stepper, Step, StepLabel, Button} from '@material-ui/core';
+
+import PaymentForm from '../PaymentForm/PaymentForm';
+import DeliveryForm from '../DeliveryForm/DeliveryForm';
+import OrderSummary from './OrderSummary/OrderSummary';
 import ModalPersDetails from '../ModalPersDetails/ModalPersDetails';
 import NewCustomerForm from '../../components/NewCustomerForm/NewCustomerForm';
-import useCommonStyles from '../../styles/formStyle/formStyle';
-import OrderSummary from './OrderSummary/OrderSummary';
-import { placeOrder } from '../../redux/actions/orders';
-import {setOrder} from './helper';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    width: '100%'
-  },
-  backButton: {
-    marginRight: theme.spacing(1),
-    backgroundColor: colors.borderLight,
-    color: colors.fontOncard
-  },
-  instructions: {
-    padding: 20
-  },
-  buttonContainer: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'space-between'
-  }
-}));
+import useCommonStyles from '../../styles/formStyle/formStyle';
+import useStyles from './CheckoutStepperStyles';
+import theme from './CheckoutStepperTheme';
+
+import {setLoginModalOpenState, setPersDetailsOpenState} from '../../redux/actions/actions';
+import {setUser} from '../../redux/actions/user';
+import {placeOrder} from '../../redux/actions/orders';
+import {setOrder} from './helper';
 
 const steps = ['Personal data', 'Delivery', 'Payment', 'Order'];
 
@@ -51,8 +29,9 @@ const CheckoutStepper = (props) => {
   const commonClasses = useCommonStyles();
   const [activeStep, setActiveStep] = useState(0);
   const [guest, setGuest] = useState({radioGroup: null});
+  const [completed, setCompleted] = useState(new Set());
 
-  const onSubmitCallback = (values, callback) => {
+  const onSubmitCallback = useCallback((values, callback) => {
     callback();
     if (values.radioGroup === 'iWillRegister') {
       setLoginModalOpenState(true);
@@ -61,19 +40,18 @@ const CheckoutStepper = (props) => {
       setPersDetailsOpenState(true);
     }
     setGuest({radioGroup: values.radioGroup});
-  };
+  }, [setLoginModalOpenState, setPersDetailsOpenState]);
 
-  const getStepContent = (stepIndex) => {
+  const getStepContent = useCallback((stepIndex) => {
     let fields = null;
     const asAGuest = guest.radioGroup && guest.radioGroup === 'asGuest';
     switch (stepIndex) {
       case 0:
         if (Object.keys(user).length > 0 || asAGuest) {
-          fields = <ModalPersDetails/>;
+          fields = <ModalPersDetails setCompleted={setCompleted} activeStep={activeStep}/>;
         } else {
           fields = <NewCustomerForm submitNewCustomerHandler={onSubmitCallback}/>;
         }
-
         return (
           fields
         );
@@ -86,7 +64,7 @@ const CheckoutStepper = (props) => {
       default:
         return 'Unknown stepIndex';
     }
-  };
+  }, [guest.radioGroup, onSubmitCallback, user]);
 
   const orderHandler = useCallback(() => {
     setOrder(user, guestData, totalSum, orderDetails, shoppingCart, placeOrder);
@@ -122,7 +100,6 @@ const CheckoutStepper = (props) => {
                 We have emailed your order confirmation, and will send you an update when your order has shipped.
                 Thank you for your order.</Typography>}
             </Box>
-
           ) : (
             <Container>
               <Box>
@@ -139,7 +116,9 @@ const CheckoutStepper = (props) => {
                   >
                     {'<'}
                   </Button>
-                  <Button className={commonClasses.button}
+                  <Button
+                    disabled={completed.has(activeStep)}
+                    className={commonClasses.button}
                     onClick={handleNext}>
                     {activeStep === steps.length - 1 ? 'Confirm' : '>'}
                   </Button>

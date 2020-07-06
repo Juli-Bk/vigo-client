@@ -27,5 +27,8 @@ export const placeOrder = (userId, products, orderData) => dispatch => {
         dispatch({type: Actions.CHANGE_WISH_LIST, payload: []});
         dispatch(handleCart([]));
       }
+    }).catch(err => {
+      console.log(err);
+      dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
     });
 };
