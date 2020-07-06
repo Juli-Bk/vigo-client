@@ -11,12 +11,14 @@ import ProductsTableDesktop from './ProductsTableDesktop';
 import { getStorageData } from '../../../helpers/helpers';
 import useStyles from './OrderSummaryStyles';
 import ProductsTableMobile from './ProductsTableMobile';
+import { setCompletedSteps } from '../../../redux/actions/actions';
 
 const OrderSummary = (props) => {
   const classes = useStyles();
   const {
     user, totalSum, shoppingCart, getProductsByFilters,
-    guestData, products, productsQuantity, getProductsQuantity
+    guestData, products, productsQuantity, getProductsQuantity,
+    setCompleted, activeStep
   } = props;
   const isMobile = useMediaQuery('(max-width: 550px)');
 
@@ -26,14 +28,15 @@ const OrderSummary = (props) => {
       const productsId = getProductsId(shoppingCart);
       getProductsByFilters([{_id: productsId}], 1, 15, '');
       getProductsQuantity(productsId);
+      setCompleted(activeStep);
     }
     return () => {
       isCanceled = true;
     };
-  }, [getProductsByFilters, getProductsQuantity, shoppingCart]);
+  }, [activeStep, getProductsByFilters, getProductsQuantity, setCompleted, shoppingCart]);
 
   const productsData = getProductData(products, shoppingCart, productsQuantity);
-  const guestInfo = guestData || getStorageData('guestData');
+  const guestInfo = Object.keys(guestData).length ? guestData : getStorageData('guestData');
   const total = totalSum || getStorageData('totalSum');
 
   return (
@@ -54,12 +57,13 @@ const OrderSummary = (props) => {
         <Grid item xs={12} sm={6} className={classes.data}>
           <Typography className={classes.title}>Personal Data: </Typography>
           {user && Object.keys(user).length > 0 ? <ClientPersData classes={classes} client={user}/>
-            : Object.keys(guestInfo).length > 0 ? <ClientPersData classes={classes} client={guestData}/> : null}
+            : Object.keys(guestInfo).length > 0 ? <ClientPersData classes={classes} client={guestInfo}/> : null}
         </Grid>
         <Grid item xs={12} sm={6}>
           <Typography className={classes.title}>Delivery Address: </Typography>
           {user && Object.keys(user).length > 0 ? renderUserAddress(user, classes)
-            : guestInfo && Object.keys(guestInfo).length > 0 ? renderGuestAddress(guestData, classes) : null}
+            : guestInfo.deliveryAddress && Object.keys(guestInfo.deliveryAddress).length > 0
+              ? renderGuestAddress(guestInfo, classes) : null}
         </Grid>
       </Grid>
     </Container>
@@ -82,7 +86,8 @@ const mapStateToProps = store => {
     totalSum: store.totalSum,
     shoppingCart: store.shoppingCart,
     products: store.products,
-    productsQuantity: store.quantity
+    productsQuantity: store.quantity,
+    activeStep: store.checkoutSteps.active
   };
 };
 
@@ -91,7 +96,8 @@ const mapDispatchToProps = dispatch => {
     getProductsByFilters: (filters, startPage, perPage, sort) => {
       dispatch(getProductsByFilters(filters, startPage, perPage, sort));
     },
-    getProductsQuantity: idArray => dispatch(getProductsQuantity(idArray))
+    getProductsQuantity: idArray => dispatch(getProductsQuantity(idArray)),
+    setCompleted: step => dispatch(setCompletedSteps(step))
   };
 };
 

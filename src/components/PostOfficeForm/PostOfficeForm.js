@@ -35,7 +35,6 @@ const NovaPoshtaCity = (props) => {
       .required(),
     city: Yup.string()
       .label('Delivery City')
-      .required()
   });
 
   return (

@@ -8,17 +8,24 @@ import theme from '../../styles/formStyle/formStyleTheme';
 import useStyles from '../../styles/formStyle/formStyle';
 import { ThemeProvider } from '@material-ui/core';
 import DefineDelivery from '../DefineDelivery/DefineDelivery';
-import { setShipping } from '../../redux/actions/actions';
+import { setCompletedSteps, setShipping } from '../../redux/actions/actions';
 
 const {deliveryOptions} = globalConfig;
 
 const DeliveryForm = (props) => {
-  const {setShipping} = props;
+  const {setShipping, setCompleted, activeStep} = props;
   const options = Object.values(deliveryOptions);
   const [value, setValue] = useState(options[0]);
   const [inputValue, setInputValue] = useState('');
   const classes = useStyles();
 
+  const handleInputChange = (event, newInputValue) => {
+    setInputValue(newInputValue);
+    setShipping(newInputValue);
+    if (newInputValue === deliveryOptions.PICKUP) {
+      setCompleted(activeStep);
+    }
+  };
   return (
     <ThemeProvider theme={theme}>
       <Grid container spacing={6}>
@@ -29,10 +36,7 @@ const DeliveryForm = (props) => {
               setValue(newValue);
             }}
             inputValue={inputValue}
-            onInputChange={(event, newInputValue) => {
-              setInputValue(newInputValue);
-              setShipping(newInputValue);
-            }}
+            onInputChange={handleInputChange}
             id='controllable-states-demo'
             options={options}
             style={{ width: '100%' }}
@@ -53,10 +57,17 @@ const DeliveryForm = (props) => {
   );
 };
 
-const mapDispatchToProps = dispatch => {
+const mapStateToProps = store => {
   return {
-    setShipping: shipping => dispatch(setShipping(shipping))
+    activeStep: store.checkoutSteps.active
   };
 };
 
-export default React.memo(connect(null, mapDispatchToProps)(DeliveryForm));
+const mapDispatchToProps = dispatch => {
+  return {
+    setShipping: shipping => dispatch(setShipping(shipping)),
+    setCompleted: step => dispatch(setCompletedSteps(step))
+  };
+};
+
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(DeliveryForm));

@@ -10,7 +10,7 @@ import useCommonStyles from '../../styles/formStyle/formStyle';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import {ThemeProvider} from '@material-ui/styles';
-import {setGuestData, setPersDetailsOpenState} from '../../redux/actions/actions';
+import { setCompletedSteps, setGuestData, setPersDetailsOpenState } from '../../redux/actions/actions';
 import {connect} from 'react-redux';
 import PersonalDetailsGuestForm from '../PersonalDetailsForm/PersonalDetailsGuestForm';
 import { setStorageData } from '../../helpers/helpers';
@@ -18,7 +18,8 @@ import { setStorageData } from '../../helpers/helpers';
 const ModalPersDetails = (props) => {
   const {
     user, isModalOpen,
-    setModalOpen, setGuestData, guestData, activeStep, setCompleted
+    setModalOpen, setGuestData, guestData,
+    activeStep, setCompleted
   } = props;
   const commonClasses = useCommonStyles();
   const [message, setMessage] = useState('');
@@ -133,14 +134,16 @@ const mapStateToProps = store => {
   return {
     isModalOpen: store.isPersDetailsModalOpen,
     user: store.user,
-    guestData: store.guestData
+    guestData: store.guestData,
+    activeStep: store.checkoutSteps.active
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     setModalOpen: data => dispatch(setPersDetailsOpenState(data)),
-    setGuestData: data => dispatch(setGuestData(data))
+    setGuestData: data => dispatch(setGuestData(data)),
+    setCompleted: step => dispatch(setCompletedSteps(step))
   };
 };
 

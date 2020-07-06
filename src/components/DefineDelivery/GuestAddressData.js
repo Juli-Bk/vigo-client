@@ -9,7 +9,7 @@ import ModalAddress from '../ModalAddress/ModalAddress';
 import useStyles from '../../styles/formStyle/formStyle';
 
 const GuestAddressData = (props) => {
-  const { guestData} = props;
+  const {guestData} = props;
   const styles = useStyles();
 
   const isEmptyUserData = Object.keys(guestData).length <= 0;
