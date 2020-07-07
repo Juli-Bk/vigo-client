@@ -1,3 +1,5 @@
+import React from 'react';
+import {connect} from 'react-redux';
 import {
   Box,
   CardMedia,
@@ -8,14 +10,14 @@ import {
   TableRow,
   Typography
 } from '@material-ui/core';
-import React from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import { Link } from 'react-router-dom';
 import { capitalize, formPriceString } from '../../helpers/helpers';
 import globalConfig from '../../globalConfig';
+import { changeCompareList } from '../../redux/actions/actions';
 
 const CompareListMobileView = (props) => {
-  const {rows, classes, productsLength, deleteFromCompareList} = props;
+  const {rows, classes, productsLength, changeCompareList} = props;
 
   return (
     <Table aria-label="products table">
@@ -35,7 +37,7 @@ const CompareListMobileView = (props) => {
                 <CloseIcon data-testid='deleteIcon'
                   className={classes.closeIcon}
                   onClick={() => {
-                    deleteFromCompareList(row.id);
+                    changeCompareList(row.id);
                   }}/>
               </Box>
               <Box className={classes.textBox}>
@@ -65,4 +67,10 @@ const CompareListMobileView = (props) => {
   ;
 };
 
-export default CompareListMobileView;
+const mapDispatchToProps = dispatch => {
+  return {
+    changeCompareList: (id) => dispatch(changeCompareList(id))
+  };
+};
+
+export default React.memo(connect(null, mapDispatchToProps)(CompareListMobileView));

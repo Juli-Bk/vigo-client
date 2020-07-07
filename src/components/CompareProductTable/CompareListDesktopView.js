@@ -1,5 +1,6 @@
-import { Box, CardMedia, Grid, Typography } from '@material-ui/core';
 import React from 'react';
+import {connect} from 'react-redux';
+import { Box, CardMedia, Grid, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import SaleInfoBox from '../Product/SaleInfoBox/SaleInfoBox';
 import { capitalize } from '../../helpers/helpers';
@@ -7,21 +8,12 @@ import SalePrice from '../Product/SalePrice/SalePrice';
 import useStyles from '../../styles/formStyle/formStyle';
 import ProductRating from '../Product/ProductRating/ProductRating';
 import CloseIcon from '@material-ui/icons/Close';
-import AddToCartButton from '../Product/ActionButtons/ButtonAddToCart/AddToCartButton';
-import {
-  toggleModalSize
-} from '../../redux/actions/actions';
-import {changeShoppingCart} from '../../redux/actions/shopCart';
+import ActionButtons from '../Product/ActionButtons/ActionButtons';
+import { changeCompareList } from '../../redux/actions/actions';
 
 const CompareListDesktopView = (props) => {
-  const {classes, deleteFromCompareList, rating, rows, addToCart} = props;
+  const {classes, rating, rows, changeCompareList} = props;
   const styles = useStyles();
-
-  const addToShopCart = (productId, quantity = 1, sizeId, colorId) => {
-    addToCart(productId, quantity, sizeId, colorId);
-    changeShoppingCart();
-    toggleModalSize(false);
-  };
 
   return (
     <Grid className={classes.compareTable} container aria-label='compare-table'>
@@ -40,7 +32,7 @@ const CompareListDesktopView = (props) => {
                     className={classes.nameCompare}>{capitalize(row.name)}</Link>
                 </Box>
               </Grid>
-              <Box className={{marginTop: 30}} align='center'>{row.id}</Box>
+              <Box style={{marginTop: 30}} align='center'>{row.id}</Box>
 
               <Box align='center' className={classes.code}><SalePrice value={row.salePrice}/>
               </Box>
@@ -60,14 +52,14 @@ const CompareListDesktopView = (props) => {
               </Box>
 
               <Box align='center'>
-                <AddToCartButton addToCart={addToShopCart} classes={styles.button}/>
+                <ActionButtons isComparePage={true} classes={styles} product={row.product}/>
               </Box>
 
               <Box align="center">
                 <CloseIcon align='center' data-testid='deleteIcon'
                   className={classes.closeIcon}
                   onClick={() => {
-                    deleteFromCompareList(row.id);
+                    changeCompareList(row.id);
                   }}/>
               </Box>
             </Box>);
@@ -78,4 +70,10 @@ const CompareListDesktopView = (props) => {
   );
 };
 
-export default React.memo(CompareListDesktopView);
+const mapDispatchToProps = dispatch => {
+  return {
+    changeCompareList: (id) => dispatch(changeCompareList(id))
+  };
+};
+
+export default React.memo(connect(null, mapDispatchToProps)(CompareListDesktopView));
