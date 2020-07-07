@@ -17,20 +17,7 @@ const CompareListDesktopView = (props) => {
   const {classes, deleteFromCompareList, rating, rows, addToCart} = props;
   const styles = useStyles();
 
-  function createData (name, price, brand, availability, rating, description) {
-    return { name, price, brand, availability, rating, description};
-  }
-  const titles = [
-    createData('Product Name'),
-    createData('Price'),
-    createData('Brand'),
-    createData('Availability'),
-    createData('Rating'),
-    createData('Description')
-  ];
-  console.log(titles);
-
-  const addToShopCart = (productId, quantity = 1, sizeId, colorId) => {
+  const addToShopCart = (productId, quantity, sizeId, colorId) => {
     addToCart(productId, quantity, sizeId, colorId);
     changeShoppingCart();
     toggleModalSize(false);
@@ -42,23 +29,26 @@ const CompareListDesktopView = (props) => {
         {rows.map((row) => {
           return (
             <Box align='center' key={row.id} className={classes.tableRowCompare}>
-              <Grid item align='center'>
+
+              <Grid item className={classes.image}>
                 <Link to={`/products/${row.id}`} className={classes.linkBox}>
                   <CardMedia image={row.imgUrl} className={classes.img}/>
                   {row.isOnSale
                     ? <SaleInfoBox price={row.price} salePrice={row.salePrice}/> : null}
                 </Link>
-                <Box className={classes.textBox}>
+
+                <Grid item className={classes.textBox}>
                   <Link to={`/products/${row.id}`}
                     className={classes.nameCompare}>{capitalize(row.name)}</Link>
-                </Box>
+                </Grid>
               </Grid>
-              <Box className={{marginTop: 30}} align='center'>{row.id}</Box>
+
+              <Box align='center' className={classes.codeId}>Product ID: {row.id}</Box>
 
               <Box align='center' className={classes.code}><SalePrice value={row.salePrice}/>
               </Box>
 
-              <Box align='center' className={classes.code}>{row.brand}</Box>
+              <Box align='center' className={classes.code}>{row.brand}Brand</Box>
               <Box align='center' className={classes.code}>Available</Box>
 
               <Box align='center' className={classes.code}>
@@ -73,7 +63,7 @@ const CompareListDesktopView = (props) => {
               </Box>
 
               <Box align='center'>
-                <AddToCartButton addToCart={addToShopCart} classes={styles.button}/>
+                <AddToCartButton id={'id'} addToCart={addToShopCart} classes={styles.button}/>
               </Box>
 
               <Box align="center">

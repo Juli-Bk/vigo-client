@@ -7,7 +7,7 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import AppBar from '@material-ui/core/AppBar';
 import useStyles from './headerStyle';
 import theme from './headerTheme';
-
+import CompareIcon from '@material-ui/icons/Compare';
 import Logo from '../../components/Logo/Logo';
 import NestedMenu from '../../components/NestedMenu/NestedMenu';
 import SearchBar from '../../components/SearchBar/SearchBar';
@@ -22,6 +22,7 @@ import ProfileMenu from '../../components/ProfileMenu/ProfileMenu';
 import ModalSize from '../../components/ModalSelectSize/ModalSelectSize';
 import SnackbarMessage from '../../components/SnackbarMessage/SnackbarMessage';
 import ModalRestorePassword from '../../components/ModalRestorePassword/ModalRestorePassword';
+import { updateCompareList } from '../../helpers/helpers';
 
 const Header = (props) => {
   const {
@@ -44,11 +45,12 @@ const Header = (props) => {
       getUserShopCart();
       changeShoppingCart();
       changeWishList();
+      updateCompareList();
     }
     return () => {
       isCanceled = true;
     };
-  }, [changeShoppingCart, changeWishList, getUserShopCart, getUserWishList]);
+  }, [changeShoppingCart, changeWishList, getUserShopCart, getUserWishList, updateCompareList]);
 
   const isMobile = useMediaQuery(useTheme().breakpoints.between(0, 724), {
     defaultMatches: true
@@ -83,6 +85,14 @@ const Header = (props) => {
                     </IconButton>
                     {shoppingCart.length
                       ? <span className={classes.digit}>{shoppingCart.length}</span>
+                      : null}
+                  </Link>
+                  <Link to='/compare' className={classes.link}>
+                    <IconButton aria-label="compare" className={classes.compareIcon}>
+                      <CompareIcon/>
+                    </IconButton>
+                    {updateCompareList.length
+                      ? <span className={classes.digit}>{updateCompareList.length}</span>
                       : null}
                   </Link>
                   {userIsLoggedIn && <ProfileMenu/>}
