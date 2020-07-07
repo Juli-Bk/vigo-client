@@ -1,4 +1,5 @@
 import Actions from '../constants/constants';
+import { getStorageData, setStorageData } from '../../helpers/helpers';
 
 export const setCurrentPage = (pageNumber) => {
   return {type: Actions.SET_CURRENT_PAGE, payload: pageNumber};
@@ -82,4 +83,26 @@ export const setActiveStep = (step) => {
   const data = JSON.stringify(step);
   localStorage.setItem('activeStep', data);
   return {type: Actions.SET_ACTIVE_STEP, payload: step};
+};
+
+export const changeCompareList = (productId) => {
+  if (!productId) {
+    const compareList = getStorageData('compareList');
+
+    if (compareList.length) {
+      return {type: Actions.CHANGE_COMPARE_LIST, payload: compareList};
+    } else { return {type: Actions.CHANGE_COMPARE_LIST, payload: []}; }
+  } else {
+    const compareList = getStorageData('compareList');
+    let updatedList;
+
+    if (compareList.length && compareList.find(item => item === productId)) {
+      updatedList = compareList.filter(item => item !== productId);
+    } else {
+      updatedList = [...compareList, productId];
+    }
+
+    setStorageData('compareList', updatedList);
+    return {type: Actions.CHANGE_COMPARE_LIST, payload: updatedList};
+  }
 };

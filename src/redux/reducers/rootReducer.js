@@ -29,6 +29,7 @@ import totalSum from './totalSumReducer';
 import sizeTable from './sizeTableReducer';
 import orderDetails from './orderReducer';
 import checkoutSteps from './checkoutStepsReducer';
+import compareList from './compareListReducer';
 
 export const rootReducer = combineReducers({
   currentPage,
@@ -60,5 +61,6 @@ export const rootReducer = combineReducers({
   isRestorePswdModalOpen,
   sizeTable,
   orderDetails,
-  checkoutSteps
+  checkoutSteps,
+  compareList
 });

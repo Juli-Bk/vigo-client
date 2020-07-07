@@ -133,6 +133,9 @@ const useStyles = makeStyles(theme => ({
       letterSpacing: '.02em',
       marginTop: 30
     }
+  },
+  button: {
+
   }
 }));
 
