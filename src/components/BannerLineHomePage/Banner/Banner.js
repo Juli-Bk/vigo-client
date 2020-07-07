@@ -1,11 +1,11 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Typography, Box } from '@material-ui/core';
+import {Box, Typography} from '@material-ui/core';
 import useStyles from './BannerStyle';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
 const Banner = (props) => {
-  const {imageLink, title, alert, subtitle, link} = props;
+  const {imageLink, title, alert, subtitle, link, classLabelName = ''} = props;
   const styles = useStyles();
 
   return (
@@ -17,7 +17,9 @@ const Banner = (props) => {
           {subtitle}
         </Typography>
         }
-        <Typography className={alert ? styles.titleAlert : styles.title} variant='h1'>
+        <Typography className={alert
+          ? styles.titleAlert : `${styles.title} ${styles[classLabelName]}`}
+        variant='h1'>
           {title}
         </Typography>
       </Box>
