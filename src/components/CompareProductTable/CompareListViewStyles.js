@@ -3,20 +3,12 @@ import { colors } from '../../styles/colorKit';
 import { fonts } from '../../styles/fonts/fontsKit';
 
 const useStyles = makeStyles(theme => ({
-  firstCell: {
-    display: 'flex !important',
-    flexDirection: 'column',
-    alignItems: 'center',
-    [theme.breakpoints.up(500)]: {
-      flexDirection: 'row',
-      alignItems: 'flex-start'
-    }
-  },
-  tableRow: {
-    borderBottom: `1px solid ${colors.thinLine} !important`
+  compareTable: {
+    maxWidth: 1280,
+    margin: 'auto',
+    justifyContent: 'space-evenly'
   },
   tableRowCompare: {
-    borderBottom: `1px solid ${colors.thinLine} !important`,
     width: 'min-content',
     display: 'inline-grid',
     margin: 60
@@ -41,7 +33,7 @@ const useStyles = makeStyles(theme => ({
     position: 'relative',
     height: 300,
     width: 250,
-    marginBottom: '1rem',
+    margin: '0 auto',
     [theme.breakpoints.up(500)]: {
       width: 160,
       height: 200,
@@ -60,7 +52,7 @@ const useStyles = makeStyles(theme => ({
       marginBottom: 0
     },
     [theme.breakpoints.up(1200)]: {
-      width: 216,
+      width: 250,
       height: 260,
       cursor: 'pointer',
       marginBottom: 0
@@ -68,10 +60,8 @@ const useStyles = makeStyles(theme => ({
   },
   linkBox: {
     position: 'relative',
-    display: 'block',
-    [theme.breakpoints.up(500)]: {
-      marginRight: '2rem'
-    }
+    margin: '10px auto',
+    display: 'block'
   },
   textBox: {
     display: 'flex',
@@ -87,29 +77,29 @@ const useStyles = makeStyles(theme => ({
       fontSize: '1.2rem'
     }
   },
-  name: {
+  nameCompare: {
     display: 'block',
-    marginBottom: '1rem',
+    textAlign: 'center',
+    marginTop: 20,
+    height: 70,
     color: colors.fontThird,
     textDecoration: 'none',
     cursor: 'pointer',
-    fontSize: '1.2rem',
-    [theme.breakpoints.down(500)]: {
-      textAlign: 'center'
-    }
+    margin: 'auto',
+    fontSize: '1.2rem'
   },
   details: {
     textTransform: 'uppercase',
-    fontSize: '.85rem'
+    fontSize: '.85rem',
+    marginTop: 30,
+    height: 310
   },
   code: {
-    fontSize: '1.3rem'
-  },
-  closeBtn: {
-    fill: `2px solid ${colors.borderDark}`,
-    border: '2px solid transparent'
+    fontSize: '1.3rem',
+    marginTop: 30
   },
   closeIcon: {
+    marginTop: 30,
     fill: `2px solid ${colors.borderDark}`,
     '&:hover': {
       borderRadius: 6,
@@ -129,7 +119,8 @@ const useStyles = makeStyles(theme => ({
     fontSize: '1rem',
     [theme.breakpoints.up(1280)]: {
       fontSize: '1.2rem',
-      letterSpacing: '.02em'
+      letterSpacing: '.02em',
+      marginTop: 30
     }
   },
   price: {
@@ -139,55 +130,9 @@ const useStyles = makeStyles(theme => ({
     fontSize: '1rem',
     [theme.breakpoints.up(1280)]: {
       fontSize: '1.2rem',
-      letterSpacing: '.02em'
+      letterSpacing: '.02em',
+      marginTop: 30
     }
-  },
-  select: {
-    width: '80%',
-    marginBottom: '1rem',
-    padding: '.4rem 0 .4rem .3rem',
-    borderColor: colors.fontFourth,
-    color: colors.paginationActive,
-    fontSize: '1rem',
-    [theme.breakpoints.up('sm')]: {
-      marginBottom: 0
-    }
-  },
-  quantityBox: {
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderTop: `1.5px solid ${colors.borderLight}`,
-    borderBottom: `1.5px solid ${colors.borderLight}`,
-    lineHeight: '1.5rem',
-    margin: '10px 0',
-    [theme.breakpoints.down('sm')]: {
-      width: 100
-    }
-  },
-  btn: {
-    color: colors.fontFourth,
-    cursor: 'pointer',
-    lineHeight: '1.2rem',
-    verticalAlign: 'middle',
-    '&:hover': {
-      color: colors.noticeColor,
-      transition: 'all .5s ease'
-    }
-  },
-  borderRight: {
-    borderRight: `1.5px solid  ${colors.thinLine}`
-  },
-  borderLeft: {
-    borderLeft: `1.5px solid  ${colors.thinLine}`
-  },
-  active: {
-    fontSize: '1.2rem',
-    fontWeight: 'bold',
-    lineHeight: 'unset'
-  },
-  boldText: {
-    fontWeight: 'bold'
   }
 }));
 

@@ -14,9 +14,8 @@ const useStyles = makeStyles(() => ({
   button: {
     color: colors.paginationColor,
     fontWeight: 700,
-    fontFamily: fonts.f3,
+    fontFamily: fonts.f2,
     border: `.125rem solid ${colors.paginationActive}`,
-    fonFamily: fonts.f2,
     textTransform: 'uppercase',
     marginBottom: '1rem'
   }
