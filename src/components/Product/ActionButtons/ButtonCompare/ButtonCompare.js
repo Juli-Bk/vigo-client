@@ -2,19 +2,22 @@ import React from 'react';
 import { IconButton, Typography } from '@material-ui/core';
 import { Done } from '@material-ui/icons';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 
 const ButtonCompare = (props) => {
-  const {classes, id, addToCompare, label} = props;
+  const {classes, id, addToCompare, label, compareList} = props;
+  const className = compareList.includes(id) ? classes.iconChosen : classes.icon;
+  const labelClass = compareList.includes(id) ? classes.labelChosen : classes.label;
   return (
     label
       ? <IconButton aria-label={label}
         onClick={() => addToCompare(id)}
         disableFocusRipple
         disableRipple>
-        <Done className={classes.icon}/>
-        <Typography variant='body2' className={classes.label}>{label}</Typography>
+        <Done className={className}/>
+        <Typography variant='body2' className={labelClass}>{label}</Typography>
       </IconButton>
-      : <Done className={classes.icon} onClick={() => addToCompare(id)}/>
+      : <Done className={className} onClick={() => addToCompare(id)}/>
   );
 };
 
@@ -25,4 +28,10 @@ ButtonCompare.propTypes = {
   label: PropTypes.string
 };
 
-export default React.memo(ButtonCompare);
+const mapStateToProps = store => {
+  return {
+    compareList: store.compareList
+  };
+};
+
+export default connect(mapStateToProps)(React.memo(ButtonCompare));
