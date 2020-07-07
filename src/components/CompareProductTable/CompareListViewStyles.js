@@ -3,31 +3,43 @@ import { colors } from '../../styles/colorKit';
 import { fonts } from '../../styles/fonts/fontsKit';
 
 const useStyles = makeStyles(theme => ({
+  generalTable: {
+    display: 'flex',
+    width: 1230,
+    margin: 'auto'
+  },
   compareTable: {
-    maxWidth: 1230,
+    maxWidth: 1000,
     display: 'flex',
     overflowX: 'scroll',
     margin: 'auto'
   },
+  headers: {
+    position: 'sticky',
+    margin: '0 auto',
+    textTransform: 'uppercase',
+    color: colors.borderDark,
+    fontWeight: 600,
+    fontFamily: fonts.f3,
+    display: 'inline-grid',
+    textAlign: 'right'
+  },
   tableRowCompare: {
     display: 'inline-grid'
   },
-  // tableHead: {
-  //   padding: '0 1rem',
-  //   borderRight: `1px solid ${colors.thinLine}`,
-  //   borderTop: `2px solid ${colors.borderLight}`,
-  //   borderBottom: `2px solid ${colors.borderLight} !important`,
-  //   textTransform: 'uppercase',
-  //   color: colors.borderDark,
-  //   fontWeight: 600,
-  //   fontFamily: fonts.f3,
-  //   '&:last-child': {
-  //     borderRight: 'none'
-  //   },
-  //   [theme.breakpoints.up('sm')]: {
-  //     padding: '.5rem 1rem'
-  //   }
-  // },
+  tableHead: {
+    padding: '0 1rem',
+    textTransform: 'uppercase',
+    color: colors.borderDark,
+    fontWeight: 600,
+    fontFamily: fonts.f3,
+    '&:last-child': {
+      borderRight: 'none'
+    },
+    [theme.breakpoints.up('sm')]: {
+      padding: '.5rem 1rem'
+    }
+  },
   img: {
     position: 'relative',
     height: 235,
@@ -88,13 +100,24 @@ const useStyles = makeStyles(theme => ({
   details: {
     textTransform: 'uppercase',
     fontSize: '.65rem',
-    margin: 15,
+    margin: '0 15px',
     minHeight: 125,
     width: 300
   },
-  code: {
+  cell: {
     fontSize: '1rem',
-    marginTop: 15
+    marginTop: 15,
+    minHeight: 40
+  },
+  smallcell: {
+    fontSize: '1rem',
+    width: 170,
+    marginTop: 10,
+    minHeight: 20
+  },
+  bigCell: {
+    width: 170,
+    minHeight: 125
   },
   codeId: {
     fontSize: '.7rem',
@@ -105,7 +128,6 @@ const useStyles = makeStyles(theme => ({
   },
   closeIcon: {
     marginTop: 15,
-    height: 40,
     border: `2px solid ${colors.fontOncard}`,
     fill: `2px solid ${colors.borderDark}`,
     '&:hover': {
