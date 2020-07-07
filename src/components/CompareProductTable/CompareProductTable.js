@@ -31,8 +31,6 @@ const CompareProductTable = (props) => {
       description: product.description
     };
   });
-  console.log(rows);
-
   return (
     <ThemeProvider theme={theme}>
       <TableContainer component={Box}>

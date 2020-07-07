@@ -17,19 +17,6 @@ const CompareListDesktopView = (props) => {
   const {classes, deleteFromCompareList, rating, rows, addToCart} = props;
   const styles = useStyles();
 
-  function createData (name, price, brand, availability, rating, description) {
-    return { name, price, brand, availability, rating, description};
-  }
-  const titles = [
-    createData('Product Name'),
-    createData('Price'),
-    createData('Brand'),
-    createData('Availability'),
-    createData('Rating'),
-    createData('Description')
-  ];
-  console.log(titles);
-
   const addToShopCart = (productId, quantity = 1, sizeId, colorId) => {
     addToCart(productId, quantity, sizeId, colorId);
     changeShoppingCart();
