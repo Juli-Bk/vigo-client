@@ -15,6 +15,8 @@ const reducer = (state = initialState, action) => {
       return {...state, data: action.products, totalCount: action.totalCount};
     case Actions.GET_PRODUCTS_BY_FILTERS:
       return {...state, data: action.products, totalCount: action.totalCount};
+    case Actions.GET_ALL_PRODUCTS:
+      return {...state, data: action.products, totalCount: action.totalCount};
     case Actions.GET_FEATURED:
       return {...state, featured: {data: action.data, name: action.name}};
     case Actions.GET_SPECIAL:

@@ -36,7 +36,7 @@ const steps = ['Personal data', 'Delivery', 'Payment', 'Order'];
 const orderData = {
   totalSum: '1',
   productCodes: '50, 56',
-  orderId: '5f034e611937506545b7baad',
+  orderId: '5034e611937506545b7bcad',
   paymentBtnDisabled: false,
   sandbox: 1
 };

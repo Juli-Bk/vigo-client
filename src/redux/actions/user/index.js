@@ -306,3 +306,10 @@ export const saveRecoverPassword = (formData, token, callback) => {
       });
   };
 };
+
+export const setUserNovaPoshtaData = (data) => {
+  return {
+    type: Actions.SET_USER_NOVA_POSHTA_DATA,
+    payload: data
+  };
+};

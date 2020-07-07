@@ -1,11 +1,11 @@
 import React, { useEffect} from 'react';
-import { Container, Typography, Grid, useMediaQuery } from '@material-ui/core';
+import { Container, Typography, Grid, useMediaQuery, Box } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import { getProductsByFilters } from '../../../redux/actions/products';
 import { getProductsId } from '../../../pages/ShoppingCart/cartHelpers';
 import { getProductsQuantity } from '../../../redux/actions/quantity';
-import { getProductData, renderGuestAddress, renderUserAddress} from '../helper';
+import { getProductData, renderGuestAddress, renderUserAddress, renderNovaPoshtaData} from '../helper';
 import ClientPersData from './ClientPersData';
 import ProductsTableDesktop from './ProductsTableDesktop';
 import { getStorageData } from '../../../helpers/helpers';
@@ -42,6 +42,36 @@ const OrderSummary = (props) => {
   const guestInfo = Object.keys(guestData).length ? guestData : getStorageData('guestData');
   const total = totalSum || getStorageData('totalSum');
 
+  const defineDeliveryAddress = (orderDetails) => {
+    const children = user && Object.keys(user).length > 0 && user.novaPoshta ? renderNovaPoshtaData(user, classes)
+      : guestInfo.novaPoshta && Object.keys(guestInfo.novaPoshta) ? renderNovaPoshtaData(guestInfo, classes) : '';
+
+    switch (orderDetails.shipping) {
+      case deliveryOptions.PICKUP:
+        return null;
+      case deliveryOptions.VIGO_COURIER_SERVICE:
+        return <Grid item xs={12} sm={6}>
+          <Typography className={classes.title}>Delivery Address: </Typography>
+          {user && Object.keys(user).length > 0 ? renderUserAddress(user, classes)
+            : guestInfo.deliveryAddress && Object.keys(guestInfo.deliveryAddress).length > 0
+              ? renderGuestAddress(guestInfo, classes) : null}
+        </Grid>;
+      case deliveryOptions.UKRPOSHTA:
+        return <Grid item xs={12} sm={6}>
+          <Typography className={classes.title}>Delivery Address: </Typography>
+          {user && Object.keys(user).length > 0 ? renderUserAddress(user, classes)
+            : guestInfo.deliveryAddress && Object.keys(guestInfo.deliveryAddress).length > 0
+              ? renderGuestAddress(guestInfo, classes) : null}
+        </Grid>;
+      case deliveryOptions.NOVA_POSHTA:
+        return <Grid item xs={12} sm={6}>
+          <Typography className={classes.title}>Nova Poshta: </Typography>
+          <Box>{children}</Box>
+        </Grid>;
+      default: return 'Choose delivery option';
+    }
+  };
+
   return (
     <Container>
       <Grid container>
@@ -62,14 +92,7 @@ const OrderSummary = (props) => {
           {user && Object.keys(user).length > 0 ? <ClientPersData classes={classes} client={user}/>
             : Object.keys(guestInfo).length > 0 ? <ClientPersData classes={classes} client={guestInfo}/> : null}
         </Grid>
-        { orderDetails.shipping !== deliveryOptions.PICKUP
-          ? <Grid item xs={12} sm={6}>
-            <Typography className={classes.title}>Delivery Address: </Typography>
-            {user && Object.keys(user).length > 0 ? renderUserAddress(user, classes)
-              : guestInfo.deliveryAddress && Object.keys(guestInfo.deliveryAddress).length > 0
-                ? renderGuestAddress(guestInfo, classes) : null}
-          </Grid>
-          : null}
+        {defineDeliveryAddress(orderDetails)}
       </Grid>
     </Container>
   );
