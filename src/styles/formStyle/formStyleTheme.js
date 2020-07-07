@@ -124,6 +124,14 @@ const theme = createMuiTheme({
         }
       }
     },
+    MuiTabs: {
+      root: {
+        padding: 16,
+        display: 'flex',
+        overflow: 'hidden',
+        minHeight: 48
+      }
+    },
     MuiDialogActions: {
       root: {
         border: '.125rem solid black',

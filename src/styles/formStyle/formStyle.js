@@ -1,14 +1,15 @@
-import { makeStyles } from '@material-ui/core/styles';
-import { colors } from '../colorKit';
-import { fonts } from '../fonts/fontsKit';
+import {makeStyles} from '@material-ui/core/styles';
+import {colors} from '../colorKit';
+import {fonts} from '../fonts/fontsKit';
 
 const useStyles = makeStyles(theme => (
   {
     modalWindow: {
       width: 500,
       overflow: 'hidden',
-      [theme.breakpoints.between(0, 500)]: {
+      [theme.breakpoints.between(0, 600)]: {
         width: '100%',
+        maxWidth: 500,
         padding: 0
       }
     },
@@ -33,6 +34,7 @@ const useStyles = makeStyles(theme => (
     },
     linkButton: {
       color: colors.fontSecondary,
+      padding: 16,
       fontWeight: 300,
       border: 'none',
       fontFamily: fonts.f2,
