@@ -24,7 +24,8 @@ const iconsBpMd = {
 const useStyles = makeStyles(theme => ({
   list: {
     width: 250,
-    paddingTop: 24
+    paddingTop: 24,
+    marginBottom: 24
   },
   menuIcon: {
     display: 'block',
