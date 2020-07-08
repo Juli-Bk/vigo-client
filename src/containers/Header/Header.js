@@ -32,6 +32,7 @@ const Header = (props) => {
     changeShoppingCart,
     changeWishList,
     shoppingCart,
+    compareList,
     wishList,
     userIsLoggedIn,
     snackMessage,
