@@ -16,7 +16,7 @@ const CompareListDesktopView = (props) => {
   const styles = useStyles();
 
   return (
-    <Grid container className={classes.generalTable}>
+    <Grid className={classes.generalTable}>
 
       <Grid className={classes.headers}>
 
@@ -33,12 +33,10 @@ const CompareListDesktopView = (props) => {
 
       </Grid>
       <Grid className={classes.compareTable} container aria-label='compare-table'>
-
         <Grid item>
           {rows.map((row) => {
             return (
               <Box align='center' key={row.id} className={classes.tableRowCompare}>
-
                 <Grid item className={classes.image}>
                   <Link to={`/products/${row.id}`} className={classes.linkBox}>
                     <CardMedia image={row.imgUrl} className={classes.img}/>

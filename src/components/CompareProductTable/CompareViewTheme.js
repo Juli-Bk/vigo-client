@@ -11,6 +11,11 @@ export const theme = createMuiTheme({
       root: {
         display: 'inline-block'
       }
+    },
+    MuiTableContainer: {
+      root: {
+        overflowX: 'hidden'
+      }
     }
   }
 });

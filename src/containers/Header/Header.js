@@ -7,7 +7,7 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import AppBar from '@material-ui/core/AppBar';
 import useStyles from './headerStyle';
 import theme from './headerTheme';
-import CompareIcon from '@material-ui/icons/Compare';
+import {ScaleBalance } from 'mdi-material-ui';
 import Logo from '../../components/Logo/Logo';
 import NestedMenu from '../../components/NestedMenu/NestedMenu';
 import SearchBar from '../../components/SearchBar/SearchBar';
@@ -91,7 +91,7 @@ const Header = (props) => {
                   </Link>
                   <Link to='/compare' className={classes.link}>
                     <IconButton aria-label="compare" className={classes.compareIcon}>
-                      <CompareIcon/>
+                      <ScaleBalance/>
                     </IconButton>
                     {compareList.length
                       ? <span className={classes.digit}>{compareList.length}</span>
