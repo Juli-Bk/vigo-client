@@ -28,7 +28,7 @@ const EmptyState = (props) => {
 };
 
 EmptyState.propTypes = {
-  text: PropTypes.string.isRequired
+  text: PropTypes.any.isRequired
 };
 
 export default EmptyState;
