@@ -11,7 +11,7 @@ import {getProductsByFilters} from '../../redux/actions/products';
 const ShoppingCart = (props) => {
   const {shoppingCart, products, getProductsByFilters} = props;
   const isMobile = useMediaQuery('(max-width: 550px)');
-  const flag = useMemo(() => shoppingCart.length && products.data && products.data.length, [products.data, shoppingCart.length]);
+  const flag = useMemo(() => !!(shoppingCart.length && products.data && products.data.length), [products.data, shoppingCart.length]);
 
   useEffect(() => {
     let isCanceled = false;

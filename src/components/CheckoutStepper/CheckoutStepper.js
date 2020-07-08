@@ -29,6 +29,9 @@ import {getStorageData, setStorageData} from '../../helpers/helpers';
 
 import {LiqPayPay} from 'react-liqpay';
 import keysConfig from '../../keysConfig';
+import EmptyState from '../EmptyState/EmptyState';
+import { Link } from 'react-router-dom';
+import { colors } from '../../styles/colorKit';
 
 const steps = ['Personal data', 'Delivery', 'Payment', 'Order'];
 
@@ -41,6 +44,10 @@ const CheckoutStepper = (props) => {
   const classes = useStyles();
   const commonClasses = useCommonStyles();
   const [guest, setGuest] = useState({radioGroup: null});
+  const textWithLink = useMemo(() => <span>You don`t have any items to checkout. But you can <Link to='/products'
+    style={{textDecoration: 'underline', color: colors.noticeColor}}>
+      choose
+  </Link> something right now</span>, []);
 
   const guestInfo = useMemo(() => guestData.deliveryAddress
     ? guestData : getStorageData('guestData'), [guestData]);
@@ -123,7 +130,7 @@ const CheckoutStepper = (props) => {
               server_url={`${keysConfig.serverAddress}/orders/liqpay/order-payment`}
 
               // order data: for what we pay, total amount AND order id
-              amount={orderData.totalSum}
+              amount={`${orderData.totalSum}`}
               description={`Payment for products: ${orderData.productCodes}`}
               orderId={orderData.orderId}
               // if we have full data from user for order, btn is enabled
@@ -155,39 +162,44 @@ const CheckoutStepper = (props) => {
   return (
     <ThemeProvider theme={theme}>
       <Box className={classes.root}>
-        <Stepper activeStep={activeStep} alternativeLabel>
-          {steps.map((label) => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
-        <Box>
-          <Container>
+        {shoppingCart && shoppingCart.length
+          ? <>
+            <Stepper activeStep={activeStep} alternativeLabel>
+              {steps.map((label) => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
             <Box>
-              <Typography component='span' className={classes.instructions}>
-                {
-                  getStepContent(activeStep)
-                }
-              </Typography>
-              <Box className={classes.buttonContainer}>
-                <Button
-                  disabled={activeStep === 0}
-                  onClick={handleBack}
-                  className={commonClasses.button}
-                >
-                  <NavigateBeforeIcon/>
-                </Button>
-                <Button
-                  disabled={!completed.includes(activeStep)}
-                  className={commonClasses.button}
-                  onClick={handleNext}>
-                  {activeStep === steps.length - 1 ? 'Confirm' : <NavigateNextIcon/>}
-                </Button>
-              </Box>
+              <Container>
+                <Box>
+                  <Typography component='span' className={classes.instructions}>
+                    {
+                      getStepContent(activeStep)
+                    }
+                  </Typography>
+                  <Box className={classes.buttonContainer}>
+                    <Button
+                      disabled={activeStep === 0}
+                      onClick={handleBack}
+                      className={commonClasses.button}
+                    >
+                      <NavigateBeforeIcon/>
+                    </Button>
+                    <Button
+                      disabled={!completed.includes(activeStep)}
+                      className={commonClasses.button}
+                      onClick={handleNext}>
+                      {activeStep === steps.length - 1 ? 'Confirm' : <NavigateNextIcon/>}
+                    </Button>
+                  </Box>
+                </Box>
+              </Container>
             </Box>
-          </Container>
-        </Box>
+          </>
+          : <EmptyState text={textWithLink}/>
+        }
       </Box>
     </ThemeProvider>
   );

@@ -157,7 +157,6 @@ export const getAllProducts = (startPage, perPage, sort) => dispatch => {
   dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
   AjaxUtils.Products.getAllProducts(startPage, perPage, sort)
     .then(result => {
-      console.log(result);
       if (result && result.products) {
         dispatch({
           type: Actions.GET_ALL_PRODUCTS,

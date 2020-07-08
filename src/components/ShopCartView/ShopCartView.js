@@ -101,7 +101,7 @@ const ShopCartView = (props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      {productsQuantity && productsQuantity.length &&
+      {!!productsQuantity && !!productsQuantity.length &&
         <Grid container direction='column' justify='center'>
           <Grid item>
             <TableContainer component={Box}>
