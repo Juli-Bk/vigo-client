@@ -7,7 +7,6 @@ import useStyles from '../CompareProductTable/CompareListViewStyles';
 import {theme} from './CompareViewTheme';
 import CompareListDesktopView from './CompareListDesktopView';
 import globalConfig from '../../globalConfig';
-import { setStorageData, updateCompareList } from '../../helpers/helpers';
 
 const CompareProductTable = (props) => {
   const {products} = props;
@@ -22,7 +21,7 @@ const CompareProductTable = (props) => {
       price: product.price,
       id: product._id,
       salePrice: product.salePrice,
-      brand: product.brand,
+      brand: product.brandId.name,
       isOnSale: product.isOnSale,
       description: product.description
     };

@@ -35,7 +35,8 @@ const Header = (props) => {
     wishList,
     userIsLoggedIn,
     snackMessage,
-    changeCompareList
+    changeCompareList,
+    compareList
   } = props;
   const classes = useStyles();
 
@@ -92,8 +93,8 @@ const Header = (props) => {
                     <IconButton aria-label="compare" className={classes.compareIcon}>
                       <CompareIcon/>
                     </IconButton>
-                    {updateCompareList.length
-                      ? <span className={classes.digit}>{updateCompareList.length}</span>
+                    {compareList.length
+                      ? <span className={classes.digit}>{compareList.length}</span>
                       : null}
                   </Link>
                   {userIsLoggedIn && <ProfileMenu/>}
@@ -118,7 +119,8 @@ const mapStoreToProps = store => {
     isModalSizeOpen: store.isModalSizeOpen,
     shoppingCart: store.shoppingCart,
     wishList: store.wishList,
-    snackMessage: store.snackMessage
+    snackMessage: store.snackMessage,
+    compareList: store.compareList
   };
 };
 

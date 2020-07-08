@@ -6,6 +6,11 @@ export const theme = createMuiTheme({
       item: {
         display: 'flex'
       }
+    },
+    MuiCardActions: {
+      root: {
+        display: 'inline-block'
+      }
     }
   }
 });
