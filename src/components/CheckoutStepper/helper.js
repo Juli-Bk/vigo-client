@@ -33,6 +33,13 @@ export const renderGuestAddress = (guestData, classes) => {
   return <Typography className={classes.text}>{guestData.deliveryAddress.address}, {guestData.deliveryAddress.house}, {guestData.deliveryAddress.apartment}</Typography>;
 };
 
+export const renderNovaPoshtaData = (client, classes) => {
+  return <>
+    <Typography className={classes.text}>City: {client.novaPoshta.city}</Typography>
+    <Typography className={classes.text}>Office: {client.novaPoshta.office}</Typography>
+  </>;
+};
+
 export const setOrder = (user, guestData, totalSum, orderDetails, shoppingCart, callback) => {
   const guestInfo = guestData || getStorageData('guestData');
   const total = totalSum || getStorageData('totalSum');

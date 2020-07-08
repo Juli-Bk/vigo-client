@@ -44,7 +44,7 @@ const NovaPoshtaCity = (props) => {
           <Formik
             initialValues={initFormValues}
             validationSchema={validateObject}
-            onSubmit={submitNovaPoshtaHandler}>
+            onSubmit={(values) => submitNovaPoshtaHandler(inputValue, values)}>
             {({
               isSubmitting,
               handleChange,

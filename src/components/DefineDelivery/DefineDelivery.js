@@ -10,20 +10,35 @@ import Typography from '@material-ui/core/Typography';
 import useStyles from '../../styles/formStyle/formStyle';
 import {ThemeProvider} from '@material-ui/core';
 import theme from '../../styles/formStyle/formStyleTheme';
-import { setCompletedSteps } from '../../redux/actions/actions';
+import { setCompletedSteps, setGuestData } from '../../redux/actions/actions';
+import { setUserDeliveryAddress, setUserNovaPoshtaData } from '../../redux/actions/user';
+import { getStorageData, setStorageData } from '../../helpers/helpers';
 
 const {deliveryOptions} = globalConfig;
 
 const DefineDelivery = (props) => {
-  const {inputValue, user, guestData, activeStep, setCompleted} = props;
+  const {
+    inputValue, user, guestData, activeStep,
+    setCompleted, setGuestData, setUserNovaPoshtaData
+  } = props;
   const styles = useStyles();
-
-  const submitNovaPoshtaHandler = useCallback((values) => {
-    setCompleted(activeStep);
-    console.log(values);
-  }, [activeStep, setCompleted]);
-
   const filledUserData = Object.entries(user).length > 0;
+
+  const submitNovaPoshtaHandler = useCallback((inputValue, values) => {
+    setCompleted(activeStep);
+
+    const data = {
+      city: inputValue,
+      office: values.npOffice
+    };
+
+    const updatedGuestData = {...guestData, novaPoshta: data};
+    const guestInfo = getStorageData('guestData');
+    const updatedInfo = {...guestInfo, novaPoshta: data};
+    setStorageData('guestData', updatedInfo);
+
+    filledUserData ? setUserNovaPoshtaData(data) : setGuestData(updatedGuestData);
+  }, [activeStep, filledUserData, guestData, setCompleted, setGuestData, setUserNovaPoshtaData]);
 
   const getStepContent = useCallback(inputValue => {
     const fields = filledUserData
@@ -54,7 +69,13 @@ const DefineDelivery = (props) => {
 };
 
 DefineDelivery.propTypes = {
-  inputValue: PropTypes.string
+  inputValue: PropTypes.string,
+  setCompleted: PropTypes.func.isRequired,
+  setGuestData: PropTypes.func.isRequired,
+  setUserDeliveryAddress: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  guestData: PropTypes.object.isRequired,
+  activeStep: PropTypes.number.isRequired
 };
 
 const mapStoreToProps = store => {
@@ -67,7 +88,10 @@ const mapStoreToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setCompleted: step => dispatch(setCompletedSteps(step))
+    setCompleted: step => dispatch(setCompletedSteps(step)),
+    setGuestData: data => dispatch(setGuestData(data)),
+    setUserDeliveryAddress: address => dispatch(setUserDeliveryAddress(address)),
+    setUserNovaPoshtaData: data => dispatch(setUserNovaPoshtaData(data))
   };
 };
 

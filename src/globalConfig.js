@@ -55,6 +55,16 @@ const globalConfig = {
     Price_Low_To_High: 'Price Low To High',
     Price_High_To_Low: 'Price High To Low'
   },
+  SortOptionToQuery: {
+    'New In': '-date',
+    'Price Low To High': 'price',
+    'Price High To Low': '-price'
+  },
+  QueryToSortOption: {
+    '-date': 'New In',
+    price: 'Price Low To High',
+    '-price': 'Price High To Low'
+  },
   step: 15,
   defaultQuantity: 1,
   wishListMessages: {

@@ -152,3 +152,21 @@ export const searchProducts = (searchString) => dispatch => {
       console.log('search products request failed', err);
     });
 };
+
+export const getAllProducts = (startPage, perPage, sort) => dispatch => {
+  dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
+  AjaxUtils.Products.getAllProducts(startPage, perPage, sort)
+    .then(result => {
+      console.log(result);
+      if (result && result.products) {
+        dispatch({
+          type: Actions.GET_ALL_PRODUCTS,
+          products: result.products,
+          total: result.totalCount
+        });
+        dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
+      }
+    }).catch(err => {
+      console.log('get all products request failed', err);
+    });
+};

@@ -13,12 +13,9 @@ const CompareProductTable = (props) => {
   const {products} = props;
   const classes = useStyles();
 
-  const deleteFromCompareList = (id) => {
-    setStorageData('compareList', updateCompareList(id));
-  };
-
   const rows = products.data && products.data.map(product => {
     return {
+      product: product,
       imgUrl: product.imageUrls[0],
       name: product.name,
       productCode: product.productId,
@@ -26,6 +23,7 @@ const CompareProductTable = (props) => {
       id: product._id,
       salePrice: product.salePrice,
       brand: product.brand,
+      isOnSale: product.isOnSale,
       description: product.description
     };
   });
@@ -35,8 +33,8 @@ const CompareProductTable = (props) => {
         {products.data && products.data.length
           ? <CompareListDesktopView
             classes={classes}
+            productsLenght={products.length}
             rows={rows}
-            deleteFromCompareList={deleteFromCompareList}
           />
           : <EmptyState text={globalConfig.compareMessages.EMPTY}/>}
       </TableContainer>

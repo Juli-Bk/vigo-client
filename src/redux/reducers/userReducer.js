@@ -1,19 +1,25 @@
 import Actions from '../constants/constants';
 
 const userReducer = (state = {}, action) => {
-  if (action.type === Actions.SET_USER) {
-    return {
-      ...state,
-      ...action.payload
-    };
+  switch (action.type) {
+    case Actions.SET_USER:
+      return {
+        ...state,
+        ...action.payload
+      };
+    case Actions.SET_USER_DELIVERY_ADDRESS:
+      return {
+        ...state,
+        deliveryAddress: action.payload
+      };
+    case Actions.SET_USER_NOVA_POSHTA_DATA:
+      return {
+        ...state,
+        novaPoshta: action.payload
+      };
+    default:
+      return state;
   }
-  if (action.type === Actions.SET_USER_DELIVERY_ADDRESS) {
-    return {
-      ...state,
-      deliveryAddress: action.payload
-    };
-  }
-  return state;
 };
 
 export default userReducer;

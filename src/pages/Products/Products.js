@@ -16,7 +16,7 @@ import ShowBy from '../../components/ShowBy/ShowBy';
 import Sort from '../../components/Sort/Sort';
 import ViewAs from '../../components/ViewAs/ViewAs';
 import EmptyState from '../../components/EmptyState/EmptyState';
-import {getProductsByFilters, searchProducts} from '../../redux/actions/products';
+import {getProductsByFilters, searchProducts, getAllProducts} from '../../redux/actions/products';
 import { setCurrentPage } from '../../redux/actions/actions';
 
 const Products = (props) => {
@@ -27,6 +27,7 @@ const Products = (props) => {
     location,
     getProductsByFilters,
     getProductsBySearch,
+    getAllProducts,
     products
   } = props;
 
@@ -37,6 +38,7 @@ const Products = (props) => {
     [filters.sort]);
   const perPage = useMemo(() => Number(filters.perPage) || globalConfig.step,
     [filters.perPage]);
+  console.log(location);
 
   const getFilteredData = useCallback(() => {
     if (filters.startPage) {
@@ -50,6 +52,9 @@ const Products = (props) => {
   useEffect(() => {
     let isCanceled = false;
     if (!isCanceled) {
+      if (location.pathname === '/products') {
+        getAllProducts(currentPage, perPage, sort);
+      }
       const pathName = location.pathname.split('/');
 
       if (pathName.includes('search')) {
@@ -63,7 +68,7 @@ const Products = (props) => {
     return () => {
       isCanceled = true;
     };
-  }, [filters, getFilteredData, getProductsBySearch, location.pathname]);
+  }, [currentPage, filters, getAllProducts, getFilteredData, getProductsBySearch, location.pathname, perPage, sort]);
 
   return (
     <Container>
@@ -119,7 +124,11 @@ const Products = (props) => {
 Products.propTypes = {
   view: PropTypes.string.isRequired,
   getProductsByFilters: PropTypes.func.isRequired,
-  products: PropTypes.object.isRequired
+  getAllProducts: PropTypes.func.isRequired,
+  products: PropTypes.object.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  setCurrentPage: PropTypes.func.isRequired,
+  getProductsBySearch: PropTypes.func.isRequired
 };
 
 const mapStateToProps = store => {
@@ -136,7 +145,8 @@ const mapDispatchToProps = dispatch => {
       dispatch(getProductsByFilters(filters, startPage, perPage, sort));
     },
     setCurrentPage: number => dispatch(setCurrentPage(number)),
-    getProductsBySearch: string => dispatch(searchProducts(string))
+    getProductsBySearch: string => dispatch(searchProducts(string)),
+    getAllProducts: (startPage, perPage, sort) => dispatch(getAllProducts(startPage, perPage, sort))
   };
 };
 

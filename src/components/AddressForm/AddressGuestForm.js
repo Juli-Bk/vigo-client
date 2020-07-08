@@ -48,7 +48,7 @@ const AddressGuestForm = (props) => {
     house: guestData ? guestData.house : '',
     apartment: guestData ? guestData.apartment : '',
     postalCode: guestData ? guestData.postalCode : '',
-    confirmation: guestData ? guestData.confirmation : false
+    confirmation: false
   };
 
   return (

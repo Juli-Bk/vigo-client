@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -21,19 +21,21 @@ const ModalAddress = (props) => {
     isAddressModalOpen, setModalOpen,
     setGuestData, activeStep, setCompleted
   } = props;
+  const commonClasses = useCommonStyles();
+  const classes = useStyles();
   const [message, setMessage] = useState('');
   const [isMessageHidden, setIsMessageHidden] = useState(false);
 
-  const handleClickOpen = () => {
+  const guestInfo = useMemo(() => guestData.deliveryAddress
+    ? guestData : getStorageData('guestData'), [guestData]);
+
+  const handleClickOpen = useCallback(() => {
     setModalOpen(true);
-  };
+  }, [setModalOpen]);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setModalOpen(false);
-  };
-
-  const commonClasses = useCommonStyles();
-  const classes = useStyles();
+  }, [setModalOpen]);
 
   const messageTag = <DialogContent>
     <Typography variant='subtitle1' gutterBottom style={{
@@ -69,13 +71,16 @@ const ModalAddress = (props) => {
     }
     }/>;
 
-  const form = user._id ? userForm : guestForm;
+  const form = useMemo(() => user._id ? userForm : guestForm, [guestForm, user._id, userForm]);
+  const buttonText = useMemo(() =>
+    form === guestForm && guestInfo && guestInfo.deliveryAddress ? 'change address' : 'add address',
+  [form, guestForm, guestInfo]);
 
   return (
     <ThemeProvider theme={theme}>
       <Box>
         <Button className={commonClasses.button} onClick={handleClickOpen}>
-        Add address
+          {buttonText}
         </Button>
         <Dialog
           open={isAddressModalOpen}

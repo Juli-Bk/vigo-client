@@ -17,12 +17,12 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {useTheme} from '@material-ui/styles';
 import { changeWishList, getUserWishList } from '../../redux/actions/wishlist';
 import { changeShoppingCart, getUserShopCart } from '../../redux/actions/shopCart';
+import {changeCompareList} from '../../redux/actions/actions';
 import {connect} from 'react-redux';
 import ProfileMenu from '../../components/ProfileMenu/ProfileMenu';
 import ModalSize from '../../components/ModalSelectSize/ModalSelectSize';
 import SnackbarMessage from '../../components/SnackbarMessage/SnackbarMessage';
 import ModalRestorePassword from '../../components/ModalRestorePassword/ModalRestorePassword';
-import { updateCompareList } from '../../helpers/helpers';
 
 const Header = (props) => {
   const {
@@ -34,7 +34,8 @@ const Header = (props) => {
     shoppingCart,
     wishList,
     userIsLoggedIn,
-    snackMessage
+    snackMessage,
+    changeCompareList
   } = props;
   const classes = useStyles();
 
@@ -45,12 +46,12 @@ const Header = (props) => {
       getUserShopCart();
       changeShoppingCart();
       changeWishList();
-      updateCompareList();
+      changeCompareList();
     }
     return () => {
       isCanceled = true;
     };
-  }, [changeShoppingCart, changeWishList, getUserShopCart, getUserWishList, updateCompareList]);
+  }, [changeCompareList, changeShoppingCart, changeWishList, getUserShopCart, getUserWishList]);
 
   const isMobile = useMediaQuery(useTheme().breakpoints.between(0, 724), {
     defaultMatches: true
@@ -126,7 +127,8 @@ const mapDispatchToProps = dispatch => {
     getUserWishList: () => dispatch(getUserWishList()),
     getUserShopCart: () => dispatch(getUserShopCart()),
     changeShoppingCart: () => dispatch(changeShoppingCart()),
-    changeWishList: () => dispatch(changeWishList())
+    changeWishList: () => dispatch(changeWishList()),
+    changeCompareList: () => dispatch(changeCompareList())
   };
 };
 

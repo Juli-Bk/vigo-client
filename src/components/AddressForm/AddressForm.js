@@ -22,11 +22,11 @@ import PinDropIcon from '@material-ui/icons/PinDrop';
 import AutocompleteComponent from '../Autocomplete/Autocomplete';
 import {connect} from 'react-redux';
 import {validateObject} from './helper';
-import {saveUserData} from '../../redux/actions/user';
+import { saveUserData, setUserDeliveryAddress } from '../../redux/actions/user';
 import PrivacyPolicyModal from '../VigoPrivacyPolicy/PrivacyPolicyModal';
 
 const AddressForm = (props) => {
-  const {submitAddressHandler, user, saveUserData} = props;
+  const {submitAddressHandler, user, saveUserData, setUserDeliveryAddress} = props;
   const {addresses = []} = user;
   const [address, setAddress] = useState('');
 
@@ -36,6 +36,7 @@ const AddressForm = (props) => {
 
   const submitAddressData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
+    setUserDeliveryAddress('');
 
     const newAddressesList = {
       id: user._id,
@@ -85,7 +86,6 @@ const AddressForm = (props) => {
               handleChange,
               handleBlur,
               handleSubmit,
-              setFieldValue,
               values,
               errors,
               touched
@@ -188,7 +188,10 @@ const AddressForm = (props) => {
 };
 
 AddressForm.propTypes = {
-  submitAddressHandler: PropTypes.func
+  submitAddressHandler: PropTypes.func.isRequired,
+  setUserDeliveryAddress: PropTypes.func.isRequired,
+  user: PropTypes.object.isRequired,
+  saveUserData: PropTypes.func.isRequired
 };
 
 const mapStateToProps = store => {
@@ -199,7 +202,8 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    saveUserData: (data, callback) => dispatch(saveUserData(data, callback))
+    saveUserData: (data, callback) => dispatch(saveUserData(data, callback)),
+    setUserDeliveryAddress: data => dispatch(setUserDeliveryAddress(data))
   };
 };
 

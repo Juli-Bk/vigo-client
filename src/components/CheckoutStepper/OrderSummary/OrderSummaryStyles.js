@@ -32,8 +32,7 @@ const useStyles = makeStyles(theme => ({
   },
   title: title,
   totalTitle: {
-    ...title,
-    textDecoration: 'underline'
+    ...title
   }
 }));
 

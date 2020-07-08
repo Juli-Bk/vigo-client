@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useEffect, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router';
 import queryString from 'query-string';
@@ -6,14 +6,22 @@ import { connect } from 'react-redux';
 import SelectBox from '../SelectBox/SelectBox';
 import { setSortingOption } from '../../redux/actions/actions';
 import useStyles from './SortStyles';
+import globalConfig from '../../globalConfig';
 
 const Sort = (props) => {
   const { sortingOption, setSortingOption, values, history, location } = props;
-  const parsed = useMemo(() => queryString.parse(location.search), [location.search]);
   const classes = useStyles();
+  const parsed = useMemo(() => queryString.parse(location.search), [location.search]);
+
+  useEffect(() => {
+    if (parsed.sort) {
+      setSortingOption(globalConfig.QueryToSortOption[parsed.sort]);
+    }
+  }, [parsed.sort, setSortingOption]);
 
   const handleChange = useCallback((event) => {
     setSortingOption(event.target.value);
+    parsed.sort = globalConfig.SortOptionToQuery[event.target.value];
     const updatedSearch = queryString.stringify(parsed);
     history.push(`/products/filter?${updatedSearch}`);
   }, [history, parsed, setSortingOption]);
