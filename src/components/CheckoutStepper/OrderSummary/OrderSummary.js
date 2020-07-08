@@ -1,20 +1,16 @@
-import React, { useEffect} from 'react';
-import { Container, Typography, Grid, useMediaQuery, Box } from '@material-ui/core';
+import React, { useEffect, useMemo } from 'react';
+import { Container, Typography, Grid, useMediaQuery } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import { getProductsByFilters } from '../../../redux/actions/products';
 import { getProductsId } from '../../../pages/ShoppingCart/cartHelpers';
 import { getProductsQuantity } from '../../../redux/actions/quantity';
-import { getProductData, renderGuestAddress, renderUserAddress, renderNovaPoshtaData} from '../helper';
+import { getProductData, defineDeliveryAddress} from '../helper';
 import ClientPersData from './ClientPersData';
 import ProductsTableDesktop from './ProductsTableDesktop';
-import { getStorageData } from '../../../helpers/helpers';
 import useStyles from './OrderSummaryStyles';
 import ProductsTableMobile from './ProductsTableMobile';
 import { setCompletedSteps } from '../../../redux/actions/actions';
-import globalConfig from '../../../globalConfig';
-
-const {deliveryOptions} = globalConfig;
 
 const OrderSummary = (props) => {
   const classes = useStyles();
@@ -38,39 +34,9 @@ const OrderSummary = (props) => {
     };
   }, [activeStep, getProductsByFilters, getProductsQuantity, setCompleted, shoppingCart]);
 
-  const productsData = getProductData(products, shoppingCart, productsQuantity);
-  const guestInfo = Object.keys(guestData).length ? guestData : getStorageData('guestData');
-  const total = totalSum || getStorageData('totalSum');
-
-  const defineDeliveryAddress = (orderDetails) => {
-    const children = user && Object.keys(user).length > 0 && user.novaPoshta ? renderNovaPoshtaData(user, classes)
-      : guestInfo.novaPoshta && Object.keys(guestInfo.novaPoshta) ? renderNovaPoshtaData(guestInfo, classes) : '';
-
-    switch (orderDetails.shipping) {
-      case deliveryOptions.PICKUP:
-        return null;
-      case deliveryOptions.VIGO_COURIER_SERVICE:
-        return <Grid item xs={12} sm={6}>
-          <Typography className={classes.title}>Delivery Address: </Typography>
-          {user && Object.keys(user).length > 0 ? renderUserAddress(user, classes)
-            : guestInfo.deliveryAddress && Object.keys(guestInfo.deliveryAddress).length > 0
-              ? renderGuestAddress(guestInfo, classes) : null}
-        </Grid>;
-      case deliveryOptions.UKRPOSHTA:
-        return <Grid item xs={12} sm={6}>
-          <Typography className={classes.title}>Delivery Address: </Typography>
-          {user && Object.keys(user).length > 0 ? renderUserAddress(user, classes)
-            : guestInfo.deliveryAddress && Object.keys(guestInfo.deliveryAddress).length > 0
-              ? renderGuestAddress(guestInfo, classes) : null}
-        </Grid>;
-      case deliveryOptions.NOVA_POSHTA:
-        return <Grid item xs={12} sm={6}>
-          <Typography className={classes.title}>Nova Poshta: </Typography>
-          <Box>{children}</Box>
-        </Grid>;
-      default: return 'Choose delivery option';
-    }
-  };
+  const productsData = useMemo(() => getProductData(products, shoppingCart, productsQuantity),
+    [products, productsQuantity, shoppingCart]);
+  const total = useMemo(() => totalSum || JSON.parse(localStorage.getItem('totalSum')), [totalSum]);
 
   return (
     <Container>
@@ -90,9 +56,9 @@ const OrderSummary = (props) => {
         <Grid item xs={12} sm={6} className={classes.data}>
           <Typography className={classes.title}>Personal Data: </Typography>
           {user && Object.keys(user).length > 0 ? <ClientPersData classes={classes} client={user}/>
-            : Object.keys(guestInfo).length > 0 ? <ClientPersData classes={classes} client={guestInfo}/> : null}
+            : Object.keys(guestData).length > 0 ? <ClientPersData classes={classes} client={guestData}/> : null}
         </Grid>
-        {defineDeliveryAddress(orderDetails)}
+        {defineDeliveryAddress(orderDetails, user, guestData, classes)}
       </Grid>
     </Container>
   );
@@ -104,7 +70,12 @@ OrderSummary.propTypes = {
   totalSum: PropTypes.number.isRequired,
   shoppingCart: PropTypes.array.isRequired,
   products: PropTypes.object.isRequired,
-  productsQuantity: PropTypes.array.isRequired
+  productsQuantity: PropTypes.array.isRequired,
+  activeStep: PropTypes.number.isRequired,
+  orderDetails: PropTypes.object.isRequired,
+  getProductsByFilters: PropTypes.func.isRequired,
+  getProductsQuantity: PropTypes.func.isRequired,
+  setCompleted: PropTypes.func.isRequired
 };
 
 const mapStateToProps = store => {

@@ -48,6 +48,11 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
     marginBottom: '2rem'
+  },
+  itemsContainer: {
+    [theme.breakpoints.up(724)]: {
+      paddingLeft: 0
+    }
   }
 })
 );

@@ -21,4 +21,4 @@ const mapStateToProps = store => {
   };
 };
 
-export default React.memo(connect(mapStateToProps, null)(MyAccTabs));
+export default React.memo(connect(mapStateToProps)(MyAccTabs));

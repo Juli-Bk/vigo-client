@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useCallback, useEffect } from 'react';
 import {Link} from 'react-router-dom';
 import {Box, Container, Grid, IconButton, Toolbar} from '@material-ui/core';
 import {ThemeProvider} from '@material-ui/core/styles';
@@ -17,7 +17,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {useTheme} from '@material-ui/styles';
 import { changeWishList, getUserWishList } from '../../redux/actions/wishlist';
 import { changeShoppingCart, getUserShopCart } from '../../redux/actions/shopCart';
-import {changeCompareList} from '../../redux/actions/actions';
+import {changeCompareList, setGuestData} from '../../redux/actions/actions';
 import {connect} from 'react-redux';
 import ProfileMenu from '../../components/ProfileMenu/ProfileMenu';
 import ModalSize from '../../components/ModalSelectSize/ModalSelectSize';
@@ -36,23 +36,28 @@ const Header = (props) => {
     userIsLoggedIn,
     snackMessage,
     changeCompareList,
-    compareList
+    setGuestData
   } = props;
   const classes = useStyles();
+
+  const getData = useCallback(() => {
+    getUserWishList();
+    getUserShopCart();
+    changeShoppingCart();
+    changeWishList();
+    changeCompareList();
+    setGuestData();
+  }, [changeCompareList, changeShoppingCart, changeWishList, getUserShopCart, getUserWishList, setGuestData]);
 
   useEffect(() => {
     let isCanceled = false;
     if (!isCanceled) {
-      getUserWishList();
-      getUserShopCart();
-      changeShoppingCart();
-      changeWishList();
-      changeCompareList();
+      getData();
     }
     return () => {
       isCanceled = true;
     };
-  }, [changeCompareList, changeShoppingCart, changeWishList, getUserShopCart, getUserWishList]);
+  }, [getData]);
 
   const isMobile = useMediaQuery(useTheme().breakpoints.between(0, 724), {
     defaultMatches: true
@@ -130,7 +135,8 @@ const mapDispatchToProps = dispatch => {
     getUserShopCart: () => dispatch(getUserShopCart()),
     changeShoppingCart: () => dispatch(changeShoppingCart()),
     changeWishList: () => dispatch(changeWishList()),
-    changeCompareList: () => dispatch(changeCompareList())
+    changeCompareList: () => dispatch(changeCompareList()),
+    setGuestData: () => dispatch(setGuestData())
   };
 };
 
