@@ -8,14 +8,6 @@ export const theme = createMuiTheme({
         padding: '16px 0'
       }
     }
-    // MuiGrid: {
-    //   root: {
-    //     flexDirection: 'column'
-    //   },
-    //   item: {
-    //     flexDirection: 'column'
-    //   }
-    // }
   }
 
 });

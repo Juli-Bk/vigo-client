@@ -17,9 +17,7 @@ const CompareListDesktopView = (props) => {
 
   return (
     <Grid className={classes.generalTable}>
-
       <Grid className={classes.headers}>
-
         <Grid item className={classes.img}>{}</Grid>
         <Grid className={classes.smallcell}>Product name</Grid>
         <Grid className={classes.smallcell}>Product ID</Grid>
@@ -30,7 +28,6 @@ const CompareListDesktopView = (props) => {
         <Grid className={classes.bigCell}>Description</Grid>
         <Grid className={classes.smallcell}>Add to bag</Grid>
         <Grid className={classes.smallcell}>Delete</Grid>
-
       </Grid>
       <Grid className={classes.compareTable} container aria-label='compare-table'>
         <Grid item>
@@ -43,36 +40,28 @@ const CompareListDesktopView = (props) => {
                     {row.isOnSale
                       ? <SaleInfoBox price={row.price} salePrice={row.salePrice}/> : null}
                   </Link>
-
                   <Grid item className={classes.textBox}>
                     <Link to={`/products/${row.id}`}
                       className={classes.nameCompare}>{capitalize(row.name)}</Link>
                   </Grid>
                 </Grid>
-
                 <Box align='center' className={classes.cell}>{row.productCode}</Box>
-
                 <Box align='center' className={classes.cell}><SalePrice value={row.salePrice}/>
                 </Box>
-
                 <Box align='center' className={classes.cellUp}>{row.brand}</Box>
                 <Box align='center' className={classes.cell}>Available</Box>
-
                 <Box align='center' className={classes.cell}>
                   <ProductRating value={rating || 4}/>
                 </Box>
-
                 <Box align='center'>
                   <Typography
                     variant='caption'
                     component='p'
                     className={classes.details}>{row.description}</Typography>
                 </Box>
-
                 <Box>
                   <ActionButtons isComparePage={true} classes={styles} product={row.product}/>
                 </Box>
-
                 <Box align='center'>
                   <CloseIcon align='center' data-testid='deleteIcon'
                     className={classes.closeIcon}
