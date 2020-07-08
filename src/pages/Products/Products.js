@@ -74,7 +74,7 @@ const Products = (props) => {
     <Container>
       <Grid container>
         <Grid item container sm={8} xs={12}>
-          <Container>
+          <Container className={classes.itemsContainer}>
             <Grid item xs={12} className={classes.topFiltersLine}>
               <Grid item container xs={12} className={classes.upperLine}>
                 <Grid item md={6} xs={8} className={classes.sortSelect}>
