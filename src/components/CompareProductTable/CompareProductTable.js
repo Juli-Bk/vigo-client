@@ -42,7 +42,7 @@ const CompareProductTable = (props) => {
 };
 
 CompareProductTable.propTypes = {
-  products: PropTypes.object.isRequired,
+  products: PropTypes.object.isRequired
 };
 
 const mapStateToProps = store => {
