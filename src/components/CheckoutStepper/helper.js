@@ -1,7 +1,8 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
 import { getChosenProductData, getItemStockData } from '../../pages/ShoppingCart/cartHelpers';
 import { getStorageData } from '../../helpers/helpers';
+import globalConfig from '../../globalConfig';
 
 export const getProductData = (products, shoppingCart, productsQuantity) => {
   const productsData = [];
@@ -42,7 +43,7 @@ export const renderNovaPoshtaData = (client, classes) => {
 
 export const setOrder = (user, guestData, totalSum, orderDetails, shoppingCart, callback) => {
   const guestInfo = guestData || getStorageData('guestData');
-  const total = totalSum || getStorageData('totalSum');
+  const total = totalSum || JSON.parse(localStorage.getItem('totalSum'));
   let orderData;
   let userId = null;
   const orderNumber = Date.now() + shoppingCart[0].productId + total;
@@ -56,11 +57,21 @@ export const setOrder = (user, guestData, totalSum, orderDetails, shoppingCart, 
     };
   });
 
+  const getDeliveryAddress = (client) => {
+    if (orderDetails.shipping === globalConfig.deliveryOptions.NOVA_POSHTA) {
+      return client.novaPoshta;
+    }
+    if (orderDetails.shipping === globalConfig.deliveryOptions.VIGO_COURIER_SERVICE ||
+            orderDetails.shipping === globalConfig.deliveryOptions.UKRPOSHTA) {
+      return client.deliveryAddress;
+    } else return {};
+  };
+
   if (Object.keys(user).length && user._id) {
     userId = user._id;
     orderData = {
       userName: `${user.firstName} ${user.lastName}`,
-      deliveryAddress: user.deliveryAddress,
+      deliveryAddress: getDeliveryAddress(user),
       email: user.email,
       phoneNumber: user.phoneNumber,
       totalSum: total,
@@ -72,7 +83,7 @@ export const setOrder = (user, guestData, totalSum, orderDetails, shoppingCart, 
     orderData = {
       userName: guestInfo.userName,
       orderAsGuest: true,
-      deliveryAddress: guestInfo.deliveryAddress,
+      deliveryAddress: getDeliveryAddress(guestInfo),
       email: guestInfo.email,
       phoneNumber: guestInfo.phoneNumber,
       totalSum: total,
@@ -82,4 +93,43 @@ export const setOrder = (user, guestData, totalSum, orderDetails, shoppingCart, 
     };
   }
   callback(userId, products, orderData);
+};
+
+export const defineDeliveryAddress = (orderDetails, user, guestInfo, classes) => {
+  const {deliveryOptions} = globalConfig;
+
+  const deliveryBox = <Grid item xs={12} sm={6}>
+    <Typography className={classes.title}>Delivery Address: </Typography>
+    {user && Object.keys(user).length > 0 ? renderUserAddress(user, classes)
+      : guestInfo.deliveryAddress && Object.keys(guestInfo.deliveryAddress).length > 0
+        ? renderGuestAddress(guestInfo, classes) : null}
+  </Grid>;
+
+  const children = user && Object.keys(user).length > 0 && user.novaPoshta ? renderNovaPoshtaData(user, classes)
+    : guestInfo.novaPoshta && Object.keys(guestInfo.novaPoshta) ? renderNovaPoshtaData(guestInfo, classes) : '';
+
+  switch (orderDetails.shipping) {
+    case deliveryOptions.PICKUP:
+      return null;
+    case deliveryOptions.VIGO_COURIER_SERVICE:
+      return deliveryBox;
+    case deliveryOptions.UKRPOSHTA:
+      return deliveryBox;
+    case deliveryOptions.NOVA_POSHTA:
+      return <Grid item xs={12} sm={6}>
+        <Typography className={classes.title}>Nova Poshta: </Typography>
+        <Box>{children}</Box>
+      </Grid>;
+    default: return 'Choose delivery option';
+  }
+};
+
+export const getProductsCodes = (products) => {
+  const codes = [];
+  if (products.length) {
+    products.forEach(product => {
+      codes.push(product.productId);
+    });
+  }
+  return codes;
 };
