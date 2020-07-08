@@ -32,7 +32,7 @@ const ModalPersDetails = (props) => {
       setCompleted(activeStep);
     }
     if (!Object.keys(user).length && !Object.keys(guestInfo).length && !canceled) setModalOpen(true);
-  }, [activeStep, guestData, guestInfo, setCompleted, setModalOpen, user]);
+  }, [activeStep, canceled, guestData, guestInfo, setCompleted, setModalOpen, user]);
 
   const handleClickOpen = () => {
     setModalOpen(true);

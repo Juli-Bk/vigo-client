@@ -8,7 +8,6 @@ import { getProductsQuantity } from '../../../redux/actions/quantity';
 import { getProductData, defineDeliveryAddress} from '../helper';
 import ClientPersData from './ClientPersData';
 import ProductsTableDesktop from './ProductsTableDesktop';
-import { getStorageData } from '../../../helpers/helpers';
 import useStyles from './OrderSummaryStyles';
 import ProductsTableMobile from './ProductsTableMobile';
 import { setCompletedSteps } from '../../../redux/actions/actions';

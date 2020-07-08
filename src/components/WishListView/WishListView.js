@@ -11,7 +11,7 @@ import WishListMobileView from './WishListMobileView';
 import WishlistDesktopView from './WishListDesktopView';
 
 const WishListView = (props) => {
-  const {isMobile, products, wishList, changeWishList, toggleWishItems} = props;
+  const {isMobile, products, changeWishList, toggleWishItems} = props;
   const classes = useStyles();
 
   const deleteFromWishList = (id) => {
