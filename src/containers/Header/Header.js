@@ -7,7 +7,7 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import AppBar from '@material-ui/core/AppBar';
 import useStyles from './headerStyle';
 import theme from './headerTheme';
-
+import {ScaleBalance } from 'mdi-material-ui';
 import Logo from '../../components/Logo/Logo';
 import NestedMenu from '../../components/NestedMenu/NestedMenu';
 import SearchBar from '../../components/SearchBar/SearchBar';
@@ -32,6 +32,7 @@ const Header = (props) => {
     changeShoppingCart,
     changeWishList,
     shoppingCart,
+    compareList,
     wishList,
     userIsLoggedIn,
     snackMessage,
@@ -94,6 +95,14 @@ const Header = (props) => {
                       ? <span className={classes.digit}>{shoppingCart.length}</span>
                       : null}
                   </Link>
+                  <Link to='/compare' className={classes.link}>
+                    <IconButton aria-label="compare" className={classes.compareIcon}>
+                      <ScaleBalance/>
+                    </IconButton>
+                    {compareList.length
+                      ? <span className={classes.digit}>{compareList.length}</span>
+                      : null}
+                  </Link>
                   {userIsLoggedIn && <ProfileMenu/>}
                   <ModalLogin/>
                   <ModalRestorePassword/>
@@ -116,7 +125,8 @@ const mapStoreToProps = store => {
     isModalSizeOpen: store.isModalSizeOpen,
     shoppingCart: store.shoppingCart,
     wishList: store.wishList,
-    snackMessage: store.snackMessage
+    snackMessage: store.snackMessage,
+    compareList: store.compareList
   };
 };
 
