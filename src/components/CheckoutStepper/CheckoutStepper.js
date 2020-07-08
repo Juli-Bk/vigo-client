@@ -60,9 +60,15 @@ const CheckoutStepper = (props) => {
   }, [setActiveStep]);
 
   useEffect(() => {
-    if (!completed.length) resetSteps();
+    let isCanceled = false;
+    if (!isCanceled) {
+      if (!completed.length) resetSteps();
+      return () => {
+        if (orderDetails.orderNumber) resetSteps();
+      };
+    }
     return () => {
-      if (orderDetails.orderNumber) resetSteps();
+      isCanceled = true;
     };
   }, [completed.length, orderDetails.orderNumber, resetSteps]);
 

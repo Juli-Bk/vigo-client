@@ -45,8 +45,7 @@ ShoppingCart.propTypes = {
 const mapStateToProps = store => {
   return {
     shoppingCart: store.shoppingCart,
-    products: store.products,
-    totalSum: store.total
+    products: store.products
   };
 };
 

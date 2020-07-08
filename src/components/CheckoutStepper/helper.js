@@ -1,7 +1,8 @@
 import React from 'react';
-import { Typography } from '@material-ui/core';
+import { Box, Grid, Typography } from '@material-ui/core';
 import { getChosenProductData, getItemStockData } from '../../pages/ShoppingCart/cartHelpers';
 import { getStorageData } from '../../helpers/helpers';
+import globalConfig from '../../globalConfig';
 
 export const getProductData = (products, shoppingCart, productsQuantity) => {
   const productsData = [];
@@ -82,4 +83,33 @@ export const setOrder = (user, guestData, totalSum, orderDetails, shoppingCart, 
     };
   }
   callback(userId, products, orderData);
+};
+
+export const defineDeliveryAddress = (orderDetails, user, guestInfo, classes) => {
+  const {deliveryOptions} = globalConfig;
+
+  const deliveryBox = <Grid item xs={12} sm={6}>
+    <Typography className={classes.title}>Delivery Address: </Typography>
+    {user && Object.keys(user).length > 0 ? renderUserAddress(user, classes)
+      : guestInfo.deliveryAddress && Object.keys(guestInfo.deliveryAddress).length > 0
+        ? renderGuestAddress(guestInfo, classes) : null}
+  </Grid>;
+
+  const children = user && Object.keys(user).length > 0 && user.novaPoshta ? renderNovaPoshtaData(user, classes)
+    : guestInfo.novaPoshta && Object.keys(guestInfo.novaPoshta) ? renderNovaPoshtaData(guestInfo, classes) : '';
+
+  switch (orderDetails.shipping) {
+    case deliveryOptions.PICKUP:
+      return null;
+    case deliveryOptions.VIGO_COURIER_SERVICE:
+      return deliveryBox;
+    case deliveryOptions.UKRPOSHTA:
+      return deliveryBox;
+    case deliveryOptions.NOVA_POSHTA:
+      return <Grid item xs={12} sm={6}>
+        <Typography className={classes.title}>Nova Poshta: </Typography>
+        <Box>{children}</Box>
+      </Grid>;
+    default: return 'Choose delivery option';
+  }
 };
