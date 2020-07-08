@@ -22,7 +22,7 @@ const label = {
 const useStyles = makeStyles(theme => ({
   card: {
     margin: '0 auto 1.5rem auto',
-    padding: '1rem',
+    padding: '1rem 0',
     borderRadius: 0,
     boxShadow: 'none',
     [theme.breakpoints.up(500)]: {
