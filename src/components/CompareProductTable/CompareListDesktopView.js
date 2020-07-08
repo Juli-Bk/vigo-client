@@ -60,7 +60,7 @@ const CompareListDesktopView = (props) => {
                   </Grid>
                 </Grid>
 
-                <Box align='center' className={classes.cell}>Product ID: {row.id}</Box>
+                <Box align='center' className={classes.cell}>{row.id}</Box>
 
                 <Box align='center' className={classes.cell}><SalePrice value={row.salePrice}/>
                 </Box>

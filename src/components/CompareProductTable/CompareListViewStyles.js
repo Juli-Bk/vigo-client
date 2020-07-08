@@ -95,7 +95,7 @@ const useStyles = makeStyles(theme => ({
     color: colors.fontThird,
     textDecoration: 'none',
     cursor: 'pointer',
-    fontSize: '0.9rem'
+    fontSize: '1rem'
   },
   details: {
     textTransform: 'uppercase',
