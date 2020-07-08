@@ -28,6 +28,9 @@ const validationSample = Yup.object({
   name: Yup.string()
     .required('Please, enter your name')
     .min(1, 'Name too short'),
+  message: Yup.string()
+    .required('Please, enter your message to us')
+    .min(1, 'Write us more, you are welcome'),
   email: Yup.string()
     .email('Incorrect email')
     .required('Please, enter valid email'),
@@ -54,13 +57,13 @@ const ContactForm = ({setSnackMessage}) => {
 
     AjaxUtils.Email.sendEmail(data)
       .then(result => {
+        resetForm();
         if (result && result.status === 400) {
           setSnackMessage(true, 'Error occurs during message sending', 'error');
         } else {
           setSnackMessage(true, 'Your email sent', 'success');
         }
         setSubmitting(false);
-        resetForm();
       });
   }, [setSnackMessage]);
 
