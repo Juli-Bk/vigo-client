@@ -43,7 +43,7 @@ export const renderNovaPoshtaData = (client, classes) => {
 
 export const setOrder = (user, guestData, totalSum, orderDetails, shoppingCart, callback) => {
   const guestInfo = guestData || getStorageData('guestData');
-  const total = totalSum || getStorageData('totalSum');
+  const total = totalSum || JSON.parse(localStorage.getItem('totalSum'));
   let orderData;
   let userId = null;
   const orderNumber = Date.now() + shoppingCart[0].productId + total;
@@ -57,11 +57,21 @@ export const setOrder = (user, guestData, totalSum, orderDetails, shoppingCart, 
     };
   });
 
+  const getDeliveryAddress = (client) => {
+    if (orderDetails.shipping === globalConfig.deliveryOptions.NOVA_POSHTA) {
+      return client.novaPoshta;
+    }
+    if (orderDetails.shipping === globalConfig.deliveryOptions.VIGO_COURIER_SERVICE ||
+            orderDetails.shipping === globalConfig.deliveryOptions.UKRPOSHTA) {
+      return client.deliveryAddress;
+    } else return {};
+  };
+
   if (Object.keys(user).length && user._id) {
     userId = user._id;
     orderData = {
       userName: `${user.firstName} ${user.lastName}`,
-      deliveryAddress: user.deliveryAddress,
+      deliveryAddress: getDeliveryAddress(user),
       email: user.email,
       phoneNumber: user.phoneNumber,
       totalSum: total,
@@ -73,7 +83,7 @@ export const setOrder = (user, guestData, totalSum, orderDetails, shoppingCart, 
     orderData = {
       userName: guestInfo.userName,
       orderAsGuest: true,
-      deliveryAddress: guestInfo.deliveryAddress,
+      deliveryAddress: getDeliveryAddress(guestInfo),
       email: guestInfo.email,
       phoneNumber: guestInfo.phoneNumber,
       totalSum: total,
@@ -112,4 +122,14 @@ export const defineDeliveryAddress = (orderDetails, user, guestInfo, classes) =>
       </Grid>;
     default: return 'Choose delivery option';
   }
+};
+
+export const getProductsCodes = (products) => {
+  const codes = [];
+  if (products.length) {
+    products.forEach(product => {
+      codes.push(product.productId);
+    });
+  }
+  return codes;
 };

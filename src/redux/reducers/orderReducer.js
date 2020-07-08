@@ -6,8 +6,8 @@ const reducer = (state = {}, action) => {
       return {...state, shipping: action.payload};
     case Actions.SET_PAYMENT_METHOD:
       return {...state, paymentMethod: action.payload};
-    case Actions.SET_ORDER_NUMBER:
-      return {...state, orderNumber: action.payload};
+    case Actions.SET_ORDER_DATA:
+      return {...state, orderNumber: action.orderNumber, products: action.products};
     default:
       return state;
   }

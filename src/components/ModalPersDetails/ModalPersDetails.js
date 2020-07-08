@@ -24,21 +24,24 @@ const ModalPersDetails = (props) => {
   const commonClasses = useCommonStyles();
   const [message, setMessage] = useState('');
   const [isMessageHidden, setIsMessageHidden] = useState(false);
+  const [canceled, setCanceled] = useState(false);
   const guestInfo = guestData.deliveryAddress ? guestData : getStorageData('guestData');
 
   useEffect(() => {
     if (Object.keys(user).length > 0 || Object.keys(guestInfo).length > 0) {
       setCompleted(activeStep);
     }
-    if (!Object.keys(user).length && !Object.keys(guestInfo).length) setModalOpen(true);
+    if (!Object.keys(user).length && !Object.keys(guestInfo).length && !canceled) setModalOpen(true);
   }, [activeStep, guestData, guestInfo, setCompleted, setModalOpen, user]);
 
   const handleClickOpen = () => {
     setModalOpen(true);
+    setCanceled(false);
   };
 
   const handleClose = () => {
     setModalOpen(false);
+    setCanceled(true);
   };
 
   const messageTag = <DialogContent>

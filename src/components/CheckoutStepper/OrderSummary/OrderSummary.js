@@ -37,7 +37,7 @@ const OrderSummary = (props) => {
 
   const productsData = useMemo(() => getProductData(products, shoppingCart, productsQuantity),
     [products, productsQuantity, shoppingCart]);
-  const total = useMemo(() => totalSum || getStorageData('totalSum'), [totalSum]);
+  const total = useMemo(() => totalSum || JSON.parse(localStorage.getItem('totalSum')), [totalSum]);
 
   return (
     <Container>
