@@ -14,7 +14,7 @@ const globalConfig = {
     VIGO_COURIER_SERVICE: 'Vigo Courier Service',
     NOVA_POSHTA: 'Nova Poshta',
     UKRPOSHTA: 'Post Office Ukrposhta',
-    PICKUP: 'Pickup'
+    PICKUP: 'Pick up from store'
   },
   paymentOptions: {
     BY_CASH: 'Cash',

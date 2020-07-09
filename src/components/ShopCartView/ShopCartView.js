@@ -34,24 +34,30 @@ const ShopCartView = (props) => {
   const classes = useStyles();
 
   useEffect(() => {
-    const idArray = [];
-    products.forEach(product => {
-      idArray.push(product._id);
-    });
-    getProductsQuantity(idArray);
+    let isCanceled = false;
+    if (!isCanceled) {
+      const idArray = [];
+      products.forEach(product => {
+        idArray.push(product._id);
+      });
+      getProductsQuantity(idArray);
+    }
+    return () => {
+      isCanceled = true;
+    };
   }, [getProductsQuantity, products]);
 
-  const deleteFromShopCart = (productId, sizeId) => {
+  const deleteFromShopCart = useCallback((productId, sizeId) => {
     deleteFromCart(productId, sizeId);
     changeShoppingCart();
-  };
+  }, [changeShoppingCart]);
 
-  const handleQuantity = (productId, number, sizeId) => {
+  const handleQuantity = useCallback((productId, number, sizeId) => {
     const updatedProduct = updateProductQuantity(productId, number, shoppingCart, sizeId);
     updateCartData(shoppingCart, productId, updatedProduct, sizeId);
     changeShoppingCart();
     addToCart(productId, number, updatedProduct.sizeId, updatedProduct.colorId);
-  };
+  }, [changeShoppingCart, shoppingCart]);
 
   const getCartData = useCallback(product => {
     const itemsInCart = findItemsInCart(product._id, shoppingCart);
@@ -95,32 +101,32 @@ const ShopCartView = (props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      {shoppingCart.length && productsQuantity.length && products.length &&
-              <Grid container direction='column' justify='center'>
-                <Grid item>
-                  <TableContainer component={Box}>
-                    { isMobile
-                      ? <TableMobileView
-                        classes={classes}
-                        handleQuantity={handleQuantity}
-                        rows={rows}
-                        deleteFromShopCart={deleteFromShopCart}
-                        productsAmount={products.length}
-                      />
-                      : <TableDesktopView
-                        classes={classes}
-                        handleQuantity={handleQuantity}
-                        rows={rows}
-                        deleteFromShopCart={deleteFromShopCart}
-                      />}
-                  </TableContainer>
-                </Grid>
-                <Grid item>
-                  <TableContainer component={Box}>
-                    <TotalSum subtotal={subTotal}/>
-                  </TableContainer>
-                </Grid>
-              </Grid>
+      {!!productsQuantity && !!productsQuantity.length &&
+        <Grid container direction='column' justify='center'>
+          <Grid item>
+            <TableContainer component={Box}>
+              { isMobile
+                ? <TableMobileView
+                  classes={classes}
+                  handleQuantity={handleQuantity}
+                  rows={rows}
+                  deleteFromShopCart={deleteFromShopCart}
+                  productsAmount={products.length}
+                />
+                : <TableDesktopView
+                  classes={classes}
+                  handleQuantity={handleQuantity}
+                  rows={rows}
+                  deleteFromShopCart={deleteFromShopCart}
+                />}
+            </TableContainer>
+          </Grid>
+          <Grid item>
+            <TableContainer component={Box}>
+              <TotalSum subtotal={subTotal}/>
+            </TableContainer>
+          </Grid>
+        </Grid>
       }
     </ThemeProvider>
   );

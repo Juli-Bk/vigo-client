@@ -38,7 +38,6 @@ const Products = (props) => {
     [filters.sort]);
   const perPage = useMemo(() => Number(filters.perPage) || globalConfig.step,
     [filters.perPage]);
-  console.log(location);
 
   const getFilteredData = useCallback(() => {
     if (filters.startPage) {

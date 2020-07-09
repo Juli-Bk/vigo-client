@@ -46,13 +46,6 @@ export const toggleWishItems = (productId) => dispatch => {
               message: globalConfig.userMessages.NOT_AUTHORIZED,
               severity: globalConfig.snackSeverity.ERROR
             });
-          } else {
-            dispatch({
-              type: Actions.SET_SNACK_MESSAGE_OPEN,
-              payload: true,
-              message: globalConfig.wishListMessages.UPDATED,
-              severity: globalConfig.snackSeverity.SUCCESS
-            });
           }
         });
     }
@@ -69,13 +62,6 @@ export const toggleWishItems = (productId) => dispatch => {
               payload: true,
               message: globalConfig.userMessages.NOT_AUTHORIZED,
               severity: globalConfig.snackSeverity.ERROR
-            });
-          } else {
-            dispatch({
-              type: Actions.SET_SNACK_MESSAGE_OPEN,
-              payload: true,
-              message: globalConfig.wishListMessages.UPDATED,
-              severity: globalConfig.snackSeverity.SUCCESS
             });
           }
         });
