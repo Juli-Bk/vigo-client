@@ -30,6 +30,7 @@ const DeliveryForm = (props) => {
       setCompleted(activeStep);
     }
   }, [activeStep, guestData.deliveryAddress, setCompleted, setShipping, user]);
+
   return (
     <ThemeProvider theme={theme}>
       <Grid container spacing={6}>
