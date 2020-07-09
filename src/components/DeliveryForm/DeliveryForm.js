@@ -10,6 +10,7 @@ import useStyles from '../../styles/formStyle/formStyle';
 import { ThemeProvider } from '@material-ui/core';
 import DefineDelivery from '../DefineDelivery/DefineDelivery';
 import { setCompletedSteps, setShipping } from '../../redux/actions/actions';
+import {isEmptyObj} from '../../helpers/helpers';
 
 const {deliveryOptions} = globalConfig;
 
@@ -24,11 +25,12 @@ const DeliveryForm = (props) => {
     setInputValue(newInputValue);
     setShipping(newInputValue);
     if (newInputValue === deliveryOptions.PICKUP ||
-            (guestData.deliveryAddress && !Object.keys(user).length) ||
+       (guestData.deliveryAddress && isEmptyObj(user)) ||
             (user.deliveryAddress && user.deliveryAddress.length === 1)) {
       setCompleted(activeStep);
     }
   }, [activeStep, guestData.deliveryAddress, setCompleted, setShipping, user]);
+
   return (
     <ThemeProvider theme={theme}>
       <Grid container spacing={6}>

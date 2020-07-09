@@ -180,6 +180,13 @@ export const has = (object, key) => {
   return object ? hasOwnProperty.call(object, key) : false;
 };
 
+export const isEmptyObj = (obj) => {
+  if (!obj) {
+    return true;
+  }
+  return Object.keys(obj).length === 0 && obj.constructor === Object;
+};
+
 export const getFiltersArray = (filtersObject) => {
   const array = Object.entries(filtersObject);
   const arrayOfObj = [];
@@ -218,7 +225,10 @@ export const getUrlData = (parsed, prop) => {
 export const getColorsState = (allColors, dataFromSearchString) => {
   let state = {};
   allColors.forEach(item => {
-    state = {...state, [item.name]: false};
+    state = {
+      ...state,
+      [item.name]: false
+    };
   });
   return Object.assign({}, state, dataFromSearchString);
 };
@@ -226,7 +236,10 @@ export const getColorsState = (allColors, dataFromSearchString) => {
 export const getSizesState = (allSizes, dataFromSearchString) => {
   let state = {};
   allSizes.forEach(name => {
-    state = {...state, [name]: false};
+    state = {
+      ...state,
+      [name]: false
+    };
   });
   return Object.assign({}, state, dataFromSearchString);
 };
