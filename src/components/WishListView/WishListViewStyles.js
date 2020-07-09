@@ -88,7 +88,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   name: {
-    display: 'block',
+    display: 'inline-block',
     marginBottom: '1rem',
     color: colors.fontThird,
     textDecoration: 'none',
@@ -116,7 +116,7 @@ const useStyles = makeStyles(theme => ({
       border: `2px solid ${colors.borderDark}`,
       cursor: 'pointer'
     },
-    [theme.breakpoints.down(550)]: {
+    [theme.breakpoints.down(725)]: {
       position: 'absolute',
       top: '5px',
       right: '1rem',

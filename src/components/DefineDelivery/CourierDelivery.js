@@ -7,12 +7,13 @@ import Typography from '@material-ui/core/Typography';
 import ModalAddress from '../ModalAddress/ModalAddress';
 import useStyles from '../../styles/formStyle/formStyle';
 import AddressRadioGroup from './AddressRadioGroup';
+import {isEmptyObj} from '../../helpers/helpers';
 
 const CourierDelivery = (props) => {
   const { user } = props;
   const styles = useStyles();
 
-  const isEmptyUserData = Object.keys(user).length > 0;
+  const userData = !isEmptyObj(user);
   const savedAddresses = user && user.addresses && user.addresses.length > 0;
 
   const adr = savedAddresses
@@ -22,7 +23,7 @@ const CourierDelivery = (props) => {
     })
     : <ListItem className={styles.text}>Address: You have not saved address yet</ListItem>;
 
-  const labels = isEmptyUserData
+  const labels = userData
     ? <>
       <Typography className={styles.subtitle}>
         VIGO Courier will deliver the order to the following address:
@@ -50,4 +51,5 @@ CourierDelivery.propTypes = {
 CourierDelivery.defaultProps = {
   user: {}
 };
+
 export default React.memo(CourierDelivery);

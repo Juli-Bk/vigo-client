@@ -1,11 +1,12 @@
 import React from 'react';
 import { Box, Grid, Typography } from '@material-ui/core';
 import { getChosenProductData, getItemStockData } from '../../pages/ShoppingCart/cartHelpers';
-import { getStorageData } from '../../helpers/helpers';
+import {getStorageData, isEmptyObj} from '../../helpers/helpers';
 import globalConfig from '../../globalConfig';
 
 export const getProductData = (products, shoppingCart, productsQuantity) => {
   const productsData = [];
+
   if (products && products.data && productsQuantity && productsQuantity.length) {
     products.data.forEach(product => {
       const itemInCart = shoppingCart.find(item => item.productId === product._id);
@@ -67,7 +68,7 @@ export const setOrder = (user, guestData, totalSum, orderDetails, shoppingCart, 
     } else return {};
   };
 
-  if (Object.keys(user).length && user._id) {
+  if (!isEmptyObj(user) && user._id) {
     userId = user._id;
     orderData = {
       userName: `${user.firstName} ${user.lastName}`,
@@ -100,13 +101,20 @@ export const defineDeliveryAddress = (orderDetails, user, guestInfo, classes) =>
 
   const deliveryBox = <Grid item xs={12} sm={6}>
     <Typography className={classes.title}>Delivery Address: </Typography>
-    {user && Object.keys(user).length > 0 ? renderUserAddress(user, classes)
-      : guestInfo.deliveryAddress && Object.keys(guestInfo.deliveryAddress).length > 0
-        ? renderGuestAddress(guestInfo, classes) : null}
+    {
+      !isEmptyObj(user)
+        ? renderUserAddress(user, classes)
+        : guestInfo && !isEmptyObj(guestInfo.deliveryAddress)
+          ? renderGuestAddress(guestInfo, classes)
+          : null
+    }
   </Grid>;
 
-  const children = user && Object.keys(user).length > 0 && user.novaPoshta ? renderNovaPoshtaData(user, classes)
-    : guestInfo.novaPoshta && Object.keys(guestInfo.novaPoshta) ? renderNovaPoshtaData(guestInfo, classes) : '';
+  const children = !isEmptyObj(user) && user.novaPoshta
+    ? renderNovaPoshtaData(user, classes)
+    : guestInfo && !isEmptyObj(guestInfo.novaPoshta)
+      ? renderNovaPoshtaData(guestInfo, classes)
+      : '';
 
   switch (orderDetails.shipping) {
     case deliveryOptions.PICKUP:

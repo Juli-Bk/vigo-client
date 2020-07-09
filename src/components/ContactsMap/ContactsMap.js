@@ -17,4 +17,4 @@ const ContactsMap = () => {
   );
 };
 
-export default ContactsMap;
+export default React.memo(ContactsMap);

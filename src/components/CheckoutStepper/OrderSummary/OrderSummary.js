@@ -11,6 +11,7 @@ import ProductsTableDesktop from './ProductsTableDesktop';
 import useStyles from './OrderSummaryStyles';
 import ProductsTableMobile from './ProductsTableMobile';
 import { setCompletedSteps } from '../../../redux/actions/actions';
+import {isEmptyObj} from '../../../helpers/helpers';
 
 const OrderSummary = (props) => {
   const classes = useStyles();
@@ -19,7 +20,7 @@ const OrderSummary = (props) => {
     guestData, products, productsQuantity, getProductsQuantity,
     setCompleted, activeStep, orderDetails
   } = props;
-  const isMobile = useMediaQuery('(max-width: 550px)');
+  const isMobile = useMediaQuery('(max-width: 724px)');
 
   useEffect(() => {
     let isCanceled = false;
@@ -55,8 +56,13 @@ const OrderSummary = (props) => {
         </Grid>
         <Grid item xs={12} sm={6} className={classes.data}>
           <Typography className={classes.title}>Personal Data: </Typography>
-          {user && Object.keys(user).length > 0 ? <ClientPersData classes={classes} client={user}/>
-            : Object.keys(guestData).length > 0 ? <ClientPersData classes={classes} client={guestData}/> : null}
+          {
+            !isEmptyObj(user)
+              ? <ClientPersData classes={classes} client={user}/>
+              : !isEmptyObj(guestData)
+                ? <ClientPersData classes={classes} client={guestData}/>
+                : null
+          }
         </Grid>
         {defineDeliveryAddress(orderDetails, user, guestData, classes)}
       </Grid>

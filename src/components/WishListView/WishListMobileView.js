@@ -41,8 +41,6 @@ const WishListMobileView = (props) => {
               <Box className={classes.textBox}>
                 <Link to={`/products/${row.id}`}
                   className={classes.name}>{capitalize(row.mainData.name)}</Link>
-                <Typography className={classes.details}>Color: {row.mainData.color}</Typography>
-                <Typography className={classes.details}>Size: {row.mainData.size}</Typography>
                 <Typography className={classes.details}>Product code: <span className={classes.codeSmall}>{row.productCode}</span>
                 </Typography>
                 <Typography variant='caption' component='p' className={classes.details}>

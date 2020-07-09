@@ -32,7 +32,7 @@ const VerticalSubMenu = (props) => {
   }), [categories, value]);
 
   const banners = <>
-    <Grid className={styles.bannersCover} container spacing={4}>
+    <Grid className={styles.bannersCover} container spacing={2}>
       <Grid className={styles.fullSize} xs={12} sm={6} item>
         <Banner title='Show me all'
           alert={false}

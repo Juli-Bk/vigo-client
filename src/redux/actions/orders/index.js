@@ -58,3 +58,23 @@ export const getUserOrders = (userId) => dispatch => {
       dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
     });
 };
+
+export const deleteOrder = (orderId, userId) => dispatch => {
+  dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
+  AjaxUtils.Orders.deleteOrderById(orderId)
+    .then(result => {
+      dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
+      if (result) {
+        dispatch({
+          type: Actions.SET_SNACK_MESSAGE_OPEN,
+          payload: true,
+          message: result.message,
+          severity: globalConfig.snackSeverity.SUCCESS
+        });
+        dispatch(getUserOrders(userId));
+      }
+    }).catch(err => {
+      console.log(err);
+      dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
+    });
+};

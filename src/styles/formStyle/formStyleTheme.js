@@ -116,6 +116,9 @@ const theme = createMuiTheme({
       }
     },
     MuiTab: {
+      root: {
+        padding: '6px 0'
+      },
       wrapper: {
         fontFamily: fonts.f2,
         fontSize: '1.3rem',
@@ -128,7 +131,6 @@ const theme = createMuiTheme({
       root: {
         padding: 16,
         display: 'flex',
-        overflow: 'hidden',
         minHeight: 48
       }
     },

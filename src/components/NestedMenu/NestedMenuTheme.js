@@ -36,7 +36,8 @@ const theme = createMuiTheme({
       },
       root: {
         backgroundColor: colors.bgPrimary,
-        minHeight: '35px'
+        minHeight: '35px',
+        padding: 0
       },
       wrapper: {
         alignItems: 'flex-start',

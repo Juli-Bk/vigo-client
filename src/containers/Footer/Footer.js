@@ -4,6 +4,7 @@ import {ThemeProvider} from '@material-ui/core/styles';
 import useStyles from './FooterStyle';
 import theme from './FooterTheme';
 import { Link } from 'react-router-dom';
+import ScrollToTop from '../../components/ScrollToTop/ScrollToTop';
 
 const Footer = () => {
   const styles = useStyles();
@@ -52,6 +53,7 @@ const Footer = () => {
             </Box>
           </Grid>
         </Grid>
+        <ScrollToTop/>
       </Grid>
     </ThemeProvider>
   );

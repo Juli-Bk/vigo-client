@@ -1,5 +1,6 @@
 import pathTo from '../common/paths';
 import methods from '../common/methods';
+import {isEmptyObj} from '../../helpers/helpers';
 
 export default {
   /**
@@ -17,7 +18,7 @@ export default {
    */
   sendEmail: (formData) => {
     if (!formData) throw new TypeError('empty form data');
-    if (!(Object.keys(formData).length > 0)) throw new TypeError('empty form data');
+    if (isEmptyObj(formData)) throw new TypeError('empty form data');
 
     const requestOptions = {
       body: JSON.stringify(formData),

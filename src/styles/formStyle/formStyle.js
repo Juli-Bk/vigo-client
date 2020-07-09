@@ -112,7 +112,8 @@ const useStyles = makeStyles(theme => (
       fontFamily: fonts.f2,
       textTransform: 'uppercase',
       [theme.breakpoints.down(420)]: {
-        fontSize: 'inherit'
+        fontSize: 'inherit',
+        marginTop: '1rem'
       }
     },
     inputSmall: {

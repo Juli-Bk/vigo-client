@@ -18,6 +18,7 @@ const useStyles = makeStyles(theme => (
       width: 128,
       height: 128,
       marginRight: '1.25rem',
+      marginBottom: '0.5rem',
       objectFit: 'contain'
     },
     '@media (min-width: 1200px)': {

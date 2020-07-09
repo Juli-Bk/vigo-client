@@ -37,7 +37,7 @@ const WishListView = (props) => {
         { isMobile
           ? <WishListMobileView
             classes={classes}
-            productsLenght={products.length}
+            productsLength={products.length}
             rows={rows}
             deleteFromWishList={deleteFromWishList}
           />
