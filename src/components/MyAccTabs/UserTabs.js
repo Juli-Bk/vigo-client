@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useCallback, useState } from 'react';
 import {ThemeProvider, useTheme} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -9,15 +9,19 @@ import themeMui from './MyAccTabsTheme';
 import PersonalDetailsForm from '../PersonalDetailsForm/PersonalDetailsForm';
 import AddressForm from '../AddressForm/AddressForm';
 import Wishlist from '../../pages/Wishlist/Wishlist';
-import {useMediaQuery} from '@material-ui/core';
+import { Button, useMediaQuery } from '@material-ui/core';
 import useStyles from '../../containers/Header/headerStyle';
 import AddressRadioGroup from '../DefineDelivery/AddressRadioGroup';
 import Grid from '@material-ui/core/Grid';
 import OrdersList from './OrdersList/OrdersList';
+import {setNewPassModalOpen} from '../../redux/actions/actions';
 
 const TabPanel = (props) => {
-  const {user, children, value, adrList, index, ...other} = props;
-
+  const {user, setOpen, children, value, adrList, index, setNewPswdModalOpen, ...other} = props;
+  const handleNewPswd = useCallback(() => {
+    setOpen(false);
+    setNewPswdModalOpen(true);
+  }, [setOpen, setNewPswdModalOpen]);
   return (
     <Box
       role='tabpanel'
@@ -93,6 +97,14 @@ const UserTabs = (props) => {
               handleChange(null, value);
             }}/>
           </Grid>
+          <Button
+            type='button'
+            size='small'
+            className={classes.linkButton}
+            // onClick={handleNewPswd}
+          >
+            Choose new password
+          </Button>
         </Grid>
       </TabPanel>
 

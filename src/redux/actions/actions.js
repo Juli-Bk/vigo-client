@@ -30,6 +30,10 @@ export const setRestorePswdModalOpen = (isOpen) => {
   return {type: Actions.IS_RESTORE_MODAL_OPEN, payload: isOpen};
 };
 
+export const setNewPassModalOpen = (isOpen) => {
+  return {type: Actions.IS_NEW_PASS_MODAL_OPEN, payload: isOpen};
+};
+
 export const setAddressModalOpenState = (isOpen) => {
   return {type: Actions.IS_ADDRESS_MODAL_OPEN, payload: isOpen};
 };
