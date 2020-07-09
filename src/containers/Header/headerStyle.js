@@ -104,12 +104,17 @@ const useStyles = makeStyles(theme => ({
       ...iconsBpMd
     }
   },
+  compareIcon: {
+    ...iconStyles,
+    [theme.breakpoints.up('md')]: {
+      ...iconsBpMd
+    }
+  },
   personIcon: {
     ...iconStyles,
     [theme.breakpoints.up('md')]: {
       ...iconsBpMd
     }
-
   },
   menuIcon: {
     display: 'block',

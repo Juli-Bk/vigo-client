@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, { useCallback, useEffect } from 'react';
 import {Link} from 'react-router-dom';
 import {Box, Container, Grid, IconButton, Toolbar} from '@material-ui/core';
 import {ThemeProvider} from '@material-ui/core/styles';
@@ -7,7 +7,7 @@ import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import AppBar from '@material-ui/core/AppBar';
 import useStyles from './headerStyle';
 import theme from './headerTheme';
-
+import {ScaleBalance } from 'mdi-material-ui';
 import Logo from '../../components/Logo/Logo';
 import NestedMenu from '../../components/NestedMenu/NestedMenu';
 import SearchBar from '../../components/SearchBar/SearchBar';
@@ -17,7 +17,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import {useTheme} from '@material-ui/styles';
 import { changeWishList, getUserWishList } from '../../redux/actions/wishlist';
 import { changeShoppingCart, getUserShopCart } from '../../redux/actions/shopCart';
-import {changeCompareList} from '../../redux/actions/actions';
+import {changeCompareList, setGuestData} from '../../redux/actions/actions';
 import {connect} from 'react-redux';
 import ProfileMenu from '../../components/ProfileMenu/ProfileMenu';
 import ModalSize from '../../components/ModalSelectSize/ModalSelectSize';
@@ -32,26 +32,33 @@ const Header = (props) => {
     changeShoppingCart,
     changeWishList,
     shoppingCart,
+    compareList,
     wishList,
     userIsLoggedIn,
     snackMessage,
-    changeCompareList
+    changeCompareList,
+    setGuestData
   } = props;
   const classes = useStyles();
+
+  const getData = useCallback(() => {
+    getUserWishList();
+    getUserShopCart();
+    changeShoppingCart();
+    changeWishList();
+    changeCompareList();
+    setGuestData();
+  }, [changeCompareList, changeShoppingCart, changeWishList, getUserShopCart, getUserWishList, setGuestData]);
 
   useEffect(() => {
     let isCanceled = false;
     if (!isCanceled) {
-      getUserWishList();
-      getUserShopCart();
-      changeShoppingCart();
-      changeWishList();
-      changeCompareList();
+      getData();
     }
     return () => {
       isCanceled = true;
     };
-  }, [changeCompareList, changeShoppingCart, changeWishList, getUserShopCart, getUserWishList]);
+  }, [getData]);
 
   const isMobile = useMediaQuery(useTheme().breakpoints.between(0, 724), {
     defaultMatches: true
@@ -88,6 +95,14 @@ const Header = (props) => {
                       ? <span className={classes.digit}>{shoppingCart.length}</span>
                       : null}
                   </Link>
+                  <Link to='/compare' className={classes.link}>
+                    <IconButton aria-label="compare" className={classes.compareIcon}>
+                      <ScaleBalance/>
+                    </IconButton>
+                    {compareList.length
+                      ? <span className={classes.digit}>{compareList.length}</span>
+                      : null}
+                  </Link>
                   {userIsLoggedIn && <ProfileMenu/>}
                   <ModalLogin/>
                   <ModalRestorePassword/>
@@ -110,7 +125,8 @@ const mapStoreToProps = store => {
     isModalSizeOpen: store.isModalSizeOpen,
     shoppingCart: store.shoppingCart,
     wishList: store.wishList,
-    snackMessage: store.snackMessage
+    snackMessage: store.snackMessage,
+    compareList: store.compareList
   };
 };
 
@@ -120,7 +136,8 @@ const mapDispatchToProps = dispatch => {
     getUserShopCart: () => dispatch(getUserShopCart()),
     changeShoppingCart: () => dispatch(changeShoppingCart()),
     changeWishList: () => dispatch(changeWishList()),
-    changeCompareList: () => dispatch(changeCompareList())
+    changeCompareList: () => dispatch(changeCompareList()),
+    setGuestData: () => dispatch(setGuestData())
   };
 };
 

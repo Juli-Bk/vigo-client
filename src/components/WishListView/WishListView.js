@@ -11,7 +11,7 @@ import WishListMobileView from './WishListMobileView';
 import WishlistDesktopView from './WishListDesktopView';
 
 const WishListView = (props) => {
-  const {isMobile, products, wishList, changeWishList, toggleWishItems} = props;
+  const {isMobile, products, changeWishList, toggleWishItems} = props;
   const classes = useStyles();
 
   const deleteFromWishList = (id) => {
@@ -33,22 +33,20 @@ const WishListView = (props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      {wishList.length && products.length &&
-                <TableContainer component={Box}>
-                  { isMobile
-                    ? <WishListMobileView
-                      classes={classes}
-                      productsLenght={products.length}
-                      rows={rows}
-                      deleteFromWishList={deleteFromWishList}
-                    />
-                    : <WishlistDesktopView
-                      classes={classes}
-                      rows={rows}
-                      deleteFromWishList={deleteFromWishList}
-                    /> }
-                </TableContainer>
-      }
+      <TableContainer component={Box}>
+        { isMobile
+          ? <WishListMobileView
+            classes={classes}
+            productsLenght={products.length}
+            rows={rows}
+            deleteFromWishList={deleteFromWishList}
+          />
+          : <WishlistDesktopView
+            classes={classes}
+            rows={rows}
+            deleteFromWishList={deleteFromWishList}
+          /> }
+      </TableContainer>
     </ThemeProvider>
   );
 };

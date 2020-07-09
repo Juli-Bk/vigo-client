@@ -3,21 +3,32 @@ import { colors } from '../../styles/colorKit';
 import { fonts } from '../../styles/fonts/fontsKit';
 
 const useStyles = makeStyles(theme => ({
+  generalTable: {
+    display: 'flex',
+    width: 1230,
+    margin: 'auto'
+  },
   compareTable: {
-    maxWidth: 1280,
-    margin: 'auto',
-    justifyContent: 'space-evenly'
+    maxWidth: 1000,
+    display: 'flex',
+    overflowX: 'scroll',
+    margin: 'auto'
+  },
+  headers: {
+    position: 'sticky',
+    margin: '0 auto',
+    textTransform: 'uppercase',
+    color: colors.borderDark,
+    fontWeight: 600,
+    fontFamily: fonts.f3,
+    display: 'inline-grid',
+    textAlign: 'right'
   },
   tableRowCompare: {
-    width: 'min-content',
-    display: 'inline-grid',
-    margin: 60
+    display: 'inline-grid'
   },
   tableHead: {
     padding: '0 1rem',
-    borderRight: `1px solid ${colors.thinLine}`,
-    borderTop: `2px solid ${colors.borderLight}`,
-    borderBottom: `2px solid ${colors.borderLight} !important`,
     textTransform: 'uppercase',
     color: colors.borderDark,
     fontWeight: 600,
@@ -31,8 +42,8 @@ const useStyles = makeStyles(theme => ({
   },
   img: {
     position: 'relative',
-    height: 300,
-    width: 250,
+    height: 235,
+    width: 225,
     margin: '0 auto',
     [theme.breakpoints.up(500)]: {
       width: 160,
@@ -52,8 +63,8 @@ const useStyles = makeStyles(theme => ({
       marginBottom: 0
     },
     [theme.breakpoints.up(1200)]: {
-      width: 250,
-      height: 260,
+      width: 200,
+      height: 235,
       cursor: 'pointer',
       marginBottom: 0
     }
@@ -61,10 +72,10 @@ const useStyles = makeStyles(theme => ({
   linkBox: {
     position: 'relative',
     margin: '10px auto',
-    display: 'block'
+    display: 'block',
+    width: 'max-content'
   },
   textBox: {
-    display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
     color: colors.fontThird,
@@ -79,27 +90,51 @@ const useStyles = makeStyles(theme => ({
   },
   nameCompare: {
     display: 'block',
-    textAlign: 'center',
-    marginTop: 20,
-    height: 70,
+    margin: '10px auto',
+    height: 30,
     color: colors.fontThird,
     textDecoration: 'none',
     cursor: 'pointer',
-    margin: 'auto',
-    fontSize: '1.2rem'
+    fontSize: '1rem'
   },
   details: {
     textTransform: 'uppercase',
-    fontSize: '.85rem',
-    marginTop: 30,
-    height: 310
+    fontSize: '.65rem',
+    margin: '0 15px',
+    minHeight: 125,
+    width: 300
   },
-  code: {
-    fontSize: '1.3rem',
-    marginTop: 30
+  cell: {
+    fontSize: '1rem',
+    marginTop: 15,
+    minHeight: 40
+  },
+  cellUp: {
+    fontSize: '1rem',
+    marginTop: 15,
+    minHeight: 40,
+    textTransform: 'uppercase'
+  },
+  smallcell: {
+    fontSize: '1rem',
+    width: 170,
+    marginTop: 10,
+    minHeight: 20
+  },
+  bigCell: {
+    width: 170,
+    minHeight: 125
+  },
+  codeId: {
+    fontSize: '.7rem',
+    height: 20
+  },
+  image: {
+    flexDirection: 'column'
   },
   closeIcon: {
-    marginTop: 30,
+    marginTop: 15,
+    border: `2px solid ${colors.fontOncard}`,
     fill: `2px solid ${colors.borderDark}`,
     '&:hover': {
       borderRadius: 6,
@@ -116,26 +151,25 @@ const useStyles = makeStyles(theme => ({
   salePrice: {
     color: colors.fontPrice,
     fontWeight: 'bold',
-    fontSize: '1rem',
+    fontSize: '0.85em',
+    height: 40,
     [theme.breakpoints.up(1280)]: {
-      fontSize: '1.2rem',
+      fontSize: '1rem',
       letterSpacing: '.02em',
-      marginTop: 30
+      marginTop: 15
     }
   },
   price: {
     textDecoration: 'line-through',
     color: colors.fontSixth,
     fontWeight: 'bold',
-    fontSize: '1rem',
+    fontSize: '0.85rem',
+    height: 40,
     [theme.breakpoints.up(1280)]: {
-      fontSize: '1.2rem',
+      fontSize: '1rem',
       letterSpacing: '.02em',
-      marginTop: 30
+      marginTop: 15
     }
-  },
-  button: {
-
   }
 }));
 

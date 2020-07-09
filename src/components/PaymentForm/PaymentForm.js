@@ -21,7 +21,7 @@ function Payment (inputValue, styles) {
       return (
         <ThemeProvider theme={theme}>
           <Typography variant='subtitle2' className={styles.text}>
-            You can pay on next step
+            Confirm order data on the next step
           </Typography>
         </ThemeProvider>
       );
