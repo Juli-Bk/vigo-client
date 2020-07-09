@@ -6,6 +6,7 @@ import globalConfig from '../../globalConfig';
 
 export const getProductData = (products, shoppingCart, productsQuantity) => {
   const productsData = [];
+
   if (products && products.data && productsQuantity && productsQuantity.length) {
     products.data.forEach(product => {
       const itemInCart = shoppingCart.find(item => item.productId === product._id);
@@ -97,16 +98,19 @@ export const setOrder = (user, guestData, totalSum, orderDetails, shoppingCart, 
 
 export const defineDeliveryAddress = (orderDetails, user, guestInfo, classes) => {
   const {deliveryOptions} = globalConfig;
+  const isUser = !!(user && Object.keys(user).length > 0);
+  const isGuest = !!(guestInfo.deliveryAddress && Object.keys(guestInfo.deliveryAddress).length > 0);
+  const isUserNovaPoshtaData = !!(user && Object.keys(user).length > 0 && user.novaPoshta);
+  const isGuestNovaPoshtaData = !!(guestInfo.novaPoshta && Object.keys(guestInfo.novaPoshta));
 
   const deliveryBox = <Grid item xs={12} sm={6}>
     <Typography className={classes.title}>Delivery Address: </Typography>
-    {user && Object.keys(user).length > 0 ? renderUserAddress(user, classes)
-      : guestInfo.deliveryAddress && Object.keys(guestInfo.deliveryAddress).length > 0
-        ? renderGuestAddress(guestInfo, classes) : null}
+    {isUser ? renderUserAddress(user, classes)
+      : isGuest ? renderGuestAddress(guestInfo, classes) : null}
   </Grid>;
 
-  const children = user && Object.keys(user).length > 0 && user.novaPoshta ? renderNovaPoshtaData(user, classes)
-    : guestInfo.novaPoshta && Object.keys(guestInfo.novaPoshta) ? renderNovaPoshtaData(guestInfo, classes) : '';
+  const children = isUserNovaPoshtaData ? renderNovaPoshtaData(user, classes)
+    : isGuestNovaPoshtaData ? renderNovaPoshtaData(guestInfo, classes) : '';
 
   switch (orderDetails.shipping) {
     case deliveryOptions.PICKUP:

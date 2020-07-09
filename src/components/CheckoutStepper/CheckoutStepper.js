@@ -175,9 +175,7 @@ const CheckoutStepper = (props) => {
               <Container>
                 <Box>
                   <Typography component='span' className={classes.instructions}>
-                    {
-                      getStepContent(activeStep)
-                    }
+                    {getStepContent(activeStep)}
                   </Typography>
                   <Box className={classes.buttonContainer}>
                     <Button
