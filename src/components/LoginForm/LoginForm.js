@@ -11,6 +11,23 @@ import IconLabel from '../IconLabel/IconLabel';
 import {loginUser} from '../../redux/actions/user';
 import {connect} from 'react-redux';
 
+const initFormValues = {
+  email: '',
+  password: '',
+  saveMyData: true
+};
+
+const validateObject = Yup.object({
+  email: Yup.string()
+    .email('Invalid email address')
+    .required('Required'),
+  password: Yup.string()
+    .required('No password provided.')
+    .min(8, 'Password is too short - should be 8 chars minimum.')
+    .required('Required'),
+  saveMyData: Yup.boolean()
+});
+
 const LoginForm = (props) => {
   const {submitLoginHandler, login} = props;
 
@@ -28,22 +45,6 @@ const LoginForm = (props) => {
       submitLoginHandler(result);
     });
   };
-  const initFormValues = {
-    email: '',
-    password: '',
-    saveMyData: true
-  };
-
-  const validateObject = Yup.object({
-    email: Yup.string()
-      .email('Invalid email address')
-      .required('Required'),
-    password: Yup.string()
-      .required('No password provided.')
-      .min(8, 'Password is too short - should be 8 chars minimum.')
-      .required('Required'),
-    saveMyData: Yup.boolean()
-  });
 
   const styles = useStyles();
 

@@ -7,7 +7,6 @@ import AboutUsBlock from '../../components/AboutVigoShop/AboutUsBlock/AboutUsBlo
 import TabsSliders from '../../components/TabsSliders/TabsSliders';
 import BannerLineHomePage from '../../components/BannerLineHomePage/BannerLineHomePage';
 import AjaxUtils from '../../ajax';
-import ScrollToTop from '../../components/ScrollToTop/ScrollToTop';
 import { getJWTfromCookie } from '../../ajax/common/helper';
 
 const Home = () => {
@@ -27,7 +26,6 @@ const Home = () => {
           {token ? <CardNewsletter saveEmail={AjaxUtils.Subscribers.subscribe}/> : null}
         </Grid>
       </Grid>
-      <ScrollToTop/>
     </Container>
 
   );
