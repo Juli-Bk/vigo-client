@@ -14,7 +14,10 @@ const useStyles = makeStyles((theme) => {
       backgroundColor: colors.bgPrimary,
       display: 'flex',
       minHeight: height,
-      padding: 25
+      padding: 25,
+      [theme.breakpoints.down(1200)]: {
+        padding: 12
+      }
     },
     imageBox: {
       maxHeight: height - 50,
@@ -36,7 +39,7 @@ const useStyles = makeStyles((theme) => {
       minHeight: '48px'
     },
     menuLinksBox: {
-      padding: '10px 24px',
+      padding: 10,
       display: 'flex',
       flexDirection: 'column'
     },
@@ -55,6 +58,9 @@ const useStyles = makeStyles((theme) => {
     },
     tabBox: {
       position: 'relative'
+    },
+    topMenuItemsPanel: {
+      padding: '0 16px'
     }
   };
 });
