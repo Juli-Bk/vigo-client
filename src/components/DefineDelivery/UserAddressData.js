@@ -8,12 +8,13 @@ import Typography from '@material-ui/core/Typography';
 import ModalAddress from '../ModalAddress/ModalAddress';
 import useStyles from '../../styles/formStyle/formStyle';
 import AddressRadioGroup from './AddressRadioGroup';
+import {isEmptyObj} from '../../helpers/helpers';
 
 const UserAddressData = (props) => {
   const {user} = props;
   const styles = useStyles();
 
-  const isEmptyUserData = Object.keys(user).length <= 0;
+  const isEmptyUserData = isEmptyObj(user);
   const hasSavedAddresses = user && Array.isArray(user.addresses) && user.addresses.length > 0;
 
   const {deliveryAddress} = user;

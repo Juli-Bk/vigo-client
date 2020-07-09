@@ -1,21 +1,23 @@
 import React, {useMemo} from 'react';
 import Grid from '@material-ui/core/Grid';
 import theme from '../../styles/formStyle/formStyleTheme';
-import { ThemeProvider } from '@material-ui/core';
+import {ThemeProvider} from '@material-ui/core';
 import Box from '@material-ui/core/Box';
 import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import ModalAddress from '../ModalAddress/ModalAddress';
 import useStyles from '../../styles/formStyle/formStyle';
-import { getStorageData } from '../../helpers/helpers';
+import {getStorageData, isEmptyObj} from '../../helpers/helpers';
 
 const GuestAddressData = (props) => {
   const {guestData} = props;
   const styles = useStyles();
 
-  const guestInfo = useMemo(() => guestData.deliveryAddress ? guestData : getStorageData('guestData'), [guestData]);
+  const guestInfo = useMemo(() => guestData.deliveryAddress
+    ? guestData
+    : getStorageData('guestData'), [guestData]);
 
-  const isEmptyUserData = Object.keys(guestInfo).length <= 0;
+  const isEmptyUserData = isEmptyObj(guestInfo);
   const hasSavedAddresses = guestInfo && guestInfo.deliveryAddress;
 
   const tags = [];
