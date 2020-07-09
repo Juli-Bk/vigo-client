@@ -12,7 +12,10 @@ const useStyles = makeStyles(theme => (
       fontSize: 20
     },
     label: {
-      fontSize: 12
+      fontSize: 10,
+      [theme.breakpoints.up('sm')]: {
+        fontSize: 12
+      }
     }
 
   }

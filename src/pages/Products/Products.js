@@ -16,7 +16,7 @@ import ShowBy from '../../components/ShowBy/ShowBy';
 import Sort from '../../components/Sort/Sort';
 import ViewAs from '../../components/ViewAs/ViewAs';
 import EmptyState from '../../components/EmptyState/EmptyState';
-import {getProductsByFilters} from '../../redux/actions/products';
+import {getProductsByFilters, searchProducts, getAllProducts} from '../../redux/actions/products';
 import { setCurrentPage } from '../../redux/actions/actions';
 
 const Products = (props) => {
@@ -26,15 +26,18 @@ const Products = (props) => {
     view,
     location,
     getProductsByFilters,
+    getProductsBySearch,
+    getAllProducts,
     products
   } = props;
 
   const classes = useStyles();
   const isSmScreen = useMediaQuery('(max-width: 723px)');
   const filters = useMemo(() => queryString.parse(location.search), [location.search]);
-  const sort = useMemo(() => filters.sort ||
-          defineSortData(globalConfig.sortOptions.New_In), [filters.sort]);
-  const perPage = useMemo(() => Number(filters.perPage) || globalConfig.step, [filters.perPage]);
+  const sort = useMemo(() => filters.sort || defineSortData(globalConfig.sortOptions.New_In),
+    [filters.sort]);
+  const perPage = useMemo(() => Number(filters.perPage) || globalConfig.step,
+    [filters.perPage]);
 
   const getFilteredData = useCallback(() => {
     if (filters.startPage) {
@@ -48,18 +51,29 @@ const Products = (props) => {
   useEffect(() => {
     let isCanceled = false;
     if (!isCanceled) {
-      getFilteredData();
+      if (location.pathname === '/products') {
+        getAllProducts(currentPage, perPage, sort);
+      }
+      const pathName = location.pathname.split('/');
+
+      if (pathName.includes('search')) {
+        const indexOfSearchStr = pathName.indexOf('search') + 1;
+        const searchStr = pathName[indexOfSearchStr];
+        getProductsBySearch(searchStr);
+      } else {
+        getFilteredData();
+      }
     }
     return () => {
       isCanceled = true;
     };
-  }, [getFilteredData]);
+  }, [currentPage, filters, getAllProducts, getFilteredData, getProductsBySearch, location.pathname, perPage, sort]);
 
   return (
     <Container>
       <Grid container>
         <Grid item container sm={8} xs={12}>
-          <Container>
+          <Container className={classes.itemsContainer}>
             <Grid item xs={12} className={classes.topFiltersLine}>
               <Grid item container xs={12} className={classes.upperLine}>
                 <Grid item md={6} xs={8} className={classes.sortSelect}>
@@ -109,7 +123,11 @@ const Products = (props) => {
 Products.propTypes = {
   view: PropTypes.string.isRequired,
   getProductsByFilters: PropTypes.func.isRequired,
-  products: PropTypes.object.isRequired
+  getAllProducts: PropTypes.func.isRequired,
+  products: PropTypes.object.isRequired,
+  currentPage: PropTypes.number.isRequired,
+  setCurrentPage: PropTypes.func.isRequired,
+  getProductsBySearch: PropTypes.func.isRequired
 };
 
 const mapStateToProps = store => {
@@ -125,7 +143,9 @@ const mapDispatchToProps = dispatch => {
     getProductsByFilters: (filters, startPage, perPage, sort) => {
       dispatch(getProductsByFilters(filters, startPage, perPage, sort));
     },
-    setCurrentPage: number => dispatch(setCurrentPage(number))
+    setCurrentPage: number => dispatch(setCurrentPage(number)),
+    getProductsBySearch: string => dispatch(searchProducts(string)),
+    getAllProducts: (startPage, perPage, sort) => dispatch(getAllProducts(startPage, perPage, sort))
   };
 };
 

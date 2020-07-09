@@ -4,7 +4,7 @@ import { fonts } from '../../styles/fonts/fontsKit';
 
 const useStyles = makeStyles(theme => ({
   firstCell: {
-    display: 'flex',
+    display: 'flex !important',
     flexDirection: 'column',
     alignItems: 'center',
     [theme.breakpoints.up(500)]: {
@@ -13,13 +13,19 @@ const useStyles = makeStyles(theme => ({
     }
   },
   tableRow: {
-    borderBottom: `1px solid ${colors.thinLine}`
+    borderBottom: `1px solid ${colors.thinLine} !important`
+  },
+  tableRowCompare: {
+    borderBottom: `1px solid ${colors.thinLine} !important`,
+    width: 'min-content',
+    display: 'inline-grid',
+    margin: 60
   },
   tableHead: {
     padding: '0 1rem',
     borderRight: `1px solid ${colors.thinLine}`,
     borderTop: `2px solid ${colors.borderLight}`,
-    borderBottom: `2px solid ${colors.borderLight}`,
+    borderBottom: `2px solid ${colors.borderLight} !important`,
     textTransform: 'uppercase',
     color: colors.borderDark,
     fontWeight: 600,

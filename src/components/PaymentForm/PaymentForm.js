@@ -1,27 +1,28 @@
 import React, { useState } from 'react';
+import {connect} from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Grid from '@material-ui/core/Grid';
 import globalConfig from '../../globalConfig';
-import { ThemeProvider } from '@material-ui/styles';
+import {ThemeProvider} from '@material-ui/styles';
 import theme from './PaymentFormTheme';
-import { Button, Link } from '@material-ui/core';
 import VigoAddress from '../../components/DefineDelivery/VigoAddress';
-import {liqPay} from '../../keysConfig';
 import Typography from '@material-ui/core/Typography';
 import useStyles from '../../styles/formStyle/formStyle';
+import { setCompletedSteps, setPaymentMethod } from '../../redux/actions/actions';
 
 const {paymentOptions} = globalConfig;
-function definePayment (inputValue, styles) {
+
+function Payment (inputValue, styles) {
   switch (inputValue) {
     case paymentOptions.BY_CASH:
       return <VigoAddress/>;
     case paymentOptions.LIQ_PAY:
       return (
         <ThemeProvider theme={theme}>
-          <Link href={liqPay.link} target="_blank">
-            <Button size='large'>Pay</Button>
-          </Link>
+          <Typography variant='subtitle2' className={styles.text}>
+            Confirm order data on the next step
+          </Typography>
         </ThemeProvider>
       );
     default:
@@ -30,15 +31,16 @@ function definePayment (inputValue, styles) {
       </Typography>;
   }
 }
-const PaymentForm = () => {
+const PaymentForm = (props) => {
   const styles = useStyles();
+  const {setPaymentMethod, setCompleted, activeStep} = props;
   const options = Object.values(paymentOptions);
   const [value, setValue] = useState(options[0]);
   const [inputValue, setInputValue] = useState('');
   return (
     <ThemeProvider theme={theme}>
       <Grid container spacing={6}>
-        <Grid item xs={12} md={6} >
+        <Grid item xs={12} md={6}>
           <Autocomplete
             name='autopayment'
             value={value}
@@ -48,22 +50,38 @@ const PaymentForm = () => {
             inputValue={inputValue}
             onInputChange={(event, newInputValue) => {
               setInputValue(newInputValue);
+              setPaymentMethod(newInputValue);
+              setCompleted(activeStep);
+              // todo сохранять в редакс данные о выбранном типе оплаты
             }}
             id='controllable-states-demo'
             options={options}
-            style={{ width: '100%' }}
+            style={{width: '100%'}}
             renderInput={(params) =>
               <TextField {...params}
                 name='payment'
                 label='Payment options'
-                variant='outlined' />}
+                variant='outlined'/>}
           />
         </Grid>
         <Grid item xs={12} md={6}>
-          {definePayment(value, styles)}
+          {Payment(value, styles)}
         </Grid>
       </Grid>
     </ThemeProvider>
   );
 };
-export default React.memo(PaymentForm);
+
+const mapStateToProps = store => {
+  return {
+    activeStep: store.checkoutSteps.active
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setPaymentMethod: method => dispatch(setPaymentMethod(method)),
+    setCompleted: step => dispatch(setCompletedSteps(step))
+  };
+};
+export default React.memo(connect(mapStateToProps, mapDispatchToProps)(PaymentForm));

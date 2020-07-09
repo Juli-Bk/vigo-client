@@ -54,7 +54,7 @@ export const registerUser = (userData, callback) => {
             dispatch(setUser(result.user));
             dispatch(sendConfirmLetter(result.user.email));
           }
-          setUserIsLoggedIn(true);
+          dispatch(setUserIsLoggedIn(true));
         }
         callback && callback(result);
       })
@@ -88,7 +88,7 @@ export const loginUser = (email, password, callback) => {
             putUserIdToCookie(result);
             dispatch(setUser(result.user));
           }
-          setUserIsLoggedIn(true);
+          dispatch(setUserIsLoggedIn(true));
         }
         callback(result);
       })
@@ -304,5 +304,12 @@ export const saveRecoverPassword = (formData, token, callback) => {
         dispatch(setLoading(false));
         callback && callback(null);
       });
+  };
+};
+
+export const setUserNovaPoshtaData = (data) => {
+  return {
+    type: Actions.SET_USER_NOVA_POSHTA_DATA,
+    payload: data
   };
 };

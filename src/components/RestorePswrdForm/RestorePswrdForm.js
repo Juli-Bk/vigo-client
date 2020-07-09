@@ -3,7 +3,7 @@ import theme from '../../styles/formStyle/formStyleTheme';
 import {ThemeProvider} from '@material-ui/styles';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
-import {Box, Button, CardActions, TextField, Typography} from '@material-ui/core';
+import {Box, Button, CardActions, Grid, TextField, Typography} from '@material-ui/core';
 import IconLabel from '../IconLabel/IconLabel';
 import LockIcon from '@material-ui/icons/Lock';
 import {Formik} from 'formik';
@@ -51,63 +51,65 @@ const RestorePswrdForm = (props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box style={{
-        maxWidth: 400,
-        minHeight: 200,
-        padding: 20
-      }}>
-        <Typography className={styles.text} variant='caption' gutterBottom>
+      <Grid container spacing={2} justify="center">
+        <Box style={{
+          maxWidth: 400,
+          minHeight: 200,
+          padding: 20
+        }}>
+          <Typography className={styles.text} variant='caption' gutterBottom>
          Here you can enter your new password
-        </Typography>
-        <Formik
-          initialValues={initFormValues}
-          validationSchema={validateObject}
-          onSubmit={saveNewPassword}>
-          {({
-            values,
-            handleChange,
-            handleSubmit, handleBlur,
-            isSubmitting, errors,
-            touched
-          }) => (
-            <form autoComplete='off'>
-              <TextField
-                name='password'
-                autoComplete='off'
-                className={styles.input}
-                label={<IconLabel label='Enter your password' Component={LockIcon}/>}
-                type='password'
-                value={values.password}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                fullWidth variant='outlined'
-                helperText={touched.password ? errors.password : ''}
-                error={touched.password && Boolean(errors.password)}
-                size='small'
-              />
-              <CardActions>
-                <Button
-                  type='button'
-                  className={styles.button}
-                  onClick={handleCancel}
-                  size='large'
-                  variant='outlined'>
+          </Typography>
+          <Formik
+            initialValues={initFormValues}
+            validationSchema={validateObject}
+            onSubmit={saveNewPassword}>
+            {({
+              values,
+              handleChange,
+              handleSubmit, handleBlur,
+              isSubmitting, errors,
+              touched
+            }) => (
+              <form autoComplete='off'>
+                <TextField
+                  name='password'
+                  autoComplete='off'
+                  className={styles.input}
+                  label={<IconLabel label='Enter your password' Component={LockIcon}/>}
+                  type='password'
+                  value={values.password}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  fullWidth variant='outlined'
+                  helperText={touched.password ? errors.password : ''}
+                  error={touched.password && Boolean(errors.password)}
+                  size='small'
+                />
+                <CardActions>
+                  <Button
+                    type='button'
+                    className={styles.button}
+                    onClick={handleCancel}
+                    size='large'
+                    variant='outlined'>
                   cancel
-                </Button>
-                <Button
-                  type='submit'
-                  className={styles.button}
-                  onClick={handleSubmit}
-                  disabled={isSubmitting}
-                  size='large'
-                  variant='outlined'>
+                  </Button>
+                  <Button
+                    type='submit'
+                    className={styles.button}
+                    onClick={handleSubmit}
+                    disabled={isSubmitting}
+                    size='large'
+                    variant='outlined'>
                   Save
-                </Button>
-              </CardActions>
-            </form>
-          )}
-        </Formik>
-      </Box>
+                  </Button>
+                </CardActions>
+              </form>
+            )}
+          </Formik>
+        </Box>
+      </Grid>
     </ThemeProvider>
   );
 };

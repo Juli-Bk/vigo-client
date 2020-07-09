@@ -35,6 +35,9 @@ const useStyles = makeStyles(theme => (
       fontWeight: '700',
       fontFamily: fonts.f3
     },
+    blackColor: {
+      color: colors.black
+    },
     banner: {
       width: '100%',
       height: '100%',

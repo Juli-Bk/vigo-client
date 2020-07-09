@@ -5,7 +5,6 @@ import AppRoutes from './routes/AppRoutes';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {StylesProvider, ThemeProvider} from '@material-ui/styles';
-
 import './App.scss';
 import theme from './mainTheme';
 import Footer from './containers/Footer/Footer';
@@ -29,6 +28,7 @@ function App (props) {
     if (!isCanceled) {
       getData();
     }
+
     return () => {
       isCanceled = true;
     };

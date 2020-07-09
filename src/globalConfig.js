@@ -6,16 +6,15 @@ const globalConfig = {
   contacts: {
     landline: ['0203 980 1479', '0203 478 1296'],
     cellphone: ['044-115-747-38', '044-170-029-32'],
-    // todo завести такую почту
-    email: ['Vigo_shop@gmail.com', 'Vigo@hotmail.com'],
+    email: ['vigo.shop.official@gmail.com'],
     // todo завести такой скайп
-    skype: ['Vigo_shop_contact', 'Vigo_support']
+    skype: ['Vigo_shop_contact']
   },
   deliveryOptions: {
     VIGO_COURIER_SERVICE: 'Vigo Courier Service',
     NOVA_POSHTA: 'Nova Poshta',
     UKRPOSHTA: 'Post Office Ukrposhta',
-    PICKUP: 'Pickup'
+    PICKUP: 'Pick up from store'
   },
   paymentOptions: {
     BY_CASH: 'Cash',
@@ -56,6 +55,16 @@ const globalConfig = {
     Price_Low_To_High: 'Price Low To High',
     Price_High_To_Low: 'Price High To Low'
   },
+  SortOptionToQuery: {
+    'New In': '-date',
+    'Price Low To High': 'price',
+    'Price High To Low': '-price'
+  },
+  QueryToSortOption: {
+    '-date': 'New In',
+    price: 'Price Low To High',
+    '-price': 'Price High To Low'
+  },
   step: 15,
   defaultQuantity: 1,
   wishListMessages: {
@@ -68,6 +77,9 @@ const globalConfig = {
     ERROR: 'Shopping cart error happened. Try again, please',
     IN_CART: 'This item is in your cart already',
     EMPTY: 'You don`t have any items in your Shopping Cart'
+  },
+  compareMessages: {
+    EMPTY: 'You don`t have any items in Compare List'
   },
   userMessages: {
     NOT_AUTHORIZED: 'You are not authorized. Login, please',
@@ -113,7 +125,8 @@ const globalConfig = {
     INFO: 'info'
   },
   defaultShipping: 0,
-  defaultTax: 0
+  defaultTax: 0,
+  defaultCurrency: 'USD'
 };
 
 export default globalConfig;

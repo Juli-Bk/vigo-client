@@ -124,13 +124,6 @@ export const defineSortData = (option) => {
   }
 };
 
-export const makeFilterItem = (string) => {
-  const filterString = string.split('=');
-  const key = filterString[0];
-  const value = filterString[1];
-  return {[key]: value};
-};
-
 export const getMaxQuantity = (productQuantity, size) => {
   if (productQuantity && productQuantity.length) {
     if (size && size !== globalConfig.defaultSizeOption) {
@@ -246,4 +239,19 @@ export const deleteProps = (object, props) => {
     }
   });
   return newObj;
+};
+
+export const filterWishList = (productsInOrder) => {
+  const localWishList = getStorageData('wishList');
+  let updatedWishList = [];
+  const productsId = [];
+  productsInOrder.forEach(item => {
+    productsId.push(item.productId);
+  });
+  productsId.forEach(id => {
+    if (localWishList.filter(item => item === id)) {
+      updatedWishList = localWishList.filter(item => item !== id);
+    }
+  });
+  setStorageData('wishList', updatedWishList);
 };

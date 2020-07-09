@@ -60,6 +60,7 @@ const NestedMenu = (props) => {
             className={classes.tabBox}
             bgcolor={theme.palette.background}>
             <Tabs
+              className={classes.topMenuItemsPanel}
               component='li'
               variant="fullWidth"
               value={value}

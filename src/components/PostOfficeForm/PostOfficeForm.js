@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Formik } from 'formik';
+import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import {ThemeProvider} from '@material-ui/core/styles';
 import {
@@ -25,7 +25,7 @@ const NovaPoshtaCity = (props) => {
   const styles = useStyles();
 
   const initFormValues = {
-    city: '',
+    city: inputValue,
     npOffice: ''
   };
 
@@ -44,7 +44,7 @@ const NovaPoshtaCity = (props) => {
           <Formik
             initialValues={initFormValues}
             validationSchema={validateObject}
-            onSubmit={submitNovaPoshtaHandler}>
+            onSubmit={(values) => submitNovaPoshtaHandler(inputValue, values)}>
             {({
               isSubmitting,
               handleChange,
@@ -52,15 +52,13 @@ const NovaPoshtaCity = (props) => {
               handleSubmit,
               values,
               errors,
-              touched,
-              onChange
+              touched
             }) => (
-              <form>
+              <Form>
                 <Autocomplete
                   id='open-on-focus'
                   name='city'
-                  onChange={(event, newValue) => {
-                  }}
+                  onChange={handleChange}
                   inputValue={inputValue}
                   onInputChange={(event, newInputValue) => {
                     setInputValue(newInputValue);
@@ -72,7 +70,7 @@ const NovaPoshtaCity = (props) => {
                       autoComplete='false'
                       name='city'
                       className={styles.input}
-                      value=""
+                      value={values.city}
                       onBlur={handleBlur}
                       onChange={handleChange}
                       helperText={(errors.city && touched.city) && errors.city}
@@ -80,7 +78,8 @@ const NovaPoshtaCity = (props) => {
                       label='Choose the city to deliver'
                       variant='outlined'
                       size='small'
-                    />}
+                    />
+                  }
                 />
                 <TextField
                   name='npOffice'
@@ -107,7 +106,7 @@ const NovaPoshtaCity = (props) => {
                     variant='outlined'>Confirm
                   </Button>
                 </CardActions>
-              </form>
+              </Form>
             )}
           </Formik>
         </Grid>

@@ -5,13 +5,10 @@ import ContactForm from '../../components/ContactForm/ContactForm';
 import ContactDetails from '../../components/ContactDetails/ContactDetails';
 
 const Contacts = () => {
-  // todo сделать запросы для формы обратной связи, написать тесты для запросов.
-  // Когда страница полностью будет готова - раскоментировать карту
   return (
     <Container>
       <Grid container spacing={2}>
         <ContactsMap />
-        {/* <ContactForm submitHandler={AjaxUtils.ContactUs.sendFeedback}/> */}
         <ContactForm />
         <ContactDetails />
       </Grid>

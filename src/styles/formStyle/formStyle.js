@@ -1,14 +1,15 @@
-import { makeStyles } from '@material-ui/core/styles';
-import { colors } from '../colorKit';
-import { fonts } from '../fonts/fontsKit';
+import {makeStyles} from '@material-ui/core/styles';
+import {colors} from '../colorKit';
+import {fonts} from '../fonts/fontsKit';
 
 const useStyles = makeStyles(theme => (
   {
     modalWindow: {
       width: 500,
       overflow: 'hidden',
-      [theme.breakpoints.between(0, 500)]: {
+      [theme.breakpoints.between(0, 600)]: {
         width: '100%',
+        maxWidth: 500,
         padding: 0
       }
     },
@@ -16,7 +17,6 @@ const useStyles = makeStyles(theme => (
       color: colors.fontPrimary,
       fontWeight: 600,
       fontFamily: fonts.f4,
-      fonFamily: fonts.f2,
       textTransform: 'uppercase',
       fontSize: 'large',
       [theme.breakpoints.up(724)]: {
@@ -33,26 +33,38 @@ const useStyles = makeStyles(theme => (
       textAlign: 'justify'
     },
     linkButton: {
-      marginTop: '1.25rem',
       color: colors.fontSecondary,
+      padding: 16,
       fontWeight: 300,
-      fontFamily: fonts.f3,
       border: 'none',
-      fonFamily: fonts.f2,
+      fontFamily: fonts.f2,
+      textDecoration: 'underline',
       textTransform: 'capitalize',
       '&:hover': {
         backgroundColor: 'none',
         color: colors.noticeColor
       }
     },
-
+    appBar: {
+      position: 'relative',
+      backgroundColor: 'black'
+    },
     button: {
       marginTop: '1.25rem',
       color: colors.fontSecondary,
       fontWeight: 700,
-      fontFamily: fonts.f3,
       border: `.125rem solid ${colors.fontSecondary}`,
-      fonFamily: fonts.f2,
+      fontFamily: fonts.f2,
+      textTransform: 'uppercase'
+    },
+    buttonOk: {
+      marginTop: '1.25rem',
+      width: 'fit-content',
+      marginLeft: 30,
+      color: colors.fontSecondary,
+      fontWeight: 700,
+      fontFamily: fonts.f2,
+      border: `.125rem solid ${colors.fontSecondary}`,
       textTransform: 'uppercase'
     },
     icon: {
@@ -97,10 +109,11 @@ const useStyles = makeStyles(theme => (
     input: {
       marginTop: '1.6rem',
       marginBottom: 7,
-      fonFamily: fonts.f2,
+      fontFamily: fonts.f2,
       textTransform: 'uppercase',
       [theme.breakpoints.down(420)]: {
-        fontSize: 'inherit'
+        fontSize: 'inherit',
+        marginTop: '1rem'
       }
     },
     inputSmall: {

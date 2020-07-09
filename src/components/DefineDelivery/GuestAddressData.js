@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import Grid from '@material-ui/core/Grid';
 import theme from '../../styles/formStyle/formStyleTheme';
 import { ThemeProvider } from '@material-ui/core';
@@ -7,17 +7,20 @@ import PropTypes from 'prop-types';
 import Typography from '@material-ui/core/Typography';
 import ModalAddress from '../ModalAddress/ModalAddress';
 import useStyles from '../../styles/formStyle/formStyle';
+import { getStorageData } from '../../helpers/helpers';
 
 const GuestAddressData = (props) => {
-  const { guestData} = props;
+  const {guestData} = props;
   const styles = useStyles();
 
-  const isEmptyUserData = Object.keys(guestData).length <= 0;
-  const hasSavedAddresses = guestData && guestData.deliveryAddress;
+  const guestInfo = useMemo(() => guestData.deliveryAddress ? guestData : getStorageData('guestData'), [guestData]);
+
+  const isEmptyUserData = Object.keys(guestInfo).length <= 0;
+  const hasSavedAddresses = guestInfo && guestInfo.deliveryAddress;
 
   const tags = [];
   if (hasSavedAddresses) {
-    for (const [key, value] of Object.entries(guestData.deliveryAddress)) {
+    for (const [key, value] of Object.entries(guestInfo.deliveryAddress)) {
       tags.push(
         <Typography className={styles.text} key={key}>
           <Typography component='span'>

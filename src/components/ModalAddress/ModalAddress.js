@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState, useMemo, useCallback } from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -8,31 +8,34 @@ import AddressForm from '../AddressForm/AddressForm';
 import useStyles from '../../containers/Header/headerStyle';
 import Box from '@material-ui/core/Box';
 import { ThemeProvider } from '@material-ui/styles';
-import { setAddressModalOpenState, setGuestData } from '../../redux/actions/actions';
+import { setAddressModalOpenState, setCompletedSteps, setGuestData } from '../../redux/actions/actions';
 import { connect} from 'react-redux';
 import { Typography } from '@material-ui/core';
 import useCommonStyles from '../../styles/formStyle/formStyle';
 import AddressGuestForm from '../../components/AddressForm/AddressGuestForm';
+import { getStorageData, setStorageData } from '../../helpers/helpers';
 
 const ModalAddress = (props) => {
   const {
     user, guestData,
     isAddressModalOpen, setModalOpen,
-    setGuestData
+    setGuestData, activeStep, setCompleted
   } = props;
+  const commonClasses = useCommonStyles();
+  const classes = useStyles();
   const [message, setMessage] = useState('');
   const [isMessageHidden, setIsMessageHidden] = useState(false);
 
-  const handleClickOpen = () => {
+  const guestInfo = useMemo(() => guestData.deliveryAddress
+    ? guestData : getStorageData('guestData'), [guestData]);
+
+  const handleClickOpen = useCallback(() => {
     setModalOpen(true);
-  };
+  }, [setModalOpen]);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setModalOpen(false);
-  };
-
-  const commonClasses = useCommonStyles();
-  const classes = useStyles();
+  }, [setModalOpen]);
 
   const messageTag = <DialogContent>
     <Typography variant='subtitle1' gutterBottom style={{
@@ -48,6 +51,7 @@ const ModalAddress = (props) => {
           setIsMessageHidden(true);
         } else if (result.status === 200) {
           isAddressModalOpen && setIsMessageHidden(false);
+          setCompleted(activeStep);
           handleClose();
         }
       }
@@ -57,22 +61,26 @@ const ModalAddress = (props) => {
   const guestForm = <AddressGuestForm component='span'
     saveGuestDataHandler={(deliveryAddress) => {
       if (deliveryAddress) {
-        setGuestData({
-          ...guestData,
-          deliveryAddress
-        });
+        const data = {...guestData, deliveryAddress};
+        setGuestData(data);
+        const storageData = getStorageData('guestData');
+        setStorageData('guestData', {...storageData, deliveryAddress});
       }
+      setCompleted(activeStep);
       handleClose();
     }
     }/>;
 
-  const form = user._id ? userForm : guestForm;
+  const form = useMemo(() => user._id ? userForm : guestForm, [guestForm, user._id, userForm]);
+  const buttonText = useMemo(() =>
+    form === guestForm && guestInfo && guestInfo.deliveryAddress ? 'change address' : 'add address',
+  [form, guestForm, guestInfo]);
 
   return (
     <ThemeProvider theme={theme}>
       <Box>
         <Button className={commonClasses.button} onClick={handleClickOpen}>
-        Add address
+          {buttonText}
         </Button>
         <Dialog
           open={isAddressModalOpen}
@@ -99,14 +107,16 @@ const mapStateToProps = store => {
   return {
     isAddressModalOpen: store.isAddressModalOpen,
     user: store.user,
-    guestData: store.guestData
+    guestData: store.guestData,
+    activeStep: store.checkoutSteps.active
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     setModalOpen: isOpen => dispatch(setAddressModalOpenState(isOpen)),
-    setGuestData: data => dispatch(setGuestData(data))
+    setGuestData: data => dispatch(setGuestData(data)),
+    setCompleted: step => dispatch(setCompletedSteps(step))
   };
 };
 

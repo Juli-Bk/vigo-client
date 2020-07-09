@@ -9,6 +9,7 @@ import sizeTables from './sizeTables/requests';
 import quantity from './quantity/requests';
 import shopCart from './shopCart/requests';
 import orders from './orders/requests';
+import email from './email/requests';
 
 const AjaxUtils = {
   Products: products,
@@ -21,7 +22,8 @@ const AjaxUtils = {
   SizeTables: sizeTables,
   Quantity: quantity,
   ShopCart: shopCart,
-  Orders: orders
+  Orders: orders,
+  Email: email
 };
 
 export default AjaxUtils;

@@ -17,28 +17,32 @@ import theme from '../../styles/formStyle/formStyleTheme';
 import { connect} from 'react-redux';
 import { saveUserData, setUserDeliveryAddress } from '../../redux/actions/user';
 import CloseIcon from '@material-ui/icons/Close';
-import { setSnackMessage } from '../../redux/actions/actions';
+import { setCompletedSteps, setSnackMessage } from '../../redux/actions/actions';
 import globalConfig from '../../globalConfig';
 
+const initFormValues = {
+  radioGroup: ''
+};
+const validateObject = Yup.object({
+  radioGroup: Yup.string()
+    .required('Please, choose one of these options')
+});
+
 const AddressRadioGroup = (props) => {
-  const {addresses, setUserDeliveryAddress, user, saveUserData, setSnackMessage} = props;
+  const {
+    addresses, setUserDeliveryAddress, user,
+    saveUserData, setSnackMessage, isAccount, setCompleted, activeStep
+  } = props;
 
   const submitRadioGroupData = (values, { resetForm, setSubmitting }) => {
     setSubmitting(true);
-
+    setCompleted(activeStep);
     setUserDeliveryAddress(values.radioGroup, () => {
       setSubmitting(false);
       resetForm();
     });
   };
 
-  const initFormValues = {
-    radioGroup: ''
-  };
-  const validateObject = Yup.object({
-    radioGroup: Yup.string()
-      .required('Please, choose one of these options')
-  });
   const styles = useStyles();
 
   const adrList = addresses.map((address) => {
@@ -48,13 +52,11 @@ const AddressRadioGroup = (props) => {
         str += `${key}: ${value}, `;
       }
     }
-    return str;
+    return str.slice(0, -2);
   });
 
   const removeAddress = (addresses, index) => {
     const newAddresses = addresses.filter((el, i) => i !== index);
-    console.log(index);
-    console.log(newAddresses);
 
     const data = {
       id: user._id,
@@ -100,14 +102,16 @@ const AddressRadioGroup = (props) => {
               </RadioGroup>
               <FormHelperText>{errors.radioGroup}</FormHelperText>
               <CardActions>
-                <Button
-                  type='submit'
-                  className={styles.button}
-                  size='small'
-                  onClick={handleSubmit}
-                  disabled={isSubmitting}
-                  variant='outlined'>Save
-                </Button>
+                {isAccount
+                  ? null
+                  : <Button
+                    type='submit'
+                    className={styles.button}
+                    size='small'
+                    onClick={handleSubmit}
+                    disabled={isSubmitting}
+                    variant='outlined'>Confirm your choice
+                  </Button>}
               </CardActions>
             </FormControl>
           </Form>
@@ -119,7 +123,8 @@ const AddressRadioGroup = (props) => {
 
 const mapStateToProps = store => {
   return {
-    user: store.user
+    user: store.user,
+    activeStep: store.checkoutSteps.active
   };
 };
 
@@ -127,7 +132,8 @@ const mapDispatchToProps = dispatch => {
   return {
     setUserDeliveryAddress: data => dispatch(setUserDeliveryAddress(data)),
     saveUserData: (data, callback) => dispatch(saveUserData(data, callback)),
-    setSnackMessage: (open, message, severity) => dispatch(setSnackMessage(open, message, severity))
+    setSnackMessage: (open, message, severity) => dispatch(setSnackMessage(open, message, severity)),
+    setCompleted: step => dispatch(setCompletedSteps(step))
   };
 };
 

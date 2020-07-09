@@ -9,7 +9,7 @@ import globalConfig from '../../../globalConfig';
 import { addToCart } from '../../../pages/ShoppingCart/cartHelpers';
 import {
   setCurrentProduct, setPopoverOpenState, setSnackMessage,
-  toggleModalSize
+  toggleModalSize, changeCompareList
 } from '../../../redux/actions/actions';
 import {changeShoppingCart} from '../../../redux/actions/shopCart';
 import {changeWishList, toggleWishItems} from '../../../redux/actions/wishlist';
@@ -20,12 +20,14 @@ const ActionButtons = (props) => {
     isProductPage, changeWishList, changeShoppingCart,
     setPopoverOpen, sizeId, colorId, quantity,
     toggleModalSize, isModal, setCurrentProduct,
-    isModalSize, setSnackMessage, toggleWishItems
+    isModalSize, setSnackMessage, toggleWishItems,
+    isComparePage, changeCompareList
   } = props;
 
   const addToShopCart = (productId, quantity, sizeId, colorId) => {
     setCurrentProduct(product);
     if (!sizeId) {
+      isComparePage && toggleModalSize(true);
       isModalSize && setSnackMessage(true, 'Please, choose size', globalConfig.snackSeverity.ERROR);
       isProductPage && !isModalSize ? setPopoverOpen(true) : toggleModalSize(true);
     } else {
@@ -33,11 +35,6 @@ const ActionButtons = (props) => {
       changeShoppingCart();
       toggleModalSize(false);
     }
-  };
-
-  const addToCompare = (productId) => {
-    // todo implementation
-    console.log(`product with id ${productId} added to compare`);
   };
 
   const toggleWishList = (productId) => {
@@ -59,7 +56,7 @@ const ActionButtons = (props) => {
         product={product}
         sizeId={sizeId}
         colorId={colorId}/>
-      {!isModal
+      {!isModal && !isComparePage
         ? <>
           <FavoriteIcon classes={classes}
             id={product._id}
@@ -67,7 +64,7 @@ const ActionButtons = (props) => {
             label={defineLabel(width, isProductPage, globalConfig.iconsLabels.ADD_TO_WISHLIST)}/>
           <ButtonCompare classes={classes}
             id={product._id}
-            addToCompare={addToCompare}
+            addToCompare={changeCompareList}
             label={defineLabel(width, isProductPage, globalConfig.iconsLabels.ADD_TO_COMPARE)}/>
         </>
         : null}
@@ -85,6 +82,7 @@ ActionButtons.propTypes = {
   token: PropTypes.string,
   changeWishList: PropTypes.func.isRequired,
   changeShoppingCart: PropTypes.func.isRequired,
+  changeCompareList: PropTypes.func.isRequired,
   toggleModalSize: PropTypes.func.isRequired,
   sizeId: PropTypes.string,
   colorId: PropTypes.string
@@ -100,6 +98,7 @@ const mapDispatchToProps = dispatch => {
   return {
     changeWishList: () => dispatch(changeWishList()),
     changeShoppingCart: () => dispatch(changeShoppingCart()),
+    changeCompareList: id => dispatch(changeCompareList(id)),
     toggleModalSize: flag => dispatch(toggleModalSize(flag)),
     setCurrentProduct: product => dispatch(setCurrentProduct(product)),
     setPopoverOpen: flag => dispatch(setPopoverOpenState(flag)),

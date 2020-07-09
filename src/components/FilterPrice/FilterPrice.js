@@ -58,7 +58,7 @@ const FilterPrice = (props) => {
     <ThemeProvider theme={theme}>
       <Box className={classes.filterPrice}>
         <Typography className={classes.label}>Price: </Typography>
-        {maxPrice && <CustomSlider
+        {maxPrice > 0 ? <CustomSlider
           value={values}
           min={0}
           max={maxPrice}
@@ -66,7 +66,7 @@ const FilterPrice = (props) => {
           getAriaLabel={(value) => `$${value}`}
           valueLabelDisplay="on"
           valueLabelFormat={x => `$${x}`}
-        />}
+        /> : null}
       </Box>
     </ThemeProvider>
   );
