@@ -10,7 +10,7 @@ import {getProductsByFilters} from '../../redux/actions/products';
 
 const ShoppingCart = (props) => {
   const {shoppingCart, products, getProductsByFilters} = props;
-  const isMobile = useMediaQuery('(max-width: 550px)');
+  const isMobile = useMediaQuery('(max-width: 724px)');
   const flag = useMemo(() => !!(shoppingCart.length && products.data && products.data.length), [products.data, shoppingCart.length]);
 
   useEffect(() => {

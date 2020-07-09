@@ -20,7 +20,7 @@ const OrderSummary = (props) => {
     guestData, products, productsQuantity, getProductsQuantity,
     setCompleted, activeStep, orderDetails
   } = props;
-  const isMobile = useMediaQuery('(max-width: 550px)');
+  const isMobile = useMediaQuery('(max-width: 724px)');
 
   useEffect(() => {
     let isCanceled = false;

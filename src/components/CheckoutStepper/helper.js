@@ -6,6 +6,7 @@ import globalConfig from '../../globalConfig';
 
 export const getProductData = (products, shoppingCart, productsQuantity) => {
   const productsData = [];
+
   if (products && products.data && productsQuantity && productsQuantity.length) {
     products.data.forEach(product => {
       const itemInCart = shoppingCart.find(item => item.productId === product._id);
