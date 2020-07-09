@@ -67,7 +67,7 @@ const RegisterForm = (props) => {
   return (
     <Card id="register-form">
       <CardContent>
-        <Typography className={styles.text} variant='subtitle1' gutterBottom>
+        <Typography className={styles.text} variant='caption' gutterBottom>
           Register with us for future convenience:
         </Typography>
         <Formik
