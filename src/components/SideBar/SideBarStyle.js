@@ -30,6 +30,9 @@ const useStyles = makeStyles(theme => ({
     border: `1px solid ${colors.borderLight}`,
     borderRadius: '5px 0 0 5px',
     ...iconStyles,
+    [theme.breakpoints.down(360)]: {
+      width: '30px !important'
+    },
     [theme.breakpoints.between(0, 1025)]: {
       ...iconsBpMd
     },

@@ -16,6 +16,10 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
+    minWidth: 'fit-content',
+    [theme.breakpoints.up(360)]: {
+      minWidth: 'unset'
+    },
     [theme.breakpoints.up(724)]: {
       justifyContent: 'flex-start'
     }
@@ -26,6 +30,12 @@ const useStyles = makeStyles(theme => ({
   upperLine: {
     marginBottom: '1rem',
     padding: '.2rem',
+    flexDirection: 'column',
+    alignItems: 'flex-end',
+    [theme.breakpoints.up(360)]: {
+      alignItems: 'center',
+      flexDirection: 'row'
+    },
     [theme.breakpoints.up(724)]: {
       background: colors.thinLine
     }
@@ -33,7 +43,13 @@ const useStyles = makeStyles(theme => ({
   showBy: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-end',
+    minWidth: 'fit-content',
+    marginTop: 10,
+    [theme.breakpoints.up(360)]: {
+      minWidth: 'unset',
+      marginTop: 0
+    }
   },
   viewBox: {
     marginBottom: '.7rem',

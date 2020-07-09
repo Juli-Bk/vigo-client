@@ -25,7 +25,7 @@ const SizeTable = (props) => {
       </StyledTableCell>
       {el.measurements.map((item, key) => {
         const cell = Object.entries(item);
-        return (<StyledTableCell className={styles.cell} align="center" key={key}>{`${cell[0][1].inches}"/${cell[0][1].cm}cm`}</StyledTableCell>);
+        return (<StyledTableCell className={styles.cell} align="center" key={key}>{`${cell[0][1].inches}"`}<br/>{`${cell[0][1].cm}cm`}</StyledTableCell>);
       })}
     </StyledTableRow>
   ));
