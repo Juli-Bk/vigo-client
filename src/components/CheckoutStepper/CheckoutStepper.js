@@ -25,7 +25,7 @@ import {
 import {setUser} from '../../redux/actions/user';
 import {placeOrder} from '../../redux/actions/orders';
 import {setOrder, getProductsCodes} from './helper';
-import {getStorageData, setStorageData} from '../../helpers/helpers';
+import {getStorageData, isEmptyObj, setStorageData} from '../../helpers/helpers';
 
 import {LiqPayPay} from 'react-liqpay';
 import keysConfig from '../../keysConfig';
@@ -95,7 +95,7 @@ const CheckoutStepper = (props) => {
     };
     switch (stepIndex) {
       case 0:
-        if (Object.keys(user).length > 0 || (asAGuest)) {
+        if (!isEmptyObj(user) || (asAGuest)) {
           fields = <ModalPersDetails/>;
         } else {
           fields = <NewCustomerForm submitNewCustomerHandler={onSubmitCallback}/>;
@@ -175,9 +175,7 @@ const CheckoutStepper = (props) => {
               <Container>
                 <Box>
                   <Typography component='span' className={classes.instructions}>
-                    {
-                      getStepContent(activeStep)
-                    }
+                    {getStepContent(activeStep)}
                   </Typography>
                   <Box className={classes.buttonContainer}>
                     <Button

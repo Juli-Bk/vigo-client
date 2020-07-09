@@ -5,7 +5,9 @@ import {Avatar, Typography} from '@material-ui/core';
 import useStyles from './AboutUsSlideStyle';
 
 const AboutUsSlide = (props) => {
-  const aboutPlug = 'Nikola Tesla was a Serbian-American inventor, electrical engineer, mechanical engineer, and futurist who is best known for his contributions to the design of the modern alternating current electricity supply.';
+  const aboutPlug = 'Nikola Tesla was a Serbian-American inventor, electrical engineer,' +
+    ' mechanical engineer, and futurist who is best known for his contributions to the ' +
+    'design of the modern alternating current electricity supply.';
   const styles = useStyles();
 
   const {photoUrl, name = 'Name', position = 'Doctor', about = aboutPlug, index} = props;

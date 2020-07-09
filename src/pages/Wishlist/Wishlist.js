@@ -11,7 +11,7 @@ import { getProductsByFilters } from '../../redux/actions/products';
 
 const Wishlist = (props) => {
   const {wishList, getProductsByFilters, products} = props;
-  const isMobile = useMediaQuery('(max-width: 550px)');
+  const isMobile = useMediaQuery('(max-width: 724px)');
   const filterArray = (wishList.length && [{_id: wishList}]) || [];
 
   useEffect(() => {
