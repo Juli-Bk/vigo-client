@@ -31,4 +31,4 @@ EmptyState.propTypes = {
   text: PropTypes.any.isRequired
 };
 
-export default EmptyState;
+export default React.memo(EmptyState);

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -10,10 +10,10 @@ import useCommonStyles from '../../styles/formStyle/formStyle';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import {ThemeProvider} from '@material-ui/styles';
-import { setCompletedSteps, setGuestData, setPersDetailsOpenState } from '../../redux/actions/actions';
+import {setCompletedSteps, setGuestData, setPersDetailsOpenState} from '../../redux/actions/actions';
 import {connect} from 'react-redux';
 import PersonalDetailsGuestForm from '../PersonalDetailsForm/PersonalDetailsGuestForm';
-import { getStorageData, setStorageData } from '../../helpers/helpers';
+import {getStorageData, isEmptyObj, setStorageData} from '../../helpers/helpers';
 
 const ModalPersDetails = (props) => {
   const {
@@ -28,11 +28,12 @@ const ModalPersDetails = (props) => {
   const guestInfo = guestData.deliveryAddress ? guestData : getStorageData('guestData');
 
   useEffect(() => {
-    if (Object.keys(user).length > 0 || Object.keys(guestInfo).length > 0) {
+    if (!(isEmptyObj(user) && isEmptyObj(guestInfo))) {
       setCompleted(activeStep);
+    } else if (!canceled) {
+      setModalOpen(true);
     }
-    if (!Object.keys(user).length && !Object.keys(guestInfo).length && !canceled) setModalOpen(true);
-  }, [activeStep, canceled, guestData, guestInfo, setCompleted, setModalOpen, user]);
+  }, [activeStep, canceled, guestInfo, setCompleted, setModalOpen, user]);
 
   const handleClickOpen = () => {
     setModalOpen(true);
@@ -66,8 +67,8 @@ const ModalPersDetails = (props) => {
   return (
     <ThemeProvider theme={theme}>
       <Box>
-        { Object.keys(user).length ? renderSavedData(user)
-          : Object.keys(guestInfo).length ? renderSavedData(guestInfo)
+        {!isEmptyObj(user) ? renderSavedData(user)
+          : !isEmptyObj(guestInfo) ? renderSavedData(guestInfo)
             : null
         }
         <Button className={commonClasses.button} onClick={handleClickOpen}>
