@@ -18,7 +18,9 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
     minWidth: 'fit-content',
     [theme.breakpoints.up(360)]: {
-      minWidth: 'unset'
+      minWidth: 'unset',
+      maxWidth: 180,
+      justifyContent: 'flex-end'
     },
     [theme.breakpoints.up(724)]: {
       justifyContent: 'flex-start'
@@ -34,7 +36,8 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'flex-end',
     [theme.breakpoints.up(360)]: {
       alignItems: 'center',
-      flexDirection: 'row'
+      flexDirection: 'row',
+      justifyContent: 'center'
     },
     [theme.breakpoints.up(724)]: {
       background: colors.thinLine
@@ -48,7 +51,9 @@ const useStyles = makeStyles(theme => ({
     marginTop: 10,
     [theme.breakpoints.up(360)]: {
       minWidth: 'unset',
-      marginTop: 0
+      marginTop: 0,
+      maxWidth: 150,
+      justifyContent: 'center'
     }
   },
   viewBox: {
