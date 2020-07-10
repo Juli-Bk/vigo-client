@@ -10,7 +10,7 @@ import { changeWishList } from '../../redux/actions/wishlist';
 import { getProductsByFilters } from '../../redux/actions/products';
 
 const Wishlist = (props) => {
-  const {wishList, getProductsByFilters, products} = props;
+  const {wishList, getProductsByFilters, products, isMyAccount} = props;
   const isMobile = useMediaQuery('(max-width: 724px)');
   const filterArray = (wishList.length && [{_id: wishList}]) || [];
 
@@ -22,11 +22,10 @@ const Wishlist = (props) => {
     return () => {
       isCanceled = true;
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [wishList, getProductsByFilters]);
+  }, [wishList, getProductsByFilters, filterArray]);
 
   return (
-    <Container>
+    <Container disableGutters={isMyAccount}>
       <Grid container>
         {wishList.length && products.data
           ? <WishListView products={products.data} isMobile={isMobile}/>

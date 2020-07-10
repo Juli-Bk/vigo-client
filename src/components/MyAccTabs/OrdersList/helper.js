@@ -15,7 +15,6 @@ export const getAddress = (deliveryAddress, classes) => {
         {deliveryAddress.office} </span>
     </>;
   } else {
-    console.log(deliveryAddress);
     return <></>;
   }
 };
