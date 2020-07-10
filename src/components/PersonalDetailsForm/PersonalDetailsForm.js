@@ -65,8 +65,6 @@ const PersonalDetailsForm = (props) => {
     lastName: user ? lastName : '',
     phoneNumber: user ? phoneNumber : '',
     email: user ? email : '',
-    password: '',
-    confirmPassword: '',
     confirmation: false,
     subscribe: false,
     saveMyData: true
@@ -194,7 +192,6 @@ const PersonalDetailsForm = (props) => {
             </form>
           )}
         </Formik>
-
       </Grid>
     </Grid>
   );

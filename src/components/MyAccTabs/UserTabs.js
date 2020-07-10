@@ -13,7 +13,7 @@ import useStyles from '../../containers/Header/headerStyle';
 import AddressRadioGroup from '../DefineDelivery/AddressRadioGroup';
 import Grid from '@material-ui/core/Grid';
 import OrdersList from './OrdersList/OrdersList';
-import ModalChangePassword from '../ModalChangePassword/ModalChangePassword';
+import ChangePasswordForm from '../ChangePasswordForm/ChangePasswordForm';
 import { connect } from 'react-redux';
 import { setNewPassModalOpenState } from '../../redux/actions/actions';
 
@@ -86,7 +86,12 @@ const UserTabs = (props) => {
                 handleChange(null, value);
               }}/> : null}
           </Grid>
-          <Grid><ModalChangePassword/></Grid>
+          <Grid item xs={12} sm={6}>
+            { user._id
+              ? <ChangePasswordForm submitChangePasswordHandler={() => {
+                handleChange(null, value);
+              }}/> : null}
+          </Grid>
         </Grid>
       </TabPanel>
 

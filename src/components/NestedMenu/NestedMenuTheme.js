@@ -41,11 +41,16 @@ const theme = createMuiTheme({
       },
       wrapper: {
         alignItems: 'flex-start',
-        textTransform: 'capitalize',
+        textTransform: 'uppercase',
         lineHeight: '1rem',
         fontSize: '1rem',
-        fontWeight: '300',
-        fontFamily: fonts.f2
+        fontWeight: '600',
+        fontFamily: fonts.f3,
+        color: colors.fontSixth,
+        '&:hover': {
+          color: colors.borderDark
+        }
+
       },
       fullWidth: {
         flexGrow: 'initial'
