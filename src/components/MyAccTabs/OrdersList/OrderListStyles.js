@@ -4,30 +4,45 @@ import { makeStyles } from '@material-ui/core';
 
 const useStyles = makeStyles(() => ({
   cell: {
-    padding: '0 .5rem'
+    padding: '1.5rem 0'
   },
-  title: {
-    textTransform: 'uppercase',
-    color: colors.fontFourth,
+  rightCell: {
+    textAlign: 'center !important'
+  },
+  orderNo: {
+    color: colors.black,
     fontWeight: 'bold'
   },
+  title: {
+    color: colors.black,
+    fontWeight: 'bold',
+    fontSize: '.85rem'
+  },
   text: {
-    fontSize: '1rem',
     fontFamily: fonts.f3,
+    fontSize: '1rem',
     color: colors.fontPrimary,
     fontWeight: 'normal',
     marginBottom: '.3rem'
   },
+  status: {
+    color: colors.black,
+    fontWeight: 'bold',
+    fontSize: '1rem',
+    textTransform: 'capitalize'
+  },
   name: {
     display: 'block',
-    marginBottom: '1rem',
-    color: colors.fontPrimary,
+    color: colors.black,
     textDecoration: 'none',
     cursor: 'pointer',
-    fontSize: '1.2rem'
+    fontSize: '1rem',
+    fontWeight: 'bold'
   },
   product: {
-    marginBottom: '1rem'
+    marginBottom: '1rem',
+    display: 'flex',
+    alignContent: 'flex-start'
   },
   cellTitle: {
     color: colors.noticeColor,
@@ -48,6 +63,19 @@ const useStyles = makeStyles(() => ({
       border: `2px solid ${colors.borderDark}`,
       cursor: 'pointer'
     }
+  },
+  img: {
+    height: 100,
+    width: 80,
+    margin: '0 1rem 1rem 0'
+  },
+  lastCell: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between'
+  },
+  row: {
+    marginBottom: '1rem'
   }
 }));
 
