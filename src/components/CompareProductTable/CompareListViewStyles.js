@@ -11,14 +11,14 @@ const useStyles = makeStyles(theme => ({
       width: 1060
     },
     [theme.breakpoints.down(370)]: {
-      width: 980
+      // width: 980
     }
   },
   compareTable: {
     maxWidth: 1000,
     display: 'flex',
     overflowX: 'scroll',
-    margin: 'auto'
+    margin: '0 auto'
   },
   headers: {
     position: 'sticky',
@@ -37,14 +37,8 @@ const useStyles = makeStyles(theme => ({
       width: 1,
       margin: 0,
       fontWeight: 500,
-      marginRight: '-150px'
-    },
-    [theme.breakpoints.down(361)]: {
-      width: 0,
+      marginRight: '-150px',
       display: 'none'
-    },
-    [theme.breakpoints.down(350)]: {
-      width: 0
     }
   },
   tableRowCompare: {
@@ -52,8 +46,8 @@ const useStyles = makeStyles(theme => ({
   },
   img: {
     position: 'relative',
-    height: 235,
     width: 225,
+    height: 230,
     margin: '0 auto',
     [theme.breakpoints.up(500)]: {
       width: 160,
@@ -62,7 +56,7 @@ const useStyles = makeStyles(theme => ({
       marginBottom: 0
     },
     [theme.breakpoints.up(724)]: {
-      height: 220,
+      height: 200,
       cursor: 'pointer',
       marginBottom: 0
     },
@@ -112,14 +106,16 @@ const useStyles = makeStyles(theme => ({
     fontSize: '.65rem',
     margin: '0 5px',
     minHeight: 125,
-    width: 300
+    width: 300,
+    [theme.breakpoints.down(724)]: {
+      width: 230
+    }
   },
   cell: {
     fontSize: '1rem',
     marginTop: 10,
     minHeight: 40,
     [theme.breakpoints.down(724)]: {
-      // fontSize: '0.8rem',
       marginTop: 0
     }
   },
@@ -129,7 +125,6 @@ const useStyles = makeStyles(theme => ({
     minHeight: 40,
     textTransform: 'uppercase',
     [theme.breakpoints.down(724)]: {
-      // fontSize: '0.8rem'
     }
   },
   smallcell: {
@@ -140,14 +135,27 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down(724)]: {
       fontSize: '0.8rem',
       width: 90
+    },
+    [theme.breakpoints.down(568)]: {
+      minHeight: 25
     }
   },
   bigCell: {
     width: 120,
-    minHeight: 125,
+    minHeight: 146,
     [theme.breakpoints.down(724)]: {
       fontSize: '0.8rem',
-      minHeight: 98,
+      minHeight: 186,
+      width: 90
+    },
+    [theme.breakpoints.down(568)]: {
+      fontSize: '0.8rem',
+      minHeight: 186,
+      width: 90
+    },
+    [theme.breakpoints.down(400)]: {
+      fontSize: '0.8rem',
+      minHeight: 157,
       width: 90
     }
   },
@@ -160,18 +168,12 @@ const useStyles = makeStyles(theme => ({
   },
   closeIcon: {
     marginTop: 15,
-    border: `2px solid ${colors.fontOncard}`,
+    border: '2px solid transparent',
     fill: `2px solid ${colors.borderDark}`,
     '&:hover': {
       borderRadius: 6,
       border: `2px solid ${colors.borderDark}`,
       cursor: 'pointer'
-    },
-    [theme.breakpoints.down(550)]: {
-      position: 'absolute',
-      top: '5px',
-      right: '1rem',
-      fontSize: '2rem'
     }
   },
   salePrice: {

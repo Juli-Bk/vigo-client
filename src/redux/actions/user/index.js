@@ -313,3 +313,10 @@ export const setUserNovaPoshtaData = (data) => {
     payload: data
   };
 };
+
+export const saveNewPassword = (userId, data) => dispatch => {
+  AjaxUtils.Users.updatePassword(userId, data)
+    .then(result => {
+      console.log(result);
+    });
+};

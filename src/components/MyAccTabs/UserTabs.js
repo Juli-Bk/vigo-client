@@ -78,12 +78,16 @@ const UserTabs = (props) => {
       </AppBar>
 
       <TabPanel value={value} index={0} dir={theme.direction}>
-        {
-          user._id
-            ? <PersonalDetailsForm submitPersonalDetailsHandler={() => {
-              handleChange(null, value);
-            }}/> : null}
-        <ModalChangePassword />
+
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6}>
+            { user._id
+              ? <PersonalDetailsForm submitPersonalDetailsHandler={() => {
+                handleChange(null, value);
+              }}/> : null}
+          </Grid>
+          <Grid><ModalChangePassword/></Grid>
+        </Grid>
       </TabPanel>
 
       <TabPanel value={value} index={1} dir={theme.direction}>
@@ -91,7 +95,7 @@ const UserTabs = (props) => {
           <Grid item xs={12} sm={6}>
             <AddressRadioGroup addresses={user.addresses} isAccount={true}/>
           </Grid>
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={12} sm={6} className={classes.position}>
             <AddressForm submitAddressHandler={() => {
               handleChange(null, value);
             }}/>

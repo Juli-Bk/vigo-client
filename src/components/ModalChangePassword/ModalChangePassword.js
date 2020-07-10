@@ -13,28 +13,30 @@ import * as Yup from 'yup';
 import {setNewPassModalOpenState} from '../../redux/actions/actions';
 import EnhancedEncryptionRoundedIcon from '@material-ui/icons/EnhancedEncryptionRounded';
 import LockIcon from '@material-ui/core/SvgIcon/SvgIcon';
+import { saveNewPassword } from '../../redux/actions/user';
 
 const ModalChangePassword = (props) => {
   const styles = useStyles();
-  const {saveNewPassword, open, setOpen} = props;
+  const {saveNewPassword, open, setOpen, user} = props;
   const handleClose = useCallback(() => {
     setOpen(false);
   }, [setOpen]);
-  const buttonText = 'Change my password';
+  const buttonText = 'Change password';
 
   const saveNewPass = useCallback((values, {resetForm, setSubmitting}) => {
-    const password = values.password;
+    const data = {
+      oldPassword: values.password,
+      newPassword: values.newPassword
+    };
 
-    saveNewPassword(password, (result) => {
+    saveNewPassword(user._id, data, (result) => {
       if (result && result.status !== 400) {
         resetForm();
       }
-      saveNewPassword(result);
-      console.log(saveNewPassword);
       setSubmitting(false);
       setOpen(false);
     });
-  }, [saveNewPassword, setOpen]);
+  }, [saveNewPassword, setOpen, user._id]);
 
   const validateObject = Yup.object({
     password: Yup.string()
@@ -71,7 +73,11 @@ const ModalChangePassword = (props) => {
               Create a new strong password that you don't use for other websites
           </Typography>
           <Formik
-            initialValues={{ password: '' }}
+            initialValues={{
+              password: '',
+              newPassword: '',
+              confirmPassword: ''
+            }}
             validationSchema={validateObject}
             onSubmit={saveNewPass}>
             {({
@@ -90,7 +96,8 @@ const ModalChangePassword = (props) => {
                   label={<IconLabel label='Enter your password'
                     Component={LockIcon}/>}
                   error={errors.password && touched.password}
-                  fullWidth variant='outlined'
+                  fullWidth
+                  variant='outlined'
                   value={values.password}
                   onBlur={handleBlur}
                   onChange={handleChange}
@@ -109,6 +116,7 @@ const ModalChangePassword = (props) => {
                   helperText={touched.newPassword ? errors.newPassword : ''}
                   error={touched.newPassword && Boolean(errors.newPassword)}
                   variant='outlined'
+                  fullWidth
                   size='small'
                 />
                 <TextField
@@ -124,6 +132,7 @@ const ModalChangePassword = (props) => {
                   helperText={touched.confirmPassword ? errors.confirmPassword : ''}
                   error={touched.confirmPassword && Boolean(errors.confirmPassword)}
                   variant='outlined'
+                  fullWidth
                   size='small'
                 />
                 <CardActions>
@@ -142,7 +151,7 @@ const ModalChangePassword = (props) => {
                     disabled={isSubmitting}
                     size='large'
                     variant='outlined'>
-                      Change my password
+                      Change password
                   </Button>
                 </CardActions>
               </form>
@@ -156,13 +165,15 @@ const ModalChangePassword = (props) => {
 
 const mapStoreToProps = store => {
   return {
-    open: store.isNewPswdModalOpen
+    open: store.isNewPswdModalOpen,
+    user: store.user
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    setOpen: isOpen => dispatch(setNewPassModalOpenState(isOpen))
+    setOpen: isOpen => dispatch(setNewPassModalOpenState(isOpen)),
+    saveNewPassword: (userId, data) => dispatch(saveNewPassword(userId, data))
   };
 };
 
