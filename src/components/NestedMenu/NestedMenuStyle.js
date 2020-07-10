@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => {
       lineHeight: '0.7rem',
       fontSize: '0.6rem',
       fontWeight: '300',
-      fontFamily: fonts.f3
+      fontFamily: fonts.f2
     },
     popper: {
       zIndex: 10000000,
