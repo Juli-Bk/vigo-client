@@ -11,12 +11,12 @@ export const getAuthHeader = () => {
 
 export const putJWTtoCookie = (loginResponse) => {
   deleteJWTcookie();
-  const exp = new Date(loginResponse.expires);
+  const exp = new Date(loginResponse.expires).toUTCString();
   document.cookie = `token=${loginResponse.token};expires=${exp};SameSite=Strict`;
 };
 
 export const putUserIdToCookie = (loginResponse) => {
-  const exp = new Date(loginResponse.token.expires);
+  const exp = new Date(loginResponse.token.expires).toUTCString();
   document.cookie = `userId=${loginResponse.user._id};expires=${exp};SameSite=Strict`;
 };
 
