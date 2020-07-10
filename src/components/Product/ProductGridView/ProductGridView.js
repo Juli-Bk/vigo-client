@@ -19,7 +19,7 @@ const ProductGridView = (props) => {
   const { name, description, price, rating, imageUrls, salePrice, isOnSale } = productData;
   const sale = isOnSale && price > salePrice;
   const productDescription = capitalize(makeShortText(description));
-  // todo product rating
+
   return (
     <Card className={classes.card}>
       <ThemeProvider theme={theme}>

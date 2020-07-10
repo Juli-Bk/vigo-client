@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {ThemeProvider, useTheme} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -8,14 +8,17 @@ import themeMui from './MyAccTabsTheme';
 import PersonalDetailsForm from '../PersonalDetailsForm/PersonalDetailsForm';
 import AddressForm from '../AddressForm/AddressForm';
 import Wishlist from '../../pages/Wishlist/Wishlist';
-import {useMediaQuery} from '@material-ui/core';
+import { useMediaQuery } from '@material-ui/core';
 import useStyles from '../../containers/Header/headerStyle';
 import AddressRadioGroup from '../DefineDelivery/AddressRadioGroup';
 import Grid from '@material-ui/core/Grid';
 import OrdersList from './OrdersList/OrdersList';
+import ModalChangePassword from '../ModalChangePassword/ModalChangePassword';
+import { connect } from 'react-redux';
+import { setNewPassModalOpenState } from '../../redux/actions/actions';
 
 const TabPanel = (props) => {
-  const {user, children, value, adrList, index, ...other} = props;
+  const {user, setOpen, children, value, adrList, index, setNewPassModalOpenState, ...other} = props;
 
   return (
     <Box
@@ -80,6 +83,7 @@ const UserTabs = (props) => {
             ? <PersonalDetailsForm submitPersonalDetailsHandler={() => {
               handleChange(null, value);
             }}/> : null}
+        <ModalChangePassword />
       </TabPanel>
 
       <TabPanel value={value} index={1} dir={theme.direction}>
@@ -106,4 +110,16 @@ const UserTabs = (props) => {
   );
 };
 
-export default React.memo(UserTabs);
+const mapStoreToProps = store => {
+  return {
+    password: store.password
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    setOpen: isOpen => dispatch(setNewPassModalOpenState(isOpen))
+  };
+};
+
+export default React.memo(connect(mapStoreToProps, mapDispatchToProps)(UserTabs));

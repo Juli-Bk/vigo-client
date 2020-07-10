@@ -76,7 +76,6 @@ const ProductPageView = (props) => {
     }
   }, [chosenSize, setPopoverOpen]);
 
-  // todo product rating
   // todo search by brand on click by brand
   return (
     <Box className={classes.card}>

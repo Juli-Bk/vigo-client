@@ -18,7 +18,6 @@ const ProductListView = (props) => {
   const { name, description, price, rating, imageUrls, salePrice, isOnSale } = productData;
   const sale = isOnSale && price > salePrice;
 
-  // todo product rating
   return (
     <Box className={classes.card}>
       <Link to={`/products/${productData._id}`} className={classes.linkBox}>
