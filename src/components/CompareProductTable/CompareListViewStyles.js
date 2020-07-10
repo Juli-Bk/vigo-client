@@ -6,7 +6,13 @@ const useStyles = makeStyles(theme => ({
   generalTable: {
     display: 'flex',
     width: 1230,
-    margin: 'auto'
+    margin: 'auto',
+    [theme.breakpoints.down(415)]: {
+      width: 1060
+    },
+    [theme.breakpoints.down(370)]: {
+      width: 980
+    }
   },
   compareTable: {
     maxWidth: 1000,
@@ -22,23 +28,27 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 600,
     fontFamily: fonts.f3,
     display: 'inline-grid',
-    textAlign: 'right'
+    width: 55,
+    textAlign: 'right',
+    [theme.breakpoints.down(538)]: {
+      margin: 0
+    },
+    [theme.breakpoints.down(415)]: {
+      width: 1,
+      margin: 0,
+      fontWeight: 500,
+      marginRight: '-150px'
+    },
+    [theme.breakpoints.down(361)]: {
+      width: 0,
+      display: 'none'
+    },
+    [theme.breakpoints.down(350)]: {
+      width: 0
+    }
   },
   tableRowCompare: {
     display: 'inline-grid'
-  },
-  tableHead: {
-    padding: '0 1rem',
-    textTransform: 'uppercase',
-    color: colors.borderDark,
-    fontWeight: 600,
-    fontFamily: fonts.f3,
-    '&:last-child': {
-      borderRight: 'none'
-    },
-    [theme.breakpoints.up('sm')]: {
-      padding: '.5rem 1rem'
-    }
   },
   img: {
     position: 'relative',
@@ -100,30 +110,46 @@ const useStyles = makeStyles(theme => ({
   details: {
     textTransform: 'uppercase',
     fontSize: '.65rem',
-    margin: '0 15px',
+    margin: '0 5px',
     minHeight: 125,
     width: 300
   },
   cell: {
     fontSize: '1rem',
-    marginTop: 15,
-    minHeight: 40
+    marginTop: 10,
+    minHeight: 40,
+    [theme.breakpoints.down(724)]: {
+      // fontSize: '0.8rem',
+      marginTop: 0
+    }
   },
   cellUp: {
     fontSize: '1rem',
-    marginTop: 15,
+    marginTop: 10,
     minHeight: 40,
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
+    [theme.breakpoints.down(724)]: {
+      // fontSize: '0.8rem'
+    }
   },
   smallcell: {
     fontSize: '1rem',
-    width: 170,
+    width: 120,
     marginTop: 10,
-    minHeight: 20
+    minHeight: 20,
+    [theme.breakpoints.down(724)]: {
+      fontSize: '0.8rem',
+      width: 90
+    }
   },
   bigCell: {
-    width: 170,
-    minHeight: 125
+    width: 120,
+    minHeight: 125,
+    [theme.breakpoints.down(724)]: {
+      fontSize: '0.8rem',
+      minHeight: 98,
+      width: 90
+    }
   },
   codeId: {
     fontSize: '.7rem',

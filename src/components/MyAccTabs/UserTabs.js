@@ -100,7 +100,7 @@ const UserTabs = (props) => {
       </TabPanel>
 
       <TabPanel value={value} index={2} dir={theme.direction}>
-        <Wishlist/>
+        <Wishlist isMyAccount={true}/>
       </TabPanel>
 
       <TabPanel value={value} index={3} dir={theme.direction}>
