@@ -77,6 +77,7 @@ const ContactForm = ({setSnackMessage}) => {
           onSubmit={submitData}
         >
           {({
+            values,
             handleChange,
             handleSubmit,
             handleBlur,
@@ -92,6 +93,7 @@ const ContactForm = ({setSnackMessage}) => {
                     <Grid item xs={12} md={6} lg={12}>
                       <TextField
                         name='name'
+                        value={values.name}
                         className={styles.input}
                         type='text'
                         label={<IconLabel label='ENTER YOUR NAME' Component={PersonIcon}/>}
@@ -101,10 +103,10 @@ const ContactForm = ({setSnackMessage}) => {
                         onChange={handleChange}
                         helperText={(errors.name && touched.name) && errors.name}
                       />
-
                       <TextField
                         name='email'
                         type='email'
+                        value={values.email}
                         className={styles.input}
                         variant='outlined'
                         autoComplete='on'
@@ -119,6 +121,7 @@ const ContactForm = ({setSnackMessage}) => {
                       <TextField
                         name='subject'
                         type='text'
+                        value={values.subject}
                         className={styles.input}
                         variant='outlined'
                         autoComplete='off'
@@ -136,6 +139,7 @@ const ContactForm = ({setSnackMessage}) => {
                   <Grid item xs={12} lg={6}>
                     <TextField
                       name='message'
+                      value={values.message}
                       type='text'
                       multiline
                       rowsMax={8}
