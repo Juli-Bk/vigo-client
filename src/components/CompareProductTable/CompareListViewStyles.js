@@ -9,9 +9,6 @@ const useStyles = makeStyles(theme => ({
     margin: 'auto',
     [theme.breakpoints.down(415)]: {
       width: 1060
-    },
-    [theme.breakpoints.down(370)]: {
-      // width: 980
     }
   },
   compareTable: {
@@ -99,7 +96,13 @@ const useStyles = makeStyles(theme => ({
     color: colors.fontThird,
     textDecoration: 'none',
     cursor: 'pointer',
-    fontSize: '1rem'
+    fontSize: '1.05rem',
+    [theme.breakpoints.up(500)]: {
+      alignItems: 'flex-start'
+    },
+    [theme.breakpoints.down(500)]: {
+      fontSize: '1rem'
+    }
   },
   details: {
     textTransform: 'uppercase',
@@ -115,6 +118,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: '1rem',
     marginTop: 10,
     minHeight: 40,
+    fontFamily: fonts.f3,
     [theme.breakpoints.down(724)]: {
       marginTop: 0
     }
@@ -124,6 +128,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: 10,
     minHeight: 40,
     textTransform: 'uppercase',
+    fontFamily: fonts.f3,
     [theme.breakpoints.down(724)]: {
     }
   },
@@ -142,15 +147,10 @@ const useStyles = makeStyles(theme => ({
   },
   bigCell: {
     width: 120,
-    minHeight: 146,
+    minHeight: 130,
     [theme.breakpoints.down(724)]: {
       fontSize: '0.8rem',
-      minHeight: 186,
-      width: 90
-    },
-    [theme.breakpoints.down(568)]: {
-      fontSize: '0.8rem',
-      minHeight: 186,
+      minHeight: 155,
       width: 90
     },
     [theme.breakpoints.down(400)]: {

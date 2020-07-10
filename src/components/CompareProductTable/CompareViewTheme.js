@@ -9,7 +9,8 @@ export const theme = createMuiTheme({
     },
     MuiCardActions: {
       root: {
-        display: 'inline-block'
+        display: 'inline-block',
+        padding: 0
       }
     },
     MuiTableContainer: {
