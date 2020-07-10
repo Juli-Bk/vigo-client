@@ -52,7 +52,6 @@ const PaymentForm = (props) => {
               setInputValue(newInputValue);
               setPaymentMethod(newInputValue);
               setCompleted(activeStep);
-              // todo сохранять в редакс данные о выбранном типе оплаты
             }}
             id='controllable-states-demo'
             options={options}

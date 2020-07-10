@@ -47,7 +47,6 @@ export const setOrder = (user, guestData, totalSum, orderDetails, shoppingCart, 
   const total = totalSum || JSON.parse(localStorage.getItem('totalSum'));
   let orderData;
   let userId = null;
-  const orderNumber = Date.now() + shoppingCart[0].productId + total;
 
   const products = shoppingCart.map(item => {
     const quantity = item.cartQuantity;
@@ -77,8 +76,7 @@ export const setOrder = (user, guestData, totalSum, orderDetails, shoppingCart, 
       phoneNumber: user.phoneNumber,
       totalSum: total,
       shipping: orderDetails.shipping,
-      paymentInfo: orderDetails.paymentMethod,
-      orderNo: orderNumber
+      paymentInfo: orderDetails.paymentMethod
     };
   } else {
     orderData = {
@@ -89,8 +87,7 @@ export const setOrder = (user, guestData, totalSum, orderDetails, shoppingCart, 
       phoneNumber: guestInfo.phoneNumber,
       totalSum: total,
       shipping: orderDetails.shipping,
-      paymentInfo: orderDetails.paymentMethod,
-      orderNo: orderNumber
+      paymentInfo: orderDetails.paymentMethod
     };
   }
   callback(userId, products, orderData);
@@ -140,4 +137,9 @@ export const getProductsCodes = (products) => {
     });
   }
   return codes;
+};
+
+export const checkFullData = (orderData) => {
+  const {totalSum, productCodes, orderId} = orderData;
+  return !!(totalSum && productCodes && orderId);
 };
