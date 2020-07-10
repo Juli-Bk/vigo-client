@@ -11,7 +11,6 @@ export const placeOrder = (userId, products, orderData) => dispatch => {
     .then(result => {
       dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
       if (result.newOrder) {
-        console.log(result);
         dispatch({
           type: Actions.SET_ORDER_DATA,
           orderNumber: result.newOrder.orderNo,
@@ -54,6 +53,26 @@ export const getUserOrders = (userId) => dispatch => {
       }
     }
     ).catch(err => {
+      console.log(err);
+      dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
+    });
+};
+
+export const cancelOrder = (orderId, userId) => dispatch => {
+  dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
+  AjaxUtils.Orders.cancelOrder(orderId)
+    .then(result => {
+      dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
+      if (result) {
+        dispatch({
+          type: Actions.SET_SNACK_MESSAGE_OPEN,
+          payload: true,
+          message: result.message,
+          severity: globalConfig.snackSeverity.SUCCESS
+        });
+        dispatch(getUserOrders(userId));
+      }
+    }).catch(err => {
       console.log(err);
       dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
     });

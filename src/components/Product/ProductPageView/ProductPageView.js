@@ -26,6 +26,7 @@ import SelectBox from '../../SelectBox/SelectBox';
 import Quantity from '../Quantity/Quantity';
 import { setPopoverOpenState } from '../../../redux/actions/actions';
 import PopoverMessage from '../../PopoverMessage/PopoverMessage';
+import ModalSizeTable from '../../ModalSizeTable/ModalSizeTable';
 
 const ProductPageView = (props) => {
   const classes = useStyles();
@@ -36,6 +37,15 @@ const ProductPageView = (props) => {
   const [chosenSize, setChosenSize] = useState('');
   const [quantity, setQuantity] = useState(globalConfig.defaultQuantityOption);
   const [productQuantity, setProductQuantity] = useState([]);
+  const [isSizeTableOpen, setIsSizeTableOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setIsSizeTableOpen(true);
+  };
+
+  const handleClose = () => {
+    setIsSizeTableOpen(false);
+  };
 
   const color = useMemo(() => getColorData(productQuantity), [productQuantity]);
   const maxQuantity = useMemo(() => {
@@ -66,8 +76,6 @@ const ProductPageView = (props) => {
     }
   }, [chosenSize, setPopoverOpen]);
 
-  // todo product rating
-  // todo search by brand on click by brand
   return (
     <Box className={classes.card}>
       <Typography className={classes.name}>{capitalize(name)}</Typography>
@@ -88,7 +96,8 @@ const ProductPageView = (props) => {
       <Typography variant='caption' component='p' className={classes.description}>{description}</Typography>
       <Box className={classes.colorBox}>
         <Typography variant='body2'>Color: <span className={classes.colorName}>{color.name}</span></Typography>
-        <MuiLink variant='body2' className={classes.link}>View sizes guide</MuiLink>
+        <MuiLink variant='body2' className={classes.link} onClick={handleClickOpen}>View sizes guide</MuiLink>
+        <ModalSizeTable targetId={_id} isOpen={isSizeTableOpen} handleClose={handleClose}/>
       </Box>
       <Box>
         <Box className={classes.selectBox}>

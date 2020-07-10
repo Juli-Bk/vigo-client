@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     borderBottom: `2px solid ${colors.borderLight} !important`,
     textTransform: 'uppercase',
     color: colors.borderDark,
-    fontWeight: 600,
+    fontWeight: '600 !important',
     fontFamily: fonts.f3,
     '&:last-child': {
       borderRight: 'none'
@@ -88,7 +88,7 @@ const useStyles = makeStyles(theme => ({
     }
   },
   name: {
-    display: 'block',
+    display: 'inline-block',
     marginBottom: '1rem',
     color: colors.fontThird,
     textDecoration: 'none',
@@ -116,7 +116,7 @@ const useStyles = makeStyles(theme => ({
       border: `2px solid ${colors.borderDark}`,
       cursor: 'pointer'
     },
-    [theme.breakpoints.down(550)]: {
+    [theme.breakpoints.down(725)]: {
       position: 'absolute',
       top: '5px',
       right: '1rem',

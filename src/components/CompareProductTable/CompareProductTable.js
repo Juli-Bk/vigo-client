@@ -35,7 +35,7 @@ const CompareProductTable = (props) => {
             productsLenght={products.length}
             rows={rows}
           />
-          : <EmptyState text={globalConfig.compareMessages.EMPTY}/>}
+          : <EmptyState text={globalConfig.compareMessages.EMPTY} linkText='Let`s fix it'/>}
       </TableContainer>
     </ThemeProvider>
   );

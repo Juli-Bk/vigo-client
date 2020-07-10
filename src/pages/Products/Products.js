@@ -76,7 +76,7 @@ const Products = (props) => {
           <Container className={classes.itemsContainer}>
             <Grid item xs={12} className={classes.topFiltersLine}>
               <Grid item container xs={12} className={classes.upperLine}>
-                <Grid item md={6} xs={8} className={classes.sortSelect}>
+                <Grid item xs={8} sm={6} className={classes.sortSelect}>
                   <Sort values={globalConfig.sortOptions}/>
                 </Grid>
                 {!isSmScreen ? <Grid item md={3} className={classes.viewBox}>

@@ -110,7 +110,7 @@ const AddressRadioGroup = (props) => {
                     size='small'
                     onClick={handleSubmit}
                     disabled={isSubmitting}
-                    variant='outlined'>Confirm your choice
+                    variant='outlined'>Confirm
                   </Button>}
               </CardActions>
             </FormControl>

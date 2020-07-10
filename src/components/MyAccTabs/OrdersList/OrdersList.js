@@ -1,19 +1,15 @@
 import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Box, Container } from '@material-ui/core';
+import { useMediaQuery } from '@material-ui/core';
 import { getUserOrders } from '../../../redux/actions/orders';
-import { Link } from 'react-router-dom';
-import { colors } from '../../../styles/colorKit';
 import EmptyState from '../../EmptyState/EmptyState';
+import OrderListDesktopView from './OrderListDesktopView';
+import OrderListMobileView from './OrderListMobileView';
 
 const OrdersList = (props) => {
   const {user, userOrders, getUserOrders} = props;
-  console.log('userOrders', userOrders);
-  const textWithLink = <span>Your orders list is empty. But you can <Link to='/products'
-    style={{textDecoration: 'underline', color: colors.noticeColor}}>
-      choose
-  </Link> something right now</span>;
+  const isMobile = useMediaQuery('(max-width: 724px)');
 
   useEffect(() => {
     let isCanceled = false;
@@ -26,12 +22,12 @@ const OrdersList = (props) => {
     };
   }, [getUserOrders, user._id]);
 
-  return (
-    <Container>
-      {userOrders && userOrders.length
-        ? <Box>userOrders</Box> : <EmptyState text={textWithLink}/>
-      }
-    </Container>);
+  return (<>
+    {userOrders && userOrders.length
+      ? isMobile ? <OrderListMobileView/>
+        : <OrderListDesktopView/>
+      : <EmptyState text='Your orders list is empty.' linkText='Let`s fix it'/>}
+  </>);
 };
 
 OrdersList.propTypes = {

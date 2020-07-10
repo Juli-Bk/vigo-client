@@ -26,7 +26,8 @@ const ShowBy = (props) => {
       handleChange={handleChange}
       options={options}
       classes={classes}
-      label={'Show: '}/>
+      label={'Show: '}
+    />
   );
 };
 
