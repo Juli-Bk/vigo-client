@@ -71,11 +71,6 @@ const useStyles = makeStyles(theme => (
       color: colors.borderLight,
       marginBottom: 15
     },
-    position: {
-      position: 'absolute',
-      bottom: 20,
-      right: 70
-    },
     closeIconAddress: {
       position: 'absolute',
       right: 0,

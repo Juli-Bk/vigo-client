@@ -18,7 +18,7 @@ import { connect } from 'react-redux';
 import { setNewPassModalOpenState } from '../../redux/actions/actions';
 
 const TabPanel = (props) => {
-  const {user, setOpen, children, value, adrList, index, setNewPassModalOpenState, ...other} = props;
+  const {user, setOpen, children, value, adrList, index, ...other} = props;
 
   return (
     <Box
@@ -100,7 +100,7 @@ const UserTabs = (props) => {
           <Grid item xs={12} sm={6}>
             <AddressRadioGroup addresses={user.addresses} isAccount={true}/>
           </Grid>
-          <Grid item xs={12} sm={6} className={classes.position}>
+          <Grid item xs={12} sm={6}>
             <AddressForm submitAddressHandler={() => {
               handleChange(null, value);
             }}/>
