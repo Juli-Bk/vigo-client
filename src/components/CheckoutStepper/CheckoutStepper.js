@@ -24,14 +24,12 @@ import {
 } from '../../redux/actions/actions';
 import {setUser} from '../../redux/actions/user';
 import {placeOrder} from '../../redux/actions/orders';
-import {setOrder, getProductsCodes} from './helper';
+import {setOrder, getProductsCodes, checkFullData} from './helper';
 import {getStorageData, isEmptyObj, setStorageData} from '../../helpers/helpers';
 
 import {LiqPayPay} from 'react-liqpay';
 import keysConfig from '../../keysConfig';
 import EmptyState from '../EmptyState/EmptyState';
-import { Link } from 'react-router-dom';
-import { colors } from '../../styles/colorKit';
 
 const steps = ['Personal data', 'Delivery', 'Payment', 'Order'];
 
@@ -44,10 +42,6 @@ const CheckoutStepper = (props) => {
   const classes = useStyles();
   const commonClasses = useCommonStyles();
   const [guest, setGuest] = useState({radioGroup: null});
-  const textWithLink = useMemo(() => <span>You don`t have any items to checkout. But you can <Link to='/products'
-    style={{textDecoration: 'underline', color: colors.noticeColor}}>
-      choose
-  </Link> something right now</span>, []);
 
   const guestInfo = useMemo(() => guestData.deliveryAddress
     ? guestData : getStorageData('guestData'), [guestData]);
@@ -90,9 +84,11 @@ const CheckoutStepper = (props) => {
       totalSum: totalSum || JSON.parse(localStorage.getItem('totalSum')),
       productCodes: orderDetails.products && getProductsCodes(orderDetails.products),
       orderId: orderDetails.orderNumber,
-      paymentBtnDisabled: false,
       sandbox: 1
     };
+
+    const isFullData = checkFullData(orderData);
+
     switch (stepIndex) {
       case 0:
         if (!isEmptyObj(user) || (asAGuest)) {
@@ -110,7 +106,6 @@ const CheckoutStepper = (props) => {
       case 3:
         return <OrderSummary/>;
       case 4:
-        // todo регулируем нажатие кнопки
         return (
           <Box>
             <Typography variant='h6' className={classes.instructions}>Thank you for your order.</Typography>
@@ -126,15 +121,13 @@ const CheckoutStepper = (props) => {
               privateKey={keysConfig.liqpay_private_key}
               currency={keysConfig.liqpay_currency}
 
-              result_url={`${keysConfig.clientAddress}/account`}
+              result_url={`${keysConfig.clientAddress}/`}
               server_url={`${keysConfig.serverAddress}/orders/liqpay/order-payment`}
 
-              // order data: for what we pay, total amount AND order id
               amount={`${orderData.totalSum}`}
               description={`Payment for products: ${orderData.productCodes}`}
               orderId={orderData.orderId}
-              // if we have full data from user for order, btn is enabled
-              disabled={orderData.paymentBtnDisabled}
+              disabled={!isFullData}
             />}
           </Box>
         );
@@ -149,11 +142,10 @@ const CheckoutStepper = (props) => {
   }, [activeStep, guestData, orderDetails, placeOrder, setActiveStep, shoppingCart, totalSum, user]);
 
   const handleNext = useCallback(() => {
-    resetSteps();
     activeStep === steps.length - 1
       ? orderHandler()
       : setActiveStep(activeStep + 1);
-  }, [activeStep, orderHandler, resetSteps, setActiveStep]);
+  }, [activeStep, orderHandler, setActiveStep]);
 
   const handleBack = useCallback(() => {
     setActiveStep(activeStep - 1);
@@ -162,7 +154,7 @@ const CheckoutStepper = (props) => {
   return (
     <ThemeProvider theme={theme}>
       <Box className={classes.root}>
-        {shoppingCart && shoppingCart.length
+        {totalSum
           ? <>
             <Stepper activeStep={activeStep} alternativeLabel>
               {steps.map((label) => (
@@ -181,13 +173,14 @@ const CheckoutStepper = (props) => {
                     <Button
                       disabled={activeStep === 0}
                       onClick={handleBack}
-                      className={commonClasses.button}
+                      className={activeStep === 0 ? classes.disabled : commonClasses.button}
                     >
                       <NavigateBeforeIcon/>
                     </Button>
                     <Button
                       disabled={!completed.includes(activeStep)}
-                      className={commonClasses.button}
+                      className={!completed.includes(activeStep)
+                        ? classes.disabled : commonClasses.button}
                       onClick={handleNext}>
                       {activeStep === steps.length - 1 ? 'Confirm' : <NavigateNextIcon/>}
                     </Button>
@@ -196,7 +189,7 @@ const CheckoutStepper = (props) => {
               </Container>
             </Box>
           </>
-          : <EmptyState text={textWithLink}/>
+          : <EmptyState text='You don`t have any items to checkout. ' linkText='Let`s fix it'/>
         }
       </Box>
     </ThemeProvider>
@@ -215,7 +208,8 @@ CheckoutStepper.propTypes = {
   setPersDetailsOpenState: PropTypes.func.isRequired,
   placeOrder: PropTypes.func.isRequired,
   setActiveStep: PropTypes.func.isRequired,
-  setCompleted: PropTypes.func.isRequired
+  setCompleted: PropTypes.func.isRequired,
+  totalSum: PropTypes.number.isRequired
 };
 
 const mapStateToProps = store => {
@@ -225,7 +219,8 @@ const mapStateToProps = store => {
     guestData: store.guestData,
     orderDetails: store.orderDetails,
     completed: store.checkoutSteps.completed,
-    activeStep: store.checkoutSteps.active
+    activeStep: store.checkoutSteps.active,
+    totalSum: store.totalSum
   };
 };
 

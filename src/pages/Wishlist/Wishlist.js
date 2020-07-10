@@ -29,7 +29,7 @@ const Wishlist = (props) => {
       <Grid container>
         {wishList.length && products.data
           ? <WishListView products={products.data} isMobile={isMobile}/>
-          : <EmptyState text={globalConfig.wishListMessages.EMPTY}/>}
+          : <EmptyState text={globalConfig.wishListMessages.EMPTY} linkText='Let`s fix it'/>}
       </Grid>
     </Container>
   );

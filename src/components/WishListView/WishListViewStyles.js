@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     borderBottom: `2px solid ${colors.borderLight} !important`,
     textTransform: 'uppercase',
     color: colors.borderDark,
-    fontWeight: 600,
+    fontWeight: '600 !important',
     fontFamily: fonts.f3,
     '&:last-child': {
       borderRight: 'none'
