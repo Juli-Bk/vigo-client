@@ -12,17 +12,17 @@ import { getProductsByFilters } from '../../redux/actions/products';
 const Wishlist = (props) => {
   const {wishList, getProductsByFilters, products, isMyAccount} = props;
   const isMobile = useMediaQuery('(max-width: 724px)');
-  const filterArray = (wishList.length && [{_id: wishList}]) || [];
 
   useEffect(() => {
     let isCanceled = false;
     if (!isCanceled) {
+      const filterArray = (wishList.length && [{_id: wishList}]) || [];
       getProductsByFilters(filterArray, 1, 8, '');
     }
     return () => {
       isCanceled = true;
     };
-  }, [wishList, getProductsByFilters, filterArray]);
+  }, [wishList, getProductsByFilters]);
 
   return (
     <Container disableGutters={isMyAccount}>
