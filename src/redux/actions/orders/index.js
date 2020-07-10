@@ -11,7 +11,6 @@ export const placeOrder = (userId, products, orderData) => dispatch => {
     .then(result => {
       dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
       if (result.newOrder) {
-        console.log(result);
         dispatch({
           type: Actions.SET_ORDER_DATA,
           orderNumber: result.newOrder.orderNo,
@@ -59,9 +58,9 @@ export const getUserOrders = (userId) => dispatch => {
     });
 };
 
-export const deleteOrder = (orderId, userId) => dispatch => {
+export const cancelOrder = (orderId, userId) => dispatch => {
   dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
-  AjaxUtils.Orders.deleteOrderById(orderId)
+  AjaxUtils.Orders.cancelOrder(orderId)
     .then(result => {
       dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
       if (result) {

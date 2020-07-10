@@ -39,7 +39,7 @@ export const toggleWishItems = (productId) => dispatch => {
     if (userId && isGuid(userId)) {
       AjaxUtils.WishLists.deleteProductFromWishlist(productId)
         .then(result => {
-          if (result.status) {
+          if (result && result.status) {
             dispatch({
               type: Actions.SET_SNACK_MESSAGE_OPEN,
               payload: true,

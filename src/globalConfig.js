@@ -69,14 +69,14 @@ const globalConfig = {
   defaultQuantity: 1,
   wishListMessages: {
     UPDATED: 'Your wishlist is updated',
-    EMPTY: 'You don`t have any items in your Wishlist'
+    EMPTY: 'Your Wishlist is Empty'
   },
   cartMessages: {
     CREATED: 'Shopping cart created for you',
     UPDATED: 'Your shopping cart updated successfully',
     ERROR: 'Shopping cart error happened. Try again, please',
     IN_CART: 'This item is in your cart already',
-    EMPTY: 'You don`t have any items in your Shopping Cart'
+    EMPTY: 'Your Shopping Cart is Empty'
   },
   compareMessages: {
     EMPTY: 'You don`t have any items in Compare List'
