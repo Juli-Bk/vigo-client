@@ -7,7 +7,6 @@ const globalConfig = {
     landline: ['0203 980 1479', '0203 478 1296'],
     cellphone: ['044-115-747-38', '044-170-029-32'],
     email: ['vigo.shop.official@gmail.com'],
-    // todo завести такой скайп
     skype: ['Vigo_shop_contact']
   },
   deliveryOptions: {

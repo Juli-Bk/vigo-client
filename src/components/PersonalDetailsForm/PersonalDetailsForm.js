@@ -56,7 +56,6 @@ const PersonalDetailsForm = (props) => {
       AjaxUtils.Subscribers.subscribe(values.email)
         .then(result => {
           console.log(result);
-          // todo nice popup : You are subscribed
         });
     }
   };

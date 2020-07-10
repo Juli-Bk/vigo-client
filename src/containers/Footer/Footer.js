@@ -59,6 +59,4 @@ const Footer = () => {
   );
 };
 
-// todo Links in Footer
-
 export default React.memo(Footer);

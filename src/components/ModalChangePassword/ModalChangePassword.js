@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useState } from 'react';
 import DialogContent from '@material-ui/core/DialogContent';
 import Dialog from '@material-ui/core/Dialog';
 import theme from '../../styles/formStyle/formStyleTheme';
@@ -10,18 +10,18 @@ import IconLabel from '../IconLabel/IconLabel';
 import {Formik} from 'formik';
 import useStyles from '../../styles/formStyle/formStyle';
 import * as Yup from 'yup';
-import {setNewPassModalOpen} from '../../redux/actions/actions';
+import {setNewPassModalOpenState} from '../../redux/actions/actions';
 import EnhancedEncryptionRoundedIcon from '@material-ui/icons/EnhancedEncryptionRounded';
 import LockIcon from '@material-ui/core/SvgIcon/SvgIcon';
 
 const ModalChangePassword = (props) => {
   const styles = useStyles();
-  const {open, setOpen, saveNewPassword} = props;
-
+  const {saveNewPassword, open, setOpen} = props;
   const handleClose = useCallback(() => {
     setOpen(false);
   }, [setOpen]);
-  const buttonText = 'Choose new password';
+  const buttonText = 'Change my password';
+
   const saveNewPass = useCallback((values, {resetForm, setSubmitting}) => {
     const password = values.password;
 
@@ -29,6 +29,8 @@ const ModalChangePassword = (props) => {
       if (result && result.status !== 400) {
         resetForm();
       }
+      saveNewPassword(result);
+      console.log(saveNewPassword);
       setSubmitting(false);
       setOpen(false);
     });
@@ -44,12 +46,16 @@ const ModalChangePassword = (props) => {
       .min(8, 'Password is too short - should be 8 chars minimum'),
     confirmPassword: Yup.string()
       .required('Confirm your new password')
-      .oneOf([Yup.ref('password')], 'Password does not match')
+      .oneOf([Yup.ref('newPassword')], 'Password does not match')
   });
+
+  const handleOpen = useCallback(() => {
+    setOpen(true);
+  }, [setOpen]);
 
   return (
     <ThemeProvider theme={theme}>
-      <Button className={styles.button} >
+      <Button className={styles.button} onClick={handleOpen}>
         {buttonText}
       </Button>
       <Dialog
@@ -62,10 +68,10 @@ const ModalChangePassword = (props) => {
       >
         <DialogContent className={styles.modalWindow}>
           <Typography className={styles.text} variant='caption' gutterBottom>
-            Create a new strong password that you don't use for other websites
+              Create a new strong password that you don't use for other websites
           </Typography>
           <Formik
-            initialValues={{password: ''}}
+            initialValues={{ password: '' }}
             validationSchema={validateObject}
             onSubmit={saveNewPass}>
             {({
@@ -127,7 +133,7 @@ const ModalChangePassword = (props) => {
                     onClick={handleClose}
                     size='large'
                     variant='outlined'>
-                    cancel
+                      cancel
                   </Button>
                   <Button
                     type='submit'
@@ -136,7 +142,7 @@ const ModalChangePassword = (props) => {
                     disabled={isSubmitting}
                     size='large'
                     variant='outlined'>
-                    Change my password
+                      Change my password
                   </Button>
                 </CardActions>
               </form>
@@ -156,7 +162,7 @@ const mapStoreToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setOpen: isOpen => dispatch(setNewPassModalOpen(isOpen))
+    setOpen: isOpen => dispatch(setNewPassModalOpenState(isOpen))
   };
 };
 
