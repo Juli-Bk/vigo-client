@@ -5,7 +5,7 @@ import { capitalize } from '../../../helpers/helpers';
 export const getAddress = (deliveryAddress, classes) => {
   if (typeof deliveryAddress === 'string') {
     return deliveryAddress;
-  } else {
+  } else if (typeof deliveryAddress === 'object') {
     return <>
       <span className={classes.text} style={{display: 'block'}}>
         <span className={classes.title}>City: </span>
@@ -14,6 +14,8 @@ export const getAddress = (deliveryAddress, classes) => {
         <span className={classes.title}>Nova Poshta Office: </span>
         {deliveryAddress.office} </span>
     </>;
+  } else {
+    return <></>;
   }
 };
 

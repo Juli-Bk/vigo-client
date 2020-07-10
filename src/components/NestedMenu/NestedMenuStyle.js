@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => {
       minHeight: '48px'
     },
     menuLinksBox: {
-      padding: 10,
+      padding: '10px 0 10px 16px',
       display: 'flex',
       flexDirection: 'column'
     },
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => {
       lineHeight: '0.7rem',
       fontSize: '0.6rem',
       fontWeight: '300',
-      fontFamily: fonts.f2
+      fontFamily: fonts.f3
     },
     popper: {
       zIndex: 10000000,
@@ -60,7 +60,7 @@ const useStyles = makeStyles((theme) => {
       position: 'relative'
     },
     topMenuItemsPanel: {
-      padding: '0 16px'
+      padding: 0
     }
   };
 });

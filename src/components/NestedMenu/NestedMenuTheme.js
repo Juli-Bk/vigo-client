@@ -45,7 +45,7 @@ const theme = createMuiTheme({
         lineHeight: '1rem',
         fontSize: '1rem',
         fontWeight: '300',
-        fontFamily: fonts.f2
+        fontFamily: fonts.f3
       },
       fullWidth: {
         flexGrow: 'initial'
