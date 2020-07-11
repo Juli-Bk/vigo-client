@@ -1,7 +1,6 @@
 import React, {useMemo} from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import {withRouter} from 'react-router';
 import TreeView from '@material-ui/lab/TreeView';
 import useStyles from './FiltersTreeStyle';
 import StyledTreeItem from '../StyledTreeItem/StyledTreeItem';
@@ -63,8 +62,7 @@ const FiltersTree = (props) => {
 };
 
 FiltersTree.propTypes = {
-  categories: PropTypes.array.isRequired,
-  history: PropTypes.object.isRequired
+  categories: PropTypes.array.isRequired
 };
 
 const mapStoreToProps = store => {
@@ -73,4 +71,4 @@ const mapStoreToProps = store => {
   };
 };
 
-export default connect(mapStoreToProps)(React.memo(withRouter(FiltersTree)));
+export default connect(mapStoreToProps)(React.memo(FiltersTree));
