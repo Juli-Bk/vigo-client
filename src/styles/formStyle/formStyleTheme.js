@@ -33,8 +33,7 @@ const theme = createMuiTheme({
     },
     MuiCardActions: {
       root: {
-        padding: '10px 0',
-        marginTop: 200
+        padding: '10px 0'
       }
     },
     MuiFormHelperText: {
