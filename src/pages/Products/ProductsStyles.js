@@ -58,7 +58,8 @@ const useStyles = makeStyles(theme => ({
       justifyContent: 'center'
     },
     [theme.breakpoints.up(724)]: {
-      margin: '10px 0'
+      margin: '10px 0',
+      maxWidth: 'fit-content'
     }
   },
   viewBox: {
@@ -66,7 +67,6 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     justifyContent: 'center',
     [theme.breakpoints.up(724)]: {
-      // marginBottom: 0,
       justifyContent: 'flex-start',
       margin: '10px 0'
     }
