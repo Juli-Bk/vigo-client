@@ -15,7 +15,6 @@ import Grid from '@material-ui/core/Grid';
 import OrdersList from './OrdersList/OrdersList';
 import ChangePasswordForm from '../ChangePasswordForm/ChangePasswordForm';
 import { connect } from 'react-redux';
-import { setNewPassModalOpenState } from '../../redux/actions/actions';
 
 const TabPanel = (props) => {
   const {user, setOpen, children, value, adrList, index, ...other} = props;
@@ -125,10 +124,4 @@ const mapStoreToProps = store => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setOpen: isOpen => dispatch(setNewPassModalOpenState(isOpen))
-  };
-};
-
-export default React.memo(connect(mapStoreToProps, mapDispatchToProps)(UserTabs));
+export default React.memo(connect(mapStoreToProps)(UserTabs));

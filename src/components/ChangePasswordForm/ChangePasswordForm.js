@@ -8,14 +8,15 @@ import IconLabel from '../IconLabel/IconLabel';
 import {Formik} from 'formik';
 import useStyles from '../../styles/formStyle/formStyle';
 import * as Yup from 'yup';
-import {setNewPassModalOpenState} from '../../redux/actions/actions';
 import EnhancedEncryptionRoundedIcon from '@material-ui/icons/EnhancedEncryptionRounded';
 import LockIcon from '@material-ui/icons/Lock';
 import { saveNewPassword } from '../../redux/actions/user';
+import {setSnackMessage} from '../../redux/actions/actions';
+import globalConfig from '../../globalConfig';
 
 const ChangePasswordForm = (props) => {
   const styles = useStyles();
-  const {saveNewPassword, user} = props;
+  const {saveNewPassword, user, setSnackMessage} = props;
 
   const handleCancel = () => {
     saveNewPassHandler(null);
@@ -31,11 +32,14 @@ const ChangePasswordForm = (props) => {
 
     saveNewPassword(user._id, data, (result) => {
       if (result && result.status !== 400) {
+        setSnackMessage(true, 'Error occurred while changing password', 'error');
         resetForm();
+      } else {
+        setSnackMessage(true, 'Your password is changed', globalConfig.snackSeverity.ERROR);
       }
       setSubmitting(false);
     });
-  }, [saveNewPassword, user._id]);
+  }, [saveNewPassword, setSnackMessage, user._id]);
 
   const validateObject = Yup.object({
     password: Yup.string()
@@ -164,8 +168,8 @@ const mapStoreToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setOpen: isOpen => dispatch(setNewPassModalOpenState(isOpen)),
-    saveNewPassword: (userId, data) => dispatch(saveNewPassword(userId, data))
+    saveNewPassword: (userId, data) => dispatch(saveNewPassword(userId, data)),
+    setSnackMessage: (isOpen, message, severity) => dispatch(setSnackMessage(isOpen, message, severity))
   };
 };
 
