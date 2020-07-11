@@ -64,7 +64,7 @@ const useStyles = makeStyles(theme => ({
       fontSize: '.8em'
     },
     [theme.breakpoints.between('md', 1025)]: {
-      padding: '.45em .2em',
+      padding: '.3em .1em',
       fontSize: '.7em'
     },
     [theme.breakpoints.up(1025)]: {
