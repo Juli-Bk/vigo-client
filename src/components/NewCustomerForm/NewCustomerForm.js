@@ -60,13 +60,14 @@ const NewCustomerForm = (props) => {
                     <FormControlLabel value='asGuest'
                       name='radioGroup' id='radioOption1'
                       color='default' control={<Radio />}
-                      label='Checkout as a guest' />
+                      label='Checkout as a guest'
+                    />
 
                     <FormControlLabel value='iWillRegister'
                       name='radioGroup' id='radioOption2'
                       color='default' control={<Radio />}
-                      label='Login/Register' />
-
+                      label='Login/Register'
+                    />
                   </RadioGroup>
                   <FormHelperText>{errors.radioGroup}</FormHelperText>
                   <Typography className={styles.text} variant='subtitle1' gutterBottom>By creating an account with our store,

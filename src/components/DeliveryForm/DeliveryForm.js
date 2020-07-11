@@ -64,7 +64,7 @@ const DeliveryForm = (props) => {
 
 DeliveryForm.propTypes = {
   activeStep: PropTypes.number.isRequired,
-  guestData: PropTypes.object.isRequired,
+  guestData: PropTypes.any.isRequired,
   user: PropTypes.object.isRequired,
   setShipping: PropTypes.func.isRequired,
   setCompleted: PropTypes.func.isRequired
