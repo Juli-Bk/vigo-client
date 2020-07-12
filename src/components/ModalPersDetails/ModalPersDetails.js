@@ -28,11 +28,10 @@ const ModalPersDetails = (props) => {
   const guestInfo = guestData.deliveryAddress ? guestData : getStorageData('guestData');
 
   useEffect(() => {
-    if (!(isEmptyObj(user) && isEmptyObj(guestInfo))) {
+    if (!isEmptyObj(user) || !isEmptyObj(guestInfo)) {
       setCompleted(activeStep);
-    } else if (!canceled) {
-      setModalOpen(true);
     }
+    if (isEmptyObj(user) && isEmptyObj(guestInfo) && !canceled) setModalOpen(true);
   }, [activeStep, canceled, guestInfo, setCompleted, setModalOpen, user]);
 
   const handleClickOpen = () => {

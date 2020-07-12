@@ -74,7 +74,7 @@ DefineDelivery.propTypes = {
   setGuestData: PropTypes.func.isRequired,
   setUserDeliveryAddress: PropTypes.func.isRequired,
   user: PropTypes.object.isRequired,
-  guestData: PropTypes.object.isRequired,
+  guestData: PropTypes.any.isRequired,
   activeStep: PropTypes.number.isRequired
 };
 
