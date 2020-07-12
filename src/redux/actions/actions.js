@@ -41,7 +41,9 @@ export const setPersDetailsOpenState = (isOpen) => {
 export const setGuestData = (data) => {
   if (!data) {
     const storageData = getStorageData('guestData');
-    return {type: Actions.SET_GUEST_DATA, payload: storageData};
+    const data = Array.isArray(storageData) ? {} : storageData;
+    console.log('data from action', data);
+    return {type: Actions.SET_GUEST_DATA, payload: data};
   }
   setStorageData('guestData', data);
   return {type: Actions.SET_GUEST_DATA, payload: data};

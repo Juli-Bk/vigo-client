@@ -47,6 +47,8 @@ export const toggleWishItems = (productId) => dispatch => {
               severity: globalConfig.snackSeverity.ERROR
             });
           }
+        }).catch(err => {
+          console.log('change wishlist error happened', err);
         });
     }
   } else {
@@ -64,6 +66,8 @@ export const toggleWishItems = (productId) => dispatch => {
               severity: globalConfig.snackSeverity.ERROR
             });
           }
+        }).catch(err => {
+          console.log('change wishlist error happened', err);
         });
     }
   }

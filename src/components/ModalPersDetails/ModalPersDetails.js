@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -13,7 +14,7 @@ import {ThemeProvider} from '@material-ui/styles';
 import {setCompletedSteps, setGuestData, setPersDetailsOpenState} from '../../redux/actions/actions';
 import {connect} from 'react-redux';
 import PersonalDetailsGuestForm from '../PersonalDetailsForm/PersonalDetailsGuestForm';
-import {getStorageData, isEmptyObj, setStorageData} from '../../helpers/helpers';
+import { getGuestInfo, isEmptyObj, setStorageData } from '../../helpers/helpers';
 
 const ModalPersDetails = (props) => {
   const {
@@ -25,7 +26,7 @@ const ModalPersDetails = (props) => {
   const [message, setMessage] = useState('');
   const [isMessageHidden, setIsMessageHidden] = useState(false);
   const [canceled, setCanceled] = useState(false);
-  const guestInfo = guestData.deliveryAddress ? guestData : getStorageData('guestData');
+  const guestInfo = getGuestInfo(guestData);
 
   useEffect(() => {
     if (!isEmptyObj(user) || !isEmptyObj(guestInfo)) {
@@ -124,6 +125,16 @@ const ModalPersDetails = (props) => {
       </Box>
     </ThemeProvider>
   );
+};
+
+ModalPersDetails.propTypes = {
+  isModalOpen: PropTypes.bool.isRequired,
+  user: PropTypes.object.isRequired,
+  guestData: PropTypes.any.isRequired,
+  activeStep: PropTypes.number.isRequired,
+  setModalOpen: PropTypes.func.isRequired,
+  setGuestData: PropTypes.func.isRequired,
+  setCompleted: PropTypes.func.isRequired
 };
 
 const mapStateToProps = store => {

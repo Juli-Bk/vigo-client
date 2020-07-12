@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Grid, Typography } from '@material-ui/core';
 import { getChosenProductData, getItemStockData } from '../../pages/ShoppingCart/cartHelpers';
-import {getStorageData, isEmptyObj} from '../../helpers/helpers';
+import { getGuestInfo, isEmptyObj } from '../../helpers/helpers';
 import globalConfig from '../../globalConfig';
 
 export const getProductData = (products, shoppingCart, productsQuantity) => {
@@ -43,7 +43,7 @@ export const renderNovaPoshtaData = (client, classes) => {
 };
 
 export const setOrder = (user, guestData, totalSum, orderDetails, shoppingCart, callback) => {
-  const guestInfo = guestData || getStorageData('guestData');
+  const guestInfo = getGuestInfo(guestData);
   const total = totalSum || JSON.parse(localStorage.getItem('totalSum'));
   let orderData;
   let userId = null;
