@@ -49,7 +49,7 @@ const OrderListDesktop = (props) => {
                     {getAddress(order.deliveryAddress, classes)}</Typography> : null
                 }
               </TableCell>
-              <TableCell component='th' scope='row' className={classes.rightCell}>
+              <TableCell component='th' scope='row' className={classes.cell}>
                 <Typography className={classes.text}>
                   <span className={classes.title}>Total: </span>
                   ${order.totalSum}</Typography>

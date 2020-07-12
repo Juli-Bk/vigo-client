@@ -9,6 +9,7 @@ import {
 } from '../../../ajax/common/helper';
 import Actions from '../../constants/constants';
 import {setLoading, setSnackMessage} from '../actions';
+import { setStorageData } from '../../../helpers/helpers';
 
 export const setJWTtoken = (token) => {
   return {
@@ -208,6 +209,7 @@ export const clear = () => {
     dispatch(setUserIsLoggedIn(false));
     deleteJWTcookie();
     deleteUserIdCookie();
+    setStorageData('user', {});
   };
 };
 
