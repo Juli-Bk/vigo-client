@@ -44,12 +44,8 @@ const theme = createMuiTheme({
         textTransform: 'capitalize',
         lineHeight: '1rem',
         fontSize: '1rem',
-<<<<<<< Updated upstream
         fontWeight: '300',
-        fontFamily: fonts.f2
-=======
-        fontWeight: '600',
-        fontFamily: fonts.f3,
+        fontFamily: fonts.f2,
         color: colors.fontSixth,
         '&:hover': {
           color: colors.borderDark
@@ -57,7 +53,6 @@ const theme = createMuiTheme({
         '@media (max-width: 900px)': {
           fontSize: '0.8rem'
         }
->>>>>>> Stashed changes
       },
       fullWidth: {
         flexGrow: 'initial'
