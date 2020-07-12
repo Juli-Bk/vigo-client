@@ -6,13 +6,16 @@ const useStyles = makeStyles(theme => ({
   generalTable: {
     display: 'flex',
     width: 1230,
-    margin: 'auto'
+    margin: 'auto',
+    [theme.breakpoints.down(415)]: {
+      width: 1060
+    }
   },
   compareTable: {
     maxWidth: 1000,
     display: 'flex',
     overflowX: 'scroll',
-    margin: 'auto'
+    margin: '0 auto'
   },
   headers: {
     position: 'sticky',
@@ -22,28 +25,26 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 600,
     fontFamily: fonts.f3,
     display: 'inline-grid',
-    textAlign: 'right'
+    width: 55,
+    textAlign: 'right',
+    [theme.breakpoints.down(538)]: {
+      margin: 0
+    },
+    [theme.breakpoints.down(415)]: {
+      width: 1,
+      margin: 0,
+      fontWeight: 500,
+      marginRight: '-150px',
+      display: 'none'
+    }
   },
   tableRowCompare: {
     display: 'inline-grid'
   },
-  tableHead: {
-    padding: '0 1rem',
-    textTransform: 'uppercase',
-    color: colors.borderDark,
-    fontWeight: 600,
-    fontFamily: fonts.f3,
-    '&:last-child': {
-      borderRight: 'none'
-    },
-    [theme.breakpoints.up('sm')]: {
-      padding: '.5rem 1rem'
-    }
-  },
   img: {
     position: 'relative',
-    height: 235,
     width: 225,
+    height: 230,
     margin: '0 auto',
     [theme.breakpoints.up(500)]: {
       width: 160,
@@ -52,7 +53,7 @@ const useStyles = makeStyles(theme => ({
       marginBottom: 0
     },
     [theme.breakpoints.up(724)]: {
-      height: 220,
+      height: 200,
       cursor: 'pointer',
       marginBottom: 0
     },
@@ -95,35 +96,68 @@ const useStyles = makeStyles(theme => ({
     color: colors.fontThird,
     textDecoration: 'none',
     cursor: 'pointer',
-    fontSize: '1rem'
+    fontSize: '1.05rem',
+    [theme.breakpoints.up(500)]: {
+      alignItems: 'flex-start'
+    },
+    [theme.breakpoints.down(500)]: {
+      fontSize: '1rem'
+    }
   },
   details: {
     textTransform: 'uppercase',
     fontSize: '.65rem',
-    margin: '0 15px',
+    margin: '0 5px',
     minHeight: 125,
-    width: 300
+    width: 300,
+    [theme.breakpoints.down(724)]: {
+      width: 230
+    }
   },
   cell: {
     fontSize: '1rem',
-    marginTop: 15,
-    minHeight: 40
+    marginTop: 10,
+    minHeight: 40,
+    fontFamily: fonts.f3,
+    [theme.breakpoints.down(724)]: {
+      marginTop: 0
+    }
   },
   cellUp: {
     fontSize: '1rem',
-    marginTop: 15,
+    marginTop: 10,
     minHeight: 40,
-    textTransform: 'uppercase'
+    textTransform: 'uppercase',
+    fontFamily: fonts.f3,
+    [theme.breakpoints.down(724)]: {
+    }
   },
   smallcell: {
     fontSize: '1rem',
-    width: 170,
+    width: 120,
     marginTop: 10,
-    minHeight: 20
+    minHeight: 20,
+    [theme.breakpoints.down(724)]: {
+      fontSize: '0.8rem',
+      width: 90
+    },
+    [theme.breakpoints.down(568)]: {
+      minHeight: 25
+    }
   },
   bigCell: {
-    width: 170,
-    minHeight: 125
+    width: 120,
+    minHeight: 130,
+    [theme.breakpoints.down(724)]: {
+      fontSize: '0.8rem',
+      minHeight: 155,
+      width: 90
+    },
+    [theme.breakpoints.down(400)]: {
+      fontSize: '0.8rem',
+      minHeight: 157,
+      width: 90
+    }
   },
   codeId: {
     fontSize: '.7rem',
@@ -134,18 +168,12 @@ const useStyles = makeStyles(theme => ({
   },
   closeIcon: {
     marginTop: 15,
-    border: `2px solid ${colors.fontOncard}`,
+    border: '2px solid transparent',
     fill: `2px solid ${colors.borderDark}`,
     '&:hover': {
       borderRadius: 6,
       border: `2px solid ${colors.borderDark}`,
       cursor: 'pointer'
-    },
-    [theme.breakpoints.down(550)]: {
-      position: 'absolute',
-      top: '5px',
-      right: '1rem',
-      fontSize: '2rem'
     }
   },
   salePrice: {

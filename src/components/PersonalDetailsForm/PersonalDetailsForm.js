@@ -56,7 +56,6 @@ const PersonalDetailsForm = (props) => {
       AjaxUtils.Subscribers.subscribe(values.email)
         .then(result => {
           console.log(result);
-          // todo nice popup : You are subscribed
         });
     }
   };
@@ -66,8 +65,6 @@ const PersonalDetailsForm = (props) => {
     lastName: user ? lastName : '',
     phoneNumber: user ? phoneNumber : '',
     email: user ? email : '',
-    password: '',
-    confirmPassword: '',
     confirmation: false,
     subscribe: false,
     saveMyData: true
@@ -195,7 +192,6 @@ const PersonalDetailsForm = (props) => {
             </form>
           )}
         </Formik>
-
       </Grid>
     </Grid>
   );

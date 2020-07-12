@@ -107,7 +107,6 @@ export default {
   addNewProduct: (formData) => {
     if (!formData) throw new TypeError('empty form data');
 
-    // todo test with form data... see postman docs for example
     const requestOptions = {
       headers: getAuthHeader(),
       body: formData,

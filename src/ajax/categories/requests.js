@@ -49,8 +49,6 @@ export default {
    */
   addCategory: (formData) => {
     if (!formData) throw new TypeError('empty form data');
-
-    // todo test with form data... see postman docs for example
     // IMPORTANT!!! category can have an image to represent yourself
     // because of multer npm package bug, put the file into the end of form data
     const requestOptions = {

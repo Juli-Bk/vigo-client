@@ -45,7 +45,7 @@ const CompareListDesktopView = (props) => {
                       className={classes.nameCompare}>{capitalize(row.name)}</Link>
                   </Grid>
                 </Grid>
-                <Box align='center' className={classes.cell}>{row.productCode}</Box>
+                <Box align='center' className={classes.cell}>Code {row.productCode}</Box>
                 <Box align='center' className={classes.cell}><SalePrice value={row.salePrice}/>
                 </Box>
                 <Box align='center' className={classes.cellUp}>{row.brand}</Box>
