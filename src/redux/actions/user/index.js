@@ -10,6 +10,7 @@ import {
 import Actions from '../../constants/constants';
 import {setLoading, setSnackMessage} from '../actions';
 import { setStorageData } from '../../../helpers/helpers';
+import globalConfig from '../../../globalConfig';
 
 export const setJWTtoken = (token) => {
   return {
@@ -319,6 +320,12 @@ export const setUserNovaPoshtaData = (data) => {
 export const saveNewPassword = (userId, data) => dispatch => {
   AjaxUtils.Users.updatePassword(userId, data)
     .then(result => {
-      console.log(result);
+      if (result && result.status === 400) {
+        dispatch(setSnackMessage(true, 'Error occurred while changing password', 'error'));
+      } else {
+        dispatch(setSnackMessage(true, 'Your password is changed', globalConfig.snackSeverity.SUCCESS));
+      }
+    }).catch(err => {
+      console.log('update password error happened', err);
     });
 };

@@ -11,12 +11,10 @@ import * as Yup from 'yup';
 import EnhancedEncryptionRoundedIcon from '@material-ui/icons/EnhancedEncryptionRounded';
 import LockIcon from '@material-ui/icons/Lock';
 import { saveNewPassword } from '../../redux/actions/user';
-import {setSnackMessage} from '../../redux/actions/actions';
-import globalConfig from '../../globalConfig';
 
 const ChangePasswordForm = (props) => {
   const styles = useStyles();
-  const {saveNewPassword, user, setSnackMessage} = props;
+  const {saveNewPassword, user} = props;
 
   const handleCancel = () => {
     saveNewPassHandler(null);
@@ -30,16 +28,10 @@ const ChangePasswordForm = (props) => {
       newPassword: values.newPassword
     };
 
-    saveNewPassword(user._id, data, (result) => {
-      if (result && result.status !== 400) {
-        setSnackMessage(true, 'Error occurred while changing password', 'error');
-        resetForm();
-      } else {
-        setSnackMessage(true, 'Your password is changed', globalConfig.snackSeverity.SUCCESS);
-      }
-      setSubmitting(false);
-    });
-  }, [saveNewPassword, setSnackMessage, user._id]);
+    saveNewPassword(user._id, data);
+    resetForm();
+    setSubmitting(false);
+  }, [saveNewPassword, user._id]);
 
   const validateObject = Yup.object({
     password: Yup.string()
@@ -168,8 +160,7 @@ const mapStoreToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    saveNewPassword: (userId, data) => dispatch(saveNewPassword(userId, data)),
-    setSnackMessage: (isOpen, message, severity) => dispatch(setSnackMessage(isOpen, message, severity))
+    saveNewPassword: (userId, data) => dispatch(saveNewPassword(userId, data))
   };
 };
 
