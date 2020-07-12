@@ -19,6 +19,9 @@ export const getUserShopCart = () => {
           if (result && result.status !== 400) {
             integrateCarts(result.products || []);
             dispatch(changeShoppingCart());
+          } else {
+            setStorageData('shoppingCart', []);
+            dispatch(changeShoppingCart());
           }
         })
         .catch((error) => {
@@ -49,6 +52,8 @@ export const handleCart = (products) => dispatch => {
                   severity: globalConfig.snackSeverity.ERROR
                 });
                 console.log(result.message);
+                setStorageData('shoppingCart', []);
+                dispatch(changeShoppingCart());
               } else {
                 if (result && result._id) {
                   setStorageData('cartId', result._id);
@@ -101,6 +106,10 @@ export const handleCart = (products) => dispatch => {
             severity: globalConfig.snackSeverity.ERROR
           });
           console.log(result.message);
+          if (result.message.includes('products')) {
+            setStorageData('shoppingCart', []);
+            dispatch(changeShoppingCart());
+          }
         }
       }).catch(err => {
         dispatch({
@@ -121,6 +130,8 @@ export const handleCart = (products) => dispatch => {
             message: globalConfig.cartMessages.ERROR,
             severity: globalConfig.snackSeverity.ERROR
           });
+          setStorageData('shoppingCart', []);
+          dispatch(changeShoppingCart());
           console.log(result.message);
         } else {
           if (result && result.cart) {

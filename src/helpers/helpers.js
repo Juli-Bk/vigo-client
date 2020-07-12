@@ -268,3 +268,13 @@ export const filterWishList = (productsInOrder) => {
   });
   setStorageData('wishList', updatedWishList);
 };
+
+export const getGuestInfo = (guestData) => {
+  if (guestData.deliveryAddress) {
+    return guestData;
+  } else {
+    const data = getStorageData('guestData');
+    if (Array.isArray(data)) return {};
+    return data;
+  }
+};
