@@ -21,8 +21,8 @@ const TopSlider = () => {
     return (
       <Box>
         <Box className={classes.overlay}>
-          <Typography variant='h2' className={classes.title}>{title}</Typography>
-          <Typography variant='subtitle1' className={classes.text}>{text}</Typography>
+          <Typography className={classes.title}>{title}</Typography>
+          <Typography className={classes.text}>{text}</Typography>
           <ThemeProvider theme={theme}>
             <Link to='/products/filter?new=true'>
               <Button className={classes.button}>{buttonText}</Button>
