@@ -44,13 +44,15 @@ const theme = createMuiTheme({
         textTransform: 'uppercase',
         lineHeight: '1rem',
         fontSize: '1rem',
-        fontWeight: '600',
-        fontFamily: fonts.f3,
+        fontWeight: '300',
+        fontFamily: fonts.f2,
         color: colors.fontSixth,
         '&:hover': {
           color: colors.borderDark
+        },
+        '@media (max-width: 950px)': {
+          fontSize: '0.8rem'
         }
-
       },
       fullWidth: {
         flexGrow: 'initial'

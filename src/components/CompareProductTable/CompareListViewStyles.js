@@ -9,6 +9,9 @@ const useStyles = makeStyles(theme => ({
     margin: 'auto',
     [theme.breakpoints.down(415)]: {
       width: 1060
+    },
+    [theme.breakpoints.down(370)]: {
+      width: 980
     }
   },
   compareTable: {
@@ -34,8 +37,14 @@ const useStyles = makeStyles(theme => ({
       width: 1,
       margin: 0,
       fontWeight: 500,
-      marginRight: '-150px',
+      marginRight: '-150px'
+    },
+    [theme.breakpoints.down(361)]: {
+      width: 0,
       display: 'none'
+    },
+    [theme.breakpoints.down(350)]: {
+      width: 0
     }
   },
   tableRowCompare: {
@@ -53,7 +62,7 @@ const useStyles = makeStyles(theme => ({
       marginBottom: 0
     },
     [theme.breakpoints.up(724)]: {
-      height: 200,
+      height: 220,
       cursor: 'pointer',
       marginBottom: 0
     },
@@ -116,21 +125,16 @@ const useStyles = makeStyles(theme => ({
   },
   cell: {
     fontSize: '1rem',
-    marginTop: 10,
+    marginTop: 15,
     minHeight: 40,
-    fontFamily: fonts.f3,
-    [theme.breakpoints.down(724)]: {
-      marginTop: 0
-    }
+    fontFamily: fonts.f3
   },
   cellUp: {
     fontSize: '1rem',
     marginTop: 10,
     minHeight: 40,
-    textTransform: 'uppercase',
     fontFamily: fonts.f3,
-    [theme.breakpoints.down(724)]: {
-    }
+    textTransform: 'uppercase'
   },
   smallcell: {
     fontSize: '1rem',
