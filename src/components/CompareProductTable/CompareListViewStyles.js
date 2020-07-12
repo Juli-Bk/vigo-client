@@ -126,12 +126,14 @@ const useStyles = makeStyles(theme => ({
   cell: {
     fontSize: '1rem',
     marginTop: 15,
-    minHeight: 40
+    minHeight: 40,
+    fontFamily: fonts.f3
   },
   cellUp: {
     fontSize: '1rem',
     marginTop: 10,
     minHeight: 40,
+    fontFamily: fonts.f3,
     textTransform: 'uppercase'
   },
   smallcell: {
