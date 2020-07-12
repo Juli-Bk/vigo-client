@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import {withRouter} from 'react-router';
 import {connect} from 'react-redux';
 import queryString from 'query-string';
-import {ThemeProvider} from '@material-ui/core';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
+import { FormControlLabel, Checkbox, Box, ThemeProvider } from '@material-ui/core';
 import { getAllColors } from '../../../redux/actions/colors';
 import theme from './FilterColorsTheme';
 import useStyles from './FilterColorsStyles';
@@ -57,7 +55,7 @@ const FilterColors = (props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      {allColors && allColors.length && createCheckboxes(allColors)}
+      {allColors && allColors.length ? createCheckboxes(allColors) : <Box/>}
     </ThemeProvider>
   );
 };
