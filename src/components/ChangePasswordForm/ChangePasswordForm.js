@@ -35,7 +35,7 @@ const ChangePasswordForm = (props) => {
         setSnackMessage(true, 'Error occurred while changing password', 'error');
         resetForm();
       } else {
-        setSnackMessage(true, 'Your password is changed', globalConfig.snackSeverity.ERROR);
+        setSnackMessage(true, 'Your password is changed', globalConfig.snackSeverity.SUCCESS);
       }
       setSubmitting(false);
     });
@@ -50,7 +50,7 @@ const ChangePasswordForm = (props) => {
       .required('Enter new password')
       .min(8, 'Password is too short - should be 8 chars minimum'),
     confirmPassword: Yup.string()
-      .required('Confirm your new password')
+      .required('Confirm new password')
       .oneOf([Yup.ref('newPassword')], 'Password does not match')
   });
 

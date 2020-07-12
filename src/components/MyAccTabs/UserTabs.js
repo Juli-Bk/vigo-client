@@ -17,7 +17,7 @@ import ChangePasswordForm from '../ChangePasswordForm/ChangePasswordForm';
 import { connect } from 'react-redux';
 
 const TabPanel = (props) => {
-  const {user, setOpen, children, value, adrList, index, ...other} = props;
+  const {user, children, value, adrList, index, ...other} = props;
 
   return (
     <Box
