@@ -9,8 +9,8 @@ import {
 } from '../../../ajax/common/helper';
 import Actions from '../../constants/constants';
 import {setLoading, setSnackMessage} from '../actions';
-import {setStorageData} from '../../../helpers/helpers';
 import globalConfig from '../../../globalConfig';
+import { setStorageData } from '../../../helpers/helpers';
 
 export const setJWTtoken = (token) => {
   return {

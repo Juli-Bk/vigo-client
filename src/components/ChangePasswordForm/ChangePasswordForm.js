@@ -135,7 +135,7 @@ const ChangePasswordForm = (props) => {
                     disabled={isSubmitting}
                     size='large'
                     variant='outlined'>
-                    Change password
+                    Save
                   </Button>
                 </CardActions>
               </form>
