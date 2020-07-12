@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import {ThemeProvider, useTheme} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -8,11 +8,13 @@ import themeMui from './MyAccTabsTheme';
 import PersonalDetailsForm from '../PersonalDetailsForm/PersonalDetailsForm';
 import AddressForm from '../AddressForm/AddressForm';
 import Wishlist from '../../pages/Wishlist/Wishlist';
-import {useMediaQuery} from '@material-ui/core';
+import { useMediaQuery } from '@material-ui/core';
 import useStyles from '../../containers/Header/headerStyle';
 import AddressRadioGroup from '../DefineDelivery/AddressRadioGroup';
 import Grid from '@material-ui/core/Grid';
 import OrdersList from './OrdersList/OrdersList';
+import ChangePasswordForm from '../ChangePasswordForm/ChangePasswordForm';
+import { connect } from 'react-redux';
 
 const TabPanel = (props) => {
   const {user, children, value, adrList, index, ...other} = props;
@@ -75,11 +77,21 @@ const UserTabs = (props) => {
       </AppBar>
 
       <TabPanel value={value} index={0} dir={theme.direction}>
-        {
-          user._id
-            ? <PersonalDetailsForm submitPersonalDetailsHandler={() => {
-              handleChange(null, value);
-            }}/> : null}
+
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6}>
+            { user._id
+              ? <PersonalDetailsForm submitPersonalDetailsHandler={() => {
+                handleChange(null, value);
+              }}/> : null}
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            { user._id
+              ? <ChangePasswordForm submitChangePasswordHandler={() => {
+                handleChange(null, value);
+              }}/> : null}
+          </Grid>
+        </Grid>
       </TabPanel>
 
       <TabPanel value={value} index={1} dir={theme.direction}>
@@ -106,4 +118,10 @@ const UserTabs = (props) => {
   );
 };
 
-export default React.memo(UserTabs);
+const mapStoreToProps = store => {
+  return {
+    password: store.password
+  };
+};
+
+export default React.memo(connect(mapStoreToProps)(UserTabs));

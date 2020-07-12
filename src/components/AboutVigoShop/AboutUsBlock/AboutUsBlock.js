@@ -15,23 +15,21 @@ function AboutUsBlock (props) {
   const styles = useStyles();
 
   return (
-    <div>
-      <Grid className={styles.aboutUsBlock} container item xs={12}>
-        <Box className={styles.div}>
-          <Box className={styles.innerDiv}>
-            <Typography className={styles.title} variant='h2'>{title}</Typography>
-          </Box>
+    <Grid className={styles.aboutUsBlock} container item xs={12}>
+      <Box className={styles.div}>
+        <Box className={styles.innerDiv}>
+          <Typography className={styles.title} variant='h2'>{title}</Typography>
         </Box>
-        <Grid container spacing={2}>
-          <Grid className={styles.gridItem} item xs={12} lg={5} md={6}>
-            <TextWithTitleAndLink title='our history' text={text} link='/about' linkText='read more &gt;'/>
-          </Grid>
-          <Grid className={styles.gridItem} item xs={12} lg={7} md={6}>
-            <AboutUsSlider/>
-          </Grid>
+      </Box>
+      <Grid container spacing={2}>
+        <Grid className={styles.gridItem} item xs={12} lg={5} md={6}>
+          <TextWithTitleAndLink title='our history' text={text} link='/about' linkText='read more &gt;'/>
+        </Grid>
+        <Grid className={styles.gridItem} item xs={12} lg={7} md={6}>
+          <AboutUsSlider/>
         </Grid>
       </Grid>
-    </div>
+    </Grid>
   );
 }
 

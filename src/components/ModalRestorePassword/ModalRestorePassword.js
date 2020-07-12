@@ -29,6 +29,7 @@ const ModalRestorePassword = (props) => {
       if (result && result.status !== 400) {
         resetForm();
       }
+
       setSubmitting(false);
       setOpen(false);
       history.push('/');

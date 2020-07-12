@@ -6,7 +6,7 @@ const useStyles = makeStyles(theme => (
   {
     div: {
       width: '100%',
-      marginBottom: '1.56rem',
+      marginBottom: '1.2rem',
       borderBottom: `.125rem solid ${colors.thinLine}`
     },
     innerDiv: {
@@ -20,6 +20,7 @@ const useStyles = makeStyles(theme => (
     },
     title: {
       display: 'inline',
+      marginBottom: 0,
       color: colors.fontPrimary,
       fontSize: '1.38rem',
       fontFamily: fonts.f3,
@@ -32,7 +33,7 @@ const useStyles = makeStyles(theme => (
     },
     '@media (min-width: 992px)': {
       title: {
-        fontSize: '1.63 rem'
+        fontSize: '1.63rem'
       },
       gridItem: {
         marginBottom: 0
