@@ -27,10 +27,12 @@ const useStyles = makeStyles(theme => ({
     width: 20,
     height: 35,
     padding: 0,
-    marginRight: 10,
     color: colors.fontOncard,
     '&:hover': {
       color: fade(colors.fontHover, 0.9)
+    },
+    [theme.breakpoints.up(350)]: {
+      marginRight: 10
     }
   }
 }));

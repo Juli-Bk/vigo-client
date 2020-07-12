@@ -41,12 +41,7 @@ export default {
    * @returns {Promise<any | void>} returns Promise. Use then method on it to get response result
    */
   getUser: () => {
-    const requestOptions = {
-      headers: getAuthHeader(),
-      ...methods.GET
-    };
-
-    return fetch(pathTo.customer, requestOptions)
+    return fetch(pathTo.customer, methods.GET)
       .then(async (response) => {
         const respData = await response.json();
         return {
@@ -124,12 +119,14 @@ export default {
     checkId(id);
     if (!formData) throw new TypeError('empty form data');
 
+    const data = JSON.stringify({
+      ...formData,
+      id
+    });
+
     const requestOptions = {
       headers: getAuthHeader(),
-      body: {
-        ...formData,
-        id
-      },
+      body: data,
       ...methods.POST
     };
 
@@ -204,7 +201,7 @@ export default {
    * performs token refresh if needed cookie exists
    * @returns {Promise<Response | void>} returns Promise. Use then method on it to get response result
    */
-  refreshLogin: () => {
+  refreshLogin: async () => {
     return fetch(pathTo.loginRefresh, methods.POST)
       .then(async (response) => {
         const respData = await response.json();
@@ -213,7 +210,7 @@ export default {
           statusText: response.statusText
         }, respData);
       })
-      .catch(error => console.log('refreshLogin error', error.message));
+      .catch(() => console.log('refresh token is expired, please log in again'));
   },
   /**
    * Performs logout on server. Deletes both tokens from httpOnly cookie

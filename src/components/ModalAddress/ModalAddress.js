@@ -13,7 +13,7 @@ import { connect} from 'react-redux';
 import { Typography } from '@material-ui/core';
 import useCommonStyles from '../../styles/formStyle/formStyle';
 import AddressGuestForm from '../../components/AddressForm/AddressGuestForm';
-import { getStorageData, setStorageData } from '../../helpers/helpers';
+import { getGuestInfo, getStorageData, setStorageData } from '../../helpers/helpers';
 
 const ModalAddress = (props) => {
   const {
@@ -26,8 +26,7 @@ const ModalAddress = (props) => {
   const [message, setMessage] = useState('');
   const [isMessageHidden, setIsMessageHidden] = useState(false);
 
-  const guestInfo = useMemo(() => guestData.deliveryAddress
-    ? guestData : getStorageData('guestData'), [guestData]);
+  const guestInfo = getGuestInfo(guestData);
 
   const handleClickOpen = useCallback(() => {
     setModalOpen(true);

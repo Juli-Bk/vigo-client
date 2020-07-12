@@ -41,7 +41,7 @@ const theme = createMuiTheme({
       },
       wrapper: {
         alignItems: 'flex-start',
-        textTransform: 'capitalize',
+        textTransform: 'uppercase',
         lineHeight: '1rem',
         fontSize: '1rem',
         fontWeight: '300',

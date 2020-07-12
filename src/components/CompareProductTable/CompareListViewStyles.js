@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 1000,
     display: 'flex',
     overflowX: 'scroll',
-    margin: 'auto'
+    margin: '0 auto'
   },
   headers: {
     position: 'sticky',
@@ -52,8 +52,8 @@ const useStyles = makeStyles(theme => ({
   },
   img: {
     position: 'relative',
-    height: 235,
     width: 225,
+    height: 230,
     margin: '0 auto',
     [theme.breakpoints.up(500)]: {
       width: 160,
@@ -105,32 +105,34 @@ const useStyles = makeStyles(theme => ({
     color: colors.fontThird,
     textDecoration: 'none',
     cursor: 'pointer',
-    fontSize: '1rem'
+    fontSize: '1.05rem',
+    [theme.breakpoints.up(500)]: {
+      alignItems: 'flex-start'
+    },
+    [theme.breakpoints.down(500)]: {
+      fontSize: '1rem'
+    }
   },
   details: {
     textTransform: 'uppercase',
     fontSize: '.65rem',
     margin: '0 5px',
     minHeight: 125,
-    width: 300
+    width: 300,
+    [theme.breakpoints.down(724)]: {
+      width: 230
+    }
   },
   cell: {
     fontSize: '1rem',
-    marginTop: 10,
-    minHeight: 40,
-    [theme.breakpoints.down(724)]: {
-      // fontSize: '0.8rem',
-      marginTop: 0
-    }
+    marginTop: 15,
+    minHeight: 40
   },
   cellUp: {
     fontSize: '1rem',
     marginTop: 10,
     minHeight: 40,
-    textTransform: 'uppercase',
-    [theme.breakpoints.down(724)]: {
-      // fontSize: '0.8rem'
-    }
+    textTransform: 'uppercase'
   },
   smallcell: {
     fontSize: '1rem',
@@ -140,14 +142,22 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.down(724)]: {
       fontSize: '0.8rem',
       width: 90
+    },
+    [theme.breakpoints.down(568)]: {
+      minHeight: 25
     }
   },
   bigCell: {
     width: 120,
-    minHeight: 125,
+    minHeight: 130,
     [theme.breakpoints.down(724)]: {
       fontSize: '0.8rem',
-      minHeight: 98,
+      minHeight: 155,
+      width: 90
+    },
+    [theme.breakpoints.down(400)]: {
+      fontSize: '0.8rem',
+      minHeight: 157,
       width: 90
     }
   },
@@ -160,18 +170,12 @@ const useStyles = makeStyles(theme => ({
   },
   closeIcon: {
     marginTop: 15,
-    border: `2px solid ${colors.fontOncard}`,
+    border: '2px solid transparent',
     fill: `2px solid ${colors.borderDark}`,
     '&:hover': {
       borderRadius: 6,
       border: `2px solid ${colors.borderDark}`,
       cursor: 'pointer'
-    },
-    [theme.breakpoints.down(550)]: {
-      position: 'absolute',
-      top: '5px',
-      right: '1rem',
-      fontSize: '2rem'
     }
   },
   salePrice: {

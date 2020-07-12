@@ -13,12 +13,11 @@ import useStyles from '../../containers/Header/headerStyle';
 import AddressRadioGroup from '../DefineDelivery/AddressRadioGroup';
 import Grid from '@material-ui/core/Grid';
 import OrdersList from './OrdersList/OrdersList';
-import ModalChangePassword from '../ModalChangePassword/ModalChangePassword';
+import ChangePasswordForm from '../ChangePasswordForm/ChangePasswordForm';
 import { connect } from 'react-redux';
-import { setNewPassModalOpenState } from '../../redux/actions/actions';
 
 const TabPanel = (props) => {
-  const {user, setOpen, children, value, adrList, index, setNewPassModalOpenState, ...other} = props;
+  const {user, children, value, adrList, index, ...other} = props;
 
   return (
     <Box
@@ -78,12 +77,21 @@ const UserTabs = (props) => {
       </AppBar>
 
       <TabPanel value={value} index={0} dir={theme.direction}>
-        {
-          user._id
-            ? <PersonalDetailsForm submitPersonalDetailsHandler={() => {
-              handleChange(null, value);
-            }}/> : null}
-        <ModalChangePassword />
+
+        <Grid container spacing={3}>
+          <Grid item xs={12} sm={6}>
+            { user._id
+              ? <PersonalDetailsForm submitPersonalDetailsHandler={() => {
+                handleChange(null, value);
+              }}/> : null}
+          </Grid>
+          <Grid item xs={12} sm={6}>
+            { user._id
+              ? <ChangePasswordForm submitChangePasswordHandler={() => {
+                handleChange(null, value);
+              }}/> : null}
+          </Grid>
+        </Grid>
       </TabPanel>
 
       <TabPanel value={value} index={1} dir={theme.direction}>
@@ -116,10 +124,4 @@ const mapStoreToProps = store => {
   };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {
-    setOpen: isOpen => dispatch(setNewPassModalOpenState(isOpen))
-  };
-};
-
-export default React.memo(connect(mapStoreToProps, mapDispatchToProps)(UserTabs));
+export default React.memo(connect(mapStoreToProps)(UserTabs));

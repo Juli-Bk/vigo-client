@@ -9,6 +9,7 @@ import {
 } from '../../../ajax/common/helper';
 import Actions from '../../constants/constants';
 import {setLoading, setSnackMessage} from '../actions';
+import globalConfig from '../../../globalConfig';
 import { setStorageData } from '../../../helpers/helpers';
 
 export const setJWTtoken = (token) => {
@@ -89,9 +90,9 @@ export const loginUser = (email, password, callback) => {
             putUserIdToCookie(result);
             dispatch(setUser(result.user));
           }
+          callback && callback(result);
           dispatch(setUserIsLoggedIn(true));
         }
-        callback(result);
       })
       .catch(() => {
         dispatch(clear());
@@ -108,11 +109,18 @@ export const getUserData = () => {
           if (result) {
             dispatch(setUser(result.user));
             dispatch(setUserIsLoggedIn(true));
+            if (result.token) {
+              putUserIdToCookie(result);
+              const {token} = result.token;
+              putJWTtoCookie(token);
+              dispatch(setJWTtoken(token.token));
+            }
           } else {
             dispatch(setUser({}));
           }
         })
-        .catch(() => {
+        .catch((e) => {
+          console.log('getUserdata error => clear data', e);
           dispatch(clear());
         });
     };
@@ -133,17 +141,10 @@ export const getUserData = () => {
 
 export const refreshToken = (callback) => {
   return (dispatch) => {
-    const refToken = doesHttpOnlyCookieExist('refreshToken');
-
-    // do not delete, if refToken is empty next request falls
-    if (!refToken) {
-      return;
-    }
-
     AjaxUtils.Users.refreshLogin()
       .then(newToken => {
         if (newToken) {
-          putJWTtoCookie(newToken);
+          putJWTtoCookie(newToken.token);
           dispatch(setJWTtoken(newToken.token));
         } else {
           dispatch(clear());
@@ -154,19 +155,6 @@ export const refreshToken = (callback) => {
         dispatch(clear());
       });
   };
-};
-
-// huck check http only cookie exists
-const doesHttpOnlyCookieExist = (cookieName) => {
-  const date = new Date();
-  date.setTime(date.getTime() + (1000));
-  const expires = 'expires=' + date.toUTCString();
-
-  document.cookie = cookieName + '=new_value;path=/;' + expires;
-  const isExist = document.cookie.indexOf(cookieName + '=') === -1;
-
-  // todo clear 'new_value' if error with old cookie occurs
-  return isExist;
 };
 
 export const saveUserData = (data, callback) => {
@@ -314,4 +302,17 @@ export const setUserNovaPoshtaData = (data) => {
     type: Actions.SET_USER_NOVA_POSHTA_DATA,
     payload: data
   };
+};
+
+export const saveNewPassword = (userId, data) => dispatch => {
+  AjaxUtils.Users.updatePassword(userId, data)
+    .then(result => {
+      if (result && result.status === 400) {
+        dispatch(setSnackMessage(true, 'Error occurred while changing password', 'error'));
+      } else {
+        dispatch(setSnackMessage(true, 'Your password is changed', globalConfig.snackSeverity.SUCCESS));
+      }
+    }).catch(err => {
+      console.log('update password error happened', err);
+    });
 };
