@@ -7,7 +7,8 @@ const theme = createMuiTheme({
       body1: {
         fontFamily: fonts.f1,
         textAlign: 'center',
-        fontSize: '2rem',
+        fontSize: '1.9rem',
+        width: 'max-content',
         textTransform: 'uppercase',
         '@media (max-width: 500px)': {
           fontSize: '1rem'

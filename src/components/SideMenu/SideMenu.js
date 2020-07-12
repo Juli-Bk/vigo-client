@@ -68,7 +68,7 @@ const SideMenu = (props) => {
         onKeyDown={toggleDrawer(anchor, false)}>
         {links}
       </Box>
-      <Grid className={styles.bannersCover} container spacing={4}>
+      <Grid className={styles.bannersCover} container>
         <Grid className={styles.fullSize} xs={12} sm={12} item>
           <Banner title='Show me all'
             alert={false}

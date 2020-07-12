@@ -79,19 +79,12 @@ ActionButtons.propTypes = {
   width: PropTypes.string,
   disabledSpacing: PropTypes.bool,
   isProductPage: PropTypes.bool,
-  token: PropTypes.string,
   changeWishList: PropTypes.func.isRequired,
   changeShoppingCart: PropTypes.func.isRequired,
   changeCompareList: PropTypes.func.isRequired,
   toggleModalSize: PropTypes.func.isRequired,
   sizeId: PropTypes.string,
   colorId: PropTypes.string
-};
-
-const mapStateToProps = store => {
-  return {
-    token: store.token
-  };
 };
 
 const mapDispatchToProps = dispatch => {
@@ -107,4 +100,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(React.memo(ActionButtons));
+export default connect(null, mapDispatchToProps)(React.memo(ActionButtons));

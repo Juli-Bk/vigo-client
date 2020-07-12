@@ -29,7 +29,6 @@ import {getStorageData, isEmptyObj, setStorageData} from '../../helpers/helpers'
 
 import {LiqPayPay} from 'react-liqpay';
 import keysConfig from '../../keysConfig';
-import EmptyState from '../EmptyState/EmptyState';
 
 const steps = ['Personal data', 'Delivery', 'Payment', 'Order'];
 
@@ -68,10 +67,10 @@ const CheckoutStepper = (props) => {
     if (values.radioGroup === 'iWillRegister') {
       setLoginModalOpenState(true);
     }
-    if (values.radioGroup === 'asGuest' && !guestInfo) {
+    if (values.radioGroup === 'asGuest' && isEmptyObj(guestInfo)) {
       setPersDetailsOpenState(true);
     }
-    if (guestInfo && !Array.isArray(guestInfo)) {
+    if (!isEmptyObj(guestInfo) && !Array.isArray(guestInfo)) {
       setCompleted(activeStep);
     }
     setGuest({radioGroup: values.radioGroup});
@@ -154,43 +153,40 @@ const CheckoutStepper = (props) => {
   return (
     <ThemeProvider theme={theme}>
       <Box className={classes.root}>
-        {totalSum
-          ? <>
-            <Stepper activeStep={activeStep} alternativeLabel>
-              {steps.map((label) => (
-                <Step key={label}>
-                  <StepLabel>{label}</StepLabel>
-                </Step>
-              ))}
-            </Stepper>
+        <Stepper activeStep={activeStep} alternativeLabel>
+          {steps.map((label) => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+        <Box>
+          <Container>
             <Box>
-              <Container>
-                <Box>
-                  <Typography component='span' className={classes.instructions}>
-                    {getStepContent(activeStep)}
-                  </Typography>
-                  <Box className={classes.buttonContainer}>
-                    <Button
-                      disabled={activeStep === 0}
-                      onClick={handleBack}
-                      className={activeStep === 0 ? classes.disabled : commonClasses.button}
-                    >
-                      <NavigateBeforeIcon/>
-                    </Button>
-                    <Button
-                      disabled={!completed.includes(activeStep)}
-                      className={!completed.includes(activeStep)
-                        ? classes.disabled : commonClasses.button}
-                      onClick={handleNext}>
-                      {activeStep === steps.length - 1 ? 'Confirm' : <NavigateNextIcon/>}
-                    </Button>
-                  </Box>
+              <Typography component='span' className={classes.instructions}>
+                <Box style={{minHeight: '40vh'}}>
+                  {getStepContent(activeStep)}
                 </Box>
-              </Container>
+              </Typography>
+              <Box className={classes.buttonContainer}>
+                <Button
+                  disabled={activeStep === 0}
+                  onClick={handleBack}
+                  className={activeStep === 0 ? classes.disabled : commonClasses.button}
+                >
+                  <NavigateBeforeIcon/>
+                </Button>
+                <Button
+                  disabled={!completed.includes(activeStep)}
+                  className={!completed.includes(activeStep)
+                    ? classes.disabled : commonClasses.button}
+                  onClick={handleNext}>
+                  {activeStep === steps.length - 1 ? 'Confirm' : <NavigateNextIcon/>}
+                </Button>
+              </Box>
             </Box>
-          </>
-          : <EmptyState text='You don`t have any items to checkout. ' linkText='Let`s fix it'/>
-        }
+          </Container>
+        </Box>
       </Box>
     </ThemeProvider>
   );
