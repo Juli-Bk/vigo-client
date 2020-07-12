@@ -42,7 +42,6 @@ export const setGuestData = (data) => {
   if (!data) {
     const storageData = getStorageData('guestData');
     const data = Array.isArray(storageData) ? {} : storageData;
-    console.log('data from action', data);
     return {type: Actions.SET_GUEST_DATA, payload: data};
   }
   setStorageData('guestData', data);
