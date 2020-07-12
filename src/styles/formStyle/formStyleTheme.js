@@ -168,7 +168,6 @@ const theme = createMuiTheme({
     PrivateRadioButtonIcon: {
       root: {
         position: 'absolute',
-        // paddingRight: 20,
         marginRight: 20,
         color: colors.fontFourth,
         '@media  (max-width: 734px)': {
