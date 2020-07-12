@@ -86,17 +86,6 @@ describe('all userRequests methods return Promise', () => {
 });
 
 describe('userRequests methods throws errors ', () => {
-  describe('getUser ', () => {
-    it('throws an error when token is not specified', () => {
-      Cookie.remove('token');
-      function testCheck () {
-        userRequests.getUser();
-      }
-
-      expect(testCheck).toThrowError(Error);
-    });
-  });
-
   describe('deleteUserById ', () => {
     it('throws an error when token is not specified', () => {
       Cookie.remove('token');
