@@ -7,9 +7,14 @@ const useStyles = makeStyles(theme => (
     modalWindow: {
       width: 500,
       overflow: 'hidden',
-      [theme.breakpoints.between(0, 600)]: {
+      [theme.breakpoints.between(375, 600)]: {
         width: '100%',
         maxWidth: 500,
+        padding: 0
+      },
+      [theme.breakpoints.between(0, 599)]: {
+        width: '95%',
+        margin: 'auto',
         padding: 0
       }
     },
@@ -55,7 +60,10 @@ const useStyles = makeStyles(theme => (
       fontWeight: 700,
       border: `.125rem solid ${colors.fontSecondary}`,
       fontFamily: fonts.f2,
-      textTransform: 'uppercase'
+      textTransform: 'uppercase',
+      [theme.breakpoints.down(599)]: {
+        marginTop: 5
+      }
     },
     buttonOk: {
       marginTop: '1.25rem',
