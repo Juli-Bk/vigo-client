@@ -94,10 +94,7 @@ export const setActiveStep = (step) => {
 export const changeCompareList = (productId) => {
   if (!productId) {
     const compareList = getStorageData('compareList');
-
-    if (compareList.length) {
-      return {type: Actions.CHANGE_COMPARE_LIST, payload: compareList};
-    } else { return {type: Actions.CHANGE_COMPARE_LIST, payload: []}; }
+    return {type: Actions.CHANGE_COMPARE_LIST, payload: compareList};
   } else {
     const compareList = getStorageData('compareList');
     let updatedList;

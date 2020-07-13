@@ -7,6 +7,7 @@ import { getProductsId } from './cartHelpers';
 import ShopCartView from '../../components/ShopCartView/ShopCartView';
 import EmptyState from '../../components/EmptyState/EmptyState';
 import {getProductsByFilters} from '../../redux/actions/products';
+import { changeShoppingCart } from '../../redux/actions/shopCart';
 
 const ShoppingCart = (props) => {
   const {shoppingCart, products, getProductsByFilters} = props;
@@ -53,7 +54,8 @@ const mapDispatchToProps = dispatch => {
   return {
     getProductsByFilters: (filters, startPage, perPage, sort) => {
       dispatch(getProductsByFilters(filters, startPage, perPage, sort));
-    }
+    },
+    changeShoppingCart: () => dispatch(changeShoppingCart())
   };
 };
 
