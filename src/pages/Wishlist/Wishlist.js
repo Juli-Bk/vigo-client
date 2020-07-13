@@ -17,7 +17,7 @@ const Wishlist = (props) => {
     let isCanceled = false;
     if (!isCanceled) {
       const filterArray = (wishList.length && [{_id: wishList}]) || [];
-      getProductsByFilters(filterArray, 1, 8, '');
+      getProductsByFilters(filterArray, 1, globalConfig.wishlistLength, '');
     }
     return () => {
       isCanceled = true;
@@ -27,7 +27,7 @@ const Wishlist = (props) => {
   return (
     <Container disableGutters={isMyAccount}>
       <Grid container>
-        {wishList.length && products.data
+        {wishList.length && products.data && products.data.length
           ? <WishListView products={products.data} isMobile={isMobile}/>
           : <EmptyState text={globalConfig.wishListMessages.EMPTY} linkText='Let`s fix it'/>}
       </Grid>

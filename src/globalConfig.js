@@ -56,13 +56,13 @@ const globalConfig = {
   },
   SortOptionToQuery: {
     'New In': '-date',
-    'Price Low To High': 'price',
-    'Price High To Low': '-price'
+    'Price Low To High': 'salePrice',
+    'Price High To Low': '-salePrice'
   },
   QueryToSortOption: {
     '-date': 'New In',
-    price: 'Price Low To High',
-    '-price': 'Price High To Low'
+    salePrice: 'Price Low To High',
+    '-salePrice': 'Price High To Low'
   },
   step: 15,
   defaultQuantity: 1,
@@ -90,7 +90,7 @@ const globalConfig = {
   topSliderData: {
     title: 'what\'s new',
     text: 'Showcasing what the world\'s most stylish people are buying right now',
-    buttonText: 'Take look'
+    buttonText: 'Take a look'
   },
   topSliderImages: [
     {
@@ -125,7 +125,8 @@ const globalConfig = {
   },
   defaultShipping: 0,
   defaultTax: 0,
-  defaultCurrency: 'USD'
+  defaultCurrency: 'USD',
+  wishlistLength: 15
 };
 
 export default globalConfig;

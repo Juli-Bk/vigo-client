@@ -103,6 +103,12 @@ const theme = createMuiTheme({
         '&:hover': {
           border: 'none'
         }
+      },
+      outlinedSizeLarge: {
+        '@media  (max-width: 599px)': {
+          fontSize: 12,
+          padding: '5px 10px'
+        }
       }
     },
     MuiFormControlLabel: {
@@ -168,7 +174,6 @@ const theme = createMuiTheme({
     PrivateRadioButtonIcon: {
       root: {
         position: 'absolute',
-        // paddingRight: 20,
         marginRight: 20,
         color: colors.fontFourth,
         '@media  (max-width: 734px)': {

@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
     outline: 'none'
   },
   searchIcon: {
-    width: 35,
+    width: 20,
     height: 35,
     padding: 0,
     color: colors.fontOncard,

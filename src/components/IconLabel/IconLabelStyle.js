@@ -9,7 +9,10 @@ const useStyles = makeStyles(theme => (
 
     icon: {
       paddingRight: 15,
-      fontSize: 20
+      fontSize: 14,
+      [theme.breakpoints.up('sm')]: {
+        fontSize: 17
+      }
     },
     label: {
       fontSize: 10,
