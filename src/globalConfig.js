@@ -90,7 +90,7 @@ const globalConfig = {
   topSliderData: {
     title: 'what\'s new',
     text: 'Showcasing what the world\'s most stylish people are buying right now',
-    buttonText: 'Take look'
+    buttonText: 'Take a look'
   },
   topSliderImages: [
     {

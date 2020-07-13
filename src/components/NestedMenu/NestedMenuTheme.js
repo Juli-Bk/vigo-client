@@ -53,6 +53,7 @@ const theme = createMuiTheme({
         '@media (max-width: 950px)': {
           fontSize: '0.8rem'
         }
+
       },
       fullWidth: {
         flexGrow: 'initial'
