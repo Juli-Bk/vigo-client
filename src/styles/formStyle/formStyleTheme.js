@@ -76,7 +76,7 @@ const theme = createMuiTheme({
         }
       },
       input: {
-        '@media  (max-width: 538px)': {
+        '@media  (max-width: 400px)': {
           fontSize: 'small'
         }
       }
@@ -87,12 +87,9 @@ const theme = createMuiTheme({
           color: colors.noticeColor,
           borderColor: colors.noticeColor
         },
-        fontSize: 11,
-        '@media  (min-width: 320px)': {
-          fontSize: 9
-        },
-        '@media  (max-width: 375px)': {
-          fontSize: 5
+        fontSize: 12,
+        '@media  (max-width: 340px)': {
+          fontSize: 11.5
         }
       }
     },
