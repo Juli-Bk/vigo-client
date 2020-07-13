@@ -13,12 +13,12 @@ export const getProductsByFilters = (filterArray, startPage, perPage, sort) => d
     AjaxUtils.Products.getProductsByFilters(filterArray, startPage, perPage, sort)
       .then(result => {
         if (result && result.message) {
-          console.log(result);
           if (result.message.includes('_id')) {
             const badId = findBadId(result.message);
             removeBadIdFromStorage(badId);
             dispatch(changeWishList());
             dispatch(changeShoppingCart());
+            dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
           }
         } else if (result && result.products) {
           dispatch({
