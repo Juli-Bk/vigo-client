@@ -7,9 +7,9 @@ const useStyles = makeStyles(theme => (
     modalWindow: {
       width: 500,
       overflow: 'hidden',
-      [theme.breakpoints.between(0, 600)]: {
-        width: '100%',
-        maxWidth: 500,
+      [theme.breakpoints.between(0, 599)]: {
+        width: '95%',
+        margin: 'auto',
         padding: 0
       }
     },

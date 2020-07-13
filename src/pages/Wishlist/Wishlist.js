@@ -17,7 +17,7 @@ const Wishlist = (props) => {
     let isCanceled = false;
     if (!isCanceled) {
       const filterArray = (wishList.length && [{_id: wishList}]) || [];
-      getProductsByFilters(filterArray, 1, 15, '');
+      getProductsByFilters(filterArray, 1, globalConfig.wishlistLength, '');
     }
     return () => {
       isCanceled = true;

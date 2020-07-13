@@ -103,6 +103,12 @@ const theme = createMuiTheme({
         '&:hover': {
           border: 'none'
         }
+      },
+      outlinedSizeLarge: {
+        '@media  (max-width: 599px)': {
+          fontSize: 12,
+          padding: '5px 10px'
+        }
       }
     },
     MuiFormControlLabel: {
