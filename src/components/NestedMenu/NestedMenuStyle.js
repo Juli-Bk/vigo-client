@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => {
       minHeight: '48px'
     },
     menuLinksBox: {
-      padding: '10px 0 10px 16px',
+      padding: '10px 0 10px 20px',
       display: 'flex',
       flexDirection: 'column'
     },

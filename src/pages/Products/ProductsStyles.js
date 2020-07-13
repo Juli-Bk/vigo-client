@@ -19,7 +19,6 @@ const useStyles = makeStyles(theme => ({
     minWidth: 'fit-content',
     [theme.breakpoints.up(360)]: {
       minWidth: 'unset',
-      maxWidth: 180,
       justifyContent: 'flex-end'
     },
     [theme.breakpoints.up(724)]: {
