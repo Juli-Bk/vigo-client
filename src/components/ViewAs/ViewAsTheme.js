@@ -16,7 +16,6 @@ const theme = createMuiTheme({
     },
     MuiToggleButtonGroup: {
       root: {
-        width: 61,
         display: 'flex',
         justifyContent: 'space-between',
         minWidth: 'fit-content'

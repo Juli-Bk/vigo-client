@@ -50,9 +50,10 @@ const theme = createMuiTheme({
         '&:hover': {
           color: colors.borderDark
         },
-        '@media (max-width: 900px)': {
+        '@media (max-width: 950px)': {
           fontSize: '0.8rem'
         }
+
       },
       fullWidth: {
         flexGrow: 'initial'
