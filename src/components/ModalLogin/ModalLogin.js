@@ -111,6 +111,7 @@ const ModalLogin = (props) => {
           </IconButton>
           <ThemeProvider theme={theme}>
             <Dialog
+              scroll='body'
               open={open}
               onClose={() => {
                 handleClose(false);
