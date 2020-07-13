@@ -137,9 +137,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: 10,
     minHeight: 40,
     textTransform: 'uppercase',
-    fontFamily: fonts.f3,
-    [theme.breakpoints.down(724)]: {
-    }
+    fontFamily: fonts.f3
   },
   smallcell: {
     fontSize: '1rem',
