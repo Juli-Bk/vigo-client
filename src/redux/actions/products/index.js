@@ -13,6 +13,7 @@ export const getProductsByFilters = (filterArray, startPage, perPage, sort) => d
     AjaxUtils.Products.getProductsByFilters(filterArray, startPage, perPage, sort)
       .then(result => {
         if (result && result.message) {
+          console.log(result);
           if (result.message.includes('_id')) {
             const badId = findBadId(result.message);
             removeBadIdFromStorage(badId);
@@ -136,7 +137,7 @@ export const getRecentlyViewed = (productId) => dispatch => {
             const message = result.message;
             let wrongId = '';
             if (message.includes('_id')) {
-              wrongId = message.split('invalid filter _id: "')[1].split('"')[0];
+              wrongId = findBadId(message);
             }
             setStorageData('recentlyViewed', [...dataFromStorage.filter(item => item !== wrongId)]);
             getProducts();

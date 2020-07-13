@@ -280,7 +280,7 @@ export const getGuestInfo = (guestData) => {
 };
 
 export const findBadId = (message) => {
-  return message.split('/')[1].split('/')[0];
+  return message.split('invalid filter _id: "')[1].split('"')[0];
 };
 
 export const removeBadIdFromStorage = (badId) => {
