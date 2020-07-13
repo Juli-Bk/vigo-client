@@ -125,7 +125,8 @@ const globalConfig = {
   },
   defaultShipping: 0,
   defaultTax: 0,
-  defaultCurrency: 'USD'
+  defaultCurrency: 'USD',
+  wishlistLength: 15
 };
 
 export default globalConfig;

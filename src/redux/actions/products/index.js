@@ -110,45 +110,42 @@ export const getBestsellers = (perPage) => dispatch => {
 };
 
 export const getRecentlyViewed = (productId) => dispatch => {
-  const getProducts = () => {
-    const dataFromStorage = getStorageData('recentlyViewed');
-    const filterArray = dataFromStorage.length ? [{_id: dataFromStorage}] : [];
-    if (filterArray.length) {
-      dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
-      AjaxUtils.Products.getProductsByFilters(filterArray, 1, 8, '')
-        .then(result => {
-          if ((result.products && result.products.length) < dataFromStorage.length) {
+  const dataFromStorage = getStorageData('recentlyViewed');
+  const filterArray = dataFromStorage.length ? [{_id: dataFromStorage}] : [];
+  if (filterArray.length) {
+    dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
+    AjaxUtils.Products.getProductsByFilters(filterArray, 1, 8, '')
+      .then(result => {
+        if ((result.products && result.products.length) < dataFromStorage.length) {
+          dispatch({
+            type: Actions.GET_RECENTLY_VIEWED,
+            payload: []
+          });
+          setStorageData('recentlyViewed', [productId]);
+          return;
+        }
+        if (!result.message) {
+          const data = changeOrder(dataFromStorage.filter(item => item !== productId), result.products);
+          if (data.length) {
             dispatch({
               type: Actions.GET_RECENTLY_VIEWED,
-              payload: []
+              payload: data
             });
-            setStorageData('recentlyViewed', [productId]);
-            return;
           }
-          if (!result.message) {
-            const data = changeOrder(dataFromStorage.filter(item => item !== productId), result.products);
-            if (data.length) {
-              dispatch({
-                type: Actions.GET_RECENTLY_VIEWED,
-                payload: data
-              });
-            }
-          } else {
-            const message = result.message;
-            let wrongId = '';
-            if (message.includes('_id')) {
-              wrongId = findBadId(message);
-            }
-            setStorageData('recentlyViewed', [...dataFromStorage.filter(item => item !== wrongId)]);
-            getProducts();
+        } else {
+          const message = result.message;
+          let wrongId = '';
+          if (message.includes('_id')) {
+            wrongId = findBadId(message);
           }
-        }).catch(err => {
-          console.log('get recently viewed products request failed', err);
-        });
-      dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
-    }
-  };
-  getProducts();
+          setStorageData('recentlyViewed', [...dataFromStorage.filter(item => item !== wrongId)]);
+          getRecentlyViewed(productId);
+        }
+      }).catch(err => {
+        console.log('get recently viewed products request failed', err);
+      });
+    dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
+  }
 };
 
 export const searchProducts = (searchString) => dispatch => {
