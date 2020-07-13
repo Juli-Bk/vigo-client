@@ -23,7 +23,7 @@ function AboutUsBlock (props) {
       </Box>
       <Grid container spacing={2}>
         <Grid className={styles.gridItem} item xs={12} lg={5} md={6}>
-          <TextWithTitleAndLink title='our history' text={text} link='/about' linkText='read more &gt;'/>
+          <TextWithTitleAndLink title='our history' text={text} />
         </Grid>
         <Grid className={styles.gridItem} item xs={12} lg={7} md={6}>
           <AboutUsSlider/>
