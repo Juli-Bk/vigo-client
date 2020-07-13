@@ -17,6 +17,11 @@ export const theme = createMuiTheme({
       root: {
         overflowX: 'hidden'
       }
+    },
+    MuiTypography: {
+      root: {
+        textAlign: 'center'
+      }
     }
   }
 });
