@@ -60,10 +60,7 @@ const useStyles = makeStyles(theme => (
       fontWeight: 700,
       border: `.125rem solid ${colors.fontSecondary}`,
       fontFamily: fonts.f2,
-      textTransform: 'uppercase',
-      [theme.breakpoints.down(599)]: {
-        marginTop: 5
-      }
+      textTransform: 'uppercase'
     },
     buttonOk: {
       marginTop: '1.25rem',
