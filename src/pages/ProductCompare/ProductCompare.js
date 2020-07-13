@@ -4,6 +4,7 @@ import CompareProductTable from '../../components/CompareProductTable/ComparePro
 import { getProductsByFilters } from '../../redux/actions/products';
 import { useMediaQuery } from '@material-ui/core';
 import { isIdInArray, setStorageData } from '../../helpers/helpers';
+import { changeCompareList } from '../../redux/actions/actions';
 
 const ProductCompare = (props) => {
   const {getProductsByFilters, compareList, products} = props;
@@ -20,6 +21,7 @@ const ProductCompare = (props) => {
       if (filterArray.length) getProductsByFilters(filterArray, 1, 15, '');
       if (!rightId) {
         setStorageData('compareList', []);
+        changeCompareList();
         getProductsByFilters(filterArray, 1, 15, '');
       }
     }
