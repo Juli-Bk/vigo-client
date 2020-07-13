@@ -1,13 +1,25 @@
 import Actions from '../../constants/constants';
 import AjaxUtils from '../../../ajax';
-import { changeOrder, getStorageData, setStorageData } from '../../../helpers/helpers';
+import {
+  changeOrder, getStorageData, setStorageData,
+  findBadId, removeBadIdFromStorage
+} from '../../../helpers/helpers';
+import {changeWishList} from '../wishlist';
+import { changeShoppingCart } from '../shopCart';
 
 export const getProductsByFilters = (filterArray, startPage, perPage, sort) => dispatch => {
   if (filterArray && filterArray.length) {
     dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
     AjaxUtils.Products.getProductsByFilters(filterArray, startPage, perPage, sort)
       .then(result => {
-        if (result) {
+        if (result && result.message) {
+          if (result.message.includes('_id')) {
+            const badId = findBadId(result.message);
+            removeBadIdFromStorage(badId);
+            dispatch(changeWishList());
+            dispatch(changeShoppingCart());
+          }
+        } else if (result && result.products) {
           dispatch({
             type: Actions.GET_PRODUCTS_BY_FILTERS,
             products: result.products,

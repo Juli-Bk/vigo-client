@@ -8,26 +8,36 @@ import EmptyState from '../../components/EmptyState/EmptyState';
 import globalConfig from '../../globalConfig';
 import { changeWishList } from '../../redux/actions/wishlist';
 import { getProductsByFilters } from '../../redux/actions/products';
+import { isIdInArray, setStorageData } from '../../helpers/helpers';
 
 const Wishlist = (props) => {
   const {wishList, getProductsByFilters, products, isMyAccount} = props;
   const isMobile = useMediaQuery('(max-width: 724px)');
+  let rightId = true;
+  if (wishList.length === 1) {
+    rightId = isIdInArray(products.data, wishList[0]);
+  }
 
   useEffect(() => {
     let isCanceled = false;
     if (!isCanceled) {
       const filterArray = (wishList.length && [{_id: wishList}]) || [];
-      getProductsByFilters(filterArray, 1, 8, '');
+      getProductsByFilters(filterArray, 1, 15, '');
+      if (!rightId) {
+        setStorageData('wishList', []);
+        changeWishList();
+        getProductsByFilters(filterArray, 1, 15, '');
+      }
     }
     return () => {
       isCanceled = true;
     };
-  }, [wishList, getProductsByFilters]);
+  }, [wishList, getProductsByFilters, rightId]);
 
   return (
     <Container disableGutters={isMyAccount}>
       <Grid container>
-        {wishList.length && products.data
+        {wishList.length && products.data && products.data.length
           ? <WishListView products={products.data} isMobile={isMobile}/>
           : <EmptyState text={globalConfig.wishListMessages.EMPTY} linkText='Let`s fix it'/>}
       </Grid>

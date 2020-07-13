@@ -278,3 +278,44 @@ export const getGuestInfo = (guestData) => {
     return data;
   }
 };
+
+export const findBadId = (message) => {
+  return message.split('/')[1].split('/')[0];
+};
+
+export const removeBadIdFromStorage = (badId) => {
+  const shopCart = getStorageData('shoppingCart');
+  const updatedWishList = removeIdFromArray(badId, getStorageData('wishList'));
+  const updatedRecentlyViewed = removeIdFromArray(badId, getStorageData('recentlyViewed'));
+  const updatedCompareList = removeIdFromArray(badId, getStorageData('compareList'));
+
+  setStorageData('wishList', updatedWishList);
+  setStorageData('recentlyViewed', updatedRecentlyViewed);
+  setStorageData('compareList', updatedCompareList);
+
+  const itemInCart = shopCart.find(item => item.productId === badId);
+  if (itemInCart) {
+    const updatedCart = shopCart.filter(item => item.productId !== badId);
+    setStorageData('shoppingCart', updatedCart);
+  }
+};
+
+const removeIdFromArray = (id, array) => {
+  let updatedArray;
+  if (array.includes(id)) {
+    updatedArray = array.filter(item => item !== id);
+  } else {
+    updatedArray = array;
+  }
+  return updatedArray;
+};
+
+export const isIdInArray = (products, id) => {
+  const idArray = [];
+  let flag;
+  products.forEach(item => {
+    idArray.push(item._id);
+  });
+  idArray.find(item => item === id) ? flag = true : flag = false;
+  return flag;
+};

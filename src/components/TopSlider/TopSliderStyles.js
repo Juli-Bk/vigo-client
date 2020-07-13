@@ -61,24 +61,24 @@ const useStyles = makeStyles(theme => ({
     width: 'fit-content',
     marginBottom: '1.4rem !important',
     color: colors.fontOncard,
-    fontSize: '1.5rem',
+    fontSize: '1.5rem !important',
     fontFamily: fonts.f1,
     textTransform: 'uppercase',
     [theme.breakpoints.up(420)]: {
       marginBottom: '1.6rem !important',
-      fontSize: '2rem'
+      fontSize: '2rem !important'
     },
     [theme.breakpoints.up(568)]: {
       marginBottom: '2.5rem !important',
-      fontSize: '3rem'
+      fontSize: '3rem !important'
     },
     [theme.breakpoints.up('md')]: {
       marginBottom: '3rem !important',
-      fontSize: '4rem'
+      fontSize: '4rem !important'
     },
     [theme.breakpoints.up('lg')]: {
       marginBottom: '4rem !important',
-      fontSize: '4.5rem'
+      fontSize: '4.5rem !important'
     },
 
     '&::after, &::before': {

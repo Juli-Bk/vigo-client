@@ -7,11 +7,17 @@ import { getProductsId } from './cartHelpers';
 import ShopCartView from '../../components/ShopCartView/ShopCartView';
 import EmptyState from '../../components/EmptyState/EmptyState';
 import {getProductsByFilters} from '../../redux/actions/products';
+import { isIdInArray, setStorageData } from '../../helpers/helpers';
+import { changeShoppingCart } from '../../redux/actions/shopCart';
 
 const ShoppingCart = (props) => {
   const {shoppingCart, products, getProductsByFilters} = props;
   const isMobile = useMediaQuery('(max-width: 724px)');
   const flag = useMemo(() => !!(shoppingCart.length && products.data && products.data.length), [products.data, shoppingCart.length]);
+  let rightId = true;
+  if (shoppingCart.length === 1) {
+    rightId = isIdInArray(products.data, shoppingCart[0]);
+  }
 
   useEffect(() => {
     let isCanceled = false;
@@ -19,11 +25,16 @@ const ShoppingCart = (props) => {
       const productsId = getProductsId(shoppingCart);
       const filterArray = (productsId.length && [{_id: productsId}]) || [];
       getProductsByFilters(filterArray, 1, 15, '');
+      if (!rightId) {
+        setStorageData('shoppingCart', []);
+        changeShoppingCart();
+        getProductsByFilters(filterArray, 1, 15, '');
+      }
     }
     return () => {
       isCanceled = true;
     };
-  }, [shoppingCart, getProductsByFilters]);
+  }, [shoppingCart, getProductsByFilters, rightId]);
 
   return (
     <Container>
@@ -53,7 +64,8 @@ const mapDispatchToProps = dispatch => {
   return {
     getProductsByFilters: (filters, startPage, perPage, sort) => {
       dispatch(getProductsByFilters(filters, startPage, perPage, sort));
-    }
+    },
+    changeShoppingCart: () => dispatch(changeShoppingCart())
   };
 };
 

@@ -63,8 +63,14 @@ const VerticalSubMenu = (props) => {
       >
         {links}
       </Tabs>
-      {subLinks}
-      {banners}
+      <Grid container>
+        <Grid item sm={3}>
+          {subLinks}
+        </Grid>
+        <Grid item sm={9}>
+          {banners}
+        </Grid>
+      </Grid>
     </Box>
   );
 };
