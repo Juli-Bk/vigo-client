@@ -78,6 +78,7 @@ const FilterSizes = (props) => {
       return <FormControlLabel
         key={name}
         label={name}
+        style={{textTransform: 'uppercase'}}
         checked={state[name]}
         control={<Checkbox
           onChange={handleChange}
@@ -85,7 +86,6 @@ const FilterSizes = (props) => {
           color='default'/>}/>;
     });
   };
-  // hack to avoid material-ui warning with empty ThemeProvider children
   return (
     <ThemeProvider theme={theme}>
       {allSizes.names && allSizes.names.length > 0 ? getCheckboxes() : <Box/>}
