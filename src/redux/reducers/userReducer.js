@@ -4,7 +4,6 @@ const userReducer = (state = {}, action) => {
   switch (action.type) {
     case Actions.SET_USER:
       return {
-        ...state,
         ...action.payload
       };
     case Actions.SET_USER_DELIVERY_ADDRESS:

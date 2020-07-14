@@ -123,12 +123,7 @@ export default {
   deleteShopCartById: (id) => {
     checkId(id);
 
-    const requestOptions = {
-      ...methods.DELETE,
-      headers: getAuthHeader()
-    };
-
-    return fetch(`${pathTo.cart}/${id}`, requestOptions)
+    return fetch(`${pathTo.cart}/${id}`, methods.DELETE)
       .then(response => response.json())
       .catch(error => console.log('deleteShopCartById error', error.message));
   },

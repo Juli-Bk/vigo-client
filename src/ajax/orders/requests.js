@@ -27,12 +27,7 @@ export default {
   getUserOrders: (id) => {
     checkId(id);
 
-    const requestOptions = {
-      headers: getAuthHeader(),
-      ...methods.GET
-    };
-
-    return fetch(`${pathTo.orders}/${id}`, requestOptions)
+    return fetch(`${pathTo.orders}/${id}`, methods.GET)
       .then(response => response.json())
       .catch(error => console.log('getUserOrders error', error.message));
   },

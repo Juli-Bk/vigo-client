@@ -1,23 +1,23 @@
 import React from 'react';
-import { Formik, Form } from 'formik';
+import {Form, Formik} from 'formik';
 import * as Yup from 'yup';
 import {
-  RadioGroup,
   Button,
   CardActions,
   FormControl,
-  FormHelperText,
   FormControlLabel,
+  FormHelperText,
   Radio,
-  Typography,
-  ThemeProvider
+  RadioGroup,
+  ThemeProvider,
+  Typography
 } from '@material-ui/core';
 import useStyles from '../../styles/formStyle/formStyle';
 import theme from '../../styles/formStyle/formStyleTheme';
-import { connect} from 'react-redux';
-import { saveUserData, setUserDeliveryAddress } from '../../redux/actions/user';
+import {connect} from 'react-redux';
+import {saveUserData, setUserDeliveryAddress} from '../../redux/actions/user';
 import CloseIcon from '@material-ui/icons/Close';
-import { setCompletedSteps, setSnackMessage } from '../../redux/actions/actions';
+import {setCompletedSteps, setSnackMessage} from '../../redux/actions/actions';
 import globalConfig from '../../globalConfig';
 
 const initFormValues = {
@@ -30,11 +30,11 @@ const validateObject = Yup.object({
 
 const AddressRadioGroup = (props) => {
   const {
-    addresses, setUserDeliveryAddress, user,
+    addresses = [], setUserDeliveryAddress, user,
     saveUserData, setSnackMessage, isAccount, setCompleted, activeStep
   } = props;
 
-  const submitRadioGroupData = (values, { resetForm, setSubmitting }) => {
+  const submitRadioGroupData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
     setCompleted(activeStep);
     setUserDeliveryAddress(values.radioGroup, () => {
@@ -64,8 +64,10 @@ const AddressRadioGroup = (props) => {
     };
 
     saveUserData(data, (result) => {
-      if (result && result.status !== 400) {
+      if (result && result.status === 200) {
         setSnackMessage(true, 'Your addresses are updated', globalConfig.snackSeverity.SUCCESS);
+      } else {
+        setSnackMessage(true, result.statusText, globalConfig.snackSeverity.ERROR);
       }
     });
   };
@@ -78,7 +80,7 @@ const AddressRadioGroup = (props) => {
       name='radioGroup'
       id='radioOption1'
       control={<Radio/>}
-      label={ <Typography className={styles.text} key={index}>{tag}
+      label={<Typography className={styles.text} key={index}>{tag}
         <CloseIcon data-testid='deleteIcon'
           className={styles.closeIconAddress}
           onClick={() => removeAddress(addresses, index)}/> </Typography>}
@@ -91,7 +93,7 @@ const AddressRadioGroup = (props) => {
         initialValues={initFormValues}
         validationSchema={validateObject}
         onSubmit={submitRadioGroupData}>
-        {({ handleChange, values, handleSubmit, isSubmitting, errors }) => (
+        {({handleChange, values, handleSubmit, isSubmitting, errors}) => (
           <Form autoComplete='off' id='addressRadioGroup'>
             <FormControl>
               <RadioGroup id='radioGroup'
