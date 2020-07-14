@@ -36,7 +36,8 @@ const useStyles = makeStyles((theme) => {
         ' 0px 0px 5px 0px rgba(0,0,0,0.1)'
     },
     topMenuLabel: {
-      minHeight: '48px'
+      minHeight: '48px',
+      padding: '0 15px'
     },
     menuLinksBox: {
       padding: '10px 0 10px 20px',
