@@ -74,7 +74,7 @@ export const makeShortText = (text) => {
 
 export const mapArrayToOptions = (array) => {
   return array.map(item => {
-    return <option value={item} key={item}>{item}</option>;
+    return <option value={item} key={item}>{capitalize(item)}</option>;
   });
 };
 
