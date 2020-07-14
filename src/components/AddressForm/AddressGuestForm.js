@@ -21,6 +21,7 @@ import PinDropIcon from '@material-ui/icons/PinDrop';
 import AutocompleteComponent from '../Autocomplete/Autocomplete';
 import {validateObject} from './helper';
 import {connect} from 'react-redux';
+import PrivacyPolicyModal from '../VigoPrivacyPolicy/PrivacyPolicyModal';
 
 const AddressGuestForm = (props) => {
   const {saveGuestDataHandler, guestData} = props;
@@ -137,6 +138,7 @@ const AddressGuestForm = (props) => {
                       color='default'/>}
                     label='I have read and agree to the Privacy Policy'
                   />
+                  <PrivacyPolicyModal/>
                   {touched.confirmation && errors.confirmation &&
                   <FormHelperText
                     error={touched.confirmation && !!errors.confirmation}>
