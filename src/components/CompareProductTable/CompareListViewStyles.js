@@ -36,23 +36,12 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 600,
     fontFamily: fonts.f3,
     display: 'inline-grid',
-    width: 100,
+    padding: '0 1.5rem',
     textAlign: 'right',
-    [theme.breakpoints.down(538)]: {
-      margin: 0
-    },
-    [theme.breakpoints.down(415)]: {
+    [theme.breakpoints.down(724)]: {
       display: 'none',
       margin: 0,
-      fontWeight: 500,
-      marginRight: '-150px'
-    },
-    [theme.breakpoints.down(361)]: {
-      width: 0,
-      display: 'none'
-    },
-    [theme.breakpoints.down(350)]: {
-      width: 0
+      fontWeight: 500
     }
   },
   tableRowCompare: {
