@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import {connect} from 'react-redux';
-import {Box, useMediaQuery } from '@material-ui/core';
+import {Container, useMediaQuery } from '@material-ui/core';
 import CompareProductTable from '../../components/CompareProductTable/CompareProductTable';
 import { getProductsByFilters } from '../../redux/actions/products';
 
@@ -31,12 +31,12 @@ const ProductCompare = (props) => {
       isCanceled = true;
     };
   }, [compareList, getProductsByFilters, rightId]);
-  return (<Box>
+  return (<Container>
     {compareList && compareList.length && products.data && products.data.length
       ? <CompareProductTable isMobile={isMobile} compareList={compareList}/>
       : <EmptyState text='Your compare list is empty' linkText='Let`s fix it'/>
     }
-  </Box>
+  </Container>
   );
 };
 
