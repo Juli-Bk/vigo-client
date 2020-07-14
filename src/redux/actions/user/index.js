@@ -10,7 +10,7 @@ import {
 import Actions from '../../constants/constants';
 import {setLoading, setSnackMessage} from '../actions';
 import globalConfig from '../../../globalConfig';
-import { setStorageData } from '../../../helpers/helpers';
+import {setStorageData} from '../../../helpers/helpers';
 
 export const setJWTtoken = (token) => {
   return {
@@ -91,7 +91,9 @@ export const loginUser = (email, password, callback) => {
             dispatch(setUser(result.user));
           }
           callback && callback(result);
-          dispatch(setUserIsLoggedIn(true));
+          if (result && result.status === 200) {
+            dispatch(setUserIsLoggedIn(true));
+          }
         }
       })
       .catch(() => {
@@ -163,8 +165,13 @@ export const saveUserData = (data, callback) => {
     if (userId) {
       AjaxUtils.Users.updateUserInfoById(userId, data)
         .then(newUserData => {
-          callback(newUserData);
-          dispatch(setUser(newUserData));
+          if (newUserData && newUserData.status === 200) {
+            dispatch(setUser(newUserData));
+          } else {
+            dispatch(clear());
+            window.location.reload(true);
+          }
+          callback && callback(newUserData);
         })
         .catch(error => {
           console.log(error);
@@ -192,12 +199,12 @@ export const logout = () => {
 
 export const clear = () => {
   return (dispatch) => {
-    dispatch(setUser({}));
-    dispatch(setJWTtoken(''));
-    dispatch(setUserIsLoggedIn(false));
     deleteJWTcookie();
     deleteUserIdCookie();
     setStorageData('user', {});
+    dispatch(setUser({}));
+    dispatch(setJWTtoken(''));
+    dispatch(setUserIsLoggedIn(false));
   };
 };
 

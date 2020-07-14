@@ -20,7 +20,8 @@ const ModalRestorePassword = (props) => {
 
   const handleClose = useCallback(() => {
     setOpen(false);
-  }, [setOpen]);
+    history.push('/');
+  }, [history, setOpen]);
 
   const sendEmail = useCallback((values, {resetForm, setSubmitting}) => {
     const email = values.email;

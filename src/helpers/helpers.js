@@ -1,5 +1,6 @@
 import React from 'react';
 import globalConfig from '../globalConfig';
+import AjaxUtils from '../ajax';
 
 export const formPriceString = (price, priceToCeil) => {
   if (priceToCeil) {
@@ -101,13 +102,25 @@ export const setStorageData = (key, data) => {
   localStorage.setItem(key, JSON.stringify(data));
 };
 
-export const saveWishListToLS = (remoteWishList) => {
+export const integrateWishLists = (remoteWishList, userId) => {
   const localWishList = getStorageData('wishList');
-  remoteWishList.forEach(product => {
-    if (!localWishList.includes(product._id)) {
-      localWishList.push(product._id);
-    }
-  });
+  if (localWishList && localWishList.length) {
+    remoteWishList.forEach(product => {
+      if (!localWishList.includes(product._id)) {
+        localWishList.push(product._id);
+      }
+    });
+    localWishList.forEach(item => {
+      const itemInRemoteList = remoteWishList.find(product => product._id === item);
+      if (!itemInRemoteList) {
+        AjaxUtils.WishLists.addProductToWishList(item, userId)
+          .catch(err => {
+            console.log('add product to wishlist error happened', err);
+          }
+          );
+      }
+    });
+  }
   setStorageData('wishList', localWishList);
 };
 

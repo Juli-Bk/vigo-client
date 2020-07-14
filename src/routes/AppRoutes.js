@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import Home from '../pages/Home/Home';
 import Product from '../pages/Product/Product';
 import Products from '../pages/Products/Products';
@@ -15,8 +15,6 @@ import {getJWTfromCookie} from '../ajax/common/helper';
 import PrivacyPolicy from '../pages/PrivacyPolicy/PrivacyPolicy';
 import Returns from '../pages/Returns/Returns';
 import Shipping from '../pages/Shipping/Shipping';
-import store from './../redux/store';
-import {setLoginModalOpenState} from '../redux/actions/actions';
 import AutoScrollTop from '../components/AutoScrollTop/AutoScrollTop';
 import EmailConfirmationDialog from '../components/EmailConfirmationDialog/EmailConfirmationDialog';
 import RestorePswrdForm from '../components/RestorePswrdForm/RestorePswrdForm';
@@ -47,7 +45,6 @@ const AppRoutes = () => {
           <Route exact path='/recovery' component={RestorePswrdForm}/>
 
           <ProtectedRoute
-            authenticated={getJWTfromCookie()}
             exact path='/account'
             component={MyAccount}/>
           <Route path='*' component={Page404}/>
@@ -58,18 +55,19 @@ const AppRoutes = () => {
 };
 
 const ProtectedRoute = (props) => {
-  const {component: Component, authenticated, render, ...rest} = props;
+  const {component: Component, render, ...rest} = props;
 
   return (
     <Route {...rest} render={(renderProps) => {
-      if (authenticated) {
+      if (getJWTfromCookie()) {
         if (render) {
           return render(renderProps);
         } else {
           return <Component {...renderProps} />;
         }
+      } else {
+        return <Component {...renderProps} auth={false} />;
       }
-      store.dispatch(setLoginModalOpenState(true));
     }}
     />
   );
