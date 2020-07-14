@@ -31,6 +31,8 @@ export const getJWTfromCookie = () => {
   const tokenData = token && token[0] && token[0].split('=');
   if (tokenData && tokenData[0] === 'token') {
     return tokenData[1];
+  } else {
+    return null;
   }
 };
 

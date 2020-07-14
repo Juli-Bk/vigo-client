@@ -56,7 +56,9 @@ export default {
     if (!email) throw new TypeError('empty email');
 
     const requestOptions = {
-      headers: getAuthHeader(),
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: {email},
       ...methods.POST
     };

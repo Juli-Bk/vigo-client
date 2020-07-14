@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { TableContainer, Table, TableHead, TableBody, Paper } from '@material-ui/core';
 import {getSizeTable} from '../../redux/actions/sizeTable/';
 import {StyledTableCell, StyledTableRow} from './SizeTableTheme';
+import {capitalize} from '../../helpers/helpers';
 
 const SizeTable = (props) => {
   const { id, data, getSizeTable } = props;
@@ -21,11 +22,11 @@ const SizeTable = (props) => {
   const rows = data && data.length && data.map((el, id) => (
     <StyledTableRow key={id}>
       <StyledTableCell align="center" className={styles.cell} component="th" scope="row">
-        {el.sizeId.name}
+        {capitalize(el.sizeId.name)}
       </StyledTableCell>
       {el.measurements.map((item, key) => {
         const cell = Object.entries(item);
-        return (<StyledTableCell className={styles.cell} align="center" key={key}>{`${cell[0][1].inches}"`}<br/>{`${cell[0][1].cm}cm`}</StyledTableCell>);
+        return (<StyledTableCell className={styles.cell} align="center" key={key}>{`${cell[0][1].inches} in`}<br/>{`${cell[0][1].cm} cm`}</StyledTableCell>);
       })}
     </StyledTableRow>
   ));

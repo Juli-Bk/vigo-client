@@ -46,7 +46,7 @@ const PersonalDetailsForm = (props) => {
 
     savePersonalUserData(data, (result) => {
       setSubmitting(false);
-      if (result && result.status !== 400) {
+      if (result && result.status === 200) {
         resetForm();
       }
       saveUserAddressesHandler(result);
