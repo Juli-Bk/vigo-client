@@ -51,9 +51,6 @@ const ChangePasswordForm = (props) => {
       <Grid container>
         <Grid item xs={12}>
           <Typography className={styles.header} variant='h6' gutterBottom>Change password</Typography>
-          <Typography className={styles.text} variant='caption' gutterBottom>
-            Create a new strong password that you don't use for other websites
-          </Typography>
           <Formik
             initialValues={{
               password: '',
