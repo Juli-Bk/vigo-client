@@ -1,7 +1,5 @@
 import React from 'react';
 import globalConfig from '../globalConfig';
-import store from '../redux/store';
-import {toggleWishItems} from '../redux/actions/wishlist';
 import AjaxUtils from '../ajax';
 
 export const formPriceString = (price, priceToCeil) => {
