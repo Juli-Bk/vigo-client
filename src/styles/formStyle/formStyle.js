@@ -7,7 +7,12 @@ const useStyles = makeStyles(theme => (
     modalWindow: {
       width: 500,
       overflow: 'hidden',
-      [theme.breakpoints.between(0, 599)]: {
+      [theme.breakpoints.between(0, 420)]: {
+        width: '90%',
+        margin: 'auto',
+        padding: 0
+      },
+      [theme.breakpoints.between(420, 599)]: {
         width: '95%',
         margin: 'auto',
         padding: 0
@@ -107,13 +112,13 @@ const useStyles = makeStyles(theme => (
       }
     },
     input: {
-      marginTop: '1.6rem',
+      marginTop: '1rem',
       marginBottom: 7,
       fontFamily: fonts.f2,
       textTransform: 'uppercase',
       [theme.breakpoints.down(420)]: {
         fontSize: 'inherit',
-        marginTop: '1rem'
+        marginTop: '0.8rem'
       }
     },
     inputSmall: {
