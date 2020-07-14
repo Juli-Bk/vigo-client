@@ -39,7 +39,7 @@ function App (props) {
       <StylesProvider injectFirst>
         <ThemeProvider theme={theme}>
           <AppRoutes/>
-          <LoadingSpinner />
+          <LoadingSpinner/>
           <Footer/>
         </ThemeProvider>
       </StylesProvider>
