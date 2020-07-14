@@ -23,6 +23,7 @@ import AjaxUtils from '../../ajax';
 import {validateObject} from './helper';
 import * as Yup from 'yup';
 import {connect} from 'react-redux';
+import PrivacyPolicyModal from '../VigoPrivacyPolicy/PrivacyPolicyModal';
 
 const PersonalDetailsGuestForm = (props) => {
   const {saveGuestDataHandler, guestData} = props;
@@ -148,6 +149,7 @@ const PersonalDetailsGuestForm = (props) => {
                       color='default'/>}
                     label='I have read and agree on the Privacy Policy'
                   />
+                  <PrivacyPolicyModal/>
                   {touched.confirmation && errors.confirmation &&
                   <FormHelperText
                     error={touched.confirmation && !!errors.confirmation}>
