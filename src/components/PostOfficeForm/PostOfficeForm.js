@@ -75,7 +75,7 @@ const NovaPoshtaCity = (props) => {
                       onChange={handleChange}
                       helperText={(errors.city && touched.city) && errors.city}
                       error={touched.city && Boolean(errors.city)}
-                      label='Choose the city to deliver'
+                      label='City'
                       variant='outlined'
                       size='small'
                     />
@@ -86,7 +86,7 @@ const NovaPoshtaCity = (props) => {
                   autoComplete='on'
                   className={styles.input}
                   type='npOffice'
-                  label='choose nova poshta post office №'
+                  label='nova poshta office'
                   value={values.npOffice}
                   onBlur={handleBlur}
                   onChange={handleChange}
