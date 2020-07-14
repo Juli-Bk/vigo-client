@@ -162,15 +162,6 @@ describe('userRequests methods throws errors ', () => {
       expect(testCheck).toThrowError(Error);
     });
 
-    it('throws an error when token is not specified', () => {
-      Cookie.remove('token');
-      function testCheck () {
-        userRequests.updatePassword('5ebc2a44418dcb6fec27b9f7', {});
-      }
-
-      expect(testCheck).toThrowError(Error);
-    });
-
     it('throws an error when formData is not specified', () => {
       function testCheck () {
         userRequests.updatePassword('5ebc2a44418dcb6fec27b9f7');
