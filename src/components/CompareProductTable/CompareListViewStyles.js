@@ -5,7 +5,7 @@ import { fonts } from '../../styles/fonts/fontsKit';
 const useStyles = makeStyles(theme => ({
   generalTable: {
     display: 'flex',
-    width: 1230,
+    width: 'auto',
     margin: 'auto',
     [theme.breakpoints.down(415)]: {
       width: 1060
@@ -36,7 +36,7 @@ const useStyles = makeStyles(theme => ({
     fontWeight: 600,
     fontFamily: fonts.f3,
     display: 'inline-grid',
-    width: 55,
+    width: 100,
     textAlign: 'right',
     [theme.breakpoints.down(538)]: {
       margin: 0
@@ -107,6 +107,7 @@ const useStyles = makeStyles(theme => ({
     textDecoration: 'none',
     cursor: 'pointer',
     fontSize: '1.05rem',
+    fontFamily: fonts.f3,
     [theme.breakpoints.up(500)]: {
       alignItems: 'flex-start'
     },
@@ -120,6 +121,7 @@ const useStyles = makeStyles(theme => ({
   details: {
     textTransform: 'uppercase',
     fontSize: '.65rem',
+    color: colors.fontThird,
     margin: '0 5px',
     minHeight: 125,
     width: 300,
@@ -137,6 +139,7 @@ const useStyles = makeStyles(theme => ({
     marginTop: 10,
     minHeight: 40,
     fontFamily: fonts.f3,
+    color: colors.fontThird,
     [theme.breakpoints.down(724)]: {
       marginTop: 0
     },
@@ -151,6 +154,7 @@ const useStyles = makeStyles(theme => ({
     minHeight: 40,
     textTransform: 'uppercase',
     fontFamily: fonts.f3,
+    color: colors.fontThird,
     [theme.breakpoints.down(415)]: {
       fontSize: '0.75rem',
       minHeight: 20
