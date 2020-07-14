@@ -75,15 +75,6 @@ describe('subscribersRequests methods throws errors ', () => {
 
       expect(testCheck).toThrowError(TypeError);
     });
-
-    it('throws an error when token is not specified', () => {
-      Cookie.remove('token');
-      function testCheck () {
-        subscribersRequests.unsubscribe('email');
-      }
-
-      expect(testCheck).toThrowError(Error);
-    });
   });
 
   describe('deleteAllSubscribers ', () => {
