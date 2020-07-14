@@ -1,5 +1,5 @@
 import Actions from '../../constants/constants';
-import { getStorageData, saveWishListToLS, setStorageData } from '../../../helpers/helpers';
+import { getStorageData, integrateWishLists, setStorageData } from '../../../helpers/helpers';
 import { getUserIdFromCookie, isGuid } from '../../../ajax/common/helper';
 import AjaxUtils from '../../../ajax';
 import globalConfig from '../../../globalConfig';
@@ -9,23 +9,20 @@ export const changeWishList = () => {
   return {type: Actions.CHANGE_WISH_LIST, payload: data};
 };
 
-export const getUserWishList = () => {
-  return (dispatch) => {
-    const userId = getUserIdFromCookie();
-    if (userId && isGuid(userId)) {
-      AjaxUtils.WishLists.getUserWishList(userId)
-        .then(result => {
-          const wishes = result.userWishList[0];
-          const remoteWishes = wishes ? wishes.products : [];
-          saveWishListToLS(remoteWishes);
-
-          dispatch(changeWishList());
-        })
-        .catch((error) => {
-          console.log('getUserWishList error', error);
-        });
-    }
-  };
+export const getUserWishList = () => dispatch => {
+  const userId = getUserIdFromCookie();
+  if (userId && isGuid(userId)) {
+    AjaxUtils.WishLists.getUserWishList(userId)
+      .then(result => {
+        const wishes = result.userWishList[0];
+        const remoteWishes = wishes ? wishes.products : [];
+        integrateWishLists(remoteWishes, userId);
+        dispatch(changeWishList());
+      })
+      .catch((error) => {
+        console.log('getUserWishList error', error);
+      });
+  }
 };
 
 export const toggleWishItems = (productId) => dispatch => {
