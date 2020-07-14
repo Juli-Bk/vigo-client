@@ -16,8 +16,8 @@ const CompareListDesktopView = (props) => {
   const styles = useStyles();
 
   return (
-    <Grid className={classes.generalTable}>
-      <Grid className={classes.headers}>
+    <Grid container className={classes.generalTable}>
+      <Grid item sm={3} className={classes.headers}>
         <Grid item className={classes.img}>{}</Grid>
         <Grid className={classes.smallcell}>Product name</Grid>
         <Grid className={classes.smallcell}>Product ID</Grid>
@@ -29,7 +29,7 @@ const CompareListDesktopView = (props) => {
         <Grid className={classes.smallcell}>Add to bag</Grid>
         <Grid className={classes.smallcell}>Delete</Grid>
       </Grid>
-      <Grid className={classes.compareTable} container aria-label='compare-table'>
+      <Grid container item xs={12} sm={9} aria-label='compare-table' className={classes.compareTable}>
         <Grid item>
           {rows.map((row) => {
             return (
