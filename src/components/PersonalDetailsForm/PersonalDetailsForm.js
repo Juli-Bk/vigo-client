@@ -96,7 +96,7 @@ const PersonalDetailsForm = (props) => {
                   name='firstName'
                   label={<IconLabel label='Enter your Name' Component={PersonIcon}/>}
                   className={classes.input}
-                  value={values.firstName}
+                  value={values.firstName || ''}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   helperText={touched.firstName ? errors.firstName : ''}
@@ -110,7 +110,7 @@ const PersonalDetailsForm = (props) => {
                   name='lastName'
                   label={<IconLabel label='Enter your Surname' Component={PersonIcon}/>}
                   className={classes.input}
-                  value={values.lastName}
+                  value={values.lastName || ''}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   helperText={touched.lastName ? errors.lastName : ''}
@@ -124,7 +124,7 @@ const PersonalDetailsForm = (props) => {
                   name='email'
                   label={<IconLabel label='Enter your e-mail' Component={EmailIcon}/>}
                   className={classes.input}
-                  value={values.email}
+                  value={values.email || ''}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   helperText={touched.email ? errors.email : ''}
@@ -138,7 +138,7 @@ const PersonalDetailsForm = (props) => {
                   name='phoneNumber'
                   label={<IconLabel label='Enter phone number' Component={PhoneAndroidIcon}/>}
                   className={classes.input}
-                  value={values.phoneNumber}
+                  value={values.phoneNumber || ''}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   helperText={touched.phoneNumber ? errors.phoneNumber : ''}
