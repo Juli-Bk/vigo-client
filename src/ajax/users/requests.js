@@ -94,18 +94,24 @@ export default {
     });
 
     const requestOptions = {
-      headers: getAuthHeader(),
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: data,
       ...methods.POST
     };
 
     return fetch(pathTo.users, requestOptions)
       .then(async (response) => {
-        const respData = await response.json();
-        return Object.assign({
-          status: response.status,
-          statusText: response.statusText
-        }, respData);
+        if (response.status === 200) {
+          const respData = await response.json();
+          return Object.assign({
+            status: response.status,
+            statusText: response.statusText
+          }, respData);
+        } else {
+          return response;
+        }
       })
       .catch(error => console.log('updateUserInfoById error', error.message));
   },
@@ -125,7 +131,9 @@ export default {
     });
 
     const requestOptions = {
-      headers: getAuthHeader(),
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: data,
       ...methods.POST
     };

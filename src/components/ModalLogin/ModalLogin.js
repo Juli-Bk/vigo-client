@@ -139,7 +139,7 @@ const ModalLogin = (props) => {
                   <TabPanel value={value} index={0} dir={theme.direction}>
                     <LoginForm submitLoginHandler={(result) => {
                       if (result) {
-                        if (result && result.status === 400) {
+                        if (result.status === 400) {
                           setMessage(result.message);
                           setIsMessageHidden(true);
                         } else {

@@ -38,7 +38,7 @@ const LoginForm = (props) => {
   const submitLoginData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
     login(values.email, values.password, (result) => {
-      if (result && result.status !== 400) {
+      if (result && result.status === 200) {
         resetForm();
       }
       setSubmitting(false);

@@ -120,7 +120,7 @@ const UserTabs = (props) => {
 
 const mapStoreToProps = store => {
   return {
-    password: store.password
+    user: store.user
   };
 };
 
