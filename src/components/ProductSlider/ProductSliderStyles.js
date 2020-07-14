@@ -35,8 +35,8 @@ const useStyles = makeStyles(theme => ({
   },
   slider: {
     '& button.image-gallery-fullscreen-button': {
-      left: 50,
-      bottom: 50
+      left: 0,
+      bottom: 30
     },
     '@global video': {
       width: '100%',
