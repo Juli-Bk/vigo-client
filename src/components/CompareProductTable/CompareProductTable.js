@@ -1,12 +1,10 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
-import EmptyState from '../EmptyState/EmptyState';
 import {Box, ThemeProvider, TableContainer} from '@material-ui/core';
 import useStyles from '../CompareProductTable/CompareListViewStyles';
 import {theme} from './CompareViewTheme';
 import CompareListDesktopView from './CompareListDesktopView';
-import globalConfig from '../../globalConfig';
 
 const CompareProductTable = (props) => {
   const {products} = props;
@@ -29,13 +27,11 @@ const CompareProductTable = (props) => {
   return (
     <ThemeProvider theme={theme}>
       <TableContainer component={Box}>
-        {products.data && products.data.length
-          ? <CompareListDesktopView
-            classes={classes}
-            productsLenght={products.length}
-            rows={rows}
-          />
-          : <EmptyState text={globalConfig.compareMessages.EMPTY} linkText='Let`s fix it'/>}
+        <CompareListDesktopView
+          classes={classes}
+          productsLenght={products.length}
+          rows={rows}
+        />
       </TableContainer>
     </ThemeProvider>
   );

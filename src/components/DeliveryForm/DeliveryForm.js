@@ -34,7 +34,7 @@ const DeliveryForm = (props) => {
   return (
     <ThemeProvider theme={theme}>
       <Grid container spacing={6}>
-        <Grid item xs={12} md={6}>
+        <Grid item xs={12} sm={6}>
           <Autocomplete
             value={value}
             onChange={(event, newValue) => {

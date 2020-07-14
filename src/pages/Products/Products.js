@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import useStyles from './ProductsStyles';
 import globalConfig from '../../globalConfig';
-import {defineSortData, getFiltersArray, deleteProps} from '../../helpers/helpers';
+import {getFiltersArray, deleteProps} from '../../helpers/helpers';
 import queryString from 'query-string';
 
 import ProductGrid from '../../containers/ProductsGrid/ProductsGrid';
@@ -28,14 +28,15 @@ const Products = (props) => {
     getProductsByFilters,
     getProductsBySearch,
     getAllProducts,
-    products
+    products,
+    sortingOption
   } = props;
 
   const classes = useStyles();
   const isSmScreen = useMediaQuery('(max-width: 723px)');
   const filters = useMemo(() => queryString.parse(location.search), [location.search]);
-  const sort = useMemo(() => filters.sort || defineSortData(globalConfig.sortOptions.New_In),
-    [filters.sort]);
+  const sort = useMemo(() => filters.sort || globalConfig.SortOptionToQuery[sortingOption],
+    [filters.sort, sortingOption]);
   const perPage = useMemo(() => Number(filters.perPage) || globalConfig.step,
     [filters.perPage]);
 
@@ -127,14 +128,16 @@ Products.propTypes = {
   products: PropTypes.object.isRequired,
   currentPage: PropTypes.number.isRequired,
   setCurrentPage: PropTypes.func.isRequired,
-  getProductsBySearch: PropTypes.func.isRequired
+  getProductsBySearch: PropTypes.func.isRequired,
+  sortingOption: PropTypes.string.isRequired
 };
 
 const mapStateToProps = store => {
   return {
     view: store.view,
     products: store.products,
-    currentPage: store.currentPage
+    currentPage: store.currentPage,
+    sortingOption: store.sortingOption
   };
 };
 
