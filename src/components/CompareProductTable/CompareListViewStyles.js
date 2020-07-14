@@ -18,7 +18,15 @@ const useStyles = makeStyles(theme => ({
     maxWidth: 1000,
     display: 'flex',
     overflowX: 'scroll',
-    margin: '0 auto'
+    margin: '0 auto',
+    [theme.breakpoints.down(415)]: {
+      maxWidth: 375,
+      marginLeft: 8
+    },
+    [theme.breakpoints.down(330)]: {
+      maxWidth: 300,
+      marginLeft: 8
+    }
   },
   headers: {
     position: 'sticky',
@@ -34,7 +42,7 @@ const useStyles = makeStyles(theme => ({
       margin: 0
     },
     [theme.breakpoints.down(415)]: {
-      width: 1,
+      display: 'none',
       margin: 0,
       fontWeight: 500,
       marginRight: '-150px'
@@ -55,6 +63,12 @@ const useStyles = makeStyles(theme => ({
     width: 225,
     height: 230,
     margin: '0 auto',
+    [theme.breakpoints.down(415)]: {
+      width: 150,
+      height: 150,
+      cursor: 'pointer',
+      marginBottom: 0
+    },
     [theme.breakpoints.up(500)]: {
       width: 160,
       height: 200,
@@ -85,19 +99,6 @@ const useStyles = makeStyles(theme => ({
     display: 'block',
     width: 'max-content'
   },
-  textBox: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    color: colors.fontThird,
-    fontSize: '1rem',
-    fontFamily: fonts.f3,
-    [theme.breakpoints.up(500)]: {
-      alignItems: 'flex-start'
-    },
-    [theme.breakpoints.up('sm')]: {
-      fontSize: '1.2rem'
-    }
-  },
   nameCompare: {
     display: 'block',
     margin: '10px auto',
@@ -111,6 +112,9 @@ const useStyles = makeStyles(theme => ({
     },
     [theme.breakpoints.down(500)]: {
       fontSize: '1rem'
+    },
+    [theme.breakpoints.down(415)]: {
+      height: 28
     }
   },
   details: {
@@ -121,6 +125,9 @@ const useStyles = makeStyles(theme => ({
     width: 300,
     [theme.breakpoints.down(724)]: {
       width: 230
+    },
+    [theme.breakpoints.down(415)]: {
+      fontSize: '0.6rem'
     }
   },
   cell: {
@@ -130,6 +137,10 @@ const useStyles = makeStyles(theme => ({
     fontFamily: fonts.f3,
     [theme.breakpoints.down(724)]: {
       marginTop: 0
+    },
+    [theme.breakpoints.down(415)]: {
+      fontSize: '0.65rem',
+      minHeight: 20
     }
   },
   cellUp: {
@@ -137,7 +148,11 @@ const useStyles = makeStyles(theme => ({
     marginTop: 10,
     minHeight: 40,
     textTransform: 'uppercase',
-    fontFamily: fonts.f3
+    fontFamily: fonts.f3,
+    [theme.breakpoints.down(415)]: {
+      fontSize: '0.75rem',
+      minHeight: 20
+    }
   },
   smallcell: {
     fontSize: '1rem',
@@ -192,6 +207,10 @@ const useStyles = makeStyles(theme => ({
       fontSize: '1rem',
       letterSpacing: '.02em',
       marginTop: 15
+    },
+    [theme.breakpoints.down(415)]: {
+      fontSize: '0.65rem',
+      minHeight: 20
     }
   },
   price: {
