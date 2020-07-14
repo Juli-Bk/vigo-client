@@ -24,7 +24,6 @@ import allSizes from './allSizesReducer';
 import isPopoverOpen from './isPopoverOpenReducer';
 import snackMessage from './isSnackMessageOpenReducer';
 import isRestorePswdModalOpen from './isRestorePswdModalOpen';
-import isNewPswdModalOpen from './isNewPswdModalOpen';
 import userIsLoggedIn from './isLoggedReducer';
 import totalSum from './totalSumReducer';
 import sizeTable from './sizeTableReducer';
@@ -61,7 +60,6 @@ export const rootReducer = combineReducers({
   userIsLoggedIn,
   totalSum,
   isRestorePswdModalOpen,
-  isNewPswdModalOpen,
   sizeTable,
   orderDetails,
   checkoutSteps,
