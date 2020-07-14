@@ -127,7 +127,9 @@ const useStyles = makeStyles(theme => ({
       width: 230
     },
     [theme.breakpoints.down(415)]: {
-      fontSize: '0.6rem'
+      fontSize: '0.6rem',
+      margin: '5px 14px',
+      textAlign: 'justify'
     }
   },
   cell: {
