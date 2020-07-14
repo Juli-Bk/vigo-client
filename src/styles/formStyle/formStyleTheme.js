@@ -104,7 +104,7 @@ const theme = createMuiTheme({
       outlinedSizeLarge: {
         '@media  (max-width: 599px)': {
           fontSize: 12,
-          padding: '5px 10px'
+          padding: '5px 6px'
         }
       }
     },
@@ -166,6 +166,13 @@ const theme = createMuiTheme({
     MuiBox: {
       root: {
         padding: '8px 0'
+      }
+    },
+    MuiDialogContent: {
+      root: {
+        '&:first-child': {
+          paddingTop: 10
+        }
       }
     },
     PrivateRadioButtonIcon: {
