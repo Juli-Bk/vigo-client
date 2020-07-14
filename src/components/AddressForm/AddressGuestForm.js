@@ -24,7 +24,7 @@ import {connect} from 'react-redux';
 
 const AddressGuestForm = (props) => {
   const {saveGuestDataHandler, guestData} = props;
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState(null);
 
   const classes = useStyles();
 
@@ -40,6 +40,7 @@ const AddressGuestForm = (props) => {
       postalCode: values.postalCode
     };
     resetForm();
+    setAddress(null);
     saveGuestDataHandler(deliveryAddress);
   };
 
@@ -74,11 +75,12 @@ const AddressGuestForm = (props) => {
                 <AutocompleteComponent
                   autoComplete='on'
                   className={classes.input}
+                  address={address}
                   setAddress={setAddress}
                   name='autocomplete'
                   onBlur={handleBlur}
                   touched={touched}
-                  value={values.autocomplete}
+                  value={address}
                   onChange={handleChange}
                   error={errors}
                   fullWidth

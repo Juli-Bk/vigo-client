@@ -28,7 +28,7 @@ import PrivacyPolicyModal from '../VigoPrivacyPolicy/PrivacyPolicyModal';
 const AddressForm = (props) => {
   const {submitAddressHandler, user, saveUserData, setUserDeliveryAddress} = props;
   const {addresses = []} = user;
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState(null);
 
   const handleCancel = () => {
     submitAddressHandler(null);
@@ -55,6 +55,7 @@ const AddressForm = (props) => {
       setSubmitting(false);
       if (result && result.status !== 400) {
         resetForm();
+        setAddress(null);
       }
       submitAddressHandler(result);
     });
@@ -93,6 +94,7 @@ const AddressForm = (props) => {
               <form>
                 <AutocompleteComponent
                   autoComplete='on'
+                  address={address}
                   className={classes.input}
                   setAddress={setAddress}
                   name='autocomplete'

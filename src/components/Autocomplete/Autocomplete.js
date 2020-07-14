@@ -28,7 +28,7 @@ function loadScript (src, position, id) {
 const autocompleteService = { current: null };
 
 const AutocompleteComponent = (props) => {
-  const {error, touched, name, onBlur, setAddress, className} = props;
+  const {error, touched, name, onBlur, setAddress, className, address} = props;
   const classes = useStyles();
   const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState('');
@@ -95,6 +95,10 @@ const AutocompleteComponent = (props) => {
       <Autocomplete
         id='googleMap'
         getOptionLabel={(option) => (typeof option === 'string' ? option : option.description)}
+        getOptionSelected={(option, value) => {
+          const newValue = typeof value === 'string' ? value.toLowerCase() : value.description;
+          return option.description.includes(newValue[0]);
+        }}
         filterOptions={(x) => x}
         options={options}
         autoComplete
@@ -102,16 +106,16 @@ const AutocompleteComponent = (props) => {
         includeInputInList
         filterSelectedOptions
         size='small'
-        value={value}
+        value={address}
         onChange={(event, newValue) => {
           setOptions(newValue ? [newValue, ...options] : options);
           setValue(newValue);
-          setAddress(newValue);
+          newValue ? setAddress(newValue) : setAddress(null);
         }}
 
         onInputChange={(event, newInputValue) => {
           setInputValue(newInputValue);
-          setAddress(newInputValue);
+          newInputValue ? setAddress(newInputValue) : setAddress(null);
         }}
         renderInput={(params) => {
           return (
@@ -119,7 +123,7 @@ const AutocompleteComponent = (props) => {
               name={name}
               label={<IconLabel label='city and street name' Component={PublicIcon}/>}
               variant='outlined'
-              value={value}
+              value={address}
               onBlur={onBlur}
               helperText={touched.autocomplete ? error.autocomplete : ''}
               error={touched.autocomplete && Boolean(error.autocomplete)}
@@ -161,7 +165,8 @@ AutocompleteComponent.propTypes = {
   touched: PropTypes.object,
   name: PropTypes.string.isRequired,
   onBlur: PropTypes.func.isRequired,
-  setAddress: PropTypes.func
+  setAddress: PropTypes.func,
+  address: PropTypes.any
 };
 
 export default React.memo(AutocompleteComponent);
