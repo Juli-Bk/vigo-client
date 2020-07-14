@@ -34,6 +34,10 @@ const useStyles = makeStyles(theme => ({
     }
   },
   slider: {
+    '& button.image-gallery-fullscreen-button': {
+      left: 50,
+      bottom: 50
+    },
     '@global video': {
       width: '100%',
       height: 'inherit'
