@@ -24,7 +24,7 @@ const SnackbarMessage = (props) => {
       <Snackbar
         id='snack'
         open={snackMessage.isOpen}
-        autoHideDuration={6000}
+        autoHideDuration={4000}
         onClose={handleClose}>
         <Alert
           onClose={handleClose}

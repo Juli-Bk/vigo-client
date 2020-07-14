@@ -52,7 +52,9 @@ export default {
     });
 
     const requestOptions = {
-      headers: getAuthHeader(),
+      headers: {
+        'Content-Type': 'application/json'
+      },
       body: data,
       ...methods.PUT
     };
@@ -76,8 +78,7 @@ export default {
     checkId(productId);
 
     const requestOptions = {
-      ...methods.DELETE,
-      headers: getAuthHeader()
+      ...methods.DELETE
     };
 
     return fetch(`${pathTo.wishlist}/${productId}`, requestOptions)

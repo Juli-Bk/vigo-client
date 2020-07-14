@@ -1,5 +1,6 @@
 import React from 'react';
 import globalConfig from '../globalConfig';
+import AjaxUtils from '../ajax';
 
 export const formPriceString = (price, priceToCeil) => {
   if (priceToCeil) {
@@ -73,7 +74,7 @@ export const makeShortText = (text) => {
 
 export const mapArrayToOptions = (array) => {
   return array.map(item => {
-    return <option value={item} key={item}>{item}</option>;
+    return <option value={item} key={item}>{capitalize(item)}</option>;
   });
 };
 
@@ -101,27 +102,26 @@ export const setStorageData = (key, data) => {
   localStorage.setItem(key, JSON.stringify(data));
 };
 
-export const saveWishListToLS = (remoteWishList) => {
+export const integrateWishLists = (remoteWishList, userId) => {
   const localWishList = getStorageData('wishList');
-  remoteWishList.forEach(product => {
-    if (!localWishList.includes(product._id)) {
-      localWishList.push(product._id);
-    }
-  });
-  setStorageData('wishList', localWishList);
-};
-
-export const defineSortData = (option) => {
-  switch (option) {
-    case globalConfig.sortOptions.New_In:
-      return '-date';
-    case globalConfig.sortOptions.Price_High_To_Low:
-      return '-price';
-    case globalConfig.sortOptions.Price_Low_To_High:
-      return 'price';
-    default:
-      return '-date';
+  if (localWishList && localWishList.length) {
+    remoteWishList.forEach(product => {
+      if (!localWishList.includes(product._id)) {
+        localWishList.push(product._id);
+      }
+    });
+    localWishList.forEach(item => {
+      const itemInRemoteList = remoteWishList.find(product => product._id === item);
+      if (!itemInRemoteList) {
+        AjaxUtils.WishLists.addProductToWishList(item, userId)
+          .catch(err => {
+            console.log('add product to wishlist error happened', err);
+          }
+          );
+      }
+    });
   }
+  setStorageData('wishList', localWishList);
 };
 
 export const getMaxQuantity = (productQuantity, size) => {

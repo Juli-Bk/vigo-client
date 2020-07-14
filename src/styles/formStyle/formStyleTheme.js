@@ -76,7 +76,7 @@ const theme = createMuiTheme({
         }
       },
       input: {
-        '@media  (max-width: 538px)': {
+        '@media  (max-width: 400px)': {
           fontSize: 'small'
         }
       }
@@ -87,12 +87,9 @@ const theme = createMuiTheme({
           color: colors.noticeColor,
           borderColor: colors.noticeColor
         },
-        fontSize: 11,
-        '@media  (min-width: 320px)': {
-          fontSize: 9
-        },
-        '@media  (max-width: 375px)': {
-          fontSize: 5
+        fontSize: 12,
+        '@media  (max-width: 340px)': {
+          fontSize: 11.5
         }
       }
     },
@@ -107,7 +104,7 @@ const theme = createMuiTheme({
       outlinedSizeLarge: {
         '@media  (max-width: 599px)': {
           fontSize: 12,
-          padding: '5px 10px'
+          padding: '5px 6px'
         }
       }
     },
@@ -169,6 +166,13 @@ const theme = createMuiTheme({
     MuiBox: {
       root: {
         padding: '8px 0'
+      }
+    },
+    MuiDialogContent: {
+      root: {
+        '&:first-child': {
+          paddingTop: 10
+        }
       }
     },
     PrivateRadioButtonIcon: {

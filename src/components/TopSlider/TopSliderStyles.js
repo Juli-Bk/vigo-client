@@ -133,7 +133,7 @@ const useStyles = makeStyles(theme => ({
     padding: '.3rem',
     color: colors.fontOncard,
     fontWeight: 'bold',
-    fontSize: '.7rem',
+    fontSize: '.7rem !important',
     fontFamily: fonts.f3,
     textTransform: 'uppercase',
     background: 'transparent',
