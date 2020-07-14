@@ -111,19 +111,6 @@ export const saveWishListToLS = (remoteWishList) => {
   setStorageData('wishList', localWishList);
 };
 
-export const defineSortData = (option) => {
-  switch (option) {
-    case globalConfig.sortOptions.New_In:
-      return '-date';
-    case globalConfig.sortOptions.Price_High_To_Low:
-      return '-price';
-    case globalConfig.sortOptions.Price_Low_To_High:
-      return 'price';
-    default:
-      return '-date';
-  }
-};
-
 export const getMaxQuantity = (productQuantity, size) => {
   if (productQuantity && productQuantity.length) {
     if (size && size !== globalConfig.defaultSizeOption) {
