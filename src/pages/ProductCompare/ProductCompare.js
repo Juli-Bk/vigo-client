@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react';
 import {connect} from 'react-redux';
+import {Box, useMediaQuery } from '@material-ui/core';
 import CompareProductTable from '../../components/CompareProductTable/CompareProductTable';
 import { getProductsByFilters } from '../../redux/actions/products';
-import { useMediaQuery } from '@material-ui/core';
+
 import { isIdInArray, setStorageData } from '../../helpers/helpers';
 import { changeCompareList } from '../../redux/actions/actions';
+import EmptyState from '../../components/EmptyState/EmptyState';
 
 const ProductCompare = (props) => {
   const {getProductsByFilters, compareList, products} = props;
@@ -29,8 +31,12 @@ const ProductCompare = (props) => {
       isCanceled = true;
     };
   }, [compareList, getProductsByFilters, rightId]);
-  return (
-    <CompareProductTable isMobile={isMobile} compareList={compareList}/>
+  return (<Box>
+    {compareList && compareList.length && products.data && products.data.length
+      ? <CompareProductTable isMobile={isMobile} compareList={compareList}/>
+      : <EmptyState text='Your compare list is empty' linkText='Let`s fix it'/>
+    }
+  </Box>
   );
 };
 
