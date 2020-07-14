@@ -32,7 +32,7 @@ const ProductCompare = (props) => {
     };
   }, [compareList, getProductsByFilters, rightId]);
   return (<Box>
-    {compareList && compareList.length
+    {compareList && compareList.length && products.data && products.data.length
       ? <CompareProductTable isMobile={isMobile} compareList={compareList}/>
       : <EmptyState text='Your compare list is empty' linkText='Let`s fix it'/>
     }
