@@ -36,7 +36,6 @@ const AddressForm = (props) => {
   const submitAddressData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
     setUserDeliveryAddress('');
-    console.log('values', values);
 
     const newAddressesList = {
       id: user._id,

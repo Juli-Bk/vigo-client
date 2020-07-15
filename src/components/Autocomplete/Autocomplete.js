@@ -73,12 +73,14 @@ const AutocompleteComponent = (props) => {
       if (active) {
         let newOptions = [];
 
-        if (value) {
+        if (value && value.length) {
           newOptions = [value];
         }
 
-        if (results) {
+        if (results && newOptions.length) {
           newOptions = [...newOptions, ...results];
+        } else if (results) {
+          newOptions = [...results];
         }
 
         setOptions(newOptions);
@@ -96,10 +98,10 @@ const AutocompleteComponent = (props) => {
         id='googleMap'
         getOptionLabel={(option) => (typeof option === 'string' ? option : option.description)}
         getOptionSelected={(option, value) => {
-          option = typeof option === 'string' ? option : option.description;
-          console.log(value);
-          console.log(option);
-          return option === value;
+          if (value) {
+            option = typeof option === 'string' ? option : option.description;
+            return option === value;
+          }
         }}
         filterOptions={(x) => x}
         options={options}
