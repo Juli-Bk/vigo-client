@@ -54,6 +54,9 @@ const theme = createMuiTheme({
         fontFamily: fonts.f4,
         color: colors.phPrimary,
         position: 'relative'
+      },
+      caption: {
+        fontSize: '0.7rem'
       }
     },
     MuiIconButton: {
