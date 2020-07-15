@@ -1,5 +1,6 @@
 import React, { useEffect, useRef, useState, useMemo } from 'react';
 import PropTypes from 'prop-types';
+import {Field} from 'formik';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
@@ -28,9 +29,8 @@ function loadScript (src, position, id) {
 const autocompleteService = { current: null };
 
 const AutocompleteComponent = (props) => {
-  const {error, touched, name, onBlur, setAddress, className, address} = props;
+  const {error, touched, name, onBlur, className, value, setFieldValue} = props;
   const classes = useStyles();
-  const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState([]);
   const loaded = useRef(false);
@@ -96,8 +96,10 @@ const AutocompleteComponent = (props) => {
         id='googleMap'
         getOptionLabel={(option) => (typeof option === 'string' ? option : option.description)}
         getOptionSelected={(option, value) => {
-          const newValue = typeof value === 'string' ? value.toLowerCase() : value.description;
-          return option.description.includes(newValue[0]);
+          option = typeof option === 'string' ? option : option.description;
+          console.log(value);
+          console.log(option);
+          return option === value;
         }}
         filterOptions={(x) => x}
         options={options}
@@ -106,24 +108,23 @@ const AutocompleteComponent = (props) => {
         includeInputInList
         filterSelectedOptions
         size='small'
-        value={address}
+        value={value}
         onChange={(event, newValue) => {
+          newValue && setFieldValue('autocomplete', newValue.description);
           setOptions(newValue ? [newValue, ...options] : options);
-          setValue(newValue);
-          newValue ? setAddress(newValue) : setAddress(null);
         }}
 
         onInputChange={(event, newInputValue) => {
           setInputValue(newInputValue);
-          newInputValue ? setAddress(newInputValue) : setAddress(null);
         }}
         renderInput={(params) => {
           return (
-            <TextField {...params}
+            <Field {...params}
+              component={TextField}
               name={name}
               label={<IconLabel label='city and street name' Component={PublicIcon}/>}
               variant='outlined'
-              value={address}
+              value={value}
               onBlur={onBlur}
               helperText={touched.autocomplete ? error.autocomplete : ''}
               error={touched.autocomplete && Boolean(error.autocomplete)}
