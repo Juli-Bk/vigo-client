@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
 import {Field} from 'formik';
 import TextField from '@material-ui/core/TextField';
@@ -92,13 +92,22 @@ const AutocompleteComponent = (props) => {
     };
   }, [value, inputValue, fetch]);
 
+  const handleChange = useCallback((event, newValue) => {
+    setOptions(newValue ? [newValue, ...options] : options);
+    if (newValue && typeof newValue === 'string') {
+      setFieldValue('autocomplete', newValue);
+    } else if (newValue) {
+      setFieldValue('autocomplete', newValue.description);
+    }
+  }, [options, setFieldValue]);
+
   return (
     <ThemeProvider theme={theme}>
       <Autocomplete
         id='googleMap'
         getOptionLabel={(option) => (typeof option === 'string' ? option : option.description)}
         getOptionSelected={(option, value) => {
-          if (value) {
+          if (value.length) {
             option = typeof option === 'string' ? option : option.description;
             return option === value;
           }
@@ -111,11 +120,7 @@ const AutocompleteComponent = (props) => {
         filterSelectedOptions
         size='small'
         value={value}
-        onChange={(event, newValue) => {
-          newValue && setFieldValue('autocomplete', newValue.description);
-          setOptions(newValue ? [newValue, ...options] : options);
-        }}
-
+        onChange={handleChange}
         onInputChange={(event, newInputValue) => {
           setInputValue(newInputValue);
         }}
@@ -126,7 +131,7 @@ const AutocompleteComponent = (props) => {
               name={name}
               label={<IconLabel label='city and street name' Component={PublicIcon}/>}
               variant='outlined'
-              value={value}
+              value={inputValue}
               onBlur={onBlur}
               helperText={touched.autocomplete ? error.autocomplete : ''}
               error={touched.autocomplete && Boolean(error.autocomplete)}

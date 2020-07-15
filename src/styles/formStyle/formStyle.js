@@ -8,7 +8,7 @@ const useStyles = makeStyles(theme => (
       width: 500,
       overflow: 'hidden',
       [theme.breakpoints.between(0, 420)]: {
-        width: '90%',
+        width: '93%',
         margin: 'auto',
         padding: 0
       },
