@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Formik } from 'formik';
 import {
   Typography,
@@ -25,7 +25,6 @@ import PrivacyPolicyModal from '../VigoPrivacyPolicy/PrivacyPolicyModal';
 
 const AddressGuestForm = (props) => {
   const {saveGuestDataHandler, guestData} = props;
-  const [address, setAddress] = useState(null);
 
   const classes = useStyles();
 
@@ -35,13 +34,12 @@ const AddressGuestForm = (props) => {
 
   const saveGuestData = (values, {resetForm}) => {
     const deliveryAddress = {
-      address: address.description,
+      address: values.autocomplete,
       house: values.house,
       apartment: values.apartment,
       postalCode: values.postalCode
     };
     resetForm();
-    setAddress(null);
     saveGuestDataHandler(deliveryAddress);
   };
 
@@ -70,20 +68,20 @@ const AddressGuestForm = (props) => {
               handleSubmit, handleBlur,
               isSubmitting,
               errors,
-              touched
+              touched,
+              setFieldValue
             }) => (
               <form>
                 <AutocompleteComponent
                   autoComplete='on'
                   className={classes.input}
-                  address={address}
-                  setAddress={setAddress}
                   name='autocomplete'
                   onBlur={handleBlur}
                   touched={touched}
-                  value={address}
+                  value={values.autocomplete}
                   onChange={handleChange}
                   error={errors}
+                  setFieldValue={setFieldValue}
                   fullWidth
                 />
                 <TextField

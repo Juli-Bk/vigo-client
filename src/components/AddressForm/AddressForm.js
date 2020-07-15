@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Formik} from 'formik';
 import {
   Button,
@@ -28,7 +28,6 @@ import PrivacyPolicyModal from '../VigoPrivacyPolicy/PrivacyPolicyModal';
 const AddressForm = (props) => {
   const {submitAddressHandler, user, saveUserData, setUserDeliveryAddress} = props;
   const {addresses = []} = user;
-  const [address, setAddress] = useState(null);
 
   const handleCancel = () => {
     submitAddressHandler(null);
@@ -43,7 +42,7 @@ const AddressForm = (props) => {
       addresses: [
         ...addresses,
         {
-          address: address.description,
+          address: values.autocomplete,
           house: values.house,
           apartment: values.apartment,
           postalCode: values.postalCode
@@ -55,7 +54,6 @@ const AddressForm = (props) => {
       setSubmitting(false);
       if (result && result.status !== 400) {
         resetForm();
-        setAddress(null);
       }
       submitAddressHandler(result);
     });
@@ -89,20 +87,20 @@ const AddressForm = (props) => {
               handleSubmit,
               values,
               errors,
-              touched
+              touched,
+              setFieldValue
             }) => (
               <form>
                 <AutocompleteComponent
                   autoComplete='on'
-                  address={address}
                   className={classes.input}
-                  setAddress={setAddress}
                   name='autocomplete'
                   onBlur={handleBlur}
                   touched={touched}
                   value={values.autocomplete}
                   onChange={handleChange}
                   error={errors}
+                  setFieldValue={setFieldValue}
                   fullWidth
                 />
                 <TextField
