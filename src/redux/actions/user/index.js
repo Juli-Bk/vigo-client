@@ -144,10 +144,10 @@ export const getUserData = () => {
 export const refreshToken = (callback) => {
   return (dispatch) => {
     AjaxUtils.Users.refreshLogin()
-      .then(newToken => {
-        if (newToken) {
-          putJWTtoCookie(newToken.token);
-          dispatch(setJWTtoken(newToken.token));
+      .then(result => {
+        if (result && result.success) {
+          putJWTtoCookie(result.token);
+          dispatch(setJWTtoken(result.token));
         } else {
           dispatch(clear());
         }

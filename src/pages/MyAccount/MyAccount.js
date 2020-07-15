@@ -1,26 +1,28 @@
 import React, {useEffect} from 'react';
 import MyAccTabs from '../../components/MyAccTabs/MyAccTabs';
 import {Container} from '@material-ui/core';
-import {clear} from '../../redux/actions/user';
+import {clear, getUserData} from '../../redux/actions/user';
 import {setLoginModalOpenState} from '../../redux/actions/actions';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
+import {isEmptyObj} from '../../helpers/helpers';
 
 const MyAccount = (props) => {
-  const {auth = true, clear, setLoginModalOpenState} = props;
+  const {auth = true, user, clear, setLoginOpen, getUserData} = props;
 
   useEffect(() => {
     if (!auth) {
       clear();
-      setLoginModalOpenState(true);
+      setLoginOpen(true);
+      getUserData();
     }
-  }, [auth, clear, setLoginModalOpenState]);
+  }, [auth, clear, getUserData, setLoginOpen]);
 
   return (
     <>
       {
-        auth ? <Container component='span'>
-          <MyAccTabs/>
+        !isEmptyObj(user) ? <Container component='span'>
+          <MyAccTabs user={user}/>
         </Container>
           : <></>
       }
@@ -28,11 +30,18 @@ const MyAccount = (props) => {
   );
 };
 
-const mapDispatchToProps = dispatch => {
+const mapStoreToProps = store => {
   return {
-    clear: () => dispatch(clear()),
-    setLoginModalOpenState: flag => dispatch(setLoginModalOpenState(flag))
+    user: store.user
   };
 };
 
-export default connect(null, mapDispatchToProps)(React.memo(withRouter(MyAccount)));
+const mapDispatchToProps = dispatch => {
+  return {
+    clear: () => dispatch(clear()),
+    getUserData: () => dispatch(getUserData()),
+    setLoginOpen: flag => dispatch(setLoginModalOpenState(flag))
+  };
+};
+
+export default connect(mapStoreToProps, mapDispatchToProps)(React.memo(withRouter(MyAccount)));

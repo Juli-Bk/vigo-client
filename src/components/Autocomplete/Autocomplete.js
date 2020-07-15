@@ -1,5 +1,6 @@
-import React, { useEffect, useRef, useState, useMemo } from 'react';
+import React, { useEffect, useRef, useState, useMemo, useCallback } from 'react';
 import PropTypes from 'prop-types';
+import {Field} from 'formik';
 import TextField from '@material-ui/core/TextField';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import LocationOnIcon from '@material-ui/icons/LocationOn';
@@ -28,9 +29,8 @@ function loadScript (src, position, id) {
 const autocompleteService = { current: null };
 
 const AutocompleteComponent = (props) => {
-  const {error, touched, name, onBlur, setAddress, className, address} = props;
+  const {error, touched, name, onBlur, className, value, setFieldValue} = props;
   const classes = useStyles();
-  const [value, setValue] = useState(null);
   const [inputValue, setInputValue] = useState('');
   const [options, setOptions] = useState([]);
   const loaded = useRef(false);
@@ -73,12 +73,14 @@ const AutocompleteComponent = (props) => {
       if (active) {
         let newOptions = [];
 
-        if (value) {
+        if (value && value.length) {
           newOptions = [value];
         }
 
-        if (results) {
+        if (results && newOptions.length) {
           newOptions = [...newOptions, ...results];
+        } else if (results) {
+          newOptions = [...results];
         }
 
         setOptions(newOptions);
@@ -90,14 +92,25 @@ const AutocompleteComponent = (props) => {
     };
   }, [value, inputValue, fetch]);
 
+  const handleChange = useCallback((event, newValue) => {
+    setOptions(newValue ? [newValue, ...options] : options);
+    if (newValue && typeof newValue === 'string') {
+      setFieldValue('autocomplete', newValue);
+    } else if (newValue) {
+      setFieldValue('autocomplete', newValue.description);
+    }
+  }, [options, setFieldValue]);
+
   return (
     <ThemeProvider theme={theme}>
       <Autocomplete
         id='googleMap'
         getOptionLabel={(option) => (typeof option === 'string' ? option : option.description)}
         getOptionSelected={(option, value) => {
-          const newValue = typeof value === 'string' ? value.toLowerCase() : value.description;
-          return option.description.includes(newValue[0]);
+          if (value.length) {
+            option = typeof option === 'string' ? option : option.description;
+            return option === value;
+          }
         }}
         filterOptions={(x) => x}
         options={options}
@@ -106,24 +119,19 @@ const AutocompleteComponent = (props) => {
         includeInputInList
         filterSelectedOptions
         size='small'
-        value={address}
-        onChange={(event, newValue) => {
-          setOptions(newValue ? [newValue, ...options] : options);
-          setValue(newValue);
-          newValue ? setAddress(newValue) : setAddress(null);
-        }}
-
+        value={value}
+        onChange={handleChange}
         onInputChange={(event, newInputValue) => {
           setInputValue(newInputValue);
-          newInputValue ? setAddress(newInputValue) : setAddress(null);
         }}
         renderInput={(params) => {
           return (
-            <TextField {...params}
+            <Field {...params}
+              component={TextField}
               name={name}
               label={<IconLabel label='city and street name' Component={PublicIcon}/>}
               variant='outlined'
-              value={address}
+              value={inputValue}
               onBlur={onBlur}
               helperText={touched.autocomplete ? error.autocomplete : ''}
               error={touched.autocomplete && Boolean(error.autocomplete)}
