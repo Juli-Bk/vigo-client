@@ -9,7 +9,8 @@ import { deleteProps } from '../../helpers/helpers';
 const useStyles = makeStyles(() => ({
   container: {
     display: 'flex',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    minHeight: 60
   },
   button: {
     color: colors.paginationColor,
