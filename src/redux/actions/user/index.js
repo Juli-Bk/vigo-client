@@ -146,9 +146,8 @@ export const refreshToken = (callback) => {
     AjaxUtils.Users.refreshLogin()
       .then(result => {
         if (result && result.success) {
-          const {token} = result.token;
-          putJWTtoCookie(token);
-          dispatch(setJWTtoken(token));
+          putJWTtoCookie(result.token);
+          dispatch(setJWTtoken(result.token));
         } else {
           dispatch(clear());
         }
