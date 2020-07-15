@@ -19,7 +19,7 @@ export const placeOrder = (userId, products, orderData) => dispatch => {
         dispatch({
           type: Actions.SET_SNACK_MESSAGE_OPEN,
           payload: true,
-          message: 'We got your order',
+          message: 'We have got your order',
           severity: globalConfig.snackSeverity.SUCCESS
         });
         setStorageData('shoppingCart', []);
