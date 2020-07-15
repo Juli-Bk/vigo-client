@@ -27,7 +27,7 @@ const ShoppingCart = (props) => {
   }, [shoppingCart, getProductsByFilters]);
 
   return (
-    <Container>
+    <Container style={{textAlign: 'center'}}>
       { flag
         ? <ShopCartView
           products={products.data}
