@@ -21,10 +21,11 @@ import PinDropIcon from '@material-ui/icons/PinDrop';
 import AutocompleteComponent from '../Autocomplete/Autocomplete';
 import {validateObject} from './helper';
 import {connect} from 'react-redux';
+import PrivacyPolicyModal from '../VigoPrivacyPolicy/PrivacyPolicyModal';
 
 const AddressGuestForm = (props) => {
   const {saveGuestDataHandler, guestData} = props;
-  const [address, setAddress] = useState('');
+  const [address, setAddress] = useState(null);
 
   const classes = useStyles();
 
@@ -40,6 +41,7 @@ const AddressGuestForm = (props) => {
       postalCode: values.postalCode
     };
     resetForm();
+    setAddress(null);
     saveGuestDataHandler(deliveryAddress);
   };
 
@@ -74,11 +76,12 @@ const AddressGuestForm = (props) => {
                 <AutocompleteComponent
                   autoComplete='on'
                   className={classes.input}
+                  address={address}
                   setAddress={setAddress}
                   name='autocomplete'
                   onBlur={handleBlur}
                   touched={touched}
-                  value={values.autocomplete}
+                  value={address}
                   onChange={handleChange}
                   error={errors}
                   fullWidth
@@ -137,6 +140,7 @@ const AddressGuestForm = (props) => {
                       color='default'/>}
                     label='I have read and agree to the Privacy Policy'
                   />
+                  <PrivacyPolicyModal/>
                   {touched.confirmation && errors.confirmation &&
                   <FormHelperText
                     error={touched.confirmation && !!errors.confirmation}>
