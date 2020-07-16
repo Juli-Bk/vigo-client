@@ -41,7 +41,8 @@ const TopSlider = () => {
         showThumbnails={false}
         showFullscreenButton={false}
         showPlayButton={false}
-        autoPlay={false}
+        autoPlay={true}
+        slideDuration={1000}
         renderItem={customRenderItem}
       />
     </Box>

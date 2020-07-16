@@ -4,6 +4,7 @@ import AjaxUtils from '../../../ajax';
 import { integrateCarts } from '../../../pages/ShoppingCart/cartHelpers';
 import {getStorageData, setStorageData} from '../../../helpers/helpers';
 import globalConfig from '../../../globalConfig';
+import { setSnackMessage } from '../actions';
 
 export const changeShoppingCart = () => {
   const data = getStorageData('shoppingCart');
@@ -45,12 +46,7 @@ export const handleCart = (products) => dispatch => {
           AjaxUtils.ShopCart.createShopCart(userId, products)
             .then(result => {
               if (result && result.status === 400) {
-                dispatch({
-                  type: Actions.SET_SNACK_MESSAGE_OPEN,
-                  payload: true,
-                  message: globalConfig.cartMessages.ERROR,
-                  severity: globalConfig.snackSeverity.ERROR
-                });
+                dispatch(setSnackMessage(true, globalConfig.cartMessages.ERROR, globalConfig.snackSeverity.ERROR));
                 console.log(result.message);
                 setStorageData('shoppingCart', []);
                 dispatch(changeShoppingCart());
@@ -60,24 +56,14 @@ export const handleCart = (products) => dispatch => {
                 }
               }
             }).catch(err => {
-              dispatch({
-                type: Actions.SET_SNACK_MESSAGE_OPEN,
-                payload: true,
-                message: globalConfig.cartMessages.ERROR,
-                severity: globalConfig.snackSeverity.ERROR
-              });
+              dispatch(setSnackMessage(true, globalConfig.cartMessages.ERROR, globalConfig.snackSeverity.ERROR));
               console.log('cartHelper createShopCart error: ', err);
             });
         } else {
           AjaxUtils.ShopCart.updateShopCartById(result._id, products, result.userId)
             .then(result => {
               if (result && result.status === 400) {
-                dispatch({
-                  type: Actions.SET_SNACK_MESSAGE_OPEN,
-                  payload: true,
-                  message: globalConfig.cartMessages.ERROR,
-                  severity: globalConfig.snackSeverity.ERROR
-                });
+                dispatch(setSnackMessage(true, globalConfig.cartMessages.ERROR, globalConfig.snackSeverity.ERROR));
                 console.log(result.message);
               } else {
                 if (result && result._id) {
@@ -85,12 +71,7 @@ export const handleCart = (products) => dispatch => {
                 }
               }
             }).catch(err => {
-              dispatch({
-                type: Actions.SET_SNACK_MESSAGE_OPEN,
-                payload: true,
-                message: globalConfig.cartMessages.ERROR,
-                severity: globalConfig.snackSeverity.ERROR
-              });
+              dispatch(setSnackMessage(true, globalConfig.cartMessages.ERROR, globalConfig.snackSeverity.ERROR));
               console.log('cartHelper updateShopCartById error: ', err);
             });
         }
@@ -99,12 +80,7 @@ export const handleCart = (products) => dispatch => {
     AjaxUtils.ShopCart.updateShopCartById(cartId, products)
       .then(result => {
         if (result && result.status === 400) {
-          dispatch({
-            type: Actions.SET_SNACK_MESSAGE_OPEN,
-            payload: true,
-            message: globalConfig.cartMessages.ERROR,
-            severity: globalConfig.snackSeverity.ERROR
-          });
+          dispatch(setSnackMessage(true, globalConfig.cartMessages.ERROR, globalConfig.snackSeverity.ERROR));
           console.log(result.message);
           if (result.message.includes('products')) {
             setStorageData('shoppingCart', []);
@@ -112,24 +88,14 @@ export const handleCart = (products) => dispatch => {
           }
         }
       }).catch(err => {
-        dispatch({
-          type: Actions.SET_SNACK_MESSAGE_OPEN,
-          payload: true,
-          message: globalConfig.cartMessages.ERROR,
-          severity: globalConfig.snackSeverity.ERROR
-        });
+        dispatch(setSnackMessage(true, globalConfig.cartMessages.ERROR, globalConfig.snackSeverity.ERROR));
         console.log('cartHelper updateShopCartById error: ', err);
       });
   } else {
     AjaxUtils.ShopCart.createShopCart(null, products)
       .then(result => {
         if (result && result.status === 400) {
-          dispatch({
-            type: Actions.SET_SNACK_MESSAGE_OPEN,
-            payload: true,
-            message: globalConfig.cartMessages.ERROR,
-            severity: globalConfig.snackSeverity.ERROR
-          });
+          dispatch(setSnackMessage(true, globalConfig.cartMessages.ERROR, globalConfig.snackSeverity.ERROR));
           setStorageData('shoppingCart', []);
           dispatch(changeShoppingCart());
           console.log(result.message);
@@ -139,12 +105,7 @@ export const handleCart = (products) => dispatch => {
           }
         }
       }).catch(err => {
-        dispatch({
-          type: Actions.SET_SNACK_MESSAGE_OPEN,
-          payload: true,
-          message: globalConfig.cartMessages.ERROR,
-          severity: globalConfig.snackSeverity.ERROR
-        });
+        dispatch(setSnackMessage(true, globalConfig.cartMessages.ERROR, globalConfig.snackSeverity.ERROR));
         console.log('cartHelper createShopCart error: ', err);
       });
   }
