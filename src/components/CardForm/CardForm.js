@@ -1,4 +1,5 @@
 import React from 'react';
+import {connect} from 'react-redux';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import {ThemeProvider} from '@material-ui/core/styles';
@@ -16,11 +17,11 @@ import useStyles from './CardFormStyle';
 import CreditCardIcon from '@material-ui/icons/CreditCard';
 import IconLabel from '../IconLabel/IconLabel';
 import theme from './CardFormTheme';
-import AjaxUtils from '../../ajax';
 import globalConfig from '../../globalConfig';
+import {createUser} from '../../redux/actions/user';
 
 const CardForm = (props) => {
-  const {submitCardHandler} = props;
+  const {submitCardHandler, createUser} = props;
   const submitCardData = (values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
     submitCardHandler(values, () => {
@@ -31,12 +32,11 @@ const CardForm = (props) => {
       name: values.name,
       surname: values.surname
     });
-    AjaxUtils.Users.createUser(json)
-      .then(result => {
-        setSubmitting(false);
-        resetForm();
-        submitCardHandler(result);
-      });
+    createUser(json, result => {
+      setSubmitting(false);
+      resetForm();
+      submitCardHandler(result);
+    });
   };
 
   const initFormValues = {
@@ -99,8 +99,7 @@ const CardForm = (props) => {
               handleSubmit,
               values,
               errors,
-              touched,
-              onChange
+              touched
             }) => (
               <form autoComplete='on'>
                 <Box>{detectCardType(values.creditCardNumber)}</Box>
@@ -181,4 +180,10 @@ CardForm.propTypes = {
   submitCardHandler: PropTypes.func.isRequired
 };
 
-export default React.memo(CardForm);
+const mapDispatchToProps = dispatch => {
+  return {
+    createUser: (data, callback) => dispatch(createUser(data, callback))
+  };
+};
+
+export default React.memo(connect(null, mapDispatchToProps)(CardForm));
