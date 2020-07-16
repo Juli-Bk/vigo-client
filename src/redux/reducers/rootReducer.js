@@ -31,6 +31,7 @@ import orderDetails from './orderReducer';
 import checkoutSteps from './checkoutStepsReducer';
 import compareList from './compareListReducer';
 import userOrders from './userOrdersReducer';
+import product from './productReducer';
 
 export const rootReducer = combineReducers({
   currentPage,
@@ -64,5 +65,6 @@ export const rootReducer = combineReducers({
   orderDetails,
   checkoutSteps,
   compareList,
-  userOrders
+  userOrders,
+  product
 });
