@@ -20,13 +20,13 @@ import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
 import IconLabel from '../IconLabel/IconLabel';
 import PersonIcon from '@material-ui/icons/Person';
 import EmailIcon from '@material-ui/icons/Email';
-import AjaxUtils from '../../ajax';
 import {saveUserData} from '../../redux/actions/user';
 import {validateObject} from './helper';
 import PrivacyPolicyModal from '../VigoPrivacyPolicy/PrivacyPolicyModal';
+import { subscribe } from '../../redux/actions/subscribers';
 
 const PersonalDetailsForm = (props) => {
-  const {user, savePersonalUserData, saveUserAddressesHandler} = props;
+  const {user, savePersonalUserData, saveUserAddressesHandler, subscribe} = props;
   const {firstName, lastName, email, phoneNumber} = user;
 
   const handleCancel = () => {
@@ -53,10 +53,7 @@ const PersonalDetailsForm = (props) => {
     });
 
     if (values.subscribe === true) {
-      AjaxUtils.Subscribers.subscribe(values.email)
-        .then(result => {
-          console.log(result);
-        });
+      subscribe(values.email);
     }
   };
 
@@ -209,7 +206,8 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    savePersonalUserData: (data, callback) => dispatch(saveUserData(data, callback))
+    savePersonalUserData: (data, callback) => dispatch(saveUserData(data, callback)),
+    subscribe: email => dispatch(subscribe(email))
   };
 };
 

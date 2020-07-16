@@ -11,10 +11,9 @@ import MailIcon from '@material-ui/icons/Mail';
 import theme from './ContactFormTheme';
 import {ThemeProvider} from '@material-ui/core/styles';
 import Recaptcha from 'react-recaptcha';
-import AjaxUtils from '../../ajax';
-import {setSnackMessage} from '../../redux/actions/actions';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
+import {sendEmail} from '../../redux/actions/email';
 
 const initFormValues = {
   name: '',
@@ -38,7 +37,8 @@ const validationSample = Yup.object({
     .required('Recaptcha required')
 });
 
-const ContactForm = ({setSnackMessage}) => {
+const ContactForm = (props) => {
+  const {sendEmail} = props;
   const styles = useStyles();
 
   const submitData = useCallback((values, {resetForm, setSubmitting}) => {
@@ -55,17 +55,13 @@ const ContactForm = ({setSnackMessage}) => {
       from: values.email
     };
 
-    AjaxUtils.Email.sendEmail(data)
-      .then(result => {
+    sendEmail(data, result => {
+      if (result && result.status !== 400) {
         resetForm();
-        if (result && result.status === 400) {
-          setSnackMessage(true, 'Error occurs during message sending', 'error');
-        } else {
-          setSnackMessage(true, 'Your email sent', 'success');
-        }
-        setSubmitting(false);
-      });
-  }, [setSnackMessage]);
+      }
+      setSubmitting(false);
+    });
+  }, [sendEmail]);
 
   return (
     <Grid className={styles.form} item container xs={12} sm={8}>
@@ -181,7 +177,7 @@ const ContactForm = ({setSnackMessage}) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setSnackMessage: (isOpen, message, severity) => dispatch(setSnackMessage(isOpen, message, severity))
+    sendEmail: (data, callback) => dispatch(sendEmail(data, callback))
   };
 };
 

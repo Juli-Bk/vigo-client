@@ -192,3 +192,16 @@ export const getAllProducts = (startPage, perPage, sort) => dispatch => {
       console.log('get all products request failed', err);
     });
 };
+
+export const getProductById = (id) => dispatch => {
+  AjaxUtils.Products.getProductById(id)
+    .then(result => {
+      dispatch(setProduct(result));
+    }).catch(err => {
+      console.log('get product by id request failed', err);
+    });
+};
+
+export const setProduct = (product) => {
+  return {type: Actions.SET_PRODUCT, payload: product};
+};

@@ -325,3 +325,13 @@ export const saveNewPassword = (userId, data) => dispatch => {
       console.log('update password error happened', err);
     });
 };
+
+export const createUser = (data, callback) => {
+  AjaxUtils.Users.createUser(data)
+    .then(result => {
+      console.log(result);
+      callback && callback(result);
+    }).catch(err => {
+      console.log('create user error happened', err);
+    });
+};
