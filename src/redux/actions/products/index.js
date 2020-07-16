@@ -6,19 +6,20 @@ import {
 } from '../../../helpers/helpers';
 import {changeWishList} from '../wishlist';
 import { changeShoppingCart } from '../shopCart';
+import { setLoading } from '../actions';
 
 export const getProductsByFilters = (filterArray, startPage, perPage, sort) => dispatch => {
   if (filterArray && filterArray.length) {
-    dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
+    dispatch(setLoading(true));
     AjaxUtils.Products.getProductsByFilters(filterArray, startPage, perPage, sort)
       .then(result => {
+        dispatch(setLoading(false));
         if (result && result.message) {
           if (result.message.includes('_id')) {
             const badId = findBadId(result.message);
             removeBadIdFromStorage(badId);
             dispatch(changeWishList());
             dispatch(changeShoppingCart());
-            dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
           }
         } else if (result && result.products) {
           dispatch({
@@ -26,10 +27,9 @@ export const getProductsByFilters = (filterArray, startPage, perPage, sort) => d
             products: result.products,
             totalCount: result.totalCount
           });
-          dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
         }
       }).catch(err => {
-        dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
+        dispatch(setLoading(false));
         console.log('get products by filters request failed', err);
       });
   }
@@ -47,25 +47,28 @@ export const getMaxPrice = () => dispatch => {
 };
 
 export const getFeatured = () => dispatch => {
-  dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
+  dispatch(setLoading(true));
   AjaxUtils.Products.getProductsByFilters([{featured: true}], 1, 15, '')
     .then(result => {
+      dispatch(setLoading(false));
       if (result && result.products) {
         dispatch({
           type: Actions.GET_FEATURED,
           data: result.products,
           name: 'featured'
         });
-        dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
       }
     }).catch(err => {
+      dispatch(setLoading(false));
       console.log('get featured products request failed', err);
     });
 };
 
 export const getSpecial = () => dispatch => {
+  dispatch(setLoading(true));
   AjaxUtils.Products.getProductsByFilters([{special: true}], 1, 15, '')
     .then(result => {
+      dispatch(setLoading(false));
       if (result && result.products) {
         dispatch({
           type: Actions.GET_SPECIAL,
@@ -74,13 +77,16 @@ export const getSpecial = () => dispatch => {
         });
       }
     }).catch(err => {
+      dispatch(setLoading(false));
       console.log('get special products request failed', err);
     });
 };
 
 export const getNewArrivals = () => dispatch => {
+  dispatch(setLoading(true));
   AjaxUtils.Products.getProductsByFilters([{new: true}], 1, 15, '')
     .then(result => {
+      dispatch(setLoading(false));
       if (result && result.products) {
         dispatch({
           type: Actions.GET_NEW_ARRIVALS,
@@ -89,22 +95,24 @@ export const getNewArrivals = () => dispatch => {
         });
       }
     }).catch(err => {
+      dispatch(setLoading(false));
       console.log('get new products request failed', err);
     });
 };
 
 export const getBestsellers = (perPage) => dispatch => {
-  dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
+  dispatch(setLoading(true));
   AjaxUtils.Products.getProductsByFilters([{bestseller: true}], 1, perPage, '')
     .then(result => {
+      dispatch(setLoading(false));
       if (result && result.products) {
         dispatch({
           type: Actions.GET_BESTSELLERS,
           payload: result.products
         });
-        dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
       }
     }).catch(err => {
+      dispatch(setLoading(false));
       console.log('get best sellers request failed', err);
     });
 };
@@ -113,9 +121,10 @@ export const getRecentlyViewed = (productId) => dispatch => {
   const dataFromStorage = getStorageData('recentlyViewed');
   const filterArray = dataFromStorage.length ? [{_id: dataFromStorage}] : [];
   if (filterArray.length) {
-    dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
+    dispatch(setLoading(true));
     AjaxUtils.Products.getProductsByFilters(filterArray, 1, 8, '')
       .then(result => {
+        dispatch(setLoading(false));
         if ((result.products && result.products.length) < dataFromStorage.length) {
           dispatch({
             type: Actions.GET_RECENTLY_VIEWED,
@@ -142,17 +151,17 @@ export const getRecentlyViewed = (productId) => dispatch => {
           getRecentlyViewed(productId);
         }
       }).catch(err => {
+        dispatch(setLoading(false));
         console.log('get recently viewed products request failed', err);
       });
-    dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
   }
 };
 
 export const searchProducts = (searchString) => dispatch => {
-  dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
+  dispatch(setLoading(true));
   AjaxUtils.Products.searchProducts(searchString)
     .then(result => {
-      dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
+      dispatch(setLoading(false));
       if (result) {
         dispatch({
           type: Actions.SEARCH_PRODUCTS,
@@ -161,24 +170,25 @@ export const searchProducts = (searchString) => dispatch => {
         });
       }
     }).catch(err => {
-      dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
+      dispatch(setLoading(false));
       console.log('search products request failed', err);
     });
 };
 
 export const getAllProducts = (startPage, perPage, sort) => dispatch => {
-  dispatch({type: Actions.SET_LOADING_PROCESS, payload: true});
+  dispatch(setLoading(true));
   AjaxUtils.Products.getAllProducts(startPage, perPage, sort)
     .then(result => {
+      dispatch(setLoading(false));
       if (result && result.products) {
         dispatch({
           type: Actions.GET_ALL_PRODUCTS,
           products: result.products,
           total: result.totalCount
         });
-        dispatch({type: Actions.SET_LOADING_PROCESS, payload: false});
       }
     }).catch(err => {
+      dispatch(setLoading(false));
       console.log('get all products request failed', err);
     });
 };

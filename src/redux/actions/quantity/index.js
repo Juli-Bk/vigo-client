@@ -9,6 +9,8 @@ export const getProductsQuantity = (idArray) => dispatch => {
           if (result && result.length) {
             dispatch({type: Actions.GET_PRODUCTS_QUANTITY, payload: result, productId: id});
           }
+        }).catch(err => {
+          console.log('get products quantity error happened', err);
         });
     });
   }
