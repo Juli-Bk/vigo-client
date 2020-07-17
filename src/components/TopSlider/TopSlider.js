@@ -6,6 +6,7 @@ import { theme } from './TopSliderTheme';
 import { Box, Button, Typography, ThemeProvider } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import globalConfig from '../../globalConfig';
+import keysConfig from '../../keysConfig';
 
 const TopSlider = () => {
   const classes = useStyles();
@@ -41,8 +42,8 @@ const TopSlider = () => {
         showThumbnails={false}
         showFullscreenButton={false}
         showPlayButton={false}
-        autoPlay={true}
-        slideDuration={1000}
+        autoPlay={keysConfig.environment !== 'development'}
+        slideDuration={1500}
         renderItem={customRenderItem}
       />
     </Box>
