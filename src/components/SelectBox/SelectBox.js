@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const SelectBox = React.forwardRef((props, ref) => {
-  const { value, handleChange, options, label, classes} = props;
+  const {value, handleChange, options, label, classes} = props;
 
   return (
     <>
