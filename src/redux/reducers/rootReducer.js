@@ -32,6 +32,7 @@ import checkoutSteps from './checkoutStepsReducer';
 import compareList from './compareListReducer';
 import userOrders from './userOrdersReducer';
 import product from './productReducer';
+import network from './netWorkReducer';
 
 export const rootReducer = combineReducers({
   currentPage,
@@ -66,5 +67,6 @@ export const rootReducer = combineReducers({
   checkoutSteps,
   compareList,
   userOrders,
-  product
+  product,
+  network
 });

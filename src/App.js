@@ -11,6 +11,8 @@ import Footer from './containers/Footer/Footer';
 import {getCategories} from './redux/actions/categories';
 import {getUserData} from './redux/actions/user';
 import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner';
+import ErrorBoundary from './containers/ErrorBoundary/ErrorBoundary';
+import NetworkDetector from './Hoc/NetworkDetector';
 
 function App (props) {
   const {
@@ -36,13 +38,15 @@ function App (props) {
 
   return (
     <BrowserRouter>
-      <StylesProvider injectFirst>
-        <ThemeProvider theme={theme}>
-          <AppRoutes/>
-          <LoadingSpinner/>
-          <Footer/>
-        </ThemeProvider>
-      </StylesProvider>
+      <ErrorBoundary>
+        <StylesProvider injectFirst>
+          <ThemeProvider theme={theme}>
+            <AppRoutes/>
+            <LoadingSpinner/>
+            <Footer/>
+          </ThemeProvider>
+        </StylesProvider>
+      </ErrorBoundary>
     </BrowserRouter>
   );
 }
@@ -59,4 +63,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(App);
+export default connect(null, mapDispatchToProps)(NetworkDetector(App));

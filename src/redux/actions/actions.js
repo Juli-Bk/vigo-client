@@ -109,3 +109,26 @@ export const changeCompareList = (productId) => {
     return {type: Actions.CHANGE_COMPARE_LIST, payload: updatedList};
   }
 };
+
+export const setNetworkConnected = (flag) => {
+  return {type: Actions.SET_IS_CONNECTED, payload: flag};
+};
+
+export const handleConnectionChange = (clear = false) => dispatch => {
+  if (navigator.onLine) {
+    const webPing = setInterval(
+      () => {
+        // todo route for check connection
+        fetch('', { method: 'GET', mode: 'no-cors' })
+          .then(() => {
+            dispatch(setNetworkConnected(true));
+            clearInterval(webPing);
+          }).catch(() => {
+            dispatch(setNetworkConnected(false));
+          });
+      }, 2000);
+    if (clear) clearInterval(webPing);
+    return;
+  }
+  return dispatch(setNetworkConnected(false));
+};
