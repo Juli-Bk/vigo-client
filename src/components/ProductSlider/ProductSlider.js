@@ -39,6 +39,7 @@ const ProductSlider = (props) => {
   const classes = useStyles();
 
   const toggleFullScreenBtn = () => {
+    // hack to avoid direct state mutation from official library`s code example
     const video = document.querySelector('video');
     if (video) {
       const slide = video.parentNode.parentNode;

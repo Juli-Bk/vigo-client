@@ -1,4 +1,4 @@
-import React, {useEffect, useState, useCallback, useMemo} from 'react';
+import React, {useEffect, useState, useCallback, useMemo, useRef} from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {Box, Divider, ThemeProvider, Typography, withWidth} from '@material-ui/core';
@@ -38,14 +38,20 @@ const ProductPageView = (props) => {
   const [quantity, setQuantity] = useState(globalConfig.defaultQuantityOption);
   const [productQuantity, setProductQuantity] = useState([]);
   const [isSizeTableOpen, setIsSizeTableOpen] = useState(false);
+  const [anchorEl, setAnchorEl] = useState(null);
+  const anchorRef = useRef();
 
-  const handleClickOpen = () => {
+  const handleClickAddBtn = useCallback(() => {
+    setAnchorEl(anchorRef.current);
+  }, []);
+
+  const handleClickOpen = useCallback(() => {
     setIsSizeTableOpen(true);
-  };
+  }, []);
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     setIsSizeTableOpen(false);
-  };
+  }, []);
 
   const color = useMemo(() => getColorData(productQuantity), [productQuantity]);
   const maxQuantity = useMemo(() => {
@@ -102,15 +108,16 @@ const ProductPageView = (props) => {
       <Box>
         <Box className={classes.selectBox}>
           <SelectBox value={chosenSize}
+            ref={anchorRef}
             classes={classes}
             handleChange={handleSetSize}
             options={mapArrayToOptions(sizesArray)}/>
           <Quantity quantity={quantity} id={productData._id} classes={classes} max={maxQuantity || 5} handleQuantity={handleQuantity}/>
         </Box>
         <PopoverMessage
-          anchorEl={document.querySelector('select')}
+          anchorEl={anchorEl}
           popoverContent='Please, choose size'/>
-        <Box className={classes.actionBox}>
+        <Box className={classes.actionBox} onClick={handleClickAddBtn}>
           <ThemeProvider theme={theme}>
             <ActionButtons classes={classes}
               product={productData}
