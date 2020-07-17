@@ -3,6 +3,7 @@ import {BrowserRouter} from 'react-router-dom';
 import AppRoutes from './routes/AppRoutes';
 
 import {connect} from 'react-redux';
+import {Offline, Online} from 'react-detect-offline';
 import PropTypes from 'prop-types';
 import {StylesProvider, ThemeProvider} from '@material-ui/styles';
 import './App.scss';
@@ -12,7 +13,7 @@ import {getCategories} from './redux/actions/categories';
 import {getUserData} from './redux/actions/user';
 import LoadingSpinner from './components/LoadingSpinner/LoadingSpinner';
 import ErrorBoundary from './containers/ErrorBoundary/ErrorBoundary';
-import NetworkDetector from './Hoc/NetworkDetector';
+import Page404 from './pages/Page404/Page404';
 
 function App (props) {
   const {
@@ -37,17 +38,24 @@ function App (props) {
   }, [getData]);
 
   return (
-    <BrowserRouter>
-      <ErrorBoundary>
-        <StylesProvider injectFirst>
-          <ThemeProvider theme={theme}>
-            <AppRoutes/>
-            <LoadingSpinner/>
-            <Footer/>
-          </ThemeProvider>
-        </StylesProvider>
-      </ErrorBoundary>
-    </BrowserRouter>
+    <>
+      <Online>
+        <BrowserRouter>
+          <ErrorBoundary>
+            <StylesProvider injectFirst>
+              <ThemeProvider theme={theme}>
+                <AppRoutes/>
+                <LoadingSpinner/>
+                <Footer/>
+              </ThemeProvider>
+            </StylesProvider>
+          </ErrorBoundary>
+        </BrowserRouter>
+      </Online>
+      <Offline>
+        <Page404 errorType='network'/>
+      </Offline>
+    </>
   );
 }
 
@@ -63,4 +71,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default connect(null, mapDispatchToProps)(NetworkDetector(App));
+export default connect(null, mapDispatchToProps)(App);
