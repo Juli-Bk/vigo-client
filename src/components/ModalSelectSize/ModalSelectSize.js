@@ -115,9 +115,9 @@ ModalSize.propTypes = {
 
 const mapStateToProps = store => {
   return {
-    open: store.isModalSizeOpen,
-    productsQuantity: store.quantity,
-    currentProduct: store.currentProduct
+    open: store.modals && store.modals.isModalSizeOpen,
+    productsQuantity: store.stock && store.stock.quantity,
+    currentProduct: store.stock && store.stock.currentProduct
   };
 };
 

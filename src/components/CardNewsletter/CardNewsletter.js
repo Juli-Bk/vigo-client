@@ -108,7 +108,7 @@ CardNewsletter.propTypes = {
 
 const mapStateToProps = store => {
   return {
-    isPopoverOpen: store.isPopoverOpen
+    isPopoverOpen: store.stateFlags && store.stateFlags.isPopoverOpen
   };
 };
 

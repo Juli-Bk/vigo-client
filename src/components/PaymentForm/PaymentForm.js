@@ -73,7 +73,7 @@ const PaymentForm = (props) => {
 
 const mapStateToProps = store => {
   return {
-    activeStep: store.checkoutSteps.active
+    activeStep: store.checkout.checkoutSteps.active
   };
 };
 

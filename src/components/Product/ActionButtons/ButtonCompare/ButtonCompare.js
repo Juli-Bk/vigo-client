@@ -30,7 +30,7 @@ ButtonCompare.propTypes = {
 
 const mapStateToProps = store => {
   return {
-    compareList: store.compareList
+    compareList: store.userChoice && store.userChoice.compareList
   };
 };
 

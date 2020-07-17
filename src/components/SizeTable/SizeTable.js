@@ -49,12 +49,14 @@ const SizeTable = (props) => {
 };
 
 SizeTable.propTypes = {
-  id: PropTypes.string.isRequired
+  id: PropTypes.string.isRequired,
+  data: PropTypes.array.isRequired,
+  getSizeTable: PropTypes.func.isRequired
 };
 
 const mapStateToProps = store => {
   return {
-    data: store.sizeTable
+    data: store.stock && store.stock.sizeTable
   };
 };
 

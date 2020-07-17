@@ -211,12 +211,12 @@ CheckoutStepper.propTypes = {
 const mapStateToProps = store => {
   return {
     user: store.user,
-    shoppingCart: store.shoppingCart,
+    shoppingCart: store.userChoice && store.userChoice.shoppingCart,
     guestData: store.guestData,
-    orderDetails: store.orderDetails,
-    completed: store.checkoutSteps.completed,
-    activeStep: store.checkoutSteps.active,
-    totalSum: store.totalSum
+    orderDetails: store.checkout && store.checkout.orderDetails,
+    completed: store.checkout && store.checkout.checkoutSteps && store.checkout.checkoutSteps.completed,
+    activeStep: store.checkout && store.checkout.checkoutSteps && store.checkout.checkoutSteps.active,
+    totalSum: store.checkout && store.checkout.totalSum
   };
 };
 

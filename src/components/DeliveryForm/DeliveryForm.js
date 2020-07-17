@@ -72,7 +72,7 @@ DeliveryForm.propTypes = {
 
 const mapStateToProps = store => {
   return {
-    activeStep: store.checkoutSteps.active,
+    activeStep: store.checkout && store.checkout.checkoutSteps && store.checkout.checkoutSteps.active,
     guestData: store.guestData,
     user: store.user
   };

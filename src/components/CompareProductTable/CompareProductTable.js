@@ -43,7 +43,7 @@ CompareProductTable.propTypes = {
 
 const mapStateToProps = store => {
   return {
-    products: store.products
+    products: store.stock && store.stock.products
   };
 };
 
