@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const SelectBox = (props) => {
+const SelectBox = React.forwardRef((props, ref) => {
   const { value, handleChange, options, label, classes} = props;
 
   return (
@@ -9,6 +9,7 @@ const SelectBox = (props) => {
       <label>{label}</label>
       <form className={classes.form}>
         <select
+          ref={ref}
           className={classes.select}
           value={value}
           onChange={handleChange}
@@ -19,7 +20,7 @@ const SelectBox = (props) => {
       </form>
     </>
   );
-};
+});
 
 SelectBox.propTypes = {
   options: PropTypes.array.isRequired,
