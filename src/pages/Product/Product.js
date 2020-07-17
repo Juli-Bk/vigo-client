@@ -75,8 +75,8 @@ const Product = (props) => {
 
 const mapStateToProps = store => {
   return {
-    recentlyViewed: store.products.recentlyViewed,
-    product: store.product
+    recentlyViewed: store.stock.products.recentlyViewed,
+    product: store.stock.product
   };
 };
 

@@ -134,10 +134,10 @@ Products.propTypes = {
 
 const mapStateToProps = store => {
   return {
-    view: store.view,
-    products: store.products,
-    currentPage: store.currentPage,
-    sortingOption: store.sortingOption
+    view: store.productsOptions.view,
+    products: store.stock.products,
+    currentPage: store.productsOptions.currentPage,
+    sortingOption: store.productsOptions.sortingOption
   };
 };
 

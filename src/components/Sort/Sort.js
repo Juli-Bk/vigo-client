@@ -41,7 +41,7 @@ const Sort = (props) => {
 
 const mapStateToProps = store => {
   return {
-    sortingOption: store.sortingOption
+    sortingOption: store.productsOptions.sortingOption
   };
 };
 

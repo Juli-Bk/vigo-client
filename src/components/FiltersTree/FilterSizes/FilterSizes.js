@@ -103,7 +103,7 @@ FilterSizes.propTypes = {
 const mapStateToProps = store => {
   return {
     categories: store.categories,
-    allSizes: store.allSizes
+    allSizes: store.stock.allSizes
   };
 };
 

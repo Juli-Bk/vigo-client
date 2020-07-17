@@ -37,7 +37,7 @@ const PaginationRounded = (props) => {
 };
 
 const mapStateToProps = store => {
-  return { currentPage: store.currentPage };
+  return { currentPage: store.productsOptions.currentPage };
 };
 
 const mapDispatchToProps = dispatch => {

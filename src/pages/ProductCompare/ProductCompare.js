@@ -42,8 +42,8 @@ const ProductCompare = (props) => {
 
 const mapStateToProps = store => {
   return {
-    compareList: store.compareList,
-    products: store.products
+    compareList: store.userChoice.compareList,
+    products: store.stock.products
   };
 };
 

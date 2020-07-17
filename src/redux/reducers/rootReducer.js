@@ -34,37 +34,49 @@ import userOrders from './userOrdersReducer';
 import product from './productReducer';
 
 export const rootReducer = combineReducers({
-  currentPage,
-  sortingOption,
-  view,
   token,
-  categories,
-  isMenuOpen,
-  quantity,
-  isSearchBarOpen,
-  wishList,
   user,
-  isLoginModalOpen,
-  isPersDetailsModalOpen,
-  shoppingCart,
-  guestData,
-  isModalSizeOpen,
-  products,
-  currentProduct,
-  isAddressModalOpen,
-  allColors,
-  maxPrice,
-  allSizes,
-  isLoading,
-  isPopoverOpen,
-  snackMessage,
-  userIsLoggedIn,
-  totalSum,
-  isRestorePswdModalOpen,
-  sizeTable,
-  orderDetails,
-  checkoutSteps,
-  compareList,
   userOrders,
-  product
+  guestData,
+  snackMessage,
+  categories,
+  productsOptions: combineReducers({
+    currentPage,
+    sortingOption,
+    view
+  }),
+  checkout: combineReducers({
+    totalSum,
+    checkoutSteps,
+    orderDetails
+  }),
+  userChoice: combineReducers({
+    wishList,
+    compareList,
+    shoppingCart
+  }),
+  stock: combineReducers({
+    allColors,
+    maxPrice,
+    allSizes,
+    sizeTable,
+    quantity,
+    product,
+    products,
+    currentProduct
+  }),
+  modals: combineReducers({
+    isLoginModalOpen,
+    isPersDetailsModalOpen,
+    isModalSizeOpen,
+    isAddressModalOpen,
+    isRestorePswdModalOpen
+  }),
+  stateFlags: combineReducers({
+    userIsLoggedIn,
+    isLoading,
+    isPopoverOpen,
+    isSearchBarOpen,
+    isMenuOpen
+  })
 });

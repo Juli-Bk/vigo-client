@@ -33,7 +33,7 @@ FavoriteIcon.propTypes = {
 
 const mapStateToProps = store => {
   return {
-    wishList: store.wishList
+    wishList: store.userChoice.wishList
   };
 };
 

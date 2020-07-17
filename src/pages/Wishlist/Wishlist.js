@@ -43,8 +43,8 @@ Wishlist.propTypes = {
 
 const mapStateToProps = store => {
   return {
-    wishList: store.wishList,
-    products: store.products
+    wishList: store.userChoice.wishList,
+    products: store.stock.products
   };
 };
 

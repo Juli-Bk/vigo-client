@@ -40,7 +40,7 @@ const PopoverMessage = (props) => {
 
 const mapStateToProps = store => {
   return {
-    isPopoverOpen: store.isPopoverOpen
+    isPopoverOpen: store.stateFlags.isPopoverOpen
   };
 };
 

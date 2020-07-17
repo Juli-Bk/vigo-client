@@ -88,12 +88,12 @@ const mapStateToProps = store => {
   return {
     user: store.user,
     guestData: store.guestData,
-    totalSum: store.totalSum,
-    shoppingCart: store.shoppingCart,
-    products: store.products,
-    productsQuantity: store.quantity,
-    activeStep: store.checkoutSteps.active,
-    orderDetails: store.orderDetails
+    totalSum: store.checkout.totalSum,
+    shoppingCart: store.userChoice.shoppingCart,
+    products: store.stock.products,
+    productsQuantity: store.stock.quantity,
+    activeStep: store.checkout.checkoutSteps.active,
+    orderDetails: store.checkout.orderDetails
   };
 };
 

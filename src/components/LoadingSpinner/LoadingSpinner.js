@@ -10,7 +10,7 @@ const LoadingSpinner = (props) => {
   const { isLoading, setLoading } = props;
 
   const classes = useStyles();
-  
+
   const handleClose = () => {
     setLoading(false);
   };
@@ -31,7 +31,7 @@ LoadingSpinner.propTypes = {
 
 const mapStateToProps = store => {
   return {
-    isLoading: store.isLoading
+    isLoading: store.stateFlags.isLoading
   };
 };
 

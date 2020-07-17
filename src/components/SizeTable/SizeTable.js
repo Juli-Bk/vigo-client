@@ -54,7 +54,7 @@ SizeTable.propTypes = {
 
 const mapStateToProps = store => {
   return {
-    data: store.sizeTable
+    data: store.stock.sizeTable
   };
 };
 
