@@ -143,8 +143,8 @@ ShopCartView.propTypes = {
 
 const mapStateToProps = store => {
   return {
-    shoppingCart: store.userChoice.shoppingCart,
-    productsQuantity: store.stock.quantity
+    shoppingCart: store.userChoice && store.userChoice.shoppingCart,
+    productsQuantity: store.stock && store.stock.quantity
   };
 };
 

@@ -31,7 +31,7 @@ LoadingSpinner.propTypes = {
 
 const mapStateToProps = store => {
   return {
-    isLoading: store.stateFlags.isLoading
+    isLoading: store.stateFlags && store.stateFlags.isLoading
   };
 };
 

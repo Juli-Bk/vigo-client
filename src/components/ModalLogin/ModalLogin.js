@@ -189,8 +189,8 @@ const ModalLogin = (props) => {
 
 const mapStoreToProps = store => {
   return {
-    open: store.modals.isLoginModalOpen,
-    userIsLoggedIn: store.stateFlags.userIsLoggedIn
+    open: store.modals && store.modals.isLoginModalOpen,
+    userIsLoggedIn: store.stateFlags && store.stateFlags.userIsLoggedIn
   };
 };
 

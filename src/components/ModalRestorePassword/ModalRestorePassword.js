@@ -112,7 +112,7 @@ const ModalRestorePassword = (props) => {
 
 const mapStoreToProps = store => {
   return {
-    open: store.modals.isRestorePswdModalOpen
+    open: store.modals && store.modals.isRestorePswdModalOpen
   };
 };
 

@@ -104,10 +104,10 @@ const ModalAddress = (props) => {
 
 const mapStateToProps = store => {
   return {
-    isAddressModalOpen: store.modals.isAddressModalOpen,
+    isAddressModalOpen: store.modals && store.modals.isAddressModalOpen,
     user: store.user,
     guestData: store.guestData,
-    activeStep: store.checkout.checkoutSteps.active
+    activeStep: store.checkout && store.checkout.checkoutSteps && store.checkout.checkoutSteps.active
   };
 };
 

@@ -63,7 +63,7 @@ SearchBar.propTypes = {
 
 const mapStoreToProps = store => {
   return {
-    isSearchBarOpen: store.stateFlags.isSearchBarOpen
+    isSearchBarOpen: store.stateFlags && store.stateFlags.isSearchBarOpen
   };
 };
 

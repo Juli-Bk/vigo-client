@@ -145,7 +145,7 @@ ProductPageView.propTypes = {
 
 const mapStateToProps = (store) => {
   return {
-    productsQuantity: store.stock.quantity
+    productsQuantity: store.stock && store.stock.quantity
   };
 };
 

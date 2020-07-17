@@ -41,7 +41,7 @@ const Sort = (props) => {
 
 const mapStateToProps = store => {
   return {
-    sortingOption: store.productsOptions.sortingOption
+    sortingOption: store.productsOptions && store.productsOptions.sortingOption
   };
 };
 

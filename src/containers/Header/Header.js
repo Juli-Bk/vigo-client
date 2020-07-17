@@ -121,12 +121,12 @@ const Header = (props) => {
 
 const mapStoreToProps = store => {
   return {
-    userIsLoggedIn: store.stateFlags.userIsLoggedIn,
-    isModalSizeOpen: store.modals.isModalSizeOpen,
-    shoppingCart: store.userChoice.shoppingCart,
-    wishList: store.userChoice.wishList,
+    userIsLoggedIn: store.stateFlags && store.stateFlags.userIsLoggedIn,
+    isModalSizeOpen: store.modals && store.modals.isModalSizeOpen,
+    shoppingCart: store.userChoice && store.userChoice.shoppingCart,
+    wishList: store.userChoice && store.userChoice.wishList,
     snackMessage: store.snackMessage,
-    compareList: store.userChoice.compareList
+    compareList: store.userChoice && store.userChoice.compareList
   };
 };
 

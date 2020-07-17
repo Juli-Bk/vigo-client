@@ -126,7 +126,7 @@ const AddressRadioGroup = (props) => {
 const mapStateToProps = store => {
   return {
     user: store.user,
-    activeStep: store.checkout.checkoutSteps.active
+    activeStep: store.checkout && store.checkout.checkoutSteps.active
   };
 };
 

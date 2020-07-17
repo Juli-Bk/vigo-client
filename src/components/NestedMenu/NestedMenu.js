@@ -97,7 +97,7 @@ NestedMenu.propTypes = {
 const mapStoreToProps = store => {
   return {
     categories: Array.isArray(store.categories) ? store.categories : store.categories.categories,
-    isMenuOpen: store.stateFlags.isMenuOpen
+    isMenuOpen: store.stateFlags && store.stateFlags.isMenuOpen
   };
 };
 

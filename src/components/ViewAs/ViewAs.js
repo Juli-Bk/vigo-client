@@ -50,7 +50,7 @@ ViewAs.propTypes = {
 
 const mapStateToProps = store => {
   return {
-    view: store.productsOptions.view
+    view: store.productsOptions && store.productsOptions.view
   };
 };
 
