@@ -140,16 +140,13 @@ const useStyles = makeStyles(theme => ({
     border: `2px solid ${colors.fontOncard}`,
     borderRadius: 5,
     [theme.breakpoints.up(568)]: {
-      fontSize: '1rem'
+      fontSize: '1rem !important'
     },
     [theme.breakpoints.up('sm')]: {
-      fontSize: '.85rem'
+      fontSize: '.85rem !important'
     },
     [theme.breakpoints.up('md')]: {
-      fontSize: '1.2rem'
-    },
-    [theme.breakpoints.up('lg')]: {
-      fontSize: '1.5rem'
+      fontSize: '1.1rem !important'
     }
   }
 }));

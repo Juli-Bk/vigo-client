@@ -38,7 +38,10 @@ export default {
   getMaxPrice: () => {
     return fetch(pathTo.maxPrice, methods.GET)
       .then(response => response.json())
-      .catch(error => console.log('getMaxPrice error', error.message));
+      .catch(error => {
+        console.log('getMaxPrice error', error.message);
+        throw new Error('netWork disconnected');
+      });
   },
   /**
    * Returns product data by product id

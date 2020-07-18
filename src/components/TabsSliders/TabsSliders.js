@@ -107,9 +107,9 @@ TabsSliders.propTypes = {
 
 const mapStateToProps = store => {
   return {
-    featured: store.products.featured,
-    special: store.products.special,
-    newArrivals: store.products.newArrivals
+    featured: store.stock && store.stock.products.featured,
+    special: store.stock && store.stock.products.special,
+    newArrivals: store.stock && store.stock.products.newArrivals
   };
 };
 

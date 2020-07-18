@@ -82,7 +82,7 @@ const mapStoreToProps = store => {
   return {
     user: store.user,
     guestData: store.guestData,
-    activeStep: store.checkoutSteps.active
+    activeStep: store.checkout && store.checkout.checkoutSteps.active
   };
 };
 

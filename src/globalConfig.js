@@ -126,7 +126,12 @@ const globalConfig = {
   defaultShipping: 0,
   defaultTax: 0,
   defaultCurrency: 'USD',
-  wishlistLength: 15
+  wishlistLength: 15,
+  errors: {
+    500: 'Unknown error. But we are trying to fix it right now!',
+    404: 'This page cannot be found.',
+    network: 'The internet connection lost. Please, check your network.'
+  }
 };
 
 export default globalConfig;

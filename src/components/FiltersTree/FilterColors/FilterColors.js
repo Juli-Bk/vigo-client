@@ -69,7 +69,7 @@ FilterColors.propTypes = {
 
 const mapStateToProps = store => {
   return {
-    allColors: store.allColors
+    allColors: store.stock && store.stock.allColors
   };
 };
 
