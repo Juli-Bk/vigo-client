@@ -5,7 +5,7 @@ const theme = createMuiTheme({
   overrides: {
     MuiOutlinedInput: {
       root: {
-        borderRadius: 0,
+        borderRadius: 5,
         Mui: {
           error: {
             color: colors.noticeColor,
@@ -14,12 +14,12 @@ const theme = createMuiTheme({
         }
       },
       notchedOutline: {
-        borderColor: colors.thinLine
+        borderColor: colors.fontSixth
       }
     },
     MuiFormLabel: {
       root: {
-        color: colors.thinLine,
+        color: colors.fontSixth,
         '&$error': {
           color: colors.noticeColor,
           borderColor: colors.noticeColor
@@ -28,7 +28,7 @@ const theme = createMuiTheme({
     },
     MuiSvgIcon: {
       root: {
-        color: colors.thinLine
+        color: colors.fontSixth
       }
     },
     Mui: {
@@ -41,7 +41,7 @@ const theme = createMuiTheme({
     MuiButtonBase: {
       root: {
         border: `2px solid ${colors.fontThird}`,
-        color: colors.fontThird,
+        color: colors.fontSecondary,
         fontWeight: 700
       }
     },
@@ -53,7 +53,7 @@ const theme = createMuiTheme({
         }
       }
     },
-    
+
     MuiButton: {
       outlined: {
         border: '2px solid',

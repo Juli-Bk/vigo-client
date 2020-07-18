@@ -90,7 +90,7 @@ const RegisterForm = (props) => {
                   autoComplete='on'
                   className={styles.input}
                   type='text'
-                  label={<IconLabel label='Enter your login' Component={PersonIcon}/>}
+                  label={<IconLabel label='Enter your login *' Component={PersonIcon}/>}
                   error={errors.login && touched.login}
                   fullWidth variant='outlined'
                   value={values.login}
@@ -104,7 +104,7 @@ const RegisterForm = (props) => {
                   autoComplete='on'
                   className={styles.input}
                   type='email'
-                  label={<IconLabel label='Enter your email' Component={EmailIcon}/>}
+                  label={<IconLabel label='Enter your email *' Component={EmailIcon}/>}
                   value={values.email}
                   onBlur={handleBlur}
                   onChange={handleChange}
@@ -118,7 +118,7 @@ const RegisterForm = (props) => {
                   name='password'
                   autoComplete='off'
                   className={styles.input}
-                  label={<IconLabel label='Enter your password'
+                  label={<IconLabel label='Enter your password *'
                     Component={LockIcon}/>}
                   type='password'
                   value={values.password}
@@ -133,7 +133,7 @@ const RegisterForm = (props) => {
                   name='confirmPassword'
                   className={styles.input}
                   autoComplete='off'
-                  label={<IconLabel label='Confirm your password'
+                  label={<IconLabel label='Confirm your password *'
                     Component={EnhancedEncryptionRoundedIcon}/>}
                   type='password'
                   value={values.confirmPassword}
@@ -146,6 +146,7 @@ const RegisterForm = (props) => {
                   fullWidth
                 />
               </ThemeProvider>
+              <Typography className={styles.xsmall}>* - Indicates required field</Typography>
               <CardActions>
                 <Button
                   type='button'
