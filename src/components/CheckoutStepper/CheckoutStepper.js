@@ -107,11 +107,15 @@ const CheckoutStepper = (props) => {
       case 4:
         return (
           <Box>
-            <Typography variant='h6' className={classes.instructions}>Thank you for your order.</Typography>
-            {orderDetails && orderDetails.orderNumber &&
-            <Typography variant='body2' className={classes.instructions}>Your order number is {orderDetails.orderNumber}.
+            {isFullData ? <Typography variant='h6' className={classes.instructions}>Thank you for your order.</Typography>
+              : <Typography variant='h6' className={classes.instructions}>Your order is sending...</Typography> }
+            {orderDetails && orderDetails.orderNumber
+              ? <Typography variant='body2' className={classes.instructions}>Your order number is {orderDetails.orderNumber}.
               We have emailed your order confirmation, and will send you an update when your order has shipped.
-              Thank you for your order.</Typography>}
+              Thank you for your order.</Typography>
+              : <Typography variant='h6' className={classes.instructions}>Your order did not send.
+                      Please, check your order data and internet connection.</Typography> }
+            }
             {orderDetails && orderDetails.paymentMethod === 'LiqPay' && orderDetails.orderNumber &&
             <LiqPayPay
               title='Pay: '

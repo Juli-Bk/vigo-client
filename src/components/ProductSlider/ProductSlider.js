@@ -37,12 +37,13 @@ const ProductSlider = (props) => {
   const { product } = props;
   const width = useWidth();
   const classes = useStyles();
+  const ref = React.useRef();
 
   const toggleFullScreenBtn = () => {
-    // hack to avoid direct state mutation from official library`s code example
-    const video = document.querySelector('video');
+    const video = ref.current;
     if (video) {
       const slide = video.parentNode.parentNode;
+      // hack to avoid direct state mutation from official library`s code example
       const fullscreenBtn = document.querySelector('.image-gallery-fullscreen-button');
       if (slide.classList.contains('center')) {
         if (fullscreenBtn) fullscreenBtn.classList.add(classes.hidden);
@@ -52,11 +53,11 @@ const ProductSlider = (props) => {
     }
   };
 
-  const renderVideo = (item) => {
+  const customRenderVideo = (item) => {
     toggleFullScreenBtn();
     return (
       <Box className={width.galleryHeight}>
-        <video controls autoPlay loop>
+        <video controls autoPlay loop ref={ref}>
           <source src={item.embedUrl} type="video/mp4"/>
         </video>
       </Box>
@@ -64,7 +65,7 @@ const ProductSlider = (props) => {
   };
 
   return <ImageGallery
-    items={mapImagesForGallery(product, renderVideo)}
+    items={mapImagesForGallery(product, customRenderVideo)}
     thumbnailPosition='left'
     additionalClass={classes.slider}
     showPlayButton={false}
