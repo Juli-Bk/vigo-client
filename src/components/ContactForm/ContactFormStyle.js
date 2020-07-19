@@ -28,6 +28,10 @@ const useStyles = makeStyles(theme => ({
     width: '100%',
     marginBottom: '1.5rem'
   },
+  xsmall: {
+    color: colors.phSecondary,
+    fontSize: 10
+  },
   textArea: {
     width: '100%',
     height: 200,

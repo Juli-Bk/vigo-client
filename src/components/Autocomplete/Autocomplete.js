@@ -129,7 +129,7 @@ const AutocompleteComponent = (props) => {
             <Field {...params}
               component={TextField}
               name={name}
-              label={<IconLabel label='city and street name' Component={PublicIcon}/>}
+              label={<IconLabel label='city and street name *' Component={PublicIcon}/>}
               variant='outlined'
               value={value}
               onBlur={onBlur}
