@@ -11,6 +11,7 @@ export const getSizeTable = (id) => dispatch => {
         dispatch({type: Actions.SET_SIZE_TABLE, payload: result});
       }
     }).catch(err => {
+      dispatch(setLoading(false));
       console.log('get size table error happened', err);
     });
 };

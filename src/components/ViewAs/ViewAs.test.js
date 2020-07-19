@@ -46,13 +46,13 @@ describe('viewAs component testing', () => {
 
   it('redux store work properly', () => {
     const state = rootReducer({
-      view: 'list'
+      productsOptions: { view: 'list' }
     }, {
       type: Actions.SET_CHOSEN_VIEW,
       payload: 'module'
     }
     );
-    expect(state.view).toBe('module');
+    expect(state.productsOptions.view).toBe('module');
   });
 
   it('sets view to localStorage properly', () => {

@@ -3,6 +3,7 @@ import { getStorageData, integrateWishLists, setStorageData } from '../../../hel
 import { getUserIdFromCookie, isGuid } from '../../../ajax/common/helper';
 import AjaxUtils from '../../../ajax';
 import globalConfig from '../../../globalConfig';
+import { setLoading, setSnackMessage } from '../actions';
 
 export const changeWishList = () => {
   const data = getStorageData('wishList');
@@ -34,17 +35,15 @@ export const toggleWishItems = (productId) => dispatch => {
     setStorageData('wishList', wishList);
 
     if (userId && isGuid(userId)) {
+      dispatch(setLoading(true));
       AjaxUtils.WishLists.deleteProductFromWishlist(productId)
         .then(result => {
+          dispatch(setLoading(false));
           if (result && result.status) {
-            dispatch({
-              type: Actions.SET_SNACK_MESSAGE_OPEN,
-              payload: true,
-              message: globalConfig.userMessages.NOT_AUTHORIZED,
-              severity: globalConfig.snackSeverity.ERROR
-            });
+            dispatch(setSnackMessage(true, globalConfig.userMessages.NOT_AUTHORIZED, globalConfig.snackSeverity.ERROR));
           }
         }).catch(err => {
+          dispatch(setLoading(false));
           console.log('change wishlist error happened', err);
         });
     }
@@ -53,17 +52,15 @@ export const toggleWishItems = (productId) => dispatch => {
     setStorageData('wishList', wishList);
 
     if (userId && isGuid(userId)) {
+      dispatch(setLoading(true));
       AjaxUtils.WishLists.addProductToWishList(productId, userId)
         .then(result => {
+          dispatch(setLoading(false));
           if (result.status !== 200) {
-            dispatch({
-              type: Actions.SET_SNACK_MESSAGE_OPEN,
-              payload: true,
-              message: globalConfig.userMessages.NOT_AUTHORIZED,
-              severity: globalConfig.snackSeverity.ERROR
-            });
+            dispatch(setSnackMessage(true, globalConfig.userMessages.NOT_AUTHORIZED, globalConfig.snackSeverity.ERROR));
           }
         }).catch(err => {
+          dispatch(setLoading(false));
           console.log('change wishlist error happened', err);
         });
     }

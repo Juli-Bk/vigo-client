@@ -139,10 +139,10 @@ ModalPersDetails.propTypes = {
 
 const mapStateToProps = store => {
   return {
-    isModalOpen: store.isPersDetailsModalOpen,
+    isModalOpen: store.modals && store.modals.isPersDetailsModalOpen,
     user: store.user,
     guestData: store.guestData,
-    activeStep: store.checkoutSteps.active
+    activeStep: store.checkout && store.checkout.checkoutSteps.active
   };
 };
 

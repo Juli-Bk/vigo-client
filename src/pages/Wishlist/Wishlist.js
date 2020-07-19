@@ -38,13 +38,15 @@ const Wishlist = (props) => {
 Wishlist.propTypes = {
   wishlist: PropTypes.array,
   isMyAccount: PropTypes.bool,
-  products: PropTypes.object.isRequired
+  products: PropTypes.object.isRequired,
+  changeWishList: PropTypes.func.isRequired,
+  getProductsByFilters: PropTypes.func.isRequired
 };
 
 const mapStateToProps = store => {
   return {
-    wishList: store.wishList,
-    products: store.products
+    wishList: store.userChoice && store.userChoice.wishList,
+    products: store.stock && store.stock.products
   };
 };
 

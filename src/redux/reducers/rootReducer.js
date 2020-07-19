@@ -24,7 +24,6 @@ import allSizes from './allSizesReducer';
 import isPopoverOpen from './isPopoverOpenReducer';
 import snackMessage from './isSnackMessageOpenReducer';
 import isRestorePswdModalOpen from './isRestorePswdModalOpen';
-import isNewPswdModalOpen from './isNewPswdModalOpen';
 import userIsLoggedIn from './isLoggedReducer';
 import totalSum from './totalSumReducer';
 import sizeTable from './sizeTableReducer';
@@ -32,39 +31,52 @@ import orderDetails from './orderReducer';
 import checkoutSteps from './checkoutStepsReducer';
 import compareList from './compareListReducer';
 import userOrders from './userOrdersReducer';
+import product from './productReducer';
 
 export const rootReducer = combineReducers({
-  currentPage,
-  sortingOption,
-  view,
   token,
-  categories,
-  isMenuOpen,
-  quantity,
-  isSearchBarOpen,
-  wishList,
   user,
-  isLoginModalOpen,
-  isPersDetailsModalOpen,
-  shoppingCart,
+  userOrders,
   guestData,
-  isModalSizeOpen,
-  products,
-  currentProduct,
-  isAddressModalOpen,
-  allColors,
-  maxPrice,
-  allSizes,
-  isLoading,
-  isPopoverOpen,
   snackMessage,
-  userIsLoggedIn,
-  totalSum,
-  isRestorePswdModalOpen,
-  isNewPswdModalOpen,
-  sizeTable,
-  orderDetails,
-  checkoutSteps,
-  compareList,
-  userOrders
+  categories,
+  productsOptions: combineReducers({
+    currentPage,
+    sortingOption,
+    view
+  }),
+  checkout: combineReducers({
+    totalSum,
+    checkoutSteps,
+    orderDetails
+  }),
+  userChoice: combineReducers({
+    wishList,
+    compareList,
+    shoppingCart
+  }),
+  stock: combineReducers({
+    allColors,
+    maxPrice,
+    allSizes,
+    sizeTable,
+    quantity,
+    product,
+    products,
+    currentProduct
+  }),
+  modals: combineReducers({
+    isLoginModalOpen,
+    isPersDetailsModalOpen,
+    isModalSizeOpen,
+    isAddressModalOpen,
+    isRestorePswdModalOpen
+  }),
+  stateFlags: combineReducers({
+    userIsLoggedIn,
+    isLoading,
+    isPopoverOpen,
+    isSearchBarOpen,
+    isMenuOpen
+  })
 });

@@ -47,7 +47,7 @@ const AppRoutes = () => {
           <ProtectedRoute
             exact path='/account'
             component={MyAccount}/>
-          <Route path='*' component={Page404}/>
+          <Route path='*' children={<Page404 errorType={404} searchText={true}/>}/>
         </Switch>
       </AutoScrollTop>
     </>
