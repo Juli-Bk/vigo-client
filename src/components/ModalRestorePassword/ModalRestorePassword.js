@@ -71,7 +71,7 @@ const ModalRestorePassword = (props) => {
               <form autoComplete='off'>
                 <TextField
                   name='email'
-                  autoComplete='off'
+                  autoComplete='on'
                   className={styles.input}
                   type='email'
                   label={<IconLabel label='Enter your e-mail' Component={EmailIcon}/>}

@@ -16,7 +16,7 @@ const SnackbarMessage = (props) => {
     if (reason === 'clickaway') {
       return;
     }
-    setSnack(false, '');
+    setSnack(false, '', '');
   }, [setSnack]);
 
   return (
