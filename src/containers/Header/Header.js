@@ -1,4 +1,5 @@
 import React, { useCallback, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import {Link} from 'react-router-dom';
 import {Box, Container, Grid, IconButton, Toolbar} from '@material-ui/core';
 import {ThemeProvider} from '@material-ui/core/styles';
@@ -117,6 +118,21 @@ const Header = (props) => {
       </Grid>
     </ThemeProvider>
   );
+};
+
+Header.propTypes = {
+  userIsLoggedIn: PropTypes.bool.isRequired,
+  isModalSizeOpen: PropTypes.bool.isRequired,
+  shoppingCart: PropTypes.array.isRequired,
+  wishList: PropTypes.array.isRequired,
+  compareList: PropTypes.array.isRequired,
+  snackMessage: PropTypes.object.isRequired,
+  getUserWishList: PropTypes.func.isRequired,
+  getUserShopCart: PropTypes.func.isRequired,
+  changeShoppingCart: PropTypes.func.isRequired,
+  changeWishList: PropTypes.func.isRequired,
+  changeCompareList: PropTypes.func.isRequired,
+  setGuestData: PropTypes.func.isRequired
 };
 
 const mapStoreToProps = store => {
