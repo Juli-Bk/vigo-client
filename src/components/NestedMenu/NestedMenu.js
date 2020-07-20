@@ -55,8 +55,8 @@ const NestedMenu = (props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <MouseAwayListener onMouseAway={handlePopoverClose}>
-        <Container component='nav' className={classes.root} xs={12}>
+      <Container component='nav' className={classes.root} xs={12}>
+        <MouseAwayListener onMouseAway={handlePopoverClose}>
           <Box component='ul'
             className={classes.tabBox}
             bgcolor={theme.palette.background}
@@ -85,8 +85,8 @@ const NestedMenu = (props) => {
               {subLinks}
             </Popper>
           </Box>
-        </Container>
-      </MouseAwayListener>
+        </MouseAwayListener>
+      </Container>
     </ThemeProvider>
   );
 };
