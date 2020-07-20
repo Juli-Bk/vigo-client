@@ -10,12 +10,12 @@ const useStyles = makeStyles(theme => (
       [theme.breakpoints.between(0, 420)]: {
         width: '93%',
         margin: 'auto',
-        padding: 0
+        padding: '0 !important'
       },
       [theme.breakpoints.between(420, 599)]: {
         width: '95%',
         margin: 'auto',
-        padding: 0
+        padding: '0 !important'
       }
     },
     header: {

@@ -25,6 +25,7 @@ const useStyles = makeStyles(theme => ({
     whiteSpace: 'nowrap',
     overflow: 'hidden',
     textOverflow: 'ellipsis',
+    cursor: 'pointer',
     '&:hover': {
       overflow: 'visible',
       color: fade(colors.fontHover, 0.9)

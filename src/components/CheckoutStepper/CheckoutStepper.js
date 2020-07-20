@@ -128,7 +128,7 @@ const CheckoutStepper = (props) => {
               server_url={`${keysConfig.serverAddress}/orders/liqpay/order-payment`}
 
               amount={`${orderData.totalSum}`}
-              description={`Payment for products: ${orderData.productCodes}`}
+              description={'Payment for Vigo Shop order.'}
               orderId={orderData.orderId}
               disabled={!isFullData}
             />}
