@@ -13,11 +13,12 @@ const FilterSizes = (props) => {
   const { categories, location, allSizes, getAllSizes, history } = props;
   const parsed = useMemo(() => queryString.parse(location.search), [location.search]);
   const dataFromSearchString = useMemo(() => getUrlData(parsed, 'size'), [parsed]);
-  const state = useCallback(() => {
+  const getState = useCallback(() => {
     if (allSizes.names && allSizes.names.length) {
-      getSizesState(allSizes.names, dataFromSearchString);
+      return getSizesState(allSizes.names, dataFromSearchString);
     }
-  }, [dataFromSearchString, allSizes.names]);
+  },
+  [dataFromSearchString, allSizes.names]);
 
   let renderOption = globalConfig.sizeRenderOptions.ALL;
 
@@ -74,6 +75,7 @@ const FilterSizes = (props) => {
 
   const getCheckboxes = () => {
     const labelNames = Array.from(getLabelNames(renderOption));
+    const state = getState();
     return labelNames.map(name => {
       return <FormControlLabel
         key={name}
