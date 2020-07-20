@@ -92,11 +92,12 @@ const ContactForm = (props) => {
                         value={values.name}
                         className={styles.input}
                         type='text'
-                        label={<IconLabel label='ENTER YOUR NAME' Component={PersonIcon}/>}
+                        label={<IconLabel label='ENTER YOUR NAME *' Component={PersonIcon}/>}
                         variant='outlined'
                         error={errors.name && touched.name}
                         onBlur={handleBlur}
                         onChange={handleChange}
+                        size='small'
                         helperText={(errors.name && touched.name) && errors.name}
                       />
                       <TextField
@@ -106,10 +107,11 @@ const ContactForm = (props) => {
                         className={styles.input}
                         variant='outlined'
                         autoComplete='on'
-                        label={<IconLabel label='ENTER YOUR E-MAIL' Component={MailIcon}/>}
+                        label={<IconLabel label='ENTER YOUR E-MAIL *' Component={MailIcon}/>}
                         error={errors.email && touched.email}
                         onBlur={handleBlur}
                         onChange={handleChange}
+                        size='small'
                         helperText={(errors.email && touched.email) && errors.email}
                       />
                     </Grid>
@@ -123,13 +125,13 @@ const ContactForm = (props) => {
                         autoComplete='off'
                         onBlur={handleBlur}
                         onChange={handleChange}
+                        size='small'
                         label={<IconLabel label='ENTER YOUR SUBJECT' Component={InsertDriveFileIcon}/>}
                       />
-
                       <Typography variant='subtitle2' className={styles.infoMsg}>
                         Your email address will not be published.
-                        Required fields are marked
                       </Typography>
+                      <Typography className={styles.xsmall}>* - Indicates required field</Typography>
                     </Grid>
                   </Grid>
                   <Grid item xs={12} lg={6}>

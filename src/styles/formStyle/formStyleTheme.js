@@ -173,6 +173,9 @@ const theme = createMuiTheme({
     },
     MuiDialogContent: {
       root: {
+        '@media  (max-width: 734px)': {
+          paddingLeft: 9
+        },
         '&:first-child': {
           paddingTop: 10
         }

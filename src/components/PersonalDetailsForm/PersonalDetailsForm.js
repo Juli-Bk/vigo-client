@@ -19,6 +19,7 @@ import theme from '../../styles/formStyle/formStyleTheme';
 import PhoneAndroidIcon from '@material-ui/icons/PhoneAndroid';
 import IconLabel from '../IconLabel/IconLabel';
 import PersonIcon from '@material-ui/icons/Person';
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import EmailIcon from '@material-ui/icons/Email';
 import {saveUserData} from '../../redux/actions/user';
 import {validateObject} from './helper';
@@ -27,7 +28,7 @@ import { subscribe } from '../../redux/actions/subscribers';
 
 const PersonalDetailsForm = (props) => {
   const {user, savePersonalUserData, saveUserAddressesHandler, subscribe} = props;
-  const {firstName, lastName, email, phoneNumber} = user;
+  const {firstName, lastName, email, phoneNumber, login} = user;
 
   const handleCancel = () => {
     saveUserAddressesHandler(null);
@@ -38,6 +39,7 @@ const PersonalDetailsForm = (props) => {
 
     const data = {
       id: user._id,
+      login: values.login,
       firstName: values.firstName,
       lastName: values.lastName,
       phoneNumber: values.phoneNumber,
@@ -58,6 +60,7 @@ const PersonalDetailsForm = (props) => {
   };
 
   const initFormValues = {
+    login: user ? login : '',
     firstName: user ? firstName : '',
     lastName: user ? lastName : '',
     phoneNumber: user ? phoneNumber : '',
@@ -90,8 +93,22 @@ const PersonalDetailsForm = (props) => {
               <ThemeProvider theme={theme}>
                 <TextField
                   autoComplete='on'
+                  name='login'
+                  label={<IconLabel label='Enter your login' Component={AccountCircleIcon} />}
+                  className={classes.input}
+                  value={values.login || ''}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  helperText={touched.login ? errors.login : ''}
+                  error={touched.login && Boolean(errors.login)}
+                  variant='outlined'
+                  size='small'
+                  fullWidth
+                />
+                <TextField
+                  autoComplete='on'
                   name='firstName'
-                  label={<IconLabel label='Enter your Name' Component={PersonIcon}/>}
+                  label={<IconLabel label='Enter your Name *' Component={PersonIcon}/>}
                   className={classes.input}
                   value={values.firstName || ''}
                   onChange={handleChange}
@@ -105,7 +122,7 @@ const PersonalDetailsForm = (props) => {
                 <TextField
                   autoComplete='on'
                   name='lastName'
-                  label={<IconLabel label='Enter your Surname' Component={PersonIcon}/>}
+                  label={<IconLabel label='Enter your Surname *' Component={PersonIcon}/>}
                   className={classes.input}
                   value={values.lastName || ''}
                   onChange={handleChange}
@@ -119,7 +136,7 @@ const PersonalDetailsForm = (props) => {
                 <TextField
                   autoComplete='on'
                   name='email'
-                  label={<IconLabel label='Enter your e-mail' Component={EmailIcon}/>}
+                  label={<IconLabel label='Enter your e-mail *' Component={EmailIcon} />}
                   className={classes.input}
                   value={values.email || ''}
                   onChange={handleChange}
@@ -133,7 +150,7 @@ const PersonalDetailsForm = (props) => {
                 <TextField
                   autoComplete='on'
                   name='phoneNumber'
-                  label={<IconLabel label='Enter phone number' Component={PhoneAndroidIcon}/>}
+                  label={<IconLabel label='Enter phone number *' Component={PhoneAndroidIcon}/>}
                   className={classes.input}
                   value={values.phoneNumber || ''}
                   onChange={handleChange}
@@ -144,6 +161,7 @@ const PersonalDetailsForm = (props) => {
                   size='small'
                   fullWidth
                 />
+                <Typography className={classes.xsmall}>* - Indicates required field</Typography>
                 <FormGroup
                   name='saveMyData'
                   column='true'>

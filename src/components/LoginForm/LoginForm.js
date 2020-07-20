@@ -73,7 +73,7 @@ const LoginForm = (props) => {
                   autoComplete='off'
                   className={styles.input}
                   type='email'
-                  label={<IconLabel label='Enter your e-mail' Component={EmailIcon}/>}
+                  label={<IconLabel label='Enter your e-mail *' Component={EmailIcon}/>}
                   error={errors.email && touched.email}
                   fullWidth variant='outlined'
                   value={values.email}
@@ -85,7 +85,7 @@ const LoginForm = (props) => {
                   name='password'
                   autoComplete='off'
                   className={styles.input}
-                  label={<IconLabel label='Enter your password' Component={LockIcon}/>}
+                  label={<IconLabel label='Enter your password *' Component={LockIcon}/>}
                   type='password'
                   value={values.password}
                   onChange={handleChange}
@@ -95,6 +95,7 @@ const LoginForm = (props) => {
                   error={touched.password && Boolean(errors.password)}
                   size='small'
                 />
+                <Typography className={styles.xsmall}>* - Indicates required field</Typography>
                 <CardActions>
                   <Button
                     type='button'
