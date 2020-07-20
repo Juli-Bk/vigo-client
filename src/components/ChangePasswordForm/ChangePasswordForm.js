@@ -74,7 +74,7 @@ const ChangePasswordForm = (props) => {
                   autoComplete='off'
                   className={styles.input}
                   type='password'
-                  label={<IconLabel label='Enter your password'
+                  label={<IconLabel label='Enter your password *'
                     Component={LockIcon}/>}
                   error={errors.password && touched.password}
                   fullWidth
@@ -88,7 +88,7 @@ const ChangePasswordForm = (props) => {
                   name='newPassword'
                   className={styles.input}
                   autoComplete='off'
-                  label={<IconLabel label='Create new password'
+                  label={<IconLabel label='Create new password *'
                     Component={EnhancedEncryptionRoundedIcon}/>}
                   type='password'
                   value={values.newPassword}
@@ -104,7 +104,7 @@ const ChangePasswordForm = (props) => {
                   name='confirmPassword'
                   className={styles.input}
                   autoComplete='off'
-                  label={<IconLabel label='Confirm your password'
+                  label={<IconLabel label='Confirm your password *'
                     Component={EnhancedEncryptionRoundedIcon}/>}
                   type='password'
                   value={values.confirmPassword}
@@ -116,6 +116,7 @@ const ChangePasswordForm = (props) => {
                   fullWidth
                   size='small'
                 />
+                <Typography className={styles.xsmall}>* - Indicates required field</Typography>
                 <CardActions>
                   <Button
                     type='button'

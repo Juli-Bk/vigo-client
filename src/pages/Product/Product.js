@@ -1,15 +1,14 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {connect} from 'react-redux';
 import {useParams} from 'react-router-dom';
 import {Container, Grid, withWidth, makeStyles} from '@material-ui/core';
-import AjaxUtils from '../../ajax';
 import ProductSlider from '../../components/ProductSlider/ProductSlider';
 import ProductPageView from '../../components/Product/ProductPageView/ProductPageView';
 import LowerTitle from '../../components/LowerTitle/LowerTitle';
 import TabSlider from '../../components/TabsSliders/TabSlider';
 import {getStorageData, setStorageData} from '../../helpers/helpers';
 import globalConfig from '../../globalConfig';
-import {getRecentlyViewed} from '../../redux/actions/products';
+import { getProductById, getRecentlyViewed } from '../../redux/actions/products';
 
 const useStyles = makeStyles(theme => ({
   container: {
@@ -25,18 +24,14 @@ const useStyles = makeStyles(theme => ({
 const Product = (props) => {
   const { id } = useParams();
   const classes = useStyles();
-  const { width, recentlyViewed, getRecentlyViewed } = props;
-  const [product, setProduct] = useState(null);
+  const { width, recentlyViewed, getRecentlyViewed, product, getProductById } = props;
 
   useEffect(() => {
     let isCanceled = false;
     const dataFromStorage = getStorageData('recentlyViewed');
 
     if (!isCanceled) {
-      AjaxUtils.Products.getProductById(id)
-        .then(result => {
-          setProduct(result);
-        });
+      getProductById(id);
       getRecentlyViewed(id);
     }
 
@@ -49,7 +44,7 @@ const Product = (props) => {
       }
       isCanceled = true;
     };
-  }, [getRecentlyViewed, id]);
+  }, [getProductById, getRecentlyViewed, id]);
 
   return (
     <Container>
@@ -80,13 +75,15 @@ const Product = (props) => {
 
 const mapStateToProps = store => {
   return {
-    recentlyViewed: store.products.recentlyViewed
+    recentlyViewed: store.stock && store.stock.products && store.stock.products.recentlyViewed,
+    product: store.stock && store.stock.product
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    getRecentlyViewed: (productId) => dispatch(getRecentlyViewed(productId))
+    getRecentlyViewed: (productId) => dispatch(getRecentlyViewed(productId)),
+    getProductById: id => dispatch(getProductById(id))
   };
 };
 

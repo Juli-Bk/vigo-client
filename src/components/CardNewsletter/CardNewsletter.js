@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useCallback, useState } from 'react';
 import {Button, Card, CardActions, CardContent, TextField, Typography} from '@material-ui/core';
 import theme from './CardNewsletterTheme';
 import useStyles from './CardNewsletterStyle';
@@ -15,18 +15,21 @@ import globalConfig from '../../globalConfig';
 
 const CardNewsletter = (props) => {
   const {saveEmail, setPopoverOpen} = props;
-  const anchor = document.querySelector('#subscribe');
+  const [anchorEl, setAnchorEl] = useState(null);
+  const styles = useStyles();
+  const anchorRef = useRef();
 
-  const handleSubmit = (values, {resetForm, setSubmitting}) => {
+  const handleSubmit = useCallback((values, {resetForm, setSubmitting}) => {
     setSubmitting(true);
+    setAnchorEl(anchorRef.current);
 
     saveEmail(values.email)
-      .then(result => {
+      .then(() => {
         setPopoverOpen(true);
         setSubmitting(false);
         resetForm();
       });
-  };
+  }, [saveEmail, setPopoverOpen]);
 
   const initFormValues = {
     email: '',
@@ -39,7 +42,6 @@ const CardNewsletter = (props) => {
     saveMyData: Yup.boolean()
   });
 
-  const styles = useStyles();
   return (
     <Card className={styles.newsletter} variant='outlined'>
       <CardContent>
@@ -73,6 +75,7 @@ const CardNewsletter = (props) => {
                   onChange={handleChange}
                   helperText={(errors.email && touched.email) && errors.email}
                   size='small'
+                  ref={anchorRef}
                 />
               </ThemeProvider>
               <CardActions>
@@ -88,7 +91,7 @@ const CardNewsletter = (props) => {
                 </Button>
                 <PopoverMessage
                   popoverContent={globalConfig.userMessages.SUBSCRIBED}
-                  anchorEl={anchor}/>
+                  anchorEl={anchorEl}/>
               </CardActions>
             </form>
           )}
@@ -105,7 +108,7 @@ CardNewsletter.propTypes = {
 
 const mapStateToProps = store => {
   return {
-    isPopoverOpen: store.isPopoverOpen
+    isPopoverOpen: store.stateFlags && store.stateFlags.isPopoverOpen
   };
 };
 

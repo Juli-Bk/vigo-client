@@ -62,7 +62,7 @@ Bestsellers.propTypes = {
 
 const mapStateToProps = store => {
   return {
-    bestSellers: store.products.bestSellers
+    bestSellers: store.stock && store.stock.products.bestSellers
   };
 };
 

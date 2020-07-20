@@ -22,7 +22,7 @@ describe('404 page tests', () => {
   });
 
   it('404 dialog third line rendered properly', () => {
-    const page = render(<BrowserRouter><Error404 /></BrowserRouter>);
+    const page = render(<BrowserRouter><Error404 searchText={true}/></BrowserRouter>);
     const text = page.getByTestId('thirdLine');
     expect(text).toBeInTheDocument();
   });

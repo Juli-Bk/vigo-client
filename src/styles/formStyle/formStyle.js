@@ -10,12 +10,12 @@ const useStyles = makeStyles(theme => (
       [theme.breakpoints.between(0, 420)]: {
         width: '93%',
         margin: 'auto',
-        padding: 0
+        padding: '0 !important'
       },
       [theme.breakpoints.between(420, 599)]: {
         width: '95%',
         margin: 'auto',
-        padding: 0
+        padding: '0 !important'
       }
     },
     header: {
@@ -115,11 +115,20 @@ const useStyles = makeStyles(theme => (
       marginTop: '1rem',
       marginBottom: 7,
       fontFamily: fonts.f2,
+      position: 'relative',
       textTransform: 'uppercase',
       [theme.breakpoints.down(420)]: {
         fontSize: 'inherit',
         marginTop: '0.8rem'
       }
+    },
+    red: {
+      color: colors.noticeColor,
+      top: 370,
+      right: 60
+    },
+    xsmall: {
+      fontSize: 10
     },
     inputSmall: {
       textAlign: 'center',

@@ -79,7 +79,7 @@ FilterPrice.propTypes = {
 
 const mapStateToProps = store => {
   return {
-    maxPrice: store.maxPrice
+    maxPrice: store.stock && store.stock.maxPrice
   };
 };
 

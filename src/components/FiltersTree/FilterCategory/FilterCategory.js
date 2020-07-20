@@ -52,7 +52,8 @@ const FiltersCategory = (props) => {
 
 FiltersCategory.propTypes = {
   categories: PropTypes.array.isRequired,
-  history: PropTypes.object.isRequired
+  history: PropTypes.object.isRequired,
+  setCurrentPage: PropTypes.func.isRequired
 };
 
 const mapStoreToProps = store => {

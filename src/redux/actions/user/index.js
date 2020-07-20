@@ -186,9 +186,6 @@ export const saveUserData = (data, callback) => {
 export const logout = () => {
   return (dispatch) => {
     AjaxUtils.Users.logOut()
-      .then(() => {
-        console.log('logged out successfully');
-      })
       .catch((err) => {
         console.log('logged out error: ', err);
       });
@@ -236,9 +233,15 @@ export const sendRecoverPasswordLetter = (email, callback) => {
     AjaxUtils.Users.restorePasswordLetter(email)
       .then((result) => {
         if (result && result.status !== 400) {
-          dispatch(setSnackMessage(true,
-            result.message,
-            'success'));
+          if (result.message.includes('not')) {
+            dispatch(setSnackMessage(true,
+              result.message,
+              'error'));
+          } else {
+            dispatch(setSnackMessage(true,
+              result.message,
+              'success'));
+          }
         } else {
           dispatch(setSnackMessage(true,
             result.message,
@@ -256,18 +259,15 @@ export const sendRecoverPasswordLetter = (email, callback) => {
 
 export const sendConfirmLetter = (email, callback) => {
   return (dispatch) => {
+    dispatch(setLoading(true));
     AjaxUtils.Users.sendConfirmLetter(email)
       .then((result) => {
-        if (result && result.status !== 400) {
-          dispatch(setSnackMessage(true,
-            result.message,
-            'success'));
-        } else {
-          dispatch(setSnackMessage(true,
-            result.message,
-            'error'));
-        }
         dispatch(setLoading(false));
+        if (result && result.status === 400) {
+          dispatch(setSnackMessage(true,
+            result.message,
+            globalConfig.snackSeverity.ERROR));
+        }
         callback && callback(result);
       })
       .catch(error => {
@@ -279,8 +279,10 @@ export const sendConfirmLetter = (email, callback) => {
 
 export const saveRecoverPassword = (formData, token, callback) => {
   return (dispatch) => {
+    dispatch(setLoading(true));
     AjaxUtils.Users.confirmPasswordRecover(formData, token)
       .then((result) => {
+        dispatch(setLoading(false));
         if (result && result.status !== 400) {
           dispatch(setSnackMessage(true,
             result.message,
@@ -290,7 +292,6 @@ export const saveRecoverPassword = (formData, token, callback) => {
             result.message,
             'error'));
         }
-        dispatch(setLoading(false));
         callback && callback(result);
       })
       .catch(error => {
@@ -312,14 +313,27 @@ export const setUserNovaPoshtaData = (data) => {
 };
 
 export const saveNewPassword = (userId, data) => dispatch => {
+  dispatch(setLoading(true));
   AjaxUtils.Users.updatePassword(userId, data)
     .then(result => {
+      dispatch(setLoading(false));
       if (result && result.status === 400) {
         dispatch(setSnackMessage(true, 'Error occurred while changing password', 'error'));
       } else {
         dispatch(setSnackMessage(true, 'Your password is changed', globalConfig.snackSeverity.SUCCESS));
       }
     }).catch(err => {
+      dispatch(setLoading(false));
       console.log('update password error happened', err);
+    });
+};
+
+export const createUser = (data, callback) => {
+  AjaxUtils.Users.createUser(data)
+    .then(result => {
+      console.log(result);
+      callback && callback(result);
+    }).catch(err => {
+      console.log('create user error happened', err);
     });
 };

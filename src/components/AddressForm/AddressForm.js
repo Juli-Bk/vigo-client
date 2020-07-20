@@ -106,7 +106,7 @@ const AddressForm = (props) => {
                 <TextField
                   autoComplete='off'
                   name='house'
-                  label={<IconLabel label='Enter building number' Component={ApartmentIcon}/>}
+                  label={<IconLabel label='Enter building number *' Component={ApartmentIcon}/>}
                   className={classes.input}
                   value={values.house || ''}
                   onBlur={handleBlur}
@@ -133,7 +133,7 @@ const AddressForm = (props) => {
                 <TextField
                   name='postalCode'
                   autoComplete='on'
-                  label={<IconLabel label='Enter postal code' Component={PinDropIcon}/>}
+                  label={<IconLabel label='Enter postal code *' Component={PinDropIcon}/>}
                   className={classes.input}
                   value={values.postalCode || ''}
                   onBlur={handleBlur}
@@ -144,6 +144,7 @@ const AddressForm = (props) => {
                   size='small'
                   fullWidth
                 />
+                <Typography className={classes.xsmall}>* - Indicates required field</Typography>
                 <FormGroup>
                   <FormControlLabel
                     control={<Checkbox

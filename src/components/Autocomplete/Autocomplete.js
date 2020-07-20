@@ -129,9 +129,9 @@ const AutocompleteComponent = (props) => {
             <Field {...params}
               component={TextField}
               name={name}
-              label={<IconLabel label='city and street name' Component={PublicIcon}/>}
+              label={<IconLabel label='city and street name *' Component={PublicIcon}/>}
               variant='outlined'
-              value={inputValue}
+              value={value}
               onBlur={onBlur}
               helperText={touched.autocomplete ? error.autocomplete : ''}
               error={touched.autocomplete && Boolean(error.autocomplete)}

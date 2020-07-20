@@ -107,11 +107,15 @@ const CheckoutStepper = (props) => {
       case 4:
         return (
           <Box>
-            <Typography variant='h6' className={classes.instructions}>Thank you for your order.</Typography>
-            {orderDetails && orderDetails.orderNumber &&
-            <Typography variant='body2' className={classes.instructions}>Your order number is {orderDetails.orderNumber}.
+            {isFullData ? <Typography variant='h6' className={classes.instructions}>Thank you for your order.</Typography>
+              : <Typography variant='h6' className={classes.instructions}>Your order is sending...</Typography> }
+            {orderDetails && orderDetails.orderNumber
+              ? <Typography variant='body2' className={classes.instructions}>Your order number is {orderDetails.orderNumber}.
               We have emailed your order confirmation, and will send you an update when your order has shipped.
-              Thank you for your order.</Typography>}
+              Thank you for your order.</Typography>
+              : <Typography variant='h6' className={classes.instructions}>Your order did not send.
+                      Please, check your order data and internet connection.</Typography> }
+            }
             {orderDetails && orderDetails.paymentMethod === 'LiqPay' && orderDetails.orderNumber &&
             <LiqPayPay
               title='Pay: '
@@ -124,7 +128,7 @@ const CheckoutStepper = (props) => {
               server_url={`${keysConfig.serverAddress}/orders/liqpay/order-payment`}
 
               amount={`${orderData.totalSum}`}
-              description={`Payment for products: ${orderData.productCodes}`}
+              description={'Payment for Vigo Shop order.'}
               orderId={orderData.orderId}
               disabled={!isFullData}
             />}
@@ -211,12 +215,12 @@ CheckoutStepper.propTypes = {
 const mapStateToProps = store => {
   return {
     user: store.user,
-    shoppingCart: store.shoppingCart,
+    shoppingCart: store.userChoice && store.userChoice.shoppingCart,
     guestData: store.guestData,
-    orderDetails: store.orderDetails,
-    completed: store.checkoutSteps.completed,
-    activeStep: store.checkoutSteps.active,
-    totalSum: store.totalSum
+    orderDetails: store.checkout && store.checkout.orderDetails,
+    completed: store.checkout && store.checkout.checkoutSteps && store.checkout.checkoutSteps.completed,
+    activeStep: store.checkout && store.checkout.checkoutSteps && store.checkout.checkoutSteps.active,
+    totalSum: store.checkout && store.checkout.totalSum
   };
 };
 

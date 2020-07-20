@@ -11,10 +11,9 @@ import MailIcon from '@material-ui/icons/Mail';
 import theme from './ContactFormTheme';
 import {ThemeProvider} from '@material-ui/core/styles';
 import Recaptcha from 'react-recaptcha';
-import AjaxUtils from '../../ajax';
-import {setSnackMessage} from '../../redux/actions/actions';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
+import {sendEmail} from '../../redux/actions/email';
 
 const initFormValues = {
   name: '',
@@ -38,7 +37,8 @@ const validationSample = Yup.object({
     .required('Recaptcha required')
 });
 
-const ContactForm = ({setSnackMessage}) => {
+const ContactForm = (props) => {
+  const {sendEmail} = props;
   const styles = useStyles();
 
   const submitData = useCallback((values, {resetForm, setSubmitting}) => {
@@ -55,17 +55,13 @@ const ContactForm = ({setSnackMessage}) => {
       from: values.email
     };
 
-    AjaxUtils.Email.sendEmail(data)
-      .then(result => {
+    sendEmail(data, result => {
+      if (result && result.status !== 400) {
         resetForm();
-        if (result && result.status === 400) {
-          setSnackMessage(true, 'Error occurs during message sending', 'error');
-        } else {
-          setSnackMessage(true, 'Your email sent', 'success');
-        }
-        setSubmitting(false);
-      });
-  }, [setSnackMessage]);
+      }
+      setSubmitting(false);
+    });
+  }, [sendEmail]);
 
   return (
     <Grid className={styles.form} item container xs={12} sm={8}>
@@ -96,11 +92,12 @@ const ContactForm = ({setSnackMessage}) => {
                         value={values.name}
                         className={styles.input}
                         type='text'
-                        label={<IconLabel label='ENTER YOUR NAME' Component={PersonIcon}/>}
+                        label={<IconLabel label='ENTER YOUR NAME *' Component={PersonIcon}/>}
                         variant='outlined'
                         error={errors.name && touched.name}
                         onBlur={handleBlur}
                         onChange={handleChange}
+                        size='small'
                         helperText={(errors.name && touched.name) && errors.name}
                       />
                       <TextField
@@ -110,10 +107,11 @@ const ContactForm = ({setSnackMessage}) => {
                         className={styles.input}
                         variant='outlined'
                         autoComplete='on'
-                        label={<IconLabel label='ENTER YOUR E-MAIL' Component={MailIcon}/>}
+                        label={<IconLabel label='ENTER YOUR E-MAIL *' Component={MailIcon}/>}
                         error={errors.email && touched.email}
                         onBlur={handleBlur}
                         onChange={handleChange}
+                        size='small'
                         helperText={(errors.email && touched.email) && errors.email}
                       />
                     </Grid>
@@ -127,13 +125,13 @@ const ContactForm = ({setSnackMessage}) => {
                         autoComplete='off'
                         onBlur={handleBlur}
                         onChange={handleChange}
+                        size='small'
                         label={<IconLabel label='ENTER YOUR SUBJECT' Component={InsertDriveFileIcon}/>}
                       />
-
                       <Typography variant='subtitle2' className={styles.infoMsg}>
                         Your email address will not be published.
-                        Required fields are marked
                       </Typography>
+                      <Typography className={styles.xsmall}>* - Indicates required field</Typography>
                     </Grid>
                   </Grid>
                   <Grid item xs={12} lg={6}>
@@ -181,7 +179,7 @@ const ContactForm = ({setSnackMessage}) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setSnackMessage: (isOpen, message, severity) => dispatch(setSnackMessage(isOpen, message, severity))
+    sendEmail: (data, callback) => dispatch(sendEmail(data, callback))
   };
 };
 

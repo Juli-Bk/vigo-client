@@ -18,16 +18,17 @@ const NestedMenu = (props) => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const [anchorEl, setAnchor] = useState(useRef(null));
+  const ref = useRef();
 
   const handleChange = useCallback((event, newValue) => {
     setValue(newValue);
-    setAnchor(event.currentTarget);
+    setAnchor(ref.current);
     toggleMenuOpen(true);
   },
   [toggleMenuOpen]);
 
-  const handlePopoverOpen = useCallback((event) => {
-    setAnchor(event.currentTarget);
+  const handlePopoverOpen = useCallback(() => {
+    setAnchor(ref.current);
     toggleMenuOpen(true);
   }, [toggleMenuOpen]);
 
@@ -54,11 +55,13 @@ const NestedMenu = (props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <MouseAwayListener onMouseAway={handlePopoverClose}>
-        <Container component='nav' className={classes.root} xs={12}>
+      <Container component='nav' className={classes.root} xs={12}>
+        <MouseAwayListener onMouseAway={handlePopoverClose}>
           <Box component='ul'
             className={classes.tabBox}
-            bgcolor={theme.palette.background}>
+            bgcolor={theme.palette.background}
+            ref={ref}
+          >
             <Tabs
               className={classes.topMenuItemsPanel}
               component='li'
@@ -66,7 +69,7 @@ const NestedMenu = (props) => {
               value={value}
               onChange={handleChange}
               aria-label="nav menu"
-              onMouseOver={handlePopoverOpen}
+              onMouseEnter={handlePopoverOpen}
             >
               {links}
             </Tabs>
@@ -82,8 +85,8 @@ const NestedMenu = (props) => {
               {subLinks}
             </Popper>
           </Box>
-        </Container>
-      </MouseAwayListener>
+        </MouseAwayListener>
+      </Container>
     </ThemeProvider>
   );
 };
@@ -97,7 +100,7 @@ NestedMenu.propTypes = {
 const mapStoreToProps = store => {
   return {
     categories: Array.isArray(store.categories) ? store.categories : store.categories.categories,
-    isMenuOpen: store.isMenuOpen
+    isMenuOpen: store.stateFlags && store.stateFlags.isMenuOpen
   };
 };
 
