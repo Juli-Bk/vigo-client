@@ -18,16 +18,17 @@ const NestedMenu = (props) => {
   const classes = useStyles();
   const [value, setValue] = useState(0);
   const [anchorEl, setAnchor] = useState(useRef(null));
+  const ref = useRef();
 
   const handleChange = useCallback((event, newValue) => {
     setValue(newValue);
-    setAnchor(event.currentTarget);
+    setAnchor(ref.current);
     toggleMenuOpen(true);
   },
   [toggleMenuOpen]);
 
-  const handlePopoverOpen = useCallback((event) => {
-    setAnchor(event.currentTarget);
+  const handlePopoverOpen = useCallback(() => {
+    setAnchor(ref.current);
     toggleMenuOpen(true);
   }, [toggleMenuOpen]);
 
@@ -58,7 +59,9 @@ const NestedMenu = (props) => {
         <Container component='nav' className={classes.root} xs={12}>
           <Box component='ul'
             className={classes.tabBox}
-            bgcolor={theme.palette.background}>
+            bgcolor={theme.palette.background}
+            ref={ref}
+          >
             <Tabs
               className={classes.topMenuItemsPanel}
               component='li'
@@ -66,7 +69,7 @@ const NestedMenu = (props) => {
               value={value}
               onChange={handleChange}
               aria-label="nav menu"
-              onMouseOver={handlePopoverOpen}
+              onMouseEnter={handlePopoverOpen}
             >
               {links}
             </Tabs>
