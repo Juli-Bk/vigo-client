@@ -27,7 +27,8 @@ const WishListView = (props) => {
       price: product.price,
       id: product._id,
       salePrice: product.salePrice,
-      isOnSale: product.isOnSale
+      isOnSale: product.isOnSale,
+      product: product
     };
   });
 
