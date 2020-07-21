@@ -20,8 +20,7 @@ import {
   setActiveStep,
   setCompletedSteps,
   setLoginModalOpenState,
-  setPersDetailsOpenState,
-  setCheckoutBlocked
+  setPersDetailsOpenState
 } from '../../redux/actions/actions';
 import {setUser} from '../../redux/actions/user';
 import {placeOrder} from '../../redux/actions/orders';
@@ -30,8 +29,7 @@ import {getStorageData, isEmptyObj, setStorageData} from '../../helpers/helpers'
 
 import {LiqPayPay} from 'react-liqpay';
 import keysConfig from '../../keysConfig';
-import EmptyState from '../EmptyState/EmptyState';
-import globalConfig from '../../globalConfig';
+import {changeShoppingCart} from '../../redux/actions/shopCart';
 
 const steps = ['Personal data', 'Delivery', 'Payment', 'Order'];
 
@@ -39,7 +37,7 @@ const CheckoutStepper = (props) => {
   const {
     setLoginModalOpenState, setPersDetailsOpenState, user,
     placeOrder, shoppingCart, guestData, totalSum, orderDetails, completed,
-    setActiveStep, activeStep, setCompleted, setCheckoutBlocked
+    setActiveStep, activeStep, setCompleted, changeShoppingCart
   } = props;
   const classes = useStyles();
   const commonClasses = useCommonStyles();
@@ -61,16 +59,14 @@ const CheckoutStepper = (props) => {
     let isCanceled = false;
     if (!isCanceled) {
       if (!completed.length) resetSteps();
-      if (shoppingCart.length) setCheckoutBlocked(false);
     }
     return () => {
       if (orderDetails.orderNumber) {
         resetSteps();
-        setCheckoutBlocked(true);
       }
       isCanceled = true;
     };
-  }, [completed.length, orderDetails.orderNumber, resetSteps, setCheckoutBlocked, shoppingCart.length]);
+  }, [changeShoppingCart, completed.length, orderDetails.orderNumber, resetSteps, shoppingCart.length]);
 
   const onSubmitCallback = useCallback((values, callback) => {
     if (!shoppingCart.length) setStorageData('totalSum', 0);
@@ -165,45 +161,42 @@ const CheckoutStepper = (props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      {!orderDetails.checkoutBlocked
-        ? <Box className={classes.root}>
-          <Stepper activeStep={activeStep} alternativeLabel>
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-          <Box>
-            <Container>
-              <Box>
-                <Typography component='span' className={classes.instructions}>
-                  <Box style={{minHeight: '40vh'}}>
-                    {getStepContent(activeStep)}
-                  </Box>
-                </Typography>
-                <Box className={classes.buttonContainer}>
-                  <Button
-                    disabled={disabledBack}
-                    onClick={handleBack}
-                    className={disabledBack ? classes.disabled : commonClasses.button}
-                  >
-                    <NavigateBeforeIcon/>
-                  </Button>
-                  <Button
-                    disabled={!completed.includes(activeStep)}
-                    className={!completed.includes(activeStep)
-                      ? classes.disabled : commonClasses.button}
-                    onClick={handleNext}>
-                    {activeStep === steps.length - 1 ? 'Confirm' : <NavigateNextIcon/>}
-                  </Button>
+      <Box className={classes.root}>
+        <Stepper activeStep={activeStep} alternativeLabel>
+          {steps.map((label) => (
+            <Step key={label}>
+              <StepLabel>{label}</StepLabel>
+            </Step>
+          ))}
+        </Stepper>
+        <Box>
+          <Container>
+            <Box>
+              <Typography component='span' className={classes.instructions}>
+                <Box style={{minHeight: '40vh'}}>
+                  {getStepContent(activeStep)}
                 </Box>
+              </Typography>
+              <Box className={classes.buttonContainer}>
+                <Button
+                  disabled={disabledBack}
+                  onClick={handleBack}
+                  className={disabledBack ? classes.disabled : commonClasses.button}
+                >
+                  <NavigateBeforeIcon/>
+                </Button>
+                <Button
+                  disabled={!completed.includes(activeStep)}
+                  className={!completed.includes(activeStep)
+                    ? classes.disabled : commonClasses.button}
+                  onClick={handleNext}>
+                  {activeStep === steps.length - 1 ? 'Confirm' : <NavigateNextIcon/>}
+                </Button>
               </Box>
-            </Container>
-          </Box>
+            </Box>
+          </Container>
         </Box>
-        : <EmptyState text={globalConfig.cartMessages.EMPTY} linkText='Let`s fix it'/>
-      }
+      </Box>
     </ThemeProvider>
   );
 };
@@ -221,8 +214,7 @@ CheckoutStepper.propTypes = {
   placeOrder: PropTypes.func.isRequired,
   setActiveStep: PropTypes.func.isRequired,
   setCompleted: PropTypes.func.isRequired,
-  totalSum: PropTypes.number.isRequired,
-  setCheckoutBlocked: PropTypes.func.isRequired
+  totalSum: PropTypes.number.isRequired
 };
 
 const mapStateToProps = store => {
@@ -245,7 +237,7 @@ const mapDispatchToProps = dispatch => {
     placeOrder: (userId, products, orderData) => dispatch(placeOrder(userId, products, orderData)),
     setActiveStep: step => dispatch(setActiveStep(step)),
     setCompleted: step => dispatch(setCompletedSteps(step)),
-    setCheckoutBlocked: flag => dispatch(setCheckoutBlocked(flag))
+    changeShoppingCart: () => dispatch(changeShoppingCart)
   };
 };
 

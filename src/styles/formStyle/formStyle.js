@@ -10,7 +10,9 @@ const useStyles = makeStyles(theme => (
       [theme.breakpoints.between(0, 420)]: {
         width: '93%',
         margin: 'auto',
-        padding: '0 !important'
+        paddingLeft: '0 !important',
+        paddingRight: '0 !important',
+        paddingTop: 10
       },
       [theme.breakpoints.between(420, 599)]: {
         width: '95%',
