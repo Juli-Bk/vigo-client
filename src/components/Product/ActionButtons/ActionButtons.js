@@ -21,7 +21,7 @@ const ActionButtons = (props) => {
     setPopoverOpen, sizeId, colorId, quantity,
     toggleModalSize, isModal, setCurrentProduct,
     isModalSize, setSnackMessage, toggleWishItems,
-    isComparePage, changeCompareList
+    isComparePage, changeCompareList, setCheckoutBlocked
   } = props;
 
   const addToShopCart = (productId, quantity, sizeId, colorId) => {
