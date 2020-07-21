@@ -32,6 +32,7 @@ import checkoutSteps from './checkoutStepsReducer';
 import compareList from './compareListReducer';
 import userOrders from './userOrdersReducer';
 import product from './productReducer';
+import checkoutPossible from './checkoutPossibleReducer';
 
 export const rootReducer = combineReducers({
   token,
@@ -48,7 +49,8 @@ export const rootReducer = combineReducers({
   checkout: combineReducers({
     totalSum,
     checkoutSteps,
-    orderDetails
+    orderDetails,
+    checkoutPossible
   }),
   userChoice: combineReducers({
     wishList,

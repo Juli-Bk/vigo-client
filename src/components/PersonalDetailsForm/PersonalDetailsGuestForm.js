@@ -79,7 +79,7 @@ const PersonalDetailsGuestForm = (props) => {
                 <TextField
                   autoComplete='on'
                   name='firstName'
-                  label={<IconLabel label='Enter your Name' Component={PersonIcon}/>}
+                  label={<IconLabel label='Enter your Name *' Component={PersonIcon}/>}
                   className={classes.input}
                   value={values.firstName || ''}
                   onChange={handleChange}
@@ -93,7 +93,7 @@ const PersonalDetailsGuestForm = (props) => {
                 <TextField
                   autoComplete='on'
                   name='lastName'
-                  label={<IconLabel label='Enter your Surname' Component={PersonIcon}/>}
+                  label={<IconLabel label='Enter your Surname *' Component={PersonIcon}/>}
                   className={classes.input}
                   value={values.lastName || ''}
                   onChange={handleChange}
@@ -107,7 +107,7 @@ const PersonalDetailsGuestForm = (props) => {
                 <TextField
                   autoComplete='on'
                   name='email'
-                  label={<IconLabel label='Enter your e-mail' Component={EmailIcon}/>}
+                  label={<IconLabel label='Enter your e-mail *' Component={EmailIcon}/>}
                   className={classes.input}
                   value={values.email || ''}
                   onChange={handleChange}
@@ -121,7 +121,7 @@ const PersonalDetailsGuestForm = (props) => {
                 <TextField
                   autoComplete='on'
                   name='phoneNumber'
-                  label={<IconLabel label='Enter your phone number' Component={PhoneAndroidIcon}/>}
+                  label={<IconLabel label='Enter your phone number *' Component={PhoneAndroidIcon}/>}
                   className={classes.input}
                   value={values.phoneNumber || ''}
                   onChange={handleChange}
@@ -132,6 +132,7 @@ const PersonalDetailsGuestForm = (props) => {
                   size='small'
                   fullWidth
                 />
+                <Typography className={classes.xsmall}>* - Required field</Typography>
                 <FormGroup
                   name='saveMyData'
                   column='true'>

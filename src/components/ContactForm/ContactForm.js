@@ -131,7 +131,7 @@ const ContactForm = (props) => {
                       <Typography variant='subtitle2' className={styles.infoMsg}>
                         Your email address will not be published.
                       </Typography>
-                      <Typography className={styles.xsmall}>* - Indicates required field</Typography>
+                      <Typography className={styles.xsmall}>* - Required field</Typography>
                     </Grid>
                   </Grid>
                   <Grid item xs={12} lg={6}>

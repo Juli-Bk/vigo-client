@@ -6,6 +6,14 @@ const theme = createMuiTheme({
       root: {
         justifyContent: 'center'
       }
+    },
+    MuiTypography: {
+      root: {
+        fontSize: '1.25rem',
+        '@media  (max-width: 340px)': {
+          fontSize: '1rem'
+        }
+      }
     }
   }
 });

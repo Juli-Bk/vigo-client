@@ -11,13 +11,14 @@ import DeliveryForm from '../DeliveryForm/DeliveryForm';
 import OrderSummary from './OrderSummary/OrderSummary';
 import ModalPersDetails from '../ModalPersDetails/ModalPersDetails';
 import NewCustomerForm from '../../components/NewCustomerForm/NewCustomerForm';
+import OrderFeedBack from './OrderFeedBack';
 
 import useCommonStyles from '../../styles/formStyle/formStyle';
 import useStyles from './CheckoutStepperStyles';
 import theme from './CheckoutStepperTheme';
 
 import {
-  setActiveStep,
+  setActiveStep, setCheckoutPossible,
   setCompletedSteps,
   setLoginModalOpenState,
   setPersDetailsOpenState
@@ -26,9 +27,8 @@ import {setUser} from '../../redux/actions/user';
 import {placeOrder} from '../../redux/actions/orders';
 import {setOrder, getProductsCodes, checkFullData} from './helper';
 import {getStorageData, isEmptyObj, setStorageData} from '../../helpers/helpers';
-
-import {LiqPayPay} from 'react-liqpay';
-import keysConfig from '../../keysConfig';
+import {changeShoppingCart} from '../../redux/actions/shopCart';
+import EmptyState from '../EmptyState/EmptyState';
 
 const steps = ['Personal data', 'Delivery', 'Payment', 'Order'];
 
@@ -36,11 +36,15 @@ const CheckoutStepper = (props) => {
   const {
     setLoginModalOpenState, setPersDetailsOpenState, user,
     placeOrder, shoppingCart, guestData, totalSum, orderDetails, completed,
-    setActiveStep, activeStep, setCompleted
+    setActiveStep, activeStep, setCompleted, changeShoppingCart, checkoutPossible, setCheckoutPossible
   } = props;
   const classes = useStyles();
   const commonClasses = useCommonStyles();
   const [guest, setGuest] = useState({radioGroup: null});
+
+  const disabledBack = useMemo(() => !!(activeStep === 0 || orderDetails.orderNumber),
+    [activeStep, orderDetails.orderNumber]);
+  const total = useMemo(() => totalSum || JSON.parse(localStorage.getItem('totalSum')), [totalSum]);
 
   const guestInfo = useMemo(() => guestData.deliveryAddress
     ? guestData : getStorageData('guestData'), [guestData]);
@@ -54,12 +58,12 @@ const CheckoutStepper = (props) => {
     let isCanceled = false;
     if (!isCanceled) {
       if (!completed.length) resetSteps();
+      if (shoppingCart.length) setCheckoutPossible(true);
     }
     return () => {
-      if (orderDetails.orderNumber) resetSteps();
       isCanceled = true;
     };
-  }, [completed.length, orderDetails.orderNumber, resetSteps]);
+  }, [changeShoppingCart, completed.length, orderDetails.orderNumber, resetSteps, setCheckoutPossible, shoppingCart.length]);
 
   const onSubmitCallback = useCallback((values, callback) => {
     if (!shoppingCart.length) setStorageData('totalSum', 0);
@@ -80,7 +84,7 @@ const CheckoutStepper = (props) => {
     let fields = null;
     const asAGuest = guest.radioGroup && guest.radioGroup === 'asGuest';
     const orderData = orderDetails && {
-      totalSum: totalSum || JSON.parse(localStorage.getItem('totalSum')),
+      totalSum: total,
       productCodes: orderDetails.products && getProductsCodes(orderDetails.products),
       orderId: orderDetails.orderNumber,
       sandbox: 1
@@ -105,39 +109,16 @@ const CheckoutStepper = (props) => {
       case 3:
         return <OrderSummary/>;
       case 4:
-        return (
-          <Box>
-            {isFullData ? <Typography variant='h6' className={classes.instructions}>Thank you for your order.</Typography>
-              : <Typography variant='h6' className={classes.instructions}>Your order is sending...</Typography> }
-            {orderDetails && orderDetails.orderNumber
-              ? <Typography variant='body2' className={classes.instructions}>Your order number is {orderDetails.orderNumber}.
-              We have emailed your order confirmation, and will send you an update when your order has shipped.
-              Thank you for your order.</Typography>
-              : <Typography variant='h6' className={classes.instructions}>Your order did not send.
-                      Please, check your order data and internet connection.</Typography> }
-            }
-            {orderDetails && orderDetails.paymentMethod === 'LiqPay' && orderDetails.orderNumber &&
-            <LiqPayPay
-              title='Pay: '
-              style={{margin: 8}}
-              publicKey={keysConfig.liqpay_public_key}
-              privateKey={keysConfig.liqpay_private_key}
-              currency={keysConfig.liqpay_currency}
-
-              result_url={`${keysConfig.clientAddress}/`}
-              server_url={`${keysConfig.serverAddress}/orders/liqpay/order-payment`}
-
-              amount={`${orderData.totalSum}`}
-              description={'Payment for Vigo Shop order.'}
-              orderId={orderData.orderId}
-              disabled={!isFullData}
-            />}
-          </Box>
-        );
+        return <OrderFeedBack
+          orderData={orderData}
+          isFullData={isFullData}
+          classes={classes}
+          resetSteps={resetSteps}
+        />;
       default:
         return 'Unknown stepIndex';
     }
-  }, [classes.instructions, guest.radioGroup, onSubmitCallback, orderDetails, totalSum, user]);
+  }, [classes, guest.radioGroup, onSubmitCallback, orderDetails, resetSteps, total, user]);
 
   const orderHandler = useCallback(() => {
     setOrder(user, guestData, totalSum, orderDetails, shoppingCart, placeOrder);
@@ -156,42 +137,45 @@ const CheckoutStepper = (props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box className={classes.root}>
-        <Stepper activeStep={activeStep} alternativeLabel>
-          {steps.map((label) => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
-        <Box>
-          <Container>
-            <Box>
-              <Typography component='span' className={classes.instructions}>
-                <Box style={{minHeight: '40vh'}}>
-                  {getStepContent(activeStep)}
+      {checkoutPossible
+        ? <Box className={classes.root}>
+          <Stepper activeStep={activeStep} alternativeLabel>
+            {steps.map((label) => (
+              <Step key={label}>
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+          <Box>
+            <Container>
+              <Box>
+                <Typography component='span' className={classes.instructions}>
+                  <Box style={{ minHeight: '40vh' }}>
+                    {getStepContent(activeStep)}
+                  </Box>
+                </Typography>
+                <Box className={classes.buttonContainer}>
+                  <Button
+                    disabled={disabledBack}
+                    onClick={handleBack}
+                    className={disabledBack ? classes.disabled : commonClasses.button}
+                  >
+                    <NavigateBeforeIcon/>
+                  </Button>
+                  <Button
+                    disabled={!completed.includes(activeStep)}
+                    className={!completed.includes(activeStep)
+                      ? classes.disabled : commonClasses.button}
+                    onClick={handleNext}>
+                    {activeStep === steps.length - 1 ? 'Confirm' : <NavigateNextIcon/>}
+                  </Button>
                 </Box>
-              </Typography>
-              <Box className={classes.buttonContainer}>
-                <Button
-                  disabled={activeStep === 0}
-                  onClick={handleBack}
-                  className={activeStep === 0 ? classes.disabled : commonClasses.button}
-                >
-                  <NavigateBeforeIcon/>
-                </Button>
-                <Button
-                  disabled={!completed.includes(activeStep)}
-                  className={!completed.includes(activeStep)
-                    ? classes.disabled : commonClasses.button}
-                  onClick={handleNext}>
-                  {activeStep === steps.length - 1 ? 'Confirm' : <NavigateNextIcon/>}
-                </Button>
               </Box>
-            </Box>
-          </Container>
+            </Container>
+          </Box>
         </Box>
-      </Box>
+        : <EmptyState text='You shopping cart is empty. You can`t perform a checkout' linkText='Let`s fix it'/>
+      }
     </ThemeProvider>
   );
 };
@@ -220,7 +204,8 @@ const mapStateToProps = store => {
     orderDetails: store.checkout && store.checkout.orderDetails,
     completed: store.checkout && store.checkout.checkoutSteps && store.checkout.checkoutSteps.completed,
     activeStep: store.checkout && store.checkout.checkoutSteps && store.checkout.checkoutSteps.active,
-    totalSum: store.checkout && store.checkout.totalSum
+    totalSum: store.checkout && store.checkout.totalSum,
+    checkoutPossible: store.checkout && store.checkout.checkoutPossible
   };
 };
 
@@ -231,7 +216,9 @@ const mapDispatchToProps = dispatch => {
     setPersDetailsOpenState: isOpen => dispatch(setPersDetailsOpenState(isOpen)),
     placeOrder: (userId, products, orderData) => dispatch(placeOrder(userId, products, orderData)),
     setActiveStep: step => dispatch(setActiveStep(step)),
-    setCompleted: step => dispatch(setCompletedSteps(step))
+    setCompleted: step => dispatch(setCompletedSteps(step)),
+    changeShoppingCart: () => dispatch(changeShoppingCart),
+    setCheckoutPossible: flag => dispatch(setCheckoutPossible(flag))
   };
 };
 
