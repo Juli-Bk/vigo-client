@@ -30,6 +30,7 @@ import {getStorageData, isEmptyObj, setStorageData} from '../../helpers/helpers'
 import {LiqPayPay} from 'react-liqpay';
 import keysConfig from '../../keysConfig';
 import {changeShoppingCart} from '../../redux/actions/shopCart';
+import EmptyState from '../EmptyState/EmptyState';
 
 const steps = ['Personal data', 'Delivery', 'Payment', 'Order'];
 
@@ -97,14 +98,18 @@ const CheckoutStepper = (props) => {
 
     switch (stepIndex) {
       case 0:
-        if (!isEmptyObj(user) || (asAGuest)) {
-          fields = <ModalPersDetails/>;
+        if (shoppingCart && shoppingCart.length) {
+          if (!isEmptyObj(user) || (asAGuest)) {
+            fields = <ModalPersDetails/>;
+          } else {
+            fields = <NewCustomerForm submitNewCustomerHandler={onSubmitCallback}/>;
+          }
+          return (
+            fields
+          );
         } else {
-          fields = <NewCustomerForm submitNewCustomerHandler={onSubmitCallback}/>;
+          return <EmptyState text='You shopping cart is empty. You can`t perform checkout' linkText='Let`s fix it'/>;
         }
-        return (
-          fields
-        );
       case 1:
         return <DeliveryForm/>;
       case 2:
@@ -142,7 +147,7 @@ const CheckoutStepper = (props) => {
       default:
         return 'Unknown stepIndex';
     }
-  }, [classes.instructions, guest.radioGroup, onSubmitCallback, orderDetails, total, user]);
+  }, [classes.instructions, guest.radioGroup, onSubmitCallback, orderDetails, shoppingCart, total, user]);
 
   const orderHandler = useCallback(() => {
     setOrder(user, guestData, totalSum, orderDetails, shoppingCart, placeOrder);
