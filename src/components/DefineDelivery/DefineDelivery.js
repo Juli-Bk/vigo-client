@@ -24,11 +24,12 @@ const DefineDelivery = (props) => {
   const styles = useStyles();
   const filledUserData = Object.entries(user).length > 0;
 
-  const submitNovaPoshtaHandler = useCallback((inputValue, values) => {
+  const submitNovaPoshtaHandler = useCallback((values, {resetForm, setSubmitting}) => {
+    setSubmitting(true);
     setCompleted(activeStep);
 
     const data = {
-      city: inputValue,
+      city: values.city,
       office: values.npOffice
     };
 
@@ -38,6 +39,8 @@ const DefineDelivery = (props) => {
     setStorageData('guestData', updatedInfo);
 
     filledUserData ? setUserNovaPoshtaData(data) : setGuestData(updatedGuestData);
+    resetForm();
+    setSubmitting(false);
   }, [activeStep, filledUserData, guestData, setCompleted, setGuestData, setUserNovaPoshtaData]);
 
   const getStepContent = useCallback(inputValue => {

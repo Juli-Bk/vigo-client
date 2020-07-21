@@ -6,6 +6,7 @@ import { capitalize } from '../../helpers/helpers';
 import Price from '../Product/Price/Price';
 import SalePrice from '../Product/SalePrice/SalePrice';
 import CloseIcon from '@material-ui/icons/Close';
+import ActionButtons from '../Product/ActionButtons/ActionButtons';
 
 const WishlistDesktopView = (props) => {
   const {rows, classes, deleteFromWishList} = props;
@@ -18,6 +19,7 @@ const WishlistDesktopView = (props) => {
           <TableCell align="center" className={classes.tableHead}>Product code</TableCell>
           <TableCell align="center" className={classes.tableHead}>Price</TableCell>
           <TableCell align="center" className={classes.tableHead}>Sale price</TableCell>
+          <TableCell align="center" className={classes.tableHead}>Add to bag</TableCell>
           <TableCell align="center" className={classes.tableHead}>Delete</TableCell>
         </TableRow>
       </TableHead>
@@ -41,6 +43,9 @@ const WishlistDesktopView = (props) => {
             </TableCell>
             <TableCell align="center" className={classes.code}>
               <SalePrice value={row.salePrice}/>
+            </TableCell>
+            <TableCell align="center" className={classes.code}>
+              <ActionButtons isComparePage={true} classes={classes} product={row.product}/>
             </TableCell>
             <TableCell align="center">
               <CloseIcon data-testid='deleteIcon'

@@ -13,6 +13,7 @@ import CloseIcon from '@material-ui/icons/Close';
 import { Link } from 'react-router-dom';
 import { capitalize, formPriceString } from '../../helpers/helpers';
 import globalConfig from '../../globalConfig';
+import ActionButtons from '../Product/ActionButtons/ActionButtons';
 
 const WishListMobileView = (props) => {
   const {rows, classes, productsLength, deleteFromWishList} = props;
@@ -53,6 +54,7 @@ const WishListMobileView = (props) => {
                     {formPriceString(row.salePrice, globalConfig.priceIsInteger)}
                   </span>
                 </Typography>
+                <ActionButtons isComparePage={true} classes={classes} product={row.product}/>
               </Box>
             </TableCell>
           </TableRow>
