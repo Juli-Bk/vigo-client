@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
 import {ThemeProvider} from '@material-ui/core/styles';
@@ -18,14 +18,11 @@ const {regions} = globalConfig;
 
 const NovaPoshtaCity = (props) => {
   const {submitNovaPoshtaHandler} = props;
-
   const options = Object.values(regions);
-  const [inputValue, setInputValue] = useState('');
-
   const styles = useStyles();
 
   const initFormValues = {
-    city: inputValue,
+    city: '',
     npOffice: ''
   };
 
@@ -34,6 +31,7 @@ const NovaPoshtaCity = (props) => {
       .label('Nova Poshta Office Number')
       .required(),
     city: Yup.string()
+      .required()
       .label('Delivery City')
   });
 
@@ -44,7 +42,7 @@ const NovaPoshtaCity = (props) => {
           <Formik
             initialValues={initFormValues}
             validationSchema={validateObject}
-            onSubmit={(values) => submitNovaPoshtaHandler(inputValue, values)}>
+            onSubmit={(values, {resetForm, setSubmitting}) => submitNovaPoshtaHandler(values, {resetForm, setSubmitting})}>
             {({
               isSubmitting,
               handleChange,
@@ -52,16 +50,17 @@ const NovaPoshtaCity = (props) => {
               handleSubmit,
               values,
               errors,
-              touched
+              touched,
+              setFieldValue
             }) => (
               <Form>
                 <Autocomplete
                   id='open-on-focus'
                   name='city'
                   onChange={handleChange}
-                  inputValue={inputValue}
+                  inputValue={values.city}
                   onInputChange={(event, newInputValue) => {
-                    setInputValue(newInputValue);
+                    setFieldValue('city', newInputValue);
                   }}
                   options={options}
                   style={{ width: '100%' }}
@@ -101,7 +100,6 @@ const NovaPoshtaCity = (props) => {
                     type='submit'
                     className={styles.button}
                     onClick={handleSubmit}
-                    fullWidth
                     disabled={isSubmitting}
                     variant='outlined'>Confirm
                   </Button>

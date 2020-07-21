@@ -173,7 +173,7 @@ const PersonalDetailsForm = (props) => {
                     label='I wish to subscribe to the Vigo Shop newsletter'
                   />
                   <FormControlLabel
-                    control={<Checkbox checked={values.confirmation}
+                    control={<Checkbox checked={values.confirmation || false}
                       onChange={handleChange}
                       name='confirmation'
                       color='default'/>}
