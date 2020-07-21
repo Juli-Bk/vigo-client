@@ -146,7 +146,7 @@ const RegisterForm = (props) => {
                   fullWidth
                 />
               </ThemeProvider>
-              <Typography className={styles.xsmall}>* - Indicates required field</Typography>
+              <Typography className={styles.xsmall}>* - Required field</Typography>
               <CardActions>
                 <Button
                   type='button'
