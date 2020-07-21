@@ -77,8 +77,7 @@ const ModalSize = (props) => {
       aria-describedby="alert-dialog-description"
     >
       <DialogTitle
-        id="alert-dialog-title"
-        className={formClasses.header}>
+        id="alert-dialog-title">
         Please, choose size
       </DialogTitle>
       <DialogContent>
