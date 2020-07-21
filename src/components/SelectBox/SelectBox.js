@@ -29,4 +29,4 @@ SelectBox.propTypes = {
   label: PropTypes.string
 };
 
-export default React.memo(SelectBox);
+export default SelectBox;
