@@ -20,7 +20,8 @@ import {
   setActiveStep,
   setCompletedSteps,
   setLoginModalOpenState,
-  setPersDetailsOpenState
+  setPersDetailsOpenState,
+  setCheckoutBlocked
 } from '../../redux/actions/actions';
 import {setUser} from '../../redux/actions/user';
 import {placeOrder} from '../../redux/actions/orders';
@@ -29,6 +30,8 @@ import {getStorageData, isEmptyObj, setStorageData} from '../../helpers/helpers'
 
 import {LiqPayPay} from 'react-liqpay';
 import keysConfig from '../../keysConfig';
+import EmptyState from '../EmptyState/EmptyState';
+import globalConfig from '../../globalConfig';
 
 const steps = ['Personal data', 'Delivery', 'Payment', 'Order'];
 
@@ -36,11 +39,15 @@ const CheckoutStepper = (props) => {
   const {
     setLoginModalOpenState, setPersDetailsOpenState, user,
     placeOrder, shoppingCart, guestData, totalSum, orderDetails, completed,
-    setActiveStep, activeStep, setCompleted
+    setActiveStep, activeStep, setCompleted, setCheckoutBlocked
   } = props;
   const classes = useStyles();
   const commonClasses = useCommonStyles();
   const [guest, setGuest] = useState({radioGroup: null});
+
+  const disabledBack = useMemo(() => !!(activeStep === 0 || orderDetails.orderNumber),
+    [activeStep, orderDetails.orderNumber]);
+  const total = useMemo(() => totalSum || JSON.parse(localStorage.getItem('totalSum')), [totalSum]);
 
   const guestInfo = useMemo(() => guestData.deliveryAddress
     ? guestData : getStorageData('guestData'), [guestData]);
@@ -54,12 +61,16 @@ const CheckoutStepper = (props) => {
     let isCanceled = false;
     if (!isCanceled) {
       if (!completed.length) resetSteps();
+      if (shoppingCart.length) setCheckoutBlocked(false);
     }
     return () => {
-      if (orderDetails.orderNumber) resetSteps();
+      if (orderDetails.orderNumber) {
+        resetSteps();
+        setCheckoutBlocked(true);
+      }
       isCanceled = true;
     };
-  }, [completed.length, orderDetails.orderNumber, resetSteps]);
+  }, [completed.length, orderDetails.orderNumber, resetSteps, setCheckoutBlocked, shoppingCart.length]);
 
   const onSubmitCallback = useCallback((values, callback) => {
     if (!shoppingCart.length) setStorageData('totalSum', 0);
@@ -80,7 +91,7 @@ const CheckoutStepper = (props) => {
     let fields = null;
     const asAGuest = guest.radioGroup && guest.radioGroup === 'asGuest';
     const orderData = orderDetails && {
-      totalSum: totalSum || JSON.parse(localStorage.getItem('totalSum')),
+      totalSum: total,
       productCodes: orderDetails.products && getProductsCodes(orderDetails.products),
       orderId: orderDetails.orderNumber,
       sandbox: 1
@@ -107,15 +118,13 @@ const CheckoutStepper = (props) => {
       case 4:
         return (
           <Box>
-            {isFullData ? <Typography variant='h6' className={classes.instructions}>Thank you for your order.</Typography>
-              : <Typography variant='h6' className={classes.instructions}>Your order is sending...</Typography> }
+            {orderDetails && orderDetails.orderNumber ? <Typography variant='h6' className={classes.instructions}>Thank you for your order.</Typography>
+              : <Typography variant='h6' className={classes.instructions}>Order In Process.</Typography> }
             {orderDetails && orderDetails.orderNumber
               ? <Typography variant='body2' className={classes.instructions}>Your order number is {orderDetails.orderNumber}.
               We have emailed your order confirmation, and will send you an update when your order has shipped.
               Thank you for your order.</Typography>
-              : <Typography variant='h6' className={classes.instructions}>Your order did not send.
-                      Please, check your order data and internet connection.</Typography> }
-            }
+              : null }
             {orderDetails && orderDetails.paymentMethod === 'LiqPay' && orderDetails.orderNumber &&
             <LiqPayPay
               title='Pay: '
@@ -137,7 +146,7 @@ const CheckoutStepper = (props) => {
       default:
         return 'Unknown stepIndex';
     }
-  }, [classes.instructions, guest.radioGroup, onSubmitCallback, orderDetails, totalSum, user]);
+  }, [classes.instructions, guest.radioGroup, onSubmitCallback, orderDetails, total, user]);
 
   const orderHandler = useCallback(() => {
     setOrder(user, guestData, totalSum, orderDetails, shoppingCart, placeOrder);
@@ -156,42 +165,45 @@ const CheckoutStepper = (props) => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box className={classes.root}>
-        <Stepper activeStep={activeStep} alternativeLabel>
-          {steps.map((label) => (
-            <Step key={label}>
-              <StepLabel>{label}</StepLabel>
-            </Step>
-          ))}
-        </Stepper>
-        <Box>
-          <Container>
-            <Box>
-              <Typography component='span' className={classes.instructions}>
-                <Box style={{minHeight: '40vh'}}>
-                  {getStepContent(activeStep)}
+      {!orderDetails.checkoutBlocked
+        ? <Box className={classes.root}>
+          <Stepper activeStep={activeStep} alternativeLabel>
+            {steps.map((label) => (
+              <Step key={label}>
+                <StepLabel>{label}</StepLabel>
+              </Step>
+            ))}
+          </Stepper>
+          <Box>
+            <Container>
+              <Box>
+                <Typography component='span' className={classes.instructions}>
+                  <Box style={{minHeight: '40vh'}}>
+                    {getStepContent(activeStep)}
+                  </Box>
+                </Typography>
+                <Box className={classes.buttonContainer}>
+                  <Button
+                    disabled={disabledBack}
+                    onClick={handleBack}
+                    className={disabledBack ? classes.disabled : commonClasses.button}
+                  >
+                    <NavigateBeforeIcon/>
+                  </Button>
+                  <Button
+                    disabled={!completed.includes(activeStep)}
+                    className={!completed.includes(activeStep)
+                      ? classes.disabled : commonClasses.button}
+                    onClick={handleNext}>
+                    {activeStep === steps.length - 1 ? 'Confirm' : <NavigateNextIcon/>}
+                  </Button>
                 </Box>
-              </Typography>
-              <Box className={classes.buttonContainer}>
-                <Button
-                  disabled={activeStep === 0}
-                  onClick={handleBack}
-                  className={activeStep === 0 ? classes.disabled : commonClasses.button}
-                >
-                  <NavigateBeforeIcon/>
-                </Button>
-                <Button
-                  disabled={!completed.includes(activeStep)}
-                  className={!completed.includes(activeStep)
-                    ? classes.disabled : commonClasses.button}
-                  onClick={handleNext}>
-                  {activeStep === steps.length - 1 ? 'Confirm' : <NavigateNextIcon/>}
-                </Button>
               </Box>
-            </Box>
-          </Container>
+            </Container>
+          </Box>
         </Box>
-      </Box>
+        : <EmptyState text={globalConfig.cartMessages.EMPTY} linkText='Let`s fix it'/>
+      }
     </ThemeProvider>
   );
 };
@@ -209,7 +221,8 @@ CheckoutStepper.propTypes = {
   placeOrder: PropTypes.func.isRequired,
   setActiveStep: PropTypes.func.isRequired,
   setCompleted: PropTypes.func.isRequired,
-  totalSum: PropTypes.number.isRequired
+  totalSum: PropTypes.number.isRequired,
+  setCheckoutBlocked: PropTypes.func.isRequired
 };
 
 const mapStateToProps = store => {
@@ -231,7 +244,8 @@ const mapDispatchToProps = dispatch => {
     setPersDetailsOpenState: isOpen => dispatch(setPersDetailsOpenState(isOpen)),
     placeOrder: (userId, products, orderData) => dispatch(placeOrder(userId, products, orderData)),
     setActiveStep: step => dispatch(setActiveStep(step)),
-    setCompleted: step => dispatch(setCompletedSteps(step))
+    setCompleted: step => dispatch(setCompletedSteps(step)),
+    setCheckoutBlocked: flag => dispatch(setCheckoutBlocked(flag))
   };
 };
 
