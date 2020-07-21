@@ -8,7 +8,7 @@ const useStyles = makeStyles(theme => (
     },
 
     icon: {
-      paddingRight: 15,
+      paddingRight: 12,
       fontSize: 14,
       [theme.breakpoints.up('sm')]: {
         fontSize: 17
