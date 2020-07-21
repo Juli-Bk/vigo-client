@@ -11,13 +11,13 @@ import Page404 from '../pages/Page404/Page404';
 import Wishlist from '../pages/Wishlist/Wishlist';
 import Header from '../containers/Header/Header';
 import MyAccount from '../pages/MyAccount/MyAccount';
-import {getJWTfromCookie} from '../ajax/common/helper';
 import PrivacyPolicy from '../pages/PrivacyPolicy/PrivacyPolicy';
 import Returns from '../pages/Returns/Returns';
 import Shipping from '../pages/Shipping/Shipping';
 import AutoScrollTop from '../components/AutoScrollTop/AutoScrollTop';
 import EmailConfirmationDialog from '../components/EmailConfirmationDialog/EmailConfirmationDialog';
 import RestorePswrdForm from '../components/RestorePswrdForm/RestorePswrdForm';
+import ProtectedRoute from './ProtectedRoute';
 
 const AppRoutes = () => {
   return (
@@ -51,25 +51,6 @@ const AppRoutes = () => {
         </Switch>
       </AutoScrollTop>
     </>
-  );
-};
-
-const ProtectedRoute = (props) => {
-  const {component: Component, render, ...rest} = props;
-
-  return (
-    <Route {...rest} render={(renderProps) => {
-      if (getJWTfromCookie()) {
-        if (render) {
-          return render(renderProps);
-        } else {
-          return <Component {...renderProps} />;
-        }
-      } else {
-        return <Component {...renderProps} auth={false} />;
-      }
-    }}
-    />
   );
 };
 
