@@ -17,7 +17,7 @@ const NestedMenu = (props) => {
 
   const classes = useStyles();
   const [value, setValue] = useState(0);
-  const [anchorEl, setAnchor] = useState(useRef(null));
+  const [anchorEl, setAnchor] = useState(useRef());
   const ref = useRef();
 
   const handleChange = useCallback((event, newValue) => {

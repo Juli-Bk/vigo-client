@@ -188,6 +188,19 @@ const useStyles = makeStyles(theme => ({
   },
   boldText: {
     fontWeight: 'bold'
+  },
+  button: {
+    color: colors.fontSecondary,
+    fontWeight: 700,
+    border: `.125rem solid ${colors.fontSecondary}`,
+    fontFamily: fonts.f2,
+    textTransform: 'uppercase',
+    padding: '.2rem .3rem',
+    fontSize: '.85rem',
+    whiteSpace: 'nowrap',
+    [theme.breakpoints.down(724)]: {
+      marginTop: '1rem'
+    }
   }
 }));
 

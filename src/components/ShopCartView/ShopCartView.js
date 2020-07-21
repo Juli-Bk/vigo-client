@@ -8,10 +8,9 @@ import {
   findItemsInCart,
   getChosenProductData,
   getItemStockData,
-  updateCartData,
   updateProductQuantity,
-  addToCart,
-  deleteFromCart, getTotalSum
+  deleteFromCart,
+  getTotalSum
 } from '../../pages/ShoppingCart/cartHelpers';
 
 import {changeShoppingCart} from '../../redux/actions/shopCart';
@@ -21,6 +20,7 @@ import useStyles from '../WishListView/WishListViewStyles';
 import TableMobileView from './Tables/TableMobileView';
 import TableDesktopView from './Tables/TableDesktopView';
 import TotalSum from './TotalSum/TotalSum';
+import {setStorageData} from '../../helpers/helpers';
 
 const ShopCartView = (props) => {
   const {
@@ -53,10 +53,9 @@ const ShopCartView = (props) => {
   }, [changeShoppingCart]);
 
   const handleQuantity = useCallback((productId, number, sizeId) => {
-    const updatedProduct = updateProductQuantity(productId, number, shoppingCart, sizeId);
-    updateCartData(shoppingCart, productId, updatedProduct, sizeId);
+    updateProductQuantity(productId, number, shoppingCart, sizeId);
+    setStorageData('shoppingCart', shoppingCart);
     changeShoppingCart();
-    addToCart(productId, number, updatedProduct.sizeId, updatedProduct.colorId);
   }, [changeShoppingCart, shoppingCart]);
 
   const getCartData = useCallback(product => {
