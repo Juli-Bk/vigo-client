@@ -86,6 +86,11 @@ export const handleCart = (products) => dispatch => {
             setStorageData('shoppingCart', []);
             dispatch(changeShoppingCart());
           }
+          if (result.message.includes('cart')) {
+            const invalidCartId = result.message.split('"')[1].split('"')[0];
+            console.log(invalidCartId);
+            setStorageData('cartId', '');
+          }
         }
       }).catch(err => {
         dispatch(setSnackMessage(true, globalConfig.cartMessages.ERROR, globalConfig.snackSeverity.ERROR));

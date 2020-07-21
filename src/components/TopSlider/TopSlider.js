@@ -43,7 +43,8 @@ const TopSlider = () => {
         showFullscreenButton={false}
         showPlayButton={false}
         autoPlay={keysConfig.environment !== 'development'}
-        slideDuration={1500}
+        slideDuration={800}
+        slideInterval={4000}
         renderItem={customRenderItem}
       />
     </Box>

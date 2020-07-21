@@ -233,9 +233,15 @@ export const sendRecoverPasswordLetter = (email, callback) => {
     AjaxUtils.Users.restorePasswordLetter(email)
       .then((result) => {
         if (result && result.status !== 400) {
-          dispatch(setSnackMessage(true,
-            result.message,
-            'success'));
+          if (result.message.includes('not')) {
+            dispatch(setSnackMessage(true,
+              result.message,
+              'error'));
+          } else {
+            dispatch(setSnackMessage(true,
+              result.message,
+              'success'));
+          }
         } else {
           dispatch(setSnackMessage(true,
             result.message,
@@ -257,14 +263,10 @@ export const sendConfirmLetter = (email, callback) => {
     AjaxUtils.Users.sendConfirmLetter(email)
       .then((result) => {
         dispatch(setLoading(false));
-        if (result && result.status !== 400) {
+        if (result && result.status === 400) {
           dispatch(setSnackMessage(true,
             result.message,
-            'success'));
-        } else {
-          dispatch(setSnackMessage(true,
-            result.message,
-            'error'));
+            globalConfig.snackSeverity.ERROR));
         }
         callback && callback(result);
       })

@@ -74,7 +74,7 @@ const RestorePswrdForm = (props) => {
               <form autoComplete='off'>
                 <TextField
                   name='password'
-                  autoComplete='off'
+                  autoComplete='on'
                   className={styles.input}
                   label={<IconLabel label='Enter your password' Component={LockIcon}/>}
                   type='password'

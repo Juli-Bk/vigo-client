@@ -16,7 +16,7 @@ const SnackbarMessage = (props) => {
     if (reason === 'clickaway') {
       return;
     }
-    setSnack(false, '');
+    setSnack(false, '', '');
   }, [setSnack]);
 
   return (
@@ -24,6 +24,7 @@ const SnackbarMessage = (props) => {
       <Snackbar
         id='snack'
         open={snackMessage.isOpen}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
         autoHideDuration={4000}
         onClose={handleClose}>
         <Alert
