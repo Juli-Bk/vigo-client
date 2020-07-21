@@ -30,7 +30,6 @@ import {getStorageData, isEmptyObj, setStorageData} from '../../helpers/helpers'
 import {LiqPayPay} from 'react-liqpay';
 import keysConfig from '../../keysConfig';
 import {changeShoppingCart} from '../../redux/actions/shopCart';
-import EmptyState from '../EmptyState/EmptyState';
 
 const steps = ['Personal data', 'Delivery', 'Payment', 'Order'];
 
@@ -98,18 +97,14 @@ const CheckoutStepper = (props) => {
 
     switch (stepIndex) {
       case 0:
-        if (shoppingCart && shoppingCart.length) {
-          if (!isEmptyObj(user) || (asAGuest)) {
-            fields = <ModalPersDetails/>;
-          } else {
-            fields = <NewCustomerForm submitNewCustomerHandler={onSubmitCallback}/>;
-          }
-          return (
-            fields
-          );
+        if (!isEmptyObj(user) || (asAGuest)) {
+          fields = <ModalPersDetails/>;
         } else {
-          return <EmptyState text='You shopping cart is empty. You can`t perform checkout' linkText='Let`s fix it'/>;
+          fields = <NewCustomerForm submitNewCustomerHandler={onSubmitCallback}/>;
         }
+        return (
+          fields
+        );
       case 1:
         return <DeliveryForm/>;
       case 2:
@@ -125,7 +120,7 @@ const CheckoutStepper = (props) => {
               ? <Typography variant='body2' className={classes.instructions}>Your order number is {orderDetails.orderNumber}.
               We have emailed your order confirmation, and will send you an update when your order has shipped.
               Thank you for your order.</Typography>
-              : null }
+              : <Typography variant='body2' className={classes.instructions}>Your order has not been placed. Please, verify your order data and/or internet connection.</Typography> }
             {orderDetails && orderDetails.paymentMethod === 'LiqPay' && orderDetails.orderNumber &&
             <LiqPayPay
               title='Pay: '
@@ -147,7 +142,7 @@ const CheckoutStepper = (props) => {
       default:
         return 'Unknown stepIndex';
     }
-  }, [classes.instructions, guest.radioGroup, onSubmitCallback, orderDetails, shoppingCart, total, user]);
+  }, [classes.instructions, guest.radioGroup, onSubmitCallback, orderDetails, total, user]);
 
   const orderHandler = useCallback(() => {
     setOrder(user, guestData, totalSum, orderDetails, shoppingCart, placeOrder);
