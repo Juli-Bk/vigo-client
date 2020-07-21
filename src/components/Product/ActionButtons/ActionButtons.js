@@ -9,7 +9,7 @@ import globalConfig from '../../../globalConfig';
 import { addToCart } from '../../../pages/ShoppingCart/cartHelpers';
 import {
   setCurrentProduct, setPopoverOpenState, setSnackMessage,
-  toggleModalSize, changeCompareList
+  toggleModalSize, changeCompareList, setCheckoutBlocked
 } from '../../../redux/actions/actions';
 import {changeShoppingCart} from '../../../redux/actions/shopCart';
 import {changeWishList, toggleWishItems} from '../../../redux/actions/wishlist';
@@ -21,11 +21,12 @@ const ActionButtons = (props) => {
     setPopoverOpen, sizeId, colorId, quantity,
     toggleModalSize, isModal, setCurrentProduct,
     isModalSize, setSnackMessage, toggleWishItems,
-    isComparePage, changeCompareList
+    isComparePage, changeCompareList, setCheckoutBlocked
   } = props;
 
   const addToShopCart = (productId, quantity, sizeId, colorId) => {
     setCurrentProduct(product);
+    setCheckoutBlocked(false);
     if (!sizeId) {
       isComparePage && toggleModalSize(true);
       isModalSize && setSnackMessage(true, 'Please, choose size', globalConfig.snackSeverity.ERROR);
@@ -83,6 +84,7 @@ ActionButtons.propTypes = {
   changeShoppingCart: PropTypes.func.isRequired,
   changeCompareList: PropTypes.func.isRequired,
   toggleModalSize: PropTypes.func.isRequired,
+  setCheckoutBlocked: PropTypes.func.isRequired,
   sizeId: PropTypes.string,
   colorId: PropTypes.string
 };
@@ -96,7 +98,8 @@ const mapDispatchToProps = dispatch => {
     setCurrentProduct: product => dispatch(setCurrentProduct(product)),
     setPopoverOpen: flag => dispatch(setPopoverOpenState(flag)),
     setSnackMessage: (isOpen, message, severity) => dispatch(setSnackMessage(isOpen, message, severity)),
-    toggleWishItems: id => dispatch(toggleWishItems(id))
+    toggleWishItems: id => dispatch(toggleWishItems(id)),
+    setCheckoutBlocked: flag => dispatch(setCheckoutBlocked(flag))
   };
 };
 
