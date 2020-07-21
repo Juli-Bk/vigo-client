@@ -120,7 +120,7 @@ const CheckoutStepper = (props) => {
               ? <Typography variant='body2' className={classes.instructions}>Your order number is {orderDetails.orderNumber}.
               We have emailed your order confirmation, and will send you an update when your order has shipped.
               Thank you for your order.</Typography>
-              : null }
+              : <Typography variant='body2' className={classes.instructions}>Your order has not been placed. Please, verify your order data and/or internet connection.</Typography> }
             {orderDetails && orderDetails.paymentMethod === 'LiqPay' && orderDetails.orderNumber &&
             <LiqPayPay
               title='Pay: '
