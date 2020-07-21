@@ -112,7 +112,7 @@ const ShopCartView = (props) => {
                   handleQuantity={handleQuantity}
                   rows={rows}
                   deleteFromShopCart={deleteFromShopCart}
-                  productsAmount={products.length}
+                  productsAmount={shoppingCart.length}
                 />
                 : <TableDesktopView
                   classes={classes}
