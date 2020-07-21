@@ -109,7 +109,3 @@ export const changeCompareList = (productId) => {
     return {type: Actions.CHANGE_COMPARE_LIST, payload: updatedList};
   }
 };
-
-export const setCheckoutBlocked = (flag) => {
-  return {type: Actions.SET_CHECKOUT_BLOCKED, payload: flag};
-};

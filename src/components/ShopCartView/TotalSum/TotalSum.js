@@ -7,10 +7,9 @@ import globalConfig from '../../../globalConfig';
 import useStyles from './TotalSumStyles';
 import {setTotalSum} from '../../../redux/actions/shopCart';
 import {setStorageData} from '../../../helpers/helpers';
-import {setCheckoutBlocked} from '../../../redux/actions/actions';
 
 const TotalSum = (props) => {
-  const {subtotal, setTotalSum, setCheckoutBlocked} = props;
+  const {subtotal, setTotalSum} = props;
   const classes = useStyles();
   const formClasses = formStyles();
 
@@ -19,12 +18,7 @@ const TotalSum = (props) => {
   useEffect(() => {
     setTotalSum(total);
     setStorageData('totalSum', total);
-    if (total) {
-      setCheckoutBlocked(false);
-    } else {
-      setCheckoutBlocked(true);
-    }
-  }, [setCheckoutBlocked, setTotalSum, total]);
+  }, [setTotalSum, total]);
 
   return (
     <Box className={classes.container}>
@@ -79,8 +73,7 @@ const mapStateToProps = store => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    setTotalSum: sum => dispatch(setTotalSum(sum)),
-    setCheckoutBlocked: flag => dispatch(setCheckoutBlocked(flag))
+    setTotalSum: sum => dispatch(setTotalSum(sum))
   };
 };
 
