@@ -8,10 +8,11 @@ import {
   findItemsInCart,
   getChosenProductData,
   getItemStockData,
-  updateCartData,
   updateProductQuantity,
-  addToCart,
-  deleteFromCart, getTotalSum
+  deleteFromCart,
+  updateCartData,
+  getTotalSum,
+  addToCart
 } from '../../pages/ShoppingCart/cartHelpers';
 
 import {changeShoppingCart} from '../../redux/actions/shopCart';

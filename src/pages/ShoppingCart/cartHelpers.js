@@ -1,5 +1,5 @@
 import {getStorageData, setStorageData} from '../../helpers/helpers';
-import {handleCart} from '../../redux/actions/shopCart';
+import { handleCart } from '../../redux/actions/shopCart';
 import store from '../../redux/store';
 
 export const getProductsId = (shoppingCart) => {
@@ -94,11 +94,7 @@ export const addToCart = (productId, cartQuantity = 1, sizeId = '', colorId = ''
         };
         setStorageData('shoppingCart', [...shopCartLocal, newItem]);
       } else {
-        let newQuantity = cartQuantity;
-        if (cartQuantity === 1) {
-          newQuantity = item.cartQuantity + 1;
-        }
-        const updatedItem = updateProductQuantity(productId, newQuantity, shopCartLocal, sizeId);
+        const updatedItem = updateProductQuantity(productId, cartQuantity, shopCartLocal, sizeId);
         updateCartData(shopCartLocal, productId, updatedItem, sizeId);
       }
     });

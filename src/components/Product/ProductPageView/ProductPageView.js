@@ -38,12 +38,7 @@ const ProductPageView = (props) => {
   const [quantity, setQuantity] = useState(globalConfig.defaultQuantityOption);
   const [productQuantity, setProductQuantity] = useState([]);
   const [isSizeTableOpen, setIsSizeTableOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState(null);
   const anchorRef = useRef();
-
-  const handleClickAddBtn = useCallback(() => {
-    setAnchorEl(anchorRef.current);
-  }, []);
 
   const handleClickOpen = useCallback(() => {
     setIsSizeTableOpen(true);
@@ -115,9 +110,9 @@ const ProductPageView = (props) => {
           <Quantity quantity={quantity} id={productData._id} classes={classes} max={maxQuantity || 5} handleQuantity={handleQuantity}/>
         </Box>
         <PopoverMessage
-          anchorEl={anchorEl}
+          anchorEl={anchorRef.current}
           popoverContent='Please, choose size'/>
-        <Box className={classes.actionBox} onClick={handleClickAddBtn}>
+        <Box className={classes.actionBox}>
           <ThemeProvider theme={theme}>
             <ActionButtons classes={classes}
               product={productData}

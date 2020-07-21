@@ -7,6 +7,11 @@ export const theme = createMuiTheme({
         borderBottom: 'none',
         padding: '16px 0'
       }
+    },
+    MuiCardActions: {
+      root: {
+        padding: 0
+      }
     }
   }
 

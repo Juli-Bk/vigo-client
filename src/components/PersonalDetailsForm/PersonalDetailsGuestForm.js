@@ -38,7 +38,7 @@ const PersonalDetailsGuestForm = (props) => {
     lastName: guestData ? guestData.lastName : '',
     phoneNumber: guestData ? guestData.phoneNumber : '',
     email: guestData ? guestData.email : '',
-    confirmation: guestData ? guestData.confirmation : false,
+    confirmation: false,
     subscribe: guestData ? guestData.subscribe : false,
     saveMyData: guestData ? guestData.saveMyData : true
   };
