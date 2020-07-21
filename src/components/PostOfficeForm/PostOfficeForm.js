@@ -100,7 +100,6 @@ const NovaPoshtaCity = (props) => {
                     type='submit'
                     className={styles.button}
                     onClick={handleSubmit}
-                    fullWidth
                     disabled={isSubmitting}
                     variant='outlined'>Confirm
                   </Button>
