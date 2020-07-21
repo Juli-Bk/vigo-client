@@ -132,6 +132,7 @@ const PersonalDetailsGuestForm = (props) => {
                   size='small'
                   fullWidth
                 />
+                <Typography className={classes.xsmall}>* - Required field</Typography>
                 <FormGroup
                   name='saveMyData'
                   column='true'>

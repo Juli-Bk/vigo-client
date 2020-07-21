@@ -95,7 +95,7 @@ const LoginForm = (props) => {
                   error={touched.password && Boolean(errors.password)}
                   size='small'
                 />
-                <Typography className={styles.xsmall}>* - Indicates required field</Typography>
+                <Typography className={styles.xsmall}>* - Required field</Typography>
                 <CardActions>
                   <Button
                     type='button'

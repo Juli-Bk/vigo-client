@@ -161,7 +161,7 @@ const PersonalDetailsForm = (props) => {
                   size='small'
                   fullWidth
                 />
-                <Typography className={classes.xsmall}>* - Indicates required field</Typography>
+                <Typography className={classes.xsmall}>* - Required field</Typography>
                 <FormGroup
                   name='saveMyData'
                   column='true'>

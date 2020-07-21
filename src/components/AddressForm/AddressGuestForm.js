@@ -128,6 +128,7 @@ const AddressGuestForm = (props) => {
                   size='small'
                   fullWidth
                 />
+                <Typography className={classes.xsmall}>* - Required field</Typography>
                 <FormGroup>
                   <FormControlLabel
                     control={<Checkbox
