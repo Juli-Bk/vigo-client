@@ -87,7 +87,7 @@ const AddressGuestForm = (props) => {
                 <TextField
                   autoComplete='off'
                   name='house'
-                  label={<IconLabel label='Enter building number'
+                  label={<IconLabel label='Enter building number *'
                     Component={ApartmentIcon}/>}
                   className={classes.input}
                   value={values.house || ''}
@@ -116,7 +116,7 @@ const AddressGuestForm = (props) => {
                 <TextField
                   name='postalCode'
                   autoComplete='on'
-                  label={<IconLabel label='Enter postal code'
+                  label={<IconLabel label='Enter postal code *'
                     Component={PinDropIcon}/>}
                   className={classes.input}
                   value={values.postalCode || ''}
