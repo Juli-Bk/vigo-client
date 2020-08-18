@@ -63,6 +63,7 @@ export const capitalize = (string) => {
 };
 
 export const makeShortText = (text) => {
+  if (!text) throw new Error('text is empty');
   const textArray = text.split('.');
   if (textArray[0].length > 100) {
     const shortString = textArray[0].slice(0, 100);

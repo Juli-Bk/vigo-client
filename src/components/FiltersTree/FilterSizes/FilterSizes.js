@@ -11,8 +11,10 @@ import { getFilterString, getSizesState, getUrlData } from '../../../helpers/hel
 
 const FilterSizes = (props) => {
   const { categories, location, allSizes, getAllSizes, history } = props;
+
   const parsed = useMemo(() => queryString.parse(location.search), [location.search]);
   const dataFromSearchString = useMemo(() => getUrlData(parsed, 'size'), [parsed]);
+
   const getState = useCallback(() => {
     if (allSizes.names && allSizes.names.length) {
       return getSizesState(allSizes.names, dataFromSearchString);
@@ -82,12 +84,15 @@ const FilterSizes = (props) => {
         label={name}
         style={{textTransform: 'uppercase'}}
         checked={state[name]}
-        control={<Checkbox
-          onChange={handleChange}
-          name={name}
-          color='default'/>}/>;
+        control={
+          <Checkbox
+            onChange={handleChange}
+            name={name}
+            color='default'/>
+        }/>;
     });
   };
+
   return (
     <ThemeProvider theme={theme}>
       {allSizes.names && allSizes.names.length > 0 ? getCheckboxes() : <Box/>}
