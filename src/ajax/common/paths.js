@@ -1,6 +1,5 @@
-export const baseUrl = process.env.REACT_APP_ENVIRONMENT === 'development'
-  ? 'http://localhost:9229'
-  : process.env.REACT_APP_SERVER_BASE_ADDRESS;
+export const baseUrl = 'https://vigo-server.herokuapp.com';
+// export const baseUrl = 'http://localhost:9229';
 
 const RequestsConfig = {
   categories: `${baseUrl}/categories`,
