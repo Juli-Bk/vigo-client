@@ -20,7 +20,7 @@ const UkrPoshtaData = (props) => {
   const adr = savedAddresses
     ? user.addresses.map(address => {
       const adrString = `${address.address} ${address.street || ''} ${address.house}/${address.apartment}, postalCode: ${address.postalCode} `;
-      return <ListItem className={styles.text} key={address._id}>Address: {adrString}</ListItem>;
+      return <ListItem className={styles.text} key={address._id}>{adrString}</ListItem>;
     })
     : <ListItem className={styles.text}>Address: You have not saved address yet</ListItem>;
 

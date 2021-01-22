@@ -19,12 +19,12 @@ const OrderFeedBack = (props) => {
 
   return (
     <Box>
-      {orderDetails && orderDetails.orderNumber ? <Typography variant='h6' className={classes.instructions}>Thank you for your order.</Typography>
-        : <Typography variant='h6' className={classes.instructions}>Order In Process.</Typography> }
       {orderDetails && orderDetails.orderNumber
-        ? <Typography variant='body2' className={classes.instructions}>Your order number is {orderDetails.orderNumber}.
-                            We have emailed your order confirmation, and will send you an update when your order has shipped.
-                            Thank you for your order.</Typography>
+        ? <>
+          <Typography variant='h5' className={classes.instructions}>Your order number is {orderDetails.orderNumber}</Typography>
+          <Typography variant='body2' className={classes.instructions}>We have emailed your order confirmation. Have a nice day!</Typography>
+          <Typography variant='caption' className={classes.instructions}>Vigo shop team</Typography>
+        </>
         : <Typography variant='body2' className={classes.instructions}>Your order has not been placed. Please, verify your order data and/or internet connection.</Typography> }
       {orderDetails && orderDetails.paymentMethod === 'LiqPay' && orderDetails.orderNumber &&
                 <LiqPayPay

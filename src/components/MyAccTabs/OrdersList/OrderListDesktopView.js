@@ -30,7 +30,7 @@ const OrderListDesktop = (props) => {
       <TableBody>
         <ThemeProvider theme={themeMui}>
           {userOrders.map(order => (
-            <TableRow key={order.orderNo} className={classes.row}>
+            <TableRow key={order.orderNo + Date.now().toString()} className={classes.row}>
               <TableCell component='th' scope='row' className={classes.cell}>
                 <Typography className={classes.text}>
                   <span className={classes.orderNo}>Order Number: </span>

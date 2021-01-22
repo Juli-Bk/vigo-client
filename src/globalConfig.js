@@ -130,7 +130,7 @@ const globalConfig = {
   errors: {
     500: 'Unknown error. But we are trying to fix it right now!',
     404: 'This page cannot be found.',
-    network: 'The internet connection lost. Please, check your network.'
+    network: 'Please, check your internet connection'
   }
 };
 

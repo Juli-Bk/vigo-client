@@ -46,7 +46,7 @@
     "react-redux": "^7.2.0",
     "react-router": "^5.2.0",
     "react-router-dom": "^5.2.0",
-    "react-scripts": "3.4.1",
+    "react-scripts": "^3.4.3",
     "react-scroll-up-button": "^1.6.4",
     "react-spring": "^8.0.27",
     "react-swipeable-views": "^0.13.9",
