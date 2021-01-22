@@ -4,7 +4,6 @@ before_install:
 node_js:
   - "13.14.0"
 cache:
-  npm: false
   directories:
   - node_modules
 script:
