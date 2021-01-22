@@ -21,7 +21,9 @@ To build the app for production to the `build` folder:
 
 ##To update react-scripts run
 
-`npm install --save --save-exact react-scripts@3.4.1`
+`npm install --save --save-exact react-scripts@latest`
+
+
 
 ##To reinstall node modules:
 
