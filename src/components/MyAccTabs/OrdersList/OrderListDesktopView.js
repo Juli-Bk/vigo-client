@@ -46,7 +46,8 @@ const OrderListDesktop = (props) => {
                 {order.deliveryAddress
                   ? <Typography className={classes.text}>
                     <span className={classes.title}>Delivery Address: </span>
-                    {getAddress(order.deliveryAddress, classes)}</Typography> : null
+                    {getAddress(order.deliveryAddress, classes)}</Typography>
+                  : null
                 }
               </TableCell>
               <TableCell component='th' scope='row' className={classes.cell}>
@@ -66,7 +67,8 @@ const OrderListDesktop = (props) => {
                     className={formClasses.button}
                     onClick={() => {
                       cancelOrder(order._id);
-                    }}>Cancel</Button> : null}
+                    }}>Cancel</Button>
+                  : null}
               </TableCell>
             </TableRow>
           ))}

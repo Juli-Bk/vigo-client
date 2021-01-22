@@ -23,6 +23,10 @@ To build the app for production to the `build` folder:
 
 `npm install --save --save-exact react-scripts@3.4.1`
 
+##To reinstall node modules:
+
+`rm -rf node_modules package-lock.json && npm install && npm start`
+
 ## We used
 
 * React, Redux, Redux Thunk

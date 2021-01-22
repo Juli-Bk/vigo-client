@@ -47,7 +47,8 @@ const CheckoutStepper = (props) => {
   const total = useMemo(() => totalSum || JSON.parse(localStorage.getItem('totalSum')), [totalSum]);
 
   const guestInfo = useMemo(() => guestData.deliveryAddress
-    ? guestData : getStorageData('guestData'), [guestData]);
+    ? guestData
+    : getStorageData('guestData'), [guestData]);
 
   const resetSteps = useCallback(() => {
     localStorage.setItem('activeStep', JSON.stringify(0));
@@ -165,7 +166,8 @@ const CheckoutStepper = (props) => {
                   <Button
                     disabled={!completed.includes(activeStep)}
                     className={!completed.includes(activeStep)
-                      ? classes.disabled : commonClasses.button}
+                      ? classes.disabled
+                      : commonClasses.button}
                     onClick={handleNext}>
                     {activeStep === steps.length - 1 ? 'Confirm' : <NavigateNextIcon/>}
                   </Button>

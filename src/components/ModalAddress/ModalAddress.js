@@ -42,7 +42,22 @@ const ModalAddress = (props) => {
     }}>{message}</Typography>
   </DialogContent>;
 
-  const userForm = <AddressForm component='span'
+  // const userForm = <AddressForm component='span'
+  //   submitAddressHandler={(result) => {
+  //     if (result) {
+  //       if (result.status === 400) {
+  //         setMessage(result.message);
+  //         setIsMessageHidden(true);
+  //       } else if (result.status === 200) {
+  //         isAddressModalOpen && setIsMessageHidden(false);
+  //         setCompleted(activeStep);
+  //         handleClose();
+  //       }
+  //     }
+  //     handleClose();
+  //   }}/>;
+
+  const userForm = useMemo(() => <AddressForm component='span'
     submitAddressHandler={(result) => {
       if (result) {
         if (result.status === 400) {
@@ -55,9 +70,22 @@ const ModalAddress = (props) => {
         }
       }
       handleClose();
-    }}/>;
+    }}/>, [activeStep, handleClose, isAddressModalOpen, setCompleted]);
 
-  const guestForm = <AddressGuestForm component='span'
+  // const guestForm = <AddressGuestForm component='span'
+  //   saveGuestDataHandler={(deliveryAddress) => {
+  //     if (deliveryAddress) {
+  //       const data = {...guestData, deliveryAddress};
+  //       setGuestData(data);
+  //       const storageData = getStorageData('guestData');
+  //       setStorageData('guestData', {...storageData, deliveryAddress});
+  //     }
+  //     setCompleted(activeStep);
+  //     handleClose();
+  //   }
+  //   }/>;
+
+  const guestForm = useMemo(() => <AddressGuestForm component='span'
     saveGuestDataHandler={(deliveryAddress) => {
       if (deliveryAddress) {
         const data = {...guestData, deliveryAddress};
@@ -68,7 +96,7 @@ const ModalAddress = (props) => {
       setCompleted(activeStep);
       handleClose();
     }
-    }/>;
+    }/>, [activeStep, guestData, handleClose, setCompleted, setGuestData]);
 
   const form = useMemo(() => user._id ? userForm : guestForm, [guestForm, user._id, userForm]);
   const buttonText = useMemo(() =>

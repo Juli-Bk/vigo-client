@@ -80,9 +80,11 @@ const Products = (props) => {
                 <Grid item xs={8} sm={5} md={6} className={classes.sortSelect}>
                   <Sort values={globalConfig.sortOptions}/>
                 </Grid>
-                {!isSmScreen ? <Grid item md={3} className={classes.viewBox}>
+                {!isSmScreen
+                  ? <Grid item md={3} className={classes.viewBox}>
                   <ViewAs label={true}/>
-                </Grid> : null}
+                </Grid>
+                  : null}
                 <Grid item md={3} xs={4} className={classes.showBy}>
                   {products.totalCount > globalConfig.step ? <ShowBy step={globalConfig.step}/> : null}
                 </Grid>
@@ -91,7 +93,8 @@ const Products = (props) => {
                 {isSmScreen
                   ? <Grid item xs={12} className={classes.viewBox}>
                     <ViewAs label={true}/>
-                  </Grid> : null
+                  </Grid>
+                  : null
                 }
                 <Grid item md={6} xs={12}>
                   {products.totalCount > 0
@@ -101,10 +104,13 @@ const Products = (props) => {
               </Grid>
             </Grid>
             <Grid item container className={classes.products} xs={12}>
-              {products.data && products.data.length
-                ? (view === 'module' ? <ProductGrid products={products.data}/>
-                  : <ProductsList products={products.data}/>)
-                : <EmptyState text={globalConfig.userMessages.EMPTY_RESULT}/>}
+              {
+                products.data && products.data.length
+                  ? view === 'module'
+                      ? <ProductGrid products={products.data}/>
+                      : <ProductsList products={products.data}/>
+                  : <EmptyState text={globalConfig.userMessages.EMPTY_RESULT}/>
+              }
             </Grid>
             <Grid item xs={12} className={classes.paginationBottom}>
               {products.totalCount > 0

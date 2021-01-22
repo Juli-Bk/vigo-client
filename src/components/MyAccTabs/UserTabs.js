@@ -80,16 +80,20 @@ const UserTabs = (props) => {
 
         <Grid container spacing={3}>
           <Grid item xs={12} sm={6}>
-            { user._id
-              ? <PersonalDetailsForm submitPersonalDetailsHandler={() => {
-                handleChange(null, value);
-              }}/> : null}
+            {
+              user._id
+                ? <PersonalDetailsForm submitPersonalDetailsHandler={() => {
+                  handleChange(null, value);
+                }}/>
+                : null
+            }
           </Grid>
           <Grid item xs={12} sm={6}>
             { user._id
               ? <ChangePasswordForm submitChangePasswordHandler={() => {
                 handleChange(null, value);
-              }}/> : null}
+              }}/>
+              : null}
           </Grid>
         </Grid>
       </TabPanel>

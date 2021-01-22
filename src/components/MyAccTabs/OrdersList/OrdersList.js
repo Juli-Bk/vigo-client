@@ -23,10 +23,13 @@ const OrdersList = (props) => {
   }, [getUserOrders, user._id]);
 
   return (<>
-    {userOrders && userOrders.length
-      ? isMobile ? <OrderListMobileView/>
-        : <OrderListDesktopView/>
-      : <EmptyState text='Your orders list is empty.' linkText='Let`s fix it'/>}
+    {
+      userOrders && userOrders.length
+        ? isMobile
+            ? <OrderListMobileView/>
+            : <OrderListDesktopView/>
+        : <EmptyState text='Your orders list is empty.' linkText='Let`s fix it'/>
+    }
   </>);
 };
 

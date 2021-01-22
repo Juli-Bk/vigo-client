@@ -18,10 +18,11 @@ const UkrPoshtaData = (props) => {
   const savedAddresses = user && user.addresses && user.addresses.length > 0;
 
   const adr = savedAddresses
-    ? user.addresses.map(address => {
-      const adrString = `${address.address} ${address.street || ''} ${address.house}/${address.apartment}, postalCode: ${address.postalCode} `;
-      return <ListItem className={styles.text} key={address._id}>{adrString}</ListItem>;
-    })
+    ? user.addresses.map(userAddress => {
+        const {address, street, house, apartment, postalCode} = userAddress;
+        const adrString = `${address} ${street || ''} ${house}/${apartment}, postalCode: ${postalCode} `;
+        return <ListItem className={styles.text} key={address._id}>{adrString}</ListItem>;
+      })
     : <ListItem className={styles.text}>Address: You have not saved address yet</ListItem>;
 
   const labels = userData

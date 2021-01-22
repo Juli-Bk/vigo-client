@@ -67,9 +67,11 @@ const ModalPersDetails = (props) => {
   return (
     <ThemeProvider theme={theme}>
       <Box>
-        {!isEmptyObj(user) ? renderSavedData(user)
-          : !isEmptyObj(guestInfo) ? renderSavedData(guestInfo)
-            : null
+        {!isEmptyObj(user)
+          ? renderSavedData(user)
+          : !isEmptyObj(guestInfo)
+              ? renderSavedData(guestInfo)
+              : null
         }
         <Button className={commonClasses.button} onClick={handleClickOpen}>
           Change contact info

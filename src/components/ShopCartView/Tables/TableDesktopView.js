@@ -28,8 +28,11 @@ const TableDesktopView = (props) => {
             <TableCell component="th" scope="row" className={classes.firstCell}>
               <Link to={`/products/${row.id}`} className={classes.linkBox}>
                 <CardMedia image={row.imgUrl} className={classes.img}/>
-                {row.isOnSale
-                  ? <SaleInfoBox price={row.price} salePrice={row.salePrice}/> : null}
+                {
+                  row.isOnSale
+                    ? <SaleInfoBox price={row.price} salePrice={row.salePrice}/>
+                    : null
+                }
               </Link>
               <Box className={classes.textBox}>
                 <Link to={`/products/${row.id}`}

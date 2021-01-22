@@ -21,7 +21,8 @@ const MyAccount = (props) => {
   return (
     <>
       {
-        !isEmptyObj(user) ? <Container component='span'>
+        !isEmptyObj(user)
+          ? <Container component='span'>
           <MyAccTabs user={user}/>
         </Container>
           : <></>

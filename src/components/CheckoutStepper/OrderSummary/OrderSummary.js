@@ -44,8 +44,9 @@ const OrderSummary = (props) => {
       <Grid container>
         <Grid item container xs={12}>
           {productsData
-            ? isMobile ? <ProductsTableMobile productsData={productsData}/>
-              : <ProductsTableDesktop productsData={productsData}/>
+            ? isMobile
+                ? <ProductsTableMobile productsData={productsData}/>
+                : <ProductsTableDesktop productsData={productsData}/>
             : null
           }
         </Grid>
@@ -60,8 +61,8 @@ const OrderSummary = (props) => {
             !isEmptyObj(user)
               ? <ClientPersData classes={classes} client={user}/>
               : !isEmptyObj(guestData)
-                ? <ClientPersData classes={classes} client={guestData}/>
-                : null
+                  ? <ClientPersData classes={classes} client={guestData}/>
+                  : null
           }
         </Grid>
         {defineDeliveryAddress(orderDetails, user, guestData, classes)}
