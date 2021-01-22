@@ -3,7 +3,7 @@
 
 [![Build Status](https://travis-ci.com/Vigo-Shop/Vigo-project.svg?branch=master)](https://travis-ci.com/Vigo-Shop/Vigo-project)
 
-Final project for DAN IT students. It is online shop for clothes.
+Online shop for clothes.
 
 ## Available Scripts
 
@@ -11,7 +11,7 @@ To run the project in development mode at [http://localhost:3000](http://localho
 
 ### `npm start`
 
-To launche the test runner in the interactive watch mode: 
+To launch the test runner in the interactive watch mode: 
 
 ### `npm test`
 
@@ -21,8 +21,7 @@ To build the app for production to the `build` folder:
 
 ##To update react-scripts run
 
-`npm install --save --save-exact react-scripts@3.4.1
-`
+`npm install --save --save-exact react-scripts@3.4.1`
 
 ## We used
 
@@ -35,7 +34,7 @@ To build the app for production to the `build` folder:
 * GIT, GitHub, Jira
 * Jest, Enzyme
 
-### Students
+### Contributors
 
 * [Yuliia Bozhek](https://gitlab.com/Juli-Bk) 
 * [Larysa Chepurna](https://gitlab.com/alisa444.86)
