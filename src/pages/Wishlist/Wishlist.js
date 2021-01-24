@@ -16,7 +16,7 @@ const Wishlist = (props) => {
   useEffect(() => {
     let isCanceled = false;
     if (!isCanceled) {
-      const filterArray = (wishList.length && [{_id: wishList}]) || [];
+      const filterArray = (wishList.length && [{_id: wishList.filter(id => id !== null)}]) || [];
       getProductsByFilters(filterArray, 1, globalConfig.wishlistLength, '');
     }
     return () => {

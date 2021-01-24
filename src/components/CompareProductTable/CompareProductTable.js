@@ -19,7 +19,7 @@ const CompareProductTable = (props) => {
       price: product.price,
       id: product._id,
       salePrice: product.salePrice,
-      brand: product.brandId.name,
+      brand: product.brandId?.name || 'not specified',
       isOnSale: product.isOnSale,
       description: product.description
     };

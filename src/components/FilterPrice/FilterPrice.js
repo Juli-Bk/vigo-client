@@ -1,13 +1,13 @@
-import React, {useEffect, useCallback, useMemo} from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router';
-import { Box, makeStyles, ThemeProvider } from '@material-ui/core';
+import {Box, makeStyles, ThemeProvider} from '@material-ui/core';
 import queryString from 'query-string';
 import Typography from '@material-ui/core/Typography';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 import CustomSlider from './CustomSlider';
 import {getMaxPrice} from '../../redux/actions/products';
-import { theme } from './FilterPriceTheme';
+import {theme} from './FilterPriceTheme';
 import globalConfig from '../../globalConfig';
 
 const useStyles = makeStyles(theme => ({
@@ -28,7 +28,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 const FilterPrice = (props) => {
-  const { maxPrice, getMaxPrice, location, history } = props;
+  const {
+    maxPrice,
+    getMaxPrice,
+    location,
+    history
+  } = props;
   const classes = useStyles(theme);
   const parsed = useMemo(() => queryString.parse(location.search), [location.search]);
 
@@ -58,15 +63,19 @@ const FilterPrice = (props) => {
     <ThemeProvider theme={theme}>
       <Box className={classes.filterPrice}>
         <Typography className={classes.label}>Price: </Typography>
-        {maxPrice > 0 ? <CustomSlider
-          value={values}
-          min={0}
-          max={maxPrice}
-          onChangeCommitted={handleChange}
-          getAriaLabel={(value) => `$${value}`}
-          valueLabelDisplay="on"
-          valueLabelFormat={x => `$${x}`}
-        /> : null}
+        {
+          maxPrice > 0
+            ? <CustomSlider
+              value={values}
+              min={0}
+              max={maxPrice}
+              onChangeCommitted={handleChange}
+              getAriaLabel={(value) => `$${value}`}
+              valueLabelDisplay="on"
+              valueLabelFormat={x => `$${x}`}
+            />
+            : null
+        }
       </Box>
     </ThemeProvider>
   );

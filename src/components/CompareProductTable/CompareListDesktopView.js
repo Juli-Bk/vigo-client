@@ -37,8 +37,11 @@ const CompareListDesktopView = (props) => {
                 <Grid item className={classes.image}>
                   <Link to={`/products/${row.id}`} className={classes.linkBox}>
                     <CardMedia image={row.imgUrl} className={classes.img}/>
-                    {row.isOnSale
-                      ? <SaleInfoBox price={row.price} salePrice={row.salePrice}/> : null}
+                    {
+                      row.isOnSale
+                        ? <SaleInfoBox price={row.price} salePrice={row.salePrice}/>
+                        : null
+                    }
                   </Link>
                   <Grid item className={classes.textBox}>
                     <Link to={`/products/${row.id}`}

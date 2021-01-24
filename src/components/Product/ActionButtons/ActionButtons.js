@@ -43,8 +43,11 @@ const ActionButtons = (props) => {
   };
 
   const defineLabel = (width, isProductPage, label) => {
-    return isProductPage ? label
-      : ((width === 'lg' || width === 'xl') ? label : null);
+    return isProductPage
+      ? label
+      : width === 'lg' || width === 'xl'
+        ? label
+        : null;
   };
 
   return (

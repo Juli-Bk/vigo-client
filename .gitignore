@@ -32,3 +32,6 @@ yarn.lock
 .stylelintcache;
 
 /.env
+
+# eslint
+.eslintcache

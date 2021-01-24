@@ -8,7 +8,13 @@ import {withRouter} from 'react-router';
 import {isEmptyObj} from '../../helpers/helpers';
 
 const MyAccount = (props) => {
-  const {auth = true, user, clear, setLoginOpen, getUserData} = props;
+  const {
+    auth = true,
+    user,
+    clear,
+    setLoginOpen,
+    getUserData
+  } = props;
 
   useEffect(() => {
     if (!auth) {
@@ -21,9 +27,10 @@ const MyAccount = (props) => {
   return (
     <>
       {
-        !isEmptyObj(user) ? <Container component='span'>
-          <MyAccTabs user={user}/>
-        </Container>
+        !isEmptyObj(user)
+          ? <Container component='span'>
+            <MyAccTabs user={user}/>
+          </Container>
           : <></>
       }
     </>

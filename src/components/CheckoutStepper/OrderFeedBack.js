@@ -1,7 +1,7 @@
 import { Box, Typography } from '@material-ui/core';
 import { LiqPayPay } from 'react-liqpay';
 import keysConfig from '../../keysConfig';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import {connect} from 'react-redux';
 import {setCheckoutPossible} from '../../redux/actions/actions';
 
@@ -17,31 +17,52 @@ const OrderFeedBack = (props) => {
     };
   }, [orderDetails.orderNumber, resetSteps, setCheckoutPossible, shoppingCart.length]);
 
+  const showLiqPayBtn = useMemo(() => orderDetails &&
+    orderDetails.paymentMethod === 'LiqPay' &&
+    orderDetails.orderNumber, [orderDetails]);
+
   return (
     <Box>
-      {orderDetails && orderDetails.orderNumber ? <Typography variant='h6' className={classes.instructions}>Thank you for your order.</Typography>
-        : <Typography variant='h6' className={classes.instructions}>Order In Process.</Typography> }
       {orderDetails && orderDetails.orderNumber
-        ? <Typography variant='body2' className={classes.instructions}>Your order number is {orderDetails.orderNumber}.
-                            We have emailed your order confirmation, and will send you an update when your order has shipped.
-                            Thank you for your order.</Typography>
-        : <Typography variant='body2' className={classes.instructions}>Your order has not been placed. Please, verify your order data and/or internet connection.</Typography> }
-      {orderDetails && orderDetails.paymentMethod === 'LiqPay' && orderDetails.orderNumber &&
-                <LiqPayPay
-                  title='Pay: '
-                  style={{margin: 8}}
-                  publicKey={keysConfig.liqpay_public_key}
-                  privateKey={keysConfig.liqpay_private_key}
-                  currency={keysConfig.liqpay_currency}
+        ? <>
+          <Typography
+            variant='h5'
+            className={classes.instructions}>
+            Your order number is {orderDetails.orderNumber}
+          </Typography>
+          <Typography
+            variant='body2'
+            className={classes.instructions}>
+            We have emailed your order confirmation. Have a nice day!
+          </Typography>
+          <Typography
+            variant='caption'
+            className={classes.instructions}>
+            Vigo shop team
+          </Typography>
+        </>
+        : <Typography
+          variant='body2'
+          className={classes.instructions}>
+          Your order has not been placed. Please, verify your order data and/or internet connection.
+        </Typography> }
+      {
+        showLiqPayBtn && <LiqPayPay
+          title='Pay: '
+          style={{margin: 8}}
+          publicKey={keysConfig.liqpay_public_key}
+          privateKey={keysConfig.liqpay_private_key}
+          currency={keysConfig.liqpay_currency}
 
-                  result_url={`${keysConfig.clientAddress}/`}
-                  server_url={`${keysConfig.serverAddress}/orders/liqpay/order-payment`}
+          result_url={`${keysConfig.clientAddress}/`}
+          server_url={`${keysConfig.serverAddress}/orders/liqpay/order-payment`}
 
-                  amount={`${orderData.totalSum}`}
-                  description={'Payment for Vigo Shop order.'}
-                  orderId={orderData.orderId}
-                  disabled={!isFullData}
-                />}
+          amount={`${orderData.totalSum}`}
+          description={'Payment for Vigo Shop order.'}
+          orderId={orderData.orderId}
+          disabled={!isFullData}
+        />
+      }
     </Box>
   );
 };

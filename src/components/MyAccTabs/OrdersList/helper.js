@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, CardMedia, Divider, Typography } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import { capitalize } from '../../../helpers/helpers';
+
 export const getAddress = (deliveryAddress, classes) => {
   if (typeof deliveryAddress === 'string') {
     return deliveryAddress;

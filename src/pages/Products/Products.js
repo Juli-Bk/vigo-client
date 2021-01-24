@@ -1,11 +1,11 @@
-import React, { useEffect, useCallback, useMemo } from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import {Container, Grid, useMediaQuery} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import useStyles from './ProductsStyles';
 import globalConfig from '../../globalConfig';
-import {getFiltersArray, deleteProps} from '../../helpers/helpers';
+import {deleteProps, getFiltersArray} from '../../helpers/helpers';
 import queryString from 'query-string';
 
 import ProductGrid from '../../containers/ProductsGrid/ProductsGrid';
@@ -16,8 +16,8 @@ import ShowBy from '../../components/ShowBy/ShowBy';
 import Sort from '../../components/Sort/Sort';
 import ViewAs from '../../components/ViewAs/ViewAs';
 import EmptyState from '../../components/EmptyState/EmptyState';
-import {getProductsByFilters, searchProducts, getAllProducts} from '../../redux/actions/products';
-import { setCurrentPage } from '../../redux/actions/actions';
+import {getAllProducts, getProductsByFilters, searchProducts} from '../../redux/actions/products';
+import {setCurrentPage} from '../../redux/actions/actions';
 
 const Products = (props) => {
   const {
@@ -80,9 +80,11 @@ const Products = (props) => {
                 <Grid item xs={8} sm={5} md={6} className={classes.sortSelect}>
                   <Sort values={globalConfig.sortOptions}/>
                 </Grid>
-                {!isSmScreen ? <Grid item md={3} className={classes.viewBox}>
-                  <ViewAs label={true}/>
-                </Grid> : null}
+                {!isSmScreen
+                  ? <Grid item md={3} className={classes.viewBox}>
+                    <ViewAs label={true}/>
+                  </Grid>
+                  : null}
                 <Grid item md={3} xs={4} className={classes.showBy}>
                   {products.totalCount > globalConfig.step ? <ShowBy step={globalConfig.step}/> : null}
                 </Grid>
@@ -91,7 +93,8 @@ const Products = (props) => {
                 {isSmScreen
                   ? <Grid item xs={12} className={classes.viewBox}>
                     <ViewAs label={true}/>
-                  </Grid> : null
+                  </Grid>
+                  : null
                 }
                 <Grid item md={6} xs={12}>
                   {products.totalCount > 0
@@ -101,10 +104,13 @@ const Products = (props) => {
               </Grid>
             </Grid>
             <Grid item container className={classes.products} xs={12}>
-              {products.data && products.data.length
-                ? (view === 'module' ? <ProductGrid products={products.data}/>
-                  : <ProductsList products={products.data}/>)
-                : <EmptyState text={globalConfig.userMessages.EMPTY_RESULT}/>}
+              {
+                products.data && products.data.length
+                  ? view === 'module'
+                    ? <ProductGrid products={products.data}/>
+                    : <ProductsList products={products.data}/>
+                  : <EmptyState text={globalConfig.userMessages.EMPTY_RESULT}/>
+              }
             </Grid>
             <Grid item xs={12} className={classes.paginationBottom}>
               {products.totalCount > 0

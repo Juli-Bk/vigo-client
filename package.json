@@ -2,11 +2,11 @@
   "name": "vigoshop",
   "version": "0.1.0",
   "private": true,
-  "description": "final project for students DAN IT education",
+  "description": "online shop for clothes",
   "author": "Yuliia Bozhek, Larysa Chepurna, Anna Lypovenko, Stan Bondar",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Vigo-Shop/Vigo-project.git"
+    "url": "https://github.com/vigo-Shop/vigo-project.git"
   },
   "dependencies": {
     "@material-ui/core": "^4.9.13",
@@ -60,9 +60,9 @@
   },
   "scripts": {
     "start": "if-env NODE_ENV=production ?? npm run start:prod || npm run start:dev",
-    "start:dev": "npm-run-all -p watch-sass-js start-js",
+    "start:dev": "npm-run-all -p watch-sass-js start:app",
     "start:prod": "npm run build && react-scripts start",
-    "start-js": "npm run eslint && react-scripts start",
+    "start:app": "npm run eslint && react-scripts start",
     "build": "npm run eslint-fix && npm run stylelint-fix && react-scripts build",
     "test": "react-scripts test",
     "eslint": "eslint \"src/**/*.js\"",
@@ -72,7 +72,8 @@
     "watch-sass-js": "npm-watch",
     "stylelint-fix": "stylelint --fix \"src/**/*.scss\"",
     "eslint-fix": "eslint --fix \"src/**/*.js\"",
-    "coverage": "react-scripts test --env=jsdom --watchAll=true --coverage"
+    "coverage": "react-scripts test --env=jsdom --watchAll=true --coverage",
+    "re:install": "rm -rf node_modules package-lock.json && npm install && npm start"
   },
   "watch": {
     "stylelint-dev": {
@@ -126,7 +127,7 @@
     "stylelint-order": "^4.0.0"
   },
   "engines": {
-    "node": "13.3.0",
+    "node": "13.14.0",
     "npm": "6.14.4"
   }
 }

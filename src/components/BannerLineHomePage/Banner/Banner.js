@@ -18,7 +18,8 @@ const Banner = (props) => {
         </Typography>
         }
         <Typography className={alert
-          ? styles.titleAlert : `${styles.title} ${styles[classLabelName]}`}
+          ? styles.titleAlert
+          : `${styles.title} ${styles[classLabelName]}`}
         variant='h1'>
           {title}
         </Typography>

@@ -7,9 +7,10 @@ class ErrorBoundary extends React.Component {
       hasError: false
     };
 
-    // eslint-disable-next-line handle-callback-err
     componentDidCatch (error, info) {
-      this.setState({ hasError: true });
+      if (error) {
+        this.setState({ hasError: true });
+      }
     }
 
     componentDidUpdate (prevProps, prevState) {

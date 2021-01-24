@@ -44,7 +44,8 @@ const OrderListMobile = (props) => {
                 {order.deliveryAddress
                   ? <Typography className={classes.text}>
                     <span className={classes.title}>Delivery Address: </span>
-                    {getAddress(order.deliveryAddress, classes)}</Typography> : null
+                    {getAddress(order.deliveryAddress, classes)}</Typography>
+                  : null
                 }
                 <Typography className={classes.text}>
                   <span className={classes.title}>Total: </span>
@@ -61,7 +62,8 @@ const OrderListMobile = (props) => {
                       className={formClasses.button}
                       onClick={() => {
                         cancelOrder(order._id);
-                      }}>Cancel</Button> : null}
+                      }}>Cancel</Button>
+                    : null}
                 </Box>
               </TableCell>
             </TableRow>

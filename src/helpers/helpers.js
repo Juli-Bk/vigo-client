@@ -74,8 +74,8 @@ export const makeShortText = (text) => {
 };
 
 export const mapArrayToOptions = (array) => {
-  return array.map(item => {
-    return <option value={item} key={item}>{capitalize(item)}</option>;
+  return array.map((item, index) => {
+    return <option value={item} key={`${item}-${index}`}>{capitalize(item)}</option>;
   });
 };
 
@@ -121,8 +121,10 @@ export const integrateWishLists = (remoteWishList, userId) => {
           );
       }
     });
+    setStorageData('wishList', localWishList);
+  } else {
+    setStorageData('wishList', remoteWishList);
   }
-  setStorageData('wishList', localWishList);
 };
 
 export const getMaxQuantity = (productQuantity, size) => {
@@ -281,7 +283,11 @@ export const getGuestInfo = (guestData) => {
 };
 
 export const findBadId = (message) => {
-  return message.split('invalid filter _id: "')[1].split('"')[0];
+  if (!message) {
+    throw new Error('empty method parameter');
+  }
+  const part = message.split('invalid filter _id: "')[1];
+  return part ? part.split('"')[0] : null;
 };
 
 export const removeBadIdFromStorage = (badId) => {
