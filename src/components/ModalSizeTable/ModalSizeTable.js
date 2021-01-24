@@ -33,8 +33,8 @@ const DialogTitle = withStyles(styles)((props) => {
       {
         onClose
           ? <IconButton aria-label="close" className={classes.closeButton} onClick={onClose}>
-          <CloseIcon/>
-        </IconButton>
+            <CloseIcon/>
+          </IconButton>
           : null
       }
     </MuiDialogTitle>

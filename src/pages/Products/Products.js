@@ -1,11 +1,11 @@
-import React, { useEffect, useCallback, useMemo } from 'react';
+import React, {useCallback, useEffect, useMemo} from 'react';
 import {Container, Grid, useMediaQuery} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {withRouter} from 'react-router';
 import useStyles from './ProductsStyles';
 import globalConfig from '../../globalConfig';
-import {getFiltersArray, deleteProps} from '../../helpers/helpers';
+import {deleteProps, getFiltersArray} from '../../helpers/helpers';
 import queryString from 'query-string';
 
 import ProductGrid from '../../containers/ProductsGrid/ProductsGrid';
@@ -16,8 +16,8 @@ import ShowBy from '../../components/ShowBy/ShowBy';
 import Sort from '../../components/Sort/Sort';
 import ViewAs from '../../components/ViewAs/ViewAs';
 import EmptyState from '../../components/EmptyState/EmptyState';
-import {getProductsByFilters, searchProducts, getAllProducts} from '../../redux/actions/products';
-import { setCurrentPage } from '../../redux/actions/actions';
+import {getAllProducts, getProductsByFilters, searchProducts} from '../../redux/actions/products';
+import {setCurrentPage} from '../../redux/actions/actions';
 
 const Products = (props) => {
   const {
@@ -82,8 +82,8 @@ const Products = (props) => {
                 </Grid>
                 {!isSmScreen
                   ? <Grid item md={3} className={classes.viewBox}>
-                  <ViewAs label={true}/>
-                </Grid>
+                    <ViewAs label={true}/>
+                  </Grid>
                   : null}
                 <Grid item md={3} xs={4} className={classes.showBy}>
                   {products.totalCount > globalConfig.step ? <ShowBy step={globalConfig.step}/> : null}
@@ -107,8 +107,8 @@ const Products = (props) => {
               {
                 products.data && products.data.length
                   ? view === 'module'
-                      ? <ProductGrid products={products.data}/>
-                      : <ProductsList products={products.data}/>
+                    ? <ProductGrid products={products.data}/>
+                    : <ProductsList products={products.data}/>
                   : <EmptyState text={globalConfig.userMessages.EMPTY_RESULT}/>
               }
             </Grid>

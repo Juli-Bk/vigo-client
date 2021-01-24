@@ -1,14 +1,18 @@
-import React, { useEffect } from 'react';
+import React, {useEffect} from 'react';
 import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
-import { useMediaQuery } from '@material-ui/core';
-import { getUserOrders } from '../../../redux/actions/orders';
+import {connect} from 'react-redux';
+import {useMediaQuery} from '@material-ui/core';
+import {getUserOrders} from '../../../redux/actions/orders';
 import EmptyState from '../../EmptyState/EmptyState';
 import OrderListDesktopView from './OrderListDesktopView';
 import OrderListMobileView from './OrderListMobileView';
 
 const OrdersList = (props) => {
-  const {user, userOrders, getUserOrders} = props;
+  const {
+    user,
+    userOrders,
+    getUserOrders
+  } = props;
   const isMobile = useMediaQuery('(max-width: 724px)');
 
   useEffect(() => {
@@ -26,8 +30,8 @@ const OrdersList = (props) => {
     {
       userOrders && userOrders.length
         ? isMobile
-            ? <OrderListMobileView/>
-            : <OrderListDesktopView/>
+          ? <OrderListMobileView/>
+          : <OrderListDesktopView/>
         : <EmptyState text='Your orders list is empty.' linkText='Let`s fix it'/>
     }
   </>);

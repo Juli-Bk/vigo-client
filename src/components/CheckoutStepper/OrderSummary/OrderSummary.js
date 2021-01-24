@@ -1,24 +1,32 @@
-import React, { useEffect, useMemo } from 'react';
-import { Container, Typography, Grid, useMediaQuery } from '@material-ui/core';
+import React, {useEffect, useMemo} from 'react';
+import {Container, Grid, Typography, useMediaQuery} from '@material-ui/core';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
-import { getProductsByFilters } from '../../../redux/actions/products';
-import { getProductsId } from '../../../pages/ShoppingCart/cartHelpers';
-import { getProductsQuantity } from '../../../redux/actions/quantity';
-import { getProductData, defineDeliveryAddress} from '../helper';
+import {getProductsByFilters} from '../../../redux/actions/products';
+import {getProductsId} from '../../../pages/ShoppingCart/cartHelpers';
+import {getProductsQuantity} from '../../../redux/actions/quantity';
+import {defineDeliveryAddress, getProductData} from '../helper';
 import ClientPersData from './ClientPersData';
 import ProductsTableDesktop from './ProductsTableDesktop';
 import useStyles from './OrderSummaryStyles';
 import ProductsTableMobile from './ProductsTableMobile';
-import { setCompletedSteps } from '../../../redux/actions/actions';
+import {setCompletedSteps} from '../../../redux/actions/actions';
 import {isEmptyObj} from '../../../helpers/helpers';
 
 const OrderSummary = (props) => {
   const classes = useStyles();
   const {
-    user, totalSum, shoppingCart, getProductsByFilters,
-    guestData, products, productsQuantity, getProductsQuantity,
-    setCompleted, activeStep, orderDetails
+    user,
+    totalSum,
+    shoppingCart,
+    getProductsByFilters,
+    guestData,
+    products,
+    productsQuantity,
+    getProductsQuantity,
+    setCompleted,
+    activeStep,
+    orderDetails
   } = props;
   const isMobile = useMediaQuery('(max-width: 724px)');
 
@@ -45,8 +53,8 @@ const OrderSummary = (props) => {
         <Grid item container xs={12}>
           {productsData
             ? isMobile
-                ? <ProductsTableMobile productsData={productsData}/>
-                : <ProductsTableDesktop productsData={productsData}/>
+              ? <ProductsTableMobile productsData={productsData}/>
+              : <ProductsTableDesktop productsData={productsData}/>
             : null
           }
         </Grid>
@@ -61,8 +69,8 @@ const OrderSummary = (props) => {
             !isEmptyObj(user)
               ? <ClientPersData classes={classes} client={user}/>
               : !isEmptyObj(guestData)
-                  ? <ClientPersData classes={classes} client={guestData}/>
-                  : null
+                ? <ClientPersData classes={classes} client={guestData}/>
+                : null
           }
         </Grid>
         {defineDeliveryAddress(orderDetails, user, guestData, classes)}

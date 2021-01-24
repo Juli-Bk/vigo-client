@@ -14,13 +14,17 @@ import {ThemeProvider} from '@material-ui/styles';
 import {setCompletedSteps, setGuestData, setPersDetailsOpenState} from '../../redux/actions/actions';
 import {connect} from 'react-redux';
 import PersonalDetailsGuestForm from '../PersonalDetailsForm/PersonalDetailsGuestForm';
-import { getGuestInfo, isEmptyObj, setStorageData } from '../../helpers/helpers';
+import {getGuestInfo, isEmptyObj, setStorageData} from '../../helpers/helpers';
 
 const ModalPersDetails = (props) => {
   const {
-    user, isModalOpen,
-    setModalOpen, setGuestData, guestData,
-    activeStep, setCompleted
+    user,
+    isModalOpen,
+    setModalOpen,
+    setGuestData,
+    guestData,
+    activeStep,
+    setCompleted
   } = props;
   const commonClasses = useCommonStyles();
   const [message, setMessage] = useState('');
@@ -70,8 +74,8 @@ const ModalPersDetails = (props) => {
         {!isEmptyObj(user)
           ? renderSavedData(user)
           : !isEmptyObj(guestInfo)
-              ? renderSavedData(guestInfo)
-              : null
+            ? renderSavedData(guestInfo)
+            : null
         }
         <Button className={commonClasses.button} onClick={handleClickOpen}>
           Change contact info
