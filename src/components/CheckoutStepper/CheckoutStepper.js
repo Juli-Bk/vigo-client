@@ -18,14 +18,15 @@ import useStyles from './CheckoutStepperStyles';
 import theme from './CheckoutStepperTheme';
 
 import {
-  setActiveStep, setCheckoutPossible,
+  setActiveStep,
+  setCheckoutPossible,
   setCompletedSteps,
   setLoginModalOpenState,
   setPersDetailsOpenState
 } from '../../redux/actions/actions';
 import {setUser} from '../../redux/actions/user';
 import {placeOrder} from '../../redux/actions/orders';
-import {setOrder, getProductsCodes, checkFullData} from './helper';
+import {checkFullData, getProductsCodes, setOrder} from './helper';
 import {getStorageData, isEmptyObj, setStorageData} from '../../helpers/helpers';
 import {changeShoppingCart} from '../../redux/actions/shopCart';
 import EmptyState from '../EmptyState/EmptyState';
@@ -34,16 +35,30 @@ const steps = ['Personal data', 'Delivery', 'Payment', 'Order'];
 
 const CheckoutStepper = (props) => {
   const {
-    setLoginModalOpenState, setPersDetailsOpenState, user,
-    placeOrder, shoppingCart, guestData, totalSum, orderDetails, completed,
-    setActiveStep, activeStep, setCompleted, changeShoppingCart, checkoutPossible, setCheckoutPossible
+    setLoginModalOpenState,
+    setPersDetailsOpenState,
+    user,
+    placeOrder,
+    shoppingCart,
+    guestData,
+    totalSum,
+    orderDetails,
+    completed,
+    setActiveStep,
+    activeStep,
+    setCompleted,
+    changeShoppingCart,
+    checkoutPossible,
+    setCheckoutPossible
   } = props;
+
   const classes = useStyles();
   const commonClasses = useCommonStyles();
   const [guest, setGuest] = useState({radioGroup: null});
 
   const disabledBack = useMemo(() => !!(activeStep === 0 || orderDetails.orderNumber),
     [activeStep, orderDetails.orderNumber]);
+
   const total = useMemo(() => totalSum || JSON.parse(localStorage.getItem('totalSum')), [totalSum]);
 
   const guestInfo = useMemo(() => guestData.deliveryAddress
@@ -64,7 +79,8 @@ const CheckoutStepper = (props) => {
     return () => {
       isCanceled = true;
     };
-  }, [changeShoppingCart, completed.length, orderDetails.orderNumber, resetSteps, setCheckoutPossible, shoppingCart.length]);
+  }, [changeShoppingCart, completed.length, orderDetails.orderNumber, resetSteps,
+    setCheckoutPossible, shoppingCart.length]);
 
   const onSubmitCallback = useCallback((values, callback) => {
     if (!shoppingCart.length) setStorageData('totalSum', 0);
@@ -136,6 +152,8 @@ const CheckoutStepper = (props) => {
     setActiveStep(activeStep - 1);
   }, [activeStep, setActiveStep]);
 
+  const isDisabled = useMemo(() => !completed.includes(activeStep), [activeStep, completed]);
+
   return (
     <ThemeProvider theme={theme}>
       {checkoutPossible
@@ -151,7 +169,7 @@ const CheckoutStepper = (props) => {
             <Container>
               <Box>
                 <Typography component='span' className={classes.instructions}>
-                  <Box style={{ minHeight: '40vh' }}>
+                  <Box style={{minHeight: '40vh'}}>
                     {getStepContent(activeStep)}
                   </Box>
                 </Typography>
@@ -164,10 +182,8 @@ const CheckoutStepper = (props) => {
                     <NavigateBeforeIcon/>
                   </Button>
                   <Button
-                    disabled={!completed.includes(activeStep)}
-                    className={!completed.includes(activeStep)
-                      ? classes.disabled
-                      : commonClasses.button}
+                    disabled={isDisabled}
+                    className={isDisabled ? classes.disabled : commonClasses.button}
                     onClick={handleNext}>
                     {activeStep === steps.length - 1 ? 'Confirm' : <NavigateNextIcon/>}
                   </Button>
